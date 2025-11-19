@@ -71,7 +71,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      A   IFAILURE,    MTN,         IGTYP,       NPT,
      B   JSMS,        MSSA,        DMELS,       KXIG3D,
      C   IXIG3D,      KNOT,        NCTRL,       WIGE,
-     D   FLUX,        FLU1,        DT2T,        NELTST,
+     D   FLU1,        DT2T,        NELTST,
      E   ITYPTST,     OFFSET,      TABLE,       IEXPAN,
      F   ALE_CONNECT, FV,          ITASK,       IOUTPRT,
      G   PX,          PY,          PZ,          KNOTLOCPC,
@@ -147,7 +147,7 @@ C-----------------------------------------------
      .        NCTRL,NG,NELTST,ITYPTST,OFFSET,IEXPAN,ITASK,H3D_STRAIN
       INTEGER IXS(NIXS,*), IPARG(NPARG,*), NPF(*),IADS(8,*),
      .        IPARTS(*), IGEO(NPROPGI,*), IPM(NPROPMI,*),
-     .        KXIG3D(NIXIG3D,*),IXIG3D(*),FLUX(6,*),FLU1(*),
+     .        KXIG3D(NIXIG3D,*),IXIG3D(*),FLU1(*),
      .        IOUTPRT,PX,PY,PZ,GRTH(*),IGRTH(*)
       my_real
      .  PM(NPROPM,*), GEO(NPROPG,*),X(3,*),A(3,*),V(3,*),MS(*),W(*),
@@ -246,6 +246,8 @@ C
       my_real VARNL(NEL)
       my_real,
      .   ALLOCATABLE, DIMENSION(:,:) :: VGAUSS
+      integer :: fake_size = 0
+      my_real, dimension(1) :: fake_array
       INTEGER SZ_IX
 C----------------------------------------------------------
       DOUBLE PRECISION
@@ -515,11 +517,12 @@ C------------------------------------------------------
 
          CALL SRHO3(
      1   PM,          LBUF%VOL,    LBUF%RHO,    LBUF%EINT,
-     2   DIVDE,       FLUX(1,NF1), FLU1(NF1),   VOLN,
+     2   DIVDE,      fake_array, FLU1(NF1),   VOLN,
      3   DVOL,        NGL,         MXT,         OFF,
      4   IPARG(64,NG),GBUF%TAG22,  VOLDP,       LBUF%VOL0DP,
      5   AMU,         GBUF%OFF,    NEL,         MTN,
-     6   JALE,        ISMSTR,      JEUL,        JLAG)
+     6   JALE,        ISMSTR,      JEUL,        JLAG,
+     7   fake_size,fake_size,0)
 
 c      CALL SMALL3(GBUF%SMSTR,GBUF%OFF,OFF,WXX,WYY,
 c     .            WZZ,DXX,DYY,DZZ,GBUF%RHO,RHO0,

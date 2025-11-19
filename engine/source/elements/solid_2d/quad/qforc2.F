@@ -80,7 +80,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      D                  SVIS       ,NSVOIS      ,IRESP       ,TT       ,DT1         ,
      .                  IDEL7NOK   ,IDTMIN      ,MAXFUNC     ,
      .                  IMON_MAT   ,USERL_AVAIL ,impl_s   ,idyna       ,
-     .                  DT         ,GLOB_THERM,SENSORS)
+     .                  DT         ,GLOB_THERM,SENSORS,s_flux,s_qmv,nv46)
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -162,14 +162,17 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: IDYNA
       INTEGER, INTENT(IN) :: USERL_AVAIL
       INTEGER, INTENT(IN) :: IMON_MAT
+      integer, intent(in) :: s_flux !< first dimension of flux array
+      integer, intent(in) :: s_qmv !< first dimension of qmv array      
+      integer, intent(in) :: nv46 !< second dimension of flux array            
       INTEGER IC(*), IPARG(NPARG,NGROUP), NPF(*),IPARTQ(NUMELQ),
      .        IPM(*), GRTH(*),IGRTH(*),IGEO(*), IADQ(4,*), ITASK
       INTEGER, INTENT(IN) :: SZ_BUFVOIS
       INTEGER OFFSET,NEL,NG,NELTST,ITYPTST,IOUTPRT,H3D_STRAIN
       my_real DT2T
-      my_real PM(*), GEO(*), X(*), A(*), V(*), MS(*), W(*), FLUX(4,*),
+      my_real PM(*), GEO(*), X(*), A(*), V(*), MS(*), W(*), FLUX(s_flux,nv46),
      .        FLU1(*), VEUL(*), TF(*), BUFMAT(*), FSKY(*),
-     .        PARTSAV(*), STIFN(*),EANI(*), BUFVOIS(6,*),QMV(8,*),GRESAV(*),VOLN(MVSIZ),
+     .        PARTSAV(*), STIFN(*),EANI(*), BUFVOIS(6,*),QMV(s_qmv,2*nv46),GRESAV(*),VOLN(MVSIZ),
      .        MS_2D(*),FSKYM(*)
       my_real, DIMENSION(MVSIZ,6), INTENT(INOUT) :: SVIS
       TYPE(TTABLE) TABLE(*)
@@ -365,12 +368,12 @@ C------------
      B   VOLN,    AIRE,    AIREM,   NC1,
      C   NC2,     NC3,     NC4,     NEL)
         CALL ALERO2(
-     1   GBUF%OFF,   GBUF%VOL,   GBUF%RHO,   FLUX(1,NF1),
+     1   GBUF%OFF,   GBUF%VOL,   GBUF%RHO,   FLUX,
      2   FLU1(NF1),  W,          VY1,        VY2,
      3   VY3,        VY4,        VZ1,        VZ2,
      4   VZ3,        VZ4,        VOLN,       DVOL,
      5   VD2,        NC1,        NC2,        NC3,
-     6   NC4,        NGL)
+     6   NC4,        NGL,s_flux,nv46,nft)
         CALL QROTA2(
      1   GBUF%SIG,S1,      S2,      S3,
      2   S4,      S5,      S6,      WYZ,
@@ -395,9 +398,7 @@ C-----------
      9   VOLN,    AIRE,    DELTAX,  VDY,
      A   VDZ,     VD2,     NC1,     NC2,
      B   NC3,     NC4)
-        CALL EULRO2(
-     1   GBUF%RHO,   FLUX(1,NF1),FLU1(NF1),
-     2   VOLN,       DVOL,       NGL)
+        CALL EULRO2(GBUF%RHO,FLUX,FLU1(NF1),VOLN,DVOL,NGL,s_flux,nv46,nft)
         CALL QROTA2(
      1   GBUF%SIG,S1,      S2,      S3,
      2   S4,      S5,      S6,      WYZ,
@@ -583,7 +584,8 @@ C------------------------
      9   VZ4,     EYY,     EZZ,     DYZ,
      A   DZY,     NC1,     NC2,     NC3,
      B   NC4,     MAT,     GBUF%OFF,QMV,
-     C   BUFMAT,  DELTAX,  VIS, IPM)
+     C   BUFMAT,  DELTAX,  VIS, IPM,
+     .   nft,s_qmv,nv46)
        ENDIF
 
        IF(JEUL > 0)THEN
@@ -598,7 +600,8 @@ C------------------------
      8   PZ1,     PZ2,     AIRE,    EYY,
      9   EZZ,     DYZ,     DZY,     VDY,
      A   VDZ,     DELTAX,  VIS,
-     C   MAT,     QMV,     BUFMAT,  IPM)
+     C   MAT,     QMV,     BUFMAT,  IPM,
+     .   nft,s_qmv,nv46)
        ENDIF
 C--------------------
 C     FORCES INTERNES

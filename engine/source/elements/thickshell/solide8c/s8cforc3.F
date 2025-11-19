@@ -86,7 +86,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
       SUBROUTINE S8CFORC3(TIMERS, OUTPUT, ELBUF_TAB,NG     ,
      1                    PM       ,GEO    ,IXS    ,X      ,
-     2                    A        ,V      ,MS     ,W      ,FLUX    ,
+     2                    A        ,V      ,MS     ,W      ,
      3                    FLU1     ,VEUL   ,FV     ,ALE_CONNECT  ,IPARG   ,
      4                    TF       ,NPF    ,BUFMAT ,PARTSAV,NLOC_DMG,
      5                    DT2T     ,NELTST ,ITYPTST,STIFN  ,FSKY    ,
@@ -175,7 +175,7 @@ C
 C
       my_real
      .   PM(NPROPM,*),GEO(NPROPG,*),X(*),A(*),V(3,*),MS(*),W(*), 
-     .   FLUX(6,*),FLU1(*),VEUL(*),FV(*),TF(*),BUFMAT(*),
+     .   FLU1(*),VEUL(*),FV(*),TF(*),BUFMAT(*),
      .   PARTSAV(*),STIFN(*), FSKY(*),EANI(*),
      .   F11(MVSIZ),F21(MVSIZ),F31(MVSIZ),
      .   F12(MVSIZ),F22(MVSIZ),F32(MVSIZ),
@@ -357,6 +357,8 @@ C-----
      .  H(8),PR(8),PS(8),PT(8)
       my_real
      . d(mvsiz) !!!! BIDON !!!!!
+      integer :: fake_size = 0
+      my_real, dimension(1) :: fake_array         
       TYPE(G_BUFEL_) ,POINTER :: GBUF
       TYPE(L_BUFEL_) ,POINTER :: LBUF
       INTEGER SZ_IX
@@ -939,11 +941,12 @@ C
         DIVDE(1:NEL) = DT1*(DXX(1:NEL)+ DYY(1:NEL)+ DZZ(1:NEL))+DSV(1:NEL)   
         CALL SRHO3(
      1   PM,         LBUF%VOL,   LBUF%RHO,   LBUF%EINT,
-     2   DIVDE,      FLUX(1,NF1),FLU1(NF1),  VOLN,
+     2   DIVDE,      fake_array,FLU1(NF1),  VOLN,
      3   DVOL,       NGL,        MXT,        OFF,
      4   0,          GBUF%TAG22, VOLDP,      LBUF%VOL0DP,
      5   AMU,        GBUF%OFF,   NEL,        MTN,
-     6   JALE,       ISMSTR,     JEUL,       JLAG)
+     6   JALE,       ISMSTR,     JEUL,       JLAG,
+     .   fake_size,fake_size,0)
 C
         IF (JCVT == 0) THEN
           CALL SROTA3(

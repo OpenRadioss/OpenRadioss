@@ -34,7 +34,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- uses       -----------------------------------------------------
 !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
 !||====================================================================
-      SUBROUTINE AREZO3(ALE_CONNECT,VAR,PHI,FLUX,VOL,IAD22)
+      SUBROUTINE AREZO3(ALE_CONNECT,VAR,PHI,FLUX,VOL,IAD22,s_flux)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -51,7 +51,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      my_real :: VAR(*), PHI(*), FLUX(6,MVSIZ), VOL(MVSIZ), IAD22(MVSIZ)
+      integer, intent(in) :: s_flux !< first dimension of FLUX array
+      my_real :: VAR(*), PHI(*), FLUX(s_flux,6), VOL(MVSIZ), IAD22(MVSIZ)
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -86,9 +87,9 @@ C NOT YET TREATED WITH INTER22(OBSOLETE), MUST STACK REZONED VALUE WITH SUPERCEL
           IF(IV5 <= 0)IV5=IE
           IF(IV6 <= 0)IV6=IE
           IF (VOL(I) > ZERO) VAR(I) = VAR(I) + HALF*DT1*(PHI(IE)*
-     2     (FLUX(1,I)+FLUX(2,I)+FLUX(3,I)+FLUX(4,I)+FLUX(5,I)+FLUX(6,I))
-     3     -PHI(IV1)*FLUX(1,I)-PHI(IV2)*FLUX(2,I)-PHI(IV3)*FLUX(3,I)
-     4     -PHI(IV4)*FLUX(4,I)-PHI(IV5)*FLUX(5,I)-PHI(IV6)*FLUX(6,I))/
+     2     (FLUX(IE,1)+FLUX(IE,2)+FLUX(IE,3)+FLUX(IE,4)+FLUX(IE,5)+FLUX(IE,6))
+     3     -PHI(IV1)*FLUX(IE,1)-PHI(IV2)*FLUX(IE,2)-PHI(IV3)*FLUX(IE,3)
+     4     -PHI(IV4)*FLUX(IE,4)-PHI(IV5)*FLUX(IE,5)-PHI(IV6)*FLUX(IE,6))/
      5      VOL(I)
         ENDDO
       ELSE
@@ -109,9 +110,9 @@ C NOT YET TREATED WITH INTER22(OBSOLETE), MUST STACK REZONED VALUE WITH SUPERCEL
           IF(IV5 <= 0)IV5=IE
           IF(IV6 <= 0)IV6=IE
           IF (VOL(I) > ZERO) VAR(I) = VAR(I) + HALF*DT1*(PHI(IE)*
-     2     (FLUX(1,I)+FLUX(2,I)+FLUX(3,I)+FLUX(4,I)+FLUX(5,I)+FLUX(6,I))
-     3     -PHI(IV1)*FLUX(1,I)-PHI(IV2)*FLUX(2,I)-PHI(IV3)*FLUX(3,I)
-     4     -PHI(IV4)*FLUX(4,I)-PHI(IV5)*FLUX(5,I)-PHI(IV6)*FLUX(6,I))/
+     2     (FLUX(IE,1)+FLUX(IE,2)+FLUX(IE,3)+FLUX(IE,4)+FLUX(IE,5)+FLUX(IE,6))
+     3     -PHI(IV1)*FLUX(IE,1)-PHI(IV2)*FLUX(IE,2)-PHI(IV3)*FLUX(IE,3)
+     4     -PHI(IV4)*FLUX(IE,4)-PHI(IV5)*FLUX(IE,5)-PHI(IV6)*FLUX(IE,6))/
      5      VOL(I)
         ENDDO       
       ENDIF

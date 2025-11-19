@@ -219,6 +219,9 @@ C-----------------------------------------------
           INTEGER :: SIELVS
           INTEGER :: IS_DEFINED_ALE    !not needed for RST
           INTEGER :: IS_DEFINED_EULER  !not needed for RST
+          integer :: nv46 !< number of facet (2d : 4, 3d : 6)
+          integer :: s_flux !< first dimension of flux array
+          integer :: s_qmv !< first dimension of qmv array
         END TYPE ALE_GLOBAL_
 
         !ALE SUBCCLING (obsolete)

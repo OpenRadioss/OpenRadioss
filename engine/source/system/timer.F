@@ -27,7 +27,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- calls      -----------------------------------------------------
 !||    print_block     ../engine/source/system/timer.F
 !||====================================================================
-      SUBROUTINE PRINT_SUMMARY(FLAG,NTIMAX,TABTIME,TITLES,OUT_ID,ITHERM) 
+      SUBROUTINE PRINT_SUMMARY(FLAG,NTIMAX,TABTIME,TITLES,OUT_ID,ITHERM)
+        use timer_mod , only : timer_ale_elm
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -251,7 +252,8 @@ C
             FIELDS(3) = MACRO_TIMER_MULTIFVM                           
             FIELDS(4) = MACRO_TIMER_SPMDCFD                           
             FIELDS(5) = MACRO_TIMER_MUSCL
-            NFIELDS = 5
+            fields(6) = timer_ale_elm
+            NFIELDS = 6
             CALL PRINT_BLOCK("** ALE TIME **",TABTIME,NTIMAX,
      .                      FLAG,OUT_ID,NFIELDS,FIELDS,TITLES)
 
@@ -514,7 +516,7 @@ C-----------------------------------------------
       USE TIMER_MOD
       USE TIME_MOD
       USE INOUTFILE_MOD
-      USE OUTPUT_MOD  
+      USE OUTPUT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -589,6 +591,7 @@ C-----------------------------------------------
       TITLES(MACRO_TIMER_MULTIFVM   ) = "MULTIFVM"
       TITLES(MACRO_TIMER_SPMDCFD    ) = "SPMDCFD"
       TITLES(MACRO_TIMER_MUSCL    ) = "MUSCL"
+      titles(timer_ale_elm) = "ALE_ELM"
 
       
       TITLES(31) = '[K]SETUP'

@@ -33,7 +33,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    segvar_mod             ../engine/share/modules/segvar_mod.F
 !||====================================================================
       SUBROUTINE ALEMUSCL_UPWIND2(FLUX, ALE_CONNECT, X, IXQ, FLUX_VOIS,
-     .     N4_VOIS, ITAB, NV46, ITRIMAT, SEGVAR)
+     .     N4_VOIS, ITAB, NV46, ITRIMAT, SEGVAR,s_flux)
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C   This subroutines performs the following steps:
@@ -62,8 +62,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      integer, intent(in) :: s_flux !< first dimension of FLUX array
       INTEGER, INTENT(IN) :: NV46
-      my_real, INTENT(OUT) :: FLUX(NV46, *)
+      my_real, INTENT(OUT) :: FLUX(s_flux,NV46)
       my_real, INTENT(IN) :: X(3, NUMNOD)
       INTEGER, INTENT(IN) :: IXQ(NIXQ, NUMELQ)
       my_real, INTENT(OUT) :: FLUX_VOIS(NUMELQ+NQVOIS, NV46)
@@ -103,7 +104,7 @@ C-----------------------------------------------
         !!! Neighbors
         DO KK = 1, NV46
           !!! Only for outgoing fluxes
-          IF (FLUX(KK, II) > ZERO) THEN
+          IF (FLUX(II,KK) > ZERO) THEN
             !!! Storing neighbor indexes
             NEIGHBOOR_LIST(KK) = ALE_CONNECT%ee_connect%connected(IAD2 + KK - 1)
             FACE_NEIGHBOOR(KK) = KK
@@ -132,21 +133,21 @@ C-----------------------------------------------
      .           + ALEMUSCL_Buffer%GRAD(II,3,ITRIMAT) * (ZF - ZK)
 
             !!! Partial volume flux is then computed as:
-            FLUX(KK, II) = ALPHAK * FLUX(KK, II)
+            FLUX(II,KK) = ALPHAK * FLUX(II,KK)
             IF (NEIGHBOOR_LIST(KK) > 0)THEN
               IF (NEIGHBOOR_LIST(KK) <= NUMELQ) THEN
                 !!! The opposite of the flux goes to the neighbor
-                FLUX(FACE_NEIGHBOOR(KK), NEIGHBOOR_LIST(KK)) = -FLUX(KK, II)
+                FLUX(NEIGHBOOR_LIST(KK),FACE_NEIGHBOOR(KK)) = -FLUX(II,KK)
               ELSE
                 !!! cf. ALE51_ANTIDIFF3
-                FLUX_VOIS(II, KK) = FLUX(KK, II)
+                FLUX_VOIS(II, KK) = FLUX(II,KK)
                 N4_VOIS(II, 1) = ITAB(IXQ(2, II))
                 N4_VOIS(II, 2) = ITAB(IXQ(3, II))
                 N4_VOIS(II, 3) = ITAB(IXQ(4, II))
                 N4_VOIS(II, 4) = ITAB(IXQ(5, II))
               ENDIF
             ENDIF
-          ENDIF  ! (FLUX(KK, II) > ZERO)
+          ENDIF  ! (FLUX(II,KK) > ZERO)
         ENDDO  ! KK = 1, NV46
       ENDDO  ! I = LFT, LLT
 
@@ -158,8 +159,8 @@ C-----------------------------------------------
           II = I + NFT
           IAD2 = ALE_CONNECT%ee_connect%iad_connect(II)
           DO KK=1,4
-            IF(FLUX(KK,II) < ZERO .AND. ALE_CONNECT%ee_connect%connected(IAD2 + KK - 1) < 0)THEN
-              FLUX(KK,II) = SEGVAR%PHASE_ALPHA(ITRIMAT,-ALE_CONNECT%ee_connect%connected(IAD2 + KK - 1))*FLUX(KK,II)
+            IF(FLUX(II,KK) < ZERO .AND. ALE_CONNECT%ee_connect%connected(IAD2 + KK - 1) < 0)THEN
+              FLUX(II,KK) = SEGVAR%PHASE_ALPHA(ITRIMAT,-ALE_CONNECT%ee_connect%connected(IAD2 + KK - 1))*FLUX(II,KK)
             ENDIF
           ENDDO
         ENDDO

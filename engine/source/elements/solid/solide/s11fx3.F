@@ -32,7 +32,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE S11FX3(
      1   PM,         FLUX,       ALE_CONNECT,IXS,
      2   IPM,        BUFMAT,     NEL,        NFT,
-     3   JALE,       JEUL  ,     NUMMAT,     S_IXS)
+     3   JALE,       JEUL  ,     NUMMAT,     S_IXS,
+     4   s_flux,nv46)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -57,19 +58,22 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: JEUL
       INTEGER, INTENT(IN) :: NUMMAT
       INTEGER, INTENT(IN) :: S_IXS
-      my_real PM(NPROPM,NUMMAT),FLUX(6,*),BUFMAT(*)
+      integer, intent(in) :: s_flux !< first dimension of flux array
+      integer, intent(in) :: nv46 !< second dimension of flux array      
+      my_real PM(NPROPM,NUMMAT),FLUX(s_flux,nv46),BUFMAT(*)
       INTEGER, INTENT(IN) :: IXS(NIXS,S_IXS),IPM(NPROPMI,NUMMAT)
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J,JJ,K,IFLG,IADBUF,IAD2
+      INTEGER I, J,JJ,K,IFLG,IADBUF,IAD2,II
 C-----------------------------------------------
 C     Incoming Enthalpy material law 11
 C-----------------------------------------------
       IF(JEUL+JALE==1)THEN
           DO I=1,NEL
              IAD2 = ALE_CONNECT%ee_connect%iad_connect(I + NFT)
+             II = NFT + I
             DO K=1,6
             JJ = ALE_CONNECT%ee_connect%connected(IAD2 + K - 1)
             IF(JJ>0)THEN         ! negatif si ebcs
@@ -77,13 +81,13 @@ C-----------------------------------------------
               IF(NINT(PM(50,J))==8)THEN
                 !TEST LAW11
                 IF(NINT(PM(19,J))==11)THEN
-                    FLUX(K,I) = MAX(FLUX(K,I),ZERO)
+                    FLUX(II,K) = MAX(FLUX(II,K),ZERO)
                 !TEST LAW51 IFORM=3
                 ELSEIF(NINT(PM(19,J))==51)THEN
                   IADBUF = IPM(27,J)
                   IFLG   = NINT(BUFMAT(31+IADBUF-1))
                   IF (IFLG == 6)THEN
-                    FLUX(K,I) = MAX(FLUX(K,I),ZERO)
+                    FLUX(II,K) = MAX(FLUX(II,K),ZERO)
                   ENDIF
                 ENDIF!LAW TEST
               ENDIF!ISOLNOD==8             

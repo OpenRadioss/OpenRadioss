@@ -97,7 +97,7 @@
         timers   ,output   ,ngroup   ,elbuf_tab,npropm   ,nummat   ,pm       , &
         ng       ,npropg   ,numgeo   ,geo      ,nixs     ,numels   ,numelq   , &
         nsvois   ,ixs      ,numnod   ,x        ,a        ,v        ,           &
-        w        ,flux     ,flu1     ,ale_connect,nparg  ,iparg    ,           &
+        w        ,flu1     ,ale_connect,nparg  ,iparg    ,                     &
         stf      ,tf       ,snpc     ,npf      ,sbufmat  ,bufmat   ,npsav    , &
         npart    ,partsav  ,dt2t     ,neltst   ,ityptst  ,stifn    ,lsky     , &
         fsky     ,iads     ,offset   ,nel      ,iparts   ,                     &
@@ -177,7 +177,6 @@
       real(kind=wp), dimension(3,numnod), intent(inout) :: a         !< Nodal acceleration array
       real(kind=wp), dimension(3,numnod), intent(inout) :: v         !< Nodal velocity array
       real(kind=wp), dimension(3,numnod), intent(inout) :: w         !< Nodal rotation velocity array
-      real(kind=wp), dimension(6,numels), intent(inout) :: flux      !< Heat flux array
       real(kind=wp), dimension(numels),   intent(inout) :: flu1      !< Fluid properties array
       type(t_ale_connectivity),           intent(in)    :: ale_connect
       integer,                            intent(in)    :: nparg     !< Number of parameters per group
@@ -368,6 +367,9 @@
       real(kind=wp), dimension(:) ,allocatable :: var_reg
       real(kind=wp), dimension(:), pointer :: dnl
       real(kind=wp) :: cns2, fqmax, dn
+
+      integer :: fake_size = 0
+      real(kind=wp), dimension(1) :: fake_array         
 !
       type(g_bufel_) ,pointer :: gbuf
       type(l_bufel_) ,pointer :: lbuf     
@@ -576,11 +578,12 @@
       !< Update element density
       call srho3(&
           pm       ,lbuf%vol ,lbuf%rho ,lbuf%eint,                             &
-          divde    ,flux(1,nf1),flu1(nf1),voln   ,                             &
+          divde    ,fake_array,flu1(nf1),voln   ,                              &
           dvol     ,ngl      ,mxt      ,off      ,                             &
           0        ,gbuf%tag22,voldp   ,lbuf%vol0dp,                           &
           amu      ,gbuf%off ,nel      ,mtn      ,                             &
-          jale     ,ismstr   ,jeul     ,jlag     )
+          jale     ,ismstr   ,jeul     ,jlag     ,                             &
+          fake_size,fake_size,0)
 !
 !-------------------------------------------------------------------------------      
 !  Recover stress tensor at gauss point

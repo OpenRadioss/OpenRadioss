@@ -51,7 +51,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      3   DVOL,      NGL,       MAT,       OFF,
      4   IS_MAT_BCS,TAG22,     VOLDP,     VOL0DP,
      5   AMU,       OFFG,      NEL,       MTN,
-     6   JALE,      ISMSTR,    JEUL,      JLAG)
+     6   JALE,      ISMSTR,    JEUL,      JLAG,
+     7   s_flux,nv46,offset)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -87,9 +88,12 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: ISMSTR
       INTEGER, INTENT(IN) :: JEUL
       INTEGER, INTENT(IN) :: JLAG
+      integer, intent(in) :: s_flux !< first dimension of flux array
+      integer, intent(in) :: nv46 !< second dimension of flux array
+      INTEGER, INTENT(IN) :: offset !< offset for flux array
       INTEGER NGL(*), MAT(*), IS_MAT_BCS, IB,NIN,MCELL
       
-      my_real PM(NPROPM,NUMMAT),VOLO(*), RHON(*),EINT(*),FLUX(6,*), FLU1(*),
+      my_real PM(NPROPM,NUMMAT),VOLO(*), RHON(*),EINT(*),FLUX(s_flux,nv46), FLU1(*),
      .        VOLN(*), DVOL(*),DIVDE(*),OFF(*),TAG22(*),AMU(*) ,OFFG(*)
 C     ENSURE DOUBLE-PRECISION (64-BIT) FLOATING-POINT CALCULATIONS, EVEN WHEN COMPILING IN SINGLE-PRECISION MODE.
       DOUBLE PRECISION VOLDP(*),VOL0DP(*),DVDP
@@ -151,15 +155,17 @@ C--- due to /INIBRI/EREF
             ENDIF
           ENDIF
         ELSEIF(JALE/=0)THEN                                                                                              
-          DO I=1,NEL                                                                                                     
-           RHON(I)    = RHON(I)/VOLN(I)                                                                                    
-           DVOL(I)    = VOLN(I)-VOLO(I)+HALF*DT1*(FLU1(I)+FLUX(1,I)+FLUX(2,I)+FLUX(3,I)+FLUX(4,I)+FLUX(5,I)+FLUX(6,I))   
-           VOLO(I)    = VOLN(I)                                                                                            
+          DO I=1,NEL
+            ii = i + offset
+            RHON(I)    = RHON(I)/VOLN(I)                                                                                    
+            DVOL(I)    = VOLN(I)-VOLO(I)+HALF*DT1*(FLU1(I)+FLUX(ii,1)+FLUX(ii,2)+FLUX(ii,3)+FLUX(ii,4)+FLUX(ii,5)+FLUX(ii,6))   
+            VOLO(I)    = VOLN(I)                                                                                            
          ENDDO                                                                                                             
         ELSEIF(JEUL/=0)THEN                                                                                              
-         DO I=1,NEL                                                                                                      
+         DO I=1,NEL        
+          ii = i + offset                                                                                              
           RHON(I)     = RHON(I)/VOLN(I)                                                                                    
-          DVOL(I)     = HALF*DT1*(FLU1(I)+FLUX(1,I)+FLUX(2,I)+FLUX(3,I)+FLUX(4,I)+FLUX(5,I)+FLUX(6,I))                   
+          DVOL(I)     = HALF*DT1*(FLU1(I)+FLUX(ii,1)+FLUX(ii,2)+FLUX(ii,3)+FLUX(ii,4)+FLUX(ii,5)+FLUX(ii,6))                   
          ENDDO                                                                                                             
         ENDIF!(JLAG/=0) 
         

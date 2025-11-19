@@ -29,7 +29,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- uses       -----------------------------------------------------
 !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
 !||====================================================================
-      SUBROUTINE ADIFF3(PHIN,PHI,GRAD,ALPHA,ALE_CONNECT,VOL,TEMP,RHOCP,NEL)
+      SUBROUTINE ADIFF3(PHIN,PHI,GRAD,ALPHA,ALE_CONNECT,VOL,TEMP,RHOCP,NEL,s_flux,nv46)
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -54,11 +54,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      integer, intent(in) :: s_flux !< first dimension of flux array
+      integer, intent(in) :: nv46 !< second dimension of flux array
       INTEGER,INTENT(IN) :: NEL
       my_real,INTENT(INOUT) :: TEMP(NEL)
       my_real,INTENT(INOUT) :: PHIN(NEL) ! EINT/V
       my_real,INTENT(IN) :: RHOCP
-      my_real,INTENT(IN) :: PHI(*), GRAD(6,NEL), VOL(NEL)
+      my_real,INTENT(IN) :: PHI(*), GRAD(s_flux,nv46), VOL(NEL)
       my_real,INTENT(IN) :: ALPHA(*)
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
 C-----------------------------------------------
@@ -118,12 +120,12 @@ C-----------------------------------------------
         AA_FACE(6) = (AA(0)*AA(6)) / MAX(EM20,(AA(0)+AA(6)))
 C-----------------------------------------------------------
         ! time evolution
-        DPHI(I) = AA_FACE(1) * (PHI(IV1)-PHI(IE))*GRAD(1,I)
-     2          + AA_FACE(2) * (PHI(IV2)-PHI(IE))*GRAD(2,I)
-     3          + AA_FACE(3) * (PHI(IV3)-PHI(IE))*GRAD(3,I)
-     4          + AA_FACE(4) * (PHI(IV4)-PHI(IE))*GRAD(4,I)
-     5          + AA_FACE(5) * (PHI(IV5)-PHI(IE))*GRAD(5,I)
-     6          + AA_FACE(6) * (PHI(IV6)-PHI(IE))*GRAD(6,I)
+        DPHI(I) = AA_FACE(1) * (PHI(IV1)-PHI(IE))*GRAD(IE,1)
+     2          + AA_FACE(2) * (PHI(IV2)-PHI(IE))*GRAD(IE,2)
+     3          + AA_FACE(3) * (PHI(IV3)-PHI(IE))*GRAD(IE,3)
+     4          + AA_FACE(4) * (PHI(IV4)-PHI(IE))*GRAD(IE,4)
+     5          + AA_FACE(5) * (PHI(IV5)-PHI(IE))*GRAD(IE,5)
+     6          + AA_FACE(6) * (PHI(IV6)-PHI(IE))*GRAD(IE,6)
       ENDDO!next I
 C-----------------------------------------------------------
       ! time integration for Eint/V

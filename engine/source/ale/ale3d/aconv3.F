@@ -34,7 +34,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
       SUBROUTINE ACONV3(VTOT ,PHI,FLUX,FLU1,IXS,
      .                  ALE_CONNECT,IOFF,QMV,IFLG,
-     .                  TAG22,NVAR,ITASK)
+     .                  TAG22,NVAR,ITASK,s_flux,s_qmv,offset,nv46)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -52,8 +52,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      integer, intent(in) :: s_flux !< first dimension of FLUX array
+      integer, intent(in) :: s_qmv  !< first dimension of QMV array
+      integer, intent(in) :: offset !< offset for FLUX and QMV arrays
+      integer, intent(in) :: nv46  !< second dimension of FLUX and QMV arrays
       INTEGER IOFF, IFLG,IXS(NIXS,NUMELS),NVAR,ITASK
-      my_real VTOT(*), PHI(*), FLUX(6,*), FLU1(*), QMV(12,*), TAG22(MVSIZ)
+      my_real VTOT(*), PHI(*), FLUX(s_flux,nv46), FLU1(*), QMV(s_qmv,2*nv46), TAG22(MVSIZ)
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -66,7 +70,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: I, IE, IV,J,IAD2,LGTH
-      my_real :: VALVOIS(6,MVSIZ),VALEL(MVSIZ),VL(6,MVSIZ), DELTA(MVSIZ)
+      my_real :: VALVOIS(MVSIZ,6),VALEL(MVSIZ),VL(MVSIZ,6), DELTA(MVSIZ)
       LOGICAL debug_outp
 C-----------------------------------------------
 C   S o u r c e   L i n e s
@@ -87,25 +91,26 @@ C-----------------------------------------------
             
             IV = ALE_CONNECT%ee_connect%connected(IAD2 + J - 1)
             IF(IV > 0)THEN
-               VALVOIS(J,I) = PHI(IV)
+               VALVOIS(I,J) = PHI(IV)
             ELSEIF(IV == 0)THEN
-               VALVOIS(J,I) = PHI(IE)
+               VALVOIS(I,J) = PHI(IE)
             ELSE
                !-IV is segment ID
                ! ebcs PHI(NUMEL + 1:NSEGFLU) is filled in aconve.F using SEGVAR (filled in ebcs[0-9][0-9].F)
-               VALVOIS(J,I) = PHI(-IV+IOFF)
+               VALVOIS(I,J) = PHI(-IV+IOFF)
             ENDIF
          ENDDO
       ENDDO
 
       DO I=LFT,LLT
-        VL(1,I)          = VALVOIS(1,I)*FLUX(1,I)
-        VL(2,I)          = VALVOIS(2,I)*FLUX(2,I)
-        VL(3,I)          = VALVOIS(3,I)*FLUX(3,I)
-        VL(4,I)          = VALVOIS(4,I)*FLUX(4,I)
-        VL(5,I)          = VALVOIS(5,I)*FLUX(5,I)
-        VL(6,I)          = VALVOIS(6,I)*FLUX(6,I) 
-        DELTA(I)         = HALF * DT1 *(-VALEL(I)*FLU1(I) - VL(1,I)-VL(2,I)-VL(3,I)-VL(4,I)-VL(5,I)-VL(6,I))
+        IE               = NFT+I+offset
+        VL(I,1)          = VALVOIS(I,1)*FLUX(IE,1)
+        VL(I,2)          = VALVOIS(I,2)*FLUX(IE,2)
+        VL(I,3)          = VALVOIS(I,3)*FLUX(IE,3)
+        VL(I,4)          = VALVOIS(I,4)*FLUX(IE,4)
+        VL(I,5)          = VALVOIS(I,5)*FLUX(IE,5)
+        VL(I,6)          = VALVOIS(I,6)*FLUX(IE,6) 
+        DELTA(I)         = HALF * DT1 *(-VALEL(I)*FLU1(I) - VL(I,1)-VL(I,2)-VL(I,3)-VL(I,4)-VL(I,5)-VL(I,6))
       ENDDO
 
       IF(ALEFVM_Param%IEnabled/=0)THEN
@@ -128,12 +133,13 @@ C-----------------------------------------------
 
       IF(TRIMAT > 0.AND.IFLG == 1)THEN
         DO I=LFT,LLT
-          QMV(1,I) = QMV(1,I) - VL(1,I) - VALEL(I)*QMV(07,I) 
-          QMV(2,I) = QMV(2,I) - VL(2,I) - VALEL(I)*QMV(08,I) 
-          QMV(3,I) = QMV(3,I) - VL(3,I) - VALEL(I)*QMV(09,I) 
-          QMV(4,I) = QMV(4,I) - VL(4,I) - VALEL(I)*QMV(10,I) 
-          QMV(5,I) = QMV(5,I) - VL(5,I) - VALEL(I)*QMV(11,I) 
-          QMV(6,I) = QMV(6,I) - VL(6,I) - VALEL(I)*QMV(12,I)  
+          ie = nft+i+offset
+          QMV(ie,1) = QMV(ie,1) - VL(I,1) - VALEL(I)*QMV(ie,07) 
+          QMV(ie,2) = QMV(ie,2) - VL(I,2) - VALEL(I)*QMV(ie,08) 
+          QMV(ie,3) = QMV(ie,3) - VL(I,3) - VALEL(I)*QMV(ie,09) 
+          QMV(ie,4) = QMV(ie,4) - VL(I,4) - VALEL(I)*QMV(ie,10) 
+          QMV(ie,5) = QMV(ie,5) - VL(I,5) - VALEL(I)*QMV(ie,11) 
+          QMV(ie,6) = QMV(ie,6) - VL(I,6) - VALEL(I)*QMV(ie,12)  
         ENDDO
       ENDIF
 C-----------

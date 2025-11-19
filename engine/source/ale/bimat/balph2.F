@@ -31,15 +31,15 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    message_mod   ../engine/share/message_module/message_mod.F
 !||====================================================================
       SUBROUTINE BALPH2(PM,ALPH1,ALPH2,VOLT,FILL,
-     .                  SIG1,EINT1,VOLO1,RHON1,FLUX1,FLU11,OFF1,
-     .                  SIG2,EINT2,VOLO2,RHON2,FLUX2,FLU12,OFF2,
+     .                  SIG1,EINT1,VOLO1,RHON1,FLUX,FLU11,OFF1,
+     .                  SIG2,EINT2,VOLO2,RHON2,FLU12,OFF2,
      .                  SIGT,EINTT,RHOT ,TEMPT,L_TEMP,
      .                  BFRACT,L_BFRAC,PLAST,L_PLAS,VOLN, BULKT, L_BULK,NEL,
      .                  AIRE, AIRES, 
      .                  D1, D2, D3, D4, D5, D6,
      .                  D1S, D2S, D3S, D4S, D5S, D6S,
      .                  MAT, NC1, NC2, NC3, NC4,
-     .                  DALPH1, DALPH2)
+     .                  DALPH1, DALPH2,s_flux,nv46,offset)
       USE MESSAGE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -61,11 +61,14 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER L_TEMP, L_PLAS, L_BFRAC,L_BULK,NEL
+      integer, intent(in) :: s_flux !< first dimension of flux array
+      integer, intent(in) :: nv46 !< second dimension of flux array
+      integer, intent(in) :: offset !< offset for flux array
       INTEGER MAT(*), NC1(*), NC2(*), NC3(*), NC4(*)
       my_real
      .   PM(NPROPM,*), ALPH1(*), ALPH2(*), VOLT(*), FILL(NUMNOD,*),
-     .   SIG1(NEL,6), EINT1(*), VOLO1(*), RHON1(*), FLUX1(4,*), FLU11(*),
-     .   OFF1(*), SIG2(NEL,6), EINT2(*), VOLO2(*), RHON2(*), FLUX2(4,*),
+     .   SIG1(NEL,6), EINT1(*), VOLO1(*), RHON1(*), FLUX(s_flux,nv46), FLU11(*),
+     .   OFF1(*), SIG2(NEL,6), EINT2(*), VOLO2(*), RHON2(*),
      .   FLU12(*), OFF2(*), SIGT(NEL,6), EINTT(*), RHOT(*), TEMPT(*),
      .   PLAST(*), BFRACT(*),VOLN(MVSIZ),BULKT(*),
      .   AIRE(*), AIRES(*), 
@@ -75,7 +78,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, MX1, MX2
+      INTEGER I, MX1, MX2,ii
       my_real
      .   ALPH1N(MVSIZ), ALPH2N(MVSIZ), ALPN1,
      .   ALPN2, ALPN3, ALPN4, ALPD1, ALPD2, ALPD3, ALPD4, ALPD, ALPN,
@@ -166,10 +169,11 @@ C-----------------------------------------------
       IF(JMULT==1)THEN
        IALPH1 = 0
        DO I=1,NEL
+         ii = i+nft
          DALPH1(I)=ZERO
          IF(ALPH1N(I)/=ZERO.AND.ALPH1N(I)/=ONE)THEN
           ALPHN=(VOLO1(I)-DT1*HALF*(FLU11(I)
-     .    +FLUX1(1,I)+FLUX1(2,I)+FLUX1(3,I)+FLUX1(4,I)))/VOLN(I)
+     .    +FLUX(ii,1)+FLUX(ii,2)+FLUX(ii,3)+FLUX(ii,4)))/VOLN(I)
           ALPHNN=ALPHN*(ONE+(D1(I)+D2(I)+D3(I))*DT1)
           IF((SIG1(I,1)+SIG1(I,2)+SIG1(I,3))>ZERO)THEN
            ALPHN= MIN(ALPHN,ALPHNN)
@@ -191,7 +195,7 @@ C-----------------------------------------------
           ALPH1(I)= MAX(ZERO,ALPH1(I))
          ELSEIF(ALPH1N(I)==ONE.AND.ALPH1(I)<ZEP999)THEN
           ALPHN=(VOLO1(I)-DT1*HALF*(FLU11(I)
-     .    +FLUX1(1,I)+FLUX1(2,I)+FLUX1(3,I)+FLUX1(4,I)))/VOLN(I)
+     .    +FLUX(ii,1)+FLUX(ii,2)+FLUX(ii,3)+FLUX(ii,4)))/VOLN(I)
           ALPHNN=ALPHN*(ONE+(D1(I)+D2(I)+D3(I))*DT1)
           ALPHN= MAX(ALPHN,ALPHNN,ALPH1(I))
           IF(RHON1(I)<=ZERO)THEN
@@ -247,6 +251,7 @@ C-----------------------------------------------
        IALPH1 = 0
        IALPH2 = 0
        DO I=1,NEL
+         ii = i+nft
          DALPH1(I)=ZERO
          DALPH2(I)=ZERO
          MX1=NINT(PM(21,MAT(I)))
@@ -255,7 +260,7 @@ C-----------------------------------------------
          C12 =PM(32,MX2)
          IF(ALPH1N(I)/=ZERO.AND.ALPH1N(I)/=ONE)THEN
           ALPHN=(VOLO1(I)-DT1*HALF*(FLU11(I)
-     .    +FLUX1(1,I)+FLUX1(2,I)+FLUX1(3,I)+FLUX1(4,I)))/VOLN(I)
+     .    +FLUX(ii,1)+FLUX(ii,2)+FLUX(ii,3)+FLUX(ii,4)))/VOLN(I)
           ALPHNN=ALPHN*(ONE+(D1(I)+D2(I)+D3(I))*DT1)
           IF((SIG1(I,1)+SIG1(I,2)+SIG1(I,3))>ZERO)THEN
            ALPHN= MIN(ALPHN,ALPHNN)
@@ -277,7 +282,7 @@ C-----------------------------------------------
           ALPH1(I)= MAX(ZERO,ALPH1(I))
          ELSEIF(ALPH1N(I)==ONE.AND.ALPH1(I)<ZEP999)THEN
           ALPHN=(VOLO1(I)-DT1*HALF*(FLU11(I)
-     .    +FLUX1(1,I)+FLUX1(2,I)+FLUX1(3,I)+FLUX1(4,I)))/VOLN(I)
+     .    +FLUX(ii,1)+FLUX(ii,2)+FLUX(ii,3)+FLUX(ii,4)))/VOLN(I)
           ALPHNN=ALPHN*(ONE + (D1(I)+D2(I)+D3(I))*DT1)
           ALPHN= MAX(ALPHN,ALPHNN,ALPH1(I))
           IF(RHON1(I)<=ZERO)THEN
@@ -292,7 +297,7 @@ C-----------------------------------------------
          ENDIF
          IF(ALPH2N(I)/=ZERO.AND.ALPH2N(I)/=ONE)THEN
           ALPHN=(VOLO2(I)-DT1*HALF*(FLU12(I)
-     .    +FLUX2(1,I)+FLUX2(2,I)+FLUX2(3,I)+FLUX2(4,I)))/VOLN(I)
+     .    +FLUX(offset+ii,1)+FLUX(offset+ii,2)+FLUX(offset+ii,3)+FLUX(offset+ii,4)))/VOLN(I)
           ALPHNN=ALPHN*(ONE+(D1(I)+D2(I)+D3(I))*DT1)
           IF((SIG2(I,1)+SIG2(I,2)+SIG2(I,3))>ZERO)THEN
            ALPHN= MIN(ALPHN,ALPHNN)
@@ -314,7 +319,7 @@ C-----------------------------------------------
           ALPH2(I)= MAX(ZERO,ALPH2(I))
          ELSEIF(ALPH2N(I)==ONE.AND.ALPH2(I)<=ZEP999)THEN
           ALPHN=(VOLO2(I)-DT1*HALF*(FLU12(I)
-     .    +FLUX2(1,I)+FLUX2(2,I)+FLUX2(3,I)+FLUX2(4,I)))/VOLN(I)
+     .    +FLUX(offset+ii,1)+FLUX(offset+ii,2)+FLUX(offset+ii,3)+FLUX(offset+ii,4)))/VOLN(I)
           ALPHNN=ALPHN*(ONE + (D1(I)+D2(I)+D3(I))*DT1)
           ALPHN= MAX(ALPHN,ALPHNN,ALPH2(I))
           IF(RHON2(I)<=ZERO)THEN

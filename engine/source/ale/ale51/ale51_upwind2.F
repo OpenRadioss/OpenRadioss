@@ -31,7 +31,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    element_mod            ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE ALE51_UPWIND2(PM,X,IXQ,FLUX,FLU1,ALE_CONNECT,
-     .               ITRIMAT,DDVOL,QMV,IFLG)
+     .               ITRIMAT,DDVOL,QMV,IFLG,nv46,s_flux,s_qmv)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -55,8 +55,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      integer, intent(in) :: s_flux !< first dimension of flux array
+      integer, intent(in) :: s_qmv  !< first dimension of QMV array
+      integer, intent(in) :: nv46 !< second dimension of FLUX & QMV arrays
       INTEGER IXQ(NIXQ,NUMELQ), ITRIMAT,IFLG,IAD2
-      my_real PM(NPROPM,NUMMAT), FLUX(4,*), FLU1(*),DDVOL(*),QMV(8,*), X(3,NUMNOD)
+      my_real PM(NPROPM,NUMMAT), FLUX(s_flux,nv46), FLU1(*),DDVOL(*),QMV(s_qmv,2*NV46), X(3,NUMNOD)
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -64,13 +67,14 @@ C-----------------------------------------------
       INTEGER I,J,II,MAT(MVSIZ)
       my_real REDUC,QMV5,QMV6,QMV7,QMV8,
      .        FLUX1(MVSIZ), FLUX2(MVSIZ), FLUX3(MVSIZ), FLUX4(MVSIZ),
-     .        UPWL(4,MVSIZ), R1, R2, R3, R4
+     .        UPWL(MVSIZ,4), R1, R2, R3, R4
 C-----------------------------------------------
       DO I=LFT,LLT
-        FLUX1(I) = FLUX(1,I)
-        FLUX2(I) = FLUX(2,I)
-        FLUX3(I) = FLUX(3,I)
-        FLUX4(I) = FLUX(4,I)
+        II = NFT + I
+        FLUX1(I) = FLUX(II,1)
+        FLUX2(I) = FLUX(II,2)
+        FLUX3(I) = FLUX(II,3)
+        FLUX4(I) = FLUX(II,4)
       ENDDO
 C-----------------------------------------------
       DO I=LFT,LLT
@@ -82,7 +86,7 @@ C     UPWIND
 C-----------------------------------------------
       DO J=1,4
         DO I=LFT,LLT
-          UPWL(J,I)=PM(16,MAT(I))
+          UPWL(I,J)=PM(16,MAT(I))
         ENDDO
       ENDDO
 C
@@ -120,18 +124,26 @@ C
             !!! Planar integration of momentum when 2D axi
             DO I=LFT,LLT
                II = I + NFT
-               FLUX(1,I) = FLUX1(I)-UPWL(1,I)*ABS(FLUX1(I))
-               FLUX(2,I) = FLUX2(I)-UPWL(2,I)*ABS(FLUX2(I))
-               FLUX(3,I) = FLUX3(I)-UPWL(3,I)*ABS(FLUX3(I))
-               FLUX(4,I) = FLUX4(I)-UPWL(4,I)*ABS(FLUX4(I))
+               if(ii>s_qmv) then
+                print*," pb QMV :",ii,s_qmv
+                stop
+               endif
+               if(ii>s_flux) then
+                print*," pb FLUX :",i,ii,s_flux,NUMELQ
+                stop
+               endif               
+               FLUX(II,1) = FLUX1(I)-UPWL(I,1)*ABS(FLUX1(I))
+               FLUX(II,2) = FLUX2(I)-UPWL(I,2)*ABS(FLUX2(I))
+               FLUX(II,3) = FLUX3(I)-UPWL(I,3)*ABS(FLUX3(I))
+               FLUX(II,4) = FLUX4(I)-UPWL(I,4)*ABS(FLUX4(I))
 C     
                !!! Divide by mean radius
-               QMV(5,I)  = FLUX1(I)+UPWL(1,I)*ABS(FLUX1(I))
-               QMV(6,I)  = FLUX2(I)+UPWL(2,I)*ABS(FLUX2(I))
-               QMV(7,I)  = FLUX3(I)+UPWL(3,I)*ABS(FLUX3(I))
-               QMV(8,I)  = FLUX4(I)+UPWL(4,I)*ABS(FLUX4(I))
+               QMV(II,5)  = FLUX1(I)+UPWL(I,1)*ABS(FLUX1(I))
+               QMV(II,6)  = FLUX2(I)+UPWL(I,2)*ABS(FLUX2(I))
+               QMV(II,7)  = FLUX3(I)+UPWL(I,3)*ABS(FLUX3(I))
+               QMV(II,8)  = FLUX4(I)+UPWL(I,4)*ABS(FLUX4(I))
 C                                   
-               FLU1(I) = QMV(5,I)  +  QMV(6,I)  +  QMV(7,I)  +  QMV(8,I)
+               FLU1(I) = QMV(II,5)  +  QMV(II,6)  +  QMV(II,7)  +  QMV(II,8)
 
                R1 = HALF * (X(2, IXQ(2, II)) + X(2, IXQ(3, II)))
                R2 = HALF * (X(2, IXQ(3, II)) + X(2, IXQ(4, II)))
@@ -139,37 +151,39 @@ C
                R4 = HALF * (X(2, IXQ(5, II)) + X(2, IXQ(2, II)))
                
                !!! Beware of r=0 axis
-               IF (R1 /= ZERO) QMV(5,I) = QMV(5,I) / R1
-               IF (R2 /= ZERO) QMV(6,I) = QMV(6,I) / R2
-               IF (R3 /= ZERO) QMV(7,I) = QMV(7,I) / R3
-               IF (R4 /= ZERO) QMV(8,I) = QMV(8,I) / R4
+               IF (R1 /= ZERO) QMV(II,5) = QMV(II,5) / R1
+               IF (R2 /= ZERO) QMV(II,6) = QMV(II,6) / R2
+               IF (R3 /= ZERO) QMV(II,7) = QMV(II,7) / R3
+               IF (R4 /= ZERO) QMV(II,8) = QMV(II,8) / R4
             ENDDO
          ELSE
             DO I=LFT,LLT
-               FLUX(1,I) = FLUX1(I)-UPWL(1,I)*ABS(FLUX1(I))
-               FLUX(2,I) = FLUX2(I)-UPWL(2,I)*ABS(FLUX2(I))
-               FLUX(3,I) = FLUX3(I)-UPWL(3,I)*ABS(FLUX3(I))
-               FLUX(4,I) = FLUX4(I)-UPWL(4,I)*ABS(FLUX4(I))
+              II = I + NFT
+              FLUX(II,1) = FLUX1(I)-UPWL(I,1)*ABS(FLUX1(I))
+              FLUX(II,2) = FLUX2(I)-UPWL(I,2)*ABS(FLUX2(I))
+              FLUX(II,3) = FLUX3(I)-UPWL(I,3)*ABS(FLUX3(I))
+              FLUX(II,4) = FLUX4(I)-UPWL(I,4)*ABS(FLUX4(I))
                
-               QMV(5,I)  = FLUX1(I)+UPWL(1,I)*ABS(FLUX1(I))
-               QMV(6,I)  = FLUX2(I)+UPWL(2,I)*ABS(FLUX2(I))
-               QMV(7,I)  = FLUX3(I)+UPWL(3,I)*ABS(FLUX3(I))
-               QMV(8,I)  = FLUX4(I)+UPWL(4,I)*ABS(FLUX4(I))
+              QMV(II,5)  = FLUX1(I)+UPWL(I,1)*ABS(FLUX1(I))
+              QMV(II,6)  = FLUX2(I)+UPWL(I,2)*ABS(FLUX2(I))
+              QMV(II,7)  = FLUX3(I)+UPWL(I,3)*ABS(FLUX3(I))
+              QMV(II,8)  = FLUX4(I)+UPWL(I,4)*ABS(FLUX4(I))
                  
-               FLU1(I) = QMV(5,I)  +  QMV(6,I)  +  QMV(7,I)  +  QMV(8,I)
+              FLU1(I) = QMV(II,5)  +  QMV(II,6)  +  QMV(II,7)  +  QMV(II,8)
             ENDDO
          ENDIF
       ELSE
          DO I=LFT,LLT
-            FLUX(1,I) = FLUX1(I)-UPWL(1,I)*ABS(FLUX1(I))
-            FLUX(2,I) = FLUX2(I)-UPWL(2,I)*ABS(FLUX2(I))
-            FLUX(3,I) = FLUX3(I)-UPWL(3,I)*ABS(FLUX3(I))
-            FLUX(4,I) = FLUX4(I)-UPWL(4,I)*ABS(FLUX4(I))
+            II = I + NFT          
+            FLUX(II,1) = FLUX1(I)-UPWL(I,1)*ABS(FLUX1(I))
+            FLUX(II,2) = FLUX2(I)-UPWL(I,2)*ABS(FLUX2(I))
+            FLUX(II,3) = FLUX3(I)-UPWL(I,3)*ABS(FLUX3(I))
+            FLUX(II,4) = FLUX4(I)-UPWL(I,4)*ABS(FLUX4(I))
 
-            QMV5  = FLUX1(I)+UPWL(1,I)*ABS(FLUX1(I))
-            QMV6  = FLUX2(I)+UPWL(2,I)*ABS(FLUX2(I))
-            QMV7  = FLUX3(I)+UPWL(3,I)*ABS(FLUX3(I))
-            QMV8  = FLUX4(I)+UPWL(4,I)*ABS(FLUX4(I))
+            QMV5  = FLUX1(I)+UPWL(I,1)*ABS(FLUX1(I))
+            QMV6  = FLUX2(I)+UPWL(I,2)*ABS(FLUX2(I))
+            QMV7  = FLUX3(I)+UPWL(I,3)*ABS(FLUX3(I))
+            QMV8  = FLUX4(I)+UPWL(I,4)*ABS(FLUX4(I))
 
             FLU1(I) = QMV5  +  QMV6  +  QMV7  +  QMV8
          ENDDO
@@ -177,7 +191,8 @@ C
 C
       IF(ITRIMAT > 0)THEN
         DO I=LFT,LLT
-          DDVOL(I)=HALF * ( FLU1(I)+FLUX(1,I)+FLUX(2,I)+FLUX(3,I)+FLUX(4,I) )
+          II = I + NFT          
+          DDVOL(I)=HALF * ( FLU1(I)+FLUX(II,1)+FLUX(II,2)+FLUX(II,3)+FLUX(II,4) )
         ENDDO
       ENDIF
 C----------------------------------------------- 

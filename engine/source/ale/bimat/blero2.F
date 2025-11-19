@@ -34,7 +34,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .     AIRE, D1, D2, D3, D4, D5, D6, VD2, DVOL, 
      .     VY1, VY2, VY3, VY4,
      .     VZ1, VZ2, VZ3, VZ4, 
-     .     MAT)
+     .     MAT,s_flux,nv46,offset)
       USE MESSAGE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -55,8 +55,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      integer, intent(in) :: s_flux !< first dimension of flux array
+      integer, intent(in) :: nv46 !< second dimension of flux array
+      integer, intent(in) :: offset !< offset for flux array
       my_real
-     .   ALPH(*), VOLO(*), RHON(*), FLUX(4,*), FLU1(*),
+     .   ALPH(*), VOLO(*), RHON(*), FLUX(s_flux,nv46), FLU1(*),
      .   OFF(*), PM(NPROPM,*),VOLN(MVSIZ), 
      .   AIRE(*), D1(*), D2(*), D3(*), D4(*), D5(*), D6(*), VD2(*), DVOL(*),
      .   VY1(*), VY2(*), VY3(*), VY4(*), 
@@ -71,11 +74,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 
       DO I=LFT,LLT
+        ii = i+nft+offset
         VOLN(I)=VOLN(I)*ALPH(I)
         AIRE(I)=AIRE(I)*ALPH(I)
         RHON(I) = RHON(I) / MAX(EM30,VOLN(I))
         DVOL(I) = VOLN(I)-VOLO(I)+DT1*HALF*(FLU1(I)
-     .          +FLUX(1,I)+FLUX(2,I)+FLUX(3,I)+FLUX(4,I))
+     .          +FLUX(ii,1)+FLUX(ii,2)+FLUX(ii,3)+FLUX(ii,4))
         VOLO(I)=VOLN(I)
       ENDDO
 

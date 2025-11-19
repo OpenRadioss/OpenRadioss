@@ -30,7 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
       SUBROUTINE AMULF2(FILL,DFILL,FLUX,FLU1,VOL,ALE_CONNECT,ALPV,
      .     FLUX1, FLUX2, FLUX3, FLUX4, UPW, 
-     .     NC1, NC2, NC3, NC4)
+     .     NC1, NC2, NC3, NC4,s_flux)
       USE ALE_CONNECTIVITY_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -48,8 +48,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      integer, intent(in) :: s_flux !< first dimension of FLUX array
       my_real
-     .   FILL(NUMNOD,*), DFILL(NUMNOD,*), FLUX(4,*), FLU1(*), VOL(*),
+     .   FILL(NUMNOD,*), DFILL(NUMNOD,*), FLUX(s_flux,4), FLU1(*), VOL(*),
      .   ALPV(2,*), FLUX1(*), FLUX2(*), FLUX3(*), FLUX4(*), UPW(*)
       INTEGER NC1(*), NC2(*), NC3(*), NC4(*)
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
@@ -167,10 +168,10 @@ C
 
        DO I=LFT,LLT
          II=I+(JM-1)*NUMELQ
-         FLUX(1,II)=FLUB1(I)-UPW(I)*ABS(FLUB1(I))
-         FLUX(2,II)=FLUB2(I)-UPW(I)*ABS(FLUB2(I))
-         FLUX(3,II)=FLUB3(I)-UPW(I)*ABS(FLUB3(I))
-         FLUX(4,II)=FLUB4(I)-UPW(I)*ABS(FLUB4(I))
+         FLUX(II,1)=FLUB1(I)-UPW(I)*ABS(FLUB1(I))
+         FLUX(II,2)=FLUB2(I)-UPW(I)*ABS(FLUB2(I))
+         FLUX(II,3)=FLUB3(I)-UPW(I)*ABS(FLUB3(I))
+         FLUX(II,4)=FLUB4(I)-UPW(I)*ABS(FLUB4(I))
 
          FLU1(II) =FLUB1(I)+UPW(I)*ABS(FLUB1(I))
      .            +FLUB2(I)+UPW(I)*ABS(FLUB2(I))
