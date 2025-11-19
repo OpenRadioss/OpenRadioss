@@ -7420,18 +7420,26 @@ C--------------------------------------------
      .                      NGROUP,    NPARG,      IPARG,        NPROPG,
      .                      NUMGEO,      GEO,     DEFAULTS%SHELL%IOFFSET)
       IF (DEFAULTS%SHELL%IOFFSET>0) THEN
+
         IF (IDDLEVEL == 0) THEN 
           NULLIFY(X_C) 
           IF (DEFAULTS%SHELL%IOFFSET==1) THEN
             ALLOCATE(ITAGOSET(NUMELC+NUMELTG), STAT=Stat)
             ALLOCATE(XYZ(3*NUMNOD), STAT=Stat)
+          ELSE
+            ALLOCATE(ITAGOSET(0), STAT=Stat)
+          END IF
+        END IF
+
+          NULLIFY(X_C) 
+          IF (DEFAULTS%SHELL%IOFFSET==1) THEN
             XYZ(1:3*NUMNOD) = X(1:3*NUMNOD)
             X_C=>XYZ
           ELSE
-            ALLOCATE(ITAGOSET(0), STAT=Stat)
             X_C=>X
           END IF
-        END IF
+
+
           ITAGOSET = 0
           CALL SHELL_OFFSETP(
      .                NGROUP,    NPARG,      IPARG,        NPROPG,
