@@ -29,7 +29,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- uses       -----------------------------------------------------
 !||    spmd_comm_world_mod              ../engine/source/mpi/spmd_comm_world.F90
 !||====================================================================
-      SUBROUTINE SPMD_EXCHANGE_GRAD(DIM,DIM1,DIM2,
+      SUBROUTINE SPMD_EXCHANGE_GRAD(DIM1,DIM2,DIM3,
      1                       PHI     ,NERCVOIS,NESDVOIS,LERCVOIS,
      2                       LESDVOIS,LENCOM  )
 C-----------------------------------------------
@@ -51,26 +51,27 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER, INTENT(IN) :: DIM,DIM1,DIM2,LENCOM
+      INTEGER, INTENT(IN) :: DIM1,DIM2,DIM3,LENCOM
       INTEGER, INTENT(IN) :: NERCVOIS(SNERCVOIS), NESDVOIS(SNESDVOIS)
       INTEGER, INTENT(IN) :: LERCVOIS(SLERCVOIS), LESDVOIS(SLESDVOIS)
-      my_real, DIMENSION(DIM1,DIM2), INTENT(INOUT) :: PHI
+      my_real, DIMENSION(DIM1,DIM2,DIM3), INTENT(INOUT) :: PHI
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER I, NDIM, IDEB, IDEB2, MSGOFF, IERROR,MSGTYP,IAD_RECV(NSPMD),
+      INTEGER I, IDEB, IDEB2, MSGOFF, IERROR,MSGTYP,IAD_RECV(NSPMD),
      .        STATUS(MPI_STATUS_SIZE), REQ_S(NSPMD), REQ_R(NSPMD),
      .        LOC_PROC, N, NN, NBIRECV, IRINDEX(NSPMD), II, INDEX,
      .        LEN
+      integer :: j,k
       DATA MSGOFF/3004/
-      my_real
-     .     WA(DIM, LENCOM)
+      my_real, dimension(:,:,:), allocatable :: r_buffer,s_buffer
 C-----------------------------------------------
 C
 C Updating Phi on adjacent elements
 C
-
+      allocate(r_buffer(lencom,dim2,dim3))
+      allocate(s_buffer(lencom,dim2,dim3))      
       LOC_PROC = ISPMD+1
       IDEB = 0
       IDEB2 = 0
@@ -83,7 +84,7 @@ C
           IRINDEX(NBIRECV) = I
           LEN = NERCVOIS(I)
           CALL MPI_IRECV(
-     S        WA(1,IDEB2+1),LEN*DIM,REAL,IT_SPMD(I),MSGTYP,
+     S        r_buffer(IDEB2+1,1,1),LEN*DIM2*DIM3,REAL,IT_SPMD(I),MSGTYP,
      G        SPMD_COMM_WORLD,REQ_R(NBIRECV),IERROR)
           IDEB2 = IDEB2 + LEN
         ENDIF
@@ -96,12 +97,14 @@ C
         IF(LEN>0) THEN
           DO N = 1, LEN
             NN = LESDVOIS(IDEB+N)
-            DO NDIM = 1, DIM
-               WA(NDIM,IDEB2+N) = PHI(NN,NDIM) ! nn,dim
-            ENDDO
+            do k = 1,dim3
+              do j = 1,dim2
+                s_buffer(IDEB2+N,j,k) = PHI(NN,j,k)
+              enddo            
+            enddo
           ENDDO
           CALL MPI_ISEND(
-     S      WA(1,IDEB2+1),LEN*DIM,REAL,IT_SPMD(I),MSGTYP,
+     S      s_buffer(IDEB2+1,1,1),LEN*DIM2*DIM3,REAL,IT_SPMD(I),MSGTYP,
      G      SPMD_COMM_WORLD,REQ_S(I),IERROR)
           IDEB = IDEB + LEN
           IDEB2 = IDEB2 + LEN
@@ -114,9 +117,11 @@ C
         IDEB = IAD_RECV(I)-1
         DO N = 1, NERCVOIS(I)
           NN = LERCVOIS(IDEB+N)
-          DO NDIM = 1, DIM
-             PHI(NN,NDIM) = WA(NDIM,IDEB+N)
-          ENDDO
+          do k = 1,dim3
+            do j = 1,dim2
+              PHI(NN,j,k) = r_buffer(IDEB+N,j,k)
+            enddo
+          enddo
         ENDDO
       ENDDO
 C
@@ -125,8 +130,9 @@ C
           CALL MPI_WAIT(REQ_S(I),STATUS,IERROR)
         ENDIF
       ENDDO
-C
 
+      deallocate(r_buffer)
+      deallocate(s_buffer)
 #endif
       RETURN
       END SUBROUTINE SPMD_EXCHANGE_GRAD

@@ -30,7 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- uses       -----------------------------------------------------
 !||    message_mod   ../engine/share/message_module/message_mod.F
 !||====================================================================
-      SUBROUTINE EULRO2(RHON,FLUX,FLU1,VOLN,DVOL,NGL)
+      SUBROUTINE EULRO2(RHON,FLUX,FLU1,VOLN,DVOL,NGL,s_flux,nv46,offset)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -48,16 +48,20 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      my_real RHON(*), FLUX(4,*), FLU1(*),VOLN(*), DVOL(*)
+      integer, intent(in) :: s_flux !< first dimension of flux array
+      integer, intent(in) :: nv46 !< second dimension of flux array
+      integer, intent(in) :: offset !< offset for flux array     
+      my_real RHON(*), FLUX(s_flux,nv46), FLU1(*),VOLN(*), DVOL(*)
       INTEGER NGL(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I
+      INTEGER I,ii
 C-----------------------------------------------
       DO I=LFT,LLT
+        ii = i+offset
         RHON(I)    =RHON(I)/VOLN(I)
-        DVOL(I) = DT1*HALF*(FLU1(I)+FLUX(1,I)+FLUX(2,I)+FLUX(3,I)+FLUX(4,I))
+        DVOL(I) = DT1*HALF*(FLU1(I)+FLUX(ii,1)+FLUX(ii,2)+FLUX(ii,3)+FLUX(ii,4))
       ENDDO
 C
       DO I=LFT,LLT

@@ -59,7 +59,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      3                  ALPHA   ,ALE_CONNECT ,ITASK    ,
      4                  ITRIMAT ,FLUX_SAV    ,NERCVOIS ,NESDVOIS,
      5                  LERCVOIS,LESDVOIS    ,LENCOM   ,QMV     ,ITAB    ,
-     6                  ITABM1  ,NV46        ,SEGVAR)
+     6                  ITABM1  ,NV46        ,SEGVAR   ,timers  ,s_flux,s_qmv)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -73,6 +73,7 @@ C-----------------------------------------------
       USE ALEMUSCL_MOD , only:ALEMUSCL_Param
       USE MULTIMAT_PARAM_MOD , ONLY : M51_N0PHAS, M51_NVPHAS
       use element_mod , only : nixs
+      use timer_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -90,9 +91,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      integer, intent(in) :: s_flux !< first dimension of flux array
+      integer, intent(in) :: s_qmv !< first dimension of flux array
+      integer, intent(in) :: nv46 !< second dimension of flux & qmv array            
       my_real PM(NPROPM,NUMMAT), X(3,NUMNOD),
-     .         FLUX(NV46,*), FLU2(*),
-     .         ALPHA(*), FLUX_SAV(NV46,*), QMV(2*NV46,*)
+     .         FLUX(s_flux,NV46), FLU2(*),
+     .         ALPHA(*), FLUX_SAV(s_flux,nv46), QMV(s_qmv,2*NV46)
 
       INTEGER IPARG(NPARG,NGROUP), IXS(NIXS,NUMELS), IXQ(7,NUMELQ)
       INTEGER ITASK,ITRIMAT,LENCOM,ADD,NERCVOIS(*),NESDVOIS(*),LERCVOIS(*),LESDVOIS(*), ITAB(NUMNOD),ITABM1(*)
@@ -100,11 +104,12 @@ C-----------------------------------------------
       TYPE(ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB
       TYPE(t_segvar), INTENT(IN) :: SEGVAR
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
+      type(timer_), intent(inout) :: timers
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       my_real, DIMENSION(:), POINTER :: UVAR,VOLG,VOLP,pDDVOL
-      INTEGER NG, I, K, II, NF1, NFIRST, NLAST, NV46, LLT_
+      INTEGER NG, I, K, II, NF1, NFIRST, NLAST, LLT_
       INTEGER :: IB, IE, NIN, NBF, NBL, K0, K1, IBM, J, IE_M, IDLOC, IPOS, ICELL, NCELL, MCELL, tNB, J1, J2, IBV
       my_real :: VFRAC
       TYPE(BUF_MAT_)  ,POINTER :: MBUF      
@@ -155,13 +160,13 @@ C     ALE ON / OFF
         ENDDO   
         DO K=1,NV46
             DO II=NFT+LFT,NFT+LLT
-              FLUX(K,II)=FLUX_SAV(K,II)
+              FLUX(II,k)=FLUX_SAV(II,K)
             ENDDO
         ENDDO
         IF(ITRIMAT == 1)THEN
           DO K=1,NV46
             DO II=NFT+LFT,NFT+LLT
-              QMV(K,II) = ZERO
+              QMV(II,K) = ZERO
             ENDDO
           ENDDO
         ENDIF
@@ -225,9 +230,11 @@ C--------------------
 C--------------------
 
       IF(NSPMD > 1)THEN
+        if(itask==0) call startime(timers,timer_spmdcfd)       
 !$OMP SINGLE
         CALL SPMD_E1VOIS(ALPHA,NERCVOIS,NESDVOIS,LERCVOIS,LESDVOIS,LENCOM  )
 !$OMP END SINGLE
+        if(itask==0) call stoptime(timers,timer_spmdcfd)       
       ENDIF
 C
 C-----------------------------------------------
@@ -278,25 +285,25 @@ C     ALE ON / OFF
         IF(N2D == 0)THEN
            IF (ALEMUSCL_Param%IALEMUSCL  >  0) THEN
               CALL ALEMUSCL_UPWIND(FLUX, ALE_CONNECT, X, IXS, FLUX_VOIS, N4_VOIS,
-     .                             ITAB, NV46       , ITRIMAT,SEGVAR)
+     .                             ITAB, NV46       , ITRIMAT,SEGVAR,s_flux)
            ELSE
               CALL ALE51_ANTIDIFF3(FLUX, ALE_CONNECT, ALPHA  , VOLG, IXS, FLUX_VOIS, N4_VOIS, 
-     .                             ITAB, NV46       , ITRIMAT, SEGVAR)
+     .                             ITAB, NV46       , ITRIMAT, SEGVAR,s_flux)
            ENDIF
         ELSE
            IF (ALEMUSCL_Param%IALEMUSCL  >  0) THEN
               CALL ALEMUSCL_UPWIND2(FLUX, ALE_CONNECT, X    , IXQ, FLUX_VOIS, N4_VOIS,
-     .                              ITAB, NV46       , ITRIMAT,SEGVAR)
+     .                              ITAB, NV46       , ITRIMAT,SEGVAR,s_flux)
            ELSE
               CALL ALE51_ANTIDIFF2(FLUX   ,ALE_CONNECT,ALPHA  ,VOLG  ,IXQ,FLUX_VOIS,
-     .                             N4_VOIS,ITAB       ,ITRIMAT,SEGVAR)
+     .                             N4_VOIS,ITAB       ,ITRIMAT,SEGVAR,s_flux)
            ENDIF
         ENDIF
       ENDDO !next NG
 
       IF(INT22 /= 0)THEN
         CALL ALE51_ANTIDIFF3_INT22(FLUX   , ITRIMAT,IXS ,
-     .                            NV46,  ELBUF_TAB,ITASK,ALPHA)
+     .                            NV46,  ELBUF_TAB,ITASK,ALPHA,s_flux)
       ENDIF
 
 C--------------------
@@ -304,6 +311,7 @@ C--------------------
 C--------------------
 
       IF(NSPMD > 1)THEN
+        if(itask==0) call startime(timers,timer_spmdcfd)       
 !$OMP SINGLE
          IF (N2D  ==  0) THEN
             CALL SPMD_E6VOIS(FLUX_VOIS,NERCVOIS,NESDVOIS,LERCVOIS,LESDVOIS,LENCOM)
@@ -313,6 +321,7 @@ C--------------------
             CALL SPMD_I4VOIS(N4_VOIS ,NERCVOIS,NESDVOIS,LERCVOIS,LESDVOIS,LENCOM)
          ENDIF
 !$OMP END SINGLE
+         if(itask==0) call stoptime(timers,timer_spmdcfd)       
       ENDIF
 
 C-----------------------------------------------
@@ -346,19 +355,19 @@ C     ALE ON / OFF
         !------------------------------!
         IF(N2D == 0)THEN
           IF(NSPMD > 1)THEN
-            CALL ALE51_SPMD3(IXS,FLUX(1,NF1),ALE_CONNECT,
-     .                       FLUX_VOIS,N4_VOIS,ITABM1 ,NV46)
+            CALL ALE51_SPMD3(IXS,FLUX,ALE_CONNECT,
+     .                       FLUX_VOIS,N4_VOIS,ITABM1 ,NV46,s_flux)
           ENDIF
-          CALL ALE51_UPWIND3(PM,IXS,FLUX(1,NF1),FLU2(NF1),ALE_CONNECT,
-     .                       ITRIMAT,pDDVOL,QMV(1,NF1),1,
-     .                       NV46)
+          CALL ALE51_UPWIND3(PM,IXS,FLUX,FLU2(NF1),ALE_CONNECT,
+     .                       ITRIMAT,pDDVOL,QMV,1,
+     .                       NV46,s_flux,s_qmv)
         ELSE
           IF(NSPMD > 1)THEN
-            CALL ALE51_SPMD2(IXQ,FLUX(1,NF1),ALE_CONNECT,
-     .                       FLUX_VOIS,N4_VOIS, ITABM1,NV46)
+            CALL ALE51_SPMD2(IXQ,FLUX,ALE_CONNECT,
+     .                       FLUX_VOIS,N4_VOIS, ITABM1,NV46,s_flux)
           ENDIF
-          CALL ALE51_UPWIND2(PM,X,IXQ,FLUX(1,NF1),FLU2(NF1),ALE_CONNECT,
-     .                       ITRIMAT,pDDVOL,QMV(1,NF1),1)
+          CALL ALE51_UPWIND2(PM,X,IXQ,FLUX,FLU2(NF1),ALE_CONNECT,
+     .                       ITRIMAT,pDDVOL,QMV,1,nv46,s_flux,s_qmv)
         ENDIF
       ENDDO
       

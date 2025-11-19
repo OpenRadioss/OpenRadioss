@@ -124,7 +124,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE S8EFORC3(TIMERS, OUTPUT,
      1   ELBUF_TAB,  NG,         PM,         GEO,
      2   IXS,        X,          A,          V,
-     3   MS,         W,          FLUX,       FLU1,
+     3   MS,         W,          FLU1,
      4   VEUL,       FV,         ALE_CONNECT,IPARG,
      5   TF,         NPF,        BUFMAT,     PARTSAV,
      6   NLOC_DMG,   DT2T,       NELTST,     ITYPTST,
@@ -213,7 +213,7 @@ C
 C
       my_real
      .   PM(NPROPM,*), GEO(NPROPG,*), X(*), A(*), V(3,*), MS(*), W(*), 
-     .   FLUX(6,*),FLU1(*), VEUL(*), FV(*), TF(*), 
+     .   FLU1(*), VEUL(*), FV(*), TF(*), 
      .   PARTSAV(*),STIFN(*), FSKY(*),EANI(*),BUFMAT(*),
      .   F11(MVSIZ),F21(MVSIZ),F31(MVSIZ),
      .   F12(MVSIZ),F22(MVSIZ),F32(MVSIZ),
@@ -482,6 +482,8 @@ c     Flag Bolt Preloading
       INTEGER IBOLTP,NBPRELD,ISCTL
       my_real, 
      .  DIMENSION(:), POINTER :: BPRELD
+      integer :: fake_size = 0
+      my_real, dimension(1) :: fake_array     
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
@@ -1484,11 +1486,12 @@ C
          DIVDE(1:NEL) = DT1*(DXX(1:NEL)+ DYY(1:NEL)+ DZZ(1:NEL))+SDV(1:NEL)   
           CALL SRHO3(
      1   PM,         LBUF%VOL,   LBUF%RHO,   LBUF%EINT,
-     2   DIVDE,      FLUX(1,NF1),FLU1(NF1),  VOLN,
+     2   DIVDE,      fake_array,FLU1(NF1),  VOLN,
      3   DVOL,       NGL,        MXT,        OFF,
      4   0,          GBUF%TAG22, VOLP(1,IP), LBUF%VOL0DP,
      5   AMU,        GBUF%OFF,   NEL,        MTN,
-     6   JALE,       ISMSTR,     JEUL,       JLAG)
+     6   JALE,       ISMSTR,     JEUL,       JLAG,
+     .   fake_size,fake_size,0)
 C
        IF (ISMSTR == 12.AND.IDTMIN(1)==3.AND.ISM12_11==0.AND.JCVT==0) THEN
          CALL SROTO12_SIG(LFT,LLT,LBUF%SIG,NEL,

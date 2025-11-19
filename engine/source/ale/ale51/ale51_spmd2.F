@@ -31,7 +31,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    element_mod            ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE ALE51_SPMD2(IXQ      ,FLUX   ,ALE_CONNECT,
-     .                       FLUX_VOIS,N4_VOIS,ITABM1,NV46)
+     .                       FLUX_VOIS,N4_VOIS,ITABM1,NV46,s_flux)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -50,8 +50,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      integer, intent(in) :: s_flux !< first dimension of FLUX array
       INTEGER IXQ(NIXQ,NUMELQ), N4_VOIS(NUMELQ+NQVOIS,4), ITABM1(*),NV46
-      my_real FLUX(4,*),FLUX_VOIS(NUMELQ+NQVOIS,NV46)
+      my_real FLUX(s_flux,4),FLUX_VOIS(NUMELQ+NQVOIS,NV46)
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -97,7 +98,7 @@ C-----------------------------------------------
                     TAG(NI(L)) = 0                    
                   ENDDO
                   IF(NN == 2)THEN
-                    FLUX(K,I)=-FLUX_VOIS(IV,KK)
+                    FLUX(II,K)=-FLUX_VOIS(IV,KK)
                     EXIT !KK
                   ENDIF
                  ENDIF

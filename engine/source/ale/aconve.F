@@ -51,7 +51,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      2  ALE_CONNECT ,NVAR      ,ITASK   ,NERCVOIS ,NESDVOIS,
      3  LERCVOIS    ,LESDVOIS  ,LENCOM  ,SEGVAR   ,BHOLE   ,
      4  ITRIMAT     ,QMV       ,IFLG    ,IXS      ,IXQ     ,
-     5  PM          ,X  )
+     5  PM          ,X         ,timers  ,s_flux   ,s_qmv   ,
+     6  nv46)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -63,8 +64,9 @@ C-----------------------------------------------
       USE ALE_CONNECTIVITY_MOD
       USE ALEFVM_MOD , only:ALEFVM_Param
       USE ALE_MOD
-       USE MULTIMAT_PARAM_MOD , ONLY : M51_NVPHAS, M51_N0PHAS
-       use element_mod , only : nixs,nixq
+      USE MULTIMAT_PARAM_MOD , ONLY : M51_NVPHAS, M51_N0PHAS
+      use element_mod , only : nixs,nixq
+      use timer_mod 
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -83,6 +85,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      integer, intent(in) :: s_flux !< first dimension of FLUX array
+      integer, intent(in) :: s_qmv !< first dimension of QMV array      
+      integer, intent(in) :: nv46 !< second dimension of FLUX & QMV arrays
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
 
       INTEGER IPARG(NPARG,NGROUP),NVAR,ITRIMAT, 
@@ -90,15 +95,16 @@ C-----------------------------------------------
      .        BHOLE(*),IXS(NIXS,NUMELS),IXQ(NIXQ,NUMELQ), LENCOM,
      .        IFLG, ITASK
 
-      my_real FLUX(*), FLU1(*)          , PHI(*)     , 
-     .        QMV(*) , PM(NPROPM,NUMMAT), X(3, NUMNOD)
+      my_real FLUX(s_flux*nv46), FLU1(*)          , PHI(*)     , 
+     .        QMV(s_qmv,2*nv46) , PM(NPROPM,NUMMAT), X(3, NUMNOD)
      
       TYPE(t_segvar) :: SEGVAR
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
+      type(timer_), intent(inout) :: timers
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NMN, NM, NG, JMUL, IADR,  I, J, K, NF1,ISILENT,NFX,  IOFF, IMAT
+      INTEGER NMN, NM, NG, JMUL, IADR,  I, J, K, NF1,ISILENT,IOFF, IMAT
       INTEGER JCODV(ALE%GLOBAL%LCONV),CODTOT,NGSEG,ISEG,ISOLNOD
       INTEGER ADD0, ADD
 
@@ -108,6 +114,7 @@ C-----------------------------------------------
 
       my_real, DIMENSION(:), POINTER ::  VAR, pRHO , pVOL , pEINT, pIAD22 
       INTEGER                        :: ICELLv,IB,IBv,NIN,NUM, MCELL, IDX, NDIM
+      integer :: offset
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------  
@@ -438,9 +445,11 @@ C----------------------
         !    SPMD EXCHANGES                             !
         !-----------------------------------------------! 
         IF (NSPMD > 1) THEN
+          if(itask==0) call startime(timers,timer_spmdcfd)
 !$OMP SINGLE
           CALL SPMD_E1VOIS(PHI,NERCVOIS,NESDVOIS,LERCVOIS, LESDVOIS,LENCOM  )
 !$OMP END SINGLE
+          if(itask==0) call stoptime(timers,timer_spmdcfd)
         END IF
 
 
@@ -463,8 +472,7 @@ C=======================================================================
         !ELEMENTARY BUFFER IS ALSO UPDATED AND USED LATER
         !TO TREAT USUAL BRICK ELEMS WHILE DEALING WITH ADJACENT VALUES      
         IF(INT22 > 0)THEN
-          NF1=NFT+1+(NM-1)*NUMELS
-          NFX=NFT+(NM-1)*NUMELS      
+          NF1=NFT+1+(NM-1)*NUMELS     
           CALL A22CONV3(
      1             PHI      ,
      2             IFLG     ,
@@ -591,30 +599,32 @@ C     ALE ON / OFF
            pIAD22 => ELBUF_TAB(NG)%GBUF%TAG22(1:)
            IF (N2D == 0) THEN                                                                
              NF1=NFT+1+(NM-1)*NUMELS                                                         
-             NFX=NFT+(NM-1)*NUMELS                                                           
+             offset = (nm-1)*numels                                                  
              pVOL => LBUF%VOL(1:LLT)                                                         
              IF (ISOLNOD /= 4) THEN                                                          
                CALL ACONV3(                                                                  
-     1              VAR         , PHI    ,FLUX(6*NFX+1), FLU1(NF1) ,IXS    ,
-     2              ALE_CONNECT , IOFF   ,QMV(12*NFX+1), IFLG      ,                       
-     3              pIAD22      , NVAR   ,ITASK)
+     1              VAR         , PHI    ,FLUX, FLU1(NF1) ,IXS    ,
+     2              ALE_CONNECT , IOFF   ,QMV, IFLG      ,                       
+     3              pIAD22      , NVAR   ,ITASK,s_flux,s_qmv,offset,nv46)
              ELSE                                                                            
                CALL A4CONV3(                                                                 
-     1              VAR ,PHI,FLUX(6*NFX+1),FLU1(NF1),                                        
-     2              ALE_CONNECT  ,IOFF   )                                                         
+     1              VAR ,PHI,FLUX,FLU1(NF1),                                        
+     2              ALE_CONNECT  ,IOFF,s_flux,offset,nv46   )                                                         
              ENDIF                                                                           
            !----------------------------!                                                    
            !        CALL ACONVE2        !                                                    
            !----------------------------!                                                    
            ELSE                                                                              
              NF1=NFT+1+(NM-1)*NUMELQ                                                         
-             NFX=NFT+(NM-1)*NUMELQ                                                           
+             offset = (nm-1)*numelq                                                      
              IF (NMULT == 0) THEN                                                            
-               CALL ACONV2(VAR          ,PHI         ,FLUX(4*NFX+1),FLU1(NF1),
-     .                     ALE_CONNECT  ,QMV(8*NFX+1),IFLG         ,IXQ      ,
-     .                     X            ,IOFF         )
+               CALL ACONV2(VAR          ,PHI         ,FLUX         ,FLU1(NF1),
+     .                     ALE_CONNECT  ,QMV         ,IFLG         ,IXQ      ,
+     .                     X            ,IOFF        ,s_flux       ,s_qmv    ,
+     .                     offset       ,nv46)
              ELSE                                                                            
-               CALL BCONV2(VAR, PHI, FLUX(4*NFX+1), FLU1(NF1), ALE_CONNECT ,BHOLE ,NM)
+               CALL BCONV2(VAR, PHI, FLUX, FLU1(NF1), ALE_CONNECT ,BHOLE ,NM,
+     .                     s_flux,offset,nv46)
              ENDIF                                                                           
            ENDIF !(N2D == 0)                                                                 
            !----------------------------!         

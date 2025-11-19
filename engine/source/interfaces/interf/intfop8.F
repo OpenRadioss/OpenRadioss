@@ -36,7 +36,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
       SUBROUTINE INTFOP8(output,
      1       IPARI ,X      ,A    ,
-     2       ICODT ,FSAV    ,WA      ,V      ,MS   ,
+     2       ICODT ,FSAV    ,V      ,MS   ,
      3       DT2T  ,NELTST  ,ITYPTST ,ITAB   ,STIFN,
      4       NPC   ,TF      ,FSKYI   ,ISKY   ,VR   ,
      5       FCONT ,IN      ,BUFSF   ,FNCONT ,NSENSOR,
@@ -81,7 +81,7 @@ C-----------------------------------------------
 
 C     REAL
       my_real DT2T, 
-     .   X(*), A(*), FSAV(NTHVKI,*) , WA(*), V(*),MS(*),
+     .   X(*), A(*), FSAV(NTHVKI,*) ,V(*),MS(*),
      .   STIFN(*), TF(*),FSKYI(LSKY,NFSKYI),VR(3,*),FCONT(3,*),IN(*),
      .   BUFSF(*), FNCONT(3,*),FTCONT(3,*),RCONTACT(*),PSKIDS(*)
 

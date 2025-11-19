@@ -124,7 +124,7 @@
 !||====================================================================
       module timer_mod
         implicit none
-        integer, parameter :: max_nb_timer= 150
+        integer, parameter :: max_nb_timer= 160
         integer, parameter :: TIMER_RESOL     =     1
         integer, parameter :: TIMER_CONTSORT  =     2
         integer, parameter :: TIMER_ELEMENT   =     3
@@ -168,6 +168,7 @@
         integer, parameter :: TIMER_T25BUC    =      136
         integer, parameter :: TIMER_T25BUCE2E =      137
         integer, parameter :: TIMER_T25TRCE   =      138
+        integer, parameter :: timer_ale_elm   =      151       
         type timer_
           real, dimension(:,:), allocatable :: timer
           real, dimension(:), allocatable :: cputime

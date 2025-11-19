@@ -763,6 +763,7 @@ C-----------------------------------------------
               USE rwall_pen_mod, only : rgwal0_pen
               use element_mod , only : nixs,nixq,nixc,nixt,nixp,nixr,nixtg
               use resol_alloc_mod
+              use init_ale_mod , only : init_ale
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1079,7 +1080,7 @@ C----
      .             I15A,I15B,I15C,I15D,I15E,I15F,I15G,I15H,I15I,I15J,I15K,
      .             I87A,I87B,I87C,I87D,I87E,I87F,I87G,I87H,I87I,I87J,I87K,I87L,
      .             I87M,I87N,I15ATH,I35ATH,LAG_SEC,NFT2,NDAMA2
-              INTEGER NDDL0,NNZK0,LENQMV,NV46,NUM_IMP(NINTER),NINT7,NT_IMP,
+              INTEGER NDDL0,NNZK0,NUM_IMP(NINTER),NINT7,NT_IMP,
      .                NNDL,IT,NMC2,LI13,DIRUL(NFXVEL),NUM_IMP1(NINTER),
      .                FR_RBE2M(SFR_RBE2),R2SIZE,
      .                NUM_IMPL(NINTER,NTHREAD), I_OPT_STOK(NINTER),IT_T,NTMP
@@ -1780,6 +1781,7 @@ C
      9         ISKWN  ,IFRAME  ,LOADS ,GLOB_THERM,PBLAST,RBE3,NHIER_RBY)
 
 !$OMP END PARALLEL
+C     End Initialisations //     
               CALL PYTHON_END_OPENMP(PYTHON)
               IF (ALEMUSCL_Param%IALEMUSCL == 0) DEALLOCATE(ADDTMPL)
 C========================================================================================
@@ -1819,7 +1821,8 @@ C===============================================================================
               ! Check if ALE elements are deactivated to avoid some mpi comm. in the ALE solver
               GLOBAL_ACTIVE_ALE_ELEMENT = .FALSE.
               CALL CHECK_ALE_COMM(IPARG,ELBUF_TAB,GLOBAL_ACTIVE_ALE_ELEMENT,GLOB_THERM%ITHERM)
-C     End Initialisations //
+              ! initialization of some size and arrays for ALE solver
+              call init_ale(global_active_ale_element,n2d,numels,numelq,nmult,iale,ieuler,trimat,glob_therm%itherm,ale)
               IF(NADMESH/=0.AND.IDEL7NG>=1) IDEL7NOK = 0
 C     THERMAL TIME STEP : we don t check incompatible kinematic conditions anymore
 c      we constraint all DDLs
@@ -2549,7 +2552,7 @@ C------ one routine for EIG
      K                            ERR_THK_SH4 , ERR_THK_SH3 , IRBE2    , RBE3%IRBE3     ,LRBE2    ,
      L                            RBE3%LRBE3       , RBE3%FRBE3    ,FR_RBE2  , RBE3%mpi%fr_rbe3  , IAD_RBE2,
      M                            NODES%WEIGHT_MD   , CLUSTER     , FCLUSTER , MCLUSTER  , XFEM_TAB,
-     O                            W           , NV46     , NERCVOIS  , NESDVOIS,
+     O                            W           , ale%global%nv46   , NERCVOIS  , NESDVOIS,
      P                            LERCVOIS    , LESDVOIS    ,CRKEDGE   , INDX_CRK  , XEDGE4N ,
      Q                            XEDGE3N     ,STACK        ,SPH2SOL   ,NODES%STIFN      ,NODES%STIFR    ,
      R                            DRAPE_SH4N    , DRAPE_SH3N    ,H3D_DATA  ,SUBSETS    ,IGRNOD   ,
@@ -3527,6 +3530,8 @@ C
 C--------------------------------------------------------
 C       ALE flux + forces
 C--------------------------------------------------------
+              !wa(1:numels+numelq) = -huge(wa(1))
+              
               NEED_COMM_INTER18 = .FALSE.
               IF (IALE+IEULER+GLOB_THERM%ITHERM/=0.AND.GLOBAL_ACTIVE_ALE_ELEMENT) THEN
                 CALL STARTIME(TIMERS,MACRO_TIMER_ALEMAIN)
@@ -3534,10 +3539,6 @@ C-----------------------------
 C        SPMD : MS=0 boundary nodes if  weight/=1  (for amas03)
 C        only for PARITH/OFF
 C-----------------------------
-                LENQMV = 1
-                IF(TRIMAT>0)LENQMV = MIN(1,TRIMAT)*(NUMELS+NUMELQ)
-                NV46   = 6
-                IF(N2D /= 0) NV46 = 4
                 CALL TRACE_IN(12,0,ZERO)
 
 C========================================================================================
@@ -3574,7 +3575,7 @@ C
      D               IPARI                 ,SEGVAR   ,NODES%ITAB    ,ISKWN             ,DIFFUSION          ,IRESP,
      E               VOLMON                ,FSAV     ,IGRSURF       ,NELTSA            ,
      F               ITYPTSA               ,NODES%WEIGHT ,NPSEGCOM  ,LSEGCOM           ,IPM                ,IGEO,
-     G               NODES%ITABM1          ,LENQMV   ,NV46          ,NODES%A           ,GRESAV             ,
+     G               NODES%ITABM1          ,NODES%A           ,GRESAV             ,
      H               GRTH                  ,IGRTH    ,LGAUGE        ,GAUGE             ,MSSA               ,
      I               DMELS                 ,IGAUP    ,NGAUP         ,TABLE             ,NODES%MS0          ,
      J               NODES%XDP        ,IGRNOD   ,SFEM_NODVAR_ALE ,INTERFACES%PON%FSKYI,INTERFACES%PON%ISKY, S_SFEM_NODVAR,
@@ -3624,6 +3625,8 @@ C
                 ALE%SUB%IFSUBM=0
                 T1S=TT
               ENDIF
+
+             ! wa(1:numels+numelq) = -huge(wa(1))
 
 C========================================================================================
 C                                     NON PARALLEL SECTION (SMP)
@@ -3744,7 +3747,7 @@ C----------------------------------------
                 ENDIF
                 CALL INTFOP8(OUTPUT,
      1              IPARI  ,ptrX ,NODES%A ,
-     2              NODES%ICODT  ,FSAV    ,WA(1),NODES%V         ,NODES%MS             ,
+     2              NODES%ICODT  ,FSAV    ,NODES%V         ,NODES%MS             ,
      3              DT2TT  ,NELTSTT ,ITYPTSTT   ,NODES%ITAB    ,NODES%STIFN   ,
      4              NPC    ,TF      ,INTERFACES%PON%FSKYI     ,INTERFACES%PON%ISKY      ,NODES%VR              ,
      5              OUTPUT%DATA%VECT_CONT   ,NODES%IN      ,BUFSF     ,OUTPUT%DATA%VECT_PCONT ,NSENSOR,
@@ -3907,7 +3910,7 @@ C Init var parallel SMP
      G            FNCONTG           ,FTCONTG        ,NODES%NODGLOB        ,NODES%MS0       ,NPC             ,
      H            WA                ,SENSORS%SENSOR_TAB,QFRICINT    ,NCONT           ,INDEXCONT       ,
      I            TAGCONT           ,INOD_PXFEM     ,MS_PLY         ,WAGAP           ,ELBUF_TAB       ,
-     J            CONDN(IDX_CONDN)  ,CONDNSKYI      ,NV46           ,
+     J            CONDN(IDX_CONDN)  ,CONDNSKYI      ,ale%global%nv46,
      K            SENSORS%SFSAV     ,SENSORS%FSAV   ,GLOB_THERM%NODADT_THERM,GLOB_THERM%THEACCFACT,
      L            ISENSINT          ,NISUBMAX       ,NB25_CANDT     ,NB25_IMPCT      ,
      M            NB25_DST1         ,NB25_DST2      ,IXIG3D         ,KXIG3D          ,WIGE            ,
@@ -8275,7 +8278,7 @@ C Init var parallel SMP
      2           ELBUF_TAB             , NODES%VR    ,
      3           ALE_CONNECTIVITY      , IPARG       , IXS        ,
      4           ALE_CONNECTIVITY%NALE ,
-     5           ITSK                  ,NODFTSK      , NODLTSK    ,IPM , NV46  ,MSNF     )
+     5           ITSK                  ,NODFTSK      , NODLTSK    ,IPM , ale%global%nv46,MSNF     )
 
 !$OMP END PARALLEL
                 CALL PYTHON_END_OPENMP(PYTHON)
@@ -8429,7 +8432,7 @@ C Regular animation
      g          RES_SMS       ,SENSORS        ,
      h          QFRICINT      ,IGAUP          ,NGAUP          ,NODES%WEIGHT_MD    ,NCONT         ,
      i          INDEXCONT     ,NODGLOBXFE     ,NODEDGE        ,XFEM_TAB           ,
-     j          NV46          ,RTHBUF         ,KXIG3D         ,IXIG3D             ,KNOT          ,
+     j          ale%global%nv46,RTHBUF        ,KXIG3D         ,IXIG3D             ,KNOT          ,
      k          WIGE          ,NERCVOIS       ,NESDVOIS       ,LERCVOIS           ,LESDVOIS      ,
      l          CRKEDGE       ,STACK          ,ISPHIO         ,VSPHIO             ,NODES%ICODE   ,
      m          INDX_CRK      ,XEDGE4N        ,XEDGE3N        ,SPH2SOL            ,STIFN_TMP     ,
@@ -8685,7 +8688,7 @@ C
      S            RBE3%mpi%IAD_RBE3,FRWL6          , IBCL      ,FORC      ,     IRBE2   ,
      T            LRBE2          ,IAD_RBE2       , FR_RBE2   ,NODES%WEIGHT_MD,
      U            CLUSTER        ,FCLUSTER       , MCLUSTER  ,XFEM_TAB  ,
-     V            ALE_CONNECTIVITY    ,W              , NV46      ,NERCVOIS  ,     NESDVOIS ,
+     V            ALE_CONNECTIVITY    ,W              , ale%global%nv46 ,NERCVOIS  ,     NESDVOIS ,
      W            LERCVOIS       ,LESDVOIS       ,CRKEDGE    ,STACK     ,SENSORS%SFSAV   ,
      X            SENSORS%FSAV   ,SENSORS%STABSEN,SENSORS%TABSENSOR,INDX_CRK  ,XEDGE4N       ,
      Y            XEDGE3N        ,SPH2SOL        ,STIFN_TMP  ,STIFR_TMP ,     DRAPE_SH4N ,

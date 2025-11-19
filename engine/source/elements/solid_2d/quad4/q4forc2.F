@@ -65,13 +65,13 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    timer_mod              ../engine/source/system/timer_mod.F90
 !||====================================================================
       SUBROUTINE Q4FORC2(TIMERS, OUTPUT, PM    ,GEO    ,IC     ,X     ,A      ,
-     2                   V     ,MS     ,W      ,FLUX  ,FLU1  ,
+     2                   V     ,MS     ,W      ,FLU1  ,
      3                   VEUL   ,FV     ,ALE_CONNECT ,IPARG  ,NLOC_DMG,
      4                   ELBUF_TAB,TF  ,NPF    ,BUFMAT,PARTSAV,
      5                   DT2T  ,NELTST ,ITYPTST,STIFN ,OFFSET ,
      6                   EANI  ,IPARTQ ,NEL    ,IADQ  ,FSKY   ,
      7                   ICP   ,NG     ,
-     8                   IPM   ,BUFVOIS,QMV    ,GRESAV,GRTH   ,
+     8                   IPM   ,BUFVOIS,GRESAV,GRTH   ,
      9                   IGRTH ,TABLE  ,IGEO   ,ITASK ,IEXPAN ,
      A                   MS_2D ,FSKYM  ,IOUTPRT,MAT_ELEM,H3D_STRAIN,SZ_BUFVOIS,SNPC,
      B                   STF,SBUFMAT,SVIS,NSVOIS,IDTMINS,IRESP,TT,DT1,      
@@ -136,8 +136,8 @@ C-----------------------------------------------
      +  DT2T
       my_real
      +  PM(NPROPM,*), GEO(*), X(*),A(*),V(3,*),MS(*), W(*),PARTSAV(*), 
-     +  FLUX(4,*),FLU1(*),VEUL(*),FV(*), TF(*),BUFMAT(*), 
-     +  FSKY(*),STIFN(*),EANI(*),BUFVOIS(6,*),QMV(8,*),GRESAV(*),MS_2D(*),
+     +  FLU1(*),VEUL(*),FV(*), TF(*),BUFMAT(*), 
+     +  FSKY(*),STIFN(*),EANI(*),BUFVOIS(6,*),GRESAV(*),MS_2D(*),
      +  FSKYM(*)
       my_real, DIMENSION(MVSIZ,6), INTENT(INOUT) :: SVIS
       TYPE (TTABLE) TABLE(*)
@@ -158,7 +158,6 @@ c  I   X(3,NUMNOD)         coordinate
 c  IO  A(3,NUMNOD)         nodal internal force
 c  I   V(3,NUMNOD)         nodal velocity
 c  IO  MS(NUMNOD)          nodal mass
-c  I   FLUX(4,NEL)         flux at each side used w/ ALE or EULER
 c  I   FLU1,VEUL,IELVS     used w/ ALE or EULER 
 c  I   IPARG(NG)           element group data
 c  I   ELBUF()             internal element(material) data used w/ ALE or EULER
@@ -175,7 +174,6 @@ c  I   IADQ(),FSKY()       work arrays for special option of internal force asse
 c  I   ICP                 flag for constant pressure
 c  I   IPM(NPROPMI,*)      MATERIAL DATA (INTEGER)
 c  I   BUFVOIS()           work table for fluid w/ SPMD 
-c  I   QMV(8,)             work table used w/ ALE or EULER
 c  I   GRESAV,GRTH,IGRTH   work table used for TH (time history) output
 c  I   TABLE               new alternative Radioss function(table) data
 c  I   IGEO                geometrical property integer data

@@ -63,9 +63,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      8   LERCVOIS,   LESDVOIS,   SEGVAR,
      9   MSNF,       NODFT,      NODLT,      BHOLE,
      A   IPM,        QMV,        ITAB,       ITABM1,
-     B   LENQMV,     NV46,
+     B   s_flux,     s_qmv,      NV46,
      C   IAD_ELEM,   GLOB_THERM,
-     D   FR_ELEM,    MATPARAM)
+     D   FR_ELEM,    MATPARAM  ,timers)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -79,6 +79,7 @@ C-----------------------------------------------
       use glob_therm_mod
       USE MATPARAM_DEF_MOD, ONLY : MATPARAM_STRUCT_
       use element_mod , only : nixs,nixq
+      use timer_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -93,32 +94,39 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      integer, intent(in) :: s_flux !< first dimension of flux array
+      integer, intent(in) :: s_qmv  !< first dimension of QMV array
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP) :: ELBUF_TAB
 
       INTEGER IPARG(NPARG,NGROUP), IXS(NIXS,NUMELS), IXQ(NIXQ,NUMELQ),NPF(*),
      .        ITAB(NUMNOD), ITABM1(*), BHOLE(*),
      .        NBRCVOIS(*),NBSDVOIS(*), LNRCVOIS(*), LNSDVOIS(*),
      .        NERCVOIS(*),NESDVOIS(*),LERCVOIS(*),LESDVOIS(*),IPM(NPROPMI,NUMMAT),
-     .        NODFT, NODLT, LENQMV, ITASK, NV46,
+     .        NODFT, NODLT,ITASK, NV46,
      .        IAD_ELEM(2, *), FR_ELEM(*)
  
       my_real VEUL, FLUX(*), VAL2(*), PHI(*), V(*), W(*), X(*), PM(*),
      .        MS(*), FILL(*), DFILL(*), ALPH(*), FV(*), BUFMAT(*), TF(*),
-     .        MSNF(*),QMV(*)
+     .        MSNF(*),QMV(s_qmv,2*nv46)
 
       TYPE(t_segvar) :: SEGVAR
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
       type (glob_therm_) ,intent(inout)   :: glob_therm
       TYPE(MATPARAM_STRUCT_),DIMENSION(NUMMAT),INTENT(IN) :: MATPARAM !< material buffer
+      type(timer_), intent(inout) :: timers
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER ITRIMAT,NVAR,I, LENCOMN,LENCOM
-      my_real,DIMENSION(:,:),ALLOCATABLE:: FLUX_SAV
+      my_real,DIMENSION(:,:),ALLOCATABLE ,save:: FLUX_SAV
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
-      ALLOCATE(FLUX_SAV(NV46,LENQMV))
+      if(itask==0) then
+        ALLOCATE(FLUX_SAV(s_flux,NV46))
+      endif
+
+      call my_barrier
       LENCOMN=NBRCVOIS(NSPMD+1)+NBSDVOIS(NSPMD+1)
       LENCOM =NERCVOIS(NSPMD+1)+NESDVOIS(NSPMD+1)
 
@@ -130,15 +138,17 @@ C=======================================================================
         !  SPMD EXCHANGES                     !
         !-------------------------------------!
         IF (NSPMD  > 1) THEN
+          if(itask==0) call startime(timers,timer_spmdcfd)
 !$OMP SINGLE
           CALL SPMD_XVOIS(X,NBRCVOIS,NBSDVOIS,LNRCVOIS,LNSDVOIS,LENCOMN)
 !$OMP   END SINGLE
+          if(itask==0) call stoptime(timers,timer_spmdcfd)
         END IF
        !-----------------------------!
        !   DIFFUSIVE FLUXES          !
        !-----------------------------!
         CALL AGRAD0(IPARG,IXS,IXQ,X,ALE_CONNECT,
-     +              FLUX,VEUL,ELBUF_TAB,ITASK)
+     +              FLUX,VEUL,ELBUF_TAB,ITASK,s_flux)
 C----------------------
         CALL MY_BARRIER
 C----------------------
@@ -152,7 +162,7 @@ C----------------------
      3                  IXQ,        FV,         X,          BUFMAT,
      4                  TF,         NPF,        NERCVOIS,   NESDVOIS,
      5                  LERCVOIS,   LESDVOIS,   LENCOM,     IPM,
-     6                  MATPARAM)
+     6                  MATPARAM,   s_flux,     nv46)
           ENDIF
 C------------------------
           CALL MY_BARRIER
@@ -166,11 +176,11 @@ C         SPMD exchange : PHI+VAL2
           CALL AKTURB(IPARG       ,ELBUF_TAB ,FLUX     ,VAL2     ,PHI         ,
      2                ALE_CONNECT ,IXS       ,IXQ      ,PM       ,ITASK       ,
      3                NERCVOIS    ,NESDVOIS  ,LERCVOIS ,LESDVOIS ,LENCOM      ,
-     4                MATPARAM)
+     4                MATPARAM,s_flux,nv46)
           CALL AETURB(IPARG       ,ELBUF_TAB ,FLUX     ,VAL2     ,PHI         ,
      2                ALE_CONNECT ,IXS       ,IXQ      ,PM       ,ITASK       ,
      3                NERCVOIS    ,NESDVOIS  ,LERCVOIS ,LESDVOIS ,LENCOM      ,
-     4                MATPARAM)
+     4                MATPARAM,s_flux,nv46)
           ENDIF
       ENDIF !(ITHERM+ITURB /= 0)
 
@@ -194,7 +204,8 @@ C=======================================================================
         CALL AFLUX0(IPARG      ,ELBUF_TAB,PM       ,IXS       ,IXQ    ,
      .              V          ,W        ,X        ,FLUX      ,VAL2   ,
      .              VEUL       ,FILL     ,DFILL    ,PHI       ,
-     .              ALE_CONNECT,ALPH     ,ITASK    ,NV46      ,IPM    )
+     .              ALE_CONNECT,ALPH     ,ITASK    ,NV46      ,IPM    ,
+     .              s_flux     )
 C----------------------
         CALL MY_BARRIER
 C----------------------
@@ -215,7 +226,8 @@ C-----------------------
           CALL ALE51_INIT(IPARG       ,PM    ,IXS  ,IXQ      ,
      2                    X           ,FLUX  ,VAL2 ,
      3                    ALE_CONNECT ,ITASK ,
-     4                    FLUX_SAV    ,QMV   ,NV46 ,ELBUF_TAB)
+     4                    FLUX_SAV    ,QMV   ,NV46 ,ELBUF_TAB,
+     5                    s_flux,s_qmv)
         ENDIF
         !-----------------------------!
         !     REZONE  DEVIATORIC      !
@@ -223,34 +235,34 @@ C-----------------------
         CALL AREZON(IPARG   ,ELBUF_TAB, FLUX   ,PHI     ,ALE_CONNECT ,
      2              2       ,1         ,ITASK  ,NERCVOIS,
      3              NESDVOIS,LERCVOIS ,LESDVOIS,LENCOM  ,BHOLE       ,
-     4              ITRIMAT)
+     4              ITRIMAT,timers,s_flux  ,nv46)
         CALL AREZON(IPARG   ,ELBUF_TAB,FLUX    ,PHI    ,ALE_CONNECT,  
      2              2        ,2       ,ITASK  ,NERCVOIS   ,
      3              NESDVOIS,LERCVOIS ,LESDVOIS,LENCOM ,BHOLE      ,  
-     4              ITRIMAT)
+     4              ITRIMAT,timers,s_flux  ,nv46)
         CALL AREZON(IPARG   ,ELBUF_TAB,FLUX    ,PHI    ,ALE_CONNECT,  
      2              2        ,3       ,ITASK  ,NERCVOIS   ,
      3              NESDVOIS,LERCVOIS ,LESDVOIS,LENCOM ,BHOLE      ,  
-     4              ITRIMAT)
+     4              ITRIMAT,timers,s_flux  ,nv46)
         CALL AREZON(IPARG   ,ELBUF_TAB,FLUX    ,PHI    ,ALE_CONNECT,  
      2              2        ,4       ,ITASK  ,NERCVOIS   ,
      3              NESDVOIS,LERCVOIS ,LESDVOIS,LENCOM ,BHOLE      ,  
-     4              ITRIMAT)
+     4              ITRIMAT,timers,s_flux  ,nv46)
         CALL AREZON(IPARG   ,ELBUF_TAB,FLUX    ,PHI    ,ALE_CONNECT,  
      2              2        ,5       ,ITASK  ,NERCVOIS   ,
      3              NESDVOIS,LERCVOIS ,LESDVOIS,LENCOM ,BHOLE      ,  
-     4              ITRIMAT)
+     4              ITRIMAT,timers,s_flux  ,nv46)
         CALL AREZON(IPARG   ,ELBUF_TAB,FLUX    ,PHI    ,ALE_CONNECT,  
      2              2        ,6       ,ITASK  ,NERCVOIS   ,
      3              NESDVOIS,LERCVOIS ,LESDVOIS,LENCOM ,BHOLE      ,  
-     4              ITRIMAT)
+     4              ITRIMAT,timers,s_flux  ,nv46)
         !------------------------------!
         !     REZONING : EPS_PLAS      !
         !------------------------------!
         CALL AREZON(IPARG   ,ELBUF_TAB,FLUX    ,PHI   ,ALE_CONNECT,
      2              10       ,1       ,ITASK ,NERCVOIS   ,
      3              NESDVOIS,LERCVOIS ,LESDVOIS,LENCOM,BHOLE      ,
-     4              ITRIMAT)
+     4              ITRIMAT,timers,s_flux  ,nv46)
         !-------------------------------!
         !     REZONING : %VAR (MAT/EOS) !
         !-------------------------------!
@@ -258,13 +270,15 @@ C-----------------------
           CALL AREZON(IPARG   ,ELBUF_TAB,FLUX    ,PHI      ,ALE_CONNECT,
      2                11      ,I        ,ITASK   ,NERCVOIS ,
      3                NESDVOIS,LERCVOIS ,LESDVOIS,LENCOM   ,BHOLE      ,
-     4                ITRIMAT,1) ! OPT_FALG_MAT_EOS = 1 : rezoning for material laws
+     4                ITRIMAT,timers,s_flux  ,nv46,
+     5                1  ) ! OPT_FALG_MAT_EOS = 1 : rezoning for material laws
         ENDDO
         DO I = 1,ALE%REZON%NUM_NUVAR_EOS
           CALL AREZON(IPARG   ,ELBUF_TAB,FLUX    ,PHI      ,ALE_CONNECT,
      2                11      ,I        ,ITASK   ,NERCVOIS ,
      3                NESDVOIS,LERCVOIS ,LESDVOIS,LENCOM   ,BHOLE      ,
-     4                ITRIMAT,2) ! OPT_FALG_MAT_EOS = 2 : rezoning for EoS
+     4                ITRIMAT,timers,s_flux  ,nv46,
+     5                2  ) ! OPT_FALG_MAT_EOS = 2 : rezoning for EoS
         ENDDO
 
         !------------------------------!
@@ -273,7 +287,7 @@ C-----------------------
           CALL AREZON(IPARG   ,ELBUF_TAB,FLUX    ,PHI   ,ALE_CONNECT,
      2                12       ,1       ,ITASK ,NERCVOIS   ,
      3                NESDVOIS,LERCVOIS ,LESDVOIS,LENCOM,BHOLE      ,
-     4                ITRIMAT)
+     4                ITRIMAT,timers,s_flux  ,nv46)
 C-----------------------------
 C       MASS & ENERGY CONVECTION
 C-----------------------------
@@ -289,7 +303,8 @@ C-----------------------------
      2                    ALE_CONNECT ,NVAR      ,ITASK   , NERCVOIS ,NESDVOIS,
      3                    LERCVOIS    ,LESDVOIS  ,LENCOM  , SEGVAR   ,BHOLE   ,
      4                    ITRIMAT     ,QMV       ,0       , IXS      ,IXQ     ,
-     5                    PM          ,X)
+     5                    PM          ,X         ,timers,s_flux   ,s_qmv   ,
+     6                    nv46)
             ENDIF
 
          ENDDO  
@@ -302,11 +317,11 @@ C----------------------
             IF (N2D  ==  0) THEN
                CALL ALE51_GRADIENT_RECONSTRUCTION(IPARG, ELBUF_TAB, IXS, X, ALE_CONNECT,
      .              NERCVOIS,NESDVOIS,  LERCVOIS,LESDVOIS,LENCOM, ITASK,
-     .              IAD_ELEM, FR_ELEM, SEGVAR)
+     .              IAD_ELEM, FR_ELEM, SEGVAR,timers)
             ELSE
                CALL ALE51_GRADIENT_RECONSTRUCTION2(IPARG, ELBUF_TAB, IXQ, X, ALE_CONNECT,
      .              NV46,NERCVOIS,NESDVOIS,  LERCVOIS,LESDVOIS,LENCOM, ITASK, 
-     .              IAD_ELEM, FR_ELEM, SEGVAR)
+     .              IAD_ELEM, FR_ELEM, SEGVAR,timers)
             ENDIF
          ENDIF
 
@@ -316,7 +331,7 @@ C----------------------
      3                  PHI     ,ALE_CONNECT,ITASK   ,
      4                  ITRIMAT ,FLUX_SAV   ,NERCVOIS,NESDVOIS ,
      5                  LERCVOIS,LESDVOIS   ,LENCOM  ,QMV      ,ITAB    ,
-     6                  ITABM1  ,NV46       ,SEGVAR)
+     6                  ITABM1  ,NV46       ,SEGVAR  ,timers,s_flux,s_qmv)
         !-----------------------------!
         !     LAW51 REZONING :        !
         !        DEVIATORIC STRESS    ! 
@@ -325,27 +340,27 @@ C----------------------
                CALL AREZON(IPARG   ,ELBUF_TAB,FLUX    ,PHI   ,ALE_CONNECT,
      2                     2        ,1       ,ITASK ,NERCVOIS   ,
      3                     NESDVOIS,LERCVOIS ,LESDVOIS,LENCOM,BHOLE      ,
-     4                     ITRIMAT)
+     4                     ITRIMAT,timers,s_flux  ,nv46)
                CALL AREZON(IPARG   ,ELBUF_TAB,FLUX    ,PHI   ,ALE_CONNECT,
      2                     2        ,2       ,ITASK ,NERCVOIS   ,
      3                     NESDVOIS,LERCVOIS ,LESDVOIS,LENCOM,BHOLE      ,
-     4                     ITRIMAT)
+     4                     ITRIMAT,timers,s_flux  ,nv46)
                CALL AREZON(IPARG   ,ELBUF_TAB,FLUX    ,PHI   ,ALE_CONNECT,
      2                     2        ,3       ,ITASK ,NERCVOIS   ,
      3                     NESDVOIS,LERCVOIS ,LESDVOIS,LENCOM,BHOLE      ,
-     4                     ITRIMAT)
+     4                     ITRIMAT,timers,s_flux  ,nv46)
                CALL AREZON(IPARG   ,ELBUF_TAB,FLUX    ,PHI   ,ALE_CONNECT,
      2                     2        ,4       ,ITASK ,NERCVOIS   ,
      3                     NESDVOIS,LERCVOIS ,LESDVOIS,LENCOM,BHOLE      ,
-     4                     ITRIMAT)
+     4                     ITRIMAT,timers,s_flux  ,nv46)
                CALL AREZON(IPARG   ,ELBUF_TAB,FLUX    ,PHI   ,ALE_CONNECT,
      2                     2        ,5       ,ITASK ,NERCVOIS   ,
      3                     NESDVOIS,LERCVOIS ,LESDVOIS,LENCOM,BHOLE      ,
-     4                     ITRIMAT)
+     4                     ITRIMAT,timers,s_flux  ,nv46)
                CALL AREZON(IPARG   ,ELBUF_TAB,FLUX    ,PHI   ,ALE_CONNECT,
      2                     2        ,6       ,ITASK ,NERCVOIS   ,
      3                     NESDVOIS,LERCVOIS ,LESDVOIS,LENCOM,BHOLE      ,
-     4                     ITRIMAT)
+     4                     ITRIMAT,timers,s_flux  ,nv46)
             ENDIF
         !-----------------------------!
         !     LAW51 REZONING :        !
@@ -355,7 +370,7 @@ C----------------------
             CALL AREZON(IPARG   ,ELBUF_TAB,FLUX    ,PHI   ,ALE_CONNECT   ,
      2                  10      ,1        ,ITASK ,NERCVOIS,
      3                  NESDVOIS,LERCVOIS,LESDVOIS,LENCOM ,BHOLE   ,
-     4                  ITRIMAT)
+     4                  ITRIMAT,timers,s_flux  ,nv46)
         !-----------------------------!
         !     LAW51 REZONING :        !
         !      TEMPERATURE            !
@@ -363,7 +378,7 @@ C----------------------
             CALL AREZON(IPARG   ,ELBUF_TAB,FLUX    ,PHI   ,ALE_CONNECT,
      2                  12      ,1        ,ITASK ,NERCVOIS,
      3                  NESDVOIS,LERCVOIS,LESDVOIS,LENCOM ,BHOLE   ,
-     4                  ITRIMAT)
+     4                  ITRIMAT,timers,s_flux  ,nv46)
         !-----------------------------!
         !     LAW51 REZONING :        !
         !      VAREOS                 !
@@ -372,7 +387,8 @@ C----------------------
               CALL AREZON(IPARG   ,ELBUF_TAB,FLUX    ,PHI      ,ALE_CONNECT,
      2                    11      ,I        ,ITASK   ,NERCVOIS ,
      3                    NESDVOIS,LERCVOIS ,LESDVOIS,LENCOM   ,BHOLE      ,
-     4                    ITRIMAT,2) ! OPT_FALG_MAT_EOS = 2 : rezoning for EoS
+     4                    ITRIMAT,timers,s_flux  ,nv46, 
+     5                    2   ) ! OPT_FALG_MAT_EOS = 2 : rezoning for EoS
             ENDDO
         !-----------------------------!
         !     LAW51 :                 !
@@ -382,7 +398,8 @@ C----------------------
      2                  ALE_CONNECT ,2        ,ITASK ,NERCVOIS,NESDVOIS,
      3                  LERCVOIS    ,LESDVOIS ,LENCOM,SEGVAR  ,BHOLE   ,
      4                  ITRIMAT     ,QMV      ,0     ,IXS     ,IXQ     ,
-     5                  PM          ,X )
+     5                  PM          ,X        ,timers,s_flux  ,s_qmv   ,
+     6                  nv46)
         !-----------------------------!
         !     LAW51 :                 !
         !       MASS CONVECTION       !
@@ -391,16 +408,19 @@ C----------------------
      2                  ALE_CONNECT ,1        ,ITASK ,NERCVOIS,NESDVOIS,
      3                  LERCVOIS    ,LESDVOIS ,LENCOM,SEGVAR  ,BHOLE   ,
      4                  ITRIMAT     ,QMV      ,1     ,IXS     ,IXQ     ,
-     5                  PM          ,X )
+     5                  PM          ,X        ,timers,s_flux  ,s_qmv   ,
+     6                  nv46)
          ENDDO!next ITRIMAT
         !-----------------------------!
          IF (TRIMAT > 0) THEN
            CALL ALE51_FINISH(IPARG,PM   ,IXS  ,IXQ,
-     .                       X    ,FLUX ,VAL2 ,PHI  ,ALE_CONNECT ,ITASK,FLUX_SAV,QMV  ,NV46,ELBUF_TAB      )
+     .                       X    ,FLUX ,VAL2 ,PHI  ,ALE_CONNECT ,ITASK,FLUX_SAV,QMV  ,NV46,ELBUF_TAB,
+     .                       s_flux,s_qmv)
          ENDIF
 C----------------------
       ENDIF
 
+      call my_barrier
       IF(ITASK==0) DEALLOCATE(FLUX_SAV)
       RETURN
       END
