@@ -51,7 +51,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      2  ALE_CONNECT ,NVAR      ,ITASK   ,NERCVOIS ,NESDVOIS,
      3  LERCVOIS    ,LESDVOIS  ,LENCOM  ,SEGVAR   ,BHOLE   ,
      4  ITRIMAT     ,QMV       ,IFLG    ,IXS      ,IXQ     ,
-     5  PM          ,X  )
+     5  PM          ,X         ,timers  )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -63,8 +63,9 @@ C-----------------------------------------------
       USE ALE_CONNECTIVITY_MOD
       USE ALEFVM_MOD , only:ALEFVM_Param
       USE ALE_MOD
-       USE MULTIMAT_PARAM_MOD , ONLY : M51_NVPHAS, M51_N0PHAS
-       use element_mod , only : nixs,nixq
+      USE MULTIMAT_PARAM_MOD , ONLY : M51_NVPHAS, M51_N0PHAS
+      use element_mod , only : nixs,nixq
+      use timer_mod 
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -95,6 +96,7 @@ C-----------------------------------------------
      
       TYPE(t_segvar) :: SEGVAR
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
+      type(timer_), intent(inout) :: timers
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -438,9 +440,11 @@ C----------------------
         !    SPMD EXCHANGES                             !
         !-----------------------------------------------! 
         IF (NSPMD > 1) THEN
+          if(itask==0) call startime(timers,timer_spmdcfd)
 !$OMP SINGLE
           CALL SPMD_E1VOIS(PHI,NERCVOIS,NESDVOIS,LERCVOIS, LESDVOIS,LENCOM  )
 !$OMP END SINGLE
+          if(itask==0) call stoptime(timers,timer_spmdcfd)
         END IF
 
 

@@ -60,10 +60,10 @@ C-----------------------------------------------
 !!!   Setting the solution vector to zero
       sol(1:dim) = ZERO
 !!!   Initialization of the algorithm
-      r(1:dim) = rhs(1:dim) - MATMUL(mat(1:dim, 1:dim), sol(1:dim))
-      p(1:dim) = r(1:dim)
-      norm_init = MAXVAL(ABS(r(1:dim)))
-      error = norm_init
+      r(1:dim) = rhs(1:dim) - MATMUL(mat(1:dim, 1:dim), sol(1:dim)) ! --> depend de itrimat
+      p(1:dim) = r(1:dim) ! --> depend de itrimat
+      norm_init = MAXVAL(ABS(r(1:dim))) ! --> depend de itrimat
+      error = norm_init ! --> depend de itrimat
       iter = 0
 
 !!!   Main loop
