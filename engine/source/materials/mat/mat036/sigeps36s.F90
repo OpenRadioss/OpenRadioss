@@ -386,7 +386,7 @@
               do i=1,nel
                 if (svm(i) > yld(i)) then
                   r(i)    = yld(i) / max(svm(i),em20)
-                  dpla(i) = (one - r(i)) * svm(i)/max(g3(i)+h(i),em20)           ! plastic strain increment
+                  dpla(i) = (one - r(i)) * svm(i)/max(g3(i)+h(i),em20)       ! plastic strain increment
                   yld(i)  = max(yld(i) + (one - fisokin)*dpla(i)*h(i),zero)  ! updated yield stress
                   r(i)    = min(one,yld(i) / max(svm(i),em20))
 !                     

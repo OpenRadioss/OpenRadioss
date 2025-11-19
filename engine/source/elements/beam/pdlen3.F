@@ -31,7 +31,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      1   NEL,     GEO,
      2   OFFG,    DT2T,    NELTST,  ITYPTST,
      3   STI,     STIR,    MSP,     DMELP,
-     4   G_DT,    DTEL,    AL,      
+     4   G_DT,    DTEL,    AL,      SSP  ,    
      5   PID,     NGL,     IGTYP,   JSMS)
 C-----------------------------------------------
 C   M o d u l e s
@@ -66,8 +66,9 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: G_DT
       INTEGER, INTENT(INOUT) :: NELTST,ITYPTST
       INTEGER PID(MVSIZ),NGL(MVSIZ)
-      my_real, INTENT(INOUT) :: DTEL(1:NEL)
       my_real :: DT2T
+      my_real :: SSP
+      my_real, INTENT(INOUT) :: DTEL(NEL)
       my_real :: GEO(NPROPG,*), OFFG(*), STI(*), STIR(*),
      .   MSP(*), DMELP(*),AL(MVSIZ)
       TYPE (MATPARAM_STRUCT_) ,INTENT(IN) :: MAT_PARAM
@@ -75,7 +76,6 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: I
-      my_real :: ssp
       my_real :: DT(MVSIZ), DMP(MVSIZ), FAC(MVSIZ),
      .   A1, B1, B2, B3, YOUNG,G,AA,BB,   
      .   PHI,SHF,DSH(MVSIZ),SL2I(MVSIZ),
@@ -84,7 +84,7 @@ C-----------------------------------------------
 !===============================================================================
       YOUNG = MAT_PARAM%YOUNG
       G     = MAT_PARAM%SHEAR
-      SSP   = SQRT(YOUNG / MAT_PARAM%RHO)
+!      SSP   = SQRT(YOUNG / MAT_PARAM%RHO)
 !
       DO I=1,NEL
         DMP(I)=MAX(GEO(16,PID(I)),GEO(17,PID(I)))
