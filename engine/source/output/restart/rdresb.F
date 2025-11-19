@@ -157,7 +157,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                   SKEWS            ,RFLOW      ,LIFLOW       ,LRFLOW           ,IMPL_S0    ,
      .                   FORNEQS      ,UNITAB           ,
      .                   STACK            ,DRAPE_SH4N ,DRAPE_SH3N   ,DRAPEG           ,NDRAPE     ,
-     .                   GLOB_THERM       ,PBLAST     ,ELEMENT      ,NODES            ,RBE3)
+     .                   GLOB_THERM       ,PBLAST     ,ELEMENT      ,NODES            ,RBE3       ,
+     .                   RWALL            )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -208,6 +209,8 @@ C-----------------------------------------------
       use restart_rbe3pen_mod, only : get_nrbe3pen_l,read_rrbe3pen
       use checksum_output_option_mod
       use element_mod , only : nixc
+      use rwall_mod
+      use restart_rwallpen_mod, only : get_nrwallpen_l,read_rrwallpen
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -272,6 +275,7 @@ C-----------------------------------------------
       TYPE(connectivity_)   ,INTENT(INOUT)                 :: ELEMENT
       TYPE(nodal_arrays_)   ,INTENT(INOUT)                 :: NODES
       TYPE(RBE3_)           ,INTENT(INOUT)                 :: RBE3
+      TYPE(RWALL_)          ,INTENT(INOUT)                 :: RWALL
       INTEGER, INTENT(IN) :: LIFLOW
       INTEGER, INTENT(IN) :: LRFLOW
       my_real, INTENT(INOUT) :: FORNEQS(3,NUMNOD)
@@ -616,9 +620,9 @@ c        CALL READ_I_C(INBUF,SINBUF)
         !read new structure INTBUF_TAB
         CALL INTBUF_INI(INTERFACES%INTBUF_TAB)
 
-        CALL READ_I_C(NPRW,SNPRW)
+        CALL READ_I_C(RWALL%NPRW,RWALL%NNPRW*RWALL%NRWALL)
 
-        CALL READ_I_C(LPRW,SLPRW)
+        CALL READ_I_C(RWALL%LPRW,RWALL%SZ_LPRW)
 
         CALL READ_I_C(ICONX,SICONX)
 
@@ -708,7 +712,7 @@ C
 
         CALL READ_I_C(FR_RBY,SFR_RBY)
 
-        CALL READ_I_C(FR_WALL,SFR_WALL)
+        CALL READ_I_C(RWALL%FR_WALL,SFR_WALL)
 
         CALL READ_I_C(FR_RBY2,SFR_RBY2)
 
@@ -1169,9 +1173,13 @@ C--------------------------------------
 
         CALL READ_CLUSTER(CLUSTER)
 
-        CALL READ_DB(RWBUF,SRWBUF)
+        CALL READ_DB(RWALL%RWBUF,RWALL%nrwlp*RWALL%nrwall)
 
-        CALL READ_DB(RWSAV,SRWSAV)
+        CALL READ_DB(RWALL%RWSAV,RWALL%SZ_RWSAV)
+
+        CALL get_nrwallpen_l(RWALL%nrwall,RWALL%nnprw,RWALL%nprw,RWALL%nrwall_pen,RWALL%pen%lnspen)
+
+        CALL read_rrwallpen(RWALL%nrwall_pen,RWALL%pen,RWALL%pen%lnspen)
 
         CALL READ_DB(RBY,SRBY)
 

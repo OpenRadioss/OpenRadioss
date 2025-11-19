@@ -82,7 +82,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .           DIFFUSION   ,SEGVAR      ,DYNAIN_DATA    ,DRAPEG     ,USER_WINDOWS    ,
      .           OUTPUT      ,INTERFACES  ,DT             ,LOADS      ,MAT_ELEM        ,
      .           PYTHON      ,NAMES_AND_TITLES, UNITAB    ,SKEWS      ,LIFLOW          ,
-     .           LRFLOW      ,glob_therm ,PBLAST          ,RBE3 ,coupling)
+     .           LRFLOW      ,glob_therm ,PBLAST          ,RBE3       ,coupling        ,
+     .           RWALL  )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -126,6 +127,7 @@ C-----------------------------------------------
       use TIMER_MOD
       use rbe3_mod
       use coupling_adapter_mod 
+      use rwall_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -195,6 +197,7 @@ C     REAL
       type (glob_therm_) ,intent(inout)       :: glob_therm
       type (pblast_) ,intent(inout)           :: PBLAST
       type (rbe3_) ,intent(inout)             :: RBE3
+      type (rwall_), intent(inout)            :: RWALL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -223,7 +226,7 @@ C
      4  IMS             ,NPC            ,IBCL           ,
      5  IBFV            ,IECRAN         ,ILAS           ,LACCELM        ,NNLINK         ,LNLINK      ,
      6  IPARG           ,DD_IAD         ,IGRV           ,IEXLNK         ,
-     7  IPARI           ,NPRW           ,ICONX          ,NPBY           ,
+     7  IPARI           ,ICONX          ,NPBY           ,
      8  LPBY            ,LRIVET         ,NSTRF          ,LJOINT         ,NODPOR         ,MONVOL      ,
      9  ILINK     ,
      A  LLINK           ,LINALE         ,NEFLSW         ,NNFLSW         ,ICUT           ,CLUSTER     ,
@@ -233,8 +236,8 @@ C
      E  W               ,VEUL           ,FILL           ,DFILL          ,ALPH           ,WB          ,DSAVE            ,ASAVE     ,
      .  MSNF            , 
      F  TF              ,FORC           ,VEL            ,FSAV           ,FZERO          ,XLAS        ,ACCELM           ,
-     G  GRAV            ,FR_WAVE        ,FAILWAVE       ,PARTS0         ,ELBUF          ,RWBUF       ,SENSORS,
-     H  RWSAV           ,RBY            ,RIVET          ,SECBUF         ,VOLMON         ,LAMBDA      ,
+     G  GRAV            ,FR_WAVE        ,FAILWAVE       ,PARTS0         ,ELBUF          ,SENSORS,
+     H  RBY             ,RIVET          ,SECBUF         ,VOLMON         ,LAMBDA      ,
      I  WA              ,FV             ,PARTSAV          ,
      J  UWA             ,VAL2           ,PHI            ,SEGVAR         ,R              ,CRFLSW      ,
      K  FLSW            ,XCUT           ,TANI           ,SECFCUM     ,AF(MF01),
@@ -248,7 +251,7 @@ C
      U  LESDVOIS        ,NPSEGCOM       ,LSEGCOM        ,NPORGEO        ,
      V  IXTG1           ,NPBYL          ,LPBYL          ,RBYL           ,IGEO           ,IPM         ,
      W  MADPRT         ,MADSH4         ,MADSH3         ,MADSOL         ,MADNOD      ,MADFAIL          ,
-     X  IAD_RBY         ,FR_RBY         ,FR_WALL        ,IAD_RBY2       ,
+     X  IAD_RBY         ,FR_RBY         ,IAD_RBY2       ,
      Y  FR_RBY2         ,IAD_I2M        ,FR_I2M         ,ADDCNI2        ,PROCNI2        ,IADI2       ,FR_MV            ,
      Z  IADMV2          ,FR_LL          ,FR_RL          ,IADCJ          ,
      a  FR_CJ           ,FR_SEC         ,
@@ -259,7 +262,7 @@ C
      f  LNODPOR         ,
      g  FR_I18          ,GRAPHE         ,IFLOW          ,RFLOW,
      h  LGRAV           ,DD_R2R         ,FASOLFR        ,FR_LAGF        ,
-     j  LLAGF           ,LPRW           ,ICONTACT       ,RCONTACT       ,SH4TREE        ,SH3TREE     ,
+     j  LLAGF           ,ICONTACT       ,RCONTACT       ,SH4TREE        ,SH3TREE     ,
      k  IPADMESH        ,PADMESH        ,MSC            ,MSTG           ,INC            ,INTG        ,PTG              ,
      l  ISKWP           ,NSKWP          ,ISENSP         ,NSENSP         ,IACCP          ,NACCP       ,IPART_STATE      ,
      m  ACONTACT        ,PCONTACT       ,FACTIV         ,
@@ -298,7 +301,7 @@ C
      N  KLOADPINTER     ,LOADPINTER     ,DGAPLOADINT    ,DRAPEG         ,USER_WINDOWS ,OUTPUT          ,INTERFACES,
      O  DT              ,LOADS          ,PYTHON         ,DPL0CLD        ,VEL0CLD        ,
      P  NDAMP_VREL      ,ID_DAMP_VREL   ,FR_DAMP_VREL   ,NDAMP_VREL_RBYG,NAMES_AND_TITLES,UNITAB,LIFLOW,LRFLOW,
-     R  GLOB_THERM      ,PBLAST         ,RBE3)
+     R  GLOB_THERM      ,PBLAST         ,RBE3           ,RWALL          )
 C
       CALL TRACE_OUT(2)
 C

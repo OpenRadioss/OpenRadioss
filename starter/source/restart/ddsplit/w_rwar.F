@@ -29,7 +29,8 @@ C
 !||    nlocal     ../starter/source/spmd/node/ddtools.F
 !||====================================================================
       SUBROUTINE W_RWAR(NPRW    ,LPRW ,RWL, RWSAV,
-     +                  LWSAV_L ,CEP, PROC,LEN_AM)
+     +                  LWSAV_L ,LRW_PEN_L,NRW_PEN_L,RWSTIF_PEN,
+     +                  SLN_PEN , CEP  ,PROC,LEN_AM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------  
@@ -48,8 +49,10 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
        INTEGER  PROC, LEN_AM, LWSAV_L, LPRW(*), NPRW(*),
      .          CEP(*)
+       INTEGER,  INTENT(IN   ) :: LRW_PEN_L, NRW_PEN_L, SLN_PEN
        my_real
      .          RWL(NRWLP,*), RWSAV(*)
+      my_real, DIMENSION(SLN_PEN), INTENT(IN   )  :: RWSTIF_PEN
 C-----------------------------------------------
 C   F u n c t i o n
 C-----------------------------------------------
@@ -59,13 +62,18 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER  J, K, KK, N, NN, IE, NE, IFQ, N4,
-     .        ILP, NSL, NSL_L, KSAV, KSAV_L
+     .        ILP, NSL, NSL_L, KSAV, KSAV_L,N_P,IPEN,LSPEN
       my_real    , DIMENSION(:),ALLOCATABLE :: RWSAV_L
       my_real    , DIMENSION(:,:),ALLOCATABLE :: RWL_L
+      my_real    , DIMENSION(:),ALLOCATABLE :: RWPEN1_L,RW_PEN_L
 C
       IF(NRWALL>0) THEN
         ALLOCATE(RWL_L(NRWLP,NRWALL))
         IF(LWSAV_L>0) ALLOCATE(RWSAV_L(3*LWSAV_L))
+        IF(LRW_PEN_L>0) THEN 
+          ALLOCATE(RWPEN1_L(NRW_PEN_L))
+          ALLOCATE(RW_PEN_L(4*LRW_PEN_L))
+        ENDIF
         K = 0
         KSAV = 0
         KSAV_L = 0
@@ -120,6 +128,52 @@ C
           LEN_AM = LEN_AM + LWSAV_L*3
           DEALLOCATE(RWSAV_L)
         ENDIF
+        IF(LRW_PEN_L>0) THEN
+          RW_PEN_L = ZERO
+          N_P = 0
+          NSL_L = 0
+          K = 0
+          DO N = 1, NRWALL
+            NSL = NPRW(N) 
+            IPEN = NPRW(N+8*NRWALL)
+            IF (IPEN>0) THEN
+              DO J = 1, NSL
+                 NN = LPRW(K+J)
+                 IF(NLOCAL(NN,PROC+1)==1)THEN            
+                   NSL_L = NSL_L + 1
+                   RW_PEN_L(NSL_L) = RWSTIF_PEN(N_P+J)
+                 ENDIF
+              END DO 
+              N_P = N_P + NSL
+            END IF 
+            K = K + NSL
+          END DO 
+          LSPEN = N_P
+          RWPEN1_L = ZERO
+          N_P = 0
+          K = 0
+          DO N = 1, NRWALL
+            NSL = NPRW(N) 
+            IPEN = NPRW(N+8*NRWALL)
+            IF (IPEN>0) THEN
+              NSL_L = 0
+              DO J = 1, NSL
+                 NN = LPRW(K+J)
+                 IF(NLOCAL(NN,PROC+1)==1) NSL_L = NSL_L + 1
+              END DO 
+              IF (NSL_L>0) THEN
+                N_P = N_P + 1
+                RWPEN1_L(N_P) = RWSTIF_PEN(N_P+LSPEN) 
+              END IF 
+            END IF 
+            K = K + NSL
+          END DO 
+          CALL WRITE_DB(RWPEN1_L,NRW_PEN_L)
+          CALL WRITE_DB(RW_PEN_L,LRW_PEN_L*4)
+          LEN_AM = LEN_AM + NRW_PEN_L + LRW_PEN_L*4
+          DEALLOCATE(RW_PEN_L) 
+          DEALLOCATE(RWPEN1_L) 
+        END IF
       ENDIF
 C
       RETURN
