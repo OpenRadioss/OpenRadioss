@@ -1493,6 +1493,10 @@
             if (pm(22,i) == zero) pm(22,i) = matparam%shear
             if (pm(32,i) == zero) pm(32,i) = matparam%bulk
 !
+            ! stiffness storage to be cleaned !!!
+            if (pm(24,i) == zero) pm(24,i) = matparam%young/(one - matparam%nu**2)
+            if (pm(27,i) == zero) pm(27,i) = sqrt(matparam%young/matparam%rho0)
+
             ! to be defined
             ! if (matparam%stiff_contact == zero) matparam%stiff_contact = pm(?,i)
             ! if (matparam%stiff_hglass  == zero) matparam%stiff_hglass  = pm(?,i)
