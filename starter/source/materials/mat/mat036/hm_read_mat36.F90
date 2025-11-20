@@ -264,18 +264,7 @@
 !-----------------------------------------------
           ! check failure option 
 !-----------------------------------------------
-          ! ifail = 0 => no failure at all inside material
-          ! ifail = 1 => only failure vs max plastic strain
-          ! ifail = 2 => failure + damage vs principal tensile strain
-          if (epsr1 == zero .and. epsr2 == zero .and. epsf == zero) then
-            if (epsmax == zero .or. epsmax == infinity) then
-              ifail = 0
-            else
-              ifail = 1
-            end if
-          else 
-            ifail = 2
-          endif
+          ifail = 0
           if (epsmax== zero) epsmax= infinity
           if (epsr1 == zero) epsr1 = infinity
           if (epsr2 == zero) epsr2 = two*infinity
@@ -285,6 +274,17 @@
           epsr1  = min(epsr1   ,infinity)
           epsr2  = min(epsr2   ,two*infinity)
           epsf   = min(epsf    ,three*infinity)
+          epsr2  = min(epsr2   ,epsf)
+          epsr1  = min(epsr1   ,epsr2)
+          ! ifail = 0 => no failure at all inside material
+          ! ifail = 1 => only failure vs max plastic strain
+          ! ifail = 2 => failure + damage vs principal tensile strain
+          if (epsmax < infinity) then
+            ifail = 1
+          end if          
+          if (epsr1<infinity .and. epsr1>zero .and. epsr2>zero .and. epsf>zero) then
+            ifail = 2
+          endif
 !-----------------------------------------------
           ! transform input functions to tables in mat_param
 !-----------------------------------------------
