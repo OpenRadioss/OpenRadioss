@@ -59,7 +59,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      3                  ALPHA   ,ALE_CONNECT ,ITASK    ,
      4                  ITRIMAT ,FLUX_SAV    ,NERCVOIS ,NESDVOIS,
      5                  LERCVOIS,LESDVOIS    ,LENCOM   ,QMV     ,ITAB    ,
-     6                  ITABM1  ,NV46        ,SEGVAR)
+     6                  ITABM1  ,NV46        ,SEGVAR   ,timers   )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -73,6 +73,7 @@ C-----------------------------------------------
       USE ALEMUSCL_MOD , only:ALEMUSCL_Param
       USE MULTIMAT_PARAM_MOD , ONLY : M51_N0PHAS, M51_NVPHAS
       use element_mod , only : nixs
+      use timer_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -100,6 +101,7 @@ C-----------------------------------------------
       TYPE(ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB
       TYPE(t_segvar), INTENT(IN) :: SEGVAR
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
+      type(timer_), intent(inout) :: timers
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -225,9 +227,11 @@ C--------------------
 C--------------------
 
       IF(NSPMD > 1)THEN
+        if(itask==0) call startime(timers,timer_spmdcfd)       
 !$OMP SINGLE
         CALL SPMD_E1VOIS(ALPHA,NERCVOIS,NESDVOIS,LERCVOIS,LESDVOIS,LENCOM  )
 !$OMP END SINGLE
+        if(itask==0) call stoptime(timers,timer_spmdcfd)       
       ENDIF
 C
 C-----------------------------------------------
@@ -304,6 +308,7 @@ C--------------------
 C--------------------
 
       IF(NSPMD > 1)THEN
+        if(itask==0) call startime(timers,timer_spmdcfd)       
 !$OMP SINGLE
          IF (N2D  ==  0) THEN
             CALL SPMD_E6VOIS(FLUX_VOIS,NERCVOIS,NESDVOIS,LERCVOIS,LESDVOIS,LENCOM)
@@ -313,6 +318,7 @@ C--------------------
             CALL SPMD_I4VOIS(N4_VOIS ,NERCVOIS,NESDVOIS,LERCVOIS,LESDVOIS,LENCOM)
          ENDIF
 !$OMP END SINGLE
+         if(itask==0) call stoptime(timers,timer_spmdcfd)       
       ENDIF
 
 C-----------------------------------------------

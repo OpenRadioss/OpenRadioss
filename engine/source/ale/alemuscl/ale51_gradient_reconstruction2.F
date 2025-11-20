@@ -44,7 +44,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
       SUBROUTINE ALE51_GRADIENT_RECONSTRUCTION2(IPARG   ,ELBUF_TAB,IXQ     ,X       ,ALE_CONNECT,
      .                                          NV46    ,NERCVOIS ,NESDVOIS,LERCVOIS,LESDVOIS   ,LENCOM, ITASK,
-     .                                          IAD_ELEM,FR_ELEM  ,SEGVAR)
+     .                                          IAD_ELEM,FR_ELEM  ,SEGVAR,timers)
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C   Computes limited gradients for volumic fractions
@@ -60,6 +60,7 @@ C-----------------------------------------------
       USE ALE_CONNECTIVITY_MOD
       USE MULTIMAT_PARAM_MOD , ONLY : M51_N0PHAS, M51_NVPHAS
       use element_mod , only :nixq
+      use timer_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -85,6 +86,7 @@ C-----------------------------------------------
       INTEGER :: IAD_ELEM(2, *), FR_ELEM(*)
       TYPE(t_segvar) :: SEGVAR
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
+      type(timer_), intent(inout) :: timers
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -155,6 +157,7 @@ C     ALE ON / OFF
       
       !!! MPI Comm
       IF(NSPMD > 1)THEN
+        if(itask==0) call startime(timers,timer_spmdcfd)
 !$OMP SINGLE
          !!! Volumic fractions comm
          DO ITRIMAT = 1, TRIMAT
@@ -165,6 +168,7 @@ C     ALE ON / OFF
             CALL SPMD_E1VOIS(ALEMUSCL_Buffer%ELCENTER(1,JJ), NERCVOIS, NESDVOIS,LERCVOIS, LESDVOIS, LENCOM)
          ENDDO
 !$OMP END SINGLE
+         if(itask==0) call stoptime(timers,timer_spmdcfd)
       ENDIF
       CALL MY_BARRIER 
       
@@ -190,12 +194,14 @@ C     ALE ON / OFF
       CALL MY_BARRIER 
        !!! MPI Comm
       IF(NSPMD > 1)THEN
+        if(itask==0) call startime(timers,timer_spmdcfd)
 !$OMP SINGLE
          DO ITRIMAT = 1, TRIMAT
             CALL  SPMD_EXCH_MIN_MAX(IAD_ELEM ,FR_ELEM ,
      .                              ALEMUSCL_Buffer%NODE_MIN_VALUE(1,ITRIMAT), ALEMUSCL_Buffer%NODE_MAX_VALUE(1,ITRIMAT) )
          ENDDO
 !$OMP END SINGLE
+         if(itask==0) call stoptime(timers,timer_spmdcfd)
       ENDIF
       CALL MY_BARRIER
 
@@ -223,12 +229,14 @@ C     ALE ON / OFF
 
       IF (NSPMD  >            1) THEN
 C     MPI exchange for gradients
+        if(itask==0) call startime(timers,timer_spmdcfd)
 !$OMP SINGLE
-         DO ITRIMAT = 1, TRIMAT
-            CALL SPMD_EXCHANGE_GRAD(3, NUMELS + NSVOIS + NUMELQ + NQVOIS,3,ALEMUSCL_Buffer%GRAD(1,1,ITRIMAT), 
-     .                              NERCVOIS, NESDVOIS, LERCVOIS, LESDVOIS, LENCOM)
-         ENDDO
+        DO ITRIMAT = 1, TRIMAT
+          CALL SPMD_EXCHANGE_GRAD(3, NUMELS + NSVOIS + NUMELQ + NQVOIS,3,ALEMUSCL_Buffer%GRAD(1,1,ITRIMAT), 
+     .                            NERCVOIS, NESDVOIS, LERCVOIS, LESDVOIS, LENCOM)
+        ENDDO
 !$OMP END SINGLE         
+        if(itask==0) call stoptime(timers,timer_spmdcfd)
       ENDIF
       CALL MY_BARRIER
       

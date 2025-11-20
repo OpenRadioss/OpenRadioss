@@ -50,7 +50,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      1  IPARG   ,ELBUF_STR,FLUX    ,PHI     ,ALE_CONNECT   ,
      2  NVAR    ,NV       ,ITASK   ,NERCVOIS,
      3  NESDVOIS,LERCVOIS ,LESDVOIS,LENCOM,BHOLE   ,
-     4  ITRIMAT ,OPT_FLAG_MAT_EOS)
+     4  ITRIMAT ,timers   ,OPT_FLAG_MAT_EOS)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -60,6 +60,7 @@ C-----------------------------------------------
       USE MULTIMAT_PARAM_MOD , ONLY : M51_N0PHAS, M51_NVPHAS
       USE AREZO3_MOD , ONLY : AREZO3
       USE AREZO2_MOD , ONLY : AREZO2
+      use timer_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -83,6 +84,7 @@ C-----------------------------------------------
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_STR
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
       INTEGER,INTENT(IN),OPTIONAL :: OPT_FLAG_MAT_EOS
+      type(timer_), intent(inout) :: timers
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -257,9 +259,11 @@ C---------------------
        ! SPMD EXCHANGES                     !
        !------------------------------------!
        IF (NSPMD > 1)THEN
+        if(itask==0) call startime(timers,timer_spmdcfd)        
 !$OMP SINGLE
          CALL SPMD_E1VOIS(PHI,NERCVOIS,NESDVOIS,LERCVOIS,LESDVOIS,LENCOM  )
 !$OMP  END SINGLE
+        if(itask==0) call stoptime(timers,timer_spmdcfd)         
        END IF
 
 
