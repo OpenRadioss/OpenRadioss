@@ -44,9 +44,9 @@ C-----------------------------------------------
 C-----------------------------------------------                        
 C   L o c a l   V a r i a b l e s                                       
 C-----------------------------------------------                        
-      INTEGER I3000,NXX,NYY,NZZ                                         
-      INTEGER N, J, INOD                                                
-      INTEGER INP(NNSPH*3),CNT,LRECV                                    
+      INTEGER I3000
+      INTEGER N, INOD
+      INTEGER INP(NNSPH*3), CNT
       my_real                                                           
      3   XI,YI,ZI,R,NX,NY,NZ,NORMN,                                     
      4   XQ(3)                                                          

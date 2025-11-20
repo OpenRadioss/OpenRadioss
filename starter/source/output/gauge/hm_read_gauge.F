@@ -82,8 +82,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J,ID, NGAU, NOD, ISK, UID, IFLAGUNIT, IG, L,NBGAUGE_SPH,NBGAUGE_POINT
-      INTEGER N,NS,NG,OFFS
+      INTEGER I, J, NGAU, NOD, NBGAUGE_SPH, NBGAUGE_POINT
+      INTEGER NS, NG
       my_real FF,BID,DIST,Xgauge,Ygauge,Zgauge
       CHARACTER MESS*40
       CHARACTER(LEN=NCHARTITLE) :: TITR

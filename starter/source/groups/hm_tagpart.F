@@ -70,7 +70,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       LOGICAL IS_AVAILABLE, IS_ENCRYPTED
-      INTEGER J,NSEG,J10(10),IGS,JREC,IADV,ISU,K,L,IPP,NUMA,KK,JJ,NENTITY
+      INTEGER J10(10), ISU, K, L, IPP, NUMA, KK, JJ, NENTITY
       CHARACTER MOT*4
       CHARACTER(LEN=NCHARTITLE) :: TITR,TITR1
       INTEGER,DIMENSION(:),ALLOCATABLE :: LIST_ENTITY

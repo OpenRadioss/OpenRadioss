@@ -63,7 +63,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER  I, J
+      INTEGER  I
       my_real
      .   VX17(MVSIZ), VY17(MVSIZ), VZ17(MVSIZ),
      .   VX28(MVSIZ), VY28(MVSIZ), VZ28(MVSIZ),

@@ -60,7 +60,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER K, N, I,J, IGTYP,NUMS,IHBE,NE, ISH3N,IIS,NIP,IPG,NPG,PT,J1,JJ1,NU,IP,JJ,NUVAR,NVARSH,NUMR,NUMSOLID,KK,JJHBE
+      INTEGER K, N, I, J, IGTYP, NUMS, IHBE, IIS, NIP, NPG, PT, J1, JJ1, NU, IP, NUVAR, NVARSH, NUMR, NUMSOLID, KK, JJHBE
       INTEGER KN
       INTEGER IS_SOLID,IS_QUAD   
       my_real THKI, EM, EB, H1, H2, H3, R0 , EIN, SMOOTHL

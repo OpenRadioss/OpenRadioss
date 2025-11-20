@@ -64,7 +64,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER J,L,IE,IADV,JREC,K,ISU,KK,JJ,NEMAX
+      INTEGER L, IE, K, ISU, KK, JJ, NEMAX
       LOGICAL IS_AVAILABLE
 C=======================================================================
       IS_AVAILABLE = .FALSE.
@@ -143,7 +143,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,L,IE,IADV,JREC,K,ISU,ITETRA10,JJ,NEMAX,KK
+      INTEGER I, L, IE, K, ISU, ITETRA10, JJ, NEMAX, KK
       LOGICAL IS_AVAILABLE
 C=======================================================================
       ITETRA10=0

@@ -62,7 +62,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
-      INTEGER IIN,IOUT,IUNIT
+      INTEGER IOUT, IUNIT
       my_real PM(NPROPM)
       TYPE(SUBMODEL_DATA), DIMENSION(NSUBMOD), INTENT(IN) :: LSUBMODEL
       TYPE(MATPARAM_STRUCT_),INTENT(INOUT) :: MAT_PARAM
@@ -74,7 +74,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      my_real  GAMMA, P0,T0, E0, PSH, RHO0,FAC_L,FAC_T,FAC_M,FAC_C, FAC_E
+      my_real  P0, E0, PSH, RHO0
       my_real A1,A2,B0,B1,B2,C0,C1,D0,RHOI,RHOR,dPdmu_partial,dPdE,DF,MU0,DPDMU,A2_,G0,SSP0, DENOM
       LOGICAL :: IS_ENCRYPTED, IS_AVAILABLE, IS_AVAILABLE_RHO0
 C-----------------------------------------------

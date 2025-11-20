@@ -49,7 +49,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, IG, J, L, INPROJ(4,MVSIZ)
+      INTEGER I, L, INPROJ(4,MVSIZ)
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ), 
      .        NSVG(MVSIZ)
       my_real

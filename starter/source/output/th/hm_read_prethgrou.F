@@ -68,8 +68,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 
-      INTEGER I,IG,IGS,ID
-      INTEGER IFIX_TMP
+      INTEGER I, IGS, ID
       CHARACTER(LEN=NCHARLINE) :: KEY
       CHARACTER(LEN=NCHARTITLE) :: TITR
 C-----------------------------------------------
@@ -80,7 +79,7 @@ C-----------------------------------------------
       INTEGER NVARIN,NVARRW,NVARRB,NVARAC,NVARSE,NVARJO,NVARFX,NVARFXM,NVARGAU
       INTEGER NVARAB,NVARMV4,NVARMV,NVARPA
       INTEGER NVARF1,NVARFR
-      INTEGER NVARRIV,NVARRIVG,NSELRT
+      INTEGER NVARRIV, NVARRIVG
       INTEGER NVARNG,NVARSG,NVARCG,NVARTG,NVARPG,NVARRG,NVARURG
       INTEGER NVARNSG,NVARSPG,NVARSENS,NVARCHECKSUM
       INTEGER NVARING,NVARRWG, NVARRBG,NVARACG,NVARSEG,NVARJOG
@@ -121,7 +120,6 @@ C
 C-----------------------------------------------
 C   E x t e r n a l
 C-----------------------------------------------
-      INTEGER  PRETHGRNE,PRETHGRKI,PRETHGRPA,PRETHGRNS,PRETHGRVAR
       CHARACTER THFILE*4
 C=======================================================================
       IGS=0

@@ -176,7 +176,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER IGS,I,J,ELTYP_SEG,ELTYP_ALL,SUB_ID
+      INTEGER IGS, I, J, SUB_ID
       INTEGER SET_ID,ISET_TYPE,CLAUSES_MAX,ITMP,ICODE,SETL_SIZE
       INTEGER OPT_D,OPT_O,OPT_G,OPT_B,OPT_A,OPT_E,OPT_I,OPT_C
       INTEGER , DIMENSION(:), ALLOCATABLE :: SET_LIST,SETL

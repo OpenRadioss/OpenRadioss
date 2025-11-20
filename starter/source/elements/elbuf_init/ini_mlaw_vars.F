@@ -49,7 +49,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER IMAT,ILAW
+      INTEGER IMAT
       TYPE(MLAW_TAG_)    , POINTER :: MTAG
 C=======================================================================
 C     Set default variables used in all matarial laws

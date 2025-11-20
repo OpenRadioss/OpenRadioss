@@ -58,7 +58,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,IAD_L,NN,ELEM,ELEM_G,N1,N2,N3,N4,ITYP,K,IADG2,IADIBUF,IT,IAD
+      INTEGER I, NN, ELEM, ITYP, K, IT
       INTEGER, DIMENSION(:), ALLOCATABLE :: IBUFSSG_TRI,IWORK,INDEX
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: ITRI
 C-----------------------------------------------

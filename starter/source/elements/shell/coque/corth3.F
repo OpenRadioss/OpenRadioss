@@ -68,7 +68,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,II,J,N,ILAW,IDIR,IT,NPTT
+      INTEGER I, J, N, ILAW, IDIR, IT, NPTT
 C     REAL
       my_real
      .  E11(MVSIZ),E12(MVSIZ),E13(MVSIZ),

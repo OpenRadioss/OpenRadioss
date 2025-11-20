@@ -64,13 +64,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, MT, MLAW, JTUR, ICODT, I1, I2, INEW
+      INTEGER I, J, MT, MLAW, JTUR, I1, I2, INEW
       INTEGER IC,IC1,IC2,IC3,IC4,MID,PID
       CHARACTER MESS*40, MESS2*40
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
-      INTEGER USR2SYS
       DATA MESS/'2D SOLID ELEMENTS DEFINITION            '/
       DATA MESS2/'2D SOLID ELEMENTS SELECTION FOR TH PLOT '/
 C

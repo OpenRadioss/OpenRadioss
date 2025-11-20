@@ -53,7 +53,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,N,NG,NP,NEL,NFT,ITY,ITYO,II,III,NIN,P,PROC,INDX,OFFC,OFFTG
+      INTEGER I, J, K, N, NG, NP, NEL, NFT, ITY, II, NIN, P, PROC, INDX, OFFC, OFFTG
       INTEGER ADSKY(0:NCRKXFE+1)
       INTEGER, ALLOCATABLE, DIMENSION(:)   :: KNOD2ELC
       INTEGER, ALLOCATABLE, DIMENSION(:,:) :: TAGSKYC,TAGSKYTG

@@ -53,7 +53,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, IG, J, IS, L, N, N4N
+      INTEGER I, L, N, N4N
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ),
      .        NSVG(MVSIZ), FAR(MVSIZ), I4N(MVSIZ),
      .        IRTLM_L(2,MVSIZ)

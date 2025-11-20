@@ -68,7 +68,6 @@ C-----------------------------------------------
      .      ISOLNOD,ISOLID,IFRAM,IORTH,IREP,IGTYP,ISH3N,NDIR,NLAYERS,
      .      UID,SUB_ID,NLAY,NPTR,NPTS,NPTT,IFAIL,IRUPT_TYP,NVAR_RUPT,
      .      ILAY,IMAT,NPT_MAX,NUBEAM0,NVSH_STRA,ISMSTR
-      INTEGER IGBR, JGBR, IOK
       CHARACTER MESS*40
       CHARACTER(LEN=NCHARKEY) :: KEY2, KEY3
 C=======================================================================

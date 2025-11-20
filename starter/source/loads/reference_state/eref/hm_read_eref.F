@@ -86,7 +86,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
-      INTEGER USR2SYS,R2R_SYS,NINTRI
+      INTEGER USR2SYS, NINTRI
 C=======================================================================
 
       ALLOCATE(TAGELC(NUMELC),TAGELTG(NUMELTG),TAGELS(NUMELS8),TAGNOD(NUMNOD))

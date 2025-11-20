@@ -55,7 +55,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NIX, N, JPS, NSIGI, NEL,IDEF,JHBE,IGTYP, NSIGS
+      INTEGER NIX, JPS, NSIGI, NEL, IDEF, JHBE, IGTYP, NSIGS
       INTEGER IX(NIX,*), IPM(NPROPMI,*), NPF(*) ,
      .   STRSGLOB(*),STRAGLOB(*),MAT(NEL),L_PLA,PT(*)
 C     REAL

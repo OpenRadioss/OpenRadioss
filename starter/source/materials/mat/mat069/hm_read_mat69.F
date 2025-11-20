@@ -95,7 +95,6 @@ C-----------------------------------------------
       INTEGER ICHECK, NSTART
       my_real ERRTOL
       INTEGER IDUMMY
-      my_real RDUMMY
       LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED
 C-----------------------------------------------
 C   S o u r c e   L i n e s

@@ -55,7 +55,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, IG,I3N
+      INTEGER I, I3N
       my_real
      .     X0(MVSIZ), Y0(MVSIZ), Z0(MVSIZ), GAP2(MVSIZ),
      .     NX1(MVSIZ), NX2(MVSIZ), NX3(MVSIZ), NX4(MVSIZ),

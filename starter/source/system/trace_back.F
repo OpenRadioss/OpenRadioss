@@ -421,7 +421,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NIVEAU_PILE,IT
+      INTEGER NIVEAU_PILE
       DATA NIVEAU_PILE/0/
       SAVE NIVEAU_PILE
 C-----------------------------------------------
@@ -506,7 +506,7 @@ C-----------------------------------------------
       INTEGER CHECK_PILE(0:NIVEAU_MAX) 
       CHARACTER(LEN=NCHARLINE):: BLANC
       CHARACTER(LEN=NCHARLINE):: TEXT(0:NIVEAU_MAX)
-      INTEGER I,IP,IL,NLIGNES,IT
+      INTEGER I
       DATA CHECK_PILE/0,NIVEAU_MAX*0/
       SAVE TEXT,CHECK_PILE
 C-----------------------------------------------

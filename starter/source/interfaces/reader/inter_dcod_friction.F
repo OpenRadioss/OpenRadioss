@@ -64,7 +64,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,ID,IERR1,IERR2,OK,IDF ,INTFRIC,IFQ
+      INTEGER J, ID, OK, IDF, INTFRIC, IFQ
       CHARACTER(LEN=NCHARTITLE) :: TITR
 C     DATA IUN/1/
 C

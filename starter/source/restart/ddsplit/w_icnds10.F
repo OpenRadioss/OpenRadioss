@@ -51,7 +51,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER N, NN, K, J, L,P, N_L,N1,N2, ILP,PROCI,NG
+      INTEGER N, NN, L, P, N_L, N1, N2, ILP, PROCI
       INTEGER ICNDS10_L(3,NS10E_L),IFRONT(NUMNOD_L),NF
 C
       PROCI = PROC + 1

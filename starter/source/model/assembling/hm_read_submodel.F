@@ -70,7 +70,7 @@ C OUTPUT ARGUMENTS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER  I,CUR_SUBMOD,ISUB_HIERARCHY,ISUBSKEW,STAT
+      INTEGER  I, CUR_SUBMOD, ISUBSKEW, STAT
       INTEGER, DIMENSION(:), ALLOCATABLE :: NOSUBMOD,IFATHER,LEVEL,UID_SUB
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: OFFSETS
       INTEGER  NB_BEGIN,SCHAR,SUB_INDEX,NBUNIT_SUB

@@ -61,7 +61,7 @@ C     REAL
      .   OFF
       INTEGER II(4),IE,NG, ITY, LFT, LLT, KPT, N, I, J, N1, N2,
      .        IPID, NEL, IAD, NPAR, NFT, IMID,IALEL, MTN
-      INTEGER ANIM_K, PROC, P, jj
+      INTEGER PROC, P, jj
 C-----------------------------------------------
 C     NORMALE
 C-----------------------------------------------
