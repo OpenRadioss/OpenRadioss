@@ -75,8 +75,8 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER N, NTY, ISENS, SIZE, NI25, NADMSR, IEDGE, NADMSRF6, NADMSRL6,
-     .        NRTM, NSN, NSNR, NIN, NRTM_SH, NRTM0, FLAGREMN ,NCSHIFT ,ISHIFT,
+      INTEGER N, ISENS, NI25, NADMSR, IEDGE, NADMSRF6, NADMSRL6,
+     .        NRTM, NSN, NSNR, NRTM_SH, NRTM0, FLAGREMN ,NCSHIFT ,ISHIFT,
      .        SIZE_NODNOR_E2S,I,J,NOD,CC,SOL_EDGE
       INTEGER :: NEDGE
 C     REAL

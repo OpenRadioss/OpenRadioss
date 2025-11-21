@@ -71,11 +71,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, I_STOK, JLT_NEW, JLT , NFT, IVIS2,
-     .        IBC, NOINT, NSEG, ISECIN, IBAG,
-     .        IGAP, ITIED, IFQ, MFROT, IGSTI,IDUM
+      INTEGER I_STOK, JLT, NFT, 
+     .
+     . IGAP, ITIED, IGSTI,IDUM
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ),
-     .        NSVG(MVSIZ), I3N 
+     . NSVG(MVSIZ)
 C     REAL
       my_real
      .   STARTT, FRIC, GAP, STOPT,GAPMIN,
@@ -93,7 +93,7 @@ C     REAL
      .   Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ),
      .   Z1(MVSIZ), Z2(MVSIZ), Z3(MVSIZ), Z4(MVSIZ),
      .   XI(MVSIZ), YI(MVSIZ), ZI(MVSIZ), STIF(MVSIZ),
-     .   N1(MVSIZ), N2(MVSIZ), N3(MVSIZ), OFF(MVSIZ),
+     . OFF(MVSIZ),
      .   GAPV(MVSIZ),VXI(MVSIZ),VYI(MVSIZ),VZI(MVSIZ),
      .    MSI(MVSIZ),KI11(9,MVSIZ),KJ11(9,MVSIZ),
      .    KK11(9,MVSIZ),KL11(9,MVSIZ),KI12(9,MVSIZ),
@@ -222,8 +222,8 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, I_STOK, JLT_NEW, JLT , NFT, 
-     .        INACTI, NSN,NTY,L
+      INTEGER I_STOK, JLT_NEW, JLT, NFT, 
+     . NSN,NTY,L
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), 
      .        IX4(MVSIZ),NSVG(MVSIZ)
 C     REAL
@@ -321,14 +321,14 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, I_STOK, JLT_NEW, JLT , NFT, IVIS2,
-     .        IBC, NOINT, NSEG, ISECIN, IBAG,
-     .        IGAP, ITIED, IFQ, MFROT, IGSTI,IDUM
+      INTEGER I_STOK, JLT, NFT, 
+     .
+     . IGAP, ITIED, IGSTI,IDUM
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ),
-     .        NSVG(MVSIZ), I3N 
+     . NSVG(MVSIZ)
 C     REAL
       my_real
-     .   STARTT, FRIC, GAP, STOPT,GAPMIN,
+     . STARTT, GAP, STOPT,GAPMIN,
      .   KMIN, KMAX, GAPMAX
 C-----------------------------------------------
 C     REAL
@@ -343,7 +343,7 @@ C     REAL
      .   Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ),
      .   Z1(MVSIZ), Z2(MVSIZ), Z3(MVSIZ), Z4(MVSIZ),
      .   XI(MVSIZ), YI(MVSIZ), ZI(MVSIZ), STIF(MVSIZ),
-     .   N1(MVSIZ), N2(MVSIZ), N3(MVSIZ), OFF(MVSIZ),
+     .
      .   GAPV(MVSIZ),VXI(MVSIZ),VYI(MVSIZ),VZI(MVSIZ),
      .    DXI(MVSIZ),DYI(MVSIZ), DZI(MVSIZ), 
      .    MSI(MVSIZ)
@@ -463,17 +463,17 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, I_STOK, JLT_NEW, JLT , NFT, IVIS2,
-     .        IBC, NOINT, NSEG, ISECIN, IBAG,
-     .        IGAP, ITIED, IFQ, MFROT, IGSTI,IDUM,
+      INTEGER I, I_STOK, JLT_NEW, JLT, NFT, 
+     .
+     . IGAP, ITIED, IGSTI,
      .        NB_LOC,I_STOK_LOC,DEBUT
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ),
      .        NSVG(MVSIZ), CN_LOC(MVSIZ),CE_LOC(MVSIZ),
      .        CAND_N_N(MVSIZ),CAND_E_N(MVSIZ),INDEX2(LINDMAX),
-     .        I3N ,LREM
+     . I3N
 C     REAL
       my_real
-     .   STARTT, FRIC, GAP, STOPT,GAPMIN,
+     . STARTT, GAP, STOPT,GAPMIN,
      .   KMIN, KMAX, GAPMAX
 C-----------------------------------------------
 C     REAL
@@ -488,11 +488,8 @@ C     REAL
      .   Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ),
      .   Z1(MVSIZ), Z2(MVSIZ), Z3(MVSIZ), Z4(MVSIZ),
      .   XI(MVSIZ), YI(MVSIZ), ZI(MVSIZ), STIF(MVSIZ),
-     .   N1(MVSIZ), N2(MVSIZ), N3(MVSIZ), OFF(MVSIZ),
      .   GAPV(MVSIZ),VXI(MVSIZ),VYI(MVSIZ),VZI(MVSIZ),
-     .    MSI(MVSIZ),KI11(9,MVSIZ),KJ11(9,MVSIZ),
-     .    KK11(9,MVSIZ),KL11(9,MVSIZ),KI12(9,MVSIZ),
-     .    KJ12(9,MVSIZ),KK12(9,MVSIZ),KL12(9,MVSIZ)
+     . MSI(MVSIZ)
 C-----------------------------------------------
       INTEGER :: NTY,NSN
 C

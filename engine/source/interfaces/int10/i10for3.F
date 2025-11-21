@@ -119,8 +119,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J1, IG, II , K0,NBINTER,K1S,K,J,NN,JG
-      INTEGER NISKYL,NISKYL1,NOINT
+      INTEGER I, II , K0,NBINTER,K1S,K,J,NN,JG
+      INTEGER NOINT
       INTEGER JSUB,KSUB,JJ,KK,IN,IE,NSUB,IBID
       my_real
      .   FSAVSUB1(24,NISUB),IMPX,IMPY,IMPZ
@@ -140,7 +140,7 @@ C-----------------------------------------------
      .   XP(MVSIZ), YP(MVSIZ), ZP(MVSIZ),
      .   S2,D1,D2,D3,D4,A1,A2,A3,A4,LA1,LA2,LA3,LA4,H0,
      .   ECONTT, DT05, NORMINV, VIS, DT1INV,ECONTDT,
-     .   FSAV1, FSAV2, FSAV3,FSAV4 , FSAV5, FSAV6, FSAV7, FSAV8,
+     .   FSAV1, FSAV2, FSAV3,FSAV4 , FSAV5, FSAV6, FSAV8,
      .   FSAV9, FSAV10, FSAV11, FSAV12, FSAV13, FSAV14, FSAV15,
      .   FSAV22, FSAV23, FSAV24
       my_real

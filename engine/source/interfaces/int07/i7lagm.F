@@ -65,7 +65,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER N_MUL_MX,ITASK,ITIED,NINT,NKMAX ,
+      INTEGER N_MUL_MX,ITASK,NINT,NKMAX ,
      .  LLL(*),JLL(*),SLL(*),IADLL(*),COMNTAG(*)
 C     REAL
       my_real
@@ -87,10 +87,10 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,IK,IE,IS,IC,NK,III(MVSIZ,17),LLT,NFT,LE,FIRST,LAST,
-     .        I16,IAD,LL
+      INTEGER I,
+     .        IAD,LL
       my_real
-     .   AA,XMIN,YMIN,ZMIN,XMAX,YMAX,ZMAX
+     .   AA
       INTEGER IG 
       my_real
      .   NX(MVSIZ), NY(MVSIZ), NZ(MVSIZ), PENE(MVSIZ),

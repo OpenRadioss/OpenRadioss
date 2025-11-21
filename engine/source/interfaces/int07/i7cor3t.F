@@ -62,7 +62,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IRECT(4,*), NSV(*), CAND_E(*), CAND_N(*),
-     .    JLT,IDT, NOINT, NSN, IGAP ,ITYP, NIN, INTTH
+     .    JLT, NSN, IGAP ,ITYP, NIN, INTTH
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ)
       my_real
      .   X(3,*), GAPV(*), GAP_S(*), GAP_M(*),CURV_MAX(*),
@@ -77,7 +77,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I ,J  ,IL, L, NN, IG,JFT,IADD
+      INTEGER I ,J  , L, IG,IADD
 C-----------------------------------------------
 C
        IF(IGAP==0)THEN

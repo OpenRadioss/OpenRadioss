@@ -66,7 +66,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, IG, NISKYL1, NISKYL, NN
+      INTEGER I, NISKYL1, NISKYL
       my_real
      .        MAS1, MAS2, MAS3, MAS4, DTS
 C
@@ -262,7 +262,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, IG, NISKYL1, NISKYL, NN
+      INTEGER I, NISKYL1, NISKYL
       my_real
      .        MAS1, MAS2, MAS3, MAS4, DTS
 C

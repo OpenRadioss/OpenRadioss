@@ -99,7 +99,7 @@ C-----------------------------------------------
       INTEGER I,NODF,NODL,NRTMDIM
       INTEGER N, NTY, NMN, INACTI,LINDMAX
       INTEGER NB_JLT(PARASIZ),NB_JLT_NEW(PARASIZ),NB_STOK_N(PARASIZ),
-     *        NN,P,NODFI,IERROR1,IERROR2,IERROR3,IERROR4
+     * P,NODFI,IERROR1,IERROR2,IERROR3,IERROR4
       my_real
      .    STARTT,STOPT,BID,VBID
       SAVE NB_JLT,NB_JLT_NEW,NB_STOK_N
@@ -574,16 +574,16 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,I_STOK_GLOB,NSN,
+      INTEGER I, NSN, 
      .        NOINT,NTY,IVIS2,
-     .        IGAP,INACTI,IBAG,I_STOK, I_STOK_LOC, JLT_NEW,NMNF,NMNL,
-     .        JLT, NFT,DEBUT,NBID,NB_LOC, I3N,IGSTI,ICURV,IADM
+     . IGAP,INACTI,IBAG,I_STOK, I_STOK_LOC, JLT_NEW,
+     . JLT, NFT,DEBUT,NBID,NB_LOC,IGSTI,ICURV,IADM
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ),
      .        NSVG(MVSIZ), CN_LOC(MVSIZ),CE_LOC(MVSIZ),INDEX2(LINDMAX),
      .        CAND_N_N(MVSIZ),CAND_E_N(MVSIZ),KINI(MVSIZ),IBID
       my_real
      .   STARTT, STOPT,GAP,GAPMIN,MAXBOX,MINBOX,BID,
-     .   KMIN, KMAX, GAPMAX,SURF(3,NRTMDIM)
+     . KMIN, KMAX, GAPMAX
       my_real
      .     NX1(MVSIZ), NX2(MVSIZ), NX3(MVSIZ), NX4(MVSIZ),
      .     NY1(MVSIZ), NY2(MVSIZ), NY3(MVSIZ), NY4(MVSIZ),
@@ -795,10 +795,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I_STOK_GLOB,NSN,
-     .        NME_T,ESH_T,IGN,IGE,MULTIMP,NOINT,I,MX_CAND,NTY,IVIS2,
-     .        IGAP,INACTI,IBAG,I_STOK, I_STOK_LOC, JLT_NEW,
-     .        JLT, NFT,DEBUT,NB_LOC, I3N,IGSTI,ICURV,IADM
+      INTEGER NSN, 
+     . NME_TGNGE,NOINT,NTY,IVIS2,
+     . IGAP,INACTI,IBAG,I_STOK, I_STOK_LOC,
+     . JLT, NFT,DEBUT,NB_LOC,IGSTI,ICURV,IADM
       my_real
      .   STARTT, STOPT,GAP,GAPMIN,MAXBOX,MINBOX,
      .   KMIN, KMAX, GAPMAX
@@ -809,11 +809,8 @@ C-----------------------------------------------
      .     LB1(MVSIZ), LB2(MVSIZ), LB3(MVSIZ), LB4(MVSIZ),
      .     LC1(MVSIZ), LC2(MVSIZ), LC3(MVSIZ), LC4(MVSIZ),
      .     P1(MVSIZ), P2(MVSIZ), P3(MVSIZ), P4(MVSIZ),
-     .   X1(MVSIZ), X2(MVSIZ), X3(MVSIZ), X4(MVSIZ),
-     .   Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ),
-     .   Z1(MVSIZ), Z2(MVSIZ), Z3(MVSIZ), Z4(MVSIZ),
-     .   XI(MVSIZ), YI(MVSIZ), ZI(MVSIZ), STIF(MVSIZ),
-     .   GAPV(MVSIZ),VXI(MVSIZ),VYI(MVSIZ),VZI(MVSIZ),MSI(MVSIZ)
+     .     STIF(MVSIZ),
+     .     GAPV(MVSIZ),VXI(MVSIZ),VYI(MVSIZ),VZI(MVSIZ),MSI(MVSIZ)
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
@@ -906,7 +903,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NMNF,NMNL,I, J,ISK
+      INTEGER NMNF, NMNL, I, J
       my_real
      .    A11,A12,A13,A22,A23,A33,B11,B12,B13,B22,B23,B33,
      .    USDET,FX   ,FY   ,FZ
@@ -1025,10 +1022,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I_STOK_GLOB,NSN,NME,
-     .        NME_T,ESH_T,IGN,IGE,MULTIMP,NOINT,I,MX_CAND,NTY,IVIS2,
-     .        IGAP,INACTI,IBAG,I_STOK, I_STOK_LOC, JLT_NEW,DEBUT,
-     .        JLT, NFT,NBID,NB_LOC, I3N,IADM
+      INTEGER NSN, 
+     . NME_TGNGE,NOINT,NTY,IVIS2,
+     . IGAP,INACTI,IBAG,I_STOK, I_STOK_LOC,DEBUT,
+     . JLT, NFT,NB_LOC,IADM
       my_real
      .   STARTT, STOPT,GAP,GAPMIN,MAXBOX,MINBOX,
      .   KMIN, KMAX, GAPMAX
@@ -1310,19 +1307,18 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, IG, J,  K, NN
+      INTEGER I, IG, NN
       my_real
      .   N1(MVSIZ), N2(MVSIZ), N3(MVSIZ), PENE(MVSIZ),
      .   H1(MVSIZ), H2(MVSIZ), H3(MVSIZ), H4(MVSIZ),
      .   S2,
      .   DT1INV,
      .   H0, LA1, LA2, LA3, LA4,
-     .   D1,D2,D3,D4,A1,A2,A3,A4,
-     .   P,H00 ,
-     .   AAA
+     .   D1,D2,D3,D4,
+     .   H00 
       my_real
      .   PREC
-      INTEGER JJ,IBID
+      INTEGER IBID
       my_real
      .   PP1,PP2,PP3,PP4,BID
 C
@@ -1525,7 +1521,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, IG, J, K, NN, NI,
+      INTEGER I, IG, NN, NI, 
      .        L
       INTEGER IX1(MVSIZ),IX2(MVSIZ),IX3(MVSIZ),IX4(MVSIZ),NSVG(MVSIZ)
       my_real
@@ -1535,7 +1531,6 @@ C-----------------------------------------------
      .   FZ1(MVSIZ), FZ2(MVSIZ), FZ3(MVSIZ), FZ4(MVSIZ),
      .   N1(MVSIZ), N2(MVSIZ), N3(MVSIZ), PENE(MVSIZ),
      .   H1(MVSIZ), H2(MVSIZ), H3(MVSIZ), H4(MVSIZ),
-     .   VX(MVSIZ), VY(MVSIZ), VZ(MVSIZ), VN(MVSIZ),DIST(MVSIZ),
      .   MT1XX(MVSIZ), MT1XY(MVSIZ), MT1XZ(MVSIZ),
      .   MT1YY(MVSIZ), MT1YZ(MVSIZ), MT1ZZ(MVSIZ),
      .   MT2XX(MVSIZ), MT2XY(MVSIZ), MT2XZ(MVSIZ),
@@ -1544,13 +1539,9 @@ C-----------------------------------------------
      .   MT3YY(MVSIZ), MT3YZ(MVSIZ), MT3ZZ(MVSIZ),
      .   MT4XX(MVSIZ), MT4XY(MVSIZ), MT4XZ(MVSIZ),
      .   MT4YY(MVSIZ), MT4YZ(MVSIZ), MT4ZZ(MVSIZ),
-     .   P,H00 ,
      .   AAA
       my_real
-     .   PREC
-      INTEGER JJ,IBID
-      my_real
-     .   PP1,PP2,PP3,PP4,BID,
+     .
      .   MTXX,MTXY,MTXZ,MTYY,MTYZ,MTZZ
 C-----------------------------------------------
 C   S o u r c e   L i n e s
@@ -1797,25 +1788,20 @@ C-----------------------------------------------
      .     LB1(MVSIZ), LB2(MVSIZ), LB3(MVSIZ), LB4(MVSIZ),
      .     LC1(MVSIZ), LC2(MVSIZ), LC3(MVSIZ), LC4(MVSIZ),
      .     P1(MVSIZ), P2(MVSIZ), P3(MVSIZ), P4(MVSIZ), STIF(MVSIZ),
-     .     GAPV(MVSIZ),STIFSAV(MVSIZ), MTF(14,*),CAND_SAV(8,*),
+     . GAPV(MVSIZ), MTF(14,*),CAND_SAV(8,*),
      .     VXI(MVSIZ),VYI(MVSIZ),VZI(MVSIZ),MSI(MVSIZ)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, IG, J, K, NN, NI,
+      INTEGER I, IG, NN, NI, 
      .        L
       INTEGER IX1(MVSIZ),IX2(MVSIZ),IX3(MVSIZ),IX4(MVSIZ),NSVG(MVSIZ)
       my_real
      .   N1(MVSIZ), N2(MVSIZ), N3(MVSIZ), PENE(MVSIZ),
      .   H1(MVSIZ), H2(MVSIZ), H3(MVSIZ), H4(MVSIZ),
      .   FAC,
-     .   P,
      .   AAA 
       my_real
-     .   PREC
-      INTEGER JSUB,KSUB,JJ,NSUB,IBID
-      my_real
-     .   PP1,PP2,PP3,PP4,BID,
      .   V1,V2,V3,V4,VSX,VSY,VSZ
 C
 C-----------------------------------------------
@@ -1973,12 +1959,12 @@ C-----------------------------------------------
      .        LB1(MVSIZ), LB2(MVSIZ), LB3(MVSIZ), LB4(MVSIZ),
      .        LC1(MVSIZ), LC2(MVSIZ), LC3(MVSIZ), LC4(MVSIZ),
      .        P1(MVSIZ), P2(MVSIZ), P3(MVSIZ), P4(MVSIZ), STIF(MVSIZ),
-     .        GAPV(MVSIZ),STIFSAV(MVSIZ),VXI(MVSIZ),VYI(MVSIZ),VZI(MVSIZ),MSI(MVSIZ)
+     . GAPV(MVSIZ),VXI(MVSIZ),VYI(MVSIZ),VZI(MVSIZ),MSI(MVSIZ)
       TYPE(H3D_DATABASE) :: H3D_DATA
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, IG, J, JG , K, NN, NI,
+      INTEGER I, IG, JG, NN, NI, 
      .        L
       INTEGER IX1(MVSIZ),IX2(MVSIZ),IX3(MVSIZ),IX4(MVSIZ),NSVG(MVSIZ)
       my_real FXI(MVSIZ), FYI(MVSIZ), FZI(MVSIZ), FNI(MVSIZ),
@@ -1990,12 +1976,9 @@ C-----------------------------------------------
      .        DT12INV, FAC, FAC2,
      .        FSAV1, FSAV2, FSAV3, FSAV8,
      .        FSAV9, FSAV10, FSAV11,   
-     .        P, 
      .        AAA
-      my_real PREC
-      INTEGER JSUB,KSUB,JJ,NSUB
-      my_real IMPX,IMPY,IMPZ,PP1,PP2,PP3,PP4,BBB,
-     .        V1,V2,V3,V4,VSX,VSY,VSZ,DVSX,DVSY,DVSZ,VSXP,VSYP,VSZP
+      my_real IMPX,IMPY,IMPZ,BBB,
+     . VSX,VSY,VSZ,DVSX,DVSY,DVSZ,VSXP,VSYP,VSZP
 C
 C-----------------------------------------------
       IF(DT12 > ZERO)THEN

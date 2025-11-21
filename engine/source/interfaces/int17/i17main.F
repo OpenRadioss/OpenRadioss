@@ -98,8 +98,8 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NME,NAD,EAD,LWAT,
-     .        NME_T,ESH_T,IGN,IGE,MULTIMP,NOINT,I,MX_CAND,NMES,
+      INTEGER NME,LWAT,
+     .        NME_T,ESH_T,IGN,IGE,MULTIMP,NOINT,MX_CAND,NMES,
      .        IDUM1, IDUM2, IDUM3, NMESR 
 C     REAL
       my_real

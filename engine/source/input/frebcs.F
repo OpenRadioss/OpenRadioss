@@ -60,7 +60,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, N, NBC, K, KK, NN, NS, K4,IV1(40),IKEY,NBCS
-      CHARACTER KEYA*80, KEY2*5, KEY3*5
+      CHARACTER *80, KEY2*5, KEY3*5
 C
       K=0
       NBCS = 0

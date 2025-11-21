@@ -77,7 +77,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NIN,ITASK ,NC,N_MUL_MX ,NKMAX , NME, NMES  
+      INTEGER NIN,ITASK   , NME, NMES  
       INTEGER IPARI(NPARI,NINTER),
      .        IXS(NIXS,*)  ,IXS16(8,*)  ,IXS20(12,*)
 C     REAL
@@ -91,11 +91,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NAD,EAD,LWAT,
-     .        IGN,IGE,MULTIMP,NOINT,I,MX_CAND 
+      INTEGER 
+     .        IGN,IGE,MULTIMP,I,MX_CAND 
 C     REAL
       my_real
-     .        STARTT, STOPT,XX,XY,XZ,TZINF,MINBOX,
+     .        STARTT, STOPT,
      .        AZERO(3,NUMNOD)
 C-----------------------------------------------
 C   S o u r c e   L i n e s
@@ -224,11 +224,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NAD,EAD,LWAT,RESULT,
+      INTEGER LWAT,RESULT,
      .        IGN,IGE,MULTIMP,NOINT,I,MX_CAND, NB_N_B
 C     REAL
       my_real
-     .   STARTT, STOPT,XX,XY,XZ,TZINF,MINBOX,DIST,
+     .   STARTT, STOPT,TZINF,MINBOX,DIST,
      .   XMAXL, YMAXL, ZMAXL, XMINL, YMINL, ZMINL,
      .   AZERO(3,NUMNOD)
 C-----------------------------------------------
@@ -434,8 +434,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NME,NAD,EAD,
-     .        IGN,IGE,MULTIMP,NOINT,I,MX_CAND,NMES,LSKYI17
+      INTEGER NME,
+     .        IGN,IGE,MULTIMP,NOINT,MX_CAND,NMES,LSKYI17
 C     REAL
       my_real
      .        STARTT, STOPT

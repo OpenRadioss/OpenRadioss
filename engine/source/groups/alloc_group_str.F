@@ -54,7 +54,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,ID,IGU,GRTYPE,SORTED,GRPGRP,
+      INTEGER J,ID,IGU,GRTYPE,SORTED,GRPGRP,
      .        LEVEL,R2R_ALL,R2R_SHARE,ENTITY,NENTITY,L_GROUP,
      .        ITITLE(LTITR),ERR,LEN
       CHARACTER(LEN=LTITR) ::  TITR,NEW_TITLE(NGR)

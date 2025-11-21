@@ -62,7 +62,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NSNF,NMEF,NSNL,NMEL,I, J, II, K,I16,I20,LFT16,LLT16,
+      INTEGER NMEF,NMEL,I,I16,I20,LFT16,LLT16,
      .        LFT20,LLT20,INDEX16(MVSIZ),INDEX20(MVSIZ)
       my_real
      .   XMSR(6), SIZE_T

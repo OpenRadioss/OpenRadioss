@@ -61,7 +61,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,K,IEL,NEL,ELCRK,ICUT,ILAYCUT,ILAY,ILEV,ITRI,P1,P2,
-     .  IEDGE,IBOUNDEDGE,ELCUT,IXEL,IR,IS,IT,IEDGE0,FAC,ICUT0
+     .  IEDGE,IBOUNDEDGE,IXEL,IR,IS,IT,IEDGE0,FAC,ICUT0
       INTEGER D(4),NN(4),OPEN_EDGE(4,NXLAY),ENR_NOD(4),IADC(4),IOFF(NXEL,JLT)
       my_real, DIMENSION(:) ,POINTER  ::  XOFF
       DATA d/2,3,4,1/

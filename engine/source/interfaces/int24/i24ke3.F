@@ -78,43 +78,31 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J,I_STOK, JLT_NEW, JLT , NFT, IVIS2,
-     .        IBC, NOINT, NSEG, ISECIN, IBAG, IADM,
-     .        IGAP, INACTI, IFQ, MFROT, IGSTI, NISUB,
-     .        NB_LOC, I_STOK_LOC,DEBUT,
-     .        ILAGM, LENR, LENT, MAXCC,INTTH,IFORM,INTKG,
+      INTEGER I, J, I_STOK, JLT, NFT, 
+     . NOINT, IBAG,
+     . IGAP, IFQ, MFROT, IGSTI, NISUB,
+     . INTTH,IFORM,INTKG,
      .        IDNJ,IDHJ
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ),
-     .        NSVG(MVSIZ),KINI(MVSIZ),IXX(MVSIZ,13),ITRIV(4,MVSIZ) 
+     . NSVG(MVSIZ)
 C     REAL
       my_real
      .   STARTT, FRIC, GAP, STOPT,
      .   VISC,VISCF,STIGLO,GAPMIN,
-     .   KMIN, KMAX, GAPMAX,RSTIF,FHEAT,TINT,RHOH,EPS
+     . KMIN, KMAX, GAPMAX,RSTIF,FHEAT,TINT,EPS
 C-----------------------------------------------
 C     REAL
       my_real
-     .     NX1(MVSIZ), NX2(MVSIZ), NX3(MVSIZ), NX4(MVSIZ),
-     .     NY1(MVSIZ), NY2(MVSIZ), NY3(MVSIZ), NY4(MVSIZ),
-     .     NZ1(MVSIZ), NZ2(MVSIZ), NZ3(MVSIZ), NZ4(MVSIZ),
-     .     SUBTRIA(MVSIZ), 
-     .   X1(MVSIZ), X2(MVSIZ), X3(MVSIZ), X4(MVSIZ),
-     .   Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ),
-     .   Z1(MVSIZ), Z2(MVSIZ), Z3(MVSIZ), Z4(MVSIZ),
      .   XI(MVSIZ), YI(MVSIZ), ZI(MVSIZ), STIF(MVSIZ),
-     .   VX1(MVSIZ), VX2(MVSIZ), VX3(MVSIZ), VX4(MVSIZ),
-     .   VY1(MVSIZ), VY2(MVSIZ), VY3(MVSIZ), VY4(MVSIZ),
-     .   VZ1(MVSIZ), VZ2(MVSIZ), VZ3(MVSIZ), VZ4(MVSIZ),
      .   VXI(MVSIZ), VYI(MVSIZ), VZI(MVSIZ), 
      .   N1(MVSIZ), N2(MVSIZ), N3(MVSIZ), PENE(MVSIZ),
      .   H1(MVSIZ), H2(MVSIZ), H3(MVSIZ), H4(MVSIZ),
      .   NM1(MVSIZ), NM2(MVSIZ), NM3(MVSIZ), 
-     .   GAPV(MVSIZ),MSI(MVSIZ),GAPS(MVSIZ),
+     . MSI(MVSIZ),
      .    KI11(9,MVSIZ),KJ11(9,MVSIZ),OFF(MVSIZ),
      .    KK11(9,MVSIZ),KL11(9,MVSIZ),KI12(9,MVSIZ),
-     .    KJ12(9,MVSIZ),KK12(9,MVSIZ),KL12(9,MVSIZ),
-     .    LL_SL(MVSIZ),LL_ML(MVSIZ)
-      INTEGER NRTMFT, NRTMLT, NMNFT, NMNLT, NRADM
+     .    KJ12(9,MVSIZ),KK12(9,MVSIZ),KL12(9,MVSIZ)
+ 
       INTEGER ICURV,INTKG1
       INTEGER, DIMENSION(:),ALLOCATABLE :: TAG_S,TAG_M
       INTEGER :: NSN, NMN
@@ -318,18 +306,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J1, J, K,IG,ISF,NN,NS,JLTF,NE,JG,N,ip
+      INTEGER I, J, K, ISF, NN, NS, JLTF, NE, JG, N, ip
       my_real
      .   VX(MVSIZ), VY(MVSIZ), VZ(MVSIZ), VN(MVSIZ), 
-     .   S2,FAC,FACF, H0, LA1, LA2, LA3, LA4,FACT(MVSIZ),
-     .   D1,D2,D3,D4,A1,A2,A3,A4,KN(4,MVSIZ),Q(3,3,MVSIZ)
+     . S2,FAC,FACF,FACT(MVSIZ),
+     . KN(4,MVSIZ),Q(3,3,MVSIZ)
       my_real
-     .   PREC,Q11,Q12,Q13,Q22,Q23,Q33,H00,VTX,VTY,VTZ,VT,
-     .   KT1,KT2,KT3,KT4,Q1,Q2,DPENE(MVSIZ),VNM(MVSIZ)
-      INTEGER NA1,NA2
-      my_real
-     .   A0X,A0Y,A0Z,RX,RY,RZ,
-     .   ANX,ANY,ANZ,AAN,AAX,AAY,AAZ ,RR,RS,AAA ,TM,TS
+     . PREC,Q11,Q12,Q13,Q22,Q23,Q33,VTX,VTY,VTZ,VT,
+     . KT1,KT2,KT3,KT4,Q1,Q2
 C-----------------------------------------------
       IF (IRESP==1) THEN
            PREC = FIVEEM4
@@ -587,10 +571,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J1, J, K,IG,ISF,NN,NS,JLTF,NE,NM
+      INTEGER I, J, NS, NM
       my_real
-     .   S2,FAC,FACF, H0, LA1, LA2, LA3, LA4,
-     .   D1,D2,D3,D4,A1,A2,A3,A4,KN(4,MVSIZ),LNS,LNS1
+     . FAC,FACF,
+     . KN(4,MVSIZ),LNS,LNS1
       my_real
      .   LMAX,FNI(MVSIZ),AL(4,MVSIZ)
 C-----------------------------------------------

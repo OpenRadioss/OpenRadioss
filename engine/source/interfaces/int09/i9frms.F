@@ -56,12 +56,12 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NIR, I, J, I3, J3, I2, J2, I1, J1, II, L, JJ, NN, JJ3,
-     .   JJ2, JJ1, ISK, LCOD
+     .   JJ2, JJ1
 C     REAL
       my_real
      .   H(4), N1, N2, N3, AA(3), SS, TT, XMSS, FXI, FYI, FZI, FSN,
      .   FXN, FYN, FZN, FXT, FYT, FZT, FST, FAC, FXMI, FYMI, FZMI,
-     .   FSM, FXMN, FYMN, FZMN, FXMT, FYMT, FZMT, FSMT
+     .   FSM, FXMN, FYMN, FZMN, FXMT, FYMT, FZMT
 C-----------------------------------------------
 C
       IF(N2D==0)THEN

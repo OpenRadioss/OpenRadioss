@@ -63,8 +63,8 @@ C-----------------------------------------------
       my_real
      .   KTHE, XTHE, FRAD, DRAD, FHEATS, FHEATM,
      .   TEMPI(MVSIZ), XI(MVSIZ), YI(MVSIZ),TEMP(*),
-     .   ZI(MVSIZ), PHI(MVSIZ), AREAS(MVSIZ), ASI(MVSIZ),
-     .   BSI(MVSIZ), GAPV(MVSIZ), CONDINT(MVSIZ),
+     .   ZI(MVSIZ), PHI(MVSIZ), AREAS(MVSIZ),
+     .    GAPV(MVSIZ), CONDINT(MVSIZ),
      .   FNI(MVSIZ), TF(*), EFRICT(MVSIZ),  
      .   H1(MVSIZ), H2(MVSIZ), H3(MVSIZ), H4(MVSIZ),
      .   PHI1(MVSIZ),PHI2(MVSIZ),PHI3(MVSIZ),PHI4(MVSIZ),
@@ -83,7 +83,7 @@ C     REAL
      .   SX1 , SY1 , SZ1 , SX2 , SY2 , SZ2,
      .   TS,  RSTIF, TSTIFM, TSTIFT, COND, P, DYDX,
      .   TM, DDCOND, DD, HCOND, DIST, PENRAD, NORM, AREAC,
-     .   PHIM,AREA,CONDS,CONDM
+     .   PHIM,CONDS,CONDM
 C-----------------------------------------------
       PHI(1:JLT) = ZERO
       IF(IFUNCTK==0)THEN

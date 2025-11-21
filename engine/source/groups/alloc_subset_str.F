@@ -54,8 +54,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,ID,ISU,NCHILD,NBPART,NBTPART,ICHILD,IPART,IPARTTOT,
-     .        PARENT,LEVEL,TH_PART,L_SUB,ERR,ITITLE(LTITR),THIAD,IVARTH,
+      INTEGER J,ID,ISU,NCHILD,NBPART,NBTPART,ICHILD,IPART,IPARTTOT,
+     .        PARENT,LEVEL,L_SUB,ERR,ITITLE(LTITR),THIAD,IVARTH,
      .        LEN
       CHARACTER(LEN=LTITR) ::  TITR,NEW_TITLE(NSUBS)
       INTEGER, ALLOCATABLE, DIMENSION (:)  ::  ISUB

@@ -126,7 +126,7 @@ C-----------------------------------------------
      .   FX6(6,MVSIZ), FY6(6,MVSIZ), FZ6(6,MVSIZ), ST6(6,MVSIZ),
      .   FX, FY, FZ, STF, 
      .   MX6(6,MVSIZ), MY6(6,MVSIZ), MZ6(6,MVSIZ), STR6(6,MVSIZ),
-     .   XX, YY, ZZ, MX, MY, MZ, STR
+     .      MX, MY, MZ, STR
 C---------------------------------
       NISKYFIL = 0
       DO I=1,JLT

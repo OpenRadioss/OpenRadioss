@@ -64,7 +64,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,IDPRT,K_STAT,J,IP,IPID,IGTYP,
+      INTEGER I,IDPRT,J,IP,IPID,
      .        IFAIL,NLAY,FAIL_ID,MAT_ID,IL,IMAT,
      .        NFAIL,NG,ITY,NFT,IPRT
       INTEGER MAT_CHECKED(NUMMAT)

@@ -81,7 +81,7 @@ C-----------------------------------------------
      .   H(4), XX1(4), XX2(4), XX3(4)
       my_real
      .   SS0,TT0,XC0,YC0,ZC0,SP,SM,TP,TM,FT,FTX,FTY,FTZ,
-     .   ANSX,ANSY,ANSZ,FMAX,FTI,FN,TN1,TN2,TN3,TN
+     .   ANSX,ANSY,ANSZ,FMAX,FN,TN1,TN2,TN3,TN
       my_real
      .   KFRIC(LLT),KFRICV(LLT),XX(LLT)
 C-----------------------------------------------

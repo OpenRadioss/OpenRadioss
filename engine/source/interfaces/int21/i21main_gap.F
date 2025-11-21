@@ -61,7 +61,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER KD(50), JD(50), JFI, KFI, IGAP, IDEL
+      INTEGER   IGAP, IDEL
 C     REAL
       my_real
      .   STARTT, STOPT

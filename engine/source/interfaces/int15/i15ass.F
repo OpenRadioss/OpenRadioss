@@ -74,8 +74,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER ADRBUF, I, IN, I3, I2, I1
-      INTEGER NFORC , NISKYL
-      INTEGER NDEB, NREST
+      INTEGER NISKYL
       my_real
      .   ROT(9), XK , YK, ZK, FX, FY, FZ, AM1, AM2, AM3,
      .   FN1, FN2, FN3, FT1, FT2, FT3,
