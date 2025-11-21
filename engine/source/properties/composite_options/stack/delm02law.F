@@ -89,7 +89,7 @@ C-----------------------------------------------
 C   I N P U T   A r g u m e n t s
 C-----------------------------------------------
 C
-      INTEGER NEL, NUPARAM, NUVAR,NGL(*),
+      INTEGER NEL, NUVAR,NGL(*),
      .        IPLY
       my_real 
      .   TIME,TIMESTEP(*),SIGNZZ(*),
@@ -103,7 +103,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER 
-     .        I,J,IDEL,IDEL_L,IFLAG(MVSIZ),INDX(MVSIZ),NINDX,
+     .        I,J,INDX(MVSIZ),NINDX,
      .        NINDEX,INDEX(MVSIZ),JST(MVSIZ),IR,JJ
       my_real 
      .   GIC(MVSIZ),GIIC(MVSIZ),K(MVSIZ),ETA(MVSIZ),

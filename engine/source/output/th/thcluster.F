@@ -66,7 +66,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-        INTEGER :: I,J,L,II,JJ,KK,IVAR,ICLUSTER_L,IWA_L,NNOD,ISKN,
+        INTEGER :: J,L,II,JJ,KK,IVAR,ICLUSTER_L,IWA_L,NNOD,ISKN,
      .             N1,N2,N3,N4,NG,NFT
         my_real :: XM,YM,ZM,NORM,SX,SY,SZ,TX,TY,TZ,FS,FN,MB,MT
         my_real ,DIMENSION(3) :: VX,VY,VN,X1,FLOC,MLOC

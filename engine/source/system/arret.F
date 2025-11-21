@@ -469,10 +469,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      CHARACTER*2048 INAME
+ 
       INTEGER IFIL
-      INTEGER :: LEN_TMP_NAME
-      CHARACTER(len=2148) :: TMP_NAME
+ 
+ 
       INTEGER :: IZIP
 C-----------------------------------------------
 C Different End Values

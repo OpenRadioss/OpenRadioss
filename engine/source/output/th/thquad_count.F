@@ -53,9 +53,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER II, KRK, LL, I, J, K, L ,N, IH, IP, NG, MTE, NUVAR,
-     .   NC1, NC2, NC3, NC4,  NEL, MTN1,KK(6),IJ,NPTR,NPTS,
-     .   IR,IS
+      INTEGER II, I, J, K, N, IH, IP, NG, MTE, NUVAR, 
+     . NEL
       LOGICAL :: BOOL
       INTEGER :: J_FIRST,NITER,IADB,NN,IADV,NVAR,ITYP,IJK
       INTEGER, DIMENSION(NTHGRP2) :: INDEX_QUAD

@@ -55,12 +55,12 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER
-     .   J, I, K, II, I1, I2, N, KR1,KR2,KR3,K0,KR0,K1,K2,
-     .   IFRL1, IFRL2, L,TYPE, NNOD,KR11,KR12,
-     .   KR21,KR22,NBINTER,LEN,NNODT
+     .    I, K, II, N, KR1,KR2,KR3,K0,KR0,K2,
+     .   IFRL1, IFRL2,TYPE, NNOD,KR11,KR12,
+     .   KR21,KR22,NBINTER,NNODT
       my_real
-     .   DW, TT1, TT2, TT3, VI, DD, D1, D2,WFEXTL,
-     .   TNEXT, DELTAT,ERR(8), FF, FOLD, ALPHA,AA,DTINV
+     .   DW, TT1, TT2, TT3, DD, D1, D2,WFEXTL,
+     .    ALPHA,AA,DTINV
 C
       IF(NSECT==0)RETURN
       IF(NSTRF(2)==0)RETURN

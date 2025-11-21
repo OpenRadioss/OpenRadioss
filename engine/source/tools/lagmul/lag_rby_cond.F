@@ -49,12 +49,11 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,IC,IK,N,NS,MSL,MSL2,M,IFX,IFR,NFIX,NFRE
+      INTEGER I, J, N, NS, MSL, MSL2, IFX, IFR, NFIX, NFRE
       my_real XX,YY,ZZ,XY,YZ,XZ,IXX,IYY,IZZ,IXY,IXZ,IYZ,
      .        JXX,JYY,JZZ,JXY,JXZ,JYZ,JXY2,JXZ2,JYZ2,DET,
-     .        B1,B2,B3,C1,C2,C3,VX1,VX2,VX3,WA1,WA2,WA3,MMAS,USDT,DDT,
-     .        VI(3),VG(3),AG(3),XM(3),VTM(3),VRM(3),ATM(3),ARM(3),
-     .        XROT(9),IPR(3)
+     . B1,B2,B3,C1,C2,C3,VX1,VX2,VX3,MMAS,USDT,DDT,
+     . VG(3),AG(3),XM(3),VTM(3),VRM(3),ATM(3),ARM(3)
 C======================================================================|
       MSL = NPBYL(2,NN)
       MSL2= MSL*2 
@@ -307,7 +306,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,JF,IC,IK,IR,IFX,IFR,N,NS,NFIX,NFRE,MSL,TNSL
+      INTEGER I, J, K, IC, IK, IR, IFX, N, NS, NFIX, NFRE, MSL, TNSL
       my_real 
      .  XX,YY,ZZ,VX1,VX2,VX3,USDT,DDT,XM(3),VTM(3),VRM(3),ATM(3),ARM(3)
 C======================================================================|

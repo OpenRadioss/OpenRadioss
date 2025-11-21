@@ -61,7 +61,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,NG,NEL,N,II(6),JJ,JJ_OLD, NGF, NGL, NN, 
+      INTEGER I, J, NG, NEL, II(6), JJ, JJ_OLD, NGF, NGL, NN, 
      .   LEN,RESP0,WRTLEN,RES,COMPTEUR,L,K
       INTEGER, DIMENSION(NSPGROUP) :: JJ_LOC
       INTEGER, DIMENSION(NSPGROUP+1,NSPMD) :: ADRESS 
@@ -221,7 +221,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,II(6),JJ, JJ_OLD,NPTR, NPTS, NPTT,NPTG,
+      INTEGER I, J, K, II(6), JJ, JJ_OLD, 
      .   NG, NEL, IADD, N,NGF, NGL, NN, LEN,MLW,COMPTEUR,L
       INTEGER, DIMENSION(NSPGROUP) :: JJ_LOC
       INTEGER, DIMENSION(NSPGROUP+1,NSPMD) :: ADRESS 

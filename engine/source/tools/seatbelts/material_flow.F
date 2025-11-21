@@ -91,10 +91,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,NODE1,NODE2,NODE3,ANCHOR_NODE,FUNC,ISENS,FLAG_SENSOR_LOCK
+      INTEGER I,J,FLAG_SENSOR_LOCK
       INTEGER FLAG,NEW_NODE2,NEW_NODE1,FORCE_TENS_TYP,FLAG_NO_COUNT_PULL
-      my_real DDFS,BETA,HH,HH2,FRIC,DELTAF,DDV,DT11,FB,F1,F2,DF
-      my_real TENS,XSCAL,NORM,PRES,VREL,ALPHA,ALPHA2,VEC1(3),VEC2(3)
+      my_real DDFS,BETA,HH,HH2,FRIC,DELTAF,DT11,FB
+      my_real TENS,XSCAL,NORM,PRES,VREL,VEC1(3)
       my_real FRICD,FRICS,XX,DXDY,YY,GET_U_FUNC,FB2,ANGLE
       my_real DDX,DDX2,F_LOCK,F_UNLOCK,PRETENS,XX1,XX2,COS_BETA
       my_real OMEGA,EPS1,EPS2,EPSN,FACT

@@ -56,7 +56,7 @@ C-----------------------------------------------
 C----------------------------------------------------------
 C Local Variables
 C----------------------------------------------------------
-      INTEGER I,J,IPOINT,IDIR,IACC,ISENSOR_TYPE,NPOINT,INDX,NVAR,ICRIT
+      INTEGER I,J,IDIR,IACC,ISENSOR_TYPE,NPOINT,INDX,NVAR,ICRIT
 c
       my_real :: TIME_UNIT,TIME,xINDX, INTEGRAL,INCREMENT,TIME_INTERVAL
       my_real :: HIC_PERIOD,HIC_CRIT,HIC,HIC_PREC,HIC_TMP

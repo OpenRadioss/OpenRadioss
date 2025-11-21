@@ -50,12 +50,9 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       LOGICAL :: BOOL
-      INTEGER II, I, J, N, IH, NG, ITY, MTE, NB0, NB1, NB2, NB3,
-     .   NB4, NB5, NNB3, MB1, MB2, MB3, MB4, MB5, K, IST, IP, L,
-     .   LWA, IMAT, IPROP, NX, IGTYP, NUVAR, NUVARN,NEL,NFT,
-     .   KVAR,KVARN
-      my_real
-     .   WWA(100)
+      INTEGER II, I, J, N, IH, NG, ITY, 
+     . K,
+     . NXN,NEL,NFT
       INTEGER :: J_FIRST,NITER,IAD,NN,IADV,NVAR,ITYP,IJK
       INTEGER, DIMENSION(NTHGRP2) :: INDEX_NST
 C-------------------------

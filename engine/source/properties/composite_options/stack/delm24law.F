@@ -96,7 +96,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER 
-     .        I,J,IDEL,IDEL_L,IFLAG(MVSIZ),INDX(MVSIZ),NINDX,
+     .        I,J,INDX(MVSIZ),NINDX,
      .        NINDEX,INDEX(MVSIZ),JST(MVSIZ),IR,JJ,IMOD,
      .        MODE(MVSIZ)
       my_real 

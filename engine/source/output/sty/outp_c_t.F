@@ -64,14 +64,14 @@ C-----------------------------------------------
       INTEGER I,J,JJ
       INTEGER NG,NEL,NFT,ITY,LFT,NPT,IPT,N0,
      .        LLT,MLW,ISTRAIN,N,NS1,NS2,
-     .        I1,I2,ISTRE,IHBE,JJ_OLD,NGF,NGL,NN,LEN,
-     .        IR,IS,NPTR,NPTS,NLAY,MPT,NPT_ALL,IGTYP,NPTT,II(8)
+     .        ISTRE,IHBE,JJ_OLD,NGF,NGL,NN,
+     .        NLAY,MPT,NPT_ALL,IGTYP,II(8)
       INTEGER RESP0,WRTLEN,RES,COMPTEUR,L,K
       INTEGER, DIMENSION(NSPGROUP) :: JJ_LOC
       INTEGER, DIMENSION(NSPGROUP+1,NSPMD) :: ADRESS 
       my_real
      .   WA(SIZLOC),WAP0(SIZ_WR),WAP0_LOC(SIZP0)
-      my_real A1,A2,THK,FUNC(6)
+      my_real A1,A2,THK
 C
       TYPE(G_BUFEL_) , POINTER :: GBUF
 C-----------------------------------------------
@@ -419,10 +419,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NG,NEL,NFT,ITY,LFT,NPT,IPT,N0,
-     .   LLT,MLW,ISTRAIN,N,NS1,NS2,
-     .   I1,I2,I3,I4,I5,I11,ISTRE,IHBE,I,J,JJ,
-     .   JJ_OLD,NGF,NGL,NN,LEN,K,NPG,IPG,NLAY,NPTS,NPTR,IL,ITHK,NPTT,IT,
+      INTEGER NG,NEL,NFT,ITY,LFT,NPT,
+     .   LLT,MLW,ISTRAIN,
+     .   I1,I3,IHBE,I,J,JJ,
+     .   JJ_OLD,NGF,NGL,NN,K,NPG,IPG,NLAY,NPTS,NPTR,IL,ITHK,NPTT,IT,
      .   IGTYP,IXFEM,ISUBSTACK,NPT_ALL,MPT,COMPTEUR,L,II(8)
       INTEGER, DIMENSION(NSPGROUP) :: JJ_LOC
       INTEGER, DIMENSION(NSPGROUP+1,NSPMD) :: ADRESS 
@@ -430,7 +430,7 @@ C-----------------------------------------------
      .   WA(SIZLOC),WAP0(SIZ_WR),WAP0_LOC(SIZP0)
 
       my_real
-     .   A1,A2,THK,FUNC(6),HOURG(5),PLA(MVSIZ)
+     .   FUNC(6),HOURG(5)
 C
       TYPE(BUF_LAY_) ,POINTER :: BUFLY
       TYPE(G_BUFEL_) ,POINTER :: GBUF

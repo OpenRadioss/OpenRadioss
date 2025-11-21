@@ -68,17 +68,17 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,II(6),JJ,NBB(20),RESP0,WRTLEN,RES
-      INTEGER NG, NEL, IADD,N,MLW,
-     .        JJ_OLD, NGF, NGL, NN, LEN,NLAY, NUVAR, NPTT, NPTS,
-     .        LIAD, IUS, ISOLNOD, IPT,IL,IR,IS,IT, MLW2, NPTG, 
-     .        MT, NPTR,K, NPT1,COMPTEUR,L
+      INTEGER I,J,II(6),JJ,RESP0,WRTLEN,RES
+      INTEGER NG, NEL,N,MLW,
+     .        JJ_OLD, NGF, NGL, NN,NLAY, NUVAR, NPTT, NPTS,
+     .         IUS, ISOLNOD,IL,IR,IS,IT, 
+     .         NPTR,K,COMPTEUR,L
       INTEGER, DIMENSION(NSPGROUP) :: JJ_LOC
       INTEGER, DIMENSION(NSPGROUP+1,NSPMD) :: ADRESS 
       my_real
      .   WA(SIZLOC),WAP0(SIZ_WR),WAP0_LOC(SIZP0)
       my_real
-     .   FUNC(6),S1 ,S2 ,S3 ,P ,VONM2, USER(200)
+     .   S1 ,S2 ,S3 ,P ,VONM2, USER(200)
       TYPE(BUF_LAY_) ,POINTER :: BUFLY     
       TYPE(L_BUFEL_) ,POINTER :: LBUF     
       TYPE(G_BUFEL_) ,POINTER :: GBUF     
@@ -418,8 +418,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NN,NG,SZP0(NSPGROUP),RSZP0(NSPGROUP),NGF,NGL,JJ,
-     .        WASZ26,P0ARS26,MLW,NEL,NPT,JHBE,ISOLNOD, 
+      INTEGER NN,NG,NGF,NGL,JJ,
+     .        WASZ26,MLW,NEL,NPT,JHBE,ISOLNOD, 
      .        NUVAR,I,LFT,LLT,NFT,ITY,WASZ1
 C-----------------------------------------------
       WASZ1 = 0

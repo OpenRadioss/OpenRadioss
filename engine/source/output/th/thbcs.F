@@ -43,15 +43,15 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NODLAST,CPTREAC
-      INTEGER NODFT,NODLT,ICODT(*),ICODR(*),ISKEW(*),NODREAC(*)
+      INTEGER NODFT,ICODT(*),ICODR(*),ISKEW(*),NODREAC(*)
       my_real
      .    A(3,*), AR(3,*), MS(*),SKEW(LSKEW,*),
      .    FTHREAC(*),IN(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, N, K, ISK, LCOD, NINDX,
-     .        INDX(1024),L,J,FLAG_MOM
+      INTEGER I, N, NINDX,
+     .        INDX(1024),FLAG_MOM
 C-----------------------------------------------
 C
       IF (CPTREAC >= 1) THEN
