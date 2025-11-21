@@ -54,7 +54,7 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER MSGOFF,MSGOFF2,MSGTYP,INFO,P,PMAIN, LOC_PROC, J, LEN
+      INTEGER MSGOFF,MSGOFF2,MSGTYP,P,PMAIN, LOC_PROC, LEN
       DATA MSGOFF/112/
       DATA MSGOFF2/113/
       INTEGER STATUS(MPI_STATUS_SIZE),IERROR

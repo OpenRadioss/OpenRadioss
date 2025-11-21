@@ -60,7 +60,7 @@ C-----------------------------------------------
       my_real
      .   OFF, P, VONM2, VONM, S1, S2, S12, S3, VALUE,THK0,A0,AL0,
      .   RHO0,XX1,XX2,XX3,YY1,YY2,YY3,ZZ1,ZZ2,ZZ3
-      INTEGER I, NG, NEL, NFT, IAD, ITY, LFT, NPT, ISS, ISC,
+      INTEGER I, NG, NEL, NFT, IAD, ITY, LFT, 
      .        IADD, N, J, LLT, MLW, NB1, NB2, NB3, NB4, NB5,NB6, 
      .        NB7, NB8, NB9, NB10, NB11, NB12, NB13, NB14, NB15, NB16,
      .        ISTRAIN,NN, K1, K2,JTURB,MT,JALE, IMID, IALEL,IPID,
@@ -68,7 +68,7 @@ C-----------------------------------------------
      .        NN1,NN2,NN3,NN4,NN5,NN6,NN7,NN8,NN9,NN10,
      .        OFFSET,NEL_OLD,ITY_OLD,NFT_FA,N_FA,
      .        NUVAR
-      REAL R4
+ 
 C
       TYPE(G_BUFEL_) ,POINTER :: GBUF
 C-----------------------------------------------

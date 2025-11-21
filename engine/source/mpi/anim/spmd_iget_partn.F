@@ -73,10 +73,10 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER MSGOFF,MSGTYP,INFO,IDEB,K,N,NB_TMP,LEN,IADP(NSPMD),I
+      INTEGER MSGOFF,MSGTYP,IDEB,K,N,NB_TMP,LEN,IADP(NSPMD)
 
       INTEGER STATUS(MPI_STATUS_SIZE),IERROR
-      INTEGER, DIMENSION(:),ALLOCATABLE :: RBUF,NPT
+      INTEGER, DIMENSION(:),ALLOCATABLE :: RBUF
       DATA MSGOFF/7029/
 C-----------------------------------------------
 C   S o u r c e  L i n e s

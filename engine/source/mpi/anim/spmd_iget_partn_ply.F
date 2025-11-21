@@ -65,8 +65,8 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER MSGOFF,MSGTYP,INFO,IDEB,K,N,NB_TMP,LEN,IADP(NSPMD),
-     .        I,EMPL,IPLY
+      INTEGER MSGOFF,MSGTYP,IDEB,K,N,NB_TMP,LEN,IADP(NSPMD),
+     .        I,IPLY
 
       INTEGER, DIMENSION(:),ALLOCATABLE :: RBUF,RBUF2,NPT
       INTEGER STATUS(MPI_STATUS_SIZE),IERROR

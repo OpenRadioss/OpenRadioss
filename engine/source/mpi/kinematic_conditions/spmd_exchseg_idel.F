@@ -76,9 +76,9 @@ C-----------------------------------------------
 #ifdef MPI
       INTEGER MSGOFF2 ,MSGOFF3, MSGTYP, LOC_PROC,
      .        IERROR,I, IDEB, LEN, N1, N2, N3, N4,
-     .        K, IX, LFT, LLT, II, NN, J, IOFF,
-     .        JD(50), KD(50), NG, IDEL, ITYP, NBEL,
-     .        ITY, MLW, NEL, NFT, KAD, NPT, ISTRA, IHBE,
+     .        K, IX, II, NN, J, IOFF,
+     .           NBEL,
+     .            
      .        REQ_S2(NSPMD),REQ_S3(NSPMD),STATUS(MPI_STATUS_SIZE),
      .        REQ_R1(NSPMD)
       INTEGER, DIMENSION(:), ALLOCATABLE ::  BUFR, BUFS2

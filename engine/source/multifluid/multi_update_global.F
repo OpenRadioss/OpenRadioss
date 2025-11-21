@@ -65,7 +65,7 @@ C     L o c a l   V a r i a b l e s
 C-----------------------------------------------
       TYPE(G_BUFEL_), POINTER :: GBUF
       INTEGER :: II, I
-      my_real :: RHO, ETOT, VEL2, VOL, SUMFLUX(5)
+      my_real ::  VEL2
       my_real :: VII(5)
       INTEGER :: NEL, NFT
 C-----------------------------------------------

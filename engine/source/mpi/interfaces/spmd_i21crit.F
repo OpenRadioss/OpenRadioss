@@ -55,7 +55,7 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER I, N, MSGTYP, IERROR, LOC_PROC,
+      INTEGER I, N, IERROR, LOC_PROC,
      .        SIZE
       my_real
      .        RBUF(5,NINTSTAMP,NSPMD),RRBUF(5,NINTSTAMP)

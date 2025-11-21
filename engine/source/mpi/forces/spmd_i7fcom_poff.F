@@ -114,12 +114,12 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER P, L, ADD, LL, NB, LEN, SIZ, LOC_PROC, MULTIMP, II,
-     .        NIN, IDEB, N, MSGTYP, IERROR, NI, NOD, INTTH,
+      INTEGER P, L, ADD, LL, NB, LEN, SIZ, LOC_PROC, II,
+     . NIN, IDEB, N, MSGTYP, IERROR, INTTH,
      .        IBC, ISECIN, IBAG, NOINT, NTY, LEN11, N1, N2,LENI,INACTI,
-     .        IADM,IALLOCS, IALLOCR, LEN17, IGN, IGE, NMES, NME,  NAD,
+     . IADM,IALLOCS, IALLOCR, LEN17, IGN, IGE, NMES, NME,
      .        LEN7T,LEN20,LEN20T, LEN20E, INC, MSGOFF,LEN11T,
-     .        JD(50), KD(50),  STATUS(MPI_STATUS_SIZE),LEN7TH,
+     . STATUS(MPI_STATUS_SIZE),
      .        DEBUT(NINTER), DEBUTE(NINTER),LL0,
 c parasiz car variable en save
      .        ADDS(PARASIZ+1), ADDR(PARASIZ+1),
@@ -127,7 +127,6 @@ c parasiz car variable en save
       INTEGER, PARAMETER :: LEN25E = 11 
       INTEGER :: NEDGE, INTCAREA
       DATA MSGOFF/143/
-      LOGICAL ITEST
       my_real       ,DIMENSION(:), ALLOCATABLE :: BBUFS, BBUFR
       my_real
      .   BID

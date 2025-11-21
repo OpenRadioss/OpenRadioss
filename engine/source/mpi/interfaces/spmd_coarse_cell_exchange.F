@@ -74,15 +74,12 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI        
-        INTEGER :: KK,NIN,I,J
-        INTEGER :: P,P_LOC,LOCAL_RANK
-        INTEGER :: MY_SIZE,OLD_POINTER
-        INTEGER :: ADRESS,SHIFT_
+        INTEGER :: KK,NIN,I
+        INTEGER :: MY_SIZE
 
-        INTEGER IERROR1,STATUS(MPI_STATUS_SIZE),IERROR
-        INTEGER :: SIZE_CELL_LIST,TOTAL_RCV_SIZE,TOTAL_SEND_SIZE
+        INTEGER STATUS(MPI_STATUS_SIZE),IERROR
+        INTEGER :: TOTAL_RCV_SIZE,TOTAL_SEND_SIZE
         INTEGER :: LOC_PROC,ID_PROC
-        INTEGER :: COUNT_COMM_SIZE_CELL,ID_COMM
         INTEGER :: ITIED
 !   ----------------------------------------
         LOC_PROC = ISPMD + 1

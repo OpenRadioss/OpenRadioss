@@ -131,13 +131,13 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER P, L, ADD, LL, NB, LEN, SIZ, KFI, LOC_PROC, MULTIMP, II,
+      INTEGER P, L, ADD, LL, NB, LEN, SIZ, LOC_PROC, II, 
      .        NIN, IDEB, N, MSGTYP, IERROR, IDEBI, NI, NOD, NIE,
      .        IBC, ISECIN, IBAG, NOINT, NTY, LEN11, N1, N2,LENI,INACTI,
-     .        IALLOCS, IALLOCR, LEN17, JJ, NAD, IGN, IGE, NMES, NME,
+     . IALLOCS, IALLOCR, LEN17, JJ, IGN, IGE, NMES, NME,
      .        IADM, IES,INTTH,LEN7T,LEN20, LEN20E, INC,LEN11T,
      .        MSGOFF, MSGOFF2,J,K,INTCAREA,
-     .        JD(50), KD(50),  STATUS(MPI_STATUS_SIZE),
+     . STATUS(MPI_STATUS_SIZE),
      .        DEBUT(NINTER), DEBUTI(NINTER),
      .        DEBUTE(NINTER), DEBUTIE(NINTER),
 C parasiz car variable en save
@@ -145,11 +145,11 @@ C parasiz car variable en save
      .        ISIZRCV(2,PARASIZ),ISIZENV(2,PARASIZ),
      .        NSNFITOT(PARASIZ),NSNSITOT(PARASIZ)
       INTEGER :: LEN25E ! edge2edge additional length
-              INTEGER SISKY_OLD,LSKYI_OLD,LSKYI_CT 
+              INTEGER LSKYI_CT
       INTEGER, DIMENSION(:), ALLOCATABLE :: INDEX
       my_real, DIMENSION(:,:), ALLOCATABLE :: TEMPO
-      INTEGER, DIMENSION(:,:), ALLOCATABLE :: FTEMP
-      INTEGER INDEXSIZ,MAX_ARRAYS,NUM_ARRAYS,TEMP_SIZ
+ 
+      INTEGER TEMP_SIZ
       INTEGER :: THOFFSET
       INTEGER :: NB_TOT_EDGES
       LOGICAL :: CONDITION

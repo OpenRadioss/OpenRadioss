@@ -115,9 +115,9 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER MSGTYP,INFO,I,NOD, DT_CST, LOC_PROC,P,IDEB,
-     .        SIZ,J, L, BUFSIZ, LEN, NB, IERROR1, IAD,
-     .        STATUS(MPI_STATUS_SIZE),IERROR,REQ_SB(NSPMD),
+      INTEGER MSGTYP, I, NOD, LOC_PROC, P, IDEB, 
+     . J, L, LEN, NB,
+     . IERROR,REQ_SB(NSPMD),
      .        REQ_RB(NSPMD),KK,NBIRECV,IRINDEXI(NSPMD),
      .        REQ_RD(NSPMD),REQ_SD(NSPMD),REQ_SD2(NSPMD),
      .        REQ_RC(NSPMD),REQ_SC(NSPMD),
@@ -130,8 +130,7 @@ C-----------------------------------------------
      .        REQ_SD4(NSPMD),REQ_RD4(NSPMD),
      .        REQ_SD5(NSPMD),REQ_RD5(NSPMD),
      .        LEN2, RSHIFT, ISHIFT, ND, JDEB, Q, NBB,
-     .        NB_EDGE, IDEB_EDGE,
-     .        ISIZ_EDGE
+     .        NB_EDGE, IDEB_EDGE
 
       my_real:: XMINS,YMINS,ZMINS
       my_real:: XMAXS,YMAXS,ZMAXS

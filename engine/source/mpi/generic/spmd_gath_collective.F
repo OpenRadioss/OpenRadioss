@@ -54,8 +54,8 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER MSGOFF,MSGOFF2,MSGTYP,INFO,I,K,ATID,ATAG,ALEN,RLEN,S1
-      INTEGER STATUS(MPI_STATUS_SIZE),IERROR
+      INTEGER MSGOFF,MSGOFF2,I,S1
+      INTEGER IERROR
       INTEGER SIZES(NSPMD),POINTERS(NSPMD)
       INTEGER,ALLOCATABLE,DIMENSION(:) :: SRBUF2
       DATA MSGOFF/7013/

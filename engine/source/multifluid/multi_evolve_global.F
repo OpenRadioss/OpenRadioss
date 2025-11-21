@@ -66,8 +66,8 @@ C     L o c a l   V a r i a b l e s
 C-----------------------------------------------
       TYPE(G_BUFEL_), POINTER :: GBUF
       INTEGER :: II, I, J, ITY, NEL, NFT, ISOLNOD
-      INTEGER :: IPLA, NODEID, NVERTEX
-      my_real :: RHO, ETOT, VEL2, VOL, SUMFLUX(5)
+      INTEGER ::  NODEID, NVERTEX
+      my_real ::  VEL2, VOL, SUMFLUX(5)
       my_real :: VII(5), GRAVII(3), PRES, VX, VY, VZ, WEXT
       INTEGER :: NB_FACE, NB_NODE, NODE_LIST(8)
       INTEGER, DIMENSION(:, :), POINTER :: IX

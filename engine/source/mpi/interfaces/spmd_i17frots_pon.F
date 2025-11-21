@@ -70,7 +70,7 @@ C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
       INTEGER P, L, ADD, LL, NB, LEN, SIZ, LOC_PROC,
-     .        IDEB, N, MSGTYP, IERROR, IDEBI, NI, NOD,
+     .        IDEB, N, MSGTYP, IERROR, IDEBI,
      .        IALLOCS, IALLOCR, IES, I, NN, MSGOFF, MSGOFF2,
      .        STATUS(MPI_STATUS_SIZE),
      .        REQ_SI(NSPMD),REQ_S(NSPMD),REQ_R(NSPMD),

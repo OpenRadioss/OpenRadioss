@@ -62,7 +62,7 @@ C-----------------------------------------------
      .                                      MAXV_RES1, MAXV_RES2
 
       INTEGER STATUS(MPI_STATUS_SIZE),IERROR,MSGOFF,FLAG,ITABG(LENG)
-      INTEGER SIZ,MSGTYP,I,J,K,NG,NREC,MSGOFF2,
+      INTEGER SIZ,MSGTYP,I,J,K,MSGOFF2,
      .        L,ISMASSCHANGE,MSGOFF3,MSGOFF4
       INTEGER, DIMENSION(:) , ALLOCATABLE :: IDNOD0, IDNOD, IDNOD_RES
 

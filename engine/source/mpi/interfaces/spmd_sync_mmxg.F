@@ -57,8 +57,8 @@ C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
       INTEGER LOC_PROC,IERROR,I_LEN,myop,
-     .        KK, L, J, NIN, REQ,
-     .        STATUS(MPI_STATUS_SIZE),type_reduc
+     .        KK, L, J, NIN,
+     .        type_reduc
       PARAMETER (I_LEN = 46)
       my_real
      .        SBUF(NINTC*I_LEN), RBUF(NINTC*I_LEN)

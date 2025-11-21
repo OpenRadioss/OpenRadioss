@@ -107,18 +107,18 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,L,N, NG, NEL, MLW, 
-     .        NN, K1, K2,JTURB,MT, IMID, IALEL,IRUPT,           
+     .        NN, K1, K2,JTURB,MT, IALEL,IRUPT,           
      .        NN1,NN2,NN3,NN4,
      .        OFFSET,K,II, IUS, NUVAR,TSHELL,TSH_ORT,
-     .        ISOLNOD, IPRT, LIAD, NPTR, NPTS, NPTT, NLAY, IPT,
+     .        ISOLNOD, IPRT, NPTR, NPTS, NPTT, NLAY, IPT,
      .        IL,IS,IR,IT, NPTG, ICSIG,
      .        PID, NPG_PLANE,NFAIL,NUMLAY,IJK,IIR,IOFF,IALEFVM_FLG,
      .        NERCVOIS(*),NESDVOIS(*),LERCVOIS(*),LESDVOIS(*),
      .        IDEB, IPOS, ITRIMAT,IVISC,JJ(6),IFRAC,IMAT,IADBUF,
-     .        NUPARAM,IDX,ISUBMAT,IU(4),NFRAC,IS_ALE,IS_EULER,
+     .        NUPARAM,ISUBMAT,IU(4),NFRAC,IS_ALE,IS_EULER,
      .        IMAT_TILLOTSON,NTILLOTSON,FAC,NVAREOS,IEOS
       my_real EVAR(MVSIZ), USER(MVSIZ),
-     .        OFF, P, VONM2, VONM, S1, S2, S3, VALUE,VALUES(MVSIZ),GAMA(6),
+     .         P, VONM2, VONM, S1, S2, S3, VALUE,VALUES(MVSIZ),GAMA(6),
      .        T11,T21,T31,T12,T22,T32,T13,T23,T33,
      .        PHI,TETA,PSI,DAMMAX,S11,S22,S33,S4,S5,S6,
      .        SIG1(MVSIZ),SIG2(MVSIZ),SIG3(MVSIZ),SIG4(MVSIZ),SIG5(MVSIZ),

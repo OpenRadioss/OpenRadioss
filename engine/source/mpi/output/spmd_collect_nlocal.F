@@ -60,7 +60,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ITAB(*),NUMNOD_LOCAL,NODGLOB(*)
       INTEGER NPOS,SIZP0
-      INTEGER MSGOFF,MSGOFF0,MSGTYP,INFO,I,K,NG,N,
+      INTEGER MSGOFF,MSGOFF0,MSGTYP,I,K,N,
      .        EMPL,SDNODG(NUMNODM),FILEN 
       DOUBLE PRECISION
      .        AGLOB(2,NUMNODM),RECGLOB(2,SIZP0) 

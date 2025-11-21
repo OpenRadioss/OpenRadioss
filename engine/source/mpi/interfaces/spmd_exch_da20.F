@@ -69,8 +69,8 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER MSGTYP,I,NOD,LOC_PROC,IERROR,INDEX, N, MSGOFF,
-     .        SIZ,J,K,L,NB_NOD,NBIRECV, II, JJ, NI,INC,
+      INTEGER MSGTYP,I,NOD,LOC_PROC,IERROR, N, MSGOFF,
+     .        SIZ,J,L,NB_NOD,NBIRECV, II, NI,INC,
      .        NIN, NLN, LL,IL,IG,
      .        IAD_RECV(NSPMD+1),DEBUT(NSPMD),
      .        STATUS(MPI_STATUS_SIZE),RSTATUS(MPI_STATUS_SIZE,NSPMD),

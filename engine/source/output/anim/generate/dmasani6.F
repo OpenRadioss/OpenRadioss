@@ -72,7 +72,7 @@ C     REAL
      .   EVAR(MVSIZ),
      .   OFF, P, VONM2, VONM, S1, S2, S12, S3, VALUE,THK0,A0,AL0,
      .   RHO0,XX1,XX2,XX3,YY1,YY2,YY3,ZZ1,ZZ2,ZZ3
-      INTEGER I, NG, NEL, ISS, ISC,
+      INTEGER I, NG, NEL, 
      .        IADD, N, J, MLW, 
      .        ISTRAIN,NN, K1, K2,JTURB,MT,IMID, IALEL,IPID,
      .        N1,N2,N3,N4,
