@@ -70,7 +70,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, N, JJ, IPRT, BUF, IPRT0, K, STAT_NUMELS_1
+      INTEGER I, N, JJ, IPRT, IPRT0, K
       INTEGER NG, NEL, NFT, LFT, LLT, ITY, ISOLNOD, IOFF
       INTEGER,DIMENSION(:,:),ALLOCATABLE :: IADG
       INTEGER,DIMENSION(:),ALLOCATABLE :: IADD

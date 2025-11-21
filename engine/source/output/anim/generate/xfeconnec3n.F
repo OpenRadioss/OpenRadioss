@@ -57,11 +57,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,K1,K2,K3,KK,p,P1,P2,P3,IFI1,IFI2,
+      INTEGER I,K,K1,K2,K3,KK,P1,P2,P3,IFI1,IFI2,
      .  EDGE,IEDGE1,IEDGE2,EDGE1,EDGE2,IED1,IED2,
      .  IADC1,IADC2,IADC3,ILAY,IXEL,ELCUT,ELCRK,ELCRKTG,
      .  IED0,IFI10,NOD1,NOD2,ITRI,NX1,NX2,NX3
-      INTEGER IFI0(3,MVSIZ),NEG(2),D1(3),D2(3),DX(6)
+      INTEGER IFI0(3,MVSIZ),D1(3),D2(3),DX(6)
       my_real
      .   XIN(3,MVSIZ),YIN(3,MVSIZ),ZIN(3,MVSIZ),
      .   XX(3,MVSIZ),YY(3,MVSIZ),ZZ(3,MVSIZ)

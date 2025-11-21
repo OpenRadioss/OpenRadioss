@@ -65,15 +65,11 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 C     REAL
-      my_real
-     .   OFF, FAC, A1, A2, A3, THK
       REAL R4(18)
-      INTEGER I, NG, NEL, NFT, IAD, ITY, LFT, NPT, IPT,M,
-     .        IADD, N, J, LLT, MLW, NB1, NB2, NB3, NB4, NB5, 
-     .        NB6, NB7, NB8, NB9, NB10, NB11, NB12, ISTRAIN,
-     .        IPID, I1, I2, IAD2, NS1, NS2  , IALEL, ISTRE,
-     .        NN1,NN2,NN3,NN4,NN5,NN6,NN7,NN8,NN9,NN10,NNI,N0,
-     .        IHBE,BUF
+      INTEGER I, NG, NEL, NFT, IAD, ITY, LFT, M, 
+     . N, J, LLT, MLW, NB1,
+     . NN1,NN2,NN3,NN4,NN5,NN6,NN7,NN8,NN9,NN10,
+     . BUF
       REAL,DIMENSION(:),ALLOCATABLE :: WAL
 C-----------------------------------------------
        CALL MY_ALLOC(WAL,9*NBF)

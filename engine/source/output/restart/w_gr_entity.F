@@ -55,7 +55,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,ID,IGU,NENTITY,GRTYPE,SORTED,GRPGRP,LEVEL,
+      INTEGER J,ID,IGU,NENTITY,GRTYPE,SORTED,GRPGRP,LEVEL,
      .        ERR,R2R_ALL,R2R_SHARE,ENTITY,ITITLE(LTITR),L_GROUP
       CHARACTER(LEN=NCHARTITLE) :: TITR
       INTEGER, ALLOCATABLE, DIMENSION (:)  ::  IGROUP

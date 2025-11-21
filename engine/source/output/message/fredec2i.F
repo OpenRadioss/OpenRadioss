@@ -48,7 +48,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       CHARACTER(LEN=NCHARLINE100) MOT
-      INTEGER I,J1,J2,J
+      INTEGER I,J1,J2
       MOT=' '
       I=2
       DO WHILE(LINE(I:I)/='/')

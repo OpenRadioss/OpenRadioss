@@ -83,20 +83,20 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 C     REAL
       my_real
-     .   OFF, FAC, A1, A2, A3, THK, SIGE(MVSIZ,5)
+     . FAC, A1, A2, A3, THK, SIGE(MVSIZ,5)
       REAL R4(18)
       INTEGER I, NG, NEL, NFT, IAD, ITY, LFT, NPT, IR,IS,IPT,
-     .        IADD, N, J, LLT, MLW, ISTRAIN,NPTR,NPTS,NPTT,NLAY,
-     .        IPID, I1, I2, IAD2, NS1, NS2  , IALEL, ISTRE,
-     .        NN1,NN2,NN3,NN4,NN5,NN6,NN7,NN8,NN9,NN10,NNI,N0,
-     .        II, II_L, KK ,INC,IHBE,LEN ,IREP,BUF,IEXPAN,ILAYER,
+     . N, J, LLT, MLW, ISTRAIN,NPTR,NPTS,NPTT,NLAY,
+     . IPID, NS1, NS2 , ISTRE,
+     . NN1,NN2,NN3,NN4,NN5,NN6,NNI,N0,
+     . II ,INC,IHBE ,IREP,BUF,ILAYER,
      .        JJ(8)
-      INTEGER IE,ISHPLYXFEM,IP,JPID,IPPID,IPLY0,IFLAG,ION,NPG,K,
+      INTEGER IE, ISHPLYXFEM, IFLAG, ION, NPG, 
      .        ELC,PLYELEMS(NUMELC),PLYS,IFAILURE,IVISC,NUVARV,
      .        MAT(MVSIZ),PID(MVSIZ),IGTYP,IADR,MATLY,IPMAT,
-     .        IIGEO,IADI,ISUBSTACK,IPMAT_IPLY
+     . ISUBSTACK,IPMAT_IPLY
       REAL,DIMENSION(:,:),ALLOCATABLE:: WA
-      TYPE(BUF_LAY_) ,POINTER :: BUFLY
+ 
       TYPE(G_BUFEL_) ,POINTER :: GBUF
       TYPE(L_BUFEL_) ,POINTER :: LBUF
 C-----------------------------------------------

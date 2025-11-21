@@ -53,11 +53,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER J, I, K, K1, N, NSEG, N1, N2, N3, N4,NSEGC, NSEGTG,
-     .    ITYP, KK,ITMP, K0, K5, K9
-      my_real
-     .   XX1, YY1, ZZ1, XX2, YY2, ZZ2, XX3, YY3, ZZ3,
-     .   XX4, YY4, ZZ4, D13, XXC, YYC, ZZC
+      INTEGER J, I, K, N, N1, N2, N3, N4, NSEGC, NSEGTG, 
+     . ITYP, KK, K0, K5, K9
       INTEGER NSEGS, POWER2(8),IPACK,
      .         II(8), N5, N6, N7, N8, K3
       DATA POWER2/1,2,4,8,16,32,64,128/

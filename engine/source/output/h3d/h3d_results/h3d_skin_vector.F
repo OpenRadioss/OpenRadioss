@@ -85,7 +85,7 @@ C-----------------------------------------------
       CHARACTER(LEN=NCHARLINE100):: KEYWORD
       my_real
      .   SKIN_VECTOR(3,*),TF(*),X(3,*),V(3,*),DIS(3,NUMNOD)
-      TYPE (H3D_DATABASE) :: H3D_DATA
+ 
       INTEGER , DIMENSION(NUMSKINP0), INTENT(IN) ::  IMAPSKP
       INTEGER
      .   H3D_PART(*),IS_WRITTEN_SKIN(*),INFO1,NPC(*)
@@ -103,9 +103,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NL, N1, ISK, N2, N3, N4, N5,NSKIN,  
+      INTEGER NL, N1, N2, N3, N4, N5, NSKIN, 
      .        IAD ,NP ,IFUNC ,NPRES,NSKIN0,NSKIN1,N1FRAM,DIR_HSP,I,N
-      INTEGER K1, K2, K3, ISENS,K,LL,IERR,
+      INTEGER K1, K2, K3, ISENS, K, 
      .        N_OLD, ISMOOTH,IDEL,NINTERP ,NPL,TAGN1,TAGN2,TAGN3,TAGN4,
      .        FUN_CX,FUN_VEL,DIR_VEL,IFRA2, IANIM,IJK,UP_BOUND,
      .        IZ_UPDATE,ABAC_ID,ISIZ_SEG,IERR1,
@@ -122,7 +122,7 @@ C-----------------------------------------------
      .        Xdet,Ydet,Zdet,Tdet,Wtnt,PMIN,Dx,Dy,Dz,NORMD, P,
      .        T0INF_LOC, TA_SHIFT, TT_STAR
       INTEGER :: IFUN,IFRA,M1,M2,NDIM,NPOINT, IIOUT,SHIFT,FUNCTYPE
-       my_real :: A11,A12,A21,A22,B1,B2,DET,LEN,DIRX,DIRY,DIRZ,
+       my_real :: LEN, DIRX, DIRY, DIRZ, 
      .     BETA,GAMMA,R,S,RMAX,XFACR,XFACT,YFAC,SEGP,PRESS,DISP
       my_real, DIMENSION(3) :: P0,DIR,A,B,C,D,M
       

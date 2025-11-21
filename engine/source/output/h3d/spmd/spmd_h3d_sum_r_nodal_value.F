@@ -48,11 +48,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
-      INTEGER J,K 
+      INTEGER K 
       REAL
      .       , DIMENSION(:), ALLOCATABLE ::  V_TMP,VP0_TMP
 #ifdef MPI
-      INTEGER STATUS(MPI_STATUS_SIZE),IERROR,I
+      INTEGER IERROR,I
 
         ALLOCATE(V_TMP(LENP0))
         ALLOCATE(VP0_TMP(LENP0))

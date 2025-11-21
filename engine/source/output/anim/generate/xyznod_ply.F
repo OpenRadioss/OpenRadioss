@@ -46,10 +46,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IPLY,IDPLY,NOD_PXFEM(*),NBF_PXFEMG,NODGLOB(*),EMPSIZPL
+      INTEGER IPLY,IDPLY,NOD_PXFEM(*),NODGLOB(*),EMPSIZPL
       my_real
      .   X(3,*),ZI_PLY(NPLYXFE,*),NORM
-      REAL R4
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------

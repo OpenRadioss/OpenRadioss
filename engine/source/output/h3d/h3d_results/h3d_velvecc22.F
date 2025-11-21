@@ -72,14 +72,13 @@ C-----------------------------------------------
       INTEGER, INTENT(IN)    :: IOK_PART(*)
       INTEGER, INTENT(INOUT) :: IS_WRITTEN_NODE(*) 
       my_real, INTENT(INOUT) :: NODAL_VECTOR(3,*)   
-      REAL R4
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB      
       TYPE(BUF_MAT_),POINTER                          :: MBUF   
       TYPE(G_BUFEL_),POINTER                          :: GBUF 
 C-----------------------------------------------
 C   L o c a l   A r g u m e n t s
 C----------------------------------------------- 
-      INTEGER :: NGM, IDLOCM, IBM,ICELLM,MLW,NCELL,NELm,NBF,NBL,ICELL,NIN,NODE_ID,IB,NG,I
+      INTEGER :: NGM, IDLOCM, IBM,ICELLM,MLW,NCELL,NELm,NBF,NBL,ICELL,NIN,NODE_ID,IB,I
       my_real :: rho_cell, RHO(4), VFRAC(4)
       REAL,DIMENSION(:,:),ALLOCATABLE :: BUFFER
       my_real VALUE(3)

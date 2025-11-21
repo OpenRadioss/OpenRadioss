@@ -92,15 +92,15 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       my_real VALUE(3),P
-      INTEGER I,NEL,NPTR,NPTS,NPTT,NLAY,ILAY,MLW,JTURB,NVARF,
+      INTEGER I, NEL, NPTR, NPTS, NPTT, NLAY, ILAY, MLW, JTURB, 
      .        OFFSET,IHBE,NPG,MPT,IPT,ISUBSTACK,ITHK,NERCVOIS(*),NESDVOIS(*),LERCVOIS(*),LESDVOIS(*)
       INTEGER NPT_ALL,IPLY,
      .        IOK_PART(MVSIZ),JJ(5),IUVAR,
      .        IS_WRITTEN_VALUE(MVSIZ)
-      REAL R4
+ 
       TYPE(G_BUFEL_)  ,POINTER :: GBUF    
-      TYPE(L_BUFEL_)  ,POINTER :: LBUF
-      my_real,DIMENSION(:), POINTER  :: UVAR
+ 
+ 
 C----------------------------------------------- 
 
        CALL INITBUF(IPARG   ,NG      ,                    

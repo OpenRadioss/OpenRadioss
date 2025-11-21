@@ -50,10 +50,10 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       CHARACTER(LEN=NCHARLINE100) :: ERRMSGLINE
-      CHARACTER(LEN=NCHARLINE100) :: CTMP
+ 
       INTEGER ISTDEML
-      INTEGER NBLINE,NBLINETOT,J1,J,ID,MAXID,MSGTYPE,
-     .        IADT,IADD,IO_ERR
+      INTEGER NBLINE, NBLINETOT, 
+     . IO_ERR
       
       ISTDEML=81
       OPEN(UNIT=ISTDEML,FORM='FORMATTED',FILE=INPUTR,

@@ -114,7 +114,7 @@ C-----------------------------------------------
       my_real :: ENTOT, ENTOT1, ERR, ERR1, X99, EMASS,MAS,ENINTOT,EKINTOT,
      .           VX,VY,VZ,DT05,ENTMP(12)  ,RTMP(10),
      .           MVX, MVY, MVZ, TS, MAS2, WEWE2, ENTOT1B,DMASND
-      my_real :: DM_IN, DM_OUT, DE_IN, DE_OUT, DM_INOUT, DE_INOUT
+      my_real ::   DM_INOUT, DE_INOUT
 
       DOUBLE PRECISION :: ETIME, RETIME, TT0,
      .                    ENCIND, XMOMTD, YMOMTD, ZMOMTD,

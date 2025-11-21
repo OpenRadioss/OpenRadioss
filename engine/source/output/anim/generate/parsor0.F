@@ -57,11 +57,9 @@ C     REAL
      .        NODGLOB(*)
 C-----------------------------------------------
 C     REAL
-      my_real
-     .   OFF
-      INTEGER II, IE, NG, ITY, LFT, LLT, KPT, N, I,
+      INTEGER II, IE, NG, ITY, LFT, LLT, N, I, 
      .        NEL, IAD, NPAR, NFT, IPRT,
-     .        NN1,NN2,NN3,NN4,NN5,NN6,NN7,NN8,NN9,NN10,
+     . NN1,NN2,
      .        JJ, INOD,
      .        NP(NUMSPH),BUF,BUFP
 C-----------------------------------------------

@@ -63,12 +63,11 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER N1, N2, N3, N4, NN1, NN2, NN3, J, I, N, IFAC, ILINE,
-     .        LENR, NI
+     . LENR
        my_real
      .     AREA, 
      .     X1,Y1,Z1,X2,Y2,Z2,X3,Y3,Z3,X4,Y4,Z4,
-     .     X31,Y31,Z31,X42,Y42,Z42,X32,Y32,Z32,E3X,E3Y,E3Z,
-     .     FS2, FS3, FT2, FT3, E, F, G, RAYON,AY1,AY2,AY3,AY4
+     .     X31,Y31,Z31,X42,Y42,Z42,X32,Y32,Z32,E3X,E3Y,E3Z
       INTEGER FACES(4,6),LINES(2,4),FACES10(3,24)
 C     REAL
       DATA FACES/1,2,3,4,
