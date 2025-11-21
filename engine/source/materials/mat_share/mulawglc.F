@@ -51,11 +51,12 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      5           PID    ,TF     ,NPF    ,MTN   ,DT1C  ,A1    ,
      6           BUFMAT ,SSP    ,RHO    ,VISCMX,IOFC  ,A2    ,
      7           INDX   ,NGL    ,ZCFAC  ,GS    ,SIGY  ,G     ,
-     8           THK0   ,epsd_glob,IPLA ,IGEO  ,IPM   ,
+     8           THK0   ,epsd_glob,IPLA ,IGEO  ,IPM   ,TABLE ,
      9           IR     ,IS     ,F_DEF  ,ISMSTR,NU    ,VOL0  ,
      A           KFTS   ,ZSHIFT ,idamp_freq_range,mat_elem,damp_buf,
      B           FOR_G  )
 C-----------------------------------------------
+      USE TABLE_MOD
       USE ELBUFDEF_MOD
       use mat_elem_mod
       use damping_range_shell_mod
@@ -94,6 +95,7 @@ C-----------------------------------------------
       my_real, INTENT(IN) :: ZSHIFT
       my_real, intent(in),dimension(mvsiz) :: epsd_glob !< global strain rate by Gauss pt
       my_real, DIMENSION(NEL,5), INTENT(INOUT) :: FOR_G
+      TYPE(TTABLE) TABLE(*)
       TYPE(ELBUF_STRUCT_), TARGET :: ELBUF_STR
       type (mat_elem_) ,intent(in) ,target      :: mat_elem
       type (buf_damp_range_) ,intent(in)        :: damp_buf      ! buffer of damp frequency range
@@ -112,19 +114,20 @@ C-----------------------------------------------
      .   SIGOYY(MVSIZ),SIGOXY(MVSIZ),SIGOYZ(MVSIZ),SIGOZX(MVSIZ),
      .   SIGNXX(MVSIZ),SIGNYY(MVSIZ),SIGNXY(MVSIZ),SIGNYZ(MVSIZ),
      .   SIGNZX(MVSIZ),SIGVXX(MVSIZ),SIGVYY(MVSIZ),SIGVXY(MVSIZ),
-     .   SIGVYZ(MVSIZ),SIGVZX(MVSIZ),TENS(5,MVSIZ)
-      my_real VISC, VOL2, DTINV,ASRATE
+     .   SIGVYZ(MVSIZ),SIGVZX(MVSIZ),TENS(5,MVSIZ), 
+     .   YOUNG, VISC, VOL2, DTINV,ASRATE,SH_OFFSET
       my_real
      .   DEPBXX(MVSIZ),DEPBYY(MVSIZ),DEPBXY(MVSIZ),
      .   MOMOXX(MVSIZ),MOMOYY(MVSIZ),MOMOXY(MVSIZ),
      .   MOMNXX(MVSIZ),MOMNYY(MVSIZ),MOMNXY(MVSIZ),
-     .   ETSE(MVSIZ)  ,EPSPL(MVSIZ)
+     .   ETSE(MVSIZ)  ,EPSPL(MVSIZ),EPSP_LOC(MVSIZ)
       my_real, DIMENSION(:) ,POINTER :: UVAR
       my_real, DIMENSION(:) ,POINTER :: UVARV
       my_real, DIMENSION(NEL) :: OFF_OLD
 C-------------------------------------
       INTEGER, DIMENSION(:), POINTER :: VARTMP
       TYPE(L_BUFEL_) ,POINTER :: LBUF
+      type(matparam_struct_) , pointer :: matparam
 C-----------------------------------------------
 C   S o u r c e   L i n es
 C-----------------------------------------------
@@ -344,17 +347,21 @@ C-------------------------------------------
      9            SIGNXY  ,SIGNYZ  ,SIGNZX  ,MOMNXX  ,MOMNYY   ,
      A            MOMNXY  )
       ELSEIF (MTN == 36) THEN
-        CALL SIGEPS36G(mat_elem%mat_param(imat),
-     1     JLT    ,RHO    ,THK0    ,OFF     ,ETSE   ,
-     4     EPSPXX ,EPSPYY ,EPSPXY  ,
+        CALL SIGEPS36G(
+     1     JLT    ,NPF     ,
+     2     TF     ,TT     ,BUFMAT  ,RHO     ,
+     3     AREA   ,EINT   ,THK0    ,
+     4     EPSPXX ,EPSPYY ,EPSPXY  ,EPSPYZ  ,EPSPZX ,
      5     DEPSXX ,DEPSYY ,DEPSXY  ,DEPSYZ  ,DEPSZX ,
      5     DEPBXX ,DEPBYY ,DEPBXY  ,
-     6     EPSXX  ,EPSYY  ,EPSXY   ,
+     6     EPSXX  ,EPSYY  ,EPSXY   ,EPSYZ   ,EPSZX  ,
      7     SIGOXX ,SIGOYY ,SIGOXY  ,SIGOYZ  ,SIGOZX ,
      7     MOMOXX ,MOMOYY ,MOMOXY  ,
      8     SIGNXX ,SIGNYY ,SIGNXY  ,SIGNYZ  ,SIGNZX ,
      8     MOMNXX ,MOMNYY ,MOMNXY  ,
+     9     SIGVXX ,SIGVYY ,SIGVXY  ,SIGVYZ  ,SIGVZX ,
      A     SSP    ,VISCMX ,THKN    ,LBUF%PLA     ,
+     B     OFF    ,NGL    ,IPM     ,MAT     ,ETSE   ,
      C     GS     ,SIGY   ,EPSPL   ,ISRATE  ,IPLA, 
      D     SHF    ,NVARTMP,VARTMP)
       ELSEIF (MTN == 43) THEN

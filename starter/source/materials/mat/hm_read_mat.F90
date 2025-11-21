@@ -220,7 +220,6 @@
           use hm_read_mat02_jc_mod
           use hm_read_mat02_zerilli_mod
           use hm_read_mat02_predef_mod
-          use hm_read_mat36_mod
           use hm_read_mat50_mod
           use hm_read_mat57_mod
           use hm_read_mat81_mod
@@ -278,7 +277,7 @@
           &maxuparam,maxfunc,maxtabl,iunit,iflagunit,k
           parameter (maxuparam = 1048576)
           parameter (maxfunc  = 128, maxtabl = 9)
-          real(kind=WP) :: rho,young,nu,bulk,g,soundspeed,asrate,rbid
+          real(kind=WP) :: rho,young,nu,bulk,g,asrate,rbid
           integer ,dimension(maxfunc) :: ifunc
           integer ,dimension(maxtabl) :: itable
           real(kind=WP) ,dimension(:), allocatable :: uparam
@@ -375,7 +374,6 @@
             nuvar   = 0
             nvartmp = 0
             nuparam = 0
-            soundspeed = zero
             mtag => mlaw_tag(mat_number)
             matparam => mat_param(mat_number)
             matparam%title = ' '
@@ -598,7 +596,7 @@
               &pm(1,i)  ,matparam )
 !-------
              case ('LAW34','BOLTZMAN')
-              ilaw = 34
+              ilaw  = 34
               call hm_read_mat34(&
               &uparam   ,maxuparam,nuparam  ,israte  ,imatvis  ,&
               &nuvar    ,ifunc    ,maxfunc  ,nfunc   ,parmat   ,&
@@ -614,11 +612,12 @@
               &mtag     ,matparam )
 !-------
              case ('LAW36','PLAS_TAB')
-              ilaw = 36
-              call hm_read_mat36(matparam   ,                           &
-                   mtag     ,parmat   ,nuvar    ,nvartmp  ,israte   ,   &
-                   ntable   ,table    ,unitab   ,lsubmodel,iout     ,   &
-                   soundspeed)
+              ilaw  = 36
+              call hm_read_mat36(&
+              &uparam   ,maxuparam,nuparam  ,nuvar    ,nvartmp  ,&
+              &ifunc    ,maxfunc  ,nfunc    ,parmat   ,unitab   ,&
+              &mat_id   ,mtag     ,titr     ,lsubmodel,pm(1,i)  ,&
+              &israte   ,matparam )
 !-------
              case ('LAW37','BIPHAS')
               ilaw   = 37
@@ -1393,8 +1392,9 @@
 !           for user type laws (lecmuser)
 !---------------------------------------------------------
 
-            if (ilaw > 27 .and. ilaw /= 32 .and. ilaw /= 49 .and.      &
-                ilaw /= 151 .and. ilaw /= 999) then
+            if (ilaw > 27 .and. ilaw /= 32 .and. ilaw /= 49&
+            &.and. ilaw /= 151 .and. ilaw /= 999) then
+              mtag%l_stra = 6        ! all user type laws calculate total strain
 !
               bulk  = parmat(1)
               young = parmat(2)
@@ -1410,7 +1410,7 @@
               pm(22,i) = g
               pm(24,i) = young/(one - nu**2)
               pm(32,i) = bulk
-              if (ilaw==71 ) pm(27,i)=sqrt(young/max(pm(1,i),em20))  ! beam sound speed
+              if (ilaw==71 ) pm(27,i)=sqrt(young/max(pm(1,i),em20))  ! sound speed
 !---------
               ipm(7,i)   = iadbuf
               ipm(8,i)   = nuvar
@@ -1439,6 +1439,7 @@
               buflen = buflen + nuparam
 !
             else if (ilaw == 19) then
+              mtag%l_stra = 6
               ipm(7,i) = iadbuf
               ipm(8,i) = nuvar
               ipm(9,i) = nuparam
@@ -1449,7 +1450,6 @@
               buflen = buflen + nuparam
 !
             endif ! ilaw>=28
-!
 !-------    high stiffness for contact
             pm(107,i) = two*max(pm(32,i),pm(100,i))
             if (ilaw==1)  pm(107,i) = thirty*pm(107,i)
@@ -1493,10 +1493,6 @@
             if (pm(22,i) == zero) pm(22,i) = matparam%shear
             if (pm(32,i) == zero) pm(32,i) = matparam%bulk
 !
-            ! stiffness storage to be cleaned !!!
-            if (pm(24,i) == zero) pm(24,i) = matparam%young/(one - matparam%nu**2)
-            if (pm(27,i) == zero) pm(27,i) = sqrt(matparam%young/matparam%rho0)
-
             ! to be defined
             ! if (matparam%stiff_contact == zero) matparam%stiff_contact = pm(?,i)
             ! if (matparam%stiff_hglass  == zero) matparam%stiff_hglass  = pm(?,i)
@@ -1533,7 +1529,6 @@
               endif
             endif
 !---------------------------------------------------------
-            mtag%l_stra = 6                       ! total strain is always calculated
 !
             ! force calculating strain rate for all
             mtag%g_epsd = 1                       ! global element strain rate, always calculated for output
