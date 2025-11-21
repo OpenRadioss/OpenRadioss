@@ -45,7 +45,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER COMM        ! communicator IN
+ 
       INTEGER SUBCOMM     ! communicator OUT
       INTEGER RANK        ! rank in the new comm.
       INTEGER SIZE_L      ! size of the new comm.
@@ -54,7 +54,7 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER STATUS(MPI_STATUS_SIZE),IERROR
+      INTEGER IERROR
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------

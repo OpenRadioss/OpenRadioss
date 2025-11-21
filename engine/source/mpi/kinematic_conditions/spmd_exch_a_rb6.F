@@ -65,7 +65,7 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER MSGTYP,LOC_PROC,A_AR,NOD,L,I,J,K,IAD,IRB,
+      INTEGER MSGTYP,LOC_PROC,A_AR,L,I,J,K,IAD,IRB,
      .        MSGOFF,SIZ,IDEB, LEN,INDEX,NBINDEX,
      .        INDEXI(NSPMD),REQ_R(NSPMD),REQ_S(NSPMD)
       INTEGER STATUS(MPI_STATUS_SIZE),IERROR
@@ -198,7 +198,7 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER MSGTYP,LOC_PROC,A_AR,NOD,L,I,J,K,IAD,IRB,
+      INTEGER MSGTYP,LOC_PROC,A_AR,L,I,J,K,IAD,IRB,
      .        MSGOFF,SIZ,IDEB, LEN,INDEX,NBINDEX,
      .        INDEXI(NSPMD),REQ_R(NSPMD),REQ_S(NSPMD)
       INTEGER STATUS(MPI_STATUS_SIZE),IERROR

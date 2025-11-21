@@ -57,7 +57,7 @@ C     REAL
      .        ISPH3D
 C-----------------------------------------------
       INTEGER NG, ITY, LFT, LLT, N, I, J, NEL, IAD, NFT,
-     .        NN1,NN2,NN3,NN4,NN5,NN6,NN7,NN8,NN9,NN10, ISOLNOD,
+     .        NN1,NN2,NN3,NN4,NN5, ISOLNOD,
      .        BUF
 C-----------------------------------------------
 C

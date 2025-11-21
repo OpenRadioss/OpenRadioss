@@ -65,8 +65,7 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER IERROR, LOC_PROC, MSTOP1, MSTOP2, LEN, myop,
-     .        STATUS(MPI_STATUS_SIZE)
+      INTEGER IERROR, LOC_PROC, MSTOP1, MSTOP2, LEN, myop
       my_real,
      . DIMENSION(:),ALLOCATABLE :: RBUF, SBUF 
 C interface type 24 comm Addon

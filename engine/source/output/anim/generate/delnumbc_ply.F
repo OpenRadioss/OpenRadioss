@@ -60,16 +60,10 @@ C-----------------------------------------------
      .        NEL_PLY,NBF_PXFEMG,NODGLOB(*)
 C-----------------------------------------------
 C     REAL
-      my_real
-     .   OFF
-      INTEGER II,IE,NG, ITY, LFT, LLT, N, I, J,
-     .        IPID, NEL, IAD, NFT, IMID,IALEL,
-     .        NN2,NN3,NN4,NN5,NN6,NN7,NN8,NN9,NN10,BUF,
-     .        IDCMAX, IDCMAXL,ISHPLYXFEM,ID_IE,IDPLY,NPT,
+      INTEGER II, NG, ITY, LFT, LLT, N, I, 
+     . NEL, IAD, NFT,
+     . IDCMAX,ISHPLYXFEM,IDPLY,
      .        IPT,ELC,PLYELEMS(NUMELC),PLYS,RBUF,NELCOUNT,ELEM
-
-      INTEGER, DIMENSION(:), ALLOCATABLE :: INUMG
-
       INTEGER GET_PLY_ELEM
       EXTERNAL GET_PLY_ELEM
 C-----------------------------------------------

@@ -65,8 +65,8 @@ C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER STATUS(MPI_STATUS_SIZE),IERROR,MSGOFF
-      INTEGER SIZ,MSGTYP,I,K,NG,NREC,STEP
+      INTEGER IERROR,MSGOFF
+      INTEGER I
 
 C-----------------------------------------------
       DATA MSGOFF/7069/

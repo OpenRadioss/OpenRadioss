@@ -50,7 +50,7 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER I,J,DIM
+      INTEGER DIM
       INTEGER IERROR
       DOUBLE PRECISION
      .        BUF6(DIM6,6,DIM_EXCH)

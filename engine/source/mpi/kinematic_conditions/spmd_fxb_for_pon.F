@@ -55,7 +55,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER NFX, NMOD, NME, NSN, NVAR, PMAIN, IAD, NSNT, I, J, JJ,
+      INTEGER NFX, NMOD, NME, NSN, PMAIN, IAD, NSNT, I, J, JJ,
      .        ITAG, MSGOFF, NSNP(NSPMD-1), NSNPMAX, LEN, K, KK, AVAR,
      .        IERR, REQ(NSPMD-1), STAT(MPI_STATUS_SIZE,NSPMD-1),
      .        II

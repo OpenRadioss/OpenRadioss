@@ -70,10 +70,10 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       TYPE(int_pointer), DIMENSION(NINTER,NSPMD) :: SEND_BUF,RECV_BUF
       INTEGER, DIMENSION(NINTER,NSPMD) :: SIZ_SEND_BUF,SIZ_RECV_BUF
-      INTEGER :: I,J,K,L,II,NIN,ITY,P,UID
+      INTEGER :: I,K,L,II,NIN,ITY,P,UID
       INTEGER :: IERROR
       INTEGER :: COLOR,KEY,NEDGE
-      INTEGER :: IED,IE,JE,WGT,NRTM,NSN
+      INTEGER :: IED,IE,NRTM,NSN
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: TAB
 #ifdef MPI
       INTEGER :: STATUS(MPI_STATUS_SIZE), MSGTYP, REQ_S(NSPMD),REQ_R(NSPMD)

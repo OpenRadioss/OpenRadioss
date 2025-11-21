@@ -58,10 +58,10 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-       INTEGER LENCOM,MSGOFF ,MSGTYP
+       INTEGER MSGOFF ,MSGTYP
        INTEGER STATUS(MPI_STATUS_SIZE),REQ_R(NSPMD),REQ_S(NSPMD)
        INTEGER IERROR
-       INTEGER I,P,J,NOD,SIZ,L,IAD
+       INTEGER I,SIZ,L
 C-----------------------------------------------
        DATA MSGOFF/430/    
        

@@ -60,8 +60,8 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER MSGTYP,I,J,L1,L2,ILEV,ILAY,IXEL,IAD,KK,IL,IENR,EN0,ENR,
-     .  NENR,SIZ,LEN1,LEN2,LENR,NNODX,NN,NSX,NCT,NC,COUNT,
+      INTEGER I,J,L1,L2,ILEV,ILAY,IAD,KK,IL,IENR,EN0,ENR,
+     .  NENR,SIZ,LEN1,LEN2,LENR,NNODX,NN,NSX,COUNT,
      .  LOC_PROC,IERROR,MSGTYP1,MSGTYP2,MSGOFF1,MSGOFF2
       INTEGER STATUS(MPI_STATUS_SIZE),NODXSAV(NSPMD),
      .  REQ_R1(NSPMD),REQ_R2(NSPMD),REQ_S1(NSPMD),REQ_S2(NSPMD),
@@ -326,10 +326,10 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER I,J,L,ILAY,IAD,ILEV,KK,IL,EN1,IENR,ENR,SIZ,
-     .  LEN,LENR,NNODX,NN,NSX,NCT,NC,
+      INTEGER I,J,L,ILAY,IAD,ILEV,IL,IENR,ENR,SIZ,
+     .  LEN,LENR,NNODX,NN,NSX,
      .  LOC_PROC,IERROR,MSGTYP,MSGOFF,
-     .  ENRL,ENRR,FLAGS,FLAGR,NENR
+     .  ENRL,NENR
       INTEGER STATUS(MPI_STATUS_SIZE),NODXSAV(NSPMD),
      .  REQ_R(NSPMD),REQ_S(NSPMD),IAD_SEND(NSPMD+1),IAD_RECV(NSPMD+1)
       INTEGER, DIMENSION(:,:), ALLOCATABLE ::  RBUF,SBUF
@@ -509,7 +509,7 @@ C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
       INTEGER MSGTYP,I,NOD,LOC_PROC,IERROR,MSGOFF,
-     .        SIZ,J,L,NB_NOD,NNOD,IENR,ENR,SIZN,
+     .        SIZ,J,L,NB_NOD,IENR,ENR,
      .        STATUS(MPI_STATUS_SIZE),
      .        IAD_SEND(NSPMD+1),IAD_RECV(NSPMD+1),
      .        REQ_R(NSPMD),REQ_S(NSPMD)
@@ -643,7 +643,7 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER I,II,J,JJ,L0,L,CC,MSGTYP,LOC_PROC,IERROR,
+      INTEGER I,II,J,L0,L,MSGTYP,LOC_PROC,IERROR,
      .        INDEX,SIZ,NBIRECV,IAD_RECV(NSPMD+1),
      .        STATUS(MPI_STATUS_SIZE),REQ_R(NSPMD),
      .        REQ_S(NSPMD),IRINDEX(NSPMD),IED,ICUT,
@@ -890,13 +890,13 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IAD_EDGE(*),FR_EDGE(*),
-     .        SIZE,LSDRC,FR_NBEDGE(*),FLAG
+     .        SIZE,LSDRC,FR_NBEDGE(*)
       TYPE (XFEM_EDGE_)   , DIMENSION(*) :: CRKEDGE
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER I,II,J,JJ,L0,L,CC,MSGTYP,LOC_PROC,IERROR,
+      INTEGER I,II,J,L0,L,MSGTYP,LOC_PROC,IERROR,
      .        INDEX,SIZ,NBIRECV,IAD_RECV(NSPMD+1),
      .        STATUS(MPI_STATUS_SIZE),REQ_R(NSPMD),
      .        REQ_S(NSPMD),IRINDEX(NSPMD),NXLAY,ILAY,IED,MSGOFF
@@ -1017,7 +1017,7 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER I,J,II,L,L0,CC,IPT,SIZ,INDEX,LOC_PROC,IERROR,
+      INTEGER I,J,L,L0,CC,IPT,SIZ,LOC_PROC,IERROR,
      .        NB_NOD,NBIRECV,MSGTYP,MSGOFF,
      .        IAD_RECV(NSPMD+1),STATUS(MPI_STATUS_SIZE),
      .        REQ_R(NSPMD),REQ_S(NSPMD)

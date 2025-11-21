@@ -104,29 +104,28 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C----------------------------------------------- 
 #ifdef MPI        
-        INTEGER :: I,J,NOD,L,L2,KK,IJK,KJI
-        INTEGER :: P,P_LOC
-        INTEGER :: ADRESS,SHIFT_
-        INTEGER :: ISIZ,RSIZ,IDEB,JDEB
+        INTEGER :: I,J,NOD,L,L2,IJK,KJI
+        INTEGER :: P
+        INTEGER :: SHIFT_
+        INTEGER :: ISIZ,RSIZ
         INTEGER :: NSN,NMN,IGAP,INTTH,INTFRIC,ITYP,ITIED
         INTEGER :: IFQ,INACTI
 
-        INTEGER IERROR1,STATUS(MPI_STATUS_SIZE),IERROR
+        INTEGER IERROR
 
         INTEGER :: LOC_PROC
-        INTEGER :: IX,IY,IZ,NB
+        INTEGER :: NB
         INTEGER, DIMENSION(:), ALLOCATABLE :: INDEX
         INTEGER :: ISHIFT,RSHIFT
 
         INTEGER :: MSGOFF, MSGOFF2, MSGOFF3, MSGOFF4, MSGOFF5
-        INTEGER :: MSGTYP,INFO
+        INTEGER :: MSGTYP
 
         INTEGER :: ERROR_SORT
         INTEGER, DIMENSION(:), ALLOCATABLE :: INDEX_2,ITRI
         INTEGER, DIMENSION(:), ALLOCATABLE ::  WORK
         INTEGER :: CELL_X_ID,CELL_Y_ID,CELL_Z_ID
         INTEGER :: DISPL
-        LOGICAL :: NEED_TO_RCV
 
         INTEGER :: NB_INDEX_ALREADY_SEND,VALUE,NB_SAVE
 !   --------------------------------------------------------------------  

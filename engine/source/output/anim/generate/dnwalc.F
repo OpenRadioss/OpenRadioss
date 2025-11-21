@@ -43,9 +43,8 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J
       my_real
-     .   XWL, YWL, ZWL,XN,YN,ZN,D,DX,DY,DZ,XL, V1, V2, V3, VV1,
-     .   VV2, VV3, VV,S,C,XX,YY,ZZ,ALPHA,X0,Y0,Z0
-      REAL R4
+     . XWL, YWL, ZWL,XN,YN,ZN,D, V1, V2, V3, VV1,
+     . VV2, VV3, VV,S,C,XX,YY,ZZ,ALPHA
 C-----------------------------------------------
 C
        XN =RWL(1)

@@ -100,29 +100,16 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER MSGTYP,INFO,I,NOD, DT_CST, LOC_PROC,P,IDEB,
-     .        SIZ,J, L, BUFSIZ, LEN, NB, IERROR1, IAD,
-     .        STATUS(MPI_STATUS_SIZE),IERROR,REQ_SB(NSPMD),
-     .        REQ_RB(NSPMD),KK,NBIRECV,IRINDEXI(NSPMD),
-     .        REQ_RD(NSPMD),REQ_SD(NSPMD),
-     .        REQ_RC(NSPMD),REQ_SC(NSPMD),
-     .        INDEXI,ISINDEXI(NSPMD),
-     .        MSGOFF, MSGOFF2, MSGOFF3, MSGOFF4, MSGOFF5,
-     .        RSIZ, ISIZ, L2, REQ_RD2(NSPMD),
-     .        LEN2, RSHIFT, ISHIFT, ND, JDEB, Q, NBB
-
-      INTEGER :: P_LOC
-      INTEGER :: KEY,CODE
-     
+      INTEGER MSGTYP, LOC_PROC, P, IDEB, 
+     . L, LEN,
+     . STATUS(MPI_STATUS_SIZE),IERROR,
+     . REQ_RD(NSPMD),
+     . INDEXI,
+     . MSGOFF4,MSGOFF5,
+     . RSIZ, ISIZ, REQ_RD2(NSPMD),
+     . LEN2
       DATA MSGOFF4/6026/ 
       DATA MSGOFF5/6027/ 
-        
-      my_real
-     .        XMAXB,YMAXB,ZMAXB,XMINB,YMINB,ZMINB
-      
-      INTEGER, DIMENSION(:), ALLOCATABLE :: ITAGNSNFI  
-      my_real, DIMENSION(:,:), ALLOCATABLE :: XTMP
-      INTEGER :: ADRESS, LOCAL_RANK
       INTEGER :: SIZE_S
       INTEGER :: OFFSET(NSPMD)
       INTEGER :: DUMMY(1)

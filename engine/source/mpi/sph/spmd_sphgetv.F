@@ -62,9 +62,9 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER P, I, NN, N, IDEB, MSGTYP, LOC_PROC,
+      INTEGER P, NN, N, IDEB, LOC_PROC,
      .        IERROR, ICELL, INOD,
-     .        REQ_SD(NSPMD), REQ_SD2(NSPMD),
+     .         
      .        STATUS(MPI_STATUS_SIZE),MSGOFF,MSGOFF2
        my_real, DIMENSION(:,:), ALLOCATABLE :: BUFS, BUFR
 

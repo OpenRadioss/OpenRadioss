@@ -59,7 +59,7 @@ C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
       INTEGER MSGTYP,I,NOD,IERROR,MSGOFF,IERROR2,
-     .        SIZ,J,K,L,NB_NOD,NP,
+     .        SIZ,J,L,NB_NOD,NP,
      .        STATUS(MPI_STATUS_SIZE),
      .        IAD_SEND(NSPMD+1),IAD_RECV(NSPMD+1),
      .        REQ_R(NSPMD),REQ_S(NSPMD)

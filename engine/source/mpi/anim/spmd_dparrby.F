@@ -62,12 +62,12 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER PMAIN,JENVOIE,I,J,K,L,S,B,M,P,N,
+      INTEGER PMAIN,I,J,K,L,S,B,M,P,N,
      .        RECOISDE(NSPMD),
      .        II(2),PTRPO(NSPMD+1),PTRPOO(NSPMD+1)
 C
       INTEGER BUFSEND(NSPMD+1),BUFRECP(NSPMD+1),
-     .        NBNOD,SIZ,LPO,NSN,PTR,NOD,NN,NR,
+     .        NBNOD,SIZ,LPO,NSN,PTR,NN,NR,
      .        SRBY
       INTEGER, DIMENSION(:), ALLOCATABLE :: BUFSPM,BUFRECVM,PORBY,BUFSPO
 
@@ -75,7 +75,7 @@ C
 
 C   MPI variables
       INTEGER LOC_PROC
-      INTEGER MSGOFF,MSGOFF2,MSGTYP,INFO,ATID,ATAG,ALEN
+      INTEGER MSGOFF,MSGOFF2,MSGTYP
       INTEGER STATUS(MPI_STATUS_SIZE),IERROR,ISD(NSPMD)
 C-----------------------------------------------
       DATA MSGOFF/7018/

@@ -49,13 +49,13 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
        my_real
      .   X(3,*)
-       INTEGER WEIGHT(*),NODGLOB(*),NUM,SRECBUF
+       INTEGER WEIGHT(*),NODGLOB(*),NUM
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
 #ifdef MPI
       INTEGER STATUS(MPI_STATUS_SIZE),IERROR,MSGOFF
-      INTEGER SIZ,MSGTYP,I,K,NG,NREC,MSGOFF2,SI,MSGTYP2
+      INTEGER SIZ,MSGTYP,I,K,NG,NREC,MSGOFF2,MSGTYP2
 
       REAL, DIMENSION(:,:), ALLOCATABLE :: BUFSR,XGLOB
       INTEGER, DIMENSION(:), ALLOCATABLE :: IBUF

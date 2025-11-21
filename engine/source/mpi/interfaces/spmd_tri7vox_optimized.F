@@ -87,12 +87,12 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER MSGTYP,INFO,I,NOD, DT_CST, LOC_PROC,P,IDEB,
-     .        SIZ,J, L, BUFSIZ, LEN, NB, IERROR1, IAD,
-     .        STATUS(MPI_STATUS_SIZE),IERROR,REQ_SB(NSPMD),
-     .        REQ_RB(NSPMD),KK,NBIRECV,IRINDEXI(NSPMD),
+      INTEGER MSGTYP, I, NOD, LOC_PROC, P, IDEB, 
+     . J, L, LEN, NB,
+     . STATUS(MPI_STATUS_SIZE),IERROR,
+     . KK,NBIRECV,IRINDEXI(NSPMD),
      .        REQ_RD(NSPMD),REQ_SD(NSPMD),REQ_SD2(NSPMD),
-     .        REQ_RC(NSPMD),REQ_SC(NSPMD),
+     .
      .        INDEXI,ISINDEXI(NSPMD),INDEX(NUMNOD),NBOX(NSPMD),
      .        NBX,NBY,NBZ,IX,IY,IZ,
      .        MSGOFF, MSGOFF2, MSGOFF3, MSGOFF4, MSGOFF5,
@@ -111,7 +111,7 @@ C-----------------------------------------------
       INTEGER, DIMENSION(0:LRVOXEL,0:LRVOXEL) :: CRVOXEL_LOC
 
 
-      integer :: key,code
+ 
      
       DATA MSGOFF/6000/
       DATA MSGOFF2/6001/
@@ -126,7 +126,7 @@ C-----------------------------------------------
       TYPE(real_pointer), DIMENSION(NSPMD) :: RBUF
       TYPE(int_pointer) , DIMENSION(NSPMD) :: IBUF   
       INTEGER, DIMENSION(:), ALLOCATABLE :: ITAGNSNFI  
-      my_real, DIMENSION(:,:), ALLOCATABLE :: XTMP
+ 
       INTEGER, DIMENSION(NSPMD) :: TAB_NB
 
 C-----------------------------------------------

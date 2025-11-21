@@ -48,7 +48,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
        REAL
      .   V(*)
-       INTEGER WEIGHT(*),NODGLOB(*),NUM,SRECBUF
+       INTEGER WEIGHT(*),NODGLOB(*),NUM
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------

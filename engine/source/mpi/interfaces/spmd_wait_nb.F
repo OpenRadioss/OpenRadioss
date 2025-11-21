@@ -66,10 +66,10 @@ C-----------------------------------------------
         TYPE(sorting_comm_type), DIMENSION(NINTER), INTENT(inout) :: SORT_COMM   ! structure for interface sorting comm
 
 #ifdef MPI        
-        INTEGER :: I,J,NOD,L,L2,KK,KKK,IJK
+        INTEGER :: L,IJK
         INTEGER :: P,P_LOC
 
-        INTEGER IERROR1,STATUS(MPI_STATUS_SIZE),IERROR
+        INTEGER STATUS(MPI_STATUS_SIZE),IERROR
 
         INTEGER :: LOC_PROC
 !   ----------------------------------------

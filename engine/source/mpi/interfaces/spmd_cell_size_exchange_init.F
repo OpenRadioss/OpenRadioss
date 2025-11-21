@@ -65,10 +65,9 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C----------------------------------------------- 
 #ifdef MPI        
-        INTEGER :: I,J,NOD,L,L2,KK,IJK,KJI
-        INTEGER :: P,P_LOC
-        INTEGER :: ADRESS,SHIFT_
-        INTEGER :: ISIZ,RSIZ,IDEB,JDEB
+ 
+        INTEGER :: P
+        INTEGER :: ISIZ,RSIZ
         INTEGER :: NSN,NMN,IGAP,INTTH,INTFRIC,ITYP,ITIED
         INTEGER :: IFQ,INACTI
         INTEGER :: LOC_PROC

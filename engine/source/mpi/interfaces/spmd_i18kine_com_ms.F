@@ -70,11 +70,11 @@ C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
       INTEGER STATUS(MPI_STATUS_SIZE),
-     *        REQ_SI(NSPMD),REQ_RI(NSPMD)
+     *        REQ_SI(NSPMD)
       INTEGER P,LENSD,LENRV,IADS(NSPMD+1),IADR(NSPMD+1),IERROR,
      *        SIZ,LOC_PROC,MSGTYP,MSGOFF,IDEB(NINTER)
       INTEGER NIN,NTY,INACTI
-      INTEGER J,L,NB,NN,K,N,NOD,MODE,LEN,ALEN,ND
+      INTEGER L,NB,NN,K,NOD,ALEN,ND
       my_real ,
      *   DIMENSION(:), ALLOCATABLE :: BBUFS, BBUFR
       DATA MSGOFF/151/

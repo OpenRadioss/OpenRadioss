@@ -548,8 +548,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, P, N, L, IERROR, MSGOFF, MSGOFF2, ISHIFT,
-     .        LOC_PROC, MSGTYP, BUFSIZ, SIZ, INB, NB_NOD, NOD, LSEND,
+      INTEGER I, J, N, L, IERROR, MSGOFF, MSGOFF2, ISHIFT,
+     .        LOC_PROC, MSGTYP, SIZ, INB, NB_NOD, NOD, LSEND,
      .        REQ_R(NSPMD), REQ_S(NSPMD),IAD_SEND(NSPMD+1),
      .        IAD_RECV(NSPMD+1), STATUS(MPI_STATUS_SIZE), ITAG(NUMNOD)
       my_real

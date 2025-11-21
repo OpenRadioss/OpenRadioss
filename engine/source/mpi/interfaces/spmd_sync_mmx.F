@@ -70,7 +70,7 @@ C-----------------------------------------------
 #ifdef MPI
       INTEGER MSGOFF,MSGTYP,P,SIZ,NIN,I,J,L,LOC_PROC,
      .        IERROR,I_LEN,NBIRECV,KK,
-     .        IADS,INDEXI,MSGTYP2,
+     .        INDEXI,
      .        IRINDEXI(NSPMD),IADR(NSPMD),REQ_R(NSPMD),
      .        STATUS(MPI_STATUS_SIZE)
       PARAMETER (I_LEN = 46)

@@ -63,15 +63,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NBF_L, NBPART, SIZE, IFLAG, IADG(NSPMD,*),BUF
+      INTEGER NBF_L, NBPART, SIZE, IADG(NSPMD,*),BUF
       REAL WAL(*)
       REAL, DIMENSION(:), ALLOCATABLE :: WAR
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER MSGOFF,MSGTYP,INFO,IDEB,K,N,NB_TMP,LEN,IADP(NSPMD)
-      REAL AUX
+      INTEGER MSGOFF,MSGTYP,IDEB,K,N,NB_TMP,LEN,IADP(NSPMD)
       INTEGER STATUS(MPI_STATUS_SIZE),IERROR
       DATA MSGOFF/7002/
 C-----------------------------------------------

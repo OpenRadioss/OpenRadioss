@@ -71,15 +71,13 @@ C-----------------------------------------------
      .        NBX,NBY,NBZ,NE,M1,M2,M3,M4,
      .        IX1,IY1,IZ1,IX2,IY2,IZ2,IX,IY,IZ
       my_real
-     .        RATIO, AAA,
+     . AAA,
      .        XMAXB,YMAXB,ZMAXB,XMINB,YMINB,ZMINB,
      .        XMINE,YMINE,ZMINE,XMAXE,YMAXE,ZMAXE,
      .        XX1,XX2,XX3,XX4,YY1,YY2,YY3,YY4,ZZ1,ZZ2,ZZ3,ZZ4
 
       INTEGER :: SOL_EDGE,SH_EDGE
-      INTEGER :: IE,N1,N2
       my_real :: DX,DY,DZ
-      INTEGER :: IDS(4)
       INTEGER :: TMP
 C-----------------------------------------------
 C   S o u r c e  L i n e s
@@ -238,13 +236,13 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
       INTEGER LOC_PROC,
-     .        NBX,NBY,NBZ,NE,M1,M2,M3,M4,
+     . NBX,NBY,NBZ,M1,
      .        IX1,IY1,IZ1,IX2,IY2,IZ2,IX,IY,IZ
       my_real
-     .        RATIO, AAA,
+     . AAA,
      .        XMAXB,YMAXB,ZMAXB,XMINB,YMINB,ZMINB,
      .        XMINE,YMINE,ZMINE,XMAXE,YMAXE,ZMAXE,
-     .        XX1,XX2,XX3,XX4,YY1,YY2,YY3,YY4,ZZ1,ZZ2,ZZ3,ZZ4
+     . XX1,XX2,YY1,YY2,ZZ1,ZZ2
 
       INTEGER :: SOL_EDGE,SH_EDGE
       INTEGER :: IE,N1,N2

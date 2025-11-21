@@ -62,8 +62,8 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER MSGTYP,INFO,LOC_PROC,
-     .        BUFSIZ,MSGOFF,SIZ,I,P,LEN,N,II,
+      INTEGER MSGTYP,LOC_PROC,
+     .        MSGOFF,SIZ,I,P,LEN,N,II,
      .        IOS,STATUS(MPI_STATUS_SIZE),IERROR,IBLANC,LNEW
       INTEGER, DIMENSION(:),ALLOCATABLE :: IWA
 

@@ -776,12 +776,11 @@ C     INTEGER :: FLAG,RQ(NSPMD)
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I,J,MSGOFF,TAG,NUM
+      INTEGER :: MSGOFF,TAG,NUM
       DATA MSGOFF/15010/
 
 #ifdef MPI
-      INTEGER IERR,POS
-      INTEGER STAT(MPI_STATUS_SIZE)
+      INTEGER IERR
       my_real, DIMENSION(:), ALLOCATABLE :: BUF
       TAG = MSGOFF 
 c     IF(FLAG == 1) THEN

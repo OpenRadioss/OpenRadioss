@@ -257,7 +257,7 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER MSGTYP,INFO,I,NOD, DT_CST, LOC_PROC,P,IDEB,
+      INTEGER MSGTYP, I, NOD, LOC_PROC, P, IDEB, 
      .        SIZ,J, L, BUFSIZ, LEN, NB, IERROR1, IAD,
      .        IERROR,REQ_SB(NSPMD),
      .        REQ_RB(NSPMD),KK,NBIRECV,IRINDEXI(NSPMD),
@@ -935,7 +935,7 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER MSGTYP,INFO,I,NOD, DT_CST, LOC_PROC,P,IDEB,
+      INTEGER MSGTYP, I, NOD, LOC_PROC, P, IDEB, 
      .        SIZ,J, L, BUFSIZ, LEN, NB, IERROR1, IAD,
      .        IERROR,REQ_SB(NSPMD),
      .        REQ_RB(NSPMD),KK,NBIRECV,IRINDEXI(NSPMD),
@@ -959,7 +959,7 @@ C-----------------------------------------------
      
       TYPE(real_pointer), DIMENSION(NSPMD) :: RBUF
       TYPE(int_pointer) , DIMENSION(NSPMD) :: IBUF   
-      INTEGER, DIMENSION(:), ALLOCATABLE :: ITAGNSNFI  
+ 
 
 C-----------------------------------------------
 C   S o u r c e  L i n e s
@@ -1433,7 +1433,7 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef  MPI
-      INTEGER MSGTYP,INFO,I,NOD, DT_CST, LOC_PROC,P,IDEB,
+      INTEGER MSGTYP, I, NOD, LOC_PROC, P, IDEB, 
      .        SIZ,J, L, BUFSIZ, LEN, NB, IERROR1, IAD,
      .        IERROR,REQ_SB(NSPMD),
      .        REQ_RB(NSPMD),KK,NBIRECV,IRINDEXI(NSPMD),
@@ -3047,10 +3047,6 @@ C-----------------------------------------------
      .        NN2,RSHIFT,ISHIFT, IOLDNSNFI, ND, JDEB, NSNR_OLD, Q
      
       INTEGER, DIMENSION(:), ALLOCATABLE :: IAUX
-      my_real,
-     .    DIMENSION(:), ALLOCATABLE :: PENEFI_OLD, STIFFI_OLD
-      my_real,
-     .     DIMENSION(:,:), ALLOCATABLE :: SECND_FRFI_OLD
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
@@ -3582,7 +3578,7 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER MSGTYP,INFO,I,NOD, DT_CST, LOC_PROC,P,IDEB,
+      INTEGER MSGTYP, I, NOD, LOC_PROC, P, IDEB, 
      .        J, L, BUFSIZ, LEN, NB, IERROR1,
      .        IERROR,REQ_SB(NSPMD),
      .        REQ_RB(NSPMD),KK,NBIRECV,IRINDEXI(NSPMD),
@@ -4433,7 +4429,7 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER MSGTYP,INFO,I, LOC_PROC,P,IDEB,
+      INTEGER MSGTYP, I, LOC_PROC, P, IDEB, 
      .        MSGOFF, MSGOFF2, MSGOFF3, MSGOFF4,
      .        SIZ,J, L, LEN, NB, IERROR1, IAD,
      .        IERROR,REQ_SB(NSPMD),
