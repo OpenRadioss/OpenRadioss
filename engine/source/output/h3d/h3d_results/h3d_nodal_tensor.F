@@ -93,7 +93,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,N,LENR
+      INTEGER I, J, N, LENR
       INTEGER, DIMENSION(:), ALLOCATABLE :: ITAGPS, IOK_PART 
       my_real
      .       , DIMENSION(:,:), ALLOCATABLE :: AFLU, VFLU,VALUES
@@ -382,7 +382,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER  I,J
+      INTEGER I
       my_real
      .   S(3),NORM2
 C-----------------------------------------------

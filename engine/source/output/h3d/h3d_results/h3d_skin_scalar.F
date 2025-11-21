@@ -115,7 +115,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       my_real
      .   VALUE(MVSIZ),RINDX,STRAIN(3,MVSIZ),F_EXP,F_GAUSS(9)
-      INTEGER I,I1,II,J,NG,NEL,NPTR,NPTS,NPTT,NLAY,L,IFAIL,ILAY,
+      INTEGER I, NG, NEL, NPTR, NPTS, NPTT, NLAY, IFAIL, ILAY, 
      .        IR,IS,IT,IL,MLW, NUVAR,IUS,LENF,PTF,PTM,PTS,NFAIL,
      .        N,NN,K,K1,K2,JTURB,MT,IMID,IALEL,IPID,ISH3N,NNI,
      .        NN1,NN2,NN3,NN4,NN5,NN6,NN9,NF,BUF,NVARF,
@@ -126,10 +126,10 @@ C-----------------------------------------------
       INTEGER 
      .        IS_WRITTEN_VALUE(MVSIZ),NFRAC,IU(4),IV,NB_FACE,KFACE,NSKIN
       INTEGER NGL(MVSIZ) 
-      TYPE(G_BUFEL_)  ,POINTER :: GBUF     
-      TYPE(L_BUFEL_)  ,POINTER :: LBUF  
-      TYPE(BUF_MAT_)  ,POINTER :: MBUF      
-      TYPE(BUF_LAY_)  ,POINTER :: BUFLY     
+ 
+ 
+ 
+ 
       TYPE(BUF_FAIL_) ,POINTER :: FBUF 
       DATA F_GAUSS / 
      9 1.000000000000000,1.732050807568877,1.290994448735806,
@@ -569,7 +569,7 @@ C-----------------------------------------------
      .   SKIN_SCALAR(*),TF(*),X(3,*),V(3,*)
       my_real, INTENT(IN) :: DIS(3,NUMNOD)
       CHARACTER(LEN=NCHARLINE100) :: KEYWORD
-      TYPE (H3D_DATABASE) :: H3D_DATA
+ 
       INTEGER , DIMENSION(NUMSKINP0), INTENT(IN) ::  IMAPSKP
       INTEGER
      .   H3D_PART(*),IS_WRITTEN_SKIN(*),INFO1,NPC(*)
@@ -587,9 +587,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NL, N1, ISK, N2, N3, N4, N5,
+      INTEGER NL, N1, N2, N3, N4, N5, 
      .        IAD ,NP ,IFUNC ,NPRES,NSKIN0,NSKIN1,N1FRAM,DIR_HSP,I,N
-      INTEGER K1, K2, K3, ISENS,K,LL,IERR,
+      INTEGER K1, K2, K3, ISENS, K, 
      .        N_OLD, ISMOOTH,IDEL,NINTERP ,NPL,TAGN1,TAGN2,TAGN3,TAGN4,
      .        FUN_CX,FUN_VEL,DIR_VEL,IFRA2, IANIM,IJK,UP_BOUND,
      .        IZ_UPDATE,ABAC_ID,ISIZ_SEG,IERR1,
@@ -606,7 +606,7 @@ c
      .        FAC_M_bb, FAC_L_bb, FAC_T_bb, FAC_P_bb, FAC_I_bb, T0INF_LOC, TA_SHIFT, TT_STAR
 
       INTEGER :: IFUN,IFRA,M1,M2,NDIM,NPOINT, IIOUT,SHIFT,FUNCTYPE
-       my_real :: A11,A12,A21,A22,B1,B2,DET,LEN,DIRX,DIRY,DIRZ,
+       my_real :: LEN, DIRX, DIRY, DIRZ, 
      .     BETA,GAMMA,R,S,RMAX,XFACR,XFACT,YFAC,SEGP,PRESS,DISP
       my_real, DIMENSION(3) :: P0,DIR,A,B,C,D,M
      

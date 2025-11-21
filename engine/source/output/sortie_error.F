@@ -61,8 +61,8 @@ C-----------------------------------------------
      .   I,J,K,LENG,FLAG,ISMASSCHANGE,PROPID,MATID
       my_real 
      .   MAXVEL(PARAM),VEL,
-     .   MAXENCIN(PARAM),ENCIN,VEL2,
-     .   MAXMASS(PARAM),MASS,
+     .   MAXENCIN(PARAM),ENCIN,
+     .   
      .   MAXDMASS(PARAM),DMASS,
      .   MAXENINT(PARAM),ENINT
       INTEGER 

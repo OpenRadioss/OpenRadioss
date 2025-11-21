@@ -57,12 +57,12 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,K,K1,K2,K3,K4,KK,p1,p2,NOD1,NOD2,IED0,IED1,IED2,                         
-     .   IEDGE,IEDGE1,IEDGE2,EDGE,EDGE1,EDGE2,IXEL,ILAY,ITRI,ILV,
-     .   FAC,OK,SN,ELCUT,ELCRK,IADC1,IADC2,IADC3,IADC4,NX1,NX2,NX3,NX4
+     .   IEDGE,IEDGE1,IEDGE2,EDGE,EDGE1,EDGE2,IXEL,ILAY,ITRI,
+     .   FAC,ELCUT,ELCRK,IADC1,IADC2,IADC3,IADC4,NX1,NX2,NX3,NX4
       INTEGER IFI0(4,MVSIZ),POS(2),
-     .   IED(4),IXI(4),D(4),DX(8),NX(MVSIZ)
+     .   IED(4),D(4),DX(8)
       my_real 
-     .   XINT,YINT,ZINT,XM,YM,ZM,X10,Y10,Z10,X20,Y20,Z20,BETA
+     .   X10,Y10,Z10,X20,Y20,Z20,BETA
       my_real 
      .   XIN(4,MVSIZ),YIN(4,MVSIZ),ZIN(4,MVSIZ),
      .   XX(4,MVSIZ),YY(4,MVSIZ),ZZ(4,MVSIZ)

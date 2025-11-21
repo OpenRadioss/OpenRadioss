@@ -53,7 +53,7 @@ C     REAL
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
-      INTEGER I,INORM(3),K,P,IXNN,ND,ARSZ,EMPL,NFNOD_CRKXFEMG
+      INTEGER IXNN,ND,ARSZ,NFNOD_CRKXFEMG
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: INORMAR
 C     REAL
       my_real

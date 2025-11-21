@@ -74,38 +74,38 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       my_real GAMA(6),
-     .   OFF, P, VONM2, VONM, S1, S2, S12, S3, VALUE,
-     .   A1,B1,B2,B3,YEQ,F1,M1,M2,M3,FOR,AREA(MVSIZ),
+     .     
+     .   
      .   A_GAUSS_R,A_GAUSS_S,A_GAUSS_T,N1,
      .   A_GAUSS_R1,A_GAUSS_S1,A_GAUSS_T1,
      .   A_GAUSS_P_R,A_GAUSS_P_S,A_GAUSS_P_T
       my_real,ALLOCATABLE,DIMENSION(:,:) :: EVAR
-      INTEGER I,II, NG, NEL, ISS, ISC,NBGAMA,KCVT,
-     .        IADD, N, J, MLW,  
-     .        ISTRAIN,NN, JTURB,MT, IMID, IALEL,IPID,
-     .        NN1,NF,OFFSET,K,INC,KK, IUS, NUVAR,
-     .        INOD, ISOLNOD, IPRT, LIAD, NPTR, NPTS, NPTT, IPT,
-     .        IS, IR, IT, NPTG,NC(20,MVSIZ),NNOD,IEXPAN,IHBE,MPT,ILAY,
-     .        ICSIG,DIR,IVISC,JJ(6),IP
+      INTEGER I,II, NG, NEL,KCVT,
+     .         N, J, MLW,  
+     .        
+     . NN1,K,
+     .         ISOLNOD, NPTR, NPTS, NPTT,
+     .        IS, IR, IT,NC(20,MVSIZ),NNOD,ILAY,
+     .        ICSIG,IVISC,JJ(6),IP
       INTEGER MLW2,NLAY
       TYPE(G_BUFEL_)  ,POINTER :: GBUF     
       TYPE(L_BUFEL_)  ,POINTER :: LBUF   
       my_real
      .  A_GAUSS(9,9),EVAR_TMP(6),ALPHA,BETA,ALPHA_1,BETA_1,
-     .  JR0(MVSIZ),JS0(MVSIZ),JT0(MVSIZ),NU(MVSIZ),
-     .  RBID(6,MVSIZ),
-     .   XD1(MVSIZ), XD2(MVSIZ), XD3(MVSIZ), XD4(MVSIZ), XD5(MVSIZ),
-     .   XD6(MVSIZ), XD7(MVSIZ), XD8(MVSIZ), 
-     .   YD1(MVSIZ), YD2(MVSIZ), YD3(MVSIZ), YD4(MVSIZ), YD5(MVSIZ), 
-     .   YD6(MVSIZ), YD7(MVSIZ), YD8(MVSIZ), 
-     .   ZD1(MVSIZ), ZD2(MVSIZ), ZD3(MVSIZ), ZD4(MVSIZ), ZD5(MVSIZ),
-     .   ZD6(MVSIZ), ZD7(MVSIZ), ZD8(MVSIZ),
-     .   R11(MVSIZ),R12(MVSIZ),R13(MVSIZ),
-     .   R21(MVSIZ),R22(MVSIZ),R23(MVSIZ),
-     .   R31(MVSIZ),R32(MVSIZ),R33(MVSIZ),
-     .   RX(MVSIZ),RY(MVSIZ),RZ(MVSIZ),SX(MVSIZ),SY(MVSIZ),SZ(MVSIZ),
-     .   TX(MVSIZ),TY(MVSIZ),TZ(MVSIZ),
-     .   XDL(MVSIZ), YDL(MVSIZ), ZDL(MVSIZ),STR_IS24(MVSIZ,6,8),
+     .  
+     .  
+     .       
+     .      
+     .        
+     .      
+     .       
+     .     
+     .   
+     .   
+     .   
+     .   
+     .   
+     .     STR_IS24(MVSIZ,6,8),
      .   EVAR_T10(6,10)
       INTEGER 
      .  SOL_NODE(3,8), IPERM1(10),IPERM2(10),NN2,ITSH
@@ -636,38 +636,38 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       my_real GAMA(6),
-     .   OFF, P, VONM2, VONM, S1, S2, S12, S3, VALUE,
-     .   A1,B1,B2,B3,YEQ,F1,M1,M2,M3,FOR,AREA(MVSIZ),
+     .     
+     .   
      .   A_GAUSS_R,A_GAUSS_S,A_GAUSS_T,N1,
      .   A_GAUSS_R1,A_GAUSS_S1,A_GAUSS_T1,
      .   A_GAUSS_P_R,A_GAUSS_P_S,A_GAUSS_P_T
       my_real,ALLOCATABLE,DIMENSION(:,:) :: EVAR
-      INTEGER I,II, NG, NEL, ISS, ISC,NBGAMA,KCVT,
-     .        IADD, N, J, MLW,  
-     .        ISTRAIN,NN, JTURB,MT, IMID, IALEL,IPID,
-     .        NN1,NF,OFFSET,K,INC,KK, IUS, NUVAR,
-     .        INOD, ISOLNOD, IPRT, LIAD, NPTR, NPTS, NPTT, IPT,
-     .        IS, IR, IT, NPTG,NC(20,MVSIZ),NNOD,IEXPAN,IHBE,MPT,ILAY,
-     .        ICSIG,DIR,IVISC,JJ(6),IP,ITSH
+      INTEGER I,II, NG, NEL,KCVT,
+     .         N, J, MLW,  
+     .        
+     . NN1,K,
+     .         ISOLNOD, NPTR, NPTS, NPTT,
+     .        IS, IR, IT,NC(20,MVSIZ),NNOD,ILAY,
+     .        ICSIG,IVISC,JJ(6),IP,ITSH
       INTEGER MLW2,NLAY
       TYPE(G_BUFEL_)  ,POINTER :: GBUF     
       TYPE(L_BUFEL_)  ,POINTER :: LBUF   
       my_real
      .  A_GAUSS(9,9),EVAR_TMP(6),ALPHA,BETA,ALPHA_1,BETA_1,
-     .  JR0(MVSIZ),JS0(MVSIZ),JT0(MVSIZ),NU(MVSIZ),
-     .  RBID(6,MVSIZ),
-     .   XD1(MVSIZ), XD2(MVSIZ), XD3(MVSIZ), XD4(MVSIZ), XD5(MVSIZ),
-     .   XD6(MVSIZ), XD7(MVSIZ), XD8(MVSIZ), 
-     .   YD1(MVSIZ), YD2(MVSIZ), YD3(MVSIZ), YD4(MVSIZ), YD5(MVSIZ), 
-     .   YD6(MVSIZ), YD7(MVSIZ), YD8(MVSIZ), 
-     .   ZD1(MVSIZ), ZD2(MVSIZ), ZD3(MVSIZ), ZD4(MVSIZ), ZD5(MVSIZ),
-     .   ZD6(MVSIZ), ZD7(MVSIZ), ZD8(MVSIZ),
-     .   R11(MVSIZ),R12(MVSIZ),R13(MVSIZ),
-     .   R21(MVSIZ),R22(MVSIZ),R23(MVSIZ),
-     .   R31(MVSIZ),R32(MVSIZ),R33(MVSIZ),
-     .   RX(MVSIZ),RY(MVSIZ),RZ(MVSIZ),SX(MVSIZ),SY(MVSIZ),SZ(MVSIZ),
-     .   TX(MVSIZ),TY(MVSIZ),TZ(MVSIZ),
-     .   XDL(MVSIZ), YDL(MVSIZ), ZDL(MVSIZ),STR_IS24(MVSIZ,6,8),
+     .  
+     .  
+     .       
+     .      
+     .        
+     .      
+     .       
+     .     
+     .   
+     .   
+     .   
+     .   
+     .   
+     .     STR_IS24(MVSIZ,6,8),
      .   EVAR_T10(6,10)
       INTEGER 
      .  SOL_NODE(3,8), IPERM1(10),IPERM2(10),NN2,ISKIN(MVSIZ)

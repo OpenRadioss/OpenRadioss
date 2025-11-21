@@ -55,7 +55,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
-      INTEGER I,J,K,L
+      INTEGER I
       INTEGER IXCTMP2,IXCTMP3,IXCTMP4,IXCTMP5
       my_real 
      .   RX(MVSIZ),RY(MVSIZ),RZ(MVSIZ),SX(MVSIZ),SY(MVSIZ),

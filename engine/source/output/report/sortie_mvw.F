@@ -54,7 +54,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER
-     .         IOUTMVW,I
+     .         IOUTMVW
       CHARACTER FILNAM*100
       CHARACTER LINE*200
       CHARACTER*100  FMW

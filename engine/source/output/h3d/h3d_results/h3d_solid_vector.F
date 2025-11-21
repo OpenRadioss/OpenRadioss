@@ -98,7 +98,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       my_real VALUE(3)
       INTEGER I,NG,NEL,NPTR,NPTS,NPTT,NLAY,ILAY,IR,IS,IT,MLW,OFFSET,
-     .        NERCVOIS(*),NESDVOIS(*),LERCVOIS(*),LESDVOIS(*),IUVAR,IDX,ILEN,IPOS,
+     .        NERCVOIS(*),NESDVOIS(*),LERCVOIS(*),LESDVOIS(*),IUVAR,
      .        ISOLNOD,IVISC,NPTG,TSHELL,TSH_ORT,IOK_PART(MVSIZ),JJ(6),IS_WRITTEN_VALUE(MVSIZ)
       TYPE(G_BUFEL_)  ,POINTER :: GBUF     
       TYPE(L_BUFEL_)  ,POINTER :: LBUF  

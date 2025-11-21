@@ -50,8 +50,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      CHARACTER(LEN=NCHARLINE100) LINE,KEY,KEYST
-      INTEGER I,J,ID,ITYPE,INDX,SBUFMSG,ISTYPE
+      CHARACTER(LEN=NCHARLINE100) LINE,KEY
+      INTEGER I,ID,ITYPE,SBUFMSG
 C predim
       SMESSAGES=1
       DO I=1,100

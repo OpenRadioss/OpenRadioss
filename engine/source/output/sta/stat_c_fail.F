@@ -61,7 +61,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER SIZLOC,SIZP0
+      INTEGER SIZP0
       INTEGER IXC(NIXC,*),IXTG(NIXTG,*),
      .        IPARG(NPARG,*),IPM(NPROPMI,*),IGEO(NPROPGI,*),
      .        IPARTC(*), IPARTTG(*), IPART_STATE(*),
@@ -73,20 +73,20 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER ,INTENT(IN) :: NUMMAT
-      INTEGER I,N,J,K,L,II,JJ,ID,IE,LEN,NG,NEL,NFT,ITY,LFT,LLT,NPT,
+      INTEGER I, N, J, K, L, II, JJ, ID, IE, LEN, NG, NEL, NFT, ITY, LFT, LLT, 
      .   MLW,IGTYP,IPRT0,IPRT,IVAR,IMAT,
      .   NPG,IPG,NLAY,NPTR,NPTS,NPTT,IL,IR,IS,IT,IPT,IC,IFAIL,NV,
      .   NFAIL,NVAR_RUPT,NPTG,IRUPT,IRUPT_TYPE,ISUBSTACK
-      INTEGER MAT(MVSIZ), PID(MVSIZ)
+ 
       INTEGER,DIMENSION(:),ALLOCATABLE :: PTWA
       INTEGER,DIMENSION(:),ALLOCATABLE :: PTWA_P0
       double precision   
      .    THK, EM, EB, H1, H2, H3
       CHARACTER*100 DELIMIT,LINE
 C----  
-      TYPE(L_BUFEL_) ,POINTER :: LBUF     
+ 
       TYPE(G_BUFEL_) ,POINTER :: GBUF     
-      TYPE(BUF_MAT_) ,POINTER :: MBUF 
+ 
       TYPE(BUF_FAIL_),POINTER :: FBUF  
       my_real,
      .  DIMENSION(:), POINTER  :: UVARF,DFMAX

@@ -48,7 +48,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NEL, ILAY,I , NS1,ITY, IORTH, IGTYP,MLW ,JDIR
+      INTEGER NEL, ILAY, I, ITY, IORTH, IGTYP, MLW, JDIR
       my_real SIG(6)
       my_real
      .   RX(MVSIZ), RY(MVSIZ), RZ(MVSIZ), 
@@ -65,14 +65,12 @@ C-----------------------------------------------
       INTEGER ILAW , II
       my_real 
      .   DIR(2),
-     .   V1,V2,V3,VR,VS,AA,BB,SUMA,
+     .
      .   R1,S1,S2,R2,RS1,RS2,R12A,R22A,S12B,S22B,
      .   RS3,R3R3,S3S3,T1,T2,T3,S3,S4,S5,
      .   L11,L12,L13,L22,L23,L33,
      .   R11,R12,R13,R21,R22,R23,R31,R32,R33,
      .   S11,S12,S21,S13,S31,S22,S23,S32,S33
-      my_real, 
-     .   DIMENSION(:) , POINTER :: DIR1 
 C=======================================================================
 C*******************************************
 C     Rotate to global system 
@@ -243,7 +241,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NEL, ITY, NFT ,JFT, JLT , IHBE, IGTYP ,        
+      INTEGER ITY, NFT, JFT, JLT, IHBE, IGTYP, 
      .        IXC(NIXC,*), IXTG(NIXTG,*)
       my_real X(3,*), OFFG(*)
       my_real
@@ -255,7 +253,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I , K, I1,I2,I3,I4,IREL
+      INTEGER I, I1, I2, I3, I4, IREL
       my_real
      .   SUMA(MVSIZ)
 
