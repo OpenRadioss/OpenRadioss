@@ -130,10 +130,10 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NB_NCN,NB_NCN1,NB_ECN,ADDNN,ADDNE,I,J,DIR,NB_NC,NB_EC,
-     .        N1,N2,N3,N4,NN,NE,K,L,NCAND_PROV,J_STOK,II,JJ
+     .        N1,N2,N3,N4,NN,NE,K,L,NCAND_PROV,J_STOK
 C     REAL
       my_real
-     .   DX,DY,DZ,DSUP,SEUIL,SEUILS,SEUILI, XX1, XX2, XX3, XX4,
+     .   DX,DY,DZ,DSUP,SEUIL, XX1, XX2, XX3, XX4,
      .   XMIN, XMAX,YMIN, YMAX,ZMIN, ZMAX, TZ, GAPSMX, BGAPSMX, GAPL
 
       INTEGER,DIMENSION(:),ALLOCATABLE :: PROV_N

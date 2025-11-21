@@ -69,7 +69,7 @@ C-----------------------------------------------
       INTEGER I,J,INDX(NEL),NINDX,SEL,FLAG_PERTURB,ICOUP
       my_real 
      .  DF,P,TRIAXS,SVM,SXX,SYY,SZZ,EPS_FAIL,P1X,P1Y,S1X,S1Y,
-     .  S2Y,A1,B1,C1,REF_EL_LEN,LAMBDA,FAC,X_1(3),X_2(3),DCRIT,EXP
+     .  A1,B1,C1,REF_EL_LEN,LAMBDA,FAC,X_1(3),X_2(3),DCRIT,EXP
 C
       !=======================================================================
       ! - INITIALISATION OF COMPUTATION ON TIME STEP

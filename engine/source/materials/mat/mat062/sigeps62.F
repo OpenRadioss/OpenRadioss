@@ -90,12 +90,12 @@ C----------------------------------------------------------------
 C  VARIABLES FOR FUNCTION INTERPOLATION 
 C----------------------------------------------------------------
       INTEGER NPF(*), NFUNC, IFUNC(NFUNC)
-      my_real FINTER,FINTTE,TF(*),FINT2V
+      my_real FINTER,FINTTE,TF(*)
       EXTERNAL FINTER,FINTTE
 C----------------------------------------------------------------
 C  L O C A L  V A R I B L E S
 C----------------------------------------------------------------
-      INTEGER    I,J,K,II,NORDRE,NPRONY,ITYPE,IVISC
+      INTEGER    I,J,K,II,NORDRE,NPRONY,IVISC
       my_real
      .   MU(100),AL(100),TAUX(100), GAMA(100),GAMAINF,NU,
      .   GMAX,S(MVSIZ,3),SD(MVSIZ,3),
@@ -103,16 +103,16 @@ C----------------------------------------------------------------
      .   EV(MVSIZ,3),AV(MVSIZ,6),DIRPRV(MVSIZ,3,3),
      .   RV(MVSIZ),P(MVSIZ),RBULK,
      .   EVV(MVSIZ,3),SSP(MVSIZ,3),FAC, BETA(100),
-     .   DTINV,VISC,FAC1,
-     .   E1,E2,E3,E4,E5,E6,EPSP, VM,DAV,VISC1,SIGXX(MVSIZ),
-     .   SIGYY(MVSIZ),SIGZZ(MVSIZ),SIGXY(MVSIZ),SIGZX(MVSIZ),
-     .   SIGYZ(MVSIZ),DVISC,A11,A12,A13,A22,A21,A23,
+     .   FAC1,
+     .    
+     .   
+     .   DVISC,A11,A12,A13,A22,A21,A23,
      .   A31,A32,A33,SDG0(MVSIZ,6),SDG(MVSIZ,6),HG(MVSIZ,6),HG0(6),H(MVSIZ,3,100)
      
       my_real
-     .   A(3,3),DPRA(3,3),EIGEN(3),AMAX,ETI(MVSIZ),EFAC,RV_PUI,RV_PUI_TAB(MVSIZ),
-     .   CJ(MVSIZ),LAM_AL(3),RVL,LAMIN,CIMAX(MVSIZ),GVIS,CMAX,CMAX0,
-     .   D11,D12,D13,D21,D22,D23,D31,D32,D33,MU2
+     .   AMAX,ETI(MVSIZ),EFAC,RV_PUI_TAB(MVSIZ),
+     .   CJ(MVSIZ),LAM_AL(3),RVL,CIMAX(MVSIZ),GVIS,CMAX,CMAX0,
+     .   D11,D22,D33,MU2
       my_real ,DIMENSION(NEL,3) :: AI,BI
 C----------------------------------------------------------------
 

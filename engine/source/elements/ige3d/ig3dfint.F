@@ -59,7 +59,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, INCTRL
       my_real
-     .   AA,WIP(MVSIZ),STIN(MVSIZ,NCTRL)
+     .   AA,STIN(MVSIZ,NCTRL)
 C-----------------------------------------------
 C            _
 C           /   t

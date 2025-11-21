@@ -233,7 +233,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER N, NG, IG, ITY
+      INTEGER N
 C
 C=======================================================================
       IF(IFLAG==1) THEN   ! copy initial Boundary conditions into temporal tab and constraint DDLS

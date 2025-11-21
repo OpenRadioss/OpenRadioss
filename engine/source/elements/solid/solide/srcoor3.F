@@ -109,8 +109,6 @@ C-----------------------------------------------
     
 C     REAL
       my_real
-     .  DT05     
-      my_real
      .   G11,G12,G13,
      .   G21,G22,G23,
      .   G31,G32,G33,
@@ -120,8 +118,6 @@ C     REAL
      .   RX(MVSIZ) , RY(MVSIZ) , RZ(MVSIZ) ,
      .   SX(MVSIZ) , SY(MVSIZ) , SZ(MVSIZ) ,
      .   TX(MVSIZ) , TY(MVSIZ) , TZ(MVSIZ) 
-      my_real
-     .   XL(MVSIZ),YL(MVSIZ),ZL(MVSIZ)
       my_real
      .   OFF_L
 C=======================================================================

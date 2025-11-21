@@ -85,11 +85,11 @@ C----------------------------------------------------------------
       INTEGER  ,DIMENSION(NEL) :: INDX,INDF
 c     material parameters
       my_real :: YOUNG,NU,SSP,G,G2,BULK,YLD0,C11,C12,
-     .   A1F,A2F,AS,D1C,D2C,D1F,D2F,D_TRX,D_JC,DM,EXPN
+     .   A1F,A2F,AS,D1C,D2C,D1F,D2F,D_TRX,D_JC,EXPN
 c     Johnson & Cook rate-dependency
-      my_real CC,EPSDREF,EPSDMAX,FRATE,FCUT,ALPHA,ALPHAI,DTINV
+      my_real CC,EPSDREF,EPSDMAX,FCUT,ALPHA,ALPHAI,DTINV
 c     Local variables
-      my_real FACR,TRIAX,I1P,IP,JP,TP,FACT,FACD,DFAC,
+      my_real FACR,TRIAX,I1P,IP,JP,TP,FACT,DFAC,
      .   DLAM,DDEP,DFDLAM,DPLA_DLAM,DPHI_DLAM,
      .   GAMC,GAMF,NP_XX,NP_YY,NP_ZZ,NP_XY,NP_YZ,NP_ZX,
      .   NF_XX,NF_YY,NF_ZZ,NF_XY,NF_YZ,NF_ZX,DPXX,DPYY,DPZZ,DPXY,DPYZ,DPZX

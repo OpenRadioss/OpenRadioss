@@ -79,8 +79,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
-      INTEGER MSGOFF,MSGOFF0,MSGTYP,INFO,I,K,NG,N,
-     .        EMPL,FILEN 
+      INTEGER MSGOFF,MSGOFF0,MSGTYP,I,K,N,
+     .        FILEN 
       CHARACTER FILNAM*100,CYCLENUM*7
       INTEGER :: LEN_TMP_NAME,SHIFT
       CHARACTER(len=2148) :: TMP_NAME

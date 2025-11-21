@@ -77,14 +77,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J, MT, K, MX
+      INTEGER I, MT, MX
 C     REAL
       my_real
      .   DD(MVSIZ), AL(MVSIZ),
      .   DTX(MVSIZ), AD(MVSIZ), QX(MVSIZ), CX(MVSIZ),
      .   QA, QB, VISI, FACQ,QAA,
      .   CNS1, CNS2, SPH, AK1, BK1, AK2, BK2, TLI, AKK, XMU, TMU, RPR,
-     .   ATU, QAD, QBD, QAAP
+     .   ATU
       my_real 
      .   TIDT,TVOL,TRHO,TAIRE
 C=======================================================================

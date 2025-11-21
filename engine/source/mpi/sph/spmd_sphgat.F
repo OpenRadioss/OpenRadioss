@@ -66,9 +66,9 @@ C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
       INTEGER P, I, NN, N, NN0, NSP, IDEB, INITV, IG,
-     .        MSGTYP, LOC_PROC, NBIRECV,
-     .        IERROR, IERROR1, LEN, NVOIS1, NVOIS2,
-     .        REQ_SD(NSPMD), REQ_SD2(NSPMD),
+     .        MSGTYP, LOC_PROC,
+     .        IERROR, IERROR1, NVOIS1, NVOIS2,
+     .         
      .        INDEX(NSPHR), STATUS(MPI_STATUS_SIZE),
      .        MSGOFF,MSGOFF2
        my_real

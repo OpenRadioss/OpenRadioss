@@ -75,7 +75,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER 
-     .        I, J, L, H, I_STOK_RTLM, I_STOK, JLT , NFT,
+     .        I_STOK_RTLM, I_STOK, JLT , NFT,
      .        INACTI, NADMSR, NB_LOC, DEBUT, IGAP,
      .        MG, N, NSN, NSNR, IVIS2, ISENS
       INTEGER  LENT, MAXCC

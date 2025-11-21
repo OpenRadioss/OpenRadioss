@@ -64,7 +64,7 @@ C-----------------------------------------------
       INTEGER NUM_IMP,CAND_N(*),CAND_E(*),NIN,IDDL(*),
      .        IADK(*) ,JDIK(*),LREM,ITAB(*)
 C     REAL
-      my_real DT2T,
+      my_real 
      .   X(*), A(3,*), V(3,*),MS(*),
      .   K_DIAG(*),K_LT(*),GAP_IMP
 
@@ -72,8 +72,8 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NOINT,I, I_STOK, NSEG,JLT , NFT, JLT_NEW, IGAP, 
-     .        I_STOK_LOC,DEBUT,IDESAC, IGSTI, IBID
+      INTEGER NOINT, I_STOK,JLT , NFT, IGAP, 
+     .        IDESAC, IGSTI, IBID
       INTEGER N1(MVSIZ), N2(MVSIZ), M1(MVSIZ), M2(MVSIZ)
 C     REAL
       my_real
@@ -228,8 +228,8 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, I_STOK, JLT_NEW, JLT , NFT, 
-     .        INACTI, NRTS,NTY,L
+      INTEGER  I_STOK, JLT_NEW, JLT , NFT, 
+     .         NRTS,NTY,L
       INTEGER N1(MVSIZ), N2(MVSIZ), M1(MVSIZ), M2(MVSIZ)
 C     REAL
       my_real
@@ -337,8 +337,8 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NOINT,I, I_STOK, NSEG,JLT , NFT, JLT_NEW, IGAP, 
-     .        I_STOK_LOC,DEBUT,LREM,IDESAC,NB_LOC, IGSTI, IBID
+      INTEGER NOINT,I, I_STOK,JLT , NFT, JLT_NEW, IGAP, 
+     .        I_STOK_LOC,DEBUT,NB_LOC, IGSTI, IBID
       INTEGER N1(MVSIZ), N2(MVSIZ), M1(MVSIZ), M2(MVSIZ),
      .        CS_LOC(MVSIZ),CM_LOC(MVSIZ),INDEX2(LINDMAX)
 C     REAL
@@ -489,15 +489,15 @@ C-----------------------------------------------
       INTEGER IPARI(*)
       INTEGER NUM_IMP,CAND_N(*),CAND_E(*),NIN,IUPD
 C     REAL
-      my_real DT2T,
+      my_real 
      .   X(*), A(3,*),V(3,*),D(3,*),MS(*)
 
       TYPE(INTBUF_STRUCT_) INTBUF_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, I_STOK, NSEG,JLT , NFT, JLT_NEW, IGAP, 
-     .        I_STOK_LOC,DEBUT,LREM,IDESAC, IGSTI, IBID
+      INTEGER  I_STOK,JLT , NFT, IGAP, 
+     .        IDESAC, IGSTI, IBID
       INTEGER N1(MVSIZ), N2(MVSIZ), M1(MVSIZ), M2(MVSIZ)
 C     REAL
       my_real

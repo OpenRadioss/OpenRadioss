@@ -92,7 +92,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
         INTEGER :: N,NN,II,JJ,MY_SIZE
         INTEGER :: NFT,GROUP_ID,ILOC
-        INTEGER :: ISU1,NSN,NTY,INACTI,NODE_ID,IBRIC
+        INTEGER :: ISU1,NSN,NODE_ID,IBRIC
         LOGICAL, DIMENSION(:), ALLOCATABLE :: TAG
 C-----------------------------------------------
         !   X/V/MASS extended 

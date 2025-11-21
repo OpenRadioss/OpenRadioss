@@ -46,7 +46,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER JFT,JLT,NPT,NEL,IMAT,ISMSTR
+      INTEGER JFT,JLT,NEL,IMAT,ISMSTR
 C     REAL
       my_real
      .  THK(*),GS(*), THKLYL(NEL),OFF(*),PM(NPROPM,*),

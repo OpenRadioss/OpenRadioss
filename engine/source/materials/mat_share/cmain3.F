@@ -183,7 +183,7 @@ C-----------------------------------------------
       my_real EPSYZ(MVSIZ),EPSZX(MVSIZ)
       my_real ALPHA,DF,DEINTTH,FSCAL_ALPHA,DM,ZSHIFT
 C-------------------------------------
-      TYPE(BUF_LAY_) ,POINTER :: BUFLY
+ 
       TYPE(L_BUFEL_) ,POINTER :: LBUF     
       TYPE(G_BUFEL_) ,POINTER :: GBUF     
       TYPE(BUF_DAMP_RANGE_)  ,POINTER :: DAMP_BUF

@@ -76,7 +76,7 @@ C-----------------------------------------------
      .        SIZ,J,K,L,NB_NOD,
      .        STATUS(MPI_STATUS_SIZE),
      .        IAD_SEND(NSPMD+1),IAD_RECV(NSPMD+1),
-     .        REQ_R(NSPMD),REQ_S(NSPMD),OFFSET,MSGOFF,NN,
+     .        REQ_R(NSPMD),REQ_S(NSPMD),OFFSET,MSGOFF,
      .        OFFSET_S_NL,OFFSET_R_NL
       my_real
      .        RBUF(RBUF_SIZE),SBUF(SBUF_SIZE),

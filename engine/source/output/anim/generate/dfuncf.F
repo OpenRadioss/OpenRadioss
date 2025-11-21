@@ -79,7 +79,7 @@ C     REAL
      .   OFF, P, VONM2, VONM, S1, S2, S12, S3, VALUE,
      .   A1,B1,B2,B3,YEQ,F1,M1,M2,M3, XM,     
      .   FOR, AREA, FEQ, EPLAS,DAMMX   
-      INTEGER I, II, NG, NEL, NFT, IAD, ITY, LFT, NPT, ISS, ISC,
+      INTEGER I, NG, NEL, NFT, ITY, LFT, NPT, 
      .        IADD, N, J, LLT, MLW, NB1, NB2, NB3, NB4, NB5, 
      .        NB6, NB7, NB8, NB9, NB10, NB11, NB12, NB13, NB14, NB15,
      .        NB16, LLL,NUVAR,IGTYP,IFAIL,
@@ -560,7 +560,7 @@ C     REAL
      .   EVAR(MVSIZ),
      .   OFF, P, VONM2, VONM, S1, S2, S12, S3, VALUE,
      .   A1,B1,B2,B3,YEQ,F1,M1,M2,M3,FOR,AREA
-      INTEGER I,J,K,II,N,NN, NG, NEL, ISC,MLW,NN1,  
+      INTEGER I, J, N, NG, NEL, MLW, NN1, 
      .        INOD, ISOLNOD, IPRT, LIAD, NPTR, NPTS, NPTT, IPT,
      .        IS, IR, IT, NPTG,NC(20,MVSIZ),NNOD,IHBE,MPT,JJ(6)
       TYPE(G_BUFEL_)  ,POINTER :: GBUF     
@@ -833,7 +833,7 @@ C     REAL
      .   OFF, P, VONM2, VONM, S1, S2, S12, S3, VALUE,
      .   A1,B1,B2,B3,YEQ,F1,M1,M2,M3,FOR,AREA,
      .   XX1,XX2,XX3,YY1,YY2,YY3,ZZ1,ZZ2,ZZ3,THK0,AL0
-      INTEGER I,II, NG, NEL, ISC,
+      INTEGER I, NG, NEL, 
      .        IADD, N, J,K, MLW,  
      .        NN, MT, IMID, IALEL,IPID,
      .        NN1,NN2,NN3,NN4,NN5,NN6,NN7,NN8,NN9,NN10,NF,
@@ -841,7 +841,7 @@ C     REAL
      .        INOD, ISOLNOD, IPRT, LIAD, NPTR, NPTS, NPTT, IPT,
      .        IS, IR, IT, NPTG,NC(20,MVSIZ),NNOD,IEXPAN,IHBE,MPT,
      .        N1,N2,N3,N4,JJ(6)
-      INTEGER MLW2                
+ 
       TYPE(G_BUFEL_)  ,POINTER :: GBUF     
 C=======================================================================
       DO 900 NG=1,NGROUP

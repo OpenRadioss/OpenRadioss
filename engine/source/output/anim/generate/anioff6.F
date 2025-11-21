@@ -63,9 +63,9 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 C     REAL
-      INTEGER I, NG, NEL, NFT, IAD, ITY, LFT, NPT,
-     .        N, J, LLT, MLW, K1, K2,MT,JALE, IMID, 
-     .        N1,N2,N3,N4,ISOLNOD,NN1,NN2,NN3,NN4,NN5
+      INTEGER I, NG, NEL, NFT, IAD, ITY, LFT,
+     .        N, J, LLT, MLW, 
+     .        ISOLNOD,NN1,NN2,NN3,NN4,NN5
       INTEGER RBUF
       INTEGER,DIMENSION(:),ALLOCATABLE :: IOFFBUF
       TYPE(G_BUFEL_)  ,POINTER :: GBUF     

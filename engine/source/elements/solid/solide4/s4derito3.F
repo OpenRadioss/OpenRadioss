@@ -70,8 +70,7 @@ C                                                                     12
       my_real
      .   JI1, JI2, JI3,  
      .   JI4, JI5, JI6,  
-     .   JI7, JI8, JI9,  
-     .   A1, A2, A3, A4, D, AREAMX2
+     .   JI7, JI8, JI9
 C-----------------------------------------------
       DO I=1,NEL
        X43 = X4(I) - X3(I)

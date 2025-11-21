@@ -66,7 +66,7 @@ C-----------------------------------------------
       INTEGER I,J,ICOUNT,LIST(MVSIZ)
       my_real
      .   TET_COLLA(MVSIZ),DEF_V(MVSIZ),APS_R(MVSIZ),
-     .   C_MIN,AL,VDEFMIN,VDEFMAX,ASPMAX,COLMIN,C_MAX,GDEL
+     .   C_MIN,VDEFMIN,VDEFMAX,ASPMAX,COLMIN,C_MAX,GDEL
 C---------------------------------------------
       VDEFMIN = GEO(190)
       VDEFMAX = GEO(191)

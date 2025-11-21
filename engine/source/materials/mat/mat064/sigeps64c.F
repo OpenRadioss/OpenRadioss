@@ -156,7 +156,7 @@ C        NPF,TF  : FUNCTION PARAMETER
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,NRATE(MVSIZ),J1,J2,N,NINDX,
+      INTEGER I,J,N,NINDX,
      .        NMAX,INDEX(MVSIZ), 
      .        IAD1(MVSIZ),IPOS1(MVSIZ),ILEN1(MVSIZ),
      .        IAD2(MVSIZ),IPOS2(MVSIZ),ILEN2(MVSIZ),
@@ -164,17 +164,17 @@ C-----------------------------------------------
       my_real
      .        E,A1,A2,G,G3,
      .        AA(MVSIZ),BB(MVSIZ),PP(MVSIZ),QQ(MVSIZ),H(MVSIZ),
-     .        EPSMAX(MVSIZ),CC(MVSIZ),DD(MVSIZ),
-     .        CN, CM(MVSIZ), K1(MVSIZ),
+     .        
+     .        CN,
      .        V0, TEMP(MVSIZ),VMC,FAC,
      .        VOL0,DVM, VM(MVSIZ),NU,
      .        NNU2,NU1,NU2,NU3,NU4, 
      .        NU5,NU6,SVM(MVSIZ),
      .        DYDX1(MVSIZ),DYDX2(MVSIZ), Y1(MVSIZ),Y2(MVSIZ)
       my_real
-     .        DPLA(MVSIZ),UMR, R, CP, EPS0(MVSIZ),DEZZ,S1, S2,
+     .        DPLA(MVSIZ),UMR, R, CP,DEZZ,S1, S2,
      .        S3, DPLA_J(MVSIZ), YLD_I,DR(MVSIZ), P2,Q2,NNU1,
-     .        S11,S22,PLA_I,
+     .        S11,S22,
      .        S12, VM2, A, B, C, SIGZ, F, DF, P,MD,
      .        CD,YFAC(2),
      .        HL

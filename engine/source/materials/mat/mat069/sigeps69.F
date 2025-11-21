@@ -96,20 +96,20 @@ C----------------------------------------------------------------
 C  VARIABLES FOR FUNCTION INTERPOLATION 
 C----------------------------------------------------------------
       INTEGER NPF(*), NFUNC, IFUNC(NFUNC)
-      my_real FINTER,FINTTE,TF(*),FINT2V
+      my_real FINTER,FINTTE,TF(*)
       EXTERNAL FINTER,FINTTE
 C----------------------------------------------------------------
 C  L O C A L  V A R I B L E S
 C----------------------------------------------------------------
-      INTEGER    I,J,K,KFP,NORDRE,II,NPRONY
+      INTEGER    I,J,K,KFP,NORDRE,II
       my_real
-     .   TENSCUT,GMAX,FSCALE,RVT,SUMDWDL,EFAC,DWDRV,RBULK,DPDMU,AMAX,ETI(MVSIZ),ETH
+     .   TENSCUT,GMAX,FSCALE,RVT,SUMDWDL,DWDRV,RBULK,DPDMU,AMAX,ETI(MVSIZ)
       my_real
      .   EVV(MVSIZ,3),EV(MVSIZ,3),EVM1(MVSIZ),EVM2(MVSIZ),EVM3(MVSIZ),P(MVSIZ),
      .   MU(5),AL(5),DWDL(3),T(MVSIZ,3),RV(MVSIZ),AV(MVSIZ,6),DIRPRV(MVSIZ,3,3)
        my_real  
-     .   H0(100),H(100),C0(MVSIZ,6),C1(MVSIZ,6),AA,SV(MVSIZ,6),
-     .   CC,FAC,INVDT,FFT(3),P_FAC(NEL),NU_1,AMIN,LAM_AL(3),GTMAX(NEL)
+     .   
+     .   P_FAC(NEL),NU_1,AMIN,LAM_AL(3),GTMAX(NEL)
       my_real, DIMENSION(NEL,3) :: CII
       DOUBLE PRECISION AMAX1
 C----------------------------------------------------------------

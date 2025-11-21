@@ -177,11 +177,11 @@ C-----------------------------------------------
       INTEGER NB1, NB2, NB3, MB1, MB2, MB3, MB4, MB5,
      .        K, IFUNCT, IFV, NIT, ECHANGE
       my_real
-     .  LPREV, LNEXT, VPREV(3), VNEXT(3), VV,XK, XC,
-     .  L0, L, DX, DXOLD, DDX, DT11, DVX, FX, G, Y, DFDX, DGDX, F,
+     .   LNEXT, VPREV(3), VNEXT(3), VV,XK, XC,
+     .  L0, L, DX, DXOLD, DDX, DT11, DVX, FX, G, DFDX, DGDX, F,
      .  STIF, MU1, MU2, FRIC, MU, BETA, FMAX, DFS, DF,   FF,
-     .  EPSMOY, DF1, DF2, XN, FXOLD, EPSTOT, EPSMIN, EPSMAX, DEPS,
-     .  RHO, XM, XKM, XKS, XCM, DTC, DTK, FACT, FFAC,XFAC  
+     .  EPSMOY, XN, FXOLD, EPSTOT, EPSMIN, EPSMAX, DEPS,
+     .  RHO, XM, XKM, XCM, DTC, DTK, FACT, FFAC,XFAC  
 C-----------------------------------------------
 C       initial total length UVAR(NB1:NB1)
         NB1=1

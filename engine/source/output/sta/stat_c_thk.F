@@ -57,7 +57,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER SIZLOC,SIZP0
+      INTEGER SIZP0
       INTEGER IXC(NIXC,*),IXTG(NIXTG,*),
      .        IPARG(NPARG,*),IPM(NPROPMI,*),IGEO(NPROPGI,*),
      .        IPARTC(*), IPARTTG(*), IPART_STATE(*),
@@ -69,10 +69,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, N, J, JJ, WRTLEN, RES, LEN, K, IOFF
-      INTEGER NG, NEL, NFT, IAD, ITY, LFT,
-     .        LLT, MLW, ISTRAIN, IHBE, ISH3N, IPRT
-      INTEGER ID,IEXPAN,ISROT,ITHK
+      INTEGER I, N, J, JJ, LEN, K, IOFF
+      INTEGER NG, NEL, NFT, ITY, LFT,
+     .        LLT, MLW, IPRT
+      INTEGER ID,ITHK
       double precision   
      .   THK
       CHARACTER*100 LINE

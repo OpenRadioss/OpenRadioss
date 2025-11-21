@@ -109,10 +109,10 @@ C
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,IFCTL1,IEDGE,IFC2(MVSIZ),NIMPA
+      INTEGER I,IFCTL1,IFC2(MVSIZ),NIMPA
 C                                                                     12
       my_real
-     .   FKT(NEL),DX,DY,DZ,DCJ_0,DCJ
+     .   FKT(NEL)
       my_real, DIMENSION(NEL)   :: 
      .                        XS1,     XS2,     XS3,
      .                        YS1,     YS2,     YS3,

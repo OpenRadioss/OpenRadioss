@@ -45,7 +45,7 @@ C-----------------------------------------------
       INTEGER I
 C     REAL
       my_real
-     .   SX,SY,SZ,FXX,FXY,FXZ,FYX,FYY,FYZ,FZX,FZY,FZZ
+     .   FXX,FYY,FZZ
 C-----------------------------------------------
       DO I=JFT,JLT
          FXX = MXX(I)*G1X(I)*G1X(I)+MYY(I)*G1Y(I)*G1Y(I)+MZZ(I)*G1Z(I)*G1Z(I)

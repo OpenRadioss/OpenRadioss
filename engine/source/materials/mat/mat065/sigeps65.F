@@ -102,7 +102,7 @@ C=======================================================================
 C-----------------------------------------------
 C   I N P U T   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NEL, NUPARAM, NUVAR,IPT,IPLA, JTHE,
+      INTEGER NEL, NUPARAM, NUVAR,IPLA,
      .   NGL(NEL),MAT(NEL),IPM(NPROPMI,*)
       my_real
      .   TIME,TIMESTEP,UPARAM(*),
@@ -115,7 +115,7 @@ C-----------------------------------------------
      .   EPSXY(NEL) ,EPSYZ(NEL) ,EPSZX(NEL) ,
      .   SIGOXX(NEL),SIGOYY(NEL),SIGOZZ(NEL),
      .   SIGOXY(NEL),SIGOYZ(NEL),SIGOZX(NEL),
-     .   EPSP(NEL),ETSE(NEL), TEMPEL(NEL),AMU(NEL)
+     .   EPSP(NEL),ETSE(NEL),AMU(NEL)
 C-----------------------------------------------
 C   O U T P U T   A r g u m e n t s
 C-----------------------------------------------
@@ -159,22 +159,22 @@ C-----------------------------------------------
 C
       my_real
      .        S1,S2,T1,T2,X1,X2,Y1,Y2,SX,TY,DYDX,DTDS,RATE1,
-     .        RATE2,SIGY1,SIGY2,SVTEST,TEST,HH,DESEL
+     .        RATE2,SIGY1,SIGY2,TEST,DESEL
       my_real
      .        E(NEL),NU,G3,G,EPS(NEL),C1,
-     .        EPSMAX,TRSIGO(NEL),NUU(NEL),EPSS(NEL),
-     .        EPS0(NEL),DEPSEQ(NEL),DSIGXX(NEL),DSIGYY(NEL),
-     .        DSIGZZ(NEL),SV2(NEL),SIGO(NEL),SVM(NEL),
-     .        STRXX(NEL),STRYY(NEL),STRZZ(NEL),SIGM(NEL),
-     .        STRXY(NEL),STRYZ(NEL),STRZX(NEL),TRSIGN(NEL),
+     .        EPSMAX,TRSIGO(NEL),EPSS(NEL),
+     .        DEPSEQ(NEL),
+     .        SV2(NEL),SVM(NEL),
+     .        
+     .        
      .        RBULK,G2,
      .        DYDXC1(NEL),DYDXC2(NEL),YC1(NEL),YC2(NEL),
      .        DYDXD1(NEL),DYDXD2(NEL),YD1(NEL),YD2(NEL),
      .        SIGYLD(NEL),HC(NEL),HD(NEL),SIGFC(NEL), SIGFD(NEL), 
-     .        FAC(NEL),EPSE(NEL),YFAC(NEL,2),DEPSS(NEL),H(NEL),
-     .        DEPSE(NEL),DEQ(NEL),YIELD(NEL),UNLOAD(NEL),
+     .        FAC(NEL),EPSE(NEL),DEPSS(NEL),H(NEL),
+     .        DEPSE(NEL),DEQ(NEL),YIELD(NEL),
      .        EPSC1(NEL),EPSC2(NEL),EPSD1(NEL),EPSD2(NEL),WORK(NEL),
-     .        DYDXC(NEL),YC(NEL),YFAC1(NEL),YFAC2(NEL),COEFB(NEL),
+     .        YFAC1(NEL),YFAC2(NEL),COEFB(NEL),
      .        DEXX(NEL),DEYY(NEL),DEZZ(NEL),P0(NEL),COEFA(NEL),
      .        SOXX(NEL),SOYY(NEL),SOZZ(NEL) ,SVMO2(NEL),DSIG(NEL),
      .        A,B,CC,X11,X22,DAV,ALPHA,SFC,SFD,P

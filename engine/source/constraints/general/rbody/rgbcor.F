@@ -61,7 +61,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER M, NSN, ICODR, ISK, I, N,ISENS
+      INTEGER M, NSN, I, N,ISENS
 C     REAL
       my_real
      .   VI(3),VG(3),DT05,MAS,WEWE2
@@ -498,8 +498,8 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER  J,K,N,KK,IAD,M,
-     .        JT(3,NRBE2),JR(3,NRBE2),NM,NN,ISK,NSN,IRAD
+      INTEGER  N,IAD,M,
+     .        JT(3,NRBE2),JR(3,NRBE2),ISK,NSN,IRAD
 C     REAL
       my_real
      .   ENROT_T,ENCIN_T,XMASS_T,
@@ -579,10 +579,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, N, NS,ITRA,IROT
+      INTEGER I, N,ITRA,IROT
 C     REAL
       my_real
-     .   VI(3),VG(3),DT05,MAS,WEWE2,WROT,WROT2,WTRA2
+     .   VG(3),DT05,MAS,WEWE2,WROT,WROT2,WTRA2
 C to keep enough accuracy in single precision
       DOUBLE PRECISION
      .   ENROTT,ENCINT,XMASST,XMOMTT,YMOMTT,ZMOMTT,

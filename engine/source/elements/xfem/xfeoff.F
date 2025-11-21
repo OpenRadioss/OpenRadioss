@@ -74,8 +74,8 @@ C
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,IG,NG,JFT,JLT,NEL,NF1,IXFEM,IADXFEM,NXLAY,OFF,
-     .  STEP,ITG1,ITG2,FLAG,SIZE,LSDRC,ACTIFXFEM
+      INTEGER IG,NG,JFT,JLT,NEL,IXFEM,NXLAY,OFF,
+     .  ITG1,ITG2,FLAG,SIZE,LSDRC,ACTIFXFEM
 C=======================================================================
 C activation of new group if crack advancing or new crack initiate
 c-----------------------------------------------------------------------

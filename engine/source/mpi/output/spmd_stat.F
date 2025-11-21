@@ -69,8 +69,8 @@ C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER STATUS(MPI_STATUS_SIZE),IERROR,
-     .        MSGTYP,I,J,IAD,IDEB, POLD,
+      INTEGER IERROR,
+     .        I,J,IAD,IDEB, POLD,
      .        LENP(NSPMD),DISP(NSPMD)
 
 
@@ -152,8 +152,8 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER MSGOFF,MSGTYP,INFO,IDEB,K,N,NB_TMP,LEN,
-     .        NBF_L,NPT(SIZE*STAT_NUMEL)
+      INTEGER MSGOFF,MSGTYP,IDEB,K,NB_TMP,
+     .        NBF_L
       INTEGER STATUS(MPI_STATUS_SIZE),IERROR
       DATA MSGOFF/10001/
 C-----------------------------------------------
@@ -227,7 +227,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
        my_real
      .   V(3,*),VGATH(3,*)
-       INTEGER WEIGHT(*),NODGLOB(*),NUM,SRECBUF,NODTAG(*),
+       INTEGER WEIGHT(*),NODGLOB(*),NODTAG(*),
      .         NODTAGLOB(*)
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
@@ -345,7 +345,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
        my_real
      .   V(*),VGATH(*)
-       INTEGER WEIGHT(*),NODGLOB(*),NUM,SRECBUF,NODTAG(*),
+       INTEGER WEIGHT(*),NODGLOB(*),NODTAG(*),
      .         NODTAGLOB(*)
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S

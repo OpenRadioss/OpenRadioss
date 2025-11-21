@@ -79,7 +79,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NC1, NC2, NC3,I, J,I1, I2, I3, N, NLYMAX,II(4),IBID,MAT_1
+      INTEGER NC1, NC2, NC3,I,I1,II(4),IBID,MAT_1
       my_real
      .   VX2(MVSIZ), VX3(MVSIZ),VY2(MVSIZ), VY3(MVSIZ), 
      .   VZ2(MVSIZ), VZ3(MVSIZ),
@@ -88,7 +88,7 @@ C-----------------------------------------------
      .   X1(MVSIZ), X2(MVSIZ), X3(MVSIZ), Y1(MVSIZ),
      .   Y2(MVSIZ), Y3(MVSIZ), Z1(MVSIZ), Z2(MVSIZ),
      .   Z3(MVSIZ), RX(MVSIZ), RY(MVSIZ), RZ(MVSIZ),
-     .   SX(MVSIZ), SY(MVSIZ), SZ(MVSIZ),DET(MVSIZ),
+     .   SX(MVSIZ), SY(MVSIZ), SZ(MVSIZ),
      .   VX1, VY1,VZ1,OFF_L,DT05,EXZ,EYZ,DDRX,DDRY,V21X,V31X,
      .   DDRZ1,DDRZ2
 C-----------------------------------------------

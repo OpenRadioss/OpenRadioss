@@ -60,9 +60,8 @@ C-----------------------------------------------
      .        NBF_L,NBF,NODGLOBXFE(*),ITAB(*)
 C-----------------------------------------------
 C     REAL
-      my_real OFF
-      INTEGER IE,NG,ITY,LFT,LLT,N,I,J,NEL,NFT,JJ,K,BUF,IXFEM,
-     .        IPT,ELC,CRKS,ICRK,IE_EL2FA,NEL_CRK,EMPL,NLEVXF
+      INTEGER IE, NG, ITY, LFT, LLT, N, I, NEL, NFT, JJ, BUF, IXFEM, 
+     . CRKS,ICRK,IE_EL2FA,NEL_CRK,NLEVXF
       INTEGER II(4)
       INTEGER,DIMENSION(:),ALLOCATABLE::NP
 C=======================================================================

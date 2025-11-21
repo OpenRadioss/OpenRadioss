@@ -95,7 +95,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NGL(*), I, J ,ICOR,NNEGA,INDEX(MVSIZ)
+      INTEGER NGL(*), I, J ,NNEGA,INDEX(MVSIZ)
       my_real DETT(MVSIZ) ,
      .        AJI1(MVSIZ), AJI2(MVSIZ), AJI3(MVSIZ),
      .        AJI4(MVSIZ), AJI5(MVSIZ), AJI6(MVSIZ),

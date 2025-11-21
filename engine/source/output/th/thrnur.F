@@ -48,10 +48,10 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER II, I, N, IH, NG, ITY, MTE, NB1, NB2, NB3,
-     .   NB4, NB5, NB6, NB10, NB11, NB12, NB13, K, M1, M2, M3, M4, M5,
-     .   M6, N1, N2, N3, N4, N5, NB7, NB8, M11, M10, NB9,IP,L,
-     .   NB2A, NB2B, NB4A, NB4B,  NB9A, NB9B, M8,NB14, NB15, NB16, NB17,
-     .   NB10A, NB10B, NB12A, NB12B, NB18,NB8A, NB8B, OFFSET1,OFFSET2,
+     .   NB4, NB5, NB6, K, M1, M2, M3,
+     .           IP,
+     .         
+     .         
      .   LWA,NEL,NFT
       my_real
      .   WWA(100),XFN

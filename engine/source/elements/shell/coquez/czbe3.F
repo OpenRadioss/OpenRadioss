@@ -53,7 +53,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
-      INTEGER I,J,EP
+      INTEGER I,EP
 C-----------gama(I)=hI/4-PH(I), PH:anti-sym comme bxI------
 #include "vectorize.inc"
        DO I=JFT,JLT

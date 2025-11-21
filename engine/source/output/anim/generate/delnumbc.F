@@ -56,10 +56,8 @@ C-----------------------------------------------
       INTEGER DD_IAD(NSPMD+1,*), IADD(*), NBF_L
 C-----------------------------------------------
 C     REAL
-      my_real
-     .   OFF
-      INTEGER II(4),IE,NG, ITY, LFT, LLT, N, I, J,
-     .        IPID, NEL, IAD, NFT, IMID,IALEL,
+      INTEGER NG, ITY, LFT, LLT, N, I, 
+     . NEL, IAD, NFT,
      .        NN1,NN2,NN3,NN4,NN5,NN6,NN7,NN8,NN9,NN10,BUF,NODGLOB(*),
      .        IDCMAX, IDCMAXL
 C-----------------------------------------------

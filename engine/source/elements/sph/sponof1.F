@@ -91,21 +91,21 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, ITYPE, IVAD,IX, N2ENTER,
      .        II,IPT,JJ,NPF,
-     .        IFVITS,IFDENS,IFPRES,IFENER,
+     .        IFVITS,IFDENS,IFENER,
      .        INACTIV,J,N,INOD,IACTIVE,
      .        ISU,NSEG,IN1,IN2,IN3,IN4,
      .        IMAT,IPROP,IPRT,NEL,KAD,NG,K,
      .        KP,NP2SORT,NBAND,
      .        KNSX,KISX,KNSY,KISY,KNSZ,KISZ,
-     .        KNPX,KIPX,KNPY,KIPY,KNPZ,KIPZ,KVNORM,KXPROJ,KF,
+     .        KNPX,KIPX,KNPY,KIPY,KNPZ,KIPZ,KVNORM,
      .        IUN,IAD2,NSEGB
       my_real
      .       PENTV,VT,VN,VV,
-     .       PENTR,RHON,RHO0,PENTP,PN,PSHFT,PENTE,EN,EI,
+     .       PENTR,RHON,RHO0,PENTE,EN,EI,
      .       T05,SSEG,MP,WFEXTT,VOLO,
      .       X1,X2,X3,X4,XP,Y1,Y2,Y3,Y4,YP,Z1,Z2,Z3,Z4,ZP,
-     .       X12,Y12,Z12,X23,Y23,Z23,X31,Y31,Z31,NX,NY,NZ,NN,
-     .       XI,YI,ZI,DD,DIAM,DMAX,DPS,VOL,BID
+     .       X12,Y12,Z12,X23,Y23,Z23,NX,NY,NZ,NN,
+     .       XI,YI,ZI,DIAM,DMAX,DPS,VOL,BID
       TYPE(G_BUFEL_)  ,POINTER :: GBUF     
 C-----------------------------------------------
       my_real

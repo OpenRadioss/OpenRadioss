@@ -46,7 +46,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER LFT,LLT, NPTR,NLAY,NPTT,ICR,ICS,ICT,ICP,NEL,
+      INTEGER LFT,LLT, NPTR,NLAY,NPTT,ICP,NEL,
      .        MTN,NPE,NIPMAX,MXT(*)
       my_real
      .  VX(MVSIZ,*),VY(MVSIZ,*),VZ(MVSIZ,*),

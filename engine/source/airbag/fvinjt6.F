@@ -64,7 +64,7 @@ C-----------------------------------------------
       INTEGER IINJ, IMASS, IFLU, ISENS, ITEMP
       my_real
      .   TSTART, FMASS, GMASS, GMASS_OLD, GMTOT, GMTOT_OLD, DGMASS,
-     .   TSG,    DYDX,  RMWG,  FTEMP,  TEMP,  EFAC , 
+     .   TSG,  RMWG,  FTEMP,  TEMP,  EFAC , 
      .   CPA,    CPB,   CPC,   CPG,    CVG
 C-----------------------------------------------
       DO IINJ=1,NJET

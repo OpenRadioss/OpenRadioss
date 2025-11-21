@@ -95,15 +95,6 @@ C-----------------------------------------------
       INTEGER I
 C     REAL
       my_real
-     .   DT05
-      my_real
-     .   G11(MVSIZ),G12(MVSIZ),G13(MVSIZ),
-     .   G21(MVSIZ),G22(MVSIZ),G23(MVSIZ),
-     .   G31(MVSIZ),G32(MVSIZ),G33(MVSIZ),
-     .   T11(MVSIZ),T12(MVSIZ),T13(MVSIZ),
-     .   T21(MVSIZ),T22(MVSIZ),T23(MVSIZ),
-     .   T31(MVSIZ),T32(MVSIZ),T33(MVSIZ)
-      my_real
      .   XL,YL,ZL
       my_real
      .   XX,YY,ZZ,XY,XZ,YZ,RTR(6),ABC,XXYZ2,ZZXY2,YYXZ2,DETA   

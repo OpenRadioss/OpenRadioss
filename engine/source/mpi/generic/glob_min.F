@@ -40,7 +40,7 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER I, L
+      INTEGER I
       INTEGER, PARAMETER ::  VLEN = 10 
 C-----------------------------------------------
 C   S o u r c e  L i n e s

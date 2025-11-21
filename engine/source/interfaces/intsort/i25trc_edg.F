@@ -56,7 +56,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, I_ST0,N,NN,K,E,CAND_T,
+      INTEGER I,N,NN,K,E,CAND_T,
      .        IGET(I_STOK),IPUT(I_STOK)
       my_real
      .        CAND_TF

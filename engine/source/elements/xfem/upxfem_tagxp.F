@@ -71,7 +71,7 @@ C
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,IG,NG,JFT,JLT,NEL,NXLAY,NF1,IXFEM,OFF,ITG1,ITG2,ACTIFXFEM
+      INTEGER IG,NG,JFT,JLT,NEL,NXLAY,IXFEM,OFF,ITG1,ITG2
 C=======================================================================
       ITG1 = 1+NUMELC
       ITG2 = 1+4*ECRKXFEC

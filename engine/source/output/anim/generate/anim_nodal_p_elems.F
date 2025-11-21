@@ -73,10 +73,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER IADI, IADR, I, ITYP, NINOUT, NNO, NEL, NELv,II1, II2,
-     .        IR1, IR2, J, JJ, NNO_L, NNI_L, II3, II4, JJJ, NNI,
+      INTEGER   I, ITYP, NEL, NELv,
+     .          J, JJ,
      .        IALEL,NNOD,IPOS,IV,NGv,IDLOCv,J1,J2,IBV
-      INTEGER MLW, NG, KCVT, II(6), NBF, NBL, IB, ICELL, NIN, MCELL
+      INTEGER  NG, NBF, NBL, IB, ICELL, NIN, MCELL
       TYPE(G_BUFEL_)  ,POINTER :: GBUF,GBUFv     
       my_real, ALLOCATABLE, DIMENSION(:) :: SUM_WEIGHT    
       my_real P, WEIGHT

@@ -67,8 +67,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
-      INTEGER J,I,K,EP,NN(4), IPLY,IP,NPLAT0
-      INTEGER L,M,J1,J2
+      INTEGER J, I, EP, NN(4), IP, NPLAT0
+ 
       my_real
      .   PG,Z1,Z2,MX13,MY13,MX23,MY23,MX34,MY34,GAMA1,GAMA2, X21, 
      .   X34,Y21,Y34 ,Z21,Z34,L12,L34,X41,X32,Y41,Y32,Z41,Z32,XX1

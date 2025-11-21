@@ -72,12 +72,12 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,MX,IAD,J,K,IPLAST
+      INTEGER I,MX,IPLAST
 C     REAL
       my_real
      .   NU,LAMDA,GG,C1,QC(9,MVSIZ),QCG(9,MVSIZ),QG(9,MVSIZ),
-     .   QGC(9,MVSIZ),G3(3,MVSIZ),TT,TV,CA,CB,CN,G(MVSIZ),QH(MVSIZ),
-     .   FAC(MVSIZ),SMIN,S1,NU12,NU21,EFAC
+     .   QGC(9,MVSIZ),G3(3,MVSIZ),
+     .   FAC(MVSIZ),S1,NU12,NU21,EFAC
 C-----------------------------------------------
       CALL GET_ETFAC_S(NEL,FAC,MTN)
       IF (IORTH>0) THEN

@@ -50,7 +50,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,KK,N,NN,NCT_CRK,NC_CRK,ILEV,EN0,NLEV
+      INTEGER KK,N,NN,NCT_CRK,NC_CRK,ILEV,EN0,NLEV
       my_real
      .   RTMP0,RTMP
       INTEGER, DIMENSION(:),ALLOCATABLE :: FAC

@@ -182,9 +182,9 @@ c  I   IGEO                geometrical property integer data
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,II,IFLAG,IOFFS,ICPG,ISTRAIN
+      INTEGER I,IFLAG,IOFFS,ICPG,ISTRAIN
 C     FOR THE USAGE OF EMPTY INPUT
-      INTEGER IBID,IBIDON(1),ipr,enum,SZ_IX
+      INTEGER IBID,IBIDON(1),SZ_IX
       INTEGER SZ_BUFVOIS
 C     INDEX OF ELEMENT INFORMATION IN GLOBAL TABLE "IC"
       INTEGER LCO
@@ -262,7 +262,7 @@ c     +    DEFP(MVSIZ),
      +    PZ1(MVSIZ),PZ2(MVSIZ),PZ3(MVSIZ),PZ4(MVSIZ),
      +    RX(MVSIZ),RY(MVSIZ),RZ(MVSIZ),
      +    SX(MVSIZ),SY(MVSIZ),SZ(MVSIZ),
-     +    TX(MVSIZ),TY(MVSIZ),TZ(MVSIZ),
+     +    
      +    AIRN(MVSIZ),VOLN(MVSIZ),
      +    DVOL(MVSIZ),
      +    NU(MVSIZ),E0(MVSIZ),C1,FAC(MVSIZ),
@@ -277,12 +277,12 @@ c     +    DEFP(MVSIZ),
      +    PP(MVSIZ),DSV(MVSIZ)
 C
       my_real
-     +    AY1(MVSIZ),AY2(MVSIZ),AY3(MVSIZ),AY4(MVSIZ),YH(MVSIZ),
+     +    
      +    FAY1(MVSIZ),FAY2(MVSIZ),FAY3(MVSIZ),FAY4(MVSIZ),
-     +    DET(MVSIZ), 
+     +     
      .    BYZ1(MVSIZ),BYZ2(MVSIZ),BYZ3(MVSIZ),BYZ4(MVSIZ),
      .    BZY1(MVSIZ),BZY2(MVSIZ),BZY3(MVSIZ),BZY4(MVSIZ),
-     +    QN1,QN2,QN3,QN4,NUU(MVSIZ)
+     +    NUU(MVSIZ)
 C
       my_real VARNL(NEL)
       my_real

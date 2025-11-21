@@ -81,13 +81,13 @@
           real(kind=WP)                     ,intent(in)    :: timestep!< time increment!c-----------------------------------------------
 !                                                  local variables
 !c-----------------------------------------------
-          integer :: i,j,nindx,type_max,f_flag,strdef,strflag
+          integer :: i,j,nindx,type_max,f_flag,strdef
           integer ,dimension(nel) :: indx
-          real(kind=WP) :: rfac,r1,r2,ie_sp,dydx,rief1,rief2,xfac,finter,fact, &
-            eps11,eps22,eps33,eps12,eps13,eps23,i1,i2,i3,       &
-            e_eq,e_eq1,e11,e22,e33,e_eq2,q,r,r_inter,phi,       &
+          real(kind=WP) :: finter, &
+            eps11,eps12,eps13,i1,i2,       &
+            e11,e22,e33,q,r,r_inter,phi,       &
             c_min,c_max,ema,f,ff,                               &
-            sig11,sig22,sig33,sig12,sig13,sig23
+            sig11
           external finter
           real(kind=WP) ,dimension(nel) :: damage
           double precision :: a0(2),a1(2),a2(2),c0,c1,c2,c3,c4,c5,c6,c7, &

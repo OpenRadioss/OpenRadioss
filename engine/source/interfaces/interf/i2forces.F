@@ -75,9 +75,9 @@ C-----------------------------------------------
       INTEGER N1,N2,N3,N4,J,JJ
 C     REAL
       my_real
-     .   XC0,YC0,ZC0,XC,YC,ZC,X0,X1,X2,X3,X4,Y0,Y1,Y2,Y3,Y4,
-     .   Z0,Z1,Z2,Z3,Z4,SX,SY,SZ,TX,TY,TZ,XCDG,YCDG,ZCDG,MCDG,
-     .   SUM,FNORM,VNX,VNY,VNZ,VX,VY,VZ,DT12M,FN(3),FT(3)
+     .   X0,X1,X2,X3,X4,Y0,Y1,Y2,Y3,Y4,
+     .   Z0,Z1,Z2,Z3,Z4,SX,SY,SZ,TX,TY,TZ,
+     .   SUM,FNORM,VNX,VNY,VNZ,DT12M,FN(3),FT(3)
 C=======================================================================
       IF (TT == ZERO) THEN   
         DT12M = ONE/DT2

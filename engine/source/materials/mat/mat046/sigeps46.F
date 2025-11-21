@@ -85,13 +85,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,ISGS,IADBUF,K
+      INTEGER I,ISGS,IADBUF
       my_real 
      . VIS,C1,SMAG2,
      . DAV(MVSIZ),DXX(MVSIZ),DYY(MVSIZ),DZZ(MVSIZ),
      . DXY(MVSIZ),DYZ(MVSIZ),DZX(MVSIZ),SS(MVSIZ),
      . CA,VIS2(MVSIZ),VIS2N,VISCPRESSION,
-     . VIS1(MVSIZ),DELTA(MVSIZ),FAC,KAPA,E,C,VIS1O,VIS1N,Y2P,YPM
+     . VIS1(MVSIZ),DELTA(MVSIZ),FAC,KAPA,E,C,VIS1N,Y2P,YPM
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------

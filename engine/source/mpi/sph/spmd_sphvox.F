@@ -69,29 +69,29 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER P, KK, I, J, NOD, N, MSGTYP, LOC_PROC, NBIRECV,
-     .        IERROR, IERROR1, L, LEN, IDEB, INDEXI, NB,
+      INTEGER P, I, J, NOD, N, LOC_PROC, NBIRECV, 
+     . IERROR, IERROR1, L, IDEB,
      .        NBX, NBY, NBZ,
      .        IX1, IX2, IY1, IY2, IZ1, IZ2, IX, IY, IZ,
-     .        REQ_RB(NSPMD), REQ_SB(NSPMD), REQ_SD(NSPMD),
-     .        REQ_RD(NSPMD), REQ_SD2(NSPMD), REQ_SC(NSPMD),
-     .        REQ_RC(NSPMD),
-     .        IRINDEXI(NSPMD), ISINDEXI(NSPMD), NBO(NSPMD), 
-     .        INDEX(NSP2SORT), STATUS(MPI_STATUS_SIZE),
+     .
+     .
+     .
+     . ISINDEXI(NSPMD), NBO(NSPMD),
+     . STATUS(MPI_STATUS_SIZE),
      .        MSGOFF,MSGOFF2,MSGOFF3,MSGOFF4
       my_real 
      .        ALPHA_MARGE,
      .        XMAXB,YMAXB,ZMAXB,XMINB,YMINB,ZMINB,
      .        AAA
       my_real BMINMA(6,NSPMD)
-      TYPE(real_pointer), DIMENSION(NSPMD) :: BUF
-      my_real, dimension(:), allocatable :: sbuf,rbuf
+ 
+      my_real, dimension(:), allocatable :: sbuf
       DATA MSGOFF/2023/
       DATA MSGOFF2/2024/
       DATA MSGOFF3/2025/
       DATA MSGOFF4/2026/
 
-      INTEGER :: P_LOC
+ 
       INTEGER :: SEND_SIZE_BMINMA
       INTEGER :: REQUEST_BMINMA
       INTEGER :: RCV_SIZE_BMINMA,TOTAL_RCV_SIZE_BMINMA

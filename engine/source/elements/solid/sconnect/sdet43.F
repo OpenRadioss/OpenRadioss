@@ -46,7 +46,7 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   AREA(NEL),AREAP(MVSIZ,4),OFF(NEL),
-     .   X(NEL,8) ,Y(NEL,8),Z(NEL,8),RXX(NEL),RYY(NEL),
+     .   X(NEL,8) ,Y(NEL,8),Z(NEL,8),
      .   E1X(*),E2X(*),E3X(*),E1Y(*),E2Y(*),E3Y(*),E1Z(*),E2Z(*),E3Z(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -55,8 +55,8 @@ C-----------------------------------------------
       INTEGER INDX(NEL)
 C     REAL
       my_real
-     .   PG, XX1,XX2,XX3,XX4,YY1,YY2,YY3,YY4,ZZ1,ZZ2,ZZ3,ZZ4,
-     .   L1,L2,XL1,XL2,XL3,XL4,YL2,YL3,YL4,
+     .   PG, XX1,XX3,XX4,YY1,YY3,YY4,ZZ1,ZZ3,ZZ4,
+     .   L1,L2,XL2,XL3,XL4,YL2,YL3,YL4,
      .   MX13,MY13,MX23,MX34,MY23,MY34,J0,J1,J2
       my_real 
      .   VCX(4),VCY(4),

@@ -42,7 +42,7 @@ C-----------------------------------------------
 C
       INTEGER NTHREAD,NUMNOD,NODFT,NODLT,IRODDL,
      .              NPART,PARTFT,PARTLT,GREFT,GRELT,NGPE,NTHPART
-      INTEGER K,KN,IKN,IKN1,IKN2,I,KM,KM1,KM2,NUM7,NUM8
+      INTEGER K,KN,IKN,I,KM,KM1,NUM7,NUM8
       integer*8 
      .  I8A(3,3,*),I8AR(3,3,*),I8STIFN(3,*),I8STIFR(3,*),
      .  I8VISCN(3,*)

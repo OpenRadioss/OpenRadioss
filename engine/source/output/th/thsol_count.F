@@ -53,11 +53,11 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       LOGICAL :: BOOL
-      INTEGER II,I,J,JJ,K,L,N, IH, NG, MTE,LWA,NEL,
-     .   NUVAR, IP,IPT,ISOLNOD,ITENS,IPWWA,ISPAU,IUWWA,
-     .   IT,IR,IS,J1,J2,J3,NPTG,NPTR,NPTT,NPTS,NLAY,NFAIL,NVARF,
-     .   NC1,NC2,NC3,NC4,NC5,NC6,NC7,NC8,KHBE,KCVT,NUVARTH,
-     .   CPT,PID,ISVIS,TSHELL,TSH_ORT,ICSIG,IVISC,NPTL,IL,KK(6)
+      INTEGER II,I,J,K,N, IH, NG, MTE,NEL,
+     .    IP,
+     .   
+     .   
+     .   ISVIS,IVISC(6)
       INTEGER :: J_FIRST,NITER,IADB,NN,IADV,NVAR,ITYP,IJK
       INTEGER, DIMENSION(NTHGRP2) :: INDEX_SOL
 

@@ -56,19 +56,19 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
-      INTEGER I,NG,ILAY,J,K,L,M,IR,IS,IT,NPTR,NPTS,JJ,ie,ipr
+      INTEGER I, NG, ILAY, IR, IS, IT, NPTR, NPTS
       MY_REAL 
      .   XX(4),YY(4),ZZ(4),HIX(MVSIZ),HIY(MVSIZ),HIZ(MVSIZ)
       my_real 
-     .   R11(MVSIZ),R12(MVSIZ),R13(MVSIZ),
-     .   R21(MVSIZ),R22(MVSIZ),R23(MVSIZ),
-     .   R31(MVSIZ),R32(MVSIZ),R33(MVSIZ),
+     . R13(MVSIZ),
+     . R23(MVSIZ),
+     . R33(MVSIZ),
      .   DETA1(MVSIZ),RX0(MVSIZ), RY0(MVSIZ), RZ0(MVSIZ),
      .   SX0(MVSIZ),SY0(MVSIZ),SZ0(MVSIZ),PG,PG1,VPG(2,4),
      .   RX(MVSIZ), RY(MVSIZ), RZ(MVSIZ),
      .   SX(MVSIZ),SY(MVSIZ),SZ(MVSIZ),CC,PMAX(MVSIZ),PCOS(MVSIZ,4)
       my_real, DIMENSION(:) ,POINTER  :: UVAR
-      TYPE(BUF_LAY_) ,POINTER :: BUFLY
+ 
 C
        PARAMETER (PG=.577350269189626)
        PARAMETER (PG1=-.577350269189626)
@@ -166,7 +166,7 @@ C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
       INTEGER I
       my_real 
-     .   U_MAX,EFAC
+     . U_MAX
 C=======================================================================
 C-----put cc and recovering more rapide
       DO I=1,NEL

@@ -87,10 +87,10 @@ C-----------------------------------------------
 C     REAL
       my_real
      .     DT1U,
-     .     DTE, DTC, XKM, XCM, XKR, XCR, XM, XINE, EUSR
-      INTEGER I, J, K, IPROP, IMAT, ISENS, NX,
-     .   NB1, NB2, NB3, NB4, NB5, NBFI, UID,
-     .   IGTYP,NUVAR,NUVARN,NUPARAM,
+     .     DTE, EUSR
+      INTEGER I, J, K, IPROP, IMAT, NX,
+     .         UID,
+     .   IGTYP,NUVAR,NUVARN,
      .   NISKYL,KEUSR,
      .   UIX(MAXNX),KVAR,KVARN
        my_real

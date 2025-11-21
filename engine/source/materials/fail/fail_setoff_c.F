@@ -85,7 +85,7 @@ C-----------------------------------------------
       my_real, DIMENSION(NLAY)       :: WEIGHT,P_THKLY
       my_real, DIMENSION(NLAY,100)   :: PTHKF
       my_real, DIMENSION(NEL)        :: THFACT,NORM,NPFAIL
-      TYPE(L_BUFEL_) ,POINTER        :: LBUF 
+ 
       CHARACTER(LEN=NCHARTITLE), DIMENSION(NEL) :: FAIL_NAME    
 c-----------------------------------------------------------------------
 c     NPTT       NUMBER OF INTEGRATION POINTS IN CURRENT LAYER

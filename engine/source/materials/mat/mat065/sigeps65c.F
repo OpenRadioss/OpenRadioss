@@ -152,14 +152,14 @@ C-----------------------------------------------
       INTEGER I,I1,I2,J,J1,J2,K,K1,N0,N1,N2,N3,IADBUF,NFUNC,FUNC,FUND,
      .   NP1,NP2,NRATE
       INTEGER JJ(NEL),IFUNC(NEL,100),
-     .   IPOS(NEL),IAD(NEL),ILEN(NEL),     
+     .        
      .   IPOSC1(NEL),IADC1(NEL),ILENC1(NEL),     
      .   IPOSC2(NEL),IADC2(NEL),ILENC2(NEL),
      .   IPOSD1(NEL),IADD1(NEL),ILEND1(NEL),     
      .   IPOSD2(NEL),IADD2(NEL),ILEND2(NEL)
       my_real
-     .   R,DEZZ,DPLA,A11,A22,RATE1,RATE2,SIGY1,SIGY2,DYDX,DTDS,ALPHA,
-     .   S1,S2,SX,T1,T2,TY,X1,X2,Y1,Y2,A,B,C,EPSEFF,SFC,SFD,EPSPL
+     .   DEZZ,A11,A22,RATE1,RATE2,SIGY1,SIGY2,DYDX,DTDS,ALPHA,
+     .   S1,S2,SX,T1,T2,TY,X1,X2,Y1,Y2,A,B,C,SFC,SFD,EPSPL
       my_real 
      .   E(NEL),A1(NEL),A2(NEL),G(NEL),G3(NEL),HC(NEL),HD(NEL),
      .   NU(NEL),NNU1(NEL),NU3(NEL),EPSMAX(NEL),FAC(NEL),DEPLZZ(NEL),
@@ -168,10 +168,10 @@ C-----------------------------------------------
      .   DYDXD1(NEL),DYDXD2(NEL),YD1(NEL),YD2(NEL),
      .   DEPSE(NEL),EPSE(NEL),DEPSS(NEL),EPSS(NEL),
      .   DSIGXX(NEL),DSIGYY(NEL),DSIGXY(NEL),
-     .   CRIT(NEL),SIGFD(NEL),SIGFC(NEL),DSIGV(NEL),
+     .   CRIT(NEL),SIGFD(NEL),SIGFC(NEL),
      .   SDS(NEL),DSIG2(NEL),SV2(NEL),DSVM(NEL),
      .   EPSC1(NEL),EPSC2(NEL),EPSD1(NEL),EPSD2(NEL),
-     .   DYDXC(NEL),YC(NEL),YFAC1(NEL),YFAC2(NEL)
+     .   YFAC1(NEL),YFAC2(NEL)
 C======================================================================|
 c      NUVAR = 5 + NRATE*4
 c      UVAR(I,1) = epsilon star*
@@ -544,7 +544,7 @@ C-----------------------------------------------
 C   I N P U T   A r g u m e n t s
 C-----------------------------------------------
       my_real 
-     .   A,B,C,X
+     .   A,B,C
 C-----------------------------------------------
 c   L o c a l   V a r i a b l e s
 C-----------------------------------------------

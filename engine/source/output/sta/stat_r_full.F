@@ -55,7 +55,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER SIZLOC,SIZP0
+      INTEGER SIZP0
       INTEGER IXR(NIXR,*),IPARG(NPARG,*),IGEO(NPROPGI,*),
      .        IPARTR(*),IPART_STATE(*),STAT_INDXR(*)
       my_real   
@@ -69,7 +69,7 @@ C-----------------------------------------------
      .   LLT,ITY,ID,IPRT0,IPRT,IGTYP,IPROP,NUVAR,J_FIN
       INTEGER PTWA(STAT_NUMELR),
      .        PTWA_P0(0:MAX(1,STAT_NUMELR_G))
-      CHARACTER*100 DELIMIT,LINE
+      CHARACTER*100 DELIMIT
       TYPE(G_BUFEL_)  ,POINTER :: GBUF     
 C-----------------------------------------------
       DATA DELIMIT(1:60)

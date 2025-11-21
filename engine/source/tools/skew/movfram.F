@@ -49,7 +49,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER N, N1, N2, N3, K, IMOV, IDIR
+      INTEGER N, N1, N2, N3, IMOV, IDIR
       my_real O(3), P(9), PP1, PP3, PP2, POLD(9),
      .        DR11, DR12, DR13,
      .        DR21, DR22, DR23,
@@ -390,11 +390,11 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER N, N1, N2, N3, K, IMOV, IDIR
-      my_real O(3), P(9), PP1, PP3, PP2, POLD(9),PT(9),VRN(3),
-     .        DR11, DR12, DR13,
-     .        DR21, DR22, DR23,
-     .        DR31, DR32, DR33,
-     .        XPI, CS, R, SN, RS2, DRX, DRY, DRZ, VRX, VRY, VRZ
+      my_real O(3), P(9), PP1, PP3, PP2, POLD(9),VRN(3),
+     .          
+     .          
+     .          
+     .        XPI, VRX, VRY, VRZ
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------

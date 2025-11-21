@@ -83,14 +83,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I,J,K,OPTE,OPTR,NITER,NINDX,IPLAS,ITER
+      INTEGER :: I,J,OPTE,OPTR,NITER,NINDX,IPLAS,ITER
       INTEGER ,DIMENSION(NEL) :: INDEX,IPOS,ILEN,IAD2
       my_real :: 
-     .        NU,BSAT,EINF,COE,FCT,GSIGMA,DGSIGMA,RDOT,
+     .        NU,BSAT,EINF,COE,GSIGMA,DGSIGMA,RDOT,
      .        EINI,YIELD,BYU,MYU,HYU,RSAT,P1,P2,P3,P4,N3,CST,
      .        CSTT,DF_DK1,DF_DK2,DK1_DSIGXX,DK1_DSIGYY,DK2_DSIGXX,
-     .        DK2_DSIGYY,DK2_DSIGXY,NORMXX,NORMYY,NORMXY,DFDSIG_C_2,
-     .        DFDSIG_A,DFDSIG_ALPHA,DFDSIG_BETA,DPHI_DLAM,DPLA_DLAM,
+     .        DK2_DSIGYY,DK2_DSIGXY,NORMXX,NORMYY,NORMXY,
+     .        DFDSIG_A,DPHI_DLAM,DPLA_DLAM,
      .        DRNIH,DMU,C1_KH,C2_KH,NORM_SP,T1,DVXX_DLAM,DVYY_DLAM,DVXY_DLAM,
      .        DAXX_DLAM,DAYY_DLAM,DAXY_DLAM,DU_DLAM
       REAL(KIND=8) :: DLAM,DEP_DP(NEL)

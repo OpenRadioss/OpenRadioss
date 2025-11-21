@@ -372,7 +372,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J,ND
+      INTEGER  ND
 C--------------------------------------
 C--------------------------------------
 C     writing reals
@@ -950,7 +950,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER K,I,ELSZ,NDSZ
+      INTEGER K,ELSZ,NDSZ
 C-----------------------------------------------
           CALL WRITE_I_C(NPLYPART,1)
            CALL WRITE_I_C(INDX_PLY,NPLYPART)
@@ -1043,7 +1043,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,NENR,ELSZ,LEN,ELSZC,ELSZTG,LENLAY,CRKNUMNODS
+      INTEGER K,NENR,ELSZ,LEN,ELSZC,ELSZTG,LENLAY,CRKNUMNODS
 C=======================================================================
       CALL WRITE_I_C(NCRKPART,1)
       CALL WRITE_I_C(NCRKXFE,1)
@@ -1151,7 +1151,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER K,I,ELSZ,NDSZ
+      INTEGER K,NDSZ
 C-----------------------------------------------
            DO K=1,NPLYMAX
 C Writing U, V A
@@ -1188,7 +1188,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER K,NOSZ
+      INTEGER NOSZ
 C-----------------------------------------------
         NOSZ = 3*NUMNOD
         CALL WRITE_DB(DFLOW, NOSZ)
@@ -1294,13 +1294,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER LEN,OFF,I,J,NPT,NDIM,N1,N2,N3,NDIM_INDX_PLY,
+      INTEGER I,J,NPT,NDIM,N1,N2,N3,NDIM_INDX_PLY,
      .  NDIM_SLICE,IS,NSLICE,NPT_DRP
       my_real, DIMENSION(:,:), ALLOCATABLE :: RTMP
       my_real, DIMENSION(:)  , ALLOCATABLE :: THK
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: ITMP
       INTEGER, DIMENSION(:)  , ALLOCATABLE :: NPTDRP_ELT,ISLICE,INDX_PLY,
-     .                                        NPT_ELT,INDEX
+     .                                        NPT_ELT
       INTEGER  , DIMENSION(:), POINTER     :: INDXSH4N,INDXSH3N   
 C--------------------------------------
 C     reading integers

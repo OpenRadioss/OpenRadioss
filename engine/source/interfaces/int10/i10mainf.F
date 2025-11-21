@@ -110,7 +110,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER IDUM,
-     .        I, J, H, NOINT, ISECIN, I_STOK, NSEG, 
+     .        I, J, H, NOINT, ISECIN, I_STOK, 
      .        IGAP, JLT_NEW, JLT , NFT, ITIED, IGSTI, NISUB, IADM,
      .        NB_LOC,I_STOK_LOC,DEBUT, IERROR
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ),
@@ -136,8 +136,8 @@ C     REAL
      .   Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ),
      .   Z1(MVSIZ), Z2(MVSIZ), Z3(MVSIZ), Z4(MVSIZ),
      .   XI(MVSIZ), YI(MVSIZ), ZI(MVSIZ), STIF(MVSIZ), 
-     .   N1(MVSIZ), N2(MVSIZ), N3(MVSIZ), PENE(MVSIZ), 
-     .   H1(MVSIZ), H2(MVSIZ), H3(MVSIZ), H4(MVSIZ),
+     .       
+     .      
      .   GAPV(MVSIZ),
      .   VXI(MVSIZ),VYI(MVSIZ),VZI(MVSIZ),MSI(MVSIZ)
 

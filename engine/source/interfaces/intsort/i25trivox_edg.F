@@ -115,18 +115,18 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,I_STOK, SOL_EDGE, SH_EDGE,
-     .        N1,N2,NN,NE,K,L,J_STOK,II,JJ,NA,NB,
+      INTEGER I,J, SOL_EDGE, SH_EDGE,
+     .        N1,N2,NE,K,L,J_STOK,JJ,
      .        PROV_S(MVSIZ),PROV_M(MVSIZ),
-     .        M,NS1,NS2,NSE,NS,SIZE,Z_FIRST,Z_LAST
+     .        M
 C     REAL
       my_real
-     .   DX,DY,DZ,XS,YS,ZS,XX,SX,SY,SZ,S2,
-     .   XMIN, XMAX,YMIN, YMAX,ZMIN, ZMAX, TZ, GAPSMX, GAPL,
+     .   DX,DY,DZ,
+     .   XMIN, XMAX,YMIN, YMAX,ZMIN, ZMAX,
      .   XX1,XX2,XX3,XX4,YY1,YY2,YY3,YY4,ZZ1,ZZ2,ZZ3,ZZ4,
-     .   D1X,D1Y,D1Z,D2X,D2Y,D2Z,DD1,DD2,D2,A2,GS,DRAD2
+     .   DRAD2
 c provisional
-      INTEGER  IX,IY,IZ,IEDG,IE,
+      INTEGER  IX,IY,IZ,IEDG,
      .         M1, M2, M3, M4, MM1,MM2,MM3,MM4,SS1,SS2,
      .         IMS1,IMS2,ISS1,ISS2,
      .         AM1,AM2,AS1,AS2,

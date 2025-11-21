@@ -93,7 +93,7 @@ C-----------------------------------------------
 #ifdef MPI
         INTEGER :: P,LOC_PROC
         INTEGER :: IBRIC
-        INTEGER :: L,II,IJ,LL,LL0,N,NI
+        INTEGER :: L,II,IJ,LL,LL0,N
         INTEGER :: ADD,NB,LEN,LENI,SIZ,IDEB
         INTEGER :: NIN,NTY,NB_INT18
         INTEGER :: IERROR,IALLOCS, IALLOCR

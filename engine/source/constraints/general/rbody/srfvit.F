@@ -68,7 +68,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER  ISU, ADRSRF, IM, NRBOD
       my_real
-     .       VI(3), VM(3), VRM(3)
+     .        VM(3), VRM(3)
 C
 
 !$OMP DO

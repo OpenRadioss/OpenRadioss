@@ -74,7 +74,7 @@ C     REAL
       my_real
      .   S1(MVSIZ),S2(MVSIZ),S3(MVSIZ),S4(MVSIZ),S5(MVSIZ),S6(MVSIZ)
       my_real
-     .   FINT,AA,WIP(MVSIZ)
+     .   AA,WIP(MVSIZ)
 C=======================================================================
       DO I=1,NEL                                                 
         WIP(I) = VOL(I)/VOLG(I)                                       

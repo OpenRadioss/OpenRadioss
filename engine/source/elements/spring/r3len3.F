@@ -67,7 +67,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
       my_real
-     .   DT(MVSIZ),DTC(MVSIZ),
+     .   DT(MVSIZ),
      .  A, MASS2, DTA, DTB, MX2
 C-----------------------------------------------
       DO I=JFT,JLT

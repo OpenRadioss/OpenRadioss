@@ -40,7 +40,7 @@ C     REAL
 C     REAL
       my_real
      .   X0(4),Y0(4),Z0(4),NX,NY,NZ,XC,YC,ZC,S
-      INTEGER I,I1,I2,I3,I4
+      INTEGER I
 C-----------------------------------------------
 C       FACE NORMAL
 C-----------------------------------------------

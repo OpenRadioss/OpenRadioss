@@ -57,7 +57,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, IG,I3N
+      INTEGER I,I3N
       my_real
      .     X0(MVSIZ), Y0(MVSIZ), Z0(MVSIZ), GAP2(MVSIZ),
      .     NX1(MVSIZ), NX2(MVSIZ), NX3(MVSIZ), NX4(MVSIZ),
@@ -76,11 +76,11 @@ C-----------------------------------------------
      .     HLB1(MVSIZ), HLC1(MVSIZ), HLB2(MVSIZ),HLC2(MVSIZ),
      .     HLB3(MVSIZ), HLC3(MVSIZ), HLB4(MVSIZ),HLC4(MVSIZ)
       my_real
-     .     DTI, S2,A1,A2,A3,A4,D1,D2,D3,D4,
+     .      S2,D1,D2,D3,D4,
      .     X12,X23,X34,X41,XI0,SX1,SX2,SX3,SX4,SX0,
      .     Y12,Y23,Y34,Y41,YI0,SY1,SY2,SY3,SY4,SY0,
      .     Z12,Z23,Z34,Z41,ZI0,SZ1,SZ2,SZ3,SZ4,SZ0,
-     .     LA, HLA, AAA, ZONEINF, ZONEINF2
+     .     LA, HLA, AAA, ZONEINF
 C-----------------------------------------------
 c GAPV(I)=GAP+CURV_MAX(CAND_E(I))
       DO I = 1, JLT

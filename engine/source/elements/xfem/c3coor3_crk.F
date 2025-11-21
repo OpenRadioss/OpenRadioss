@@ -63,7 +63,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,NC1,NC2,NC3,ELCRK,ELCRK0,IADC1,IADC2,IADC3
+      INTEGER I,ELCRK,ELCRK0,IADC1,IADC2,IADC3
       my_real OFF_L    
 C=======================================================================
 C get elem from activ level: (superposed element)

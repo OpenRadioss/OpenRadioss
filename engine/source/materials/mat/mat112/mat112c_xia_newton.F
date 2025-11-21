@@ -82,17 +82,17 @@ c
       !=======================================================================
       !      Local Variables
       !=======================================================================
-      INTEGER I,K,II,NINDX,INDEX(NEL),NITER,ITER,NINDX2,INDEX2(NEL),
+      INTEGER I,II,NINDX,INDEX(NEL),NITER,ITER,NINDX2,INDEX2(NEL),
      .        ITAB,ISMOOTH,IPOS(NEL,2)
 c
       my_real 
-     .   YOUNG1,YOUNG2,NU12,NU21,G12,A11,A12,A21,A22,C1,
+     .   YOUNG1,YOUNG2,NU12,NU21,G12,A11,A12,A21,A22,
      .   DEUXK,NU1P,NU2P,NU4P,NU5P,S01,A01,B01,C01,
      .   S02,A02,B02,C02,S03,A03,B03,C03,
      .   S04,A04,B04,C04,S05,A05,B05,C05,ASIG,BSIG,CSIG,
      .   TAU0,ATAU,BTAU,N3,N6,G23,G31
       my_real 
-     .   NORMSIG,H,DPDT,DLAM,DDEP,DEPXX,DEPYY
+     .   NORMSIG,DPDT,DLAM,DDEP
       my_real 
      .   NORMXX,NORMYY,NORMXY,NORMPXX,NORMPYY,NORMPXY,
      .   DPHI_DLAM,DFDSIG2,DPHI_DPLA,DPXX,DPYY,DPXY,

@@ -60,9 +60,9 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
       DOUBLE PRECISION
-     .   A4M1,B4M1,AA
+     .   AA
       DOUBLE PRECISION
-     .   D,A4MB4,A4,B4,BB,AB,B2,
+     .   
      .   DRDX, DRDY, DRDZ,DET,
      .   DXDR,DXDS,DXDT,DYDR,DYDS,DYDT,DZDR,DZDS,DZDT
 C-----------------------------------------------

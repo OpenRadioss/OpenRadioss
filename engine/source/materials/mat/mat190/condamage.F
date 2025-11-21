@@ -71,7 +71,7 @@ C-----------------------------------------------
         my_real, INTENT(OUT)   ,DIMENSION(NEL) :: DAMAGE
         INTEGER ,DIMENSION(NEL,NVARTMP) ,INTENT(INOUT) :: VARTMP
 c-----------------------------------------------
-        INTEGER I,L
+        INTEGER I
         my_real,DIMENSION(NEL) ::  ALAMBDA1,ALAMBDA2,ALAMBDA3,Z1,Z2,Z3,
      .                           FENER1,DENER1,FENER2,DENER2,FENER3,DENER3
         my_real

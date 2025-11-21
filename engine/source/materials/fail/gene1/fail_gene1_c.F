@@ -90,10 +90,10 @@ C!-----------------------------------------------
 C!-----------------------------------------------
 C!   L o c a l   V a r i a b l e s
 C!-----------------------------------------------
-      INTEGER I,K,J,INDX1(NEL),NINDX1,NSTEP,CRIT,NMOD,
+      INTEGER I,J,INDX1(NEL),NINDX1,NSTEP,CRIT,NMOD,
      .        fct_ISM,fct_IPS,fct_IDg12,fct_IDe1c,fct_IDel,
-     .        NCRIT(NEL),IPOS(NEL,2),Ismooth,Istrain,IR,IS,IT,
-     .        tab_IDfld,Itab,NCS,IPMAX(NEL),IPMIN(NEL),IS1MAX(NEL),ILAY,
+     .        NCRIT(NEL),IPOS(NEL,2),Ismooth,Istrain,
+     .        tab_IDfld,Itab,NCS,IPMAX(NEL),IPMIN(NEL),IS1MAX(NEL),
      .        ITMAX(NEL),IMINDT(NEL),ISIGMAX(NEL),ISIGTH(NEL),IEPSMAX(NEL),
      .        IEFFEPS(NEL),IVOLEPS(NEL),IMINEPS(NEL),ISHEAR(NEL),IMIX12(NEL),
      .        IMXE1C(NEL),IFLD(NEL),ITHIN(NEL),IMAXTEMP(NEL)
@@ -102,8 +102,8 @@ C!-----------------------------------------------
      .        KF,EPSDOT_PS,MAXEPS,EFFEPS,VOLEPS,MINEPS,EPSSH,EPSDOT_FLD,
      .        THIN,MAXTEMP,Fscale_el,El_ref,LAMBDA,FAC,DF
       my_real 
-     .        E12,P(NEL),SXX,SYY,SZZ,SVM(NEL),SH12(NEL),SH13(NEL),E1C(NEL),
-     .        XVEC(NEL,2),Q,R,R_INTER,E11(NEL),E22(NEL),VOL_STRAIN(NEL),DAV,
+     .        E12,P(NEL),SXX,SYY,SZZ,SVM(NEL),SH12(NEL),E1C(NEL),
+     .        XVEC(NEL,2),Q,R_INTER,E11(NEL),E22(NEL),VOL_STRAIN(NEL),DAV,
      .        E1D,E2D,E3D,E4D,S11(NEL),S22(NEL),EFF_STRAIN(NEL),S1,S2,
      .        EPSMAX(NEL),SIGMAX(NEL),FACL(NEL),E1FLD(NEL),
      .        DFLD(NEL),HARDR(NEL),DENOM,TRIAX(NEL)

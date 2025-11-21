@@ -59,7 +59,7 @@ c     .   FF(5,MVSIZ,NPT),CDET(*),VOL(MVSIZ,NPT),
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
-      INTEGER EP,I,J,JSUP,JINF,IPLY,K,NPLAT0
+      INTEGER EP,I,J,JSUP,JINF,IPLY,NPLAT0
       my_real
      .  C1,C2,BC1,BC3,BC5,BCX,BCY,FL1,FL2,FL3,
      .  FF(MVSIZ,5,NPT)

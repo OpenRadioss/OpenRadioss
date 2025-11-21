@@ -75,7 +75,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IRECT(4,*), NSV(*), CAND_E(*), CAND_B(*),KINET(*),KINI(*),
-     .        JLT,IDT, NOINT,IGAP ,NSN, ITY, NIN, IGSTI,
+     .        JLT,IGAP ,NSN, ITY, NIN, IGSTI,
      .        IADM,INTTH, CAND__E(*), CAND__B(*)
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ),
      .        NSVG(MVSIZ),IELEC(*),IELECI(MVSIZ),  NSMS(MVSIZ), 
@@ -91,11 +91,11 @@ C-----------------------------------------------
      .   XI(MVSIZ), YI(MVSIZ), ZI(MVSIZ), STIF(MVSIZ),
      .   GAPV(MVSIZ),
      .   VXI(MVSIZ), VYI(MVSIZ), VZI(MVSIZ), MSI(MVSIZ),
-     .   KMIN, KMAX, GAPMAX, GAPMIN,SCUT
+     .   KMIN, KMAX, GAPMAX, GAPMIN
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I ,J  ,IL, EI, NN, IG,JFT, IX,  BI, NI
+      INTEGER I   , EI, IX,  BI, NI
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------  

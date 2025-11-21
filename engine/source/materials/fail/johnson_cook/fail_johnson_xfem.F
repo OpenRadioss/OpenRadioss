@@ -96,10 +96,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,L,JJ,ISHELL,NINDX,NINDXP,IADR,LAYXFEM
+      INTEGER I,J,ISHELL,NINDX,NINDXP,IADR,LAYXFEM
       INTEGER INDX(NEL),INDXP(NEL),RFLAG(NEL),RFLAGP(NEL)
-      my_real D1,D2,D3,D4,D5,EPSP0,P,EPSF,SVM,THK_TMP,
-     .    DADV,CC,BB,CR,ORM,SS1,SS2,EPSF_MIN
+      my_real D1,D2,D3,D4,D5,EPSP0,P,EPSF,SVM,
+     .    DADV,EPSF_MIN
       CHARACTER (LEN=3) :: XCHAR
 C=======================================================================
       IADR = (IPT-1)*NEL

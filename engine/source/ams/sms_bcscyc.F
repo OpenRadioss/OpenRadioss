@@ -48,9 +48,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J ,ISK,IAD,NN,N1,N2,ID
-      my_real
-     .   AX, AY, AZ
+      INTEGER I, ISK, IAD, NN, ID
 C-----------------------------------------------
 !$OMP DO SCHEDULE(DYNAMIC,1)
       DO I=1,NBCSCYC

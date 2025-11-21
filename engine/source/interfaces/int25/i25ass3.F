@@ -81,7 +81,7 @@ C-----------------------------------------------
      .    CONDN(*),CONDNSKYI(LSKYI)
       my_real
      .    FXI(MVSIZ), FYI(MVSIZ), FZI(MVSIZ), FNI(MVSIZ),
-     .    FXT(MVSIZ),FYT(MVSIZ),FZT(MVSIZ),
+     .
      .    FX1(MVSIZ), FX2(MVSIZ), FX3(MVSIZ), FX4(MVSIZ),
      .    FY1(MVSIZ), FY2(MVSIZ), FY3(MVSIZ), FY4(MVSIZ),
      .    FZ1(MVSIZ), FZ2(MVSIZ), FZ3(MVSIZ), FZ4(MVSIZ),
@@ -175,9 +175,9 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       my_real
-     .    HH(MVSIZ),FICI(5),FICS(4,4),FICSTH(4,5)
-      INTEGER I, J1, IG, NISKYL1, NISKYL,IGP,IGM,IDR,NISKYFIL,J
-      INTEGER ITG,NN,ILY,JG,IXSS(4)
+     . HH(MVSIZ)
+      INTEGER I, IG, NISKYL1, NISKYL, IGP, IGM, NISKYFIL
+ 
 C
       NISKYL1 = 0
       DO I = 1, JLT
@@ -418,8 +418,8 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       my_real
-     .    HH(MVSIZ),FICI(5),FICS(4,4),FICSTH(4,5),FACT
-      INTEGER I, J1, IG,ILY,NN,JG,IXSS(4),NFIC,J,ISHIFT,NODFI
+     . HH(MVSIZ),FACT
+      INTEGER I, J1, IG, ISHIFT, NODFI
 
 C      
       IF(INTTH == 0) THEN

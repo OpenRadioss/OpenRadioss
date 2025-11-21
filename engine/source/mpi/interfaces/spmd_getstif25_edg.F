@@ -86,7 +86,7 @@ C-----------------------------------------------
       INTEGER :: ID_LEFT,ID_RIGHT
 #ifdef MPI
       INTEGER DATA MSGOFF/1001/
-      INTEGER STATUS(MPI_STATUS_SIZE),IERROR
+      INTEGER IERROR
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------

@@ -72,7 +72,7 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER MSGOFF,MSGTYP,INFO,P,PMAIN, LOC_PROC, J, L,
+      INTEGER MSGOFF,MSGTYP,P,PMAIN, LOC_PROC, J, L,
      .        IDEB, NBINDEX, INDEX, REQ(NSPMD-1)
       DATA MSGOFF/162/
       INTEGER STATUS(MPI_STATUS_SIZE),IERROR

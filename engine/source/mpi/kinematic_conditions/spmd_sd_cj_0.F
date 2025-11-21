@@ -60,7 +60,7 @@ C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
       INTEGER MSGTYP,MSGOFF,IERROR,LOC_PROC,NOD,L,I,J,N,
-     .        IDEB,IAD,SIZ,A_AR,NBINDEX,
+     .        IDEB,SIZ,A_AR,NBINDEX,
      .        INDEXI(NSPMD),REQ_S(NSPMD),STATUS(MPI_STATUS_SIZE),
      .        LEN(NSPMD)
       PARAMETER (A_AR = 9)

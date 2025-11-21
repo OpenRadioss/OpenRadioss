@@ -321,12 +321,12 @@ C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
       INTEGER EP,I,J,NF,M
       MY_REAL 
-     .    DM(3,3,MVSIZ),C1,C2,GM(MVSIZ),
+     .    DM(3,3,MVSIZ),C1,C2,
      .    G11(MVSIZ),G12(MVSIZ),G13(MVSIZ),
      .    G14(MVSIZ),G22(MVSIZ),G23(MVSIZ),
      .    G24(MVSIZ),G33(MVSIZ),G34(MVSIZ),G44(MVSIZ),
-     .    CHM(2,2,MVSIZ),CHF(2,2,MVSIZ),FACF(MVSIZ),FAC,
-     .    GAMA(4,MVSIZ),CXX,CYY,CXY,C11,C22,C12,RZ_3,
+     .    CHM(2,2,MVSIZ),
+     .    GAMA(4,MVSIZ),C11,RZ_3,
      .    CBKRX(4,MVSIZ),CBKRY(4,MVSIZ),CBKRZ(4,MVSIZ),
      .    CBERX(4,MVSIZ),CBERY(4,MVSIZ),CBERZ(4,MVSIZ),
      .    GRZ3(4,MVSIZ),ZR(MVSIZ),C3,CX1,CX2,CY1,CY2,ZR2

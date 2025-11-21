@@ -79,8 +79,8 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       LOGICAL :: BOOL
-      INTEGER :: I,K,J,IC,IG,NG,NP,IJK,KJI
-      INTEGER :: TYP,IPART,IPART_2,ISUBS,IGRN,NBR_GROUP,NSENSOR
+      INTEGER :: I,K,J,NG,NP,IJK,KJI
+      INTEGER :: TYP,IPART,IPART_2,ISUBS,IGRN,NSENSOR
       INTEGER :: NFT,NF1,ITY,NEL
       INTEGER, DIMENSION(:), POINTER :: IPART_POINTER
       INTEGER :: NUMBER_PART_GROUP,NUMBER_PART_GROUP_2

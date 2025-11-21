@@ -62,10 +62,8 @@ C-----------------------------------------------
 #ifdef MPI
       INTEGER STATUS(MPI_STATUS_SIZE),
      *        REQ_SI(NSPMD),REQ_RI(NSPMD),MSGTYP,IERROR,MSGOFF
-      INTEGER L,NNOD,P,J,LOC_PROC,PTR,SIZ,NB,NOD
+      INTEGER L, NNOD, P, J, LOC_PROC, SIZ, NB, NOD
       INTEGER IADS(NSPMD+1),IADR(NSPMD+1),LENRV
-      my_real
-     *   TESTVAL
       my_real ,
      *      DIMENSION(:), ALLOCATABLE :: BBUFS,BBUFR
       DATA MSGOFF/155/

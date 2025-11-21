@@ -47,9 +47,7 @@ C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER IERROR,
-     .        STATUS(MPI_STATUS_SIZE)
-
+      INTEGER IERROR
        my_real
      .    XSECTMP(3,3,NSECT)
 

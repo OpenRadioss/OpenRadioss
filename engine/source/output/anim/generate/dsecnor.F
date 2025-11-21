@@ -50,7 +50,6 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER J,N,K,N2,N3,N4,ITYP,I3000,NXX,NYY,NZZ
-      my_real XX,YY,ZZ
       I3000 = 3000
       IF (ISPMD/=0) GOTO 100
       DO N=1,NSECT+NRWALL

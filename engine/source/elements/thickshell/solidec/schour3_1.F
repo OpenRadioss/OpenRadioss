@@ -90,9 +90,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, MX, J,K
+      INTEGER I
       my_real
-     .   CAQ(MVSIZ), FCL(MVSIZ), FCQ(MVSIZ),
+     .   CAQ(MVSIZ), FCL(MVSIZ),
      .   HGX3(MVSIZ), HGX4(MVSIZ),HGY3(MVSIZ), HGY4(MVSIZ),
      .   HGZ3(MVSIZ), HGZ4(MVSIZ),THK(MVSIZ),THK_1(MVSIZ),
      .   G11(MVSIZ),G21(MVSIZ),G31(MVSIZ),G41(MVSIZ),
@@ -107,15 +107,15 @@ C-----------------------------------------------
      .   NFHX4(MVSIZ),NFHY4(MVSIZ),NFHZ4(MVSIZ),
      .   NFHX1(MVSIZ),NFHZ1(MVSIZ),NFHY2(MVSIZ),NFHZ2(MVSIZ),
      .   HHX3(MVSIZ),HHY3(MVSIZ),HXY3(MVSIZ),E0(MVSIZ),
-     .   G_3DT(MVSIZ),NU1,NU2,DH_XE1,DH_ZE1 ,DH_YK2, DH_ZK2 ,
+     .   G_3DT(MVSIZ),DH_XE1,DH_ZE1 ,DH_YK2, DH_ZK2 ,
      .   DH_XE3,DH_YK3,DH_ZK3 ,DH_ZE3,DH_XE4,DH_YK4,DH_Z4 ,
-     .   C11,C22,E,CC,SIGY2,S1,S2,S3,SVM0,SR1,SR2,SR3,SR4,
-     .   SR5,RX1,RXY1,SY1,SYX1,VOL_3,VMM0,SVMM,SVM1,SVM2,
-     .   SVMR,SVM,SVMRST,FAC,FACM,FACB,F_Z,COEF,COEFH,SE,SK,DP
+     .   C11,E,CC,SVM0,SR1,SR2,SR3,SR4,
+     .   SR5,RX1,RXY1,SY1,SYX1,VOL_3,SVMM,SVM2,
+     .   SVMR,SVM,FAC,FACM,FACB,F_Z,COEF,COEFH,SE,SK,DP
 C         coef= (3*0.8)^2 , FZ=0.5*0.95^2
       my_real
-     .   A1(MVSIZ), A2(MVSIZ), A3(MVSIZ),FACP,F_MAX,
-     .   SS1,SS2,SS3,FACZM
+     .   A1(MVSIZ), A2(MVSIZ), A3(MVSIZ),F_MAX,
+     .   FACZM
       DATA F_Z/.45/,COEF/5.76/,COEFH/0.5/,F_MAX/0.998/
 C-----------------------------------------------
 C        OPEN(UNIT=12,FILE='DEBHC.TMP',STATUS='UNKNOWN',FORM='FORMATTED')

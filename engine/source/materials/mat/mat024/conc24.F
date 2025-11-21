@@ -86,11 +86,11 @@ C-----------------------------------------------
       INTEGER I,J,I1,I2,ICAP,NBDAMA
       INTEGER INDEX1(NEL), INDEX2(NEL),DAMAI(NEL)
       my_real :: YMS,Y0S,ETS,VMAX,EPSMAX,RT,ARMA,PLUS,DIFF,ETEST
-      my_real, DIMENSION(3)   :: DAM0,EPS_F0,CRAK0
-      my_real, DIMENSION(6)   :: ANG0,SIGC0
+ 
+ 
       my_real, DIMENSION(NEL) :: DEPS1,DEPS2,DEPS3,DEPS4,DEPS5,DEPS6,
      .   ARM1,ARM2,ARM3,SCLE1, SCLE2, SCLE3,SCAL1, SCAL2, SCAL3,
-     .   H1, H2, H3, H4, H5, H6, S01, S02, S03, S04, S05, S06, 
+     . S01, S02, S03, S04, S05, S06,
      .   SM, DSM, S1,S2,S3,S4,S5,S6,DE1,DE2, DE3, C44, C55, C66
       my_real, DIMENSION(NEL,3,3) :: CDAM
 C=======================================================================

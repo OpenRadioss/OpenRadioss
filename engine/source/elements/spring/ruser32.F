@@ -145,7 +145,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,IFUNC1,IFUNC2,ISENS,ITYP,IACT,ILOCK
       my_real 
-     .   STIF0,STIF1,DSCAL,FSCAL,TSCAL,X,DXDY,DX,TACTI,F0,FF,D1,
+     .   STIF0,STIF1,DSCAL,FSCAL,TSCAL,X,DXDY,TACTI,F0,FF,D1,
      .   DXDY2,FF2
 C=======================================================================
       STIF0  = GET_U_GEO(2,IPROP)       

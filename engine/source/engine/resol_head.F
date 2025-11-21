@@ -198,7 +198,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER IUN,IFUN,IUNUSED,IPV,MFUN,I
+      INTEGER IUN,IUNUSED
       INTEGER ITRACE(10)
       DATA IUN/1/,IUNUSED/1/
       my_real

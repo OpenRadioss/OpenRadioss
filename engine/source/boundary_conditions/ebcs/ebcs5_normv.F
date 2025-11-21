@@ -69,7 +69,7 @@ C-----------------------------------------------
       INTEGER :: I,IS,KSEG,N1,N2,N3,N4,NG1,NG2,NG3,NG4,N,IVIMP,IRHO,IENER
       my_real :: ORIENT,RHO,C,ROC,FAC,
      .           X13,Y13,Z13,X24,Y24,Z24,NX,NY,NZ,S,
-     .           ROOU,ENOU,VMX,VMY,VMZ,FLUXI,FLUXO,P,DVX,DVY,DVZ,VIMP,ENER,DMF,DEF
+     .           ROOU,ENOU,VMX,VMY,VMZ,FLUXI,FLUXO,P,DVX,DVY,DVZ,VIMP,ENER
       my_real :: DE_IN, DE_OUT, DM_IN, DM_OUT
 C-----------------------------------------------
       IVIMP=EBCS%ivimp

@@ -74,7 +74,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP) :: ELBUF_TAB
-      INTEGER JLT, NIN,INTTH,JTASK,IGROUPS(NUMELS),IPARG(NPARG,*),
+      INTEGER JLT, NIN, JTASK, IGROUPS(NUMELS), IPARG(NPARG, *), 
      .        IX1(MVSIZ),IX2(MVSIZ),IX3(MVSIZ),IX4(MVSIZ),NSVG(MVSIZ),IXS(NIXS,*)
       my_real, DIMENSION(2*MVSIZ), INTENT(in) :: MSI
       my_real
@@ -91,7 +91,6 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J1, IG, ISHIFT, NODFI, NG, ILOC, NEL, NFT
       INTEGER :: SHIFT_FORCE_INT
-      my_real MASS
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------

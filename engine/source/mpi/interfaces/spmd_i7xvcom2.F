@@ -113,12 +113,12 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER P, L, ADD, NB, LEN, SIZ, LOC_PROC, I, NOD, NSN,
+      INTEGER P, L, ADD, NB, LEN, SIZ, LOC_PROC, I, NOD,
      .        NIN, IDEB, N, MSGTYP, IERROR, DT_CST, II,
      .        N1, N2, LENI, LEN11, NTY, IALLOCS, IALLOCR, INACTI,
-     .        LEN17, IGN, IGE, NMES, NME, NAD, NN, IES, LEN7T,
+     . LEN17, IGN, IGE, NMES, NME, NN, IES, LEN7T,
      .        LEN20, LEN20T, NLN, LEN20E, INC,LEN11T,
-     .        IL, IL1, IL2, MSGOFF,INTNITSCHE,LENNIT,NISUB,
+     . IL, IL1, IL2, MSGOFF,INTNITSCHE,NISUB,
      .        STATUS(MPI_STATUS_SIZE),
 C parasiz car variable en save
      .        DEBUT(NINTER),  DEBUTE(NINTER),
@@ -127,15 +127,13 @@ C parasiz car variable en save
      .        ISENS,INTERACT,POINT,LSAV
        INTEGER :: LOC_NOD
 C Type 25 E2E:
-       INTEGER IAM,JAM,M1,M2,NRTM
 C
       my_real
      .        VDT, X1, X2, X3, X4,X9, X10, X11, X12, XC, AN, AX,
-     .        D4, BN, BX, CN, CX, D8, DN, DX, STARTT, STOPT, TS,INTAREA_FIC
+     . D4, BN, BX, CN, CX, D8, DN, DX, STARTT, STOPT, TS
       my_real       ,DIMENSION(:), ALLOCATABLE :: BBUFS, BBUFR
 C type 25
       INTEGER IEDGE,LEN25E,INCLUD_X
-      INTEGER I1,I2,IE,JE,IG
       DOUBLE PRECISION
      *   ZERODP
       DATA MSGOFF/161/

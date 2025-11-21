@@ -159,7 +159,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
 C     REAL
         my_real
-     .     TT,DT1,STIF,WLX,WLY,WLZ
+     .     TT,DT1,WLX,WLY,WLZ
         my_real
      .     RX(4),RY(4),RZ(4),
      .     VA(3), VB(3), VC(3), VD(3)

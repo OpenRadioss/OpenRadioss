@@ -299,7 +299,7 @@
       integer :: mxt(mvsiz), ngl(mvsiz), ngeo(mvsiz), ii(6)
       integer, dimension(mvsiz) :: nc1,nc2,nc3,nc4,nc5,nc6
       !< Local computation variables
-      real(kind=wp) :: c1,mbid(1),zt,wt   
+      real(kind=wp) :: c1, zt, wt
       !< Deformation and kinematic variables
       real(kind=wp) :: vd2(mvsiz), dvol(mvsiz), deltax(mvsiz) !< velocity divergence, volume change, element length
       real(kind=wp) :: vis(mvsiz), qvis(mvsiz), cxx(mvsiz)    !< viscosity, viscous pressure, sound speed
@@ -324,42 +324,42 @@
       real(kind=wp), dimension(mvsiz) :: px1,px2,px3,px4,px5,px6
       real(kind=wp), dimension(mvsiz) :: py1,py2,py3,py4,py5,py6
       real(kind=wp), dimension(mvsiz) :: pz1,pz2,pz3,pz4,pz5,pz6
-      real(kind=wp), dimension(mvsiz) :: px1h,px2h,px3h
-      real(kind=wp), dimension(mvsiz) :: py1h,py2h,py3h
-      real(kind=wp), dimension(mvsiz) :: pz1h,pz2h,pz3h
+ 
+ 
+ 
       real(kind=wp), dimension(mvsiz) :: vgxa,vgya,vgza,vga2
       real(kind=wp), dimension(mvsiz) :: xgxa,xgya,xgza
       real(kind=wp), dimension(mvsiz) :: xgxya,xgyza,xgzxa
       real(kind=wp), dimension(mvsiz) :: xgxa2,xgya2,xgza2
       real(kind=wp), dimension(mvsiz) :: dxy,dyx,dyz,dzy,dzx,dxz,divde
       real(kind=wp), dimension(mvsiz) :: r11,r12,r13,r21,r22,r23,r31,r32,r33
-      real(kind=wp), dimension(mvsiz,6) :: gama,dd,them
+      real(kind=wp), dimension(mvsiz,6) :: gama, them
       real(kind=wp), dimension(nel,6) :: sigo,sign
-      real(kind=wp), dimension(mvsiz) :: sigym,g,nu,volg,sigy
-      real(kind=wp), dimension(mvsiz) :: b1122,b1221,b2212,b1121
-      real(kind=wp), dimension(mvsiz) :: b1122h,b1221h,b2212h,b1121h
-      real(kind=wp), dimension(mvsiz,2) :: b1x,b1y,b2x,b2y,b1xh,b1yh,b2xh,b2yh,dir
+      real(kind=wp), dimension(mvsiz) :: nu, volg, sigy
+ 
+ 
+ 
       real(kind=wp), dimension(mvsiz) :: dcxx,dcxy,dcxz,dcyx,dcyy
-      real(kind=wp), dimension(mvsiz) :: dcyz,dczx,dczy,dczz,dc4
-      real(kind=wp), dimension(mvsiz) :: dc5,dc6,vzl,jaci33
-      real(kind=wp), dimension(mvsiz) :: dhxx,dhxy,dhyx,dhyy,dhyz
-      real(kind=wp), dimension(mvsiz) :: dhzx,dhzy,dhzz,dh4,dhxz
-      real(kind=wp), dimension(mvsiz) :: dh5,dh6,eintm,ddhv
-      real(kind=wp), dimension(mvsiz) :: et,r1_free,r3_free,r4_free
-      real(kind=wp), dimension(mvsiz) :: stin,bid,dsv,alpha_e,llsh
+      real(kind=wp), dimension(mvsiz) :: dcyz, dczx, dczy, dczz
+      real(kind=wp), dimension(mvsiz) :: vzl
+ 
+ 
+ 
+      real(kind=wp), dimension(mvsiz) :: et, r1_free, r3_free
+      real(kind=wp), dimension(mvsiz) :: stin, bid, dsv, alpha_e
 !   
-      integer :: pid,mid,ioffs,nn_del,ipres,isctl
-      integer, dimension(mvsiz) :: mxt0,istab
-      real(kind=wp), dimension(mvsiz) :: shf,offs,rx,ry,rz,nu1,fac,sx,sy,sz    
-      real(kind=wp), dimension(mvsiz) :: tx,ty,tz,e0,n1x,n2x,n3x,n1y,n2y,n3y
+      integer :: pid, ioffs, nn_del, ipres, isctl
+      integer, dimension(mvsiz) :: istab
+      real(kind=wp), dimension(mvsiz) :: offs
+      real(kind=wp), dimension(mvsiz) :: e0, n1x, n2x, n3x, n1y, n2y, n3y
       real(kind=wp), dimension(mvsiz) :: n1z,n2z,n3z,n4x,n5x,n6x,n4y,n5y,n6y
-      real(kind=wp), dimension(mvsiz) :: n4z,n5z,n6z,amu,area,sti_c,ll,fld
+      real(kind=wp), dimension(mvsiz) :: n4z, n5z, n6z, amu, sti_c, ll, fld
       real(kind=wp), dimension(mvsiz) :: tempel,die,conden,voldp,fheat
       integer :: inloc,l_nloc,sz_r1_free,sz_ix
       integer, dimension(6) :: ipos, inod
       real(kind=wp), dimension(:) ,allocatable :: var_reg
       real(kind=wp), dimension(:), pointer :: dnl
-      real(kind=wp) :: cns2,fqmax,dn,facdp
+      real(kind=wp) :: cns2, fqmax, dn
 !
       type(g_bufel_) ,pointer :: gbuf
       type(l_bufel_) ,pointer :: lbuf     

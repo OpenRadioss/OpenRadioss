@@ -86,7 +86,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I,J,II,ICONV,NINDX,ICAS,ITER
+      INTEGER :: I, II, ICONV, NINDX, ICAS, ITER
       INTEGER ,PARAMETER :: FUNC_TRAC  = 1
       INTEGER ,PARAMETER :: FUNC_COMP  = 2
       INTEGER ,PARAMETER :: FUNC_SHEAR = 3
@@ -104,7 +104,7 @@ C-----------------------------------------------
      .    DPDT_C,DPDT_S,DPDT_T,DPDT,DLAM,CC,EPDT_MIN,
      .    EPDT_MAX,EPDC_MAX,EPDC_MIN,EPDS_MIN,EPDS_MAX,ASRATE
       my_real ,DIMENSION(NEL,2)   :: XVEC
-      my_real ,DIMENSION(NEL,1)   :: XVEC1
+ 
       my_real ,DIMENSION(NUMTABL) :: TFAC
       my_real ,DIMENSION(NFUNC)   :: YFAC
       LOGICAL :: CONV(NEL)

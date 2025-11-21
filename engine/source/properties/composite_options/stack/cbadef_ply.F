@@ -58,7 +58,7 @@ C      PARAMETER (NPG = 4)
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
-      INTEGER PT,PT00,PT0,I,J,EP,IUN,NG1,K,NPLAT0
+      INTEGER I, J, EP, IUN, NPLAT0
       MY_REAL 
      .   THK,DETJ,DET,
      .   TFN(3,2),BCX,BCY,

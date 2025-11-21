@@ -67,7 +67,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NG, I, J, IV, KVAR, KK, JCODV(ALE%GLOBAL%LCONV),CODTOT, SEGAD, IAD2, LGTH
+      INTEGER NG, I, J, IV, KVAR, KK, JCODV(ALE%GLOBAL%LCONV),CODTOT, IAD2, LGTH
       TYPE(G_BUFEL_)  ,POINTER :: GBUF     
       TYPE(BUF_MAT_)  ,POINTER :: MBUF  
 C=======================================================================

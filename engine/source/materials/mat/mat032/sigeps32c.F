@@ -69,10 +69,10 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J
+      INTEGER I
       my_real
      .   NU,EZZ(MVSIZ),YOUNG,NORMXX,NORMYY,
-     .   A01,A02,A03,YLD,YMAX,CM,CE,CN,CA,
+     .   A01,A02,A03,YMAX,CM,CE,CN,CA,
      .   D11,D22,D12,SXX,SYY,SXY,P,Q,S11,S22,
      .   S12,A,B,C,SEQ,DSEQ_DA,DSEQ_DB,DSEQ_DC,
      .   DA_DS11,DA_DS22,DA_DS12,DB_DS11,DB_DS22,

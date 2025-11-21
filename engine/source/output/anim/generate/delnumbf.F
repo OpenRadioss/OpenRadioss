@@ -58,8 +58,8 @@ C-----------------------------------------------
       INTEGER DD_IAD(NSPMD+1,*), IADD(*), NBPART,
      .        NANIM1D_L,BUF
 C-----------------------------------------------
-      INTEGER II(4),IE,NG, ITY, LFT, LLT, N, I, J,
-     .        IPID, NEL, IAD, NFT, IMID,IALEL,MLW,
+      INTEGER NG, ITY, LFT, LLT, N, I,
+     .         NEL, IAD, NFT,MLW,
      .        NN1,NN2,NN3,NN4,NN5,NN6,NN7,NN8,NN9,NN10,
      .        NBF2
       INTEGER,DIMENSION(:),ALLOCATABLE:: WA

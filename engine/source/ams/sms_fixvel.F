@@ -75,13 +75,13 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER N, I, ISK, J, L, K1, K2, K3, ISENS,K,
-     .        II, IC, NN, IDEB, NR, NSK, NFK, IFM, N0,
+     .        II, IC, NN, IDEB, NR, NSK, NFK, IFM,
      .        ILENC(MVSIZ), IPOSC(MVSIZ), IADC(MVSIZ),
      .        LC(MVSIZ), INDEX(MVSIZ), ICOOR
 C     REAL
       my_real
      .   AX, AXI, AOLD, VV, A0, AA, FAC,FACX,STARTT, STOPT, TS,
-     .   DYDX,DW,DW2,DD,RX,RY,RZ,VF,VFX,VFY,VFZ,AFX,AFY,AFZ,
+     .   DW,DD,RX,RY,RZ,VF,VFX,VFY,VFZ,
      .   YC(MVSIZ), TSC(MVSIZ), DYDXC(MVSIZ),AOLD0(3,MVSIZ),
      .   R, CTH, STH, SKDIR(3), FMDIR(3), HX, HY, HZ, COEF,
      .   ER(3),ET(3),ALPHA, NOR1, NOR2, NOR3, YIMP

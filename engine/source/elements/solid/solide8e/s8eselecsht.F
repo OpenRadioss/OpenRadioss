@@ -59,7 +59,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J ,IR,IS,IT,IP
+      INTEGER I ,IR,IS,IT,IP
       my_real
      .  B0XY(MVSIZ,2),B0XZ(MVSIZ,2),B0YZ(MVSIZ,2),
      .  B0YX(MVSIZ,2),B0ZX(MVSIZ,2),B0ZY(MVSIZ,2)

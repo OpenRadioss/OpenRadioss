@@ -60,7 +60,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,K,IR,IAD,NELCRK,ELCRK,ILEV,ILAY,IXEL,ELCUT,LAYCUT,
-     .   IECUT,ENR0,ENR,IBOUNDEDGE,IED,EDGE,COUNT,ITIP,ITRI,NUMXEL,NSX,
+     .   ENR0,ENR,IBOUNDEDGE,EDGE,ITRI,NUMXEL,NSX,
      .   ISEND_NSX,ISEND_IAD
       INTEGER JCT(MVSIZ),NS(4),IADC(4)
 C=======================================================================

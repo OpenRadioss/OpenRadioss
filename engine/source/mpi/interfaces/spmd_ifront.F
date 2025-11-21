@@ -87,13 +87,13 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER NSEG, LEN, NI, ITYP, OLD_LEN,
-     .        N, P, I, J, K, L, PP, NIN ,IDEB, IDEB2, IDEB3, II,
+      INTEGER  LEN, ITYP,
+     .         P, I, J, L, NIN ,IDEB, IDEB2, IDEB3, II,
      .        LENOUT, I0, NS, INTTH,
-     .        NOINT, MULTIMP, ITY, I_STOK_G, ISTK,
-     .        SIZE, ALEN, LOC_PROC, MSGTYP,
+     .         ITY,
+     .        SIZE, LOC_PROC, MSGTYP,
      .        MSGOFF, MSGOFF2, MSGOFF3, MSGOFF4,
-     .        IERROR, IERROR2, IDEBUT(NSPMD+NINTER),
+     .        IERROR, IDEBUT(NSPMD+NINTER),
      .        STATUS(MPI_STATUS_SIZE),REQ_S(NSPMD),
      .        ISUBTMP(NINTER,2,NSPMD),ISUBTMP2(NINTER,2,NSPMD),
      .        IDEBUT2(NINTER), ISENS,INTERACT,
@@ -108,8 +108,8 @@ C-----------------------------------------------
 
 C     REAL
       my_real
-     .   STARTT,GAP,MAXBOX,MINBOX,STOPT,DIST,TZINF,DIST0,
-     .   XMAX, YMAX, ZMAX, XMIN, YMIN, ZMIN,TS
+     .   STARTT,STOPT,DIST,
+     .      TS
 
 
 C-----------------------------------------------

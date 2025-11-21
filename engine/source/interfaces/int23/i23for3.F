@@ -125,8 +125,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J1, IG, J, JG , K0,NBINTER,K1S,K,IL,IE, NN, NI,IBID,
-     .        IRB(0:511),IRB2(0:511),NA1,NA2,IBCM,IBCS
+      INTEGER I, J1, IG, J, JG , K0,NBINTER,K1S,K, NN,IBID,
+     .        IBCM,IBCS
       my_real
      .   FXI(MVSIZ), FYI(MVSIZ), FZI(MVSIZ),FNI(MVSIZ),
      .   FXN(MVSIZ), FYN(MVSIZ), FZN(MVSIZ),
@@ -135,11 +135,11 @@ C-----------------------------------------------
      .   FZ1(MVSIZ), FZ2(MVSIZ), FZ3(MVSIZ), FZ4(MVSIZ),
      .   XMU(MVSIZ),
      .   VX(MVSIZ), VY(MVSIZ), VZ(MVSIZ), VN(MVSIZ), 
-     .   VNX, VNY, VNZ, AA, S2, DIST, RDIST, DTI,
-     .   V2, FF, ALPHA, BETA,
-     .   FX, FY, FZ, FT, FN, FMAX, FTN,
+     .      AA, DTI,
+     .   V2, ALPHA, BETA,
+     .   FX, FY, FZ, FT, FN, FTN,
      .   ECONTT, ECONVT,ECONTDT,
-     .   FSAV1, FSAV2, FSAV3, FSAV4, FSAV5, FSAV6, FSAV7, FSAV8, 
+     .   FSAV1, FSAV2, FSAV3, FSAV4, FSAV5, FSAV6, FSAV8, 
      .   FSAV9, FSAV10, FSAV11, FSAV12, FSAV13, FSAV14, FSAV15,
      .   VV,AX1,AX2,AY1,AY2,AZ1,AZ2,AX,AY,AZ,AREA,P,VV1,VV2,DMU,
      .   DT1INV, VIS, RBID,
@@ -152,7 +152,7 @@ C-----------------------------------------------
      .   KT(MVSIZ),C(MVSIZ),CF(MVSIZ),
      .   KS(MVSIZ),K1(MVSIZ),K2(MVSIZ),K3(MVSIZ),K4(MVSIZ),
      .   CS(MVSIZ),C1(MVSIZ),C2(MVSIZ),C3(MVSIZ),C4(MVSIZ),
-     .   CX,CY,CFI,AUX,DTMINI
+     .   CX,CY,AUX,DTMINI
 C-----------------------------------------------
       RBID = ZERO
       IBID = 0

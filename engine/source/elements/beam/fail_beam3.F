@@ -107,13 +107,13 @@ C
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: IFUNC(100)
+ 
       INTEGER :: I,IFL,NFUNC,NPARAM,IRUPT
-      my_real :: T0,TM,G_MODULE
+      my_real :: T0, TM
       my_real ,DIMENSION(NEL) :: TSTAR
-      my_real :: bidon
+ 
 C
-      my_real, DIMENSION(:) ,POINTER :: UPARAMF
+ 
 C=======================================================================
 c      to avoid compilation error with unused arguments
 c      they will be necessary for next development step

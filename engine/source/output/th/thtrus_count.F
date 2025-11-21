@@ -50,7 +50,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       LOGICAL :: BOOL
-      INTEGER II,I,N,IH,NG,ITY,MTE,K,L,LWA,NEL,NFT,J
+      INTEGER II,I,N,IH,NG,ITY,MTE,K,NEL,NFT,J
       INTEGER :: J_FIRST,NITER,IAD,NN,IADV,NVAR,ITYP,IJK
       INTEGER, DIMENSION(NTHGRP2) :: INDEX_TRUS
 C-----------------------------------------------

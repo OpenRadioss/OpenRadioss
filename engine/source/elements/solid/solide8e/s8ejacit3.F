@@ -65,7 +65,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J ,ICOR
+      INTEGER I
 C     REAL
 C                                                                     12
       my_real
@@ -75,8 +75,7 @@ C                                                                     12
      .   AJ7(MVSIZ),AJ8(MVSIZ),AJ9(MVSIZ),
      .   JAC_59_68(MVSIZ), JAC_67_49(MVSIZ), JAC_48_57(MVSIZ),
      .   JAC_38_29(MVSIZ), JAC_19_37(MVSIZ), JAC_27_18(MVSIZ),
-     .   JAC_26_35(MVSIZ), JAC_34_16(MVSIZ), JAC_15_24(MVSIZ),
-     .   AJ12(MVSIZ), AJ45(MVSIZ), AJ78(MVSIZ)
+     .   JAC_26_35(MVSIZ), JAC_34_16(MVSIZ), JAC_15_24(MVSIZ)
       DOUBLE PRECISION 
      .   DETDP
 C-----------------------------------------------

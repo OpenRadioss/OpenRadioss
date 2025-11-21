@@ -80,7 +80,7 @@ C-----------------------------------------------
       DOUBLE PRECISION
      .   X41, Y41, Z41, X42, Y42, Z42, X43, Y43, Z43,B1DP,C1DP,D1DP
       my_real
-     .   A1, A2, A3, A4, D, AREAMX2, 
+     .       D, 
      .   B1(MVSIZ), B2(MVSIZ), B3(MVSIZ), B4(MVSIZ), 
      .   C1(MVSIZ), C2(MVSIZ), C3(MVSIZ), C4(MVSIZ),
      .   D1(MVSIZ), D2(MVSIZ), D3(MVSIZ), D4(MVSIZ),

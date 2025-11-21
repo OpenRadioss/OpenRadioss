@@ -83,7 +83,7 @@ C     REAL
      .        VZS1(MVSIZ), VZS2(MVSIZ), VXM1(MVSIZ), VXM2(MVSIZ),
      .        VYM1(MVSIZ), VYM2(MVSIZ), VZM1(MVSIZ), VZM2(MVSIZ),
      .        MS1(MVSIZ),  MS2(MVSIZ),  MM1(MVSIZ),  MM2(MVSIZ),
-     .        GAPV(MVSIZ), STIF(MVSIZ), KMIN, KMAX, DRAD,
+     .        GAPV(MVSIZ), STIF(MVSIZ), KMIN, KMAX,
      .        GAP_S_L(*),GAP_M_L(*),TEMP(*),AREAS(*),AREAM(*),
      .        TEMPI1(MVSIZ),TEMPI2(MVSIZ),TEMPM1(MVSIZ),TEMPM2(MVSIZ),
      .        AREAC(MVSIZ)
@@ -92,7 +92,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I ,NN ,NI ,L
       my_real
-     .        TM,DIST,SECS,SECM,XS,YS,ZS,XM,YM,ZM,LS,LM,CT,ST,AREA1,AREA2
+     .        SECS,SECM,XS,YS,ZS,XM,YM,ZM,LS,LM,CT,ST,AREA1,AREA2
 C-----------------------------------------------
 C
       IF(IGAP==0)THEN

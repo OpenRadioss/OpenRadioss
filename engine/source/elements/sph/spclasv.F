@@ -69,7 +69,7 @@ C-----------------------------------------------
       INTEGER
      .   N,INOD,JNOD,J,NVOIS,M,NCAND,K1,K2,NVOIS1,NVOIS2,
      .   NVOISS,NVOISS1,NVOISS2, IAUX, IERROR,
-     .   K, L, JK, NC, JS, NS, NN, NB,JJ1,JJ2, JJ, JJJ,
+     .   K, JK, NC, JS, NS, NN, NB,JJ1,JJ2, JJ, JJJ,
      .   MWA(2*KVOISPH),JSTOR(KVOISPH), JPERM(KVOISPH),
      .   LVOIRED, IG
       my_real

@@ -60,10 +60,10 @@ C     REAL
       INTEGER NUMEL,IFUNC
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
 C-----------------------------------------------
-      INTEGER I,J,N,IC,IL,IL_OLD,NG,NEL,MLW,JTURB,MT,G_PLA,II(6)
+      INTEGER I,J,N,IC,IL,IL_OLD,NG,NEL,MLW,JTURB,MT,II(6)
 C     REAL
       my_real
-     .   OFF,  P, VONM2, VONM, S1, S2, S12, S3, VALUE     
+     .   OFF,  P, VONM2, VONM, S1, S2, S3, VALUE     
       REAL R4
       TYPE(G_BUFEL_) ,POINTER :: GBUF     
       TYPE(L_BUFEL_) ,POINTER :: LBUF     

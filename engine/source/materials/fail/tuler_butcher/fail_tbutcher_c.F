@@ -88,7 +88,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: I,J,NINDX
       INTEGER ,DIMENSION(NEL) ::  INDX
-      my_real :: TBA,TBK,KK,SIGMAX,SIGR_INI,SIG1,SIG2,S1,S2
+      my_real :: TBA,TBK,SIGMAX,SIGR_INI,SIG1,SIG2,S1,S2
 C=======================================================================
       TBA      = UPARAM(1)                           
       TBK      = UPARAM(2)                           

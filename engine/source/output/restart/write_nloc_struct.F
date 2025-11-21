@@ -51,7 +51,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,ILOC,NNOD,L_NLOC,NUMELS_NL,NUMELC_NL,NDDMAX,
+      INTEGER ILOC,NNOD,L_NLOC,NUMELS_NL,NUMELC_NL,NDDMAX,
      .        NUMELTG_NL,LCNE_NL
       my_real, DIMENSION(:), POINTER :: FNL
       INTEGER, DIMENSION(8)  :: 

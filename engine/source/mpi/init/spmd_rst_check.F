@@ -61,14 +61,14 @@ C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
 
-      INTEGER STATUS(MPI_STATUS_SIZE),IERROR,MSGTYP2,
-     .        REQ_R(NSPMD),REQ_S(NSPMD), IRINDEX(NSPMD),
-     .        INDEX, NBIRECV,I,MSGTYP,MSGOFF
+      INTEGER STATUS(MPI_STATUS_SIZE),IERROR,
+     .        
+     .         I,MSGTYP,MSGOFF
       DATA MSGOFF/100/
 
 
       my_real
-     .        TTREC,TTST
+     .        TTREC
 
       CHARACTER FILNAM*100, FILNAM1*100,RSRUN*4,RSRUN1*4
 

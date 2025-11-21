@@ -63,7 +63,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER KK, I, IFQ, I_STOK,NSNF,NSNL
+      INTEGER  IFQ, I_STOK
 C     REAL
       my_real
      .   STARTT,GAP,STOPT

@@ -104,7 +104,7 @@ C
       TYPE(BUF_LAY_) ,POINTER :: BUFLY
       TYPE(G_BUFEL_) ,POINTER :: GBUF
       TYPE(L_BUFEL_) ,POINTER :: LBUF 
-      TYPE(L_BUFEL_DIR_) ,POINTER :: LBUF_DIR
+ 
 C
       my_real, DIMENSION(:), POINTER :: DIR_A,DIR_B
       REAL,DIMENSION(:),ALLOCATABLE :: WA
@@ -1519,7 +1519,7 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   OFF, FAC, A1, A2, A3, THK, EVAR(6,MVSIZ),AREA(MVSIZ)
-      INTEGER I, NG, NEL, NFT, ITY, LFT, NPT, IPT,
+      INTEGER I, NG, NEL, NFT, ITY, LFT, 
      .        N, J, LLT, MLW,K,
      .        IPID, I1, I2, IAD2, NS1, NS2  , IALEL, ISTRE,
      .        NN1,NN2,NN3,NN4,NN5,NN6,NN7,NN8,NN9,NN10,NNI,N0,
@@ -1684,7 +1684,7 @@ C     REAL
       my_real
      .   OFF, FAC, A1, A2, A3, THK0, EVAR(6,MVSIZ),AREA(MVSIZ),
      .   VOL(MVSIZ)
-      INTEGER I, NG, NEL, NFT, ITY, LFT, NPT, IPT,
+      INTEGER I, NG, NEL, NFT, ITY, LFT, 
      .        N, J, LLT, MLW,K,
      .        IPID, I1, I2, IAD2, NS1, NS2  , IALEL, ISTRE,
      .        NN1,NN2,NN3,NN4,NN5,NN6,NN7,NN8,NN9,NN10,NNI,N0,

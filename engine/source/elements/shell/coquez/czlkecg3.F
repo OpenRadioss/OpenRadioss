@@ -69,7 +69,7 @@ C---------------|[FMIJ]{MIJ]|----
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
-      INTEGER EP,I,J,NF,M
+      INTEGER EP,I,NF,M
       MY_REAL 
      .    C1,C2,
      .    PX1PX1(MVSIZ),PX1PX2(MVSIZ) ,PX2PX2(MVSIZ), 

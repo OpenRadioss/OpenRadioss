@@ -70,7 +70,7 @@ C-----------------------------------------------
       INTEGER JLT, NIN, NSN, INACTI,
      .        CAND_N(*),CAND_E(*),NSVG(MVSIZ), ISHEL(MVSIZ)
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ),
-     .        INTTH,MSEGLO(*),IRTLM(4,NSN), SUBTRIA(MVSIZ),
+     .        MSEGLO(*),IRTLM(4,NSN), SUBTRIA(MVSIZ),
      .        MVOISA(MVSIZ,4), MVOISB(MVSIZ,4),IBOUNDA(4,MVSIZ),IBOUNDB(4,MVSIZ)
       my_real , INTENT(IN) :: DGAPLOAD ,DRAD
       my_real
@@ -96,9 +96,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, K, L, N, IT, I1, I2, ITRIA(2,4),
-     .        N4N, MGLOB, ITPERM(4), IA, IB, IB1, IB2, IB3, IBX, IX, IY, IZ
-      INTEGER I4N(MVSIZ), INTERSECTA(MVSIZ), INTERSECTB(MVSIZ), 
+      INTEGER I, L, N, IT, I1, I2, ITRIA(2,4),
+     .         MGLOB, ITPERM(4), IA, IB, IB1, IB2, IB3, IBX, IX, IY, IZ
+      INTEGER  INTERSECTA(MVSIZ), INTERSECTB(MVSIZ), 
      .        INTERSECA, INTERSECB, IKEEP,
      .        FARA(MVSIZ,4), FARB(MVSIZ,4), INGAPA(MVSIZ,4), INGAPB(MVSIZ,4),  
      .        SUBTRIB(MVSIZ), SUBTRIX(MVSIZ), ICONT_R(MVSIZ)
@@ -116,7 +116,7 @@ C-----------------------------------------------
       my_real
      .     GAP_MM(MVSIZ), GAP, GAP21,GAP22,GAP23,GAP24,
      .     XP, YP, ZP,
-     .     DX, DY, DZ, LX, LD, LAX, LBX, LCX, DMIN, PMIN,
+     .     DX, DY, DZ, LX, LD, LAX, LBX, LCX, DMIN,
      .     DD(MVSIZ,4), 
      .     LAP, HLA, HLB(MVSIZ,4), HLC(MVSIZ,4),
      .     LAP1,LAP2,LAP3,LAP4,
@@ -126,12 +126,12 @@ C-----------------------------------------------
      .     PENA(MVSIZ,4), PENB(MVSIZ,4), BB(MVSIZ,4), 
      .     SX1,SX2,SX3,SX4,SY1,SY2,SY3,SY4,SZ1,SZ2,SZ3,SZ4,
      .     X0N(MVSIZ,4), Y0N(MVSIZ,4), Z0N(MVSIZ,4), 
-     .     XN(MVSIZ,4),YN(MVSIZ,4),ZN(MVSIZ,4),HH,
+     .     XN(MVSIZ,4),YN(MVSIZ,4),ZN(MVSIZ,4),
      .     LB(MVSIZ,4), LC(MVSIZ,4), 
      .     SIDA(MVSIZ,4), SIDB(MVSIZ,4), 
      .     X12, Y12, Z12, 
      .     PX, PY, PZ, PP, P1, P2, XH, YH, ZH, D1, D2, D3, VX, VY, VZ, 
-     .     DIST(MVSIZ),LL,NN,PN,
+     .     LL,NN,PN,
      .     V12,V23,V34,V41,
      .     NX1, NX2, NX3, NX4,
      .     NY1, NY2, NY3, NY4,
@@ -139,8 +139,8 @@ C-----------------------------------------------
      .     SOX125,SOX235,SOX345,SOX415,
      .     SOY125,SOY235,SOY345,SOY415,
      .     SOZ125,SOZ235,SOZ345,SOZ415,
-     .     N1X,N1Y,N1Z,N1N,
-     .     N2X,N2Y,N2Z,N2N,EPS02,TOLE,
+     .     
+     .     EPS02,TOLE,
      .     XX1,YY1 ,ZZ1,XX2,YY2,ZZ2,
      .     XX3 ,YY3,ZZ3,XX4,YY4,
      .     ZZ4 ,XX5,YY5,ZZ5
@@ -1560,17 +1560,17 @@ C-----------------------------------------------
      .     XI1,  XI2,  XI3,  XI4,  XI5,
      .     YI1,  YI2,  YI3,  YI4,  YI5,
      .     ZI1,  ZI2,  ZI3,  ZI4,  ZI5,
-     .     XIA,  XIB,  XIC,
-     .     YIA,  YIB,  YIC,
-     .     ZIA,  ZIB,  ZIC,
+     .         
+     .         
+     .         
      .     XS, YS, ZS,
      .     XM1, XM2, XM3, XM4, XM5, 
      .     YM1, YM2, YM3, YM4, YM5, 
      .     ZM1, ZM2, ZM3, ZM4, ZM5,LA0,LB0,LC0
       my_real
-     .     SX,SX1,SX2,SX3,SX4,SX5,SX0,
-     .     SY,SY1,SY2,SY3,SY4,SY5,SY0,
-     .     SZ,SZ1,SZ2,SZ3,SZ4,SZ5,SZ0,AAA,S2
+     .     SX1,SX2,SX3,SX4,SX5,SX0,
+     .     SY1,SY2,SY3,SY4,SY5,SY0,
+     .     SZ1,SZ2,SZ3,SZ4,SZ5,SZ0,AAA,S2
 C------------------------------------------------
          INTERSECA = 0
 
@@ -1926,17 +1926,17 @@ C-----------------------------------------------
      .     XI1,  XI2,  XI3,  XI4,  XI5,
      .     YI1,  YI2,  YI3,  YI4,  YI5,
      .     ZI1,  ZI2,  ZI3,  ZI4,  ZI5,
-     .     XIA,  XIB,  XIC,
-     .     YIA,  YIB,  YIC,
-     .     ZIA,  ZIB,  ZIC,
+     .         
+     .         
+     .         
      .     XS, YS, ZS,
      .     XM1, XM2, XM3, XM4, XM5, 
      .     YM1, YM2, YM3, YM4, YM5, 
      .     ZM1, ZM2, ZM3, ZM4, ZM5,LA0,LB0,LC0
       my_real
-     .     SX,SX1,SX2,SX3,SX4,SX5,SX0,
-     .     SY,SY1,SY2,SY3,SY4,SY5,SY0,
-     .     SZ,SZ1,SZ2,SZ3,SZ4,SZ5,SZ0,AAA,S2
+     .     SX1,SX2,SX3,SX4,SX5,SX0,
+     .     SY1,SY2,SY3,SY4,SY5,SY0,
+     .     SZ1,SZ2,SZ3,SZ4,SZ5,SZ0,AAA,S2
 C------------------------------------------------
          INTERSECA = 0
          INTERSECB = 0
@@ -2322,17 +2322,17 @@ C-----------------------------------------------
      .     XI1,  XI2,  XI3,  XI4,  XI5,
      .     YI1,  YI2,  YI3,  YI4,  YI5,
      .     ZI1,  ZI2,  ZI3,  ZI4,  ZI5,
-     .     XIA,  XIB,  XIC,
-     .     YIA,  YIB,  YIC,
-     .     ZIA,  ZIB,  ZIC,
+     .         
+     .         
+     .         
      .     XS, YS, ZS,
      .     XM1, XM2, XM3, XM4, XM5, 
      .     YM1, YM2, YM3, YM4, YM5, 
      .     ZM1, ZM2, ZM3, ZM4, ZM5,LA0,LB0,LC0
       my_real
-     .     SX,SX1,SX2,SX3,SX4,SX5,SX0,
-     .     SY,SY1,SY2,SY3,SY4,SY5,SY0,
-     .     SZ,SZ1,SZ2,SZ3,SZ4,SZ5,SZ0,AAA,S2
+     .     SX1,SX2,SX3,SX4,SX5,SX0,
+     .     SY1,SY2,SY3,SY4,SY5,SY0,
+     .     SZ1,SZ2,SZ3,SZ4,SZ5,SZ0,AAA,S2
 C------------------------------------------------
          IF(VO12 <= ZERO .AND. V12 >= ZERO)THEN
            IF(ABS(VO12) < EM20)THEN
@@ -2715,17 +2715,17 @@ C-----------------------------------------------
      .     XI1,  XI2,  XI3,  XI4,  XI5,
      .     YI1,  YI2,  YI3,  YI4,  YI5,
      .     ZI1,  ZI2,  ZI3,  ZI4,  ZI5,
-     .     XIA,  XIB,  XIC,
-     .     YIA,  YIB,  YIC,
-     .     ZIA,  ZIB,  ZIC,
-     .     XS,YS,ZS,
+     .         
+     .         
+     .         
+     .     
      .     XM1, XM2, XM3, XM4, XM5, 
      .     YM1, YM2, YM3, YM4, YM5, 
      .     ZM1, ZM2, ZM3, ZM4, ZM5,LA0,LB0,LC0
       my_real
-     .     SX,SX1,SX2,SX3,SX4,SX5,SX0,
-     .     SY,SY1,SY2,SY3,SY4,SY5,SY0,
-     .     SZ,SZ1,SZ2,SZ3,SZ4,SZ5,SZ0,AAA,ADT,S2
+     .     SX1,SX2,SX3,SX4,SX5,SX0,
+     .     SY1,SY2,SY3,SY4,SY5,SY0,
+     .     SZ1,SZ2,SZ3,SZ4,SZ5,SZ0,AAA,ADT,S2
 C------------------------------------------------
 C---------------- cas V>0 V_old>0
          IF(VO12 > ZERO .and. V12 >= ZERO )THEN
@@ -3047,7 +3047,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER IT, I, J, L, N, MGLOB
+      INTEGER IT, I, J
 C--------------------------------------------------------
 C      Back to global arrays
 C--------------------------------------------------------

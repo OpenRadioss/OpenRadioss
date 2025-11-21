@@ -56,7 +56,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER J, JJ, LEN, I, K, L, KK, K0, K1, K5, K9, N,
+      INTEGER J, JJ, LEN, I, K, L, KK, K0, K5, K9, N, 
      .   N0, N1, N2, N3, N4, N10, NSEG, NSEGC, NSEGTG, ITYP,
      .   UNPACK(15,4), II(8), N5, N6, N7, N8, NSEGS, K3,OW,
      .   WA(6*BUF+4)

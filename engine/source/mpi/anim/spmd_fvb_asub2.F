@@ -51,8 +51,8 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER I, PMAIN, J, ITAG, TAB(2), STAT(MPI_STATUS_SIZE), IERR,
-     .        ID, NPOLH_ANIM, MSGOFF
+      INTEGER I, PMAIN, ITAG, TAB(2), STAT(MPI_STATUS_SIZE), IERR,
+     .          MSGOFF
 C-----------------------------------------------
       DATA MSGOFF /7052/
 C-----------------------------------------------

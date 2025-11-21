@@ -91,7 +91,7 @@ C   +++
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER  I, J
+      INTEGER  I
 C     REAL
       my_real
      .   VX14(MVSIZ), VY14(MVSIZ), VZ14(MVSIZ),
@@ -101,7 +101,7 @@ C     REAL
      .   VX25N(MVSIZ), VY25N(MVSIZ), VZ25N(MVSIZ),
      .   VX36N(MVSIZ), VY36N(MVSIZ), VZ36N(MVSIZ),
      .   VX3614N(MVSIZ),VY3614N(MVSIZ),VX2514N(MVSIZ),VY2514N(MVSIZ),
-     .   VXHI(MVSIZ), VYHI(MVSIZ), VZHI(MVSIZ), DT1D2, DT1D1
+     .   VXHI(MVSIZ), VYHI(MVSIZ), VZHI(MVSIZ)
       my_real 
      .  NU1,PXSVX,PYSVY,PZSVZ,PXAVX,PYAVY,PZAVZ,TERMAD
 C-----------------------------------------------

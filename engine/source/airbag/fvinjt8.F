@@ -72,7 +72,7 @@ C-----------------------------------------------
      .   CPA, CPB, CPC, CPD, CPE, CPF, MW, 
      .   CPA_NEW, CPB_NEW, CPC_NEW, CPD_NEW, CPE_NEW, CPF_NEW,MWMIX_NEW,
      .   DMASS_MIX, DMOL_MIX, DMASSG_MIX, DTEPS, MASS_MIX, MASS_MIX_DT, 
-     .   MWMIX, FMASS1, MW1, MOLFR1, R_IGC1, DGMOUT
+     .   MWMIX, FMASS1, MW1, MOLFR1, R_IGC1
 C-----------------------------------------------
       R_IGC1   =PM(27,IVOLU(66))
 C---------------------

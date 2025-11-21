@@ -71,11 +71,10 @@ C-----------------------------------------------
       EXTERNAL GET_PLY_NOD
 C-----------------------------------------------
 C     REAL
-      my_real OFF
-      INTEGER II(4),IE,NG, ITY, LFT, LLT, N, I, J, 
-     .        IPRT, NEL, IAD, NPAR, NFT, IMID,IALEL,MTN,
-     .        NN1,NN2,NN3,NN4,NN5,NN6,NN7,NN8,NN9,NN10,
-     .        JJ, K, SH_IH,BUF,ISHPLYXFEM,
+      INTEGER II(4), IE, NG, ITY, LFT, LLT, N, I, 
+     . NEL, IAD, NPAR, NFT,MTN,
+     . NN90,
+     . JJ,BUF,ISHPLYXFEM,
      .        IPT,ELC,PLYS,IPLY,IE_EL2FA,
      .        NPCC,IDPLYN
       INTEGER EMPL

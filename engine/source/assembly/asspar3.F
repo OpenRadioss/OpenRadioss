@@ -71,8 +71,8 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
         INTEGER I,J,K,L,N,KK,JJ1,JJ2,NN,KM,NUM7,LL,
-     .          NISKYFT,NISKYLT, LDONE,IDONE,NC,NL,IFT,ILT,KFT,KLT,
-     .          I0,IBAR,KKK,NCT
+     .          NISKYFT,NISKYLT, LDONE,IDONE,NC,
+     .          IBAR,NCT
         my_real
      .          FF, FSKYT(NISKY), FTHESKYT(NISKY)
         COMMON /ASSP2/ LDONE, IDONE, IBAR

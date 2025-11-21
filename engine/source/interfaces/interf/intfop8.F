@@ -92,7 +92,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER N, IAD,IDUM, ISENS,I
+      INTEGER N, IAD, ISENS,I
       my_real TS,STARTT,STOPT
       INTEGER NSLV,SIZ,NBT8
       my_real, DIMENSION(:,:), ALLOCATABLE :: FTSAV_BUF

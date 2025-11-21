@@ -242,7 +242,7 @@ C
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,ILAY,ELCRKTG,ELCRK,IFAC,ILAYCRK,IEDGE,IXEL
+      INTEGER I,K,ILAY,ELCRKTG,ELCRK,IFAC,ILAYCRK,IEDGE,IXEL
       TYPE(G_BUFEL_) ,POINTER :: GBUF
 C=======================================================================
       GBUF => ELBUF_STR%GBUF

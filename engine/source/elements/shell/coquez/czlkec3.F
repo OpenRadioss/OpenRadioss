@@ -45,7 +45,7 @@ C-----------------------------------------------
 C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
-      INTEGER JFT,JLT,NPLAT,IPLAT(*),IKGEO,IORTH
+      INTEGER JFT,JLT,NPLAT,IPLAT(*),IORTH
       MY_REAL 
      .   VOL(*),THK0(*),THK2(*),A_I(*),Z1(*),
      .    HM(MVSIZ,4),HF(MVSIZ,4),HZ(*),

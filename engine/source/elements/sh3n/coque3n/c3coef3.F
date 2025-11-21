@@ -65,7 +65,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,ISH,MX,IPID,J,IGTYP,IGMAT,IPGMAT,IPOS
+      INTEGER I,ISH,MX,IGTYP,IGMAT,IPGMAT,IPOS
 C     REAL
       my_real
      .   FAC1,FSH,VISCDEF,Z0  

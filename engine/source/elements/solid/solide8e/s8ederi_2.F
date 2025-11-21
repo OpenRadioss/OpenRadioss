@@ -117,20 +117,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER  I, J ,ICOR
-C     REAL
-C                                                                     12
-      my_real
-     .   A1PR1,A1PR3,A1PR5,A1PR7,
-     .   A4PR1,A4PR3,A4PR5,A4PR7,
-     .   A7PR1,A7PR3,A7PR5,A7PR7,
-     .   A2PS1,A2PS2,A2PS5,A2PS6,
-     .   A5PS1,A5PS2,A5PS5,A5PS6,
-     .   A8PS1,A8PS2,A8PS5,A8PS6,
-     .   A3PT1,A3PT2,A3PT3,A3PT4,
-     .   A6PT1,A6PT2,A6PT3,A6PT4,
-     .   A9PT1,A9PT2,A9PT3,A9PT4,
-     .   BXHI,BYHI,BZHI,TMP,DETI
+      INTEGER I
 C-----------------------------------------------
       DO I=1,NEL
        RX(I) = AJ4(I)

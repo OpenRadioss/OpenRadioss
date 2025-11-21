@@ -51,8 +51,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
         INTEGER I,N,COMPT,K
-        INTEGER :: CPT
-        my_real SUMK,SUMK_OLD,SUMM,SUMM_OLD,PER_ADM,TARGET_DT,THRESHOLD,CHUNK
+        my_real SUMK,SUMK_OLD,SUMM,SUMM_OLD,PER_ADM,THRESHOLD
 C=======================================================================
 C
 C--------------------------------------------------------------------------------------

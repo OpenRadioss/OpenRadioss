@@ -57,8 +57,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      my_real DVV, E0(NEL),VAVG,RV,RVP
-      INTEGER I, J,COUNT,LIST(NEL),II
+      my_real DVV, E0(NEL),VAVG
+      INTEGER I,COUNT,LIST(NEL),II
       my_real, DIMENSION(:), POINTER :: VOLO,RHON,EINT,DVOL
 C-----------------------------------------------
       RHON => UVAR(1:NEL,1)   

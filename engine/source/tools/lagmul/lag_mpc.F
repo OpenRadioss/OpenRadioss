@@ -216,8 +216,8 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, JJ, LL, NK, KF, ISK, NN, NDL, IDL, NUMC, IC
-      my_real COEF,HH,R,S1,S2,S3
+      INTEGER I, J, NK, KF, ISK, NN, NDL, NUMC
+      my_real COEF
 C-----------------------------------------------
 C        NC: number of cinematic condition
 C        ic: number of the kinematic condition (1,nc)

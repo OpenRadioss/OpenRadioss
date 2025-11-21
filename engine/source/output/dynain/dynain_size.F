@@ -57,10 +57,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER JJ,NN,ITY,IAD,NFT,LFT,LLT,NPT,IHBE,
-     .        MLW,NG,NEL,I,NPG,MPT,NLAY,NPTR,NPTS,
-     .        NPTT,IGTYP,IL,NPT_ALL,
-     .        RWASZ,WASZ2,P0ARSZ2,RWASZ2      
+      INTEGER ITY,NPT,IHBE,
+     .        MLW,NG,NEL,NPG,MPT,NLAY,NPTR,NPTS,
+     .        IGTYP,IL,NPT_ALL,
+     .        WASZ2,P0ARSZ2,RWASZ2      
 C======================================================================|
       P0ARS = 0
       WASZ = 0

@@ -45,7 +45,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER JFT, JLT, NFT, IEPSDOT, ISTRAIN, NPG,II,NEL
+      INTEGER JFT, JLT, NFT, IEPSDOT, ISTRAIN, NPG,NEL
       INTEGER ISMSTR ,MTN ,NPLAT,IPLAT(*),ISROT
       my_real
      .   VDEF(MVSIZ,8),GSTR(NEL,8),GSTRPG(NEL,8),DT1C(*),EPSDOT(6,*),

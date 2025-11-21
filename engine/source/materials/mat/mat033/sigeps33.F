@@ -95,25 +95,25 @@ C----------------------------------------------------------------
       INTEGER VPVEC,ICASE
       my_real 
      . EY,C1,C2,ET,VMU,VMU0
-     . , A,B,C,D,VAR
-     . , AXX,BXX,CXX,AYY,BYY,CYY,AZZ,BZZ,CZZ
-     . , AXY,BXY,CXY,AYZ,BYZ,CYZ,AZX,BZX,CZX
-     . , C1XX,C2XX,ETXX,VMUXX, C1YY,C2YY,ETYY,VMUYY
-     . , C1XY,C2XY,GTXY,VMUXY, C1YZ,C2YZ,GTYZ,VMUYZ
-     . , C1ZX,C2ZX,GTZX,VMUZX, P0,PHI,GAMA0,FAC,FAC1
+     . , A,B,C,VAR
+     . 
+     . 
+     . 
+     . 
+     . , P0,PHI,GAMA0,FAC,FAC1
      . , S(3,3),SIGPR(3),DIRPR(3,3)
-     . , C1ZZ,C2ZZ,ETZZ,VMUZZ,SIGT_CUTOFF,SIGC_CUTOFF
+     . ,SIGT_CUTOFF,SIGC_CUTOFF
       my_real  
      .   E(MVSIZ),EDOT(MVSIZ),DAV,E1,E2,E3,E4,E5,E6,EPSP
      . , EPET(MVSIZ),EMET(MVSIZ),EPETS(MVSIZ),EMETS(MVSIZ)
-     . , EMXX(MVSIZ),EMYY(MVSIZ),EMZZ(MVSIZ)
-     . , GMXY(MVSIZ),GMYZ(MVSIZ),GMZX(MVSIZ) 
-     . , EPETXX(MVSIZ),EPETYY(MVSIZ),EPETZZ(MVSIZ)
-     . , EMETXX(MVSIZ),EMETYY(MVSIZ),EMETZZ(MVSIZ)
-     . , GPGTXY(MVSIZ),GPGTYZ(MVSIZ),GPGTZX(MVSIZ)
-     . , GMGTXY(MVSIZ),GMGTYZ(MVSIZ),GMGTZX(MVSIZ)
-     . , SYXX(MVSIZ),SYYY(MVSIZ),SYZZ(MVSIZ)
-     . , SYXY(MVSIZ),SYYZ(MVSIZ),SYZX(MVSIZ)
+     . 
+     .  
+     . 
+     . 
+     . 
+     . 
+     . 
+     . 
      . , SIGAIR(MVSIZ),GAMA(MVSIZ),SYIELD(MVSIZ)
      . , SIGSXX(MVSIZ),SIGSYY(MVSIZ),SIGSZZ(MVSIZ)
      . , SIGSXY(MVSIZ),SIGSYZ(MVSIZ),SIGSZX(MVSIZ)
@@ -807,16 +807,16 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, L, N, NN, LMAX, LMAXV(MVSIZ),NINDEX3, INDEX3(MVSIZ),
+      INTEGER   N, NN, LMAX, LMAXV(MVSIZ),NINDEX3, INDEX3(MVSIZ),
      .        NINDEX1, NINDEX2, INDEX1(MVSIZ), INDEX2(MVSIZ)
       my_real
      .   CS(6), STR(3,MVSIZ), A(3,3,MVSIZ), V(3,3,MVSIZ), B(3,3,MVSIZ),
      .   XMAG(3,MVSIZ), PR, AA, BB, AAA(MVSIZ),
      .   CC, ANGP, DD, FTPI, TTPI, STRMAX,
      .   TOL1(MVSIZ), TOL2(MVSIZ), XMAXV(MVSIZ), NORMINF(MVSIZ), 
-     .   VMAG, S11,
-     .   S21, S31, S12, S22, S32, S13, S23, S33, A11, A12, A13, A21,
-     .   A22, A23, A31, A32, A33,
+     .   VMAG,
+     .      
+     .       
      .   MDEMI, XMAXINV, FLM
       REAL FLMIN
 C-----------------------------------------------
@@ -1124,16 +1124,16 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, L, N, NN, LMAX, LMAXV(MVSIZ),NINDEX3, INDEX3(MVSIZ),
+      INTEGER   N, NN, LMAX, LMAXV(MVSIZ),NINDEX3, INDEX3(MVSIZ),
      .        NINDEX1, NINDEX2, INDEX1(MVSIZ), INDEX2(MVSIZ)
       DOUBLE PRECISION
      .   CS(6), STR(3,MVSIZ), A(3,3,MVSIZ), V(3,3,MVSIZ), B(3,3,MVSIZ),
      .   XMAG(3,MVSIZ), PR, AA, BB, AAA(MVSIZ),
      .   CC, ANGP, DD, FTPI, TTPI, STRMAX,
      .   TOL1(MVSIZ), TOL2(MVSIZ), XMAXV(MVSIZ), NORMINF(MVSIZ), 
-     .   VMAG, S11,
-     .   S21, S31, S12, S22, S32, S13, S23, S33, A11, A12, A13, A21,
-     .   A22, A23, A31, A32, A33,
+     .   VMAG,
+     .      
+     .       
      .   MDEMI, XMAXINV, FLM,
      .   VALDP(3,MVSIZ),VECDP(9,MVSIZ)
       REAL FLMIN
@@ -1475,7 +1475,7 @@ C----------------------------------------------------------------
 C----------------------------------------------------------------
 C  L O C A L  V A R I B L E S
 C----------------------------------------------------------------
-      INTEGER    I,J,K
+      INTEGER    I
       my_real
      .        EV(3,MVSIZ),AV(6,MVSIZ),EVV(3,MVSIZ),DIRPRV(3,3,MVSIZ)
 C----------------------------------------------------------------
@@ -1552,16 +1552,16 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, L, N, NN, LMAX, LMAXV(MVSIZ),NINDEX3, INDEX3(MVSIZ),
+      INTEGER   N, NN, LMAX, LMAXV(MVSIZ),NINDEX3, INDEX3(MVSIZ),
      .        NINDEX1, NINDEX2, INDEX1(MVSIZ), INDEX2(MVSIZ)
       DOUBLE PRECISION
      .   CS(6), STR(3,MVSIZ), A(3,3,MVSIZ), V(3,3,MVSIZ), B(3,3,MVSIZ),
      .   XMAG(3,MVSIZ), PR, AA, BB, AAA(MVSIZ),
      .   CC, ANGP, DD, FTPI, TTPI, STRMAX,
      .   TOL1(MVSIZ), TOL2(MVSIZ), XMAXV(MVSIZ), NORMINF(MVSIZ), 
-     .   VMAG, S11,
-     .   S21, S31, S12, S22, S32, S13, S23, S33, A11, A12, A13, A21,
-     .   A22, A23, A31, A32, A33,
+     .   VMAG,
+     .      
+     .       
      .   MDEMI, XMAXINV, FLM,
      .   VALDP(3,MVSIZ),VECDP(9,MVSIZ),S4_2,S5_2,S6_2,C1,C2,SQ_AA
       REAL FLMIN
@@ -1915,16 +1915,16 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, L, N, NN, LMAX, LMAXV(MVSIZ),NINDEX3, INDEX3(MVSIZ),
+      INTEGER   N, NN, LMAX, LMAXV(MVSIZ),NINDEX3, INDEX3(MVSIZ),
      .        NINDEX1, NINDEX2, INDEX1(MVSIZ), INDEX2(MVSIZ)
       my_real
      .   CS(6), STR(MVSIZ,3), A(MVSIZ,3,3), V(MVSIZ,3,3), B(MVSIZ,3,3),
      .   XMAG(MVSIZ,3), PR, AA, BB, AAA(MVSIZ),
      .   CC, ANGP, DD, FTPI, TTPI, STRMAX,
      .   TOL1(MVSIZ), TOL2(MVSIZ), XMAXV(MVSIZ), NORMINF(MVSIZ), 
-     .   VMAG, S11,
-     .   S21, S31, S12, S22, S32, S13, S23, S33, A11, A12, A13, A21,
-     .   A22, A23, A31, A32, A33,
+     .   VMAG,
+     .      
+     .       
      .   MDEMI, XMAXINV, FLM
       REAL FLMIN
 C-----------------------------------------------
@@ -2245,16 +2245,16 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, L, N, NN, LMAX, LMAXV(MVSIZ),NINDEX3, INDEX3(MVSIZ),
+      INTEGER   N, NN, LMAX, LMAXV(MVSIZ),NINDEX3, INDEX3(MVSIZ),
      .        NINDEX1, NINDEX2, INDEX1(MVSIZ), INDEX2(MVSIZ)
       DOUBLE PRECISION
      .   CS(6), STR(MVSIZ,3), A(MVSIZ,3,3), V(MVSIZ,3,3), B(MVSIZ,3,3),
      .   XMAG(MVSIZ,3), PR, AA, BB, AAA(MVSIZ),
      .   CC, ANGP, DD, FTPI, TTPI, STRMAX,
      .   TOL1(MVSIZ), TOL2(MVSIZ), XMAXV(MVSIZ), NORMINF(MVSIZ), 
-     .   VMAG, S11,
-     .   S21, S31, S12, S22, S32, S13, S23, S33, A11, A12, A13, A21,
-     .   A22, A23, A31, A32, A33,
+     .   VMAG,
+     .      
+     .       
      .   MDEMI, XMAXINV, FLM,
      .   VALDP(MVSIZ,3),VECDP(MVSIZ,9)
       REAL FLMIN
@@ -2579,7 +2579,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, L, N, NN, LMAX, LMAXV(MVSIZ),NINDEX3, INDEX3(MVSIZ),
+      INTEGER   N, NN, LMAX, LMAXV(MVSIZ),NINDEX3, INDEX3(MVSIZ),
      .        NINDEX1, NINDEX2, INDEX1(MVSIZ), INDEX2(MVSIZ)
       DOUBLE PRECISION
      .   CS1,CS2,CS3,CS4,CS5,CS6,
@@ -2587,10 +2587,10 @@ C-----------------------------------------------
      .   PR, AA, BB, AAA(MVSIZ),
      .   CC, ANGP, DD, FTPI, TTPI, STRMAX,
      .   TOL1(MVSIZ), TOL2(MVSIZ), XMAXV(MVSIZ), NORMINF(MVSIZ), 
-     .   VMAG, S11,
-     .   S21, S31, S12, S22, S32, S13, S23, S33, A11, A12, A13, A21,
+     .   VMAG,
+     .      
      .   S1,S2,S3,
-     .   A22, A23, A31, A32, A33,
+     .       
      .   MDEMI, XMAXINV, FLM,
      .   S4_2,S5_2,S6_2,C1,C2,SQ_AA,
      .   VALDP1(MVSIZ),VALDP2(MVSIZ),VALDP3(MVSIZ),

@@ -77,7 +77,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,MX,II,J,IC,NEL,IJK
+      INTEGER I,MX,J,NEL,IJK
       INTEGER :: K,IPART_SENS,LOCAL_INDEX
       my_real, DIMENSION(MVSIZ,2) :: FSTPARIT   
       INTEGER :: NGR_SENSOR

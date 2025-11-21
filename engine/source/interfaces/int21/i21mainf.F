@@ -104,7 +104,7 @@ C-----------------------------------------------
       INTEGER NELTST, ITYPTST, NIN, NSTRF(*), NRTMDIM
       INTEGER IPARI(NPARI,NINTER), ICODT(*),ICONTACT(*),
      .        ITAB(*), ISKY(*), ISKYI_SMS(*), NODNX_SMS(*),
-     .        TAGMSR_I21_SMS, NODGLOB(*), NPC(*),INDEXCONT(*),
+     .         NODGLOB(*), NPC(*),INDEXCONT(*),
      .        TAGCONT(*),KINET(*),
      .        TAGNCONT(NLOADP_HYD_INTER,NUMNOD)
       INTEGER NB_JLT,NB_JLT_NEW,NB_STOK_N,JTASK,
@@ -135,11 +135,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, I_STOK, JLT_NEW, JLT , NFT, J,
-     .        IBC, NOINT, NSEG, ISECIN, IBAG, IADM,
+      INTEGER I, I_STOK, JLT , NFT, J,
+     .        IBC, NOINT, ISECIN, IBAG, IADM,
      .        IGAP, INACTI, IFQ, MFROT, IGSTI, NISUB,
      .        NB_LOC, I_STOK_LOC,DEBUT,
-     .        INTTH,IFORM, NCAND, MSTR, ILEV, IKTHE, IROT, H,
+     .        INTTH,IFORM, MSTR, ILEV, IKTHE, IROT, H,
      .        IFORM_THE,INVN,IFTLIM, IERROR, NINSKID,INTFRIC, 
      .        NSETPRTS ,NPARTFRIC,JJ,IORTHFRIC,NTY
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ),
@@ -152,7 +152,7 @@ C     REAL
       my_real
      .   STARTT, FRIC, GAP, STOPT,
      .   VISC,STIGLO,GAPMIN,VISCF,
-     .   KMIN, KMAX, GAPMAX, KTHE, XTHE, TINT, RHOH, DTI ,PMAXSKID
+     .   KMIN, KMAX, GAPMAX, KTHE, XTHE, TINT, DTI ,PMAXSKID
 C-----------------------------------------------
 C     REAL
       my_real
@@ -173,12 +173,12 @@ C     REAL
      .   EFRIC_L(MVSIZ)
       my_real
      .     RCURVI(MVSIZ), ANGLMI(MVSIZ), ANGLT, PADM
-      INTEGER NRTMFT, NRTMLT, NRADM, ITRIA(MVSIZ)
+      INTEGER   NRADM, ITRIA(MVSIZ)
       my_real
      .    FNI(MVSIZ),
      .    FXT(MVSIZ), FYT(MVSIZ), FZT(MVSIZ),
      .    FXN(MVSIZ), FYN(MVSIZ), FZN(MVSIZ),
-     .    VXM, VYM, VZM, FX, FY, FZ, STF, PMAX,
+     .    VXM, VYM, VZM, PMAX,
      .    XG(3), ROT(9), WXM, WYM, WZM, FRAD, DRAD, FHEAT, XFRIC,DCOND
       INTEGER ICURV,SFSAVPARIT,IFRIC,FCOND
       my_real

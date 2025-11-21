@@ -48,7 +48,7 @@ C-----------------------------------------------
       INTEGER I,J,L
 C     REAL
       my_real
-     .   XWL, YWL, ZWL,XN,YN,ZN,D,DX,DY,DZ,XX,YY,ZZ,R,XX0,YY0,ZZ0,
+     .   XWL, YWL, ZWL,XN,YN,ZN,D,XX,YY,ZZ,R,XX0,YY0,ZZ0,
      .   X0(6),Y0(6),Z0(6),DX0(6),DY0(6),DZ0(6),DX1(6),DY1(6),DZ1(6)
       REAL R4
       DATA DX0/ 0., 0., 0., 0., 0., 0./

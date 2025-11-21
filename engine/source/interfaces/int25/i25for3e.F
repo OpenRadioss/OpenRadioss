@@ -127,8 +127,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J1, J , K0,NBINTER,K1S,K, NI, IL, IE, IG, PP, PPL
-      INTEGER NISKYL,NISKYL1,ISIGN
+      INTEGER I, J, K0, NBINTER, K1S, K, NI, IL, IE, PP, PPL
+ 
       INTEGER JSUB,KSUB,NSUB,JJ,KK,ISS1,ISS2,IMS1,IMS2,ITYPSUB
       INTEGER TAGIP(MVSIZ)
       my_real
@@ -138,15 +138,15 @@ C-----------------------------------------------
      .   FY1(MVSIZ), FY2(MVSIZ), FY3(MVSIZ), FY4(MVSIZ),
      .   FZ1(MVSIZ), FZ2(MVSIZ), FZ3(MVSIZ), FZ4(MVSIZ),
      .   FXT(MVSIZ), FYT(MVSIZ), FZT(MVSIZ),
-     .   PENE(MVSIZ),MASMIN(MVSIZ),DIST(MVSIZ),
-     .   VIS2(MVSIZ), DTMI(MVSIZ),
-     .   VNX, VNY, VNZ, AA, VMAX,S2,
-     .   V2, FM2, DT1INV, VISCA,  FAC,  FF,
-     .   FX, FY, FZ, F2, MAS2, DTMI0,DTI,
-     .   FACM1, ECONTT, ECONVT, A2,MASM,
-     .   FSAV1, FSAV2, FSAV3, FSAV4, FSAV5, FSAV6, FSAV7, FSAV8,
+     . PENE(MVSIZ),DIST(MVSIZ),
+     . VIS2(MVSIZ),
+     . VMAX,S2,
+     . DT1INV, FAC, FF,
+     . FX, FY, FZ, MAS2,DTI,
+     . ECONTT, ECONVT,MASM,
+     . FSAV1, FSAV2, FSAV3, FSAV4, FSAV5, FSAV6, FSAV8,
      .   FSAV9, FSAV10, FSAV11, FSAV12, FSAV13, FSAV14, FSAV15,
-     .   FSAV22, FSAV23, FSAV24,DGAPLOAD,
+     . DGAPLOAD,
      .   FSAVSUB1(24,NISUB), IMPX, IMPY, IMPZ,FTN ,FN , FT,BETA
       my_real
      .   PREC
@@ -155,10 +155,7 @@ C-----------------------------------------------
      .   KT(MVSIZ),C(MVSIZ),CF(MVSIZ),
      .   K1(MVSIZ),K2(MVSIZ),K3(MVSIZ),K4(MVSIZ),
      .   C1(MVSIZ),C2(MVSIZ),C3(MVSIZ),C4(MVSIZ),
-     .   CX,CY,CFI,AUX,AAA,GAPP
-      DOUBLE PRECISION
-     .   FX6(6,MVSIZ), FY6(6,MVSIZ), FZ6(6,MVSIZ)
-      INTEGER :: S_ADDSUBFIE,S_LISUBSFIE,P
+     . CX,CY,CFI,AUX,GAPP
 C
       INTEGER BITGET
       EXTERNAL BITGET

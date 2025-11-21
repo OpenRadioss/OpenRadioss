@@ -98,19 +98,19 @@ C-----------------------------------------------
       REAL R4
       REAL,DIMENSION(:),ALLOCATABLE :: WA
       TYPE(G_BUFEL_) ,POINTER :: GBUF
-      TYPE(L_BUFEL_) ,POINTER :: LBUF, LBUF1,LBUF2
+      TYPE(L_BUFEL_) ,POINTER :: LBUF
       TYPE(BUF_MAT_) ,POINTER :: MBUF
       TYPE(BUF_EOS_)  ,POINTER :: EBUF
       my_real, DIMENSION(:),POINTER  ::  DFMAX
-      my_real, DIMENSION(:) ,POINTER  :: UPARAM
-      INTEGER MID,IMAT,NUPARAM,IPOS,IADBUF,ISUBMAT,IU(4),ILAY
-      my_real :: vi(21) !< submaterial volumes at reference densities (max submat : 21)
-      my_real :: v0i(21) !< submaterial volumes at reference densities (max submat : 21)
-      my_real :: v0g !< global volume at reference density (mixture)
-      my_real :: RHO0i(21) !< submaterial initial mass densities (max submat : 21)
-      my_real :: RHOi(21) !< submaterial  mass densities (max submat : 21)
-      my_real :: RHO0g !< global initial mass density (mixture)
-      LOGICAL detected
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------

@@ -239,7 +239,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER K, N, N2, N3, N4, N5, N6, ITYP, ISL, IFQ, ILAGM,
      .        NDS,IMP, PMAIN, IBID,IPARSENS,ISECT
-      my_real A(3,NUMNOD),BID,DTI
+      my_real A(3,NUMNOD),DTI
 C-----------------------------------------------
           RBID = ZERO
 C Init global result to 0

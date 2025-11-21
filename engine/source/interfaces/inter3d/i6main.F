@@ -79,7 +79,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER KD(50), JD(50), KFI, JFI, 
+      INTEGER   
      .   INACTI,NOINT, NGROUS, NGROUM, NG, IGIMP,INTY,IFRICF,IFRICV,
      .   IDAMPV,IDAMPF
       INTEGER LOLD(MVSIZ)

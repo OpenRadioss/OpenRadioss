@@ -149,7 +149,7 @@ C-----------------------------------------------
 C----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER IERR0,IERROR, NBMAT,I,NPT,ISIZ1,ISIZ2
+      INTEGER IERR0,IERROR, NBMAT,ISIZ1,ISIZ2
 C-----------------------------------------------
       IERROR = 0
 C to avoid conflict with IERR in common

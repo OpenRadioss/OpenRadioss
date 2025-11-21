@@ -70,7 +70,7 @@ C-----------------------------------------------
       INTEGER I,II,NJ1,NJ2,NJ3,IPT,IPA,IPZ,
      .        N1,N2,N3,N4,IJ,ISENS,
      .        ITYP
-      my_real PRES,FX,FY,FZ,P,PEXT,DP,Q,PJ,PJ0,DYDX,XX,YY,ZZ,
+      my_real PRES,FX,FY,FZ,P,PEXT,DP,Q,PJ,PJ0,XX,YY,ZZ,
      .   THETA,NX1,NX2,NY1,NY2,NZ1,NZ2,AN1,AN,
      .   XM,YM,ZM,NX3,NY3,NZ3,
      .   PS1,PS2,PS3,AN2,AN3,DET,MU,FACR,

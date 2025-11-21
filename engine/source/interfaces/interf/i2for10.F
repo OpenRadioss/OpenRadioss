@@ -166,7 +166,7 @@ C-----------------------------------------------
       INTEGER I, J, II, L, JJ, W
 C     REAL
       my_real
-     .   H(4),S,T,XMSI,FXI,FYI,FZI,MXI,MYI,MZI,INS,AA,
+     .   H(4),S,T,FXI,FYI,FZI,MXI,MYI,MZI,INS,AA,
      .   X0,X1,X2,X3,X4,Y0,Y1,Y2,Y3,Y4,Z0,Z1,Z2,Z3,Z4,
      .   XC0,YC0,ZC0,SP,SM,TP,TM,XC,YC,ZC,
      .   STF,H2(4)

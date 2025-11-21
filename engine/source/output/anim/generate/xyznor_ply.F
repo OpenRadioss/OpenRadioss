@@ -54,7 +54,7 @@ C     REAL
 C     REAL
       my_real
      .   S3000,S
-      INTEGER I,INORM(3),K,P,IXNN,N,ARSZ,EMPL
+      INTEGER I,IXNN,N,ARSZ,EMPL
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: INORMAR
 C-----------------------------------------------
       S3000 = THREE1000

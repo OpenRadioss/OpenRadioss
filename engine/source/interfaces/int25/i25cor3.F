@@ -73,7 +73,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I ,J , L, NN, IG, JFT, IX,  NI, I1, I2, I3, I4
+      INTEGER I ,J , L, NN, IG, IX,  NI
       my_real
      .        XN
 C-----------------------------------------------
@@ -275,7 +275,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I ,J , K, L, NN, IG, JFT, IX,  NI, I1, I2, I3, I4, NOR, II(4)
+      INTEGER I ,J , K, L, NN, IG, IX,  NI, NOR, II(4)
       my_real
      .        XN
 C-----------------------------------------------
@@ -511,7 +511,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I ,J , K, L, NN, IG, JFT, IX,  NI, I1, I2, I3, I4, NOR, II(4), ISH
+      INTEGER I ,J , L, NN, IG, IX,  NI, ISH
       my_real
      .        XN
 C-----------------------------------------------
@@ -851,7 +851,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I ,J , L, NN, IG, JFT, IX,  NI, I1, I2, I3, I4, IT
+      INTEGER I ,J , L, NN, IG, IX,  NI, IT
       my_real
      .        XN,DTS,STIF_MSDT(MVSIZ)
 C-----------------------------------------------

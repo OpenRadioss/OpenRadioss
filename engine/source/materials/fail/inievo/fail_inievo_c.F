@@ -93,8 +93,8 @@ C-----------------------------------------------
      .        P(NEL)      ,SVM(NEL)    ,DMGMAX(NEL)  ,DMGMUL(NEL) ,
      .        CENTER      ,RADIUS      ,SIGP1        ,SIGP2       ,
      .        DEVSP1      ,DEVSP2      ,ALPHA(NEL)   ,PLAS_DISP   ,
-     .        YLD0        ,SIGPMAJ(NEL),DSIZE(NEL)   ,FAC         ,
-     .        DF          ,SXX         ,SYY          ,SZZ 
+     .        YLD0        ,SIGPMAJ(NEL),DSIZE(NEL)            ,
+     .        SXX         ,SYY          ,SZZ 
 C!--------------------------------------------------------------
       !=======================================================================
       ! - INITIALISATION OF COMPUTATION ON TIME STEP

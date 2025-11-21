@@ -99,7 +99,6 @@ C     REAL
      .   IXX(MVSIZ), IYY(MVSIZ), IZZ(MVSIZ),
      .   IXY(MVSIZ), IYZ(MVSIZ), IZX(MVSIZ),
      .   REI(MVSIZ), REK(MVSIZ), OFF_L(MVSIZ)
-      INTEGER IC, II, J, JST(MVSIZ+1)
 C-----------------------------------------------
       FLAG = IPARG(80) ! flag for additional outputs
 C-----------------------------------------------

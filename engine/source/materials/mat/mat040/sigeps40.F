@@ -138,7 +138,7 @@ C        NPF,TF  : FUNCTION PARAMETER
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,M
+      INTEGER I,J,K
       my_real
      .  AK,G0,G(5),BETA(5),
      .  EV,EDXX,EDYY,EDZZ,EDXY,EDYZ,EDZX,      

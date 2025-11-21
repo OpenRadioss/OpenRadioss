@@ -84,8 +84,8 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER J17_T,
-     .        I, IP0, IP1, IP2, IP21, K11_T, I_SK_OLD, 
-     .        ADD1, NB_N_B, INIT, NOINT, INACTI, MULTIMP, IGAP, I_STOK,
+     .         IP0, IP1, K11_T, I_SK_OLD, 
+     .         NB_N_B, INIT, NOINT, INACTI, MULTIMP, I_STOK,
      .        INTTH , ADXLOC
       INTEGER 
      .       NRTM_T,ESHIFT,ILD, NCONTACT, NRTM_L,

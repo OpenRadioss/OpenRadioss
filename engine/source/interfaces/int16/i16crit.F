@@ -64,7 +64,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       my_real, DIMENSION(7) :: XMSRG
       my_real, DIMENSION(7) :: XSLVG
-      INTEGER NSN,NMN,ITASK,NME,
+      INTEGER NSN,ITASK,NME,
      .        NSV(*),NELEM(*),IXS(NIXS,*),IXS16(8,*),IXS20(12,*),
      .        IXS10(6,*)
       my_real
@@ -72,7 +72,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NSNF,NMEF,NSNL,NMEL,I, J, II, K,I16,I20,LFT16,LLT16,
+      INTEGER NSNF,NMEF,NSNL,NMEL,I, J,I16,I20,LFT16,LLT16,
      .      LFT20,LLT20,LFT8,LLT8,LFT10,LLT10,I8,I10,
      .      INDEX16(MVSIZ),INDEX20(MVSIZ),INDEX8(MVSIZ),INDEX10(MVSIZ)
       my_real
@@ -248,10 +248,10 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,L,NE,IFACE,IDIR,IPERM(8,2),N16
+      INTEGER I,J,L,NE,IFACE,IDIR,IPERM(8,2),N16
       my_real
      .   AN,AX,BN,BX,CN,CX,DX,DN,D4,D8,X1,X2,X3,X4,
-     .   X9,X10,X11,X12,XC,XX,XN
+     .   X9,X10,X11,X12,XC
       DATA IPERM / 2, 3, 4, 5, 1, 2, 3, 4,
      2             6, 7, 8, 9, 5, 6, 7, 8/
 C
@@ -556,11 +556,11 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,L,NE,IDIR,N20
+      INTEGER I,J,L,NE,IDIR,N20
       my_real
      .   AN12,AX12,AN34,AX34,AN56,AX56,AN78,AX78,CN,CX,DX,DN,D4,D8,
      .   X1,X2,X3,X4,X5,X6,X7,X8,
-     .   X9,X10,X11,X12,X13,X14,X15,X16,X17,X18,X19,X20,XC,XX,XN
+     .   X9,X10,X11,X12,X13,X14,X15,X16,X17,X18,X19,X20,XC
 C------------------------------------
 C     calculation of element bounds
 C------------------------------------
@@ -886,11 +886,11 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,L,NE,IDIR,N10
+      INTEGER I,J,L,NE,IDIR,N10
       my_real
-     .   AN12,AX12,AN34,AX34,AN56,AX56,AN78,AX78,CN,CX,DX,DN,D4,D8,
+     .   
      .   X1,X2,X3,X4,X5,X6,X7,X8,
-     .   X9,X10,X11,X12,X13,X14,X15,X16,X17,X18,X19,X20,XC,XX,XN
+     .   X9,X10,XC,XX,XN
 C------------------------------------
 C     calculation of element bounds
 C------------------------------------
@@ -1009,10 +1009,10 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,L,NE,IDIR,N10
+      INTEGER I,J,L,NE,IDIR
       my_real
-     .   AN12,AX12,AN34,AX34,AN56,AX56,AN78,AX78,CN,CX,DX,DN,D4,D8,
-     .   X1,X2,X3,X4,X5,X6,X7,X8,XC,XX,XN
+     .   DX,DN,
+     .   X1,X2,X3,X4,X5,X6,X7,X8
 C------------------------------------
 C     calculation of element bounds
 C------------------------------------

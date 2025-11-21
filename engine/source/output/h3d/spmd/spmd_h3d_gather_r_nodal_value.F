@@ -52,8 +52,8 @@ C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
        INTEGER IAD,J,LEN_TMP
 #ifdef MPI
-      INTEGER STATUS(MPI_STATUS_SIZE),IERROR,
-     .        MSGTYP,I,SIZ,LENP(NSPMD),DISP(NSPMD)
+      INTEGER IERROR,
+     . I,LENP(NSPMD),DISP(NSPMD)
 
 
 
@@ -116,9 +116,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
-       INTEGER J,K 
+       INTEGER K
 #ifdef MPI
-      INTEGER STATUS(MPI_STATUS_SIZE),IERROR,I
+      INTEGER IERROR,I
 
         ALLOCATE(V_TMP(LENP0))
         ALLOCATE(VP0_TMP(LENP0))
@@ -178,9 +178,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
-       INTEGER J,K 
 #ifdef MPI
-      INTEGER STATUS(MPI_STATUS_SIZE),IERROR,I
+      INTEGER IERROR,I
 
         ALLOCATE(V_TMP(LENP0))
         ALLOCATE(VP0_TMP(LENP0))

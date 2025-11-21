@@ -47,7 +47,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 C----------DELTAX crrection for degenerated element
-      INTEGER I,IT
+      INTEGER I
 C-----------------------------------------------
       DO I=1,NEL
        DELTAX(I)=MIN(DELTAX(I),SIXTEEN*VOLG(I)*SMAX(I))

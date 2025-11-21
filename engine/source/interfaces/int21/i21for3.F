@@ -110,34 +110,34 @@ C-----------------------------------------------
      .   PCONTACT(*), PADM, ANGLMI(*),
      .   XG(3), MXI(MVSIZ), MYI(MVSIZ), MZI(MVSIZ), STRI(MVSIZ),
      .   KT(MVSIZ), C(MVSIZ), FHEAT,EFRICT(MVSIZ),QFRIC,
-     .   TEMPI(MVSIZ),TEMPM(MVSIZ),XFRIC,DYDX,
+     .   TEMPI(MVSIZ),TEMPM(MVSIZ),XFRIC,
      .   FSAVPARIT(NISUB+1,11,*),PRATIO(MVSIZ)
       my_real  , INTENT(INOUT) :: EFRIC_L(MVSIZ)
       my_real  , INTENT(IN) :: FRIC_COEFS(MVSIZ,10), FRICC(MVSIZ)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J1, IG, J, JG , K0,NBINTER,K1S,K,IL,IE, NN, NI,
-     .        NA1,NA2,IBCM,IBCS
+      INTEGER I, IG, JG , NI,
+     .        IBCM,IBCS
       my_real
      .   FXI(MVSIZ), FYI(MVSIZ), FZI(MVSIZ),
      .   XMU(MVSIZ),
      .   VX(MVSIZ), VY(MVSIZ), VZ(MVSIZ), VN(MVSIZ), DTMI(MVSIZ), 
-     .   VNX, VNY, VNZ, AA, S2,
-     .   V2, FF, ALPHA, BETA,
-     .   FX, FY, FZ, FT, FN, FMAX, FTN,
+     .      AA,
+     .   V2, ALPHA, BETA,
+     .   FX, FY, FZ, FT, FN, FTN,
      .   ECONTT, ECONVT, FS2,ECONTDT,
-     .   FSAV1, FSAV2, FSAV3, FSAV4, FSAV5, FSAV6, FSAV7, FSAV8, 
+     .   FSAV1, FSAV2, FSAV3, FSAV4, FSAV5, FSAV6, FSAV8, 
      .   FSAV9, FSAV10, FSAV11, FSAV12, FSAV13, FSAV14, FSAV15,FSAV25,
-     .   VV,AX1,AX2,AY1,AY2,AZ1,AZ2,AX,AY,AZ,AREA,P,VV1,VV2,DMU,
-     .   DT1INV, VIS, PA, PLIN, FS, QFRICT, DTI,DTI2,DTMI0, MAS2,BETA1
+     .   VV,AREA,P,VV1,VV2,DMU,
+     .   DT1INV, VIS, PA, PLIN, FS, QFRICT,DTMI0, MAS2,BETA1
       my_real
      .   PREC
       my_real
-     .   ST1(MVSIZ),ST2(MVSIZ),ST3(MVSIZ),ST4(MVSIZ),STV(MVSIZ),
-     .   PENX(MVSIZ),STIF0(MVSIZ),FRICT(MVSIZ)
+     .   
+     .   PENX(MVSIZ),STIF0(MVSIZ)
       my_real
-     .   IMPX,IMPY,IMPZ,XX,YY,ZZ,TH
+     .   IMPX,IMPY,IMPZ,XX,YY,ZZ
       my_real 
      .   FINTER 
       EXTERNAL FINTER

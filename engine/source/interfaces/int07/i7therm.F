@@ -75,13 +75,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, II,L,NB3M, I3N,LS,J,IE,MAT
+      INTEGER I,MAT
 C     REAL
       my_real
      .   SX1 , SY1 , SZ1 , SX2 , SY2 , SZ2,
-     .   AREAM ,TS, VOLM, TSTIF, TM,TSTIFM,
-     .   TSTIFT,AX,AY,AZ,DIST, NORM,COND,P,RSTIFF,
-     .   AX1,AY1,AZ1,AX2,AY2,AZ2,AREA,AREAC,PHIM
+     .   TS, TM,TSTIFM,
+     .   TSTIFT,DIST, NORM,COND,P,RSTIFF,
+     .   AREAC,PHIM
       my_real 
      .   FINTER 
       EXTERNAL FINTER

@@ -59,7 +59,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, N
+      INTEGER I
       my_real
      .   RX(MVSIZ),RY(MVSIZ),RZ(MVSIZ),SX(MVSIZ),SY(MVSIZ),SZ(MVSIZ),
      .   VQ(3,3,MVSIZ), LXYZ0(3),DETA1(MVSIZ),XX,YY,ZZ,
@@ -67,10 +67,10 @@ C-----------------------------------------------
      .   YL3(MVSIZ),YL4(MVSIZ),ZL1(MVSIZ),
      .   XN(MVSIZ,4) , YN(MVSIZ,4) , ZN(MVSIZ,4) 
       my_real
-     .   AL1,AL2,LL(MVSIZ),COREL(2,4)
+     .   AL1,AL2,COREL(2,4)
       my_real
-     .   X13,X24,Y13,Y24,L13,L24,C1,C2,THKLY,POSLY,
-     .   FAC,VISCE,RX1,RY1,SX1,SY1,S1,FAC1,FAC2,FACI,FAC11,FACDT
+     .   X13,X24,Y13,Y24,L13,L24,C1,C2,
+     .   FAC,RX1,RY1,SX1,SY1,S1,FAC1,FAC2,FACI,FACDT
 C=======================================================================
         SELECT CASE(ICS)
           CASE (1)

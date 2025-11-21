@@ -84,7 +84,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER ITAG(NUMNOD)   
 C
-      INTEGER I, J, K, L, NOD, IBID, IERR, IMIN,
+      INTEGER I, J, K, L, NOD, IMIN,
      .        NNZMFT, NNZMLT
       my_real
      .        LMIN
@@ -366,7 +366,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 C--- M->A^-1 LT_M  strictly lower in m.c.r.s. format
-      INTEGER I,J,K,M,N,NC,MAX_L,IERR,I_CHK,IER1,
+      INTEGER I,J,NC,MAX_L,IERR,IER1,
      .        JM(NUMNOD+1)
       INTEGER, DIMENSION(:),ALLOCATABLE :: IADA, JDIA
       my_real, 
@@ -456,7 +456,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,JJ,NNZA,N,K0
+      INTEGER I,J,K,JJ,NNZA,N
 C--------------------------------------------
       NNZA=0
       IADA(1)=1
@@ -509,9 +509,9 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,IT,IP,NLIM,ND,ISTOP,ISP,IBID
+      INTEGER I,IT,NLIM,ISTOP,ISP,IBID
       my_real
-     .   S , R2, R02, ALPHA, BETA, G0, G1, RR, TOLS, TOLN, TOLS2
+     .   S , R2, R02, ALPHA, BETA, G0, G1, TOLS, TOLN, TOLS2
       my_real
      .  X(NDDL) ,P(NDDL) ,Z(NDDL)  ,Y(NDDL),DIAG_M(NDDL) 
       my_real

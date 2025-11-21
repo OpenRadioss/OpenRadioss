@@ -318,7 +318,7 @@ C
 !||    wait_task   ../engine/source/system/machine.F
 !||====================================================================
       SUBROUTINE WAIT_TASK(ITID)
-      INTEGER ITID(*),IT,JT
+      INTEGER ITID(*)
 #if defined(_OPENMP)
 #endif
       RETURN

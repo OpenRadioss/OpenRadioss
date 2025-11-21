@@ -94,24 +94,24 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, MX, J, II, IC
+      INTEGER I, MX
 C     REAL
       my_real
-     .   CAQ(MVSIZ), FCL(MVSIZ), EDT(MVSIZ),
-     .   HX1(MVSIZ), HX2(MVSIZ), HX3(MVSIZ), HX4(MVSIZ),
-     .   HY1(MVSIZ), HY2(MVSIZ), HY3(MVSIZ), HY4(MVSIZ),
-     .   HZ1(MVSIZ), HZ2(MVSIZ), HZ3(MVSIZ), HZ4(MVSIZ),
+     .    
+     .      
+     .      
+     .      
      .   HGX1(MVSIZ), HGX2(MVSIZ), HGX3(MVSIZ), HGX4(MVSIZ),
      .   HGY1(MVSIZ), HGY2(MVSIZ), HGY3(MVSIZ), HGY4(MVSIZ),
      .   HGZ1(MVSIZ), HGZ2(MVSIZ), HGZ3(MVSIZ), HGZ4(MVSIZ),
-     .   G11(MVSIZ),G21(MVSIZ),G31(MVSIZ),G41(MVSIZ),
-     .   G51(MVSIZ),G61(MVSIZ),G71(MVSIZ),G81(MVSIZ),
-     .   G12(MVSIZ),G22(MVSIZ),G32(MVSIZ),G42(MVSIZ),
-     .   G52(MVSIZ),G62(MVSIZ),G72(MVSIZ),G82(MVSIZ),
-     .   G13(MVSIZ),G23(MVSIZ),G33(MVSIZ),G43(MVSIZ),
-     .   G53(MVSIZ),G63(MVSIZ),G73(MVSIZ),G83(MVSIZ),NU2(MVSIZ),
+     .   
+     .   
+     .   
+     .   
+     .   
+     .   NU2(MVSIZ),
      .   JR_1(MVSIZ),JS_1(MVSIZ),JT_1(MVSIZ),NU4(MVSIZ),
-     .   E0,G0,C1,NU,EHOURT ,QH,LAMG ,STIF ,LL ,FVL,NU1
+     .   NU    ,NU1
 C----------------------------------------------- 
        DO I=1,NEL
         F11(I)=zero

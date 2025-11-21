@@ -74,16 +74,16 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
-      INTEGER LOC_PROC,IB,NE,I,
-     .        NBX,NBY,NBZ,NEDG,M1,M2,M3,M4,M5,M6,M7,M8,
+      INTEGER LOC_PROC,IB,
+     .        NBX,NBY,NBZ,
      .        IX1,IY1,IZ1,IX2,IY2,IZ2,IX,IY,IZ,
      .        BUFBRIC(NBRIC),NBF,NBL,ITASK
       my_real
      .        XMAXB,YMAXB,ZMAXB,XMINB,YMINB,ZMINB,
-     .        XMINE,YMINE,ZMINE,XMAXE,YMAXE,ZMAXE,
-     .        XX1,XX2,XX3,XX4,XX5, XX6, XX7, XX8,
-     .        YY1,YY2,YY3,YY4,YY5, YY6, YY7, YY8,
-     .        ZZ1,ZZ2,ZZ3,ZZ4,ZZ5, ZZ6, ZZ7, ZZ8,
+     .        
+     .           
+     .           
+     .           
      .        DX,DY,DZ
       LOGICAL :: IS_CONTACT
 C-----------------------------------------------

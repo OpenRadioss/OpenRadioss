@@ -80,7 +80,7 @@ C---------+---------+---+---+--------------------------------------------
 C----------------------------------------------------------
 C   D u m m y   A r g u m e n t s  
 C----------------------------------------------------------
-      INTEGER NEL,NUPARAM,NUVAR,MAXFUNC, JSMS
+      INTEGER NEL,NUPARAM,MAXFUNC, JSMS
       INTEGER IFUNC(*),NPF(*)
       my_real
      .   TIME,TIMESTEP
@@ -95,13 +95,13 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I1,I2,I,J,IEL,IRATE,NRATE,IFILTR,NTRAC
-      INTEGER IFUNN(MAXFUNC),IFUNT(MAXFUNC),JJ(NEL),ELTRAC(NEL),II(NEL)
+      INTEGER IFUNN(MAXFUNC),IFUNT(MAXFUNC),ELTRAC(NEL),II(NEL)
       my_real
-     .   E,ECOMP,G,G3,G12,G23,FCUT,DYDX1,DYDX2,Y1,Y2,R,DSIG,DEPLA,
-     .   SVM,SIGT,DTB
+     .   E,ECOMP,G,G3,FCUT,DYDX1,DYDX2,Y1,Y2,R,DSIG,DEPLA,
+     .   SVM,DTB
       my_real
      .   DSIGX(NEL),DSIGY(NEL),DSIGZ(NEL),YFAC(MAXFUNC),RATE(MAXFUNC),
-     .   YLD(2,NEL),HC(2,NEL),DEPST(NEL),STF(NEL),FAC(NEL)
+     .   YLD(2,NEL),HC(2,NEL),STF(NEL),FAC(NEL)
 C----------------------------------------------------------
 C   E x t e r n a l  F u n c t i o n
 C----------------------------------------------------------

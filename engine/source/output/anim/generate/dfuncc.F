@@ -115,7 +115,7 @@ C-----------------------------------------------
      .   VG(5),VLY(5),VE(5),DMGMX_LY,EVAR_TMP,A01,A02,A03,A12,A,
      .   M,FF,GG,NN,
      .   VEL(0:3),VFRAC(MVSIZ,21),PHI,ERR,NINTY
-      INTEGER I,IDX,I1,II,J,NG,NEL,NPTR,NPTS,NPTT,NLAY,L,IFAIL,ILAY,
+      INTEGER I, IDX, I1, J, NG, NEL, NPTR, NPTS, NPTT, NLAY, L, IFAIL, ILAY, 
      .        IR,IS,IT,IL,MLW, NUVAR,IUS,PTF,PTM,PTS,NFAIL,
      .        N,K,K1,K2,JTURB,MT,IMID,IALEL,IPID,ISH3N,NNI,
      .        NN1,NN2,NN3,NN4,NN5,NN6,NN9,NF,BUF,NVARF,
@@ -5157,14 +5157,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER JFT,JLT,IREP
+ 
       my_real
      .   RX , RY , RZ, SX , SY , SZ,
      .   E1X, E1Y, E1Z,E2X, E2Y, E2Z,E3X, E3Y, E3Z
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I
+ 
       MY_REAL
      .   C1,C2,CC,DET
 C~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

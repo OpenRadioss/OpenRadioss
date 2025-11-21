@@ -43,7 +43,7 @@ C-----------------------------------------------
 C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
-      INTEGER JFT,JLT,NPLAT,IPLAT(*) ,IKGEO
+      INTEGER JFT,JLT,NPLAT,IPLAT(*) 
       MY_REAL 
      .   VOL(*),HC(MVSIZ,2),RX(*)   ,RY(*)   ,SX(*)    ,SY(*)   ,
      .    RX2(*)  ,RY2(*)  ,SX2(*)  ,SY2(*)   ,
@@ -67,7 +67,7 @@ C-----------------------------------------------
       INTEGER EP,I,J,NF,M
       MY_REAL 
      .    CS1(MVSIZ),CS2(MVSIZ),CS3(MVSIZ),DS1(MVSIZ),QS1(MVSIZ),
-     .    C1,C2,DS2(MVSIZ),QS2(MVSIZ),M1C1(2,2,MVSIZ),
+     .    C2,DS2(MVSIZ),QS2(MVSIZ),M1C1(2,2,MVSIZ),
      .    M1C2(2,2,MVSIZ),M1C3(2,2,MVSIZ),M2C1(2,2,MVSIZ),
      .    M2C2(2,2,MVSIZ),M2C3(2,2,MVSIZ),
      .    M1C11(2,2,MVSIZ),M1C12(2,2,MVSIZ),M1C13(2,2,MVSIZ),

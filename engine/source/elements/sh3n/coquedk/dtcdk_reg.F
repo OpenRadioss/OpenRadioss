@@ -56,7 +56,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
       my_real 
-     .  L2,ZETA,DTNL_TH,DTNL,DAMPFAC,LE_MAX
+     .  L2,ZETA,DTNL_TH,DTNL,LE_MAX
 C=======================================================================
       ! Recovering non-local parameters
       L2     = NLOC_DMG%LEN(IMAT)**2 ! Non-local internal length ** 2

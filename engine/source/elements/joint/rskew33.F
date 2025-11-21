@@ -80,15 +80,15 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, K, JTYP, IERR, NRB, SKFLG,
-     .        IDSK1,IDSK2,ISK1,ISK2,IP1,IP2, 
+      INTEGER I, J, K, JTYP, IERR, SKFLG,
+     . IDSK1,IDSK2,ISK1,ISK2,
      .        N1,N2,N3,USENS,INSENS,
      .        ISENS_OLD,ISENS_ACT     
-      my_real CO,SI,KSI,NX,NY,NZ,TH,
-     .        U(LSKEW),V(LSKEW),U0(LSKEW),V0(LSKEW),EX(LSKEW),
-     .        R1(3),R2(3),RM(3),RL1(3),RL2(3),T(3),
-     .        X1(LSKEW),X2(LSKEW),Q(LSKEW),A0(LSKEW),B0(LSKEW),
-     .        A(LSKEW),B(LSKEW),EXI(LSKEW),
+      my_real CO,SI,NX,
+     . U(LSKEW),V(LSKEW),EX(LSKEW),
+     . R1(3),R2(3),RM(3),
+     . A0(LSKEW),
+     . A(LSKEW),EXI(LSKEW),
      .        GET_U_GEO,NR,DT(3),DEX(LSKEW),EXPREC(LSKEW)
       DOUBLE PRECISION X21(MVSIZ),Y21(MVSIZ),Z21(MVSIZ)
 C-----------------------------------------------
@@ -408,7 +408,6 @@ C----------------------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I
       my_real E11,E22,E33,E12,E21,E13,E31,E23,E32,NR,KSI,
      .        PI1    
 C=======================================================================
@@ -460,7 +459,6 @@ C----------------------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I
       my_real E11,E22,E33,E12,E21,E13,E31,E23,E32,NR,KSI,
      .        PI1      
 C=======================================================================
@@ -515,7 +513,6 @@ C----------------------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I
       my_real E11,E22,E33,E12,E21,E13,E31,E23,E32,
      .        U1,U2,U3, U1S, U2S, U3S, S,C,CI
 C=======================================================================
@@ -560,7 +557,6 @@ C====================================================
       SUBROUTINE PROD_ABT(A,B,X)
 #include      "implicit_f.inc"
 #include      "param_c.inc"
-      INTEGER I,J
       my_real A(LSKEW),B(LSKEW),X(LSKEW)
 C
       X(1)=A(1)*B(1)+A(4)*B(4)+A(7)*B(7) 

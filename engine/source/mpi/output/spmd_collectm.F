@@ -59,7 +59,7 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER MSGOFF,MSGOFF0,MSGTYP,INFO,I,K,NG,N,M,NK,
+      INTEGER MSGOFF,MSGOFF0,MSGTYP,I,K,N,M,NK,
      .        EMPL,SDNODG(NUMNODM),FILEN
       INTEGER STATUS(MPI_STATUS_SIZE),IERROR
       INTEGER IGLOB(2,NUMNODM),RECGLOB(2,SIZP0),RTRI(2,SIZP0),

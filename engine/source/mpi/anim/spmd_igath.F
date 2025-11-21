@@ -53,7 +53,7 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER MSGOFF,MSGOFF2,MSGTYP,INFO,I,K,ATID,ATAG,ALEN,RLEN,S1
+      INTEGER MSGOFF,MSGOFF2,MSGTYP,I,RLEN,S1
       INTEGER STATUS(MPI_STATUS_SIZE),IERROR
       DATA MSGOFF/7013/
       DATA MSGOFF2/7068/

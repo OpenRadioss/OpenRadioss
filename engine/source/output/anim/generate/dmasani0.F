@@ -65,7 +65,6 @@ C     REAL
       my_real
      .   OFF, VALUE
       INTEGER I, NG, NEL, N, MT,IALEL,NN1,NN2,IPRT
-      REAL R4
       TYPE(G_BUFEL_) ,POINTER :: GBUF     
 C=======================================================================
       NN1 = 1

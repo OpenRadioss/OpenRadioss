@@ -74,8 +74,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I, II, IB, NCELL, IPOS, MCELL, NIN , NSecnds, IBV, ICELLv, NumSecnd,ISECND,NBCUT,K
-      my_real :: VAR, AREAM, VOLM, VOLsecnds, FACE0, FACE0M, VOLMAST
+      INTEGER :: I, IB, NCELL, MCELL, NIN , NSecnds,NBCUT,K
+      my_real ::  AREAM, VOLM, VOLsecnds, FACE0, FACE0M, VOLMAST
       TYPE(POLY_ENTITY),DIMENSION(:),    POINTER    :: pIsMain 
 C-----------------------------------------------
 C   P r e - C o n d i t i o n s

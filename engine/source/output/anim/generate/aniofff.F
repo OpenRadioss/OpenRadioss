@@ -62,8 +62,8 @@ C
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,NG,NEL,NFT,ITY,LFT,LLT,N,J,MLW,
-     .        NN, K1, K2,MT, IMID,N1,N2,N3,N4,N_FA,
+      INTEGER I,NG,NEL,NFT,ITY,LFT,LLT,MLW,
+     .        N_FA,
      .        NN1,NN2,NN3,NN4,NN5,NN6,NN7,NN8,NN9,NN10,NBF2,RBUF
       INTEGER,DIMENSION(:),ALLOCATABLE :: IOFFF
 C

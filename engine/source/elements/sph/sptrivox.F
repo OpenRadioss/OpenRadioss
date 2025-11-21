@@ -100,25 +100,25 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NB_NCN,NB_NCN1,NB_ECN,I,J,DIR,NB_NC,NB_EC,
-     .        N1,N2,N3,N4,NN,NE,K,L,II,JJ,JS,NS,N,
+      INTEGER I,J,
+     .        NN,NE,JJ,JS,NS,N,
      .        NSNF, NSNL,NVOIS, IG, IL
 C     REAL
       my_real
-     .   DX,DY,DZ,XS,YS,ZS,XX,SX,SY,SZ,S2,XN,YN,ZN,
-     .   XMIN, XMAX,YMIN, YMAX,ZMIN, ZMAX, TZ,
+     .   XS,YS,ZS,XN,YN,ZN,
+     .   XMIN, XMAX,YMIN, YMAX,ZMIN, ZMAX,
      .   D1X,D1Y,D1Z,D2,A2,ALPHA_MARGE,DISTMAX
       my_real, DIMENSION(:), ALLOCATABLE :: TAB_DK
 c provisional
       INTEGER  LAST_NOD(NSN+NSNR)
-      INTEGER  IX,IY,IZ,NEXT,
+      INTEGER  IX,IY,IZ,
      .         IX1,IY1,IZ1,IX2,IY2,IZ2
       INTEGER,  DIMENSION(:),ALLOCATABLE :: IIX,IIY,IIZ
       my_real
      .   XMINB,YMINB,ZMINB,XMAXB,YMAXB,ZMAXB,
-     .   XMINE,YMINE,ZMINE,XMAXE,YMAXE,ZMAXE,AAA,BBB,
+     .   AAA,BBB,
      .   AAA2
-      INTEGER FIRST,NEW,LAST,REQ_RECV(NSPMD)
+      INTEGER FIRST,LAST,REQ_RECV(NSPMD)
       SAVE IIX,IIY,IIZ,DISTMAX,TAB_DK
       INTEGER, DIMENSION(:), ALLOCATABLE, SAVE :: NEXT_NOD_LOCAL
       INTEGER, DIMENSION(:,:,:), ALLOCATABLE, SAVE :: VOXEL_LOCAL

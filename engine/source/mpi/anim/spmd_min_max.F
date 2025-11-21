@@ -54,13 +54,7 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER INFO,K,I,ATID,ATAG,ALEN
-C  REAL*4 ou REAL*8
-      my_real
-     .  TMP(6)
-
-      INTEGER STATUS(MPI_STATUS_SIZE),IERROR
-C  REAL*4 ou REAL*8
+      INTEGER IERROR
       my_real
      .  TMP1(3),TMPO(3)
 C-----------------------------------------------

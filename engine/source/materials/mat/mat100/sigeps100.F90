@@ -141,7 +141,7 @@
 !                                        local variables
 ! ----------------------------------------------------------------------------------------------------------------------
           integer    :: i,n,tab,tabn,shift
-          integer  :: n_network, flag_he, flag_mul, flag_t,nplas,iform,&
+          integer  :: n_network, flag_he, flag_mul,nplas,iform,&
           &flag_pl,exppl, nvisc(10),&
           &flag_visc(10),&
           &ipos1(nel),ilen1(nel),iad1(nel),&

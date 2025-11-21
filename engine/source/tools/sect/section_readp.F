@@ -65,10 +65,10 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER
-     .   J, I, K, II, I1, I2, N, KR1,KR2,KR3,K0,KR0,K1,K2,KC,IFLG,
+     .    I, N, KR1,KR2,KR3,K0,KR0,KC,IFLG,
      .   IR1, IR2, IFRL1, IFRL2, FOUND, NR, L, LL, NSECR, ID_SEC,NNODG,
-     .   TYPE, IFILNAM(2148), LROOTLEN, LREC, NNOD,IR, NNODR,KR11,KR12,
-     .   KR21,KR22,NBINTER,IEXTRA, ADDSEC(2*NSECT)
+     .   TYPE, IFILNAM(2148), LROOTLEN, NNOD,IR, NNODR,
+     .   IEXTRA, ADDSEC(2*NSECT)
       my_real TT1, TT2, TT3, BUFCOM(3*NSECT+7), SECBUFG(24*NNODT)
       CHARACTER FILNAM*12,LCHRUN*2
       LOGICAL FEXIST

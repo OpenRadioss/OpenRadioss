@@ -69,16 +69,16 @@ C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
         INTEGER I,MX, IC, II, J, JST(MVSIZ+1)
         my_real 
-     .  STIER,C2,C3,C4,C5,C7,C8,HSURA,SXX,SYY,SVM,SVMN,
+     .  STIER,C2,C3,C4,C5,C7,C8,HSURA,SVM,
      .  SS1,SS2,SS3,SC6,SC5,CXX_K,CYY_K,HXX,HYY,SF1,SF2,B13,B24,
      .  CXX,CYY,Y13S,X13S,Y34S6,Y23S5,X23S5,X34S6,HXX_K,HYY_K,
      .  BXX,BYY,BXX_K,BYY_K,
-     .  C1M,C2M,C1B,C2B,CMM,CNN,UFAC,TOL,COEF,EH1,EH2,
+     .  C1M,C2M,CMM,CNN,UFAC,TOL,COEF,EH1,EH2,
      .  CNNX,CNNY,CNNX_K,CNNY_K,CMMX,CMMY,CMMX_K,CMMY_K,SXY0,MXY0,
-     .  SVMC,SIGY2,SVM0,SVMC_K,A_BK,A_B,A_K,UNDOUZSR,AUX,
+     .  SIGY2,UNDOUZSR,AUX,
      .  SSV0,SSV1,SSV2,SSV3,SC6_V,SC5_V,CXX_V,CYY_V,CXY_V,CXZ_V,CYZ_V,
      .  HXX_V,HYY_V,HXY_V,SS1_V,SS2_V,SS3_V,SF1_V,SF2_V,HVL,
-     .  EMY,ECX,ECY,ESY,COEF1,COEFH,FBEND,FBEND_V,C12,
+     .  EMY,ESY,COEF1,COEFH,FBEND,FBEND_V,C12,
      .  C6(MVSIZ),DGLAS(MVSIZ,12),
      .  ESX(MVSIZ),TESY(MVSIZ),EMX(MVSIZ),DHG(MVSIZ,6),ETMP(MVSIZ,2)
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
@@ -523,7 +523,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
-        INTEGER I,MX, IC, II, J, JST(MVSIZ+1)
+        INTEGER I,MX
         my_real 
      .  C2,HSURA,MX23,MY23,MX34,MY34,
      .  SC6_V,SC5_V,CXZ_V,CYZ_V,SS3_V,HVL,
@@ -601,7 +601,7 @@ C-----------------------------------------------
      .       FAC1(*) ,RHO(*) ,AREA(*), DT1,OFF(*),EINT(JLT,2),AMU(*) ,
      .       EVIS(NPSAV,*),VMZ(MVSIZ,4),
      .       VHGZK(MVSIZ,5),VHGZE(MVSIZ,5),KRZ(*),
-     .       BM0RZ(MVSIZ,4,4),BMKRZ(MVSIZ,4,4),BMERZ(MVSIZ,4,4),
+     .       BMKRZ(MVSIZ,4,4),BMERZ(MVSIZ,4,4),
      .       GSR(*), A11SR(*), A12SR(*), NUSR(*), SHFSR(*)
          INTEGER KFTS
 C-----------------------------------------------
@@ -609,16 +609,16 @@ C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
         INTEGER I,MX, IC, II, J, JST(MVSIZ+1)
         my_real 
-     .  STIER,C2,C3,C4,C5,C7,C8,HSURA,SXX,SYY,SVM,SVMN,
+     .  STIER,C2,C3,C4,C5,C7,C8,HSURA,SVM,
      .  SS1,SS2,SS3,SC6,SC5,CXX_K,CYY_K,HXX,HYY,SF1,SF2,B13,B24,
      .  CXX,CYY,Y13S,X13S,Y34S6,Y23S5,X23S5,X34S6,HXX_K,HYY_K,
      .  BXX,BYY,BXX_K,BYY_K,
-     .  C1M,C2M,C1B,C2B,CMM,CNN,UFAC,TOL,COEF,EH1,EH2,
+     .  C1M,C2M,CMM,CNN,UFAC,TOL,COEF,EH1,EH2,
      .  CNNX,CNNY,CNNX_K,CNNY_K,CMMX,CMMY,CMMX_K,CMMY_K,SXY0,MXY0,
-     .  SVMC,SIGY2,SVM0,SVMC_K,A_BK,A_B,A_K,UNDOUZSR,AUX,
+     .  SIGY2,UNDOUZSR,AUX,
      .  SSV0,SSV1,SSV2,SSV3,SC6_V,SC5_V,CXX_V,CYY_V,CXY_V,CXZ_V,CYZ_V,
      .  HXX_V,HYY_V,HXY_V,SS1_V,SS2_V,SS3_V,SF1_V,SF2_V,HVL,CRZ,
-     .  EMY,ECX,ECY,ESY,COEF1,COEFH,FBEND,FBEND_V,
+     .  EMY,ESY,COEF1,COEFH,FBEND,FBEND_V,
      .  CNNXY,CNNXY_K,CMMXY,CMMXY_K,SSZ1,SSZ2,C3M,ERZ,
      .  C6(MVSIZ), ESX(MVSIZ), TESY(MVSIZ), EMX(MVSIZ),
      .  DGLAS(MVSIZ,18),
@@ -1054,15 +1054,15 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
-        INTEGER I,MX, IC, II, J
+        INTEGER I, J
         my_real 
-     .  STIER,C2,C3,C4,C7,B13,B24,C3M,
+     .  STIER,C2,C3,C4,C7,B13,B24,
      .  Y13S,X13S,Y34S6,Y23S5,X23S5,X34S6,
      .  DGLAS(MVSIZ,12),
-     .  C1B,C2B,CMM,CNN,A_BK,A_B,A_K,UNDOUZSR,AUX,
+     .  UNDOUZSR,AUX,
      .  SSV0,SSV1,SSV2,SSV3,SC6_V,SC5_V,CXX_V,CYY_V,CXY_V,CXZ_V,CYZ_V,
-     .  HXX_V,HYY_V,HXY_V,SS1_V,SS2_V,SS3_V,SF1_V,SF2_V,HVL,CRZ,
-     .  EMY,ECX,ECY,ESY,FBEND,FBEND_V,ERZ,FACM(MVSIZ),FACF(MVSIZ)
+     .  HXX_V,HYY_V,HXY_V,SS1_V,SS2_V,SS3_V,SF1_V,SF2_V,HVL,
+     .  FBEND,FBEND_V,FACM(MVSIZ),FACF(MVSIZ)
         my_real 
      .  C5(MVSIZ),CXX_K(MVSIZ),CYY_K(MVSIZ),HXX(MVSIZ),HYY(MVSIZ),
      .  CXX(MVSIZ),CYY(MVSIZ),HXX_K(MVSIZ),HYY_K(MVSIZ),
@@ -1491,22 +1491,22 @@ C-----------------------------------------------
      .       FAC1(*) ,RHO(*) ,AREA(*), DT1,OFF(*),EINT(JLT,2),AMU(*) ,
      .       EVIS(NPSAV,*),VMZ(MVSIZ,4),
      .       VHGZK(MVSIZ,5),VHGZE(MVSIZ,5),KRZ(*),
-     .       BM0RZ(MVSIZ,4,4),BMKRZ(MVSIZ,4,4),BMERZ(MVSIZ,4,4),
+     .       BMKRZ(MVSIZ,4,4),BMERZ(MVSIZ,4,4),
      .       GSR(*), A11SR(*), A12SR(*), NUSR(*), SHFSR(*),
      .       HM(MVSIZ,6),HF(MVSIZ,6),HC(MVSIZ,2),HMFOR(MVSIZ,6)
          INTEGER KFTS
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
-        INTEGER I,MX, IC, II, J
+        INTEGER I, J
         my_real 
      .  STIER,C2,C3,C4,C7,B13,B24,C3M,
      .  Y13S,X13S,Y34S6,Y23S5,X23S5,X34S6,
      .  DGLAS(MVSIZ,18),FACM(MVSIZ),FACF(MVSIZ),
-     .  C1B,C2B,CMM,CNN,A_BK,A_B,A_K,UNDOUZSR,AUX,
+     .  UNDOUZSR,AUX,
      .  SSV0,SSV1,SSV2,SSV3,SC6_V,SC5_V,CXX_V,CYY_V,CXY_V,CXZ_V,CYZ_V,
      .  HXX_V,HYY_V,HXY_V,SS1_V,SS2_V,SS3_V,SF1_V,SF2_V,HVL,CRZ,
-     .  EMY,ECX,ECY,ESY,FBEND,FBEND_V,ERZ
+     .  FBEND,FBEND_V,ERZ
         my_real 
      .  C5(MVSIZ),CXX_K(MVSIZ),CYY_K(MVSIZ),HXX(MVSIZ),HYY(MVSIZ),
      .  CXX(MVSIZ),CYY(MVSIZ),HXX_K(MVSIZ),HYY_K(MVSIZ),
@@ -1932,11 +1932,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
-        INTEGER I,MX, IC, II, J,NPT1
+        INTEGER I,NPT1
         my_real 
-     .  SVM,SVMN,C1B,C2B,CMM,CNN,UFAC,TOL,COEF,EH1,EH2,
+     .  SVM,CMM,CNN,UFAC,TOL,COEF,EH1,EH2,
      .  CNNX,CNNY,CNNX_K,CNNY_K,CMMX,CMMY,CMMX_K,CMMY_K,SXY0,MXY0,
-     .  SVMC,SIGY2,SVM0,SVMC_K,A_BK,A_B,A_K,UNDOUZSR,AUX,
+     .  SIGY2,
      .  COEF1,COEFH,SIGY0,SXYH,MXYH,SIGYH,FACM,FACF,FACT
 C-----------------------------------------------
        COEFH= ZEP99
@@ -2055,11 +2055,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
-        INTEGER I,MX, IC, II, J,NPT1
+        INTEGER I,NPT1
         my_real 
-     .  SVM,SVMN,C1B,C2B,CMM,CNN,UFAC,TOL,COEF,EH1,EH2,
+     .  SVM,CMM,CNN,UFAC,TOL,COEF,EH1,EH2,
      .  CNNX,CNNY,CNNX_K,CNNY_K,CMMX,CMMY,CMMX_K,CMMY_K,SXY0,MXY0,
-     .  SVMC,SIGY2,SVM0,SVMC_K,A_BK,A_B,A_K,UNDOUZSR,AUX,
+     .  SIGY2,
      .  COEF1,COEFH,CNNXY,CNNXY_K,CMMXY,CMMXY_K,FACM,FACF,FACT,SIGY0
 C-----------------------------------------------
        COEFH= ZEP99
@@ -2202,10 +2202,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
-        INTEGER I,MX, IC, II, J, JST(MVSIZ+1)
+        INTEGER I,MX
         my_real 
-     .  C2,HSURA,MX34,MY34,FV,GV(MVSIZ),
-     .  SC6_V,SC5_V,CXZ_V,CYZ_V,SS3_V,HVL,HVZ(MVSIZ),
+     .  C2,GV(MVSIZ),
+     .  HVL,
      .   GAMA1(MVSIZ), GAMA2(MVSIZ), GAMA3(MVSIZ), GAMA4(MVSIZ),
      .   GAMAVZ(MVSIZ),PX1(MVSIZ), PX2(MVSIZ), PY1(MVSIZ), PY2(MVSIZ),
      .   PX1V, PX2V, PY1V, PY2V, TESY(MVSIZ),HX(MVSIZ),HY(MVSIZ),HXA,HYA,FAC

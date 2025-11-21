@@ -104,11 +104,11 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       my_real hydros,vmises,triaxs,REF_EL_LEN
-      INTEGER I,J,K,L,NINDX1,NINDX2,SEL,NANGLE
-      INTEGER FAIL_COUNT,IT,IREG,IRATE
+      INTEGER I,J,K,NINDX1,NINDX2,SEL,NANGLE
+      INTEGER IREG,IRATE
       INTEGER, DIMENSION(MVSIZ) :: INDX1,INDX2
-      my_real X_1(3),X_2(3),c3,DYDX,COS2(10,10),EPSD0,CJC,RATE_SCALE,FRATE
-      my_real EPS_FAIL,EPS_FAIL2,DAMAGE,INST,FSCALE_LEN,MOHR_RADIUS
+      my_real X_1(3),X_2(3),DYDX,COS2(10,10),EPSD0,CJC,RATE_SCALE,FRATE
+      my_real EPS_FAIL,EPS_FAIL2,DAMAGE,INST,MOHR_RADIUS
       my_real P1X,P1Y,S1X,S1Y,S2Y,A1,A2,B1,B2,C1,C2,FAC,LAMBDA,COS2THETA(NEL)
       my_real SIG1(NEL),SIG2(NEL),MOHR_CENTER
       my_real, DIMENSION(:), ALLOCATABLE :: Q_X11,Q_X12,Q_X13,Q_X21,Q_X22,Q_X23,Q_INST

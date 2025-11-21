@@ -61,7 +61,7 @@ C-----------------------------------------------
      .   S3000,S
       REAL R4
       REAL, DIMENSION(:,:), ALLOCATABLE :: PLYVELVEC
-      INTEGER I,IVOIS(2,*),NODCUT,NNWL,K,P,BUF
+      INTEGER I,IVOIS(2,*),NODCUT,NNWL,BUF
       INTEGER NNSRG,NFVNOD,IFUNC,NFNOD_PXFEM,ND,EMPL,NFNOD_CRKXFEMG
 C-----------------------------------------------
       INTEGER N,IPLY,JJ,EMPSIZPL
@@ -264,7 +264,7 @@ C     REAL
       INTEGER NNSRG,NFNOD_PXFEM,NFNOD_PXFEMG
       INTEGER I,N,WEIGHT(*),FR_SEC(NSPMD+1,*)
 
-      INTEGER NODGLOB(*),K,P,RBUF,NNG
+      INTEGER NODGLOB(*),RBUF,NNG
       INTEGER NFVNOD,NFNOD_CRKXFEMG
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
@@ -512,7 +512,7 @@ C     REAL
       my_real
      .   S3000,S
       REAL R4
-      INTEGER I,IVOIS(2,*),NODCUT,NNWL,K,P,BUF
+      INTEGER I,IVOIS(2,*),NODCUT,NNWL,K
       INTEGER NNSRG,NFVNOD,NFNOD_PXFEM,NFNOD_PXFEMG,NFNOD_CRKXFEMG
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
@@ -666,7 +666,7 @@ C     REAL
       my_real
      .   S3000,S
       REAL R4
-      INTEGER I,IVOIS(2,*),NODCUT,NNWL,K,P,BUF
+      INTEGER I,IVOIS(2,*),NODCUT,NNWL,K
       INTEGER NNSRG,NFVNOD,NFNOD_PXFEM,NFNOD_PXFEMG,NFNOD_CRKXFEMG
        my_real
      .       , DIMENSION(:,:), ALLOCATABLE ::  V_TMP
@@ -816,8 +816,8 @@ C-----------------------------------------------
       my_real
      .   VMAX(3,*)
       REAL R4  
-      INTEGER I,K,NODCUT,NNWL
-      INTEGER NNSRG,NFVNOD,NFNOD_PXFEM,NFNOD_PXFEMG,NFNOD_CRKXFEMG
+      INTEGER I,NODCUT,NNWL
+      INTEGER NNSRG,NFVNOD,NFNOD_PXFEMG,NFNOD_CRKXFEMG
 C-----------------------------------------------
 
       IF (NSPMD == 1) THEN
@@ -949,7 +949,7 @@ C     REAL
       my_real
      .   S3000,S
       REAL R4
-      INTEGER I,IVOIS(2,*),NODCUT,NNWL,K,P,BUF
+      INTEGER I,IVOIS(2,*),NODCUT,NNWL,BUF
       INTEGER NNSRG,NFVNOD,NFNOD_PXFEM,NFNOD_PXFEMG,NFNOD_CRKXFEMG
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
@@ -1104,7 +1104,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   A r g u m e n t s
 C----------------------------------------------- 
-      INTEGER :: NGM, IDLOCM, IBM,ICELLM,MLW,NCELL,NELm,NBF,NBL,ICELL,NIN,NODE_ID,IB,NG,I
+      INTEGER :: NGM, IDLOCM, IBM,ICELLM,MLW,NCELL,NELm,NBF,NBL,ICELL,NIN,NODE_ID,IB,I
       my_real :: rho_cell, RHO(4), VFRAC(4)
       REAL,DIMENSION(:,:),ALLOCATABLE :: BUFFER
 C-----------------------------------------------

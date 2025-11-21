@@ -59,7 +59,7 @@ C     REAL
      .   TINT,FRAD,DRAD,DYDX,XTHE,
      .   PM(NPROPM,*),TF(*),TEMPI1(MVSIZ),TEMPI2(MVSIZ),TEMPM1(MVSIZ),
      .   TEMPM2(MVSIZ),PENRAD(MVSIZ),PHIS1(MVSIZ),PHIS2(MVSIZ),
-     .   KTHE,AREAS1(MVSIZ),AREAS2(MVSIZ),GAPV(MVSIZ),
+     .   KTHE,GAPV(MVSIZ),
      .   FNI(MVSIZ),HS1(MVSIZ), HS2(MVSIZ), HM1(MVSIZ), HM2(MVSIZ),
      .   CONDINTS1(MVSIZ),CONDINTS2(MVSIZ),PHIM1(MVSIZ),PHIM2(MVSIZ),
      .   CONDINTM1(MVSIZ),CONDINTM2(MVSIZ),AREAC(MVSIZ),PHI(MVSIZ),
@@ -68,10 +68,10 @@ C
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, II,L,NB3M, I3N,LS,J,IE,MAT
+      INTEGER I,MAT
 C     REAL
       my_real
-     .   TS1, TS2, TM1 ,TM2, DIST, CONDS1 ,CONDS2 ,TSTIFM1 ,
+     .   TS1, TS2, TM1 ,TM2, DIST, CONDS1 ,CONDS2  ,
      .   TSTIFM ,TSTIFT,TM,P,RSTIFF,TS,CONDM1,CONDM2,CONDS,CONDM,
      .   COND,RSTIF
       my_real 

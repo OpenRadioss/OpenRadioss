@@ -107,12 +107,12 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, IL, L, J3, J2, J1, IG,
-     .   I3, I2, I1,JL,JG,J,NN, PP, PPL,K
+     .   I3, I2, I1,J,NN, PP, PPL,K
       INTEGER NISKYL
       my_real
      .   NX,NY,NZ,LX,LY,LZ,NX2,CC2,ST,LI2(NSN),
-     .   VX(NSN),VY(NSN),VZ(NSN),VV(NSN),VN(NSN),
-     .   NN1(NSN),NN2(NSN),NN3(NSN),FNNI(NSN),NNX, 
+     .   VX(NSN),VY(NSN),VZ(NSN),VV(NSN),
+     .   NN1(NSN),NN2(NSN),NN3(NSN),FNNI(NSN), 
      .   FELAST, FTRY, DELTAG, DT1INV, VIS2,PEN(NSN),FFAC,
      .   FNLIM, FTLIM,
      .   FNXI(NSN),FNYI(NSN),FNZI(NSN),FNX1(NSN),FNY1(NSN),

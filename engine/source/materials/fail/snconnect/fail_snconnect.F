@@ -77,16 +77,16 @@ C-----------------------------------------------
       INTEGER NGL(NEL),NPF(*),IFUNC(*)
       my_real TIME,TIMESTEP
       my_real UPARAM(NUPARAM),UVAR(NEL,NUVAR),DAMT(NEL,NDAMF),TF(*)
-      my_real , DIMENSION(NEL) :: OFFG,OFFL,EPSD,PLA,DEIN,DEIT,
+      my_real , DIMENSION(NEL) :: OFFG,OFFL,EPSD,PLA,
      .   SIGNZZ,SIGNYZ,SIGNZX,SYM,DMG,DFMAX,TDELE,AREA
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,IDEL,IDEV,NINDX,NINDXD,NINDXA,ISYM,FUNN,FUNT,IFUN2N,
+      INTEGER I,J,IDEL,NINDX,NINDXD,NINDXA,ISYM,IFUN2N,
      .  IFUN2T,IFUN3N,IFUN3T
       INTEGER INDX(NEL),INDXD(NEL),INDXA(NEL)
       my_real A2,B2,A3,B3,XSCALE2,XSCALE3,SVMN,SVMT,T1,T2,TTN,TTS,FCT,
-     .  DYDX,DAMA,SSYM,CPHI,SPHI,AREASCALE,DEFO
+     .  DAMA,SSYM,CPHI,SPHI,AREASCALE,DEFO
       my_real , DIMENSION(NEL) :: FUN2N,FUN2T,FUN3N,FUN3T,DYDX2N,
      .  DYDX2T,DYDX3N,DYDX3T,PHI,PLA1,PLA2
 C-----------------------------------------------

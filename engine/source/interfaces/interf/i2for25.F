@@ -81,20 +81,20 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NIR,I,J,II,JJ,L,W,KK,K,LLT,
+      INTEGER NIR,I,J,II,L,W,KK,K,LLT,
      .        IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ),
      .        NSVG(MVSIZ)
 C     REAL
       my_real
      .   S,T,SP,SM,TP,TM,ECONTT,ECONVT,E1X,E1Y,E1Z,E2X,E2Y,E2Z,E3X,E3Y,E3Z,
-     .   FNORM,FLX,FLY,FLZ,FS(3),DDX,DDY,DDZ,XSM,YSM,ZSM,XM,YM,ZM,
+     .   FLX,FLY,FLZ,FS(3),XSM,YSM,ZSM,XM,YM,ZM,
      .   X1,X2,X3,X4,Y1,Y2,Y3,Y4,Z1,Z2,Z3,Z4,X0,Y0,Z0,XS,YS,ZS,STF,
      .   VX1,VX2,VX3,VX4,VY1,VY2,VY3,VY4,VZ1,VZ2,VZ3,VZ4,DLX,DLY,DLZ,
      .   VX0,VY0,VZ0,VSX,VSY,VSZ,VMX,VMY,VMZ,V1,V2,V3,DTINV,
-     .   FXV,FYV,FZV,DRX,DRY,DRZ,STBRK,DTI, DXT
+     .   FXV,FYV,FZV,STBRK,DTI, DXT
       my_real
-     .   H(4,MVSIZ),FN(3),FT(3),FX(4),FY(4),FZ(4),FMX(4),FMY(4),FMZ(4),
-     .   RX(4),RY(4),RZ(4),RM(3),RS(3),V0(3),VS(3),VM(3),DXOLD(3),
+     .   H(4,MVSIZ),FX(4),FY(4),FZ(4),FMX(4),FMY(4),FMZ(4),
+     .   RX(4),RY(4),RZ(4),RM(3),RS(3),VS(3),VM(3),
      .   STIF(MVSIZ), VIS(MVSIZ), STIFM(MVSIZ),HL(4)
       my_real
      .  MHARM,DKM,VA(3),VB(3),VC(3),VD(3),VISCL

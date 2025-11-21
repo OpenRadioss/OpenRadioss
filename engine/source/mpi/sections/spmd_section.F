@@ -54,8 +54,8 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER MSGOFF,INFO,I,J,K,L,NELSEG,NNOD,NELC,NELTG,
-     .        NN,P,ATID,ATAG,ALEN,IDEB,SIZ,K0,K1,K2,A_AR,IFRAM,
+      INTEGER MSGOFF,I,J,L,NELSEG,NNOD,NELC,NELTG,
+     .        NN,IDEB,SIZ,K0,K1,K2,A_AR,IFRAM,
      .        REM_PROC,MSGTYP,REM_PROC2,MSGTYP2,N1,N2,N3,NOD,        
      .        SENDTO(PARASIZ),RECVFR(PARASIZ),LOC_PROC,NB_NOD,
      .        REQ_R(PARASIZ),BUFSIZ,IALL
@@ -439,10 +439,10 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER LOC_PROC,A_AR,N,L,I,J,II,K,M,JJ, LEN,A_AR2,
+      INTEGER LOC_PROC,A_AR,N,L,I,J,II,K,A_AR2,
      .        MSGTYP,MSGOFF,MSGOFF2,SIZ,IDEBR,IDEBS,ICC,IFRAM,
-     .        IERROR, NBIRECV, NBISEND, INDEX, NBRBY, NBNOD,
-     .        PMAIN, IDEB, LENS, LENR, K0, K2, N1, N2, N3, NNOD,
+     .        IERROR, NBIRECV, NBISEND, INDEX, NBNOD,
+     .        PMAIN, IDEB, K0, K2, N1, N2, N3, NNOD,
      .        NELSEG,NN,NB,
      .        IAD_SEND(NSPMD+1),IAD_RECV(NSPMD+1),
      .        REQ_R(NSPMD), REQ_S(NSPMD),
@@ -1417,10 +1417,10 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER LOC_PROC,N,L,I,K,LEN,P,NN,N0,OFFG,
-     .        MSGTYP,MSGOFF,SIZ,IDEBR,
-     .        IERROR, NBIRECV,IDEB, 
-     .        IAD_RECV(NSPMD+1),
+      INTEGER LOC_PROC,N,L,I,K,P,NN,N0,OFFG,
+     .        MSGTYP,MSGOFF,SIZ,
+     .        IERROR, 
+     .        
      .        STATUS(MPI_STATUS_SIZE)
       DATA MSGOFF/4006/
       my_real

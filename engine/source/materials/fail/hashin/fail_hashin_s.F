@@ -106,8 +106,8 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER
-     .        I,J,IDEL,IDEL_L,IFLAG,INDX(MVSIZ),IADBUF,NINDX,
-     .        NINDEX,INDEX(MVSIZ),IFAIL,JJ,KK,IR,IMATLY,
+     .        I,J,IFLAG,INDX(MVSIZ),NINDX,
+     .        JJ,KK,
      .        IMODEL,IUNIDIR,IFABRIC,INDX0(MVSIZ),NINDX0,
      .        MODE(MVSIZ,7),IMODE,FAILNPT,TMOD
       my_real 
@@ -116,7 +116,7 @@ C-----------------------------------------------
      .   MSIG12(MVSIZ),MSIG23(MVSIZ),MSIG13(MVSIZ),ANGLE,
      .   SDEL,TMAX,RATIO,FAC,S12,S23,
      .   F1,F2,F3,F4,F5,SIG,P,F6,F7,EPSPREF,FILT,ALPHA,FS(NEL),
-     .   TELEM,K2M,INSTF,K0,K1,K2,K3,ZEP669741,DTINV,KM,
+     .   TELEM,K2M,K0,K1,K2,ZEP669741,DTINV,KM,
      .   FSIG12UP
 C--------------------------------------------------------------
 CConsisant

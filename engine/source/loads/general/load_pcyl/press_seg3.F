@@ -67,7 +67,6 @@ C-----------------------------------------------
       my_real, DIMENSION(2) :: XX
 
 
-      INTEGER :: i
 c-----------------------------------------------
 c     1) find intersection point P between plane surface A-B-C and line N1-N2
 c     2) calculate radial coordinates of each segment node in cylindrical

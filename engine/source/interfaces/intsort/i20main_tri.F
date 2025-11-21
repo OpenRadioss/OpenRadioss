@@ -110,11 +110,11 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER ISYM,I, IP0, IP1, IP2, IP21, K11_T, I_SK_OLD, I_STOK1,IEDGE,  
-     .        ADD1, NB_N_B, NOINT, INACTI, MULTIMP, IGAP, IFQ, ITIED
+      INTEGER ISYM, IP0, IP1, I_SK_OLD,IEDGE,  
+     .         NB_N_B, NOINT, INACTI, MULTIMP, IGAP, IFQ, ITIED
       INTEGER 
      .       ILD, NCONT, NCONTACT,NCONTE,NCONTACTE,
-     .       INACTII,INACIMP,NSNF,NSNL,NLN,CAND_N_OLD,
+     .       INACTII,INACIMP,NLN,CAND_N_OLD,
      .       I_MEM
 C     REAL
       my_real

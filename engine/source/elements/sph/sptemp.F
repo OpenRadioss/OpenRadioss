@@ -63,16 +63,16 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,N,INOD,JNOD,J,NVOIS,M,
-     .        NVOISS,SM,JS,NC,NS,NN
+     .        NVOISS,SM,JS,NC,NN
       my_real
      .       XI,YI,ZI,DI,RHOI,XJ,YJ,ZJ,DJ,RHOJ,DIJ,
      .       VJ,WGHT,WGRAD(3),
      . ALPHAI,ALPHAXI,ALPHAYI,ALPHAZI,
-     . BETAXI,BETAYI,BETAZI,
+     . 
      . BETAXXI,BETAYXI,BETAZXI,
      . BETAXYI,BETAYYI,BETAZYI,
      . BETAXZI,BETAYZI,BETAZZI,
-     . BETAX,WGRDX,WGRDY,WGRDZ,
+     . WGRDX,WGRDY,WGRDZ,
      . TI,TJ
 C-------------------------------------------
       DO I=LFT,LLT
@@ -274,21 +274,21 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,N,INOD,JNOD,J,NVOIS,M,
-     .        NVOISS,SM,JS,NC,NS,NN
+     .        NVOISS,SM,JS,NC,NN
       my_real
      .       XI,YI,ZI,DI,RHOI,XJ,YJ,ZJ,DJ,RHOJ,DIJ,
      .       VJ,WGHT,WGRAD(3),
      . ALPHAI,ALPHAXI,ALPHAYI,ALPHAZI,
-     . BETAXI,BETAYI,BETAZI,
+     . 
      . BETAXXI,BETAYXI,BETAZXI,
      . BETAXYI,BETAYYI,BETAZYI,
      . BETAXZI,BETAYZI,BETAZZI,
      . ALPHAJ,ALPHAXJ,ALPHAYJ,ALPHAZJ,
-     . BETAXJ,BETAYJ,BETAZJ,
+     . 
      . BETAXXJ,BETAYXJ,BETAZXJ,
      . BETAXYJ,BETAYYJ,BETAZYJ,
      . BETAXZJ,BETAYZJ,BETAZZJ,
-     . BETAX,WGRDX,WGRDY,WGRDZ,WGRD(3),
+     . WGRDX,WGRDY,WGRDZ,WGRD(3),
      . GRADTXI,GRADTYI,GRADTZI,
      . GRADTXJ,GRADTYJ,GRADTZJ
 C-------------------------------------------
