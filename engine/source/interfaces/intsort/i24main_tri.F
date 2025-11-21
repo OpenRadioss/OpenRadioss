@@ -113,11 +113,11 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER LOC_PROC,IEDGE,IGSTI,
-     .        I, IP0, IP1, IP2, IP21, K11_T, I_SK_OLD, I_STOK1, 
-     .        ADD1, NB_N_B, NOINT, INACTI, MULTIMP, IGAP, IFQ ,
+     .              I_SK_OLD, 
+     .         NB_N_B, NOINT, INACTI, MULTIMP, IFQ ,
      .        INTNITSCHE,IFSUB_CAREA
       INTEGER 
-     .        ILD, NCONT, NCONTACT, INACTII, INACIMP, INTTH,
+     .        ILD, NCONT, NCONTACT, INTTH,
      .        I_MEM,CAND_N_OLD,ILEV,FLAGREMN, NRTSE ,NMN_L
 C     REAL
       my_real

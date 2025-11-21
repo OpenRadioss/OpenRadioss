@@ -139,7 +139,7 @@ C-----------------------------------------------
       INTEGER IXS(*)  ,IXS16(*) ,IXS20(*)
       INTEGER WEIGHT(*), ISKYI_SMS(*), NODNX_SMS(*), NODGLOB(*), NPC(*)
       INTEGER INDEXCONT(*),TAGCONT(*),
-     .        IPARSENS,NISUB,I,NISUBMAX,
+     . NISUBMAX,
      .        NB25_CANDT(PARASIZ),NB25_IMPCT(PARASIZ),
      .        NB25_DST1(PARASIZ) ,NB25_DST2(PARASIZ)
       INTEGER KXIG3D(NIXIG3D,*),IXIG3D(*),IGEO(NPROPGI,*),T2MAIN_SMS(6,*)
@@ -179,21 +179,21 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER N, LINDMAX,IAD,IDUM,NRTMDIM, NI18,
-     .        IAD17, IGN, IGE, NME, NMES, ISTAMP,NN1,NN2,j,ISENS
+     . IAD17, IGN, IGE, NME, NMES, ISTAMP,NN1,NN2,ISENS
 C
       INTEGER NB_JLT(PARASIZ),NB_JLT_NEW(PARASIZ),NB_STOK_N(PARASIZ),NTH
-      INTEGER ISU1, NBRIC, II, IBRIC, INOD, NODEID, INTEREFRIC
+      INTEGER INTEREFRIC
       SAVE NB_JLT,NB_JLT_NEW,NB_STOK_N
       my_real
      .   PCT,PCT1,PCT2, TS, BID
 c      INTEGER, ALLOCATABLE, DIMENSION(:) :: ISENSINT
-      INTEGER, DIMENSION(:), ALLOCATABLE, TARGET :: KINETE
+ 
       my_real, DIMENSION(:),ALLOCATABLE, TARGET :: XE,VE,MSE
       my_real, DIMENSION(:),POINTER :: PTR_X,PTR_V,PTR_MS
       INTEGER, DIMENSION(:), POINTER :: PTR_KINET
-      INTEGER :: INACTI
-      LOGICAL :: M151_ALLOC
-      SAVE XE,VE,MSE, KINETE,M151_ALLOC
+ 
+ 
+      SAVE XE,VE,MSE
       INTEGER :: NTY
 C-----------------------------------------------
       BID = ZERO

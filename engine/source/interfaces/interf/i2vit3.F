@@ -48,11 +48,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NIR, I, J, I3, J3, I2, J2, I1, J1, ISK, ICOD, II, L, JJ,
-     .   NN
+      INTEGER NIR, I, J, I3, J3, I2, J2, I1, J1, II, L, JJ
 C     REAL
       my_real
-     .   H(4), SS, TT, AMX, AMY, AMZ, VMX, VMY, VMZ,SP,SM,TP,TM,MAS
+     . H(4), SS, TT, AMX, AMY, AMZ, VMX, VMY, VMZ,SP,SM,TP,TM
 C-----------------------------------------------
       NIR=2
       IF(N2D==0)NIR=4
@@ -135,11 +134,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NIR, I, J, I3, J3, I2, J2, I1, J1, ISK, ICOD, II, L, JJ,
-     .   NN
+      INTEGER NIR, I, J, I3, J3, I2, J2, I1, J1, II, L, JJ
 C     REAL
       my_real
-     .   H(4), SS, TT, AMX, AMY, AMZ, VMX, VMY, VMZ,SP,SM,TP,TM,MAS
+     . H(4), SS, TT, AMX, AMY, AMZ, VMX, VMY, VMZ,SP,SM,TP,TM
 C-----------------------------------------------
       NIR=2
       IF(N2D==0)NIR=4
@@ -230,13 +228,13 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, I3, J3, I2, J2, I1, J1, ISK, ICOD, II, L, JJ,
-     .   NN,NIR
+      INTEGER I, J, II, L, JJ, 
+     . NIR
       my_real
-     .   H(4), SS, TT, AMX, AMY, AMZ, VMX, VMY, VMZ,INM,
-     .   X0,X1,X2,X3,X4,Y0,Y1,Y2,Y3,Y4,Z0,Z1,Z2,Z3,Z4,AA,
-     .   NX,NY,NZ,X13,X24,Y13,Y24,Z13,Z24,XC0,YC0,ZC0,SP,SM,TP,TM,
-     .   XC,YC,ZC,VMXX,VMYY,VMZZ
+     . H(4), SS, TT, AMX, AMY, AMZ, VMX, VMY, VMZ,
+     .
+     . XC0,YC0,ZC0,SP,SM,TP,TM,
+     . VMXX,VMYY,VMZZ
 C-----------------------------------------------
 C
       NIR=2
@@ -336,17 +334,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NIR, I, J, J1, J2, J3, J4, ISK, ICOD, II, L, JJ,
-     .   NN,I1
+      INTEGER NIR, I, J1, J2, J3, J4, II, L
 C     REAL
       my_real
-     .   H(4), SS, TT, AMX, AMY, AMZ, VMX, VMY, VMZ,SP,SM,TP,TM,MAS,
+     . AMX, AMY, AMZ, VMX, VMY, VMZ,
      .   MRX,MRY,MRZ,MGX,MGY,MGZ,DET,ARX,ARY,ARZ,
      .   X0,X1,X2,X3,X4,XS,Y0,Y1,Y2,Y3,Y4,YS,Z0,Z1,Z2,Z3,Z4,ZS,
-     .   X12,X22,X32,X42,Y12,Y22,Y32,Y42,Z12,Z22,Z32,Z42,
-     .   XX,YY,ZZ,XXX,YYY,ZZZ,XY,YZ,ZX,XY2,YZ2,ZX2,
-     .   VRX,VRY,VRZ,B1,B2,B3,C1,C2,C3,
-     .   XMSI     
+     . ZZXYZ222,
+     .   VRX,VRY,VRZ,B1,B2,B3,C1,C2,C3
 C-----------------------------------------------
       NIR=2
       IF(N2D==0)NIR=4
@@ -546,13 +541,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, I3, J3, I2, J2, I1, J1, ISK, ICOD, II, L, JJ,
-     .   NN,J4
+      INTEGER I, J, J3, J2, J1, II, L, JJ, 
+     . J4
       my_real
-     .   H(4), SS, TT, AMX, AMY, AMZ, VMX, VMY, VMZ,INM,
-     .   X0,X1,X2,X3,X4,Y0,Y1,Y2,Y3,Y4,Z0,Z1,Z2,Z3,Z4,AA,
-     .   NX,NY,NZ,X13,X24,Y13,Y24,Z13,Z24,XC0,YC0,ZC0,SP,SM,TP,TM,
-     .   XC,YC,ZC,MGX,MGY,MGZ,MRX,MRY,MRZ,VMXX,VMYY,VMZZ,
+     . H(4), SS, TT, AMX, AMY, AMZ, VMX, VMY, VMZ,
+     . X0,X1,X2,X3,X4,Y0,Y1,Y2,Y3,Y4,Z0,Z1,Z2,Z3,Z4,
+     . XC0,YC0,ZC0,SP,SM,TP,TM,
+     . MGX,MGY,MGZ,MRX,MRY,MRZ,VMXX,VMYY,VMZZ,
      .   DET,C1,C2,C3,B1,B2,B3  
 C
 C-----------------------------------------------
@@ -756,11 +751,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NIR, I, J, I3, J3, I2, J2, I1, J1, ISK, ICOD, II, L, JJ,
-     .   NN
+      INTEGER NIR, I, J, I3, J3, I2, J2, I1, J1, II, L, JJ
 C     REAL
       my_real
-     .   H(4), SS, TT, AMX, AMY, AMZ, VMX, VMY, VMZ,SP,SM,TP,TM,MAS
+     . H(4), SS, TT, AMX, AMY, AMZ, VMX, VMY, VMZ,SP,SM,TP,TM
 C-----------------------------------------------
       NIR=2
       IF(N2D==0)NIR=4

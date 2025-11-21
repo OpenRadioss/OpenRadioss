@@ -66,10 +66,10 @@ C-----------------------------------------------
       INTEGER I, J, K, II, L, NN, I0BASE, JJ
 C     REAL
       my_real
-     .   SS, ST, XMSI, FXI, FYI, FZI, MXI, MYI, MZI,INS,
+     .   SS, ST, FXI, FYI, FZI, MXI, MYI, MZI,INS,
      .   X0,X1,X2,X3,X4,Y0,Y1,Y2,Y3,Y4,Z0,Z1,Z2,Z3,Z4,AA,
      .   XC0,YC0,ZC0,SP,SM,TP,TM,XC,YC,ZC,
-     .   STF,AI,INMX,H(4),H2(4)
+     .   STF,AI,H(4),H2(4)
 C=======================================================================
       I0BASE = I0
 C     MINER(II) initialise a MS(J) dans resol_init

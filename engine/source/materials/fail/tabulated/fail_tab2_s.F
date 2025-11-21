@@ -94,7 +94,7 @@ C-----------------------------------------------
      .        SR_REF1,FSCALE_EL,SHRF,BIAXF  ,SR_REF2,
      .        FSCALE_SR,CJC,FSCALE_DLIM,TEMP_REF, FSCALE_TEMP, VOLFRAC
       my_real
-     .        LAMBDA,FAC,DF,INST(NEL)  ,DC(NEL)     ,L0(NEL)     ,
+     .        LAMBDA,DF,INST(NEL)  ,DC(NEL)     ,L0(NEL)     ,
      .        TRIAX(NEL)  ,XI(NEL)     ,EPSF(NEL)   ,EPSL(NEL)   ,
      .        DEPSF(NEL)  ,DEPSL(NEL)  ,XVEC(NEL,3) ,DPL_DEF     ,
      .        COS3THETA   ,DET,P,SVM   ,SXX,SYY,SZZ ,SIZEFAC(NEL),

@@ -97,7 +97,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C L o c a l V a r i a b l e s
 C-----------------------------------------------
-        INTEGER I,J,LENG,NINDX,INDX(NEL),NCYC
+        INTEGER I,J,LENG,NINDX,INDX(NEL)
         my_real C0,EMA,E_HYD,E_11,E_22,E_33,E_12,E_23,
      .          E_13,EEQ,D_EEQ
         my_real I1,I2,I3,S11,S22,S33,

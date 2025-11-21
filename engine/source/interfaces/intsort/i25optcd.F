@@ -71,7 +71,7 @@ C-----------------------------------------------
       INTEGER , INTENT(INOUT) :: ICONT_I(NSN)
       my_real , INTENT(IN) :: DGAPLOAD ,DRAD
       my_real
-     .        GAP,PMAX_GAP,
+     .        PMAX_GAP,
      .        X(3,*),GAP_S(*),GAP_M(*),STFN(*),STF(*),
      .        V(3,*),SECND_FR(6,*),TIME_S(*),
      .        PENE_OLD(5,NSN),STIF_OLD(2,NSN),
@@ -80,16 +80,16 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,L,IS,JS,LS,NLS,NLT,NSEG,NLS2,SG,FIRST,LAST,MSEG,NLF,
-     .        MG,II,N,KLEAVE, ISH, NSNRF,NSNRL,NSNF,NSNL
+     .        MG,II,N,KLEAVE, NSNRF,NSNRL,NSNF,NSNL
       INTEGER LIST(MVSIZ),IG(MVSIZ),IX1(MVSIZ),IX2(MVSIZ),IX3(MVSIZ),
      .        IX4(MVSIZ), LISTI(MVSIZ)
       my_real
      .        XI,X1,X2,X3,X4,YI,Y1,Y2,Y3,Y4,ZI,Z1,Z2,Z3,Z4,
-     .        XMIN,XMAX,YMIN,YMAX,ZMIN,ZMAX,V12,V22,V32,V42
+     .        XMIN,XMAX,YMIN,YMAX,ZMIN,ZMAX
       my_real
      .        GAPV(MVSIZ),PREC
       my_real
-     .        X0,Y0,Z0,XXX,YYY,ZZZ,CURV_MAX,TZINF,VX,VY,VZ,VV,
+     .        TZINF,VX,VY,VZ,
      .        VXI,VYI,VZI,
      .        VX1,VX2,VX3,VX4,VY1,VY2,VY3,VY4,VZ1,VZ2,VZ3,VZ4
 

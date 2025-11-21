@@ -68,7 +68,7 @@ C-----------------------------------------------
       my_real
      .   EPS1_MAX,EPS2_MAX,GAM12_MAX,TMAX,FCUT
       my_real
-     .   EXX(NEL),EYY(NEL),EXY(NEL),FINDEX,RFACTR,ASRATE
+     .   EXX(NEL),EYY(NEL),EXY(NEL),FINDEX,ASRATE
 C!----------------------------------------------
       !=======================================================================
       ! - INITIALISATION OF COMPUTATION ON TIME STEP

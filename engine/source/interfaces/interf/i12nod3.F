@@ -48,7 +48,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,KK,KVAR,NODAD,SEGAD
+      INTEGER I,J,KK,KVAR,NODAD
       my_real,DIMENSION(:),POINTER :: ptr
 C-----------------------------------------------
       DO I=1,NSN*ALE%GLOBAL%NVCONV

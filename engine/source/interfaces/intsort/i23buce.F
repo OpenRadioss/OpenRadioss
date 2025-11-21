@@ -62,7 +62,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NRTM, NSN, NOINT,IDT,INACTI,NIN,NSNR,NSNROLD,NMN,ITASK
+      INTEGER NRTM, NSN, NOINT, INACTI, NIN, NSNR, NSNROLD, NMN, ITASK
       INTEGER IRECT(4,*), NSV(*), NUM_IMP, IRECTG(4,*)
       INTEGER CAND_E(*),CAND_N(*),MSR(*),MWAG(*),RENUM(*),IFPEN(*)
       INTEGER NCONTACT,ESHIFT,ILD,NB_N_B, I_MEM,IGAP,ICURV,NCONT,
@@ -73,8 +73,7 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   GAP,TZINF,MAXBOX,MINBOX,
-     .   GAPMIN, GAPMAX, BMINMA(6),CURV_MAX(NRTM), BGAPSMX,
-     .   LXM, LYM, LZM
+     .   GAPMIN, GAPMAX, BMINMA(6),CURV_MAX(NRTM), BGAPSMX
       my_real
      .   X(3,*), STFN(*), STF(*), GAP_S(*), GAP_M(*),
      .   CAND_P(*)
@@ -84,9 +83,8 @@ C-----------------------------------------------
       INTEGER I_ADD_MAX
       PARAMETER (I_ADD_MAX = 1001)
 C
-      INTEGER I, J, I_ADD, IP0, IP1, MAXSIZ,
-     .        ADD(2,I_ADD_MAX), LOC_PROC, N, ISZNSNR,
-     .        NSNFIOLD(NSPMD)
+      INTEGER I, I_ADD, IP0, IP1, MAXSIZ, 
+     . ADD(2,I_ADD_MAX), ISZNSNR
 C     REAL
       my_real
      .        XYZM(6,I_ADD_MAX-1), MARGE, AAA

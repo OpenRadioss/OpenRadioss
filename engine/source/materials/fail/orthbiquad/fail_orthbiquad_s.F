@@ -95,7 +95,7 @@ C!-----------------------------------------------
       INTEGER I,K,J,INDX(MVSIZ),NINDX,SEL,NANGLE,IREG,IRATE
       my_real 
      .        DF,P,triaxs,SVM,SXX,SYY,SZZ,EPS_FAIL,
-     .        P1X,P1Y,S1X,S1Y,S2Y,A1,B1,C1,REF_EL_LEN,LAMBDA,FAC,
+     .        P1X,P1Y,S1X,S1Y,A1,B1,C1,REF_EL_LEN,LAMBDA,FAC,
      .        X_1(3),X_2(3),COS2(10,10),EPSD0,CJC,RATE_SCALE,FRATE,
      .        MOHR_RADIUS,COS2THETA(NEL)
       my_real SIG1(NEL),SIG2(NEL),MOHR_CENTER

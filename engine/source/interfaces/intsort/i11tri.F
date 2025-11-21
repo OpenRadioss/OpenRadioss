@@ -124,7 +124,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NB_NCN,NB_NCN1,NB_ECN,ADDNN,ADDNE,I,J,DIR,NN1,NN2,
-     .        N1,N2,N3,N4,NN,NE,K_STOK,K,L,NCAND_PROV,J_STOK,NI,
+     . N1,N2,NN,NE,K,L,NCAND_PROV,J_STOK,NI,
      .        ISTOP,NB_ECN1,PROV_S(2*MVSIZ),PROV_M(2*MVSIZ),
      .        NB_NC_OLD, NB_EC_OLD, NB_NC, NB_EC,JJ,KK,
 C bpe: used on nrtm and not nrtm + 100
@@ -132,8 +132,8 @@ C bpn: used on nrts and not nrts + 100
      .        BPE(NRTM+100),PE(MAXSIZ),BPN(NRTS+NRTSR+100),PN(MAXSIZ)
 C     REAL
       my_real
-     .        DX,DY,DZ,DSUP,SEUIL,SEUILS,SEUILI, XX1, XX2, XX3, XX4,
-     .        XMIN, XMAX,YMIN, YMAX,ZMIN, ZMAX, XX,YY,ZZ,
+     . DX,DY,DZ,DSUP,SEUIL, XX1, XX2,
+     . XMIN, XMAX,YMIN, YMAX,ZMIN, ZMAX,
      .        XMINS,YMINS,ZMINS,XMAXS,YMAXS,ZMAXS,
      .        YY1,YY2,ZZ1,ZZ2,DMX,DMY,DMZ,
      .        XY1,XY2,XZ1,XZ2,XIMIN,XIMAX,XJMIN,XJMAX,XKMIN,XKMAX,
@@ -739,10 +739,8 @@ C-------------------------------------------------------------------------
       LOGICAL FUNCTION I11INSID(X1,X2,Y1,Y2,Z1,Z2,
      .                   XMIN,XMAX,YMIN,YMAX,ZMIN,ZMAX)
 #include      "implicit_f.inc"
-      INTEGER N1,N2
       my_real
      .        X1,X2,Y1,Y2,Z1,Z2,XMIN,XMAX,YMIN,YMAX,ZMIN,ZMAX
-      INTEGER K
       my_real
      .        AA,XX,YY,ZZ
 

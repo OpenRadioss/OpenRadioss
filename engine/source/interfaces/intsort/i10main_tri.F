@@ -103,13 +103,13 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NB_N_B,
-     .   I, K11_T, IP0, IP1, IP2, IP3, JLT , NFT, J17_T,
-     .   I_SK_OLD, I_STOK1, ITIED,
-     .   ADD1, ILD, NOINT, MULTIMP, ITYP, NCONT, NCONTACT,
+     .     IP0, IP1 ,
+     .   I_SK_OLD, ITIED,
+     .    ILD, NOINT, MULTIMP, NCONT, NCONTACT,
      .   IBID,I_MEM,CAND_N_OLD
 C     REAL
       my_real
-     .    GAP, MAXBOX, MINBOX, TZINF,DIST1,
+     .    GAP, MAXBOX, MINBOX, TZINF,
      .   XMAXL, YMAXL, ZMAXL, XMINL, YMINL, ZMINL, GAPMIN, GAPMAX
       INTEGER :: NMN, NSN,NRTM,NTY
       logical :: need_computation

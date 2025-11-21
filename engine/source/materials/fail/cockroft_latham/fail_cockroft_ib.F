@@ -75,7 +75,7 @@ C-----------------------------------------------
       my_real
      .                            C0,EMA,EEQ,SIG_A,SIG_FILTRE,R,Q,I1,S11,
      .                            S22 , S33,R_INTER,PHI,I2 
-      my_real ,DIMENSION(NEL) ::  EPS_EQ,DAMAGE,EPSRATE,EPS11,EPSI,D_EEQ
+      my_real ,DIMENSION(NEL) ::  D_EEQ
 C=======================================================================
 C     UVAR(I,1) contains previous equivalent strain value increment
 C     UVAR(I,2) contains the Cockroft-Latham accumulated value

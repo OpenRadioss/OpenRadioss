@@ -65,7 +65,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NSN, NMN,NOINT,IDT,INACTI,IGAP0,IFQ
+      INTEGER NSN, NMN, NOINT, INACTI, IGAP0, IFQ
       INTEGER IRECT(4,*),ITASK,ILEV, IGAP, IEDGE, NEDGE, ESHIFT,NEDGE_T,SSHIFT,NRTM_T 
       INTEGER CANDM_E2E(*),CANDS_E2E(*),CAND_A(*),CANDM_E2S(*),CANDS_E2S(*),CAND_B(*),
      .        IFPEN_E(*), IFPEN_E2S(*)
@@ -79,7 +79,7 @@ C-----------------------------------------------
      .        KREMNODE_E2S(KREMNODE_E2S_SIZ), REMNODE_E2S(REMNODE_E2S_SIZ)
 C     REAL
       my_real
-     .   GAP,PMAX_GAP,VMAXDT,
+     . GAP,VMAXDT,
      .   BMINMA(6),BGAPEMX, MARGE
       my_real , INTENT(IN) :: DGAPLOAD ,DRAD
       my_real
@@ -90,14 +90,11 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, IP0, IP1, MAXSIZ,  NSNF, NSNL,
-     .        LOC_PROC, N, IEDG, I1, I2
 C     REAL
       my_real
-     .        XYZM(6), AAA, LX, LY, LZ, MY_LX, MY_LY, MY_LZ,DRAD2
+     . XYZM(6), AAA,DRAD2
       INTEGER NBX,NBY,NBZ
       INTEGER (KIND=8) :: NBX8,NBY8,NBZ8,RES8,LVOXEL8   
-      SAVE LX, LY, LZ
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------

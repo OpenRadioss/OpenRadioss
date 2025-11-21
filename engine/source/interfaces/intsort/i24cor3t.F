@@ -62,7 +62,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IRECT(4,*), NSV(*), CAND_E(*), CAND_N(*),
-     .    JLT,IDT, NOINT, NSN ,ITYP, NIN,IEDGE
+     .    JLT, NSN ,ITYP, NIN,IEDGE
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ)
       my_real , INTENT(IN) :: DGAPLOAD
       my_real
@@ -76,12 +76,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I ,J  ,IL, L, NN, IG,JFT,IADD
+      INTEGER I ,J  , L, IG
       my_real
      .    VDT(MVSIZ),PENE_L(MVSIZ)
       my_real
      .        VX,VY,VZ,VXI,VYI,VZI,
-     .        VX1,VX2,VX3,VX4,VY1,VY2,VY3,VY4,VZ1,VZ2,VZ3,VZ4,PMAX
+     .        VX1,VX2,VX3,VX4,VY1,VY2,VY3,VY4,VZ1,VZ2,VZ3,VZ4
 C-----------------------------------------------
 C
       VDT = ZERO

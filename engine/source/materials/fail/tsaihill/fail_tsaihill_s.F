@@ -67,7 +67,7 @@ C-----------------------------------------------
      .   X11,X22,S12,TMAX,FCUT
       my_real
      .   ASRATE,SXX(NEL),SYY(NEL),SZZ(NEL),
-     .   SXY(NEL),SYZ(NEL),SZX(NEL),FINDEX,RFACTR
+     .   SXY(NEL),SYZ(NEL),SZX(NEL),FINDEX
 C--------------------------------------------------------------
       !=======================================================================
       ! - INITIALISATION OF COMPUTATION ON TIME STEP
