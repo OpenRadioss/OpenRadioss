@@ -53,7 +53,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
-      DOUBLE PRECISION X , Y, Z   ,DV   
+      DOUBLE PRECISION X , Y, Z      
 C-----------------------------------------------
 C-----------------------------
 C     ROTATION RBY COORDINATES FOR SMALL STRAIN

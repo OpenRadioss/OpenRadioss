@@ -19,6 +19,7 @@
 !Copyright>
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
+!Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !! \brief Internal force computation for 6-node solid elements
 !! \details Computes internal forces for solid elements using stress and strain data
 !!          Includes multi-layer averaging and various material properties
@@ -107,9 +108,9 @@
       integer :: i                                                         !< Loop counter
       real(kind=wp), dimension(nel) :: s1, s2, s3, s4, s5, s6              !< Stress components
       real(kind=wp), dimension(nel) :: fac                                 !< Volume factor
-      real(kind=wp) :: fint, fintx, finty, fintz                           !< Internal force components
-      real(kind=wp) :: fxc, fyc, finsx, finsy, finsz                       !< Force components
-      real(kind=wp) :: nu1                                                 !< Modified Poisson's ratio
+ 
+ 
+ 
 !
 !===============================================================================
 !     S o u r c e  l i n e s

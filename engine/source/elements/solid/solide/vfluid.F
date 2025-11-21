@@ -42,8 +42,6 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: NFT
       INTEGER NEL,MLW
       my_real
-     .   DT2T
-      my_real
      .  PHI1(*),PHI2(*),UVAR(*),PHI3(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s

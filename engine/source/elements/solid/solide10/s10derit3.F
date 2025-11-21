@@ -75,8 +75,8 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,IP,N,K1,K2,K3,K4,K5,K6,K7,K8,K9,K10,
-     .        M,IPERM(10,4),ICOR,NNEGA,INDEX(MVSIZ),J,NN
-      INTEGER ITER,NITER
+     . IPERM(10,4)
+ 
       DOUBLE PRECISION
      .   XA(MVSIZ,10),YA(MVSIZ,10),ZA(MVSIZ,10),
      .   XB(MVSIZ,10),YB(MVSIZ,10),ZB(MVSIZ,10),   

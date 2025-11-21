@@ -82,10 +82,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K
+      INTEGER I
       my_real
      .   DC1,DG2,DXX(MVSIZ),DYY(MVSIZ),DZZ(MVSIZ),EKK,DAV,
-     .   DT05,E1,E2,E3,DE,P2
+     .   DT05,E1,E2,E3,DE
 C PIJ(NEL,25-27) are used call stress with v-terms
 C-----------------------------------------------
        IF (TT==ZERO) PIJ(1:NEL,25:27)=ZERO

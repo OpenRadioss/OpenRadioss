@@ -72,7 +72,7 @@ C-----------------------------------------------
 C----------DELTAX crrection for degenerated element
       INTEGER I,IT
       my_real
-     .   AREAM(MVSIZ), ATAX,FAC,V_G
+     .   AREAM(MVSIZ),FAC,V_G
 C-----------------------------------------------
       CALL DEGENES8(
      1   IXS,     IDEGE,   NEL)

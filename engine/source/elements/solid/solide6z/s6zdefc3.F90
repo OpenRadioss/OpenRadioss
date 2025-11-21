@@ -117,12 +117,6 @@
         real(kind=WP) :: vx14(nel), vy14(nel), vz14(nel)
         real(kind=WP) :: vx25(nel), vy25(nel), vz25(nel)
         real(kind=WP) :: vx36(nel), vy36(nel), vz36(nel)
-        real(kind=WP) :: vx14n(nel), vy14n(nel), vz14n(nel)
-        real(kind=WP) :: vx25n(nel), vy25n(nel), vz25n(nel)
-        real(kind=WP) :: vx36n(nel), vy36n(nel), vz36n(nel)
-        real(kind=WP) :: vx3614n(nel), vy3614n(nel), vx2514n(nel), vy2514n(nel)
-        real(kind=WP) :: vxhi(nel), vyhi(nel), vzhi(nel)
-        real(kind=WP) :: nu1, pxsvx, pysvy, pzsvz, pxavx, pyavy, pzavz, termad
 !===============================================================================
 !     S o u r c e  l i n e s
 !===============================================================================

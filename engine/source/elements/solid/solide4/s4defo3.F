@@ -70,7 +70,7 @@ C     REAL
       my_real
      .   DT1D2
       my_real 
-     .   PXX2,PYY2,PZZ2,PXX2P,PYY2P,PZZ2P,AAA,BBB,CCC,
+     .   AAA,BBB,CCC,
      .   EXX,EXY,EXZ,EYX,EYY,EYZ,EZX,EZY,EZZ
 C-----------------------------------------------
       DO I=1,NEL

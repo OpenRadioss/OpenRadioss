@@ -74,7 +74,7 @@ C-----------------------------------------------
       INTEGER I, M,N, FLAG
 C     REAL
       my_real
-     .   X1,Y1,Z1,VXM,VYM,VZM,
+     .   
      .   VXA(MVSIZ), VYA(MVSIZ) , VZA(MVSIZ), 
      .   VA2(MVSIZ), XMAS(MVSIZ),
      .   OFF(MVSIZ), EI(MVSIZ) , EK(MVSIZ),
@@ -88,7 +88,7 @@ C     REAL
      .   IXY(MVSIZ), IYZ(MVSIZ), IZX(MVSIZ),
      .   REI(MVSIZ), REK(MVSIZ), FAC, AM, BM, CM,
      .   OFF_L(MVSIZ)
-      INTEGER IPERM1(10),IPERM2(10),N1,N2
+      INTEGER IPERM1(10),IPERM2(10)
       DATA IPERM1/0,0,0,0,1,2,3,1,2,3/
       DATA IPERM2/0,0,0,0,2,3,1,4,4,4/
 C-----------------------------------------------

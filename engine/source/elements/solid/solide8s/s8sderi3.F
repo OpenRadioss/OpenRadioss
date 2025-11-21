@@ -71,7 +71,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NGL(*), I, J ,ICOR,ep
+      INTEGER NGL(*), I, J ,ICOR
 C     REAL
 C                                                                     12
       my_real
@@ -80,12 +80,12 @@ C                                                                     12
      .   Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ), 
      .   Y5(MVSIZ), Y6(MVSIZ), Y7(MVSIZ), Y8(MVSIZ),
      .   Z1(MVSIZ), Z2(MVSIZ), Z3(MVSIZ), Z4(MVSIZ), 
-     .   Z5(MVSIZ), Z6(MVSIZ), Z7(MVSIZ), Z8(MVSIZ),VOL(MVSIZ)
+     .   Z5(MVSIZ), Z6(MVSIZ), Z7(MVSIZ), Z8(MVSIZ)
      
       DOUBLE PRECISION RI(8),SI(8),TI(8),DN_R(8),DN_S(8),DN_T(8),
      .   DX_R,DX_S,DX_T,DY_R,DY_S,DY_T,DZ_R,DZ_S,DZ_T,DETM1,
      .   DETJ(MVSIZ),INVJ(9,MVSIZ),
-     .   DN_X(MVSIZ,8),DN_Y(MVSIZ,8),DN_Z(MVSIZ,8),C(6,6,MVSIZ),DETDP
+     .   DN_X(MVSIZ,8),DN_Y(MVSIZ,8),DN_Z(MVSIZ,8),DETDP
 C-----------------------------------------------
       
       DATA RI /-1.0, -1.0,  1.0,  1.0,-1.0, -1.0, 1.0, 1.0/

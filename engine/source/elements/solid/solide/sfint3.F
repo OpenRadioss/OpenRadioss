@@ -108,8 +108,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J
-      my_real S1(MVSIZ), S2(MVSIZ), S3(MVSIZ),S4(MVSIZ), S5(MVSIZ), S6(MVSIZ),FINT,FINTD,QVIS_LOC,VOL_LOC,P(MVSIZ)
+      INTEGER I
+      my_real S1(MVSIZ), S2(MVSIZ), S3(MVSIZ),S4(MVSIZ), S5(MVSIZ), S6(MVSIZ),FINT,QVIS_LOC,VOL_LOC,P(MVSIZ)
 C-----------------------------------------------
 
       !-------------------------------------------------!

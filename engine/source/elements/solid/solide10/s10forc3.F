@@ -198,8 +198,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,IP,LCO,NF1,NF2,IFLAG,IOFFS,IPTR,IPTS,IPTT,ILAY,IMAT
-      INTEGER IBID,IBIDON(1),NNEGA,INDEX(MVSIZ),ITET,iel,ISM12_11
+      INTEGER I,J,IP,NF1,NF2,IFLAG,IOFFS,IPTR,IPTS,IPTT,ILAY,IMAT
+      INTEGER IBID,IBIDON(1),ITET,ISM12_11
 C-----
       INTEGER MXT(MVSIZ),NGL(MVSIZ),NGEO(MVSIZ)
       my_real
@@ -226,13 +226,13 @@ C-----
 C     void MMAIN
       my_real
      . SIGY(MVSIZ),ET(MVSIZ),GAMA(MVSIZ,6),
-     . R1_FREE(MVSIZ),R3_FREE(MVSIZ),R4_FREE(MVSIZ)
+     . R1_FREE(MVSIZ),R3_FREE(MVSIZ)
 C For solid elements
       INTEGER NC(MVSIZ,10),ICP,MX,IPLAW1
 
       DOUBLE PRECISION
      .  XX(MVSIZ,10), YY(MVSIZ,10), ZZ(MVSIZ,10),
-     .  WXX0(MVSIZ) , WYY0(MVSIZ) , WZZ0(MVSIZ),
+     .    
      .  XX0(MVSIZ,10), YY0(MVSIZ,10), ZZ0(MVSIZ,10),VOLDP(MVSIZ,5)
 
       my_real
@@ -244,7 +244,7 @@ C For solid elements
      .  DXY(MVSIZ),DYX(MVSIZ),DYZ(MVSIZ),DZY(MVSIZ),
      .  DZX(MVSIZ),DXZ(MVSIZ),
      .  STIG(MVSIZ),  WIP(5,5), ALPH(5,5), BETA(5,5),BID(MVSIZ),
-     .  DIE(MVSIZ), MBID(1),OFFG0(MVSIZ),AMU(MVSIZ),SUM,RHO0_1,CNS2
+     .  DIE(MVSIZ),OFFG0(MVSIZ),AMU(MVSIZ),SUM,RHO0_1,CNS2
       my_real NXT4(MVSIZ,4,4)
       my_real, DIMENSION(MVSIZ) ::
      .   E1X, E1Y, E1Z, E2X, E2Y, E2Z, E3X, E3Y, E3Z
@@ -254,13 +254,13 @@ C
      .    MFXX(MVSIZ,5),MFXY(MVSIZ,5),MFYX(MVSIZ,5),
      .    MFYY(MVSIZ,5),MFYZ(MVSIZ,5),MFZY(MVSIZ,5),
      .    MFZZ(MVSIZ,5),MFZX(MVSIZ,5),MFXZ(MVSIZ,5),DIVDE(MVSIZ),
-     .    NU(MVSIZ),FAC(MVSIZ),FACP(MVSIZ),E0(MVSIZ),C1,DVM(MVSIZ),
+     .    NU(MVSIZ),FACP(MVSIZ),E0(MVSIZ),C1,DVM(MVSIZ),
      .    VISP(MVSIZ),FACDB,RBID(MVSIZ),SIGP(NEL,6),
      .    FLD(MVSIZ),STI_C(MVSIZ),LL(MVSIZ),OFFG(MVSIZ),FQMAX
 c
       my_real VARNL(NEL),DELTAX4(MVSIZ)
 c     Flag Bolt Preloading
-      INTEGER IBOLTP,NBPRELD,II(6),ISCTL,ISTAB(MVSIZ)
+      INTEGER IBOLTP,NBPRELD,ISCTL,ISTAB(MVSIZ)
       INTEGER SZ_IX
       my_real, 
      .  DIMENSION(:), POINTER :: BPRELD

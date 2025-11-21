@@ -178,7 +178,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,N,NF1,NF2,ILAY,IP,IR,IS,IT,NPTT,NPTS,NPTR,IFLAG,IBID
-      INTEGER IBIDON(1),ITET,NN_DEL,PID,IMAT
+      INTEGER IBIDON(1), NN_DEL, PID, IMAT
 
       INTEGER MXT(MVSIZ),NGL(MVSIZ),NGEO(MVSIZ), IPERM1(NPE),
      .IPERM2(NPE)
@@ -204,7 +204,7 @@ C-----------------------------------------------
       ! Variables void MMAIN 
       my_real
      . SIGY(MVSIZ),ET(MVSIZ),GAMA(MVSIZ,6),
-     . R1_FREE(MVSIZ),R3_FREE(MVSIZ),R4_FREE(MVSIZ),
+     . R1_FREE(MVSIZ),R3_FREE(MVSIZ),
      . TEMPEL(MVSIZ),DIE(MVSIZ),THEM(MVSIZ,NPE)
       my_real, dimension(mvsiz) :: fheat
      
@@ -221,7 +221,7 @@ C-----------------------------------------------
 C-----------------------------------------------
       TYPE(L_BUFEL_) ,POINTER :: LBUF     
       TYPE(G_BUFEL_) ,POINTER :: GBUF     
-      TYPE(BUF_MAT_) ,POINTER :: MBUF     
+ 
 c------------------------------------------------------------
       my_real
      .  W_GAUSS(9,9),A_GAUSS(9,9)
