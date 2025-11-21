@@ -51,12 +51,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J,EP
+      INTEGER I,EP
       my_real
      .     AREAI(MVSIZ),
      .     AL1(MVSIZ), AL2(MVSIZ), AL3(MVSIZ), ALMAX, ALMIN
       MY_REAL
-     .   X32(MVSIZ), Y32(MVSIZ),AL4, AL5, AL6,AH(MVSIZ),
+     .   X32(MVSIZ), Y32(MVSIZ),AH(MVSIZ),
      .   H1(MVSIZ),H2(MVSIZ),H3(MVSIZ),H4(MVSIZ),H5(MVSIZ),H6(MVSIZ),
      .   C1(MVSIZ),C2(MVSIZ),C3(MVSIZ),S1(MVSIZ),S2(MVSIZ),S3(MVSIZ),
      .   H14(MVSIZ),H24(MVSIZ),H25(MVSIZ),H35(MVSIZ),H4D,H5D,H6D,
@@ -66,7 +66,7 @@ C-----------------------------------------------
      .   BETA36(MVSIZ),BETA16(MVSIZ),AL61,AL63,X61,Y61
       MY_REAL
      .   C11(MVSIZ,3,3), C21(MVSIZ,3,3),C22(MVSIZ,3),B11,B12,B13,
-     .   B21,B22,B23,B31,B32,B33,B1,B2,B3,H15,H26,H34,FAC
+     .   B21,B22,B23,B31,B32,B33,H15,H26,H34,FAC
 c     .   EM20,ONE,HALF,TWO,EP20,ZEP6
 c      DATA  EM20/1.E-20/,ONE/1.0/,HALF/0.5/,TWO/2.0/,EP20/1.E+20/,
 c     .      ZEP6/0.6/

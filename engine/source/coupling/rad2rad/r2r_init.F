@@ -115,9 +115,9 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-        INTEGER I, J, IEX, IDP, IDG, NNG, OFC,NFTC,INFO,TYP,ITSK
-        INTEGER OMP_GET_THREAD_NUM,NUM_SOCK,SIZE_TAG_RBY,LENR,SIZE
-        INTEGER NN,N,SUM,PPID,IDEL_LOC,NSN_GLOB,COMPT
+        INTEGER I, J, IEX, IDP, IDG, NNG, OFC,NFTC,INFO,ITSK
+        INTEGER NUM_SOCK,SIZE_TAG_RBY,LENR,SIZE
+        INTEGER NN,N,PPID,IDEL_LOC,NSN_GLOB,COMPT
         INTEGER, DIMENSION(:), ALLOCATABLE :: NDOF_NL
         CHARACTER*35 ADDR
 C
@@ -913,7 +913,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-        INTEGER LRBUF,I,N,J,IDRBY(NNG),IBUF(NGLOB),IBUF2(NGLOB),
+        INTEGER I,N,J,IDRBY(NNG),IBUF(NGLOB),IBUF2(NGLOB),
      .          ID_RB
         my_real
      .          BUFR1(NGLOB),BUFR2(NGLOB),BUFR3(3*NGLOB),BUFR4(9*NGLOB),
@@ -1014,7 +1014,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-        INTEGER I,J,K,N,ID,NOD,W,TAG(NRBODY)
+        INTEGER I,J,N,ID,NOD,TAG(NRBODY)
         my_real RBYL(NRBY),XIIN
 C
 C******************************************************************************C

@@ -163,10 +163,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, N, MAX_M,IROTG,JT(3,NRBE3),JR(3,NRBE3),IERR,NMT,
-     .        IADA,IADMS,IADFN,IADAR,IADIN,IADFR,IADM0,IADI0,IADL,
-     .        IPA,IPMS,IPFN,IPAR,IPIN,IPFR,NMP,IADLP,NS,NML,ICOM,
-     .        IADLP1,IADM1,IADI1,NMT0,IADMP(SLRBE3/2),IML(SLRBE3/2),
+      INTEGER    MAX_M,IROTG,JT(3,NRBE3),JR(3,NRBE3),NMT,
+     .        IADA,IADMS,IADFN,IADAR,IADIN,IADFR,IADL,
+     .        IPA,IPMS,IPFN,IPAR,IPIN,IPFR,NMP,IADLP,ICOM,
+     .        NMT0,IADMP(SLRBE3/2),IML(SLRBE3/2),
      .        ISIZE
 C     REAL
 C------------allacation will be removed to ini_ uniforming smp spmd in v11
@@ -272,8 +272,8 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, N, M, NS ,NML, IAD,JJ,IROT,IADS,MAX_M,IROTG,
-     .        JT(3,NRBE3),JR(3,NRBE3),NM,NN,K,
+      INTEGER I, J, N, M, NS ,NML, IAD,IROT,IADS,MAX_M,IROTG,
+     .        JT(3,NRBE3),JR(3,NRBE3),K,
      .        NMT,NMT0,IADMP(SLRBE3/2),IML(SLRBE3/2)
 C     REAL
       my_real 
@@ -370,10 +370,10 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, N, MAX_M,IROTG,JT(3,NRBE3),JR(3,NRBE3),IERR,NMT,
-     .        IADA,IADMS,IADFN,IADAR,IADIN,IADFR,IADM0,IADI0,IADL,
-     .        IPA,IPMS,IPFN,IPAR,IPIN,IPFR,NMP,IADLP,NS,NML,ICOM,
-     .        IADLP1,IADM1,IADI1,NMT0,IADMP(SLRBE3/2),IML(SLRBE3/2),
+      INTEGER    MAX_M,IROTG,JT(3,NRBE3),JR(3,NRBE3),NMT,
+     .        IADA,IADMS,IADFN,IADAR,IADIN,IADFR,IADL,
+     .        IPA,IPMS,IPFN,IPAR,IPIN,IPFR,NMP,IADLP,ICOM,
+     .        NMT0,IADMP(SLRBE3/2),IML(SLRBE3/2),
      .        ISIZE
 C     REAL
 C------------allacation will be removed to ini_ uniforming smp spmd in v11
@@ -614,7 +614,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, K, M, N, NS
+      INTEGER I, J, K, M
 C     REAL
       my_real
      .   DD

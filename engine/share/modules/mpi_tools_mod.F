@@ -108,7 +108,6 @@ C-----------------------------------------------
       INTEGER P,IERROR
       INTEGER MSGTYP
 #ifdef MPI
-      INTEGER STATUS (MPI_STATUS_SIZE)
 
 !     Loop on send and Recv : NSPMD*NSPMD communications
 !     Since there is not collective asynchronous communication
@@ -206,7 +205,6 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER P,PMIN,IERROR
-      INTEGER MSGTYP
 #ifdef MPI
       INTEGER STATUS (MPI_STATUS_SIZE)
 

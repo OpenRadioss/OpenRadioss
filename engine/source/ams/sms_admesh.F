@@ -59,8 +59,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER N, NN, LEVEL, IP, NLEV
-      INTEGER SON,M1,M2,M3,M4,MC,N1,N2,N3,N4,J,K
+      INTEGER N, NN, LEVEL
+      INTEGER SON,M1,M2,M3,M4,MC,N1,N2,N3,N4
       INTEGER,DIMENSION(:),ALLOCATABLE :: LKINNOD
       my_real
      .        A1,A2,A3,A4,AC
@@ -209,8 +209,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER N, NN, LEVEL, IP, NLEV
-      INTEGER SON,M1,M2,M3,M4,MC,N1,N2,N3,N4,J,K
+      INTEGER N, NN, LEVEL
+      INTEGER SON,M1,M2,M3,M4,MC,N1,N2,N3,N4,J
       INTEGER,DIMENSION(:),ALLOCATABLE :: LKINNOD
 
       my_real
@@ -374,8 +374,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER N, NN, LEVEL, IP, NLEV
-      INTEGER SON,M1,M2,M3,M4,MC,N1,N2,N3,N4,J,K,NA,NB
+      INTEGER N, NN, LEVEL
+      INTEGER SON,M1,M2,M3,M4,MC,N1,N2,N3,N4,J,NA,NB
       INTEGER LL, SH4FT, SH4LT, SH3FT, SH3LT
 C-----------------------------------------------
 C

@@ -163,9 +163,9 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 c  Indx uses locally unlike 4N shells 
       INTEGER MAT(MVSIZ),PID(MVSIZ),NGL(MVSIZ),INDX(MVSIZ),FWAVE_EL(NEL),
-     .   IFLAG,LENF,LENM,LENS,IR,IS,IT,IPT,NPTT,N1,N2,N3,IMAT,
-     .   I,II,J,JJ,NG,NPG,NNOD,NPTR,NPTS,NLAY,L_DIRA,L_DIRB,IFAILWAVE,
-     .   PT0,PT1,PT2,PT3,PTF,PTM,PTE,PTEP,PTS,IGTYP,IBID,J1,J2,
+     . LENF,LENM,LENS,IR,IS,IT,NPTT,IMAT,
+     . I,J,NG,NPG,NNOD,NLAY,L_DIRA,L_DIRB,IFAILWAVE,
+     . PT1,PT2,PT3,PTF,PTM,PTS,IGTYP,IBID,J1,J2,
      .   IGMAT,ILAY,NPTTOT,IREP,KK(5),K,IDRAPE,ACTIFXFEM,SEDRAPE,NUMEL_DRAPE
       INTEGER, DIMENSION(NEL) :: OFFLY
       PARAMETER (NPG = 3)
@@ -182,7 +182,7 @@ c  Indx uses locally unlike 4N shells
      .   NU(MVSIZ) , SHF(MVSIZ), DT1C(MVSIZ),
      .   G(MVSIZ)   , YM(MVSIZ)  , A11(MVSIZ)   , A12(MVSIZ),
      .   VOL0(MVSIZ),THK02(MVSIZ),ZCFAC(MVSIZ,2), GS(MVSIZ),
-     .   VOL00(MVSIZ),ALPE(MVSIZ),A_HAMMER(3,2),ONE_OVER_3,O2_3TH,
+     . VOL00(MVSIZ),ALPE(MVSIZ),A_HAMMER(3,2),
      .   R11(MVSIZ),R12(MVSIZ),R13(MVSIZ),R21(MVSIZ),R22(MVSIZ),
      .   R23(MVSIZ),R31(MVSIZ),R32(MVSIZ),R33(MVSIZ),ALDT(MVSIZ),
      .   VLX(MVSIZ,2),VLY(MVSIZ,2),VLZ(MVSIZ,2),RLX(MVSIZ,3),RLY(MVSIZ,3),
@@ -190,14 +190,14 @@ c  Indx uses locally unlike 4N shells
      .   BZ1(MVSIZ,2),BZ2(MVSIZ,2),BZ3(MVSIZ,2), BRX1(MVSIZ,3),
      .   BRX2(MVSIZ,3),BRX3(MVSIZ,3),BRY1(MVSIZ,3),BRY2(MVSIZ,3),
      .   BRY3(MVSIZ,3),AMU(MVSIZ),CDET(MVSIZ),VDEF(MVSIZ,8),DIE(MVSIZ), 
-     .   TEMPEL(MVSIZ),KRZ(MVSIZ),DIR1_CRK(NPT,MVSIZ),
-     .   DIR2_CRK(NPT,MVSIZ),CONDE(MVSIZ),A11R(MVSIZ)
+     . TEMPEL(MVSIZ),KRZ(MVSIZ),
+     . CONDE(MVSIZ),A11R(MVSIZ)
       my_real, 
      .   DIMENSION(1),TARGET :: BID
       my_real
-     .   X1G(MVSIZ), X2G(MVSIZ), X3G(MVSIZ),
-     .   Y1G(MVSIZ), Y2G(MVSIZ), Y3G(MVSIZ),
-     .   Z1G(MVSIZ), Z2G(MVSIZ), Z3G(MVSIZ),
+     .
+     .
+     .
      .   X2L(MVSIZ),Y2L(MVSIZ),X3L(MVSIZ),Y3L(MVSIZ)
        my_real , DIMENSION(NEL) ::  ZOFFSET
       my_real, 
@@ -217,9 +217,9 @@ C--- Variables for non-local
       INTEGER SDIR_A    ! Size of DIR_A
       INTEGER SDIR_B    ! Size of DIR_B
 C-----
-      TYPE(BUF_LAY_) ,POINTER :: BUFLY
+ 
       TYPE(G_BUFEL_) ,POINTER :: GBUF
-      TYPE(L_BUFEL_) ,POINTER :: LBUF1,LBUF2,LBUF3 ,LBUF
+ 
       TYPE(L_BUFEL_DIR_) ,POINTER :: LBUF_DIR    
 C-----------------------------------------------
       DATA A_HAMMER / 

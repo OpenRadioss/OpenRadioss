@@ -114,14 +114,14 @@ c  O   GS(NEL)           - out of plane shear isotropic shear modulus (for QEPH 
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,MX,IPID,J,J2,J3,JJ,NEL,L,IGMAT,IPGMAT,
+      INTEGER I,MX,IPID,J,J2,J3,JJ,NEL,IGMAT,IPGMAT,
      .        LAYNPT_MAX, NLAY_MAX,ILAY
 C     REAL
       my_real
      .   SHF(MVSIZ),NU(MVSIZ),G(MVSIZ),YM(MVSIZ),A11(MVSIZ),A12(MVSIZ),
-     .   E11,E22,NU12,G31,G23,A22,WMC,FACG,COEF,WM
+     .   WMC,FACG,COEF,WM
       my_real
-     .   FAC(MVSIZ),HMLY(MVSIZ,4),HCLY(MVSIZ,2), HMORLY(MVSIZ,2),SFAC(MVSIZ)
+     .   HMLY(MVSIZ,4),HCLY(MVSIZ,2), HMORLY(MVSIZ,2),SFAC(MVSIZ)
       INTEGER, DIMENSION(:)   , ALLOCATABLE :: MATLY   !! 
       my_real, DIMENSION(:)   , ALLOCATABLE :: THKLY   !! 
       my_real, DIMENSION(:,:) , ALLOCATABLE :: POSLY,THK_LY  
@@ -417,10 +417,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J
+      INTEGER I
       my_real
      .  M2(MVSIZ),N2(MVSIZ),MN(MVSIZ),M4(MVSIZ),N4(MVSIZ),
-     .  MN2(MVSIZ),CM(6),CC(2),T1,T2,T3
+     .  MN2(MVSIZ),CM(6),T1,T2,T3
 C-----------------------------------------------
       DO I=JFT,JLT
        M2(I)= DIR(I,1)*DIR(I,1)
@@ -486,7 +486,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,MX
+      INTEGER I,MX
       my_real
      .   G,A11,A12,E11,E22,NU12,G31,G23,A22
 C-----------------------------------------------
@@ -547,7 +547,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,MX,J,K
+      INTEGER I,J
       TYPE(L_KTBUFEP_)    , POINTER :: SKBUF
 C-----------------------------------------------
        IF (IKT==0) RETURN
@@ -630,14 +630,14 @@ c                          (1:C11,2:C22,3:C12,4:G,5:C13,6:C23)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,MX,IPID,J,J2,J3,JJ,L,IR,IS,IT,IPLAS,IR4(4),IS4(4),NEL
+      INTEGER I,MX,J,IR,IS,IT,IPLAS,IR4(4),IS4(4),NEL
 C     REAL
       my_real
      .   NU,G,YM,A11,A12,BETA,
      .   THETA1,THETA2,HK(MVSIZ),HH(MVSIZ),DHK(MVSIZ),DHH(MVSIZ),
      .   GAMA(MVSIZ),C11(MVSIZ),C12(MVSIZ),C33(MVSIZ),SIG(MVSIZ,3),
      .   SIGM(MVSIZ,3),COEF,WM0,WF0,AA,B11,B12,D11,D12,DET,F_Y2,SPS,
-     .   NORM,CEP11,CEP12,CEP13,CEP23,CEP22,CEP33,FAC(MVSIZ),
+     .   CEP11,CEP12,CEP13,CEP23,CEP22,CEP33,FAC(MVSIZ),
      .   NORM_1(MVSIZ)
       TYPE(L_KTBUFEP_)    , POINTER :: LBUF
       TYPE(MLAW_TAG_)     , POINTER :: MTAG
@@ -866,10 +866,10 @@ c  I   IDRIL             - flag of using drilling dof
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,MX,IPID,J,J2,J3,JJ,NEL,L,IGMAT,IPGMAT,IGTYP
+      INTEGER I,MX,IGMAT,IPGMAT,IGTYP
       my_real
      .   NU(MVSIZ),G(MVSIZ),YM(MVSIZ),A11(MVSIZ),A12(MVSIZ),
-     .   E11,E22,NU12,G31,G23,A22,WMC,FACG,COEF,WM
+     .   FACG,COEF
       my_real
      .   FAC(MVSIZ)
 C-----------------------------------------------
@@ -959,10 +959,10 @@ c FUNCTION:   stiffness modulus matrix after integration
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,M,EP
+      INTEGER M,EP
 C     REAL
       my_real
-     .   C1,C2,FAC
+     .   C1,C2
 C-----------------------------------------------
 #include "vectorize.inc"
 C-----------------------

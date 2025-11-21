@@ -71,7 +71,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-        INTEGER NSN, NA, NB, I, N
+        INTEGER  NA, NB, I, N
 C     REAL
         my_real :: N1,N2,N3,S,XX, YY, ZZ, RR,A0
         my_real :: MASSE, INER 

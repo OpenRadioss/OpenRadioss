@@ -69,8 +69,8 @@ C
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NB1, NB2, NB3, NB4, NB5, NB6, NB7, NB8, NB10, 
-     .        NB11, NB12,NB13, NB14, I ,J
+      INTEGER         
+     .           I 
       INTEGER  MAT(MVSIZ),PID(MVSIZ),NGL(MVSIZ)
       my_real
      .    YM(MVSIZ),G(MVSIZ),AL(MVSIZ),ALI(MVSIZ),
@@ -142,7 +142,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
-      INTEGER EP,I,J
+      INTEGER EP,I
       MY_REAL 
      .    H(MVSIZ)
 C-----------

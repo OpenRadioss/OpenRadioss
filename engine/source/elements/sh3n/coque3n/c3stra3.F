@@ -68,12 +68,12 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER ISH(MVSIZ),
-     .        I, MX, J
+      INTEGER 
+     .        I, J
 C     REAL
       my_real
-     .   FSH(MVSIZ),
-     .   THK2 ,FAC1, FAC2, FC1P
+     .   
+     .   FAC1
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
 C
       IF(IEPSDOT/=0)THEN

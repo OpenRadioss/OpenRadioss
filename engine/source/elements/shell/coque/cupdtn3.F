@@ -536,7 +536,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 C ds 41i 001 13/16/00 +1
 C     INTEGER I, II, K
-      INTEGER I, II, K, J, MX,MT
+      INTEGER I, K
       my_real
      .   OFF_L
 C-----------------------------------------------

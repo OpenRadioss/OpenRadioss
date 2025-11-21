@@ -55,7 +55,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J
+      INTEGER I
 C     REAL
       my_real
      .   F1, F2, F3, F4, F5, M1, M2, M3, M4, M5, TH2
@@ -173,7 +173,7 @@ C-----------------------------------------------
         INTEGER I ,J ,NG,NPG
        PARAMETER (NPG = 3)
         my_real
-     .     S1, C2, ERZ,OFF05(MVSIZ),BRZ(MVSIZ,3),VRLZ(MVSIZ),
+     .      C2, ERZ,OFF05(MVSIZ),BRZ(MVSIZ,3),VRLZ(MVSIZ),
      .     FX1,FX2,FY1,SRZM(MVSIZ),A_HAMMER(NPG,2),A05(MVSIZ),
      .     THK_6(MVSIZ),BN1RZ,BN2RZ,BN3RZ
       DATA A_HAMMER /

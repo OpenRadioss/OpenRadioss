@@ -180,7 +180,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER K, K1, N, ISK, I, IC, IPOL, KIND(NLINK)
+      INTEGER K, N, ISK, I, IC, IPOL, KIND(NLINK)
 C-----------------------------------------------
 C
 C Pre calcul index
@@ -293,7 +293,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NSN, IC, IFLAG, IDOWN, NCNOD, PMAIN, TAG_LNK
+      INTEGER NSN, IC, IFLAG, IDOWN, PMAIN, TAG_LNK
       INTEGER NOD(*),WEIGHT(*), ITAB(*)
 C     REAL
       my_real
@@ -302,10 +302,10 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, IJ, N, K
+      INTEGER I, N, K
 C     REAL
       my_real
-     .   MASS, AX, AY, AZ, XNSN,
+     .   MASS, AX, AY, AZ,
      .   F1(NSN), F2(NSN), F3(NSN), F4(NSN)
 C-----------------------------------------------
       SELECT CASE(IDOWN)
@@ -457,7 +457,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NSN, IC, IFLAG, IDOWN, PMAIN, TAG_LNK
-      INTEGER NOD(*),WEIGHT(*), ITAB(*), ISK
+      INTEGER NOD(*),WEIGHT(*), ITAB(*)
 C     REAL
       my_real
      .   MS(*), A(3,*),SKEW(*), FRL(4)
@@ -469,7 +469,7 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   MASS, AX, AY, AZ, DAX, DAY, DAZ, AAX, AAY,
-     .   AAZ, XNSN,
+     .   AAZ,
      .   F1(NSN), F2(NSN), F3(NSN), F4(NSN)
 C-----------------------------------------------
       SELECT CASE(IDOWN)
@@ -655,8 +655,8 @@ C-----------------------------------------------
       INTEGER IC1, ICC, IC2, IC3, I, N, K
 C     REAL
       my_real
-     .   MASS, AX, AY, AZ, DAX, DAY, DAZ, AAX, AAY,
-     .   AAZ, RX, RY, RZ, SX, SY, SZ,
+     .   MASS, AX, AY, AZ,
+     .    RX, RY, RZ, SX, SY, SZ,
      .   TX, TY, TZ, OX, OY, OZ, AA, R2, ATR2,RX0, RY0, RZ0, R,
      .   MR2, ATMR2,
      .   F1(NSN), F2(NSN), F3(NSN), F4(NSN), F5(NSN)

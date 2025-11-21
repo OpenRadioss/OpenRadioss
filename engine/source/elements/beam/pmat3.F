@@ -54,7 +54,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,MX,IPID,J
+      INTEGER I
 C     REAL
       my_real
      .   SHF(MVSIZ),SH,YMA2,ALI2,SH10,SH0,SH20

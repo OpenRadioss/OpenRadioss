@@ -56,7 +56,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NPC(*),NDDIM,NVDIM,NSENSOR
+      INTEGER NPC(*),NSENSOR
       INTEGER IGRV(NIGRV,*),IB(*)
       INTEGER WEIGHT(*), ITASK, TAGSLV_RBY_SMS(*)
       my_real
@@ -69,7 +69,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NL, N1, ISK, N2, IFUNC, K1, K2, K3, ISENS,K,NN,IAD,J, IADF, IADL
-      my_real NX, NY, NZ, AXI, A0, AA, VV, FX, FY, FZ, AX,  TS,GAMA, WFEXTT,FCX,FCY
+      my_real    A0, AA, VV,  TS,GAMA, WFEXTT,FCX,FCY
       my_real,EXTERNAL :: FINTER
 C=======================================================================
       WFEXTT=ZERO

@@ -59,7 +59,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
-      INTEGER PT,PT00,PT0,I,J,EP,IUN,NG1,K
+      INTEGER I, EP, IUN
       MY_REAL 
      .   VPG(2,NPG),PG1,PG,THK,DETJ,DET,
      .   TFN(3,2),BCX,BCY,BXY(3),BYX(3),
@@ -741,7 +741,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
-        INTEGER I ,J,EP
+        INTEGER I, EP
 C
        DO EP=JFT,NPLAT 
         I=IPLAT(EP)
@@ -790,7 +790,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
-      INTEGER I,J,EP
+      INTEGER I, EP
       my_real 
      .   MX13(MVSIZ),MX23(MVSIZ),MX34(MVSIZ),MY13(MVSIZ),
      .   MY23(MVSIZ),MY34(MVSIZ),A1(MVSIZ),
@@ -1099,7 +1099,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
-      INTEGER I,J,EP,NPG,NG,IAC
+      INTEGER I, J, NPG, NG, IAC
       PARAMETER (NPG = 4)
       my_real
      .   BM0RZM(MVSIZ,4,4),J1,J2,J0,JAC(MVSIZ,4),DET,JK_A,JE_A
@@ -1220,7 +1220,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
-      INTEGER PT,PT00,PT0,I,J,EP,IUN,NG1,K
+      INTEGER I, EP
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
 #include "vectorize.inc"
        DO I=JFT,NPLAT 
@@ -1291,7 +1291,7 @@ C---VDEF: 1:8 exx eyy,exy,eyx,byx,bxx,byy,bxy
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
-      INTEGER PT,PT00,PT0,I,J,EP,IUN,NG1,K
+      INTEGER I, EP
 C
       MY_REAL 
      .   A_1,C11,C12,C21,C22,CDEMI
@@ -1451,7 +1451,7 @@ C---VDEF: 1:8 exx eyy,exy,eyx,byx,bxx,byy,bxy
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
-      INTEGER PT,PT00,PT0,I,J,EP,IUN,NG1,K
+      INTEGER I, EP
 C
       MY_REAL 
      .   A_1,C11,C12,C21,C22,CDEMI
@@ -1543,7 +1543,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
-      INTEGER PT,PT00,PT0,I,J,EP,IUN,NG1,K
+      INTEGER I, EP, IUN
       MY_REAL 
      .   VPG(2,NPG),PG1,PG,THK,DETJ,DET,
      .   TFN(3,2),BCX,BCY,BXY(3),BYX(3),
@@ -1782,7 +1782,7 @@ C---VDEF: 1:8 exx eyy,exy,eyx,byx,bxx,byy,bxy
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
-      INTEGER I,J,EP,K
+      INTEGER I, EP
 C
       MY_REAL 
      .   A_1,C11,C12,C21,C22,CDEMI,KXY,KYX

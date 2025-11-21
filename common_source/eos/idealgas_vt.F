@@ -83,7 +83,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-        INTEGER I, MX
+        INTEGER I
         my_real :: P0,GAMMA
         my_real :: r_GAS,A0,A1,A2,A3,A4,CP(NEL),CV
         my_real :: TEMP, FUN, DFUN, TOL, ERROR, INCR

@@ -224,7 +224,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER K, N, ISK, I, J, M, JT(3,NRBE2),JR(3,NRBE2),
+      INTEGER  N, ISK, I, M, JT(3,NRBE2),JR(3,NRBE2),
      .        IAD, NS, NSN, MID, NHI, IRAD
 C-----------------------------------------------
       CALL PRERBE2(IRBE2 ,JT  ,JR   )
@@ -294,8 +294,8 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER K, N, ISK, I, J, M, ISIZE, JT(3,NRBE2),JR(3,NRBE2),
-     .        IAD, NS, ICOM, NSN, MID, NHI, IRAD
+      INTEGER K, N, ISK, J, M, ISIZE, JT(3,NRBE2),JR(3,NRBE2),
+     .        IAD, ICOM, NSN, MID, NHI, IRAD
       DOUBLE PRECISION
      .   FRBE2M6(3,6,NMRBE2)
 C-----------------------------------------------
@@ -385,8 +385,8 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER K, N, ISK, I, J, M, ISIZE, JT(3,NRBE2),JR(3,NRBE2),
-     .        IAD, NS, ICOM, NSN, MID, NHI, IRAD
+      INTEGER  N, ISK, M, JT(3,NRBE2),JR(3,NRBE2),
+     .        IAD, NSN, IRAD
 C-----------------------------------------------
       CALL PRERBE2(IRBE2 ,JT  ,JR   )
 C
@@ -436,8 +436,8 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER K, N, ISK, I, J, M, ISIZE, JT(3,NRBE2),JR(3,NRBE2),
-     .        IAD, NS, ICOM, NSN, MID, NHI, IRAD
+      INTEGER  N, ISK, M, JT(3,NRBE2),JR(3,NRBE2),
+     .        IAD, NSN, IRAD
 C-----------------------------------------------
       CALL PRERBE2(IRBE2 ,JT  ,JR   )
 C
@@ -489,8 +489,8 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER K, N, ISK, I, J, M, ISIZE, JT(3,NRBE2),JR(3,NRBE2),
-     .        IAD, NS, ICOM, NSN, MID, NHI, IRAD
+      INTEGER K, N, ISK, J, M, ISIZE, JT(3,NRBE2),JR(3,NRBE2),
+     .        IAD, ICOM, NSN, MID, NHI, IRAD
       my_real
      .        DD
       DOUBLE PRECISION
@@ -581,7 +581,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, N, K, IJT, JT1(3), IC
+      INTEGER I, N, K, IJT, JT1(3), IC
 C     REAL
       my_real
      .   F1(NSL), F2(NSL), F3(NSL), RX, RY, RZ, CDT(9)
@@ -662,7 +662,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, N, IJT
+      INTEGER I, N, IJT
 C     REAL
       my_real
      .   AAX, AAY, AAZ
@@ -727,7 +727,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, N, IJT
+      INTEGER I, N, IJT
 C     REAL
       my_real
      .     AAX, AAY, AAZ, DAX, DAY, DAZ
@@ -800,7 +800,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, N, IJT
+      INTEGER I, N, IJT
 C     REAL
       my_real
      .     AAX, AAY, AAZ, DAX, DAY, DAZ
@@ -875,7 +875,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, N, K, IJT, JT1(3), IC
+      INTEGER I, N, K, IJT, JT1(3), IC
 C     REAL
       my_real
      .   F1(NSL), F2(NSL), F3(NSL), RX, RY, RZ, CDT(9)
@@ -957,7 +957,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, K, N, NS ,NML, IAD,JJ,M,MID,IROT,IRAD
+      INTEGER  J, K, N ,M,MID,IRAD
 C======================================================================|
 #include    "vectorize.inc"
       DO N=1,NRBE2

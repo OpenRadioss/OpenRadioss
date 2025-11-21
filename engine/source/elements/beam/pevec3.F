@@ -55,18 +55,17 @@ C-----------------------------------------------
      .   RLOC(3,*),R(3,*),AL(*),X1(MVSIZ),X2(MVSIZ),X3(MVSIZ),
      .   Y1(MVSIZ),Y2(MVSIZ),Y3(MVSIZ),Z1(MVSIZ),Z2(MVSIZ),
      .   Z3(MVSIZ),RX1G(MVSIZ),RX2G(MVSIZ),RY1G(MVSIZ),RY2G(MVSIZ),
-     .   RZ1G(MVSIZ),RZ2G(MVSIZ),RX1(MVSIZ),RX2(MVSIZ),RY1(MVSIZ),RY2(MVSIZ),
-     .   RZ1(MVSIZ),RZ2(MVSIZ),E1X(MVSIZ),E1Y(MVSIZ),E1Z(MVSIZ),E2X(MVSIZ),
+     . RZ1G(MVSIZ),RZ2G(MVSIZ),RX1(MVSIZ),RX2(MVSIZ),
+     . E1X(MVSIZ),E1Y(MVSIZ),E1Z(MVSIZ),E2X(MVSIZ),
      .   E2Y(MVSIZ),E2Z(MVSIZ),E3X(MVSIZ),E3Y(MVSIZ),E3Z(MVSIZ)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J
+      INTEGER I
       my_real
      .   SUM(MVSIZ), 
      .   THETA, SUM2(MVSIZ), SUM3(MVSIZ), COST(MVSIZ),
-     .   SINT(MVSIZ), R1PHI, R2PHI, THETAPHI, SUM2PHI, SUM3PHI, COPHI,
-     .   SIPHI, SINPHI, COSPHI, SUMPHI
+     . SINT(MVSIZ)
 C--------------------------------------------
       DO I=1,NEL
         RX1G(I)=R(1,NC1(I))

@@ -83,8 +83,8 @@ C-----------------------------------------------
      .    FXX(MVSIZ),FYY(MVSIZ),DM5(MVSIZ),DM6(MVSIZ),DF5(MVSIZ),
      .    FXY(MVSIZ),FXY2(MVSIZ),KM12,KM21,
      .    DF6(MVSIZ),DM5_2(MVSIZ),DM6_2(MVSIZ),DF5_2(MVSIZ),
-     .    DF6_2(MVSIZ),DMF(3,3,MVSIZ),FAC2Z,CBR1(4,MVSIZ),
-     .    CBR2(4,MVSIZ),CBR3(4,MVSIZ),BB0(2,2,MVSIZ),T0IJ(2,2,MVSIZ),
+     .    DF6_2(MVSIZ),DMF(3,3,MVSIZ),
+     .    BB0(2,2,MVSIZ),T0IJ(2,2,MVSIZ),
      .    T1IJ(2,2,MVSIZ)
        DATA IN/2,1/
 C----------- CAPTE Matrix Sym KII only calculates half ---------- 72
@@ -1799,10 +1799,10 @@ C-----------------------------------------------
      .    T11(3,3,MVSIZ),T12(3,3,MVSIZ),T13(3,3,MVSIZ),T14(3,3,MVSIZ),
      .    T22(3,3,MVSIZ),T23(3,3,MVSIZ),T24(3,3,MVSIZ),T33(3,3,MVSIZ),
      .    T44(3,3,MVSIZ),T34(3,3,MVSIZ),
-     .    BB(2,4,MVSIZ),GM(MVSIZ),BMRZ1(MVSIZ,4,4),BMRZ2(MVSIZ,4,4),
+     .    BB(2,4,MVSIZ),BMRZ1(MVSIZ,4,4),BMRZ2(MVSIZ,4,4),
      .    BMRZ3(MVSIZ,4,4),DHZ(MVSIZ),
      .    DM(3,3,MVSIZ),DPRZ(4,MVSIZ),PX(4,MVSIZ),PY(4,MVSIZ),
-     .    C1,C2,CBRX(4,MVSIZ),CBRY(4,MVSIZ),CBRZ(4,MVSIZ),FRZV(MVSIZ)
+     .    C2,CBRX(4,MVSIZ),CBRY(4,MVSIZ),CBRZ(4,MVSIZ),FRZV(MVSIZ)
       my_real
      .   PRX(4,MVSIZ),PRY(4,MVSIZ),PRXY(4,MVSIZ),PRZ(4,MVSIZ),
      .   DMF(3,3,MVSIZ),CBR1(4,MVSIZ),CBR2(4,MVSIZ),CBR3(4,MVSIZ)
