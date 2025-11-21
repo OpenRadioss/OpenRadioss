@@ -231,6 +231,7 @@
           use hm_read_mat127_mod
           use hm_read_mat128_mod
           use hm_read_mat129_mod
+          use hm_read_mat130_mod
           use hm_read_mat133_mod , only : hm_read_mat133
           use hm_read_mat134_mod
           use hm_read_mat163_mod
@@ -1213,6 +1214,13 @@
               call hm_read_mat129(mat_param(mat_number),          &
                 mtag     ,parmat   ,nuvar    ,nvartmp  ,            &
                 ntable   ,table    ,iout     ,unitab   ,lsubmodel)
+!-------
+             case ('LAW130','MODIFIED_HONEYCOMB')
+              ilaw  = 130
+              call hm_read_mat130(&
+                mat_param(mat_number),nuvar  ,mtag     ,iout     ,&
+                parmat   ,unitab   ,lsubmodel,israte   ,mat_id   ,&
+                titr     ,table    ,ntable   ,nvartmp  ,imatvis  )
 !-------
              case ('LAW133','GRANULAR')
               ilaw = 133
