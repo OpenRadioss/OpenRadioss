@@ -64,7 +64,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I ,NCH,INDEX(MVSIZ),J ,N   ,IP
+      INTEGER I ,NCH,INDEX(MVSIZ),J    ,IP
 C     REAL
       my_real
      .   PX(MVSIZ,10,5),PY(MVSIZ,10,5),PZ(MVSIZ,10,5)

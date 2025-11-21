@@ -198,7 +198,7 @@ C
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER K,I,IBID,ILCO,NF1,IFLAG,IPTR,IPTS,IPTT,ILAY,IMAT
+      INTEGER I,IBID,NF1,IFLAG,IPTR,IPTS,IPTT,ILAY,IMAT
       INTEGER IBIDON(1),ITET,IP
       my_real SUM
       INTEGER MXT(MVSIZ),NGL(MVSIZ),NGEO(MVSIZ)
@@ -233,9 +233,9 @@ C-----------------------------------------------
 
       ! Variables void MMAIN 
       my_real
-     . SIGY(MVSIZ),ET(MVSIZ),R3_FREE(MVSIZ),R4_FREE(MVSIZ)
+     . SIGY(MVSIZ),ET(MVSIZ),R3_FREE(MVSIZ)
       ! variables used only in solid routines (as arguments)
-      INTEGER NC1(MVSIZ), NC2(MVSIZ), NC3(MVSIZ), NC4(MVSIZ),MAT(MVSIZ)
+      INTEGER NC1(MVSIZ), NC2(MVSIZ), NC3(MVSIZ), NC4(MVSIZ)
       my_real
      .  OFF(MVSIZ) , RHOO(MVSIZ),OFFG0(MVSIZ) ,
      .   X1(MVSIZ), X2(MVSIZ), X3(MVSIZ), X4(MVSIZ),
@@ -263,7 +263,7 @@ C-----------------------------------------------
      .  MFXX(MVSIZ),MFXY(MVSIZ),MFYX(MVSIZ),
      .  MFYY(MVSIZ),MFYZ(MVSIZ),MFZY(MVSIZ),
      .  MFZZ(MVSIZ),MFZX(MVSIZ),MFXZ(MVSIZ),BID(MVSIZ),AMU(MVSIZ),
-     .  FLD(MVSIZ),STI_C(MVSIZ),CAQ,LL(MVSIZ),C1,MU,FQMAX
+     .  FLD(MVSIZ),STI_C(MVSIZ),LL(MVSIZ),MU,FQMAX
       my_real, 
      .  DIMENSION(:), POINTER :: EINT
       my_real, dimension(mvsiz) :: fheat
@@ -278,7 +278,7 @@ C
 
 C----- 
 c     Flag Bolt Preloading
-      INTEGER IBOLTP,NBPRELD,II(6),ISCTL,ISTAB(MVSIZ),PID,MX,SZ_IX
+      INTEGER IBOLTP,NBPRELD,ISCTL,ISTAB(MVSIZ),PID,SZ_IX
       my_real, 
      .  DIMENSION(:), POINTER :: BPRELD
 C-----------------------------------------------

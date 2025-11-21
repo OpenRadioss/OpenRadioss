@@ -52,7 +52,7 @@ C-----------------------------------------------
       INTEGER I
 C     REAL
       DOUBLE PRECISION
-     .   X , Y, Z ,DV
+     .   X , Y, Z 
 C-----------------------------------------------
 C-----------------------------
 C     rotation rby of coordinates for small strain

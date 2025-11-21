@@ -62,7 +62,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER  I, J
+      INTEGER  I
 C     REAL
       my_real
      .   DXY, DYX, DXZ,
@@ -70,7 +70,7 @@ C     REAL
      .   VX17, VY17, VZ17,
      .   VX28, VY28, VZ28,
      .   VX35, VY35, VZ35,
-     .   VX46, VY46, VZ46, DT1D2, DT1D
+     .   VX46, VY46, VZ46, DT1D2
 C-----------------------------------------------
       DT1D2=HALF*DT1
        DO I=1,NEL

@@ -144,7 +144,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NGL(*), I, J ,ICOR,ep
+      INTEGER NGL(*), I 
 C     REAL
 C                                                                     12
       my_real
@@ -156,14 +156,14 @@ C                                                                     12
      .   JAC_59_68, JAC_67_49, JAC_48_57,
      .   JAC_38_29, JAC_19_37, JAC_27_18,
      .   JAC_26_35, JAC_34_16, JAC_15_24,
-     .   JACI12(MVSIZ), JACI45(MVSIZ), JACI78(MVSIZ),
+     .     
      .   D1X(MVSIZ) , D2X(MVSIZ) , D3X(MVSIZ) , D4X(MVSIZ) ,
      .   D1Y(MVSIZ) , D2Y(MVSIZ) , D3Y(MVSIZ) , D4Y(MVSIZ) ,
      .   D1Z(MVSIZ) , D2Z(MVSIZ) , D3Z(MVSIZ) , D4Z(MVSIZ) ,
      .   XG1(MVSIZ), XG2(MVSIZ), XG3(MVSIZ), XG4(MVSIZ),  
      .   YG1(MVSIZ), YG2(MVSIZ), YG3(MVSIZ), YG4(MVSIZ),   
      .   ZG1(MVSIZ), ZG2(MVSIZ), ZG3(MVSIZ), ZG4(MVSIZ),   
-     .   F1,F2,F3,XS,XAS,YS,YAS,ZS,ZAS,CS,CAS ,BXHI,BYHI,BZHI,x,y,z
+     .   F1,F2,F3,XS,XAS,YS,YAS,ZS,ZAS,CS,CAS ,BXHI,BYHI,BZHI
 C-----------------------------------------------
 C------ICP= 0 : Bindeman&Belytschko assumed strain
 C------ICP= 1 : fast assumed volumic strain for the laws(elastoplastic)P=f(rho,rho0)

@@ -184,14 +184,14 @@ C----------------------------------------------------------
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
-      INTEGER I,I1,I2,II,JJ(6),J,J1,J2,IC,IR,IPG,JPT,IUV,IEL,ISRATE,
+      INTEGER I,J,IR,IPG,IEL,ISRATE,
      .  NPAR,NPARF,NVARF,NFUNC,NFUNCR,NFAILS,ISMSTR,ILAW_USER,IPTR,IPTS,IPTT,
      .  IADBUF,IFAIL,NUVAR,MTN,NDAMF,ISOLID,ISOLIDF,NUMTABL,NVARTMP,LF_DAMMX
       INTEGER IFUNC(MAXFUNC),IFUNCR(MAXFUNC)
-      my_real :: A,B,C,EPSP,ASRATE,ALPHA,TTHICK,OFF_EL
+      my_real :: EPSP,ASRATE,ALPHA,TTHICK,OFF_EL
       my_real 
      .   HH(NPG,NPG),AREAP(MVSIZ,NPG),AREAT(MVSIZ),
-     .   UXLOC(MVSIZ,8),UYLOC(MVSIZ,8),UZLOC(MVSIZ,8),
+     .
      .   VXLOC(MVSIZ,8),VYLOC(MVSIZ,8),VZLOC(MVSIZ,8),
      .   VXZ(MVSIZ,NPG),VYZ(MVSIZ,NPG),VZZ(MVSIZ,NPG),
      .   VGXA(MVSIZ),VGYA(MVSIZ),VGZA(MVSIZ), VGA2(MVSIZ),
@@ -212,14 +212,12 @@ C-----------------------------------------------
      .   USER_PLA(MVSIZ),USER_OFF(MVSIZ),USER_EINT(MVSIZ),USER_RHO(MVSIZ),USER_VOL(MVSIZ)
       TYPE(G_BUFEL_)  ,POINTER :: GBUF     
       TYPE(L_BUFEL_)  ,POINTER :: LBUF     
-      TYPE(BUF_MAT_)  ,POINTER :: MATBUF
       TYPE(FAIL_LOC_) ,POINTER :: FLOC
       TARGET :: AREAP   
-      TYPE(BUF_FAIL_), POINTER  :: FBUF
-      TYPE(ULAWINTBUF) :: USERBUF
       TYPE (TTABLE)  , DIMENSION(NTABLE) ::  TABLE
       INTEGER, DIMENSION(:) ,POINTER   :: ITABLE,VARTMP
-      my_real, DIMENSION(:),POINTER :: EPLASN,EPLAST,EPSD,UPARAM,UVAR,AREA,AREAN,OFFI
+      my_real, DIMENSION(:),POINTER :: EPLASN,EPLAST,EPSD,UPARAM,UVAR,AREA,AREAN
+      integer :: JJ(6)
      
 C=======================================================================
       GBUF  => ELBUF_STR%GBUF

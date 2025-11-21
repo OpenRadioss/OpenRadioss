@@ -70,8 +70,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, NFAC
-      my_real XIOFF(MVSIZ), AREAM(MVSIZ), ATEST(MVSIZ), AREA(6,MVSIZ)
+      INTEGER I
+      my_real XIOFF(MVSIZ), AREAM(MVSIZ), AREA(6,MVSIZ)
 C-----------------------------------------------
       DO I=1,NEL
         XIOFF(I)=ONE

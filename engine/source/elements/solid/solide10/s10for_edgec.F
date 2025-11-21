@@ -73,7 +73,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       my_real
      .   STIF(MVSIZ),DMIN(MVSIZ),DMIN2(MVSIZ),FN(MVSIZ,6),
-     .   XM(MVSIZ,6),YM(MVSIZ,6),ZM(MVSIZ,6),KS(MVSIZ),
+     .   XM(MVSIZ,6),YM(MVSIZ,6),ZM(MVSIZ,6),
      .   NJX(MVSIZ,6),NJY(MVSIZ,6),NJZ(MVSIZ,6),FACT,
      .   VXM(MVSIZ,6),VYM(MVSIZ,6),VZM(MVSIZ,6),
      .   DX,DY,DZ,D_MAX,LAM,S2,NORM,LAM0,F_Q,FAC,LENG,

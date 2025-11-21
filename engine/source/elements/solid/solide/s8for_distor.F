@@ -108,10 +108,10 @@ C-----------------------------------------------
      .   VC(MVSIZ,3),FORC_N(MVSIZ,3),FOR_T1(MVSIZ,3),
      .   FOR_T2(MVSIZ,3),FOR_T3(MVSIZ,3),FOR_T4(MVSIZ,3),
      .   FOR_T5(MVSIZ,3),FOR_T6(MVSIZ,3),FOR_T7(MVSIZ,3),
-     .   FOR_T8(MVSIZ,3),FCX,FCY,FCZ,FAC,GAP_MAX,GAP_MIN,
+     .   FOR_T8(MVSIZ,3),FCX,FCY,FCZ,GAP_MAX,GAP_MIN,
      .   PENMIN(MVSIZ),PENREF(MVSIZ),MARGE(MVSIZ),
-     .   TOL_T,TOL_C,TOL_V
-      INTEGER I,J,NCTL,IFCTL,IFC1(MVSIZ)
+     .   TOL_C,TOL_V
+      INTEGER I,NCTL,IFCTL,IFC1(MVSIZ)
 C-----------------------------------------------
 C   P r e - C o n d i t i o n s
 C-----------------------------------------------

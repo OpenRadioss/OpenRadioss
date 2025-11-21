@@ -57,10 +57,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,j
+      INTEGER I
 C     REAL
       DOUBLE PRECISION
-     .   X , Y, Z   ,DV   ,WXXG,WYYG,WZZG
+     .   X , Y, Z      ,WXXG,WYYG,WZZG
 C-----------------------------------------------
 C-----------------------------
 C     ROTATION RBY COORDINATES FOR SMALL STRAIN

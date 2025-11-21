@@ -78,8 +78,8 @@ C-----------------------------------------------
      .   FORC_N1(MVSIZ,3),FORC_N2(MVSIZ,3),FORC_N3(MVSIZ,3),
      .   PENMIN(MVSIZ),PENREF(MVSIZ),MARGE(MVSIZ),
      .   VCX(MVSIZ,4),VCY(MVSIZ,4),VCZ(MVSIZ,4),
-     .   FORC_N4(MVSIZ,3),FCX,FCY,FCZ,FAC,GAP_MAX,GAP_MIN,
-     .   TOL_T,TOL_C, TOL_V, TOL_E    
+     .   FORC_N4(MVSIZ,3),FCX,FCY,FCZ,GAP_MAX,GAP_MIN,
+     .   TOL_C, TOL_V, TOL_E    
       INTEGER I,J,NCTL,IFCTL,IFC1(MVSIZ),IFC2(MVSIZ)
 C-----------------------------------------------
 C   P r e - C o n d i t i o n s

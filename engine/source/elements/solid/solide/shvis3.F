@@ -112,7 +112,7 @@ C-----------------------------------------------
      .   G52(MVSIZ),G62(MVSIZ),G72(MVSIZ),G82(MVSIZ),
      .   G13(MVSIZ),G23(MVSIZ),G33(MVSIZ),G43(MVSIZ),
      .   G53(MVSIZ),G63(MVSIZ),G73(MVSIZ),G83(MVSIZ),
-     .   LEN(MVSIZ),RHO0(MVSIZ),
+     .   RHO0(MVSIZ),
      .   EHOURT,AA
 !       SP issue, need double precision for these variables   
         REAL(kind=8) ::

@@ -101,8 +101,8 @@ C
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER LCO, NF1, IFLAG, NB3S, IP, NF2, I,J
-      INTEGER MXT(MVSIZ),NGL(MVSIZ),NGEO(MVSIZ),PID
+      INTEGER  NF1, IP, NF2, I,J
+      INTEGER MXT(MVSIZ),NGL(MVSIZ),NGEO(MVSIZ)
       my_real
      . RX(MVSIZ) , RY(MVSIZ) , RZ(MVSIZ) ,
      . SX(MVSIZ) , SY(MVSIZ) , SZ(MVSIZ) ,
@@ -114,9 +114,9 @@ C-----------------------------------------------
 C----------------
       INTEGER NC(MVSIZ,10),IADBUF,IKORTH,IBID,IUN
       my_real
-     .   OFF(MVSIZ) , VOLP(MVSIZ,5),
+     .    VOLP(MVSIZ,5),
      .  XX(MVSIZ,10), YY(MVSIZ,10), ZZ(MVSIZ,10),
-     .  VX(MVSIZ,10),VY(MVSIZ,10),VZ(MVSIZ,10),
+     .  
      .  PX(MVSIZ,10,5),PY(MVSIZ,10,5),PZ(MVSIZ,10,5),
      .  NX(MVSIZ,10,5),
      .  WIP(5,5), ALPH(5,5), BETA(5,5),BID(MVSIZ)
