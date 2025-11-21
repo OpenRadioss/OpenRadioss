@@ -61,7 +61,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IRECT(4,*), NSV(*), CAND_E(*), CAND_N(*),
-     .    JLT,IDT, NOINT,IGAP , IGSTI,NIN,ITY,NSN
+     .    JLT,IGAP , IGSTI,NIN,ITY,NSN
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ),
      .        NSVG(MVSIZ)
       my_real
@@ -78,7 +78,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I ,J  ,IL, L, NN, IG,JFT,NI,IX
+      INTEGER I   , L, NN, IG,NI,IX
 C-----------------------------------------------
 C
         IF(IGAP==0)THEN
@@ -321,7 +321,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I ,J  ,NI, L, NN, NS ,NE
+      INTEGER I   ,NI, L, NN, NS ,NE
 C-----------------------------------------------
 C
 C
@@ -398,7 +398,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I ,J  ,NI, L, NN, NS ,NE
+      INTEGER I   ,NI, NN, NS 
 C-----------------------------------------------
 C
 C

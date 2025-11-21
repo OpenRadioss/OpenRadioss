@@ -76,8 +76,8 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER II, N, L, JJ, NN, LL, LL1, LL2, LG, KK, KKK, K1, K2,
-     .   I1, I2, IERR, IGROU, IELN,
+      INTEGER II, N, L, JJ, NN, LL, LL1, LL2, LG, KK, KKK, K1, 
+     . I1, IERR, IGROU, IELN,
      .   IXX(4), IPERM(2), JPERM(2),
      .   ITEMP(2), IS, IM, ILEN,
      .   TAGS(ISIZES),TAGM(ISIZEM), LISTS(ISIZES),LISTM(ISIZEM),
@@ -85,13 +85,13 @@ C-----------------------------------------------
      .   ICOMNEL(ISIZEM+ISIZES)
 C     REAL
       my_real H(2),
-     .   VMX, VMY, VMZ, VX, VY, VZ, VV, NX, NY, NZ, VT,
-     .   NNX, NNY, NNZ, FAC, P, X1, Y1, Z1,X2, Y2, Z2, TX, TY, TZ,
+     . VMY, VMZ, VY, VZ, VV, NY, NZ, VT,
+     . NNY, NNZ, FAC, P, TY, TZ,
      .   EFRIC, VOLS, VOLM, TS, TM ,TSTIFM, TSTIFS, DVN,
      .   TSTIFT, PHI, AREAS, AREAM, VN, WN, STENSY, STENSZ,
      .   COMAREA(ISIZEM+ISIZES),COMSTF(ISIZEM+ISIZES),
      .   COMT(ISIZEM+ISIZES),COMVOL(ISIZEM+ISIZES),COMBUF(ISIZEM+ISIZES)
-      TYPE(G_BUFEL_)  ,POINTER :: GBUF     
+ 
 c
       DATA IPERM/ 2, 1/,JPERM/ 1, -1/
 C-----------------------------------------------

@@ -76,7 +76,7 @@ C     REAL
       my_real
      .   FDAMP
       my_real
-     .   VIS(LLT),VISCV(LLT),FACT(LLT),XX(LLT)
+     .   VISCV(LLT),FACT(LLT),XX(LLT)
 C-----------------------------------------------
 C     Depreciation coefficient
 C--------------------------------

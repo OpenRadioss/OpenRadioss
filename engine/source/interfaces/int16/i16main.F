@@ -101,8 +101,8 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NSN,NME,NAD,EAD,
-     .        NME_T,ESH_T,IGN,IGE,MULTIMP,NOINT,I,MX_CAND,itri 
+      INTEGER NSN,NME,
+     .        NME_T,ESH_T,IGN,IGE,MULTIMP,NOINT,MX_CAND,itri 
 C     REAL
       my_real
      .   STARTT, STOPT,XX,XY,XZ,TZINF,MINBOX

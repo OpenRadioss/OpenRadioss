@@ -56,7 +56,6 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER          :: NIN, I, J, K, ISIZ
-      INTEGER          :: Isectype(14)  
       CHARACTER*14     :: string
 C-----------------------------------------------
 C   S o u r c e   L i n e s

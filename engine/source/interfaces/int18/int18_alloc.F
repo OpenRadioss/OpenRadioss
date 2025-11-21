@@ -69,8 +69,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-        INTEGER :: N,NN,II,JJ,MY_SIZE,MY_SIZE_2,MY_SIZE_3
-        INTEGER :: ISU1,NBRIC,NSN,NTY,INACTI,NODE_ID,IBRIC,NODFI
+        INTEGER :: N,II,MY_SIZE,MY_SIZE_2,MY_SIZE_3
+        INTEGER :: NTY,INACTI,NODFI
         INTEGER :: P
 C-----------------------------------------------
         !   check if int18 + law151 is used in the model

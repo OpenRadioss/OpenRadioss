@@ -75,7 +75,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER N,K,IGI,IGS,IM,NSN,NSC,NSP
+      INTEGER NSN,NSC,NSP
       INTEGER NLO,NFRIC,NDAMP1,NDAMP2
 C-----------------------------------------------
 C     REAL

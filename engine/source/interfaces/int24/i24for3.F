@@ -129,7 +129,7 @@ C-----------------------------------------------
      .        MFROT, IFQ, NOINT,NEWFRONT,ISECIN, NSTRF(*),
      .        IRECT(4,*),ICONTACT(*), CAND_N(*),
      .        KINI(*),SUBTRIA(MVSIZ),MBINFLG(*),ILEV,
-     .        ISET, NISKYFI,IADM,INTTH,IFORM,CAND_N_N(*),INTPLY,
+     . NISKYFI,IADM,INTTH,IFORM,CAND_N_N(*),INTPLY,
      .        MSEGTYP(*),TAGNCONT(NLOADP_HYD_INTER,NUMNOD),
      .        TYPSUB(S_TYPSUB),JTASK
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ),
@@ -153,11 +153,11 @@ C-----------------------------------------------
      .   FSKYI(LSKYI,NFSKYI),FSAVSUB(NTHVKI,*), FNCONT(3,*),FTCONT(3,*),
      .   MSKYI_SMS(*),KMIN
       my_real
-     .     LA(MVSIZ), LB(MVSIZ), LC(MVSIZ),STIF(MVSIZ),
+     . STIF(MVSIZ),
      .     GAPV(MVSIZ), PENE(MVSIZ),
      .     SECFCUM(7,NUMNOD,NSECT),
-     .     TMP(MVSIZ),
-     .     STIFSAV(MVSIZ), VISCN(*),
+     .
+     . VISCN(*),
      .     VXI(MVSIZ),VYI(MVSIZ),VZI(MVSIZ),MSI(MVSIZ),
      .     X1(MVSIZ),Y1(MVSIZ),Z1(MVSIZ),
      .     X2(MVSIZ),Y2(MVSIZ),Z2(MVSIZ),
@@ -188,35 +188,27 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J1, IG, J, JG , K0,NBINTER,K1S,K,IL,IE, NN, NI,
-     .        NA1,NA2,N,IMS2,ITAG,NN1,NN2,NN3,
-     .        NN4,ii,IFIT,PP,PPL,ITYPSUB,ISS1,ISS2,IMS1,IX,IGRN
-      my_real
-     .   FXR(MVSIZ), FYR(MVSIZ), FZR(MVSIZ)
+      INTEGER I, J1, IG, J, JG, K0, NBINTER, K1S, K, IE, NN, 
+     . N,IMS2,ITAG,NN1,NN2,NN3,
+     . NN4,IFIT,PP,PPL,ITYPSUB,ISS1,ISS2,IMS1,IGRN
       my_real
      .   FXI(MVSIZ), FYI(MVSIZ), FZI(MVSIZ), FNI(MVSIZ),
      .   FXT(MVSIZ),FYT(MVSIZ),FZT(MVSIZ),
      .   FX1(MVSIZ), FX2(MVSIZ), FX3(MVSIZ), FX4(MVSIZ),
      .   FY1(MVSIZ), FY2(MVSIZ), FY3(MVSIZ), FY4(MVSIZ),
      .   FZ1(MVSIZ), FZ2(MVSIZ), FZ3(MVSIZ), FZ4(MVSIZ),
-     .   VIS2(MVSIZ), DTMI(MVSIZ), XMU(MVSIZ),STIF0(MVSIZ),
+     . VIS2(MVSIZ), XMU(MVSIZ),STIF0(MVSIZ),
      .   VX(MVSIZ), VY(MVSIZ), VZ(MVSIZ), VN(MVSIZ),
      .   XP(MVSIZ), YP(MVSIZ), ZP(MVSIZ),EFRIC_L(MVSIZ),
-     .   VNX, VNY, VNZ, AA, CRIT,S2,
-     .   V2, FM2, DT1INV, VISCA, FAC,FF,ALPHI,ALPHA,BETA,
-     .   FX, FY, FZ, F2, MAS2, M2SK, DTMI0,DTI,FT,FN,FMAX,FTN,
-     .   FACM1, ECONTT, ECONVT, H0, ECONTDT,
-     .   D1,D2,D3,D4,A1,A2,A3,A4,
-     .   FSAV1, FSAV2, FSAV3, FSAV4, FSAV5, FSAV6, FSAV7, FSAV8,
+     . AA,
+     . V2, DT1INV, FAC,FF,ALPHA,BETA,
+     . FX, FY, FZ, MAS2,DTI,FT,FN,FMAX,FTN,
+     . FACM1, ECONTT, ECONVT, ECONTDT,
+     . FSAV1, FSAV2, FSAV3, FSAV4, FSAV5, FSAV6, FSAV8,
      .   FSAV9, FSAV10, FSAV11, FSAV12, FSAV13, FSAV14, FSAV15,
      .   FSAV22, FSAV23, FSAV24, FFO,FSAV29,
-     .   E10, H0D, S2D, SUM,
-     .   LA1D,LA2D,LA3D,LA4D,T1,T1D,T2,T2D,FFD,VISD,FACD,D1D,
-     .   P1S(MVSIZ),P2S(MVSIZ),P3S(MVSIZ),P4S(MVSIZ),
-     .   D2D,D3D,D4D,VNXD,VNYD,VNZD,V2D,FM2D,F2D,AAD,FXD,FYD,FZD,
-     .   A1D,A2D,A3D,A4D,VV,AX1,AX2,AY1,AY2,AZ1,AZ2,AX,AY,AZ,
-     .   AREA,P,VV1,VV2,V21,DMU, DTI2,H00 ,A0X,A0Y,A0Z,RX,RY,RZ,
-     .   ANX,ANY,ANZ,AAN,AAX,AAY,AAZ ,RR,RS,AAA,BBB,STFR,VISR ,TM,TS,
+     . VV,AX1,AX2,AY1,AY2,AZ1,AZ2,AX,AY,AZ,
+     . AREA,P,VV1,VV2,DMU ,
      .   VN1(3),VN2(3),VN3(3),VN4(4),
      .   CSA ,SNA ,ALPHAF ,FTT1 ,FTT2 ,
      .   AN(NFORTH) ,BN(NFORTH) ,NEP1 ,NEP2 ,NEP ,C11 ,C22 ,ANS ,EP ,
@@ -228,19 +220,19 @@ C-----------------------------------------------
      .   KT(MVSIZ),C(MVSIZ),CF(MVSIZ),DPENE(MVSIZ),
      .   KS(MVSIZ),K1(MVSIZ),K2(MVSIZ),K3(MVSIZ),K4(MVSIZ),
      .   CS(MVSIZ),C1(MVSIZ),C2(MVSIZ),C3(MVSIZ),C4(MVSIZ),
-     .   CX,CY,CFI,AUX, FX6(6,MVSIZ), FY6(6,MVSIZ), FZ6(6,MVSIZ),
+     .   CX,CY,CFI,AUX,
      .   PHI1(MVSIZ), PHI2(MVSIZ), PHI3(MVSIZ), PHI4(MVSIZ),
      .   DTMINI,STIF0_IMP(MVSIZ),PENN,TINY,PENDR,
-     .   FNNIT1,FNNIT2,FNNIT3,FNNITSCHE,T3,FNITXT(MVSIZ),FNITYT(MVSIZ),FNITZT(MVSIZ),
+     .   FNNIT1,FNNIT2,FNNIT3,FNNITSCHE,FNITXT(MVSIZ),FNITYT(MVSIZ),FNITZT(MVSIZ),
      .   XMU2(MVSIZ),FACN,FNON,STIFKT(MVSIZ),FACKT,AREAN_FIC
-      INTEGER JSUB,KSUB,JJ,KK,IN,NSUB,ibug,ip,NCFIT
-      INTEGER  ISEGTYP(MVSIZ),IXSS(4),NOD1,NOD2,NS
+      INTEGER JSUB, KSUB, JJ, KK, IN, NSUB, NCFIT
+ 
       my_real
      .   FSAVSUB1(25,NISUB),IMPX,IMPY,IMPZ,VNM(MVSIZ),SFAC,STMIN,
-     .   FXS(4),FYS(4),FZS(4),HH,FINC,FA,FB,DDP,PREC1
+     . HH,FINC,DDP,PREC1
 
-      DOUBLE PRECISION RP1,RP2,STIF_N
-      INTEGER TAGIP(MVSIZ),ISPDO
+      DOUBLE PRECISION RP1, RP2
+      INTEGER TAGIP(MVSIZ)
 C
       INTEGER BITGET
       EXTERNAL BITGET
@@ -3840,9 +3832,9 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       my_real
      .    HH(MVSIZ),FICI(5),FICS(4,4),FICSTH(4,5)
-      INTEGER I, J1, IG, NISKYL1, NISKYL,IGP,IGM,IDR,NISKYFIL,J
-      INTEGER ITG,NN,ILY,JG,IXSS(4),NFIC
-      INTEGER se
+      INTEGER I, J1, IG, NISKYL1, NISKYL, IGP, IGM, NISKYFIL, J
+      INTEGER JG, IXSS(4), NFIC
+ 
 C
       NISKYL1 = 0
       TAGIP(1:JLT) = 0
@@ -4788,7 +4780,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, IG, NISKYL1, NISKYL, NN,JG,IXSS(4),NFIC,J,NS,NL, K,KK,IE
+      INTEGER I, IG, NISKYL1, NISKYL, NN, IXSS(4), J, NS, NL, K, KK
       my_real
      .        HH(MVSIZ),MAS, DTS,DTM_INT,FICI,FICS(4),FAC
 

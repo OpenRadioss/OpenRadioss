@@ -87,11 +87,11 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       type(output_), intent(inout) :: output
       TYPE(TIMER_), INTENT(inout) :: TIMERS
-      INTEGER NELTST, ITYPTST, NIN, NSTRF(*), NRTMDIM, NEWFRONT,
+      INTEGER NIN, NSTRF(*), NRTMDIM, NEWFRONT, 
      .        NISKYFI
       INTEGER IPARI(NPARI,NINTER), ICODT(*),ICONTACT(*),
      .        ITAB(*), ISKY(*), KINET(*), ISKYI_SMS(*), NODNX_SMS(*),
-     .        TAGMSR_I21_SMS, NODGLOB(*), NPC(*), MWAG(*)
+     . NODGLOB(*), NPC(*), MWAG(*)
       INTEGER NB_JLT,NB_JLT_NEW,NB_STOK_N,JTASK,
      .        LINDMAX,DIMFB
       INTEGER NUM_IMP,NS_IMP(*),NE_IMP(*),IND_IMP(*), WEIGHT(*)
@@ -111,10 +111,10 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, I_STOK, JLT_NEW, JLT , NFT, J,
-     .        IBC, NOINT, NSEG, ISECIN, IBAG, 
+     . IBC, NOINT, ISECIN, IBAG,
      .        IGAP, INACTI, IFQ, MFROT, IGSTI, NISUB,
      .        NB_LOC, I_STOK_LOC,DEBUT,
-     .        INTTH,IFORM, NCAND, IKTHE, IFSTF, H, IERROR
+     . INTTH, IFSTF, H, IERROR
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ),
      .        NSVG(MVSIZ), CN_LOC(MVSIZ),CE_LOC(MVSIZ),
      .        CAND_N_N(MVSIZ), CAND_E_N(MVSIZ), KINI(MVSIZ),
@@ -124,7 +124,7 @@ C     REAL
       my_real
      .   STARTT, FRIC, GAP, STOPT, 
      .   VISC,STIGLO,GAPMIN,
-     .   KMIN, KMAX, GAPMAX, KTHE, XTHE, TINT, RHOH,
+     . KMIN, KMAX, GAPMAX,
      .   SCAL_T, DERI
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
@@ -134,7 +134,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C     REAL
       my_real
-     .   LB(MVSIZ), LC(MVSIZ),
+     .
      .   X1(MVSIZ), X2(MVSIZ), X3(MVSIZ), X4(MVSIZ),
      .   Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ),
      .   Z1(MVSIZ), Z2(MVSIZ), Z3(MVSIZ), Z4(MVSIZ),
@@ -144,14 +144,12 @@ C     REAL
      .   NZ1(MVSIZ), NZ2(MVSIZ), NZ3(MVSIZ), NZ4(MVSIZ),
      .   NX(MVSIZ), NY(MVSIZ), NZ(MVSIZ), PENE(MVSIZ),
      .   GAPV(MVSIZ),VXI(MVSIZ),VYI(MVSIZ),VZI(MVSIZ),MSI(MVSIZ),
-     .   MXI(MVSIZ), MYI(MVSIZ), MZI(MVSIZ), STRI(MVSIZ),
-     .   PENRAD(MVSIZ), FXT(MVSIZ), FYT(MVSIZ), FZT(MVSIZ)
+     .   FXT(MVSIZ), FYT(MVSIZ), FZT(MVSIZ)
       my_real
      .    VXM(MVSIZ), VYM(MVSIZ), VZM(MVSIZ), 
-     .    H1(MVSIZ), H2(MVSIZ), H3(MVSIZ), H4(MVSIZ),
-     .    FX, FY, FZ, STF
-      INTEGER ICURV, IP0, IP1, IP2, IS, SFSAVPARIT
-      INTEGER, DIMENSION(:), ALLOCATABLE :: ITAGP
+     .    H1(MVSIZ), H2(MVSIZ), H3(MVSIZ), H4(MVSIZ)
+      INTEGER ICURV, SFSAVPARIT
+ 
       my_real, DIMENSION(:,:,:), ALLOCATABLE :: FSAVPARIT
       INTEGER :: NSN                 
       INTEGER :: NMN                

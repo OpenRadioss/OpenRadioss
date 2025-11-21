@@ -127,10 +127,10 @@ C-----------------------------------------------
         LOGICAL :: TYPE18
         INTEGER :: KK,N
         INTEGER :: INACTI,NTY
-        INTEGER :: NB_REQUEST_COARSE_CELL   ! number of request for coarse cell comm
+ 
         integer :: mode
-        INTEGER, DIMENSION(NB_INTER_SORTED) :: ARRAY_REQUEST_COARSE_CELL ! array of request
-        INTEGER, DIMENSION(NB_INTER_SORTED) :: LIST_INTER_COARSE_CELL ! list of interface
+ 
+ 
         integer :: nsn, nsnr, nrtm, nmn
         integer :: DUMMY(1)
         my_real :: tzinf,curv        

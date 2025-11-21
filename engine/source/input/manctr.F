@@ -77,9 +77,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER J,MANIM0, MREST0, MSTOP0, MFILR, MCYCLE, LK2, IKEY, WMCHECK0, 
-     .   MSG_R2R, R2R_MSTOP_LOC,ICTLSTOP0, MH3D0,SENS_ID
-      my_real TMPMAN(50), TMAN,TMAN_LOC
+      INTEGER MANIM0, MREST0, MSTOP0, MFILR, MCYCLE, LK2, IKEY, WMCHECK0, 
+     .   MSG_R2R,ICTLSTOP0, MH3D0,SENS_ID
+      my_real TMPMAN(50), TMAN
       CHARACTER FILNAM*100, KEY2*80, FMT*80, KEY0(NKEY)*5,REC*1
       CHARACTER(LEN=NCHARLINE100)::CARTE
       INTEGER :: LEN_TMP_NAME

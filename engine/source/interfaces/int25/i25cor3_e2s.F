@@ -115,16 +115,16 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I ,NN, J, JRM, K, KRM, I1, J1, I2, J2, EJ,
-     .         IE, JE, SOL_EDGE, SH_EDGE, ES, IS(MVSIZ)
+      INTEGER I, NN, EJ, 
+     . SOL_EDGE, SH_EDGE, ES, IS(MVSIZ)
 C     INTEGER ::  NOD1S(MVSIZ),NOD2S(MVSIZ)
 C     INTEGER ::  NOD1M(MVSIZ),NOD2M(MVSIZ)
 
       my_real
-     .   AAA, DX, DY, DZ, DD, NNI, NI2, INVCOS, DTS
+     . DTS
       my_real
      .   GAPE_M(MVSIZ), GAPE_S(MVSIZ), STIF_MSDT(MVSIZ)
-      INTEGER :: IDS(4)
+ 
 C-----------------------------------------------
 
       EDGE_ID(1:2,1:4*MVSIZ) = -666

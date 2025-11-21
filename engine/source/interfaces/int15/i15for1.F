@@ -84,7 +84,7 @@ C-----------------------------------------------
      .   ROT(9), X1, X2, X3, XM, YM, ZM,
      .   V1, V2, V3, VXM, VYM, VZM, VRX, VRY, VRZ,
      .   V1X2, V2X1, V1X3, V3X1, V2X3, V3X2,
-     .   DELTX, DELTY, DELTZ, ND, PN, SCALE, NV,
+     .   DELTX, DELTY, DELTZ, ND, PN, SCALE,
      .   VXK, VYK, VZK, DVX, DVY, DVZ, XH, YH, ZH,
      .   DX1, DY1, DZ1, DX2, DY2, DZ2, DX3, DY3, DZ3,
      .   DX, DY, DZ,

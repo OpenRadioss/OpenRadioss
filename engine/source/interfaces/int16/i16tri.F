@@ -74,7 +74,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I_ADD_MAX
       PARAMETER (I_ADD_MAX = 1001)
-      INTEGER I,J,I_ADD,I_STOK,L,NB_NC,NB_EC,CONT,NE
+      INTEGER I,J,I_ADD,I_STOK,L,NB_NC,NB_EC,CONT
       INTEGER ADD(2,I_ADD_MAX) ,PROV_N(MVSIZ),PROV_E(MVSIZ)
       my_real
      .        XYZM(6,I_ADD_MAX-1)
@@ -292,7 +292,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NB_NCN,NB_NCN1,NB_ECN,ADDNN,ADDNE,I,J,DIR,
-     .        NN,NE,LE,K,L,NCAND_PROV,N16,N20,N8,N10
+     .        NN,NE,LE,L,NCAND_PROV,N16,N20,N8,N10
 C     REAL
       my_real
      .   DX,DY,DZ,DSUP,SEUIL,XX,YY,ZZ

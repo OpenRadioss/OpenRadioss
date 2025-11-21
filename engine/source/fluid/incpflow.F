@@ -80,14 +80,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER ILVOUT, I, II, NNO_L, III, LENBUF, PP, NNO_L2, J, 
-     .        IBUFL2(NNO), JJ, N1, N2, N3, NN1, NN2, NN3, NNRP, NNCP,
+      INTEGER ILVOUT, I, II, NNO_L, III, LENBUF, J,
+     . N1, N2, N3, NN1, NN2, NN3, NNRP, NNCP,
      .        CR_LOC_GLOB(NNO), CR_GLOB_LOC(NNO), CC_LOC_GLOB(NNO),
      .        CC_GLOB_LOC(NNO), NREIP, NCEIP, NEP, NR1, NR2, NR3, NC1,
      .        NC2, NC3, CREI_LOC_GLOB(NEL), CCEI_LOC_GLOB(NEL), 
      .        CE_LOC_GLOB(NEL), CE_GLOB_LOC(NEL), NPROW, NPCOL, NBLOC,
-     .        IFORM, IFREE, ISENS, IFUNC, IIO, NERP, IC, NNI_L2,
-     .        IBUFIL2(NNI), ITEST, ITAGNI(NNI), NNI_L, IFT, ILT, IR, NL,
+     . IFORM, IFREE, ISENS, IFUNC, IIO, NERP, IC,
+     . ITEST, ITAGNI(NNI), NNI_L, IFT, ILT, IR, NL,
      .        IFPA, IFPRES, NELF, LELF(NEL), K, IAD, IAD2, IFVINI
       my_real DTSUB, TL, XL(3,NNO+NNI), VL(3,NNO+NNI), X1, Y1, Z1, X2,
      .        Y2, Z2, X3, Y3, Z3, X12, Y12, Z12, X13, Y13, Z13, X23, 

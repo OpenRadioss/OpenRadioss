@@ -62,11 +62,11 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,IK,IE,IS,IC,NK,III(MVSIZ,21),LLT,NFT,LE,FIRST,LAST,
+      INTEGER I,K,IE,IS,IC,III(MVSIZ,21),LLT,NFT,LE,FIRST,LAST,
      .        I20
       my_real
      .   XX(MVSIZ,21),YY(MVSIZ,21),ZZ(MVSIZ,21),
-     .   AA,XMIN,YMIN,ZMIN,XMAX,YMAX,ZMAX,DIST
+     .   DIST
 C-----------------------------------------------
 C
 C
@@ -243,7 +243,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,IK,NK,I1,I2,I3,I4,IAD,NN
+      INTEGER I,IK,NK,IAD,NN
       my_real
      .   VX,VY,VZ,VN,AA
       my_real

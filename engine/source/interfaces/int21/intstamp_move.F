@@ -61,7 +61,7 @@ C-----------------------------------------------
       INTEGER NN, IRB, MAIN, J, INTDAMP, MSR, MSRR, IROT
 C     REAL
       my_real
-     .   DW, ALPHA, MASS, VIS, STF, STR, INM, VX, VY, VZ,
+     .   DW, ALPHA, MASS, VIS, STF, STR, INM,
      .   FVX, FVY, FVZ
 C-----------------------------------------------
       DO NN=1,NINTSTAMP

@@ -76,10 +76,10 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NPOINT, IL, IG, IG3, IG2, IG1, IL3, IL2, IL1, NISKYL
+      INTEGER  IL, IG, IG3, IG2, IG1, IL3, IL2, IL1, NISKYL
 C     REAL
       my_real
-     .   VSMAX, VMMAX, VMAX, FT,FU,FF, XK, DTMI, FAC, FACDT, DX, FINTER
+     .   VSMAX, VMMAX, VMAX, FT,FU, XK, DTMI, FAC, FACDT, DX, FINTER
       EXTERNAL FINTER
 C=======================================================================
       IF (TT == ZERO) THEN

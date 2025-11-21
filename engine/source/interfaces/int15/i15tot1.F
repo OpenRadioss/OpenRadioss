@@ -78,13 +78,13 @@ C-----------------------------------------------
      .   A, B, C, AN, BN, CN, ROT(9), DGR, EXPN,
      .   XG, YG, ZG,
      .   NTN,
-     .   N1, N2, N3, N, N11, N12, N13, N21, N22, N23, NR1, NR2,
-     .   XKN1, YKN1, ZKN1, SGNXKN, SGNYKN, SGNZKN, XKN, YKN, ZKN, EH,
+     .   N1, N2, N3, N11, N12, N13, N21, N22, N23, NR1, NR2,
+     .   XKN1, YKN1, ZKN1, SGNXKN, SGNYKN, SGNZKN, EH,
      .   LAMBDA1, LAMBDA2, ALP, BET,
-     .   XH , YH , ZH , MU, XH1, YH1, ZH1, MU1, XH2, YH2, ZH2, MU2,
+     .   XH , YH , ZH , XH1, YH1, ZH1, MU1, XH2, YH2, ZH2, MU2,
      .   DX1, DY1, DZ1, DX2, DY2, DZ2, DX3, DY3, DZ3,
-     .   SIDE1, SIDE2, OLDNX, OLDNY, OLDNZ, OUT, PS, NR,
-     .   LAMBDA, EM, EP
+     .     OUT, PS, NR,
+     .    EM
       my_real
      .   X1(MVSIZ),  Y1(MVSIZ),  Z1(MVSIZ),
      .   X2(MVSIZ),  Y2(MVSIZ),  Z2(MVSIZ),

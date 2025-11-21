@@ -73,7 +73,6 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: I, II, IB, NCELL, IPOS, MCELL, NIN , NSeconds, IBV, ICELLv, NumSecond,ISECOND
-      my_real :: VAR, AREAM, VOLM, VOLseconds
 C-----------------------------------------------
 C   P r e - C o n d i t i o n s
 C-----------------------------------------------

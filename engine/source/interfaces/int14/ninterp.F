@@ -48,7 +48,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       my_real
-     .   PENTE, Y
+     .   PENTE
       INTEGER RANG(MVSIZ)
       INTEGER NDEB, NREST, I,
      .        IPT, NPT, II

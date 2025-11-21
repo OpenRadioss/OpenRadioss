@@ -46,7 +46,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER LEN,LEN_RAD,LENBT,LENCPUNAM,LENARCHTIT,LBT
+      INTEGER LEN,LENBT,LENCPUNAM,LENARCHTIT,LBT
       CHARACTER RADVERS*68,COPYRIGHTLINE*68,
      *          ARCH_TIT*66
 C-----------------------------------------------

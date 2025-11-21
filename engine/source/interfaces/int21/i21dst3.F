@@ -63,7 +63,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, IG, J, IS, L, N, N4N
+      INTEGER I, IS, N, N4N
       INTEGER NSVG(MVSIZ), FAR(MVSIZ), I4N(MVSIZ),
      .        IRTLM_L(2,MVSIZ)
       my_real
@@ -85,10 +85,10 @@ C-----------------------------------------------
      .     YI1(MVSIZ),  YI2(MVSIZ),
      .     ZI1(MVSIZ),  ZI2(MVSIZ)
       my_real
-     .     S2,D1,D2,D3,D4,
-     .     X12,X23,X34,X41,XI0,
-     .     Y12,Y23,Y34,Y41,YI0,
-     .     Z12,Z23,Z34,Z41,ZI0,
+     .     S2,
+     .     
+     .     
+     .     
      .     XN1(MVSIZ),YN1(MVSIZ),ZN1(MVSIZ),
      .     XN2(MVSIZ),YN2(MVSIZ),ZN2(MVSIZ),
      .     XN3(MVSIZ),YN3(MVSIZ),ZN3(MVSIZ),
@@ -97,7 +97,7 @@ C-----------------------------------------------
      .     SY1(MVSIZ),SY2(MVSIZ),
      .     SZ1(MVSIZ),SZ2(MVSIZ),
      .     XI0V(MVSIZ),  YI0V(MVSIZ),  ZI0V(MVSIZ),
-     .     XH(MVSIZ),  YH(MVSIZ),  ZH(MVSIZ),
+     .         
      .     NX(MVSIZ),  NY(MVSIZ),  NZ(MVSIZ),
      .     GAP2(MVSIZ), NN, 
      .     X0H(MVSIZ), Y0H(MVSIZ), Z0H(MVSIZ),
@@ -109,7 +109,7 @@ C-----------------------------------------------
      .     SIDE, CRIT, CRITO, LBO, LCO, LB, LC, LA, SL,
      .     LAMBDA, XP, YP, ZP,GAPP2(MVSIZ)
       my_real
-     .     CMAJ(MVSIZ), CSTS_L(2,MVSIZ)
+     .      CSTS_L(2,MVSIZ)
 C--------------------------------------------------------
        DO I=1,JLT
          IS=LIST(I)

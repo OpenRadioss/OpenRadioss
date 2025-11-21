@@ -83,7 +83,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J1, J, K,IG,ISF,NN,NS,JLTF,NE,II
+      INTEGER I, J, K, ISF, NN, NS, JLTF, NE, II
       my_real
      .   N1(MVSIZ), N2(MVSIZ), N3(MVSIZ), PENE(MVSIZ),
      .   H1(MVSIZ), H2(MVSIZ), H3(MVSIZ), H4(MVSIZ),
@@ -92,10 +92,10 @@ C-----------------------------------------------
      .   T1X(MVSIZ),T1Y(MVSIZ),T1Z(MVSIZ),
      .   T2X(MVSIZ),T2Y(MVSIZ),T2Z(MVSIZ),NORMINV,
      .   VX(MVSIZ), VY(MVSIZ), VZ(MVSIZ), VN(MVSIZ), 
-     .   S2,FAC,FACF, H0, LA1, LA2, LA3, LA4,FACT(MVSIZ),
-     .   D1,D2,D3,D4,A1,A2,A3,A4,KN(4,MVSIZ),Q(3,3,MVSIZ),FAC10
+     . FAC,FACF, H0, LA1, LA2, LA3, LA4,FACT(MVSIZ),
+     . D1,D2,D3,D4,KN(4,MVSIZ),Q(3,3,MVSIZ),FAC10
       my_real
-     .   PREC,Q11,Q12,Q13,Q22,Q23,Q33,H00,VTX,VTY,VTZ,VT,
+     . Q11,Q12,Q13,Q22,Q23,Q33,H00,
      .   KT1,KT2,KT3,KT4,Q1,Q2
 C-----------------------------------------------
        FRIC =ONE
@@ -476,7 +476,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER JLT, INACTI,NIN
+      INTEGER JLT, NIN
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ),
      .        INDEX(MVSIZ)
       my_real
@@ -490,17 +490,15 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J1, J, K,IG,ISF,NN,NS,NI
+      INTEGER I, ISF, NI
       my_real
      .   VX(MVSIZ), VY(MVSIZ), VZ(MVSIZ), VN(MVSIZ), 
      .   DX(MVSIZ), DY(MVSIZ), DZ(MVSIZ), DN(MVSIZ), 
      .   DNI(MVSIZ),D1T(MVSIZ),D2T(MVSIZ), DTI1(MVSIZ), 
-     .   DTI2(MVSIZ),S2,FACN(MVSIZ),FACF, FACT(MVSIZ),FAC10
+     . DTI2(MVSIZ),FACN(MVSIZ),FACF, FACT(MVSIZ),FAC10
       my_real
-     .   FX,FY,FZ,FN,FT1,FT2,FNI,FTI1,FTI2,VTX,VTY,VTZ,VT,
-     .   T2X(MVSIZ), T2Y(MVSIZ), T2Z(MVSIZ),
-     .   KT1,KT2,KT3,KT4,Q1,Q2
-
+     . FX,FY,FZ,FN,FT1,FT2,FNI,FTI1,FTI2,
+     .   T2X(MVSIZ), T2Y(MVSIZ), T2Z(MVSIZ)
 C-----------------------------------------------
 C
       FAC10 = TEN
@@ -657,13 +655,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J1, IG, II , K0,NBINTER,K1S,K,J,NN,JG
-      INTEGER JJ,KK,IN,IE,NSUB,IBID,NI,NS
+      INTEGER I, IG, II, NN
+      INTEGER NS
       my_real
      .   FXI(MVSIZ), FYI(MVSIZ), FZI(MVSIZ), FNI(MVSIZ),
-     .   FX1(MVSIZ), FX2(MVSIZ), FX3(MVSIZ), FX4(MVSIZ),
-     .   FY1(MVSIZ), FY2(MVSIZ), FY3(MVSIZ), FY4(MVSIZ),
-     .   FZ1(MVSIZ), FZ2(MVSIZ), FZ3(MVSIZ), FZ4(MVSIZ),
+     .
+     .
+     .
      .   FT1(MVSIZ), FT2(MVSIZ),
      .   N1(MVSIZ), N2(MVSIZ), N3(MVSIZ), PENE(MVSIZ),
      .   H1(MVSIZ), H2(MVSIZ), H3(MVSIZ), H4(MVSIZ), 
@@ -671,10 +669,10 @@ C-----------------------------------------------
      .   NX(MVSIZ), NY(MVSIZ), NZ(MVSIZ),
      .   T1X(MVSIZ),T1Y(MVSIZ),T1Z(MVSIZ),
      .   T2X(MVSIZ),T2Y(MVSIZ),T2Z(MVSIZ),
-     .   VX(MVSIZ), VY(MVSIZ), VZ(MVSIZ), VN(MVSIZ), 
+     .
      .   DX(MVSIZ), DY(MVSIZ), DZ(MVSIZ), DN(MVSIZ),
-     .   S2,D1,D2,D3,D4,A1,A2,A3,A4,LA1,LA2,LA3,LA4,H0,
-     .   NORMINV,BID,GAP2,PENE2,FAC,FX,FY,FZ
+     . D1,D2,D3,D4,LA1,LA2,LA3,LA4,H0,
+     . NORMINV,GAP2,PENE2,FAC,FX,FY,FZ
       my_real
      .   FXN(MVSIZ), FYN(MVSIZ), FZN(MVSIZ), 
      .   FXT(MVSIZ), FYT(MVSIZ), FZT(MVSIZ) 

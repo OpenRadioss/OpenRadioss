@@ -80,17 +80,17 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J1, J , K0,K1S,K, NI,ISF,NN,NS,JLTF,NE,NN1,NN2
+      INTEGER I, J, K, NI, ISF, NN, NS, JLTF, NE, NN1, NN2
       my_real
      .   VX(MVSIZ), VY(MVSIZ), VZ(MVSIZ), VN(MVSIZ),PENE(MVSIZ),
-     .   VNX, VNY, VNZ, AA, VMAX,S2,DIST,RDIST,
-     .   V2, FM2, DT1INV, VISCA,  FAC,  FF,
-     .   FX, FY, FZ, F2, MAS2, FACM1, PPLUS
+     . S2,
+     . FAC,
+     . PPLUS
       my_real
      .   PREC,FACT(MVSIZ),KN(4,MVSIZ),Q(3,3,MVSIZ),
      .   H1(MVSIZ), H2(MVSIZ), H3(MVSIZ), H4(MVSIZ)
       my_real
-     .   Q11,Q12,Q13,Q22,Q23,Q33,H00,VTX,VTY,VTZ,VT,
+     . Q11,Q12,Q13,Q22,Q23,Q33,VTX,VTY,VTZ,VT,
      .   KT1,KT2,KT3,KT4,Q1,Q2,FACF
 C-----------------------------------------------
       IF (IRESP == 1) THEN
@@ -455,7 +455,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J1, J, K,IG,ISF,NN,NS,NI,NJ
+      INTEGER I, ISF, NI, NJ
       my_real
      .   VX(MVSIZ), VY(MVSIZ), VZ(MVSIZ), VN(MVSIZ), 
      .   DX(MVSIZ), DY(MVSIZ), DZ(MVSIZ), DN(MVSIZ), 
@@ -463,10 +463,8 @@ C-----------------------------------------------
      .   DNI(MVSIZ),DT(MVSIZ), DTI(MVSIZ), 
      .   S2,FACN(MVSIZ),FACF, FACT(MVSIZ)
       my_real
-     .   FX,FY,FZ,FN,FT,FNI,FTI,VTX,VTY,VTZ,VT,
-     .   T1(MVSIZ), T2(MVSIZ), T3(MVSIZ),
-     .   KT1,KT2,KT3,KT4,Q1,Q2
-
+     . FX,FY,FZ,FN,FT,FNI,VTX,VTY,VTZ,VT,
+     .   T1(MVSIZ), T2(MVSIZ), T3(MVSIZ)
 C-----------------------------------------------
 C
       DO I=1,JLT
@@ -618,7 +616,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER JLT,INACTI,NRTS,NIN,LREM,IDESAC
+      INTEGER JLT, INACTI, NRTS, NIN, IDESAC
       INTEGER CS_LOC(MVSIZ), CM_LOC(MVSIZ),N1(MVSIZ), N2(MVSIZ),
      .        M1(MVSIZ), M2(MVSIZ) 
       my_real
@@ -636,7 +634,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J1, J , K0,K1S,K, NI,NN,NS,JLTF,NE,NN1,NN2,NM1,NM2
+      INTEGER I, NI, NN, NS, NN1, NN2, NM1, NM2
       my_real
      .   DXM1(MVSIZ),DYM1(MVSIZ),DZM1(MVSIZ),DXM2(MVSIZ),
      .   DYM2(MVSIZ),DZM2(MVSIZ),
@@ -644,9 +642,9 @@ C-----------------------------------------------
      .   DX(MVSIZ), DY(MVSIZ), DZ(MVSIZ), DN(MVSIZ),
      .   DXI(MVSIZ),DYI(MVSIZ), DZI(MVSIZ),DNI(MVSIZ), 
      .   FXI(MVSIZ),FYI(MVSIZ), FZI(MVSIZ),FNI(MVSIZ), 
-     .   VNX, VNY, VNZ, AA, VMAX,S2,DIST,RDIST,
-     .   V2, FM2, VISCA,  FAC,  FF,DXT,T1,T2,T3,FTN,
-     .   FX, FY, FZ, F2, MAS2, FACM1, PPLUS,GAP2,PENE2,PREC
+     . VNX, VNY, VNZ, AA,S2,
+     . V2, FAC,DXT,T1,T2,T3,FTN,
+     . FX, FY, FZ, PPLUS,GAP2,PENE2,PREC
 C-----------------------------------------------
       IF (IRESP == 1) THEN
          PREC = FIVEEM4

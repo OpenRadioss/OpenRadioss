@@ -68,7 +68,7 @@ C-----------------------------------------------
       INTEGER I, II, N1, N2, IE, NG, MAT, IFA, LENR, 
      .        IFACE(2,4)
       my_real
-     .  Y1, Y2, Y3, Y4, Z1, Z2, Z3, Z4,
+     .  Y1, Y2, Z1, Z2,
      .  NY, NZ, DY, DZ, DD, GRAD, PHI, TEMPE, VOL,
      .  TSTIFE, COEF,EE
       INTEGER :: LLT ,NFT ,MTN ,IAD ,ITY ,NPT ,JALE ,ISMSTR ,JEUL ,JTUR ,JTHE ,JLAG ,JMULT ,JHBE

@@ -59,12 +59,12 @@ C-----------------------------------------------
 ! | .     o3    . |
 ! 1---o1------o2--2 NPT=3
 C----- NLS : Num. of element with active edge----
-      INTEGER I,J,K,NSN0,IP,NS1,NS2,IE,NP0
+      INTEGER J,K,IP,NS1,NS2,IE,NP0
       INTEGER IK1(4),IK2(4),IE1,IE2,IED
       DATA IK1 /1,2,3,4/
       DATA IK2 /2,3,4,1/
       my_real
-     .   FX,FY,FZ,S,STI,FICT(NFIC)
+     .   S,FICT(NFIC)
 C=======================================================================
 C----IRTSE(5,*) -> id of edge
 C=======================================================================
@@ -169,7 +169,7 @@ C-----------------------------------------------
 ! | .     o3    . |
 ! 1---o1------o2--2 NPT=3
 C----- NLS : Num. of element with active edge----
-      INTEGER I,J,K,NSN0,IP,NS1,NS2,IE,NP0,IX
+      INTEGER J,IP,NS1,NS2,IE,NP0,IX
       INTEGER IK1(4),IK2(4),IE1,IE2,IED
       DATA IK1 /1,2,3,4/
       DATA IK2 /2,3,4,1/
@@ -306,7 +306,7 @@ C-----------------------------------------------
 ! | .     o3    . |
 ! 1---o1------o2--2 NPT=3
 C----- NLS : Num. of element with active edge----
-      INTEGER I,J,K,NSN0,IP,NS1,NS2,IE,NP0,IX
+      INTEGER J,IP,NS1,NS2,IE,NP0,IX
       INTEGER IK1(4),IK2(4),IE1,IE2,IED
       DATA IK1 /1,2,3,4/
       DATA IK2 /2,3,4,1/
@@ -438,7 +438,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,NRTSE,NSNE,NSN
+      INTEGER NRTSE,NSNE,NSN
 C=======================================================================
           NRTSE   = IPARI(52)
           NSNE    = IPARI(55)
@@ -490,7 +490,7 @@ C-----------------------------------------------
 ! | .     o3    . |
 ! 1---o1------o2--2 NPT=3
 C----- NLS : Num. of element with active edge----
-      INTEGER I,J,K,NSN0,NS,IP,NS1,NS2,IE,NP0,ipr
+      INTEGER I,NSN0,NS,IP,NS1,NS2,IE,NP0,ipr
       my_real
      .   X0,Y0,Z0,XE0,YE0,ZE0,S
 C=======================================================================
@@ -600,7 +600,7 @@ C-----------------------------------------------
 ! | .     o3    . |
 ! 1---o1------o2--2 NPT=3
 C----- NLS : Num. of element with active edge----
-      INTEGER I,J,K,NSN0,NS,IP,NS1,NS2,IE,NP0
+      INTEGER I,NSN0,NS,IP,NS1,NS2,IE,NP0
       my_real
      .   S0,SE0,FAC
 C=======================================================================

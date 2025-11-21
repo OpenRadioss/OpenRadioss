@@ -58,7 +58,7 @@ C-----------------------------------------------
       my_real
      .   DGR,
      .   XM, YM, ZM, XG, YG, ZG, A, B, C, ROT(9),
-     .   AN, BN, CN,
+     .     
      .   XLMIN, XLMAX, YLMIN, YLMAX, ZLMIN, ZLMAX,
      .   XGMIN, XGMAX, YGMIN, YGMAX, ZGMIN, ZGMAX,
      .   X1, Y1, Z1, 

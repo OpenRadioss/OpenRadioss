@@ -75,7 +75,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER JLT,NISKYFI,NIN,NOINT,INTTH,
+      INTEGER JLT,NISKYFI,NIN,NOINT,
      .        ISKY(*),JTASK,
      .        IX1(MVSIZ),IX2(MVSIZ),IX3(MVSIZ),IX4(MVSIZ),NSVG(MVSIZ)
       my_real
@@ -90,7 +90,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J1, IG, NISKYL1, NISKYL,IGP,IGM,IDR,NISKYFIL
+      INTEGER I, IG, NISKYL1, NISKYL,IGP,IGM,NISKYFIL
       INTEGER :: NODFI
       REAL(kind=8), DIMENSION(6,3*MVSIZ) :: LOCAL_DP,REMOTE_DP
       my_real, DIMENSION(3*MVSIZ) :: F_LOCAL, F_REMOTE

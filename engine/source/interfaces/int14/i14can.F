@@ -57,14 +57,14 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER ADRBUF, I, IN, IL
+      INTEGER ADRBUF, I, IN
       INTEGER DGR
       my_real
      .   XG, YG, ZG, A, B, C, ROT(9),
      .   AN, BN, CN, HN,
      .   TRMX, TRMY, TRMZ, TRMXN, TRMYN, TRMZN,
      .   XP, YP, ZP,
-     .   D, H, EG(6), EPG
+     .   D, H
 C-----------------------------------------------
       ADRBUF=IGRSURF(KSURF)%IAD_BUFR
 C

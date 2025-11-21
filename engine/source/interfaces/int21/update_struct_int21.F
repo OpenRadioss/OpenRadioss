@@ -62,8 +62,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, IP0, IP1, II,IFLAGLOADP,
-     .        N,L,PP,J_STOK,IAD(NSPMD),
+      INTEGER I, J, II,IFLAGLOADP,
+     .        L,PP,IAD(NSPMD),
      .        TAG(NMN),NM(4),NODFI,PTR, IERROR1,IERROR2, IERROR3,
      .        IERROR4,LSKYFI
 

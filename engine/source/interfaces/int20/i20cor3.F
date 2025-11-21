@@ -62,7 +62,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IRECT(4,*), NSV(*), CAND_E(*), CAND_N(*),KINET(*),KINI(*),
-     .        JLT,IDT, NOINT,IGAP ,NSN, ITY, NIN, IGSTI,
+     .        JLT,IGAP ,NSN, ITY, NIN, IGSTI,
      .        IADM,INTTH, NLN, NLG(*)
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ),
      .        NSVG(MVSIZ),IELEC(*),IELECI(MVSIZ),  NSMS(MVSIZ), 
@@ -85,7 +85,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I ,J  ,IL, L, NN, IG,JFT, IX,  NI
+      INTEGER I   ,IL, L, NN, IG, IX,  NI
 C-----------------------------------------------
 C
       IF(IGAP==0)THEN
@@ -573,8 +573,8 @@ C-----------------------------------------------
       my_real
      .     PENE2(MVSIZ),
      .     XS12,YS12,ZS12,XM12,YM12,ZM12,XA,XB,
-     .     XS2,XM2,XSM,XS2M2,YS2,YM2,YSM,YS2M2,ZS2,ZM2,ZSM,ZS2M2,
-     .     XX,YY,ZZ,ALS,ALM,DET,AAA,GAP2,
+     .     XS2,XM2,XSM,XS2M2,YS2M2,ZS2M2,
+     .     DET,AAA,GAP2,
      .     SX1,SX2,SX3,SX4,SY1,SY2,SY3,SY4,SZ1,SZ2,SZ3,SZ4
 C-----------------------------------------------
        JLT_NEW = 0
