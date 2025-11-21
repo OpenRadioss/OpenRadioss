@@ -76,15 +76,15 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I , L, E, IE, JE, NN1, NN2, IL, JL, I1, I2, SOL_EDGE, SH_EDGE, SHFT_EDGE
+      INTEGER I , L, IE, JE, NN1, NN2, SOL_EDGE, SH_EDGE
       my_real
-     .        XI,X1,X2,X3,X4,YI,Y1,Y2,Y3,Y4,ZI,Z1,Z2,Z3,Z4,
+     .        X1,X2,X3,X4,Y1,Y2,Y3,Y4,Z1,Z2,Z3,Z4,
      .        XMINS,XMAXS,YMINS,YMAXS,ZMINS,ZMAXS,
      .        XMINM,XMAXM,YMINM,YMAXM,ZMINM,ZMAXM,
-     .        V12,V22,V32,V42,VV,GAPVD
+     .        GAPVD
       INTEGER MSEG,CT
       my_real
-     .        GAPV(MVSIZ),DTTI(MVSIZ),S
+     .        GAPV(MVSIZ),S
       INTEGER LIST(MVSIZ), LISTI(MVSIZ)
       INTEGER IS,JS,LS,NLS,NLT,NSEG,NLF,II,NLS2
       INTEGER N1,N2,M1,M2

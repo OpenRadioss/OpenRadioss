@@ -76,7 +76,7 @@ C-----------------------------------------------
      .        IX4(MVSIZ), LISTI(MVSIZ),COUNT_CAND,CT
       my_real
      .        XI,X1,X2,X3,X4,YI,Y1,Y2,Y3,Y4,ZI,Z1,Z2,Z3,Z4,
-     .        XMIN,XMAX,YMIN,YMAX,ZMIN,ZMAX,V12,V22,V32,V42
+     .        XMIN,XMAX,YMIN,YMAX,ZMIN,ZMAX
       my_real
      .        GAPV(MVSIZ)
       my_real

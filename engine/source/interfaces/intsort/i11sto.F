@@ -54,7 +54,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER I_MEM, NRTS, NIN, ITAB(*)
+      INTEGER I_MEM, NRTS, ITAB(*)
       INTEGER J_STOK,NSN4,NOINT,IFORM,IGAP
       INTEGER IRECTS(2,*),IRECTM(2,*),CAND_S(*),CAND_M(*),ADDCM(*),
      .        CHAINE(2,*),IFPEN(*),II_STOK
@@ -182,7 +182,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER I_MEM, NRTS, NIN, ITAB(*)
+      INTEGER I_MEM, NRTS, ITAB(*)
       INTEGER J_STOK,NSN4,NOINT,IFORM
       INTEGER IRECTS(2,*),IRECTM(2,*),CAND_S(*),CAND_M(*),ADDCM(*),
      .        CHAINE(2,*),IFPEN(*),II_STOK

@@ -65,7 +65,7 @@ C
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,II,K,N1,N2,N3,N4,INTERSECTION,LEVEL,NEWCRK1,NEWCRK2,NCURR,
+      INTEGER I, II, K, N1, N2, N3, N4, INTERSECTION, NEWCRK1, NEWCRK2, NCURR, 
      .        MAXLEV,IDEBUG
       INTEGER ,DIMENSION(NEL)   :: INDX1,INDX2
       INTEGER ,DIMENSION(4)     :: IDF1,IDF2,NOD_ID,NOD_NN
@@ -73,7 +73,7 @@ c
       my_real :: DIR11,DIR22,COSX,SINX,COSY,SINY,LMAX,XM,YM,
      .   X1,Y1,X2,Y2,X3,Y3,X4,Y4,X5,Y5,X6,Y6,X7,Y7,X8,Y8,DX1,DY1,DX2,DY2,
      .   XINT,YINT,RAT1,RAT2,RX,RY   
-      my_real ,DIMENSION(2,NEL) :: P1,P2,P3,P4,P5,P6,P7,P8
+ 
       INTEGER  SEG_INTERSECT
       EXTERNAL SEG_INTERSECT
 c-----------------------------------------------

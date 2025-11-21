@@ -90,7 +90,7 @@ C!-----------------------------------------------
 C!-----------------------------------------------
 C!   L o c a l   V a r i a b l e s
 C!-----------------------------------------------
-      INTEGER I,K,J,INDX(NEL),NINDX,INDX2(NEL),NINDX2,NSTEP,CRIT,NMOD,
+      INTEGER I,J,INDX(NEL),NINDX,INDX2(NEL),NINDX2,NSTEP,CRIT,NMOD,
      .        fct_ISM,fct_IPS,fct_IDg12,fct_IDg13,fct_IDe1c,fct_IDel,
      .        NCRIT(NEL),IPOS(NEL,2),Ismooth,Istrain,IR,IS,IT,
      .        ILAY,tab_IDfld,Itab,NCS,INDX3(NEL),NINDX3,IPMAX(NEL),IPMIN(NEL),

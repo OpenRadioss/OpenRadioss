@@ -70,17 +70,17 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,II,IEL,IPOS,IL,IFL,IP,IPT,IG,IPG,JPG,NPTR,NPTS,NPTT,IMAT,
-     .   IDMG,COUNTPG,NINDXPG,NINDXLY,IPT_ALL,NFAIL,IPWEIGHT,IPTHKLY
-      INTEGER, DIMENSION(NEL) :: NPTF,INDXPG,INDXLY  
-      INTEGER, DIMENSION(10) :: ISTRESS
+      INTEGER IEL, IPOS, IL, IFL, IPT, IG, IPG, JPG, NPTR, NPTS, NPTT, IMAT, 
+     . COUNTPG,NINDXPG,NFAIL,IPWEIGHT,IPTHKLY
+      INTEGER, DIMENSION(NEL) :: INDXPG
+ 
       INTEGER, DIMENSION(:), POINTER :: OFFLY,OFFPG,FOFF
       my_real, DIMENSION(NLAY,100)   :: PTHKF
-      my_real, DIMENSION(NEL) :: UEL1,DFMAX,TDEL,NPTTF,SIGSCALE
+ 
       my_real, DIMENSION(:), POINTER :: DMAX
-      my_real, DIMENSION(NLAY) :: WEIGHT,P_THKLY
-      my_real :: THK_LAY,P_THICKG,FAIL_EXP,THFACT,NORM,DFAIL
-      TYPE(L_BUFEL_) ,POINTER :: LBUF 
+ 
+      my_real :: P_THICKG, FAIL_EXP, THFACT
+ 
       TYPE (STACK_PLY) :: STACK    
 c-----------------------------------------------------------------------
 c     NPTT       NUMBER OF INTEGRATION POINTS IN CURRENT LAYER

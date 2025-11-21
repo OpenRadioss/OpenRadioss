@@ -106,13 +106,13 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,NINDXD,NINDXF,S_FLAG,STRDEF,STRFLAG
-      INTEGER ,DIMENSION(NEL) :: IFLAG,INDXD,INDXF
+      INTEGER ,DIMENSION(NEL) :: INDXD,INDXF
       my_real :: E1,E2,E3,E4,E5,E6,RFAC,RFAC2,E42,E52,E62,C,D,EPST,EPST2,
-     .       R1,R2,Y,YP,DAV,DYDX,IE_SP,P,SCALE,CC,Y1,I1,I2,I3,Q,R,PHI,
+     .       R1,R2,Y,YP,DAV,DYDX,CC,Y1,I1,I2,I3,Q,R,PHI,
      .       R_INTER,EL_REF,SC_EL,EPSP1,EPSP2,FAC,SCALE_TEMP,
      .       E11,E22,E33,EPSF1,EPSF2,LAMBDA,UNIT_T,EPSP_UNIT
       my_real,DIMENSION(NEL) :: EPS11,EPS22,EPS33,EPS12,EPS23,EPS31,
-     .   EPS_MAX,DAMAGE,RIEF1,RIEF2
+     .   EPS_MAX,DAMAGE
 C=======================================================================
       EPSF1   = UPARAM(1)
       EPSF2   = UPARAM(2)

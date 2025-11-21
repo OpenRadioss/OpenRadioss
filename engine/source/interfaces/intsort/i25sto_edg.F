@@ -63,8 +63,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER I_MEM, IGAP0, NEDGE, NIN, ITAB(NUMNOD), INACTI,IFQ
-      INTEGER J_STOK,MULNSN,NOINT,IFORM,IGAP
+      INTEGER I_MEM, IGAP0, NEDGE, ITAB(NUMNOD), INACTI, IFQ
+      INTEGER J_STOK, MULNSN, NOINT, IGAP
       INTEGER IRECT(4,*),LEDGE(NLEDGE,NEDGE),ADMSR(4,*),CAND_S(*),CAND_M(*),II_STOK,CAND_A(*)
       INTEGER PROV_S(MVSIZ),PROV_M(MVSIZ),IFPEN(*)
 C     INTEGER NEDGEROLD,RENUM(*)
@@ -76,9 +76,9 @@ C     INTEGER NEDGEROLD,RENUM(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K_STOK,I_STOK,IAD0,IAD,IADFIN,N,NE,ie,n1,n2
-      INTEGER I_STOK_FIRST,NINDX,INDEX(MVSIZ) 
-      INTEGER :: EID
+      INTEGER I, J, K_STOK, I_STOK, N, NE
+ 
+ 
 C     REAL
       my_real
      .   PENE(MVSIZ)

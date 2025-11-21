@@ -97,7 +97,7 @@ C-----------------------------------------------
       INTEGER ,DIMENSION(7,NEL)   :: MODE
       my_real :: SIGT1,SIGT2,SIGC1,SIGC2,CSIG,FSIG12,MSIG12,MSIG23,
      .   MSIG13,ANGLE,SDEL,TMAX,RATIO,F1,F2,F3,F4,F5,SIG,P,F6,F7,
-     .   TSIG12,XSIG12,XSIG23,DAMMX, TELEM,K2M,INSTF,K0,K1,K2,K3,
+     .   TSIG12,XSIG12,XSIG23,DAMMX, TELEM,K2M,K0,K1,K2,
      .   ZEP669741,DTINV,KM,EPSPREF,FILT,ALPHA
 c=======================================================================C
       ZEP669741 = SIX*EM01 + SIX*EM02 + NINE*EM3 + SEVEN*EM04 +

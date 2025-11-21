@@ -93,14 +93,14 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       LOGICAL, DIMENSION(NINTER) :: FORCE_COMPUTATION
       INTEGER I,J,KK,IGN,IGE,JJ, NSN, NMN,
-     .        IAD,K,N,IADD,ICOMP,NTY,NME,NMES,NMET,
+     .        NTY,NME,NMES,NMET,
      .        NBNEW, LISTNEW(NBINTC), ISENS, INTERACT,DELTA_PMAX_GAP_NOD
       INTEGER :: JMAX,KEY,KEYIN
       my_real
      .        XX,XY,XZ,DIST0,VX,VY,VZ,GAPINF,VV,DTI,VMAXDT,
      .        STARTT, STOPT, MINBOX,TZINFL,GAPSUP,PMAX_GAP,
-     .        MARGE0,TZINF(NBINTC),CRITERL(NBINTC),TS     ,
-     .        XXP,XYP,XZP,XXG,XYG,XZG,D0,D1,D2,D3,D4,D5,D6,D7,D8,
+     .        MARGE0,TZINF(NBINTC),TS     ,
+     .        D0,D1,
      .        DELTA_PMAX_GAP_SAV(NINTER)
       my_real :: DGLOB
 C-----------------------------------------------

@@ -65,7 +65,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, IG, NI, N1, N2, K, IE, JE, JL, I1, I2, I3, I4, NLS, NLT, LIST(MVSIZ)
+      INTEGER I, NI, N1, N2, K, IE, JE, I1, I2, I3, I4, NLS, NLT, LIST(MVSIZ)
       my_real
      .     XXS1(MVSIZ) ,XXS2(MVSIZ) ,YYS1(MVSIZ) ,YYS2(MVSIZ) ,ZZS1(MVSIZ) ,ZZS2(MVSIZ) ,
      .     XX1,YY1,ZZ1,XX2,YY2,ZZ2,XX3,YY3,ZZ3,XX4,YY4,ZZ4,

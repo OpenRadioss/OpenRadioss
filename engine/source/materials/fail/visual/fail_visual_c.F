@@ -68,14 +68,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C I N P U T O U T P U T A r g u m e n t s
 C-----------------------------------------------
-       my_real UVAR(NEL,NUVAR), OFF(NEL),OFFL(NEL),
+       my_real UVAR(NEL,NUVAR), OFF(NEL),
      .   SIGNXX(NEL),SIGNYY(NEL),SIGNXY(NEL)
 C-----------------------------------------------
 C VARIABLES FOR FUNCTION INTERPOLATION
 C-----------------------------------------------
 C L o c a l V a r i a b l e s
 C-----------------------------------------------
-        INTEGER I,J,LENG,NINDX,INDX(NEL),TYPE_MAX,F_FLAG,STRDEF,STRFLAG
+        INTEGER I,J,NINDX,INDX(NEL),TYPE_MAX,F_FLAG,STRDEF,STRFLAG
         my_real E11,SIG_A,SIG_B,SIG_11,EPS_A,EPS_B,
      .          C_MIN,C_MAX,EMA,DAMAGE 
         DOUBLE PRECISION :: A0(2),A1(2),A2(2),C0,C1,C2,C3,C4,C5,C6,C7,C8,C9,

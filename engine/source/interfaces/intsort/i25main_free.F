@@ -71,8 +71,6 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER N, NIN, NRTM, IEDGE, NEDGE
 C     REAL
-      my_real
-     .   STARTT, STOPT
 C-----------------------------------------------
       DO N = 1,NINTER25
         NIN = INTLIST25(N)

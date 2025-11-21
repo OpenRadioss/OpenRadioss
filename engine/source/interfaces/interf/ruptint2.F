@@ -71,7 +71,7 @@ C----------------------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER  IERROR,IRUPT,IRUPT0,ISECND
+      INTEGER  IRUPT,IRUPT0,ISECND
       my_real
      .   DTIM,SIGN,SIGT,SIGN1,SIGT1,AREA,DFSIGN,DFSIGT,DSIG,
      .   SIGNMAX,SIGTMAX,DNMAX,DTMAX,FACN,FACT,
