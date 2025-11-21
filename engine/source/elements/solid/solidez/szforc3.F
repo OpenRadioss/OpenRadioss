@@ -311,7 +311,7 @@ C 8-nodes Solid Connectivities
      .  XGXYA(MVSIZ),XGYZA(MVSIZ),XGZXA(MVSIZ),
      .  XGXA2(MVSIZ),XGYA2(MVSIZ),XGZA2(MVSIZ),
      .  STI_C(MVSIZ),LL(MVSIZ),L_MAX(MVSIZ),FLD(MVSIZ),
-     .  CNS2,RHO0_1,NU,C1,CAQ,FQMAX
+     .  CNS2,RHO0_1,NU,FQMAX
       my_real, dimension(mvsiz) :: fheat
       my_real ,DIMENSION(:), POINTER :: EINT
 C-----

@@ -88,9 +88,9 @@ C     REAL
      .    DNDK1,DNDK2,DNDK3,DNDK4,
      .    DNDE1,DNDE2,DNDE3,DNDE4,
      .    DYDK(MVSIZ),DYDE(MVSIZ),DZDK(MVSIZ),DZDE(MVSIZ),
-     .    DET(MVSIZ),YH(MVSIZ),ZH(MVSIZ)
+     .    DET(MVSIZ)
       my_real
-     .    QN1,QN2,QN3,QN4,YD,DETI,NU1
+     .    DETI,NU1
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------

@@ -71,13 +71,13 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER N,INOD,JNOD,J,NVOIS,M,NN,
-     .        NVOISS,SM,JS,NC,IC,IS,
+     . NVOISS,SM,JS,NC,
      .        I,IPRT,IGEO,IORDER,NMUN,NZERO,NUN,
      .        MWAMUN(NSPHACT),MWAUN(NSPHACT),MWAZERO(NSPHACT),
      .        IGTYP
       my_real
      .       XI,YI,ZI,DI,RHOI,XJ,YJ,ZJ,DJ,RHOJ,DIJ,
-     .       VJ,VJX,VJY,VJZ,
+     . VJ,
      .       WGHT,WGRAD(3),
      .       WCOMPI,WCOMPXI,WCOMPYI,WCOMPZI,
      .       WGRADXI,WGRADYI,WGRADZI,
@@ -86,23 +86,9 @@ C-----------------------------------------------
      .       WGRADZXI,WGRADZYI,WGRADZZI,DET,
      . LI11,LI12,LI13,LI21,LI22,LI23,LI31,LI32,LI33,
      . TCOFA11,TCOFA12,TCOFA13,TCOFA21,TCOFA22,TCOFA23,
-     . TCOFA31,TCOFA32,TCOFA33,L(3,3),IL(3,3),
-     . LXI11,LXI12,LXI13,LXI22,LXI23,LXI33,
-     . LYI11,LYI12,LYI13,LYI22,LYI23,LYI33,
-     . LZI11,LZI12,LZI13,LZI22,LZI23,LZI33,
-     . MXI11,MXI12,MXI13,MXI21,MXI22,MXI23,MXI31,MXI32,MXI33,
-     . MYI11,MYI12,MYI13,MYI21,MYI22,MYI23,MYI31,MYI32,MYI33,
-     . MZI11,MZI12,MZI13,MZI21,MZI22,MZI23,MZI31,MZI32,MZI33,
+     . TCOFA31,TCOFA32,TCOFA33,
      . ALPHAI,ALPHAXI,ALPHAYI,ALPHAZI,ALPHAI2,
-     . BETAXI,BETAYI,BETAZI,
-     . BETAXXI,BETAYXI,BETAZXI,
-     . BETAXYI,BETAYYI,BETAZYI,
-     . BETAXZI,BETAYZI,BETAZZI,
-     . BETAX,WGRDX,WGRDY,WGRDZ,
-     .       OX,OY,OZ,UX,UY,UZ,VX,VY,VZ,WX,WY,WZ,
-     .       S11,S12,S13,S22,S23,S33,
-     .       ALPHAXJ,ALPHAYJ,ALPHAZJ,
-     .       BETAXJ,BETAYJ,BETAZJ
+     . VX,VY,VZ
 C-----------------------------------------------
       my_real
      .         GET_U_GEO

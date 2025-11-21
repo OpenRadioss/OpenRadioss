@@ -48,7 +48,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,KK,N,NSX,NCT_CRK,NC_CRK,EN0,ENR,ILEV,NLEV,OK_UP,ENR_MAX
+      INTEGER KK,N,NSX,NCT_CRK,NC_CRK,EN0,ENR,ILEV,NLEV,OK_UP,ENR_MAX
       INTEGER, DIMENSION(:),ALLOCATABLE :: IFAC0
 C=======================================================================
       ALLOCATE(IFAC0(0:IENRNOD))

@@ -77,13 +77,13 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER  I, J, ILENG,NINDX, PID
-      INTEGER NC1(MVSIZ), NC2(MVSIZ),INDX(MVSIZ)
+      INTEGER  INDX(MVSIZ)
 C     REAL
       my_real
      .   DLOLD(MVSIZ),DMN(MVSIZ),DMX(MVSIZ),XL0(MVSIZ),
-     .   DV(MVSIZ),ALPHA(MVSIZ)
+     .   ALPHA(MVSIZ)
       my_real
-     .    DT11, BID, SUM
+     .    DT11, SUM
       DOUBLE PRECISION EXDP(MVSIZ),EYDP(MVSIZ),EZDP(MVSIZ),ALDP(MVSIZ),
      .                 AL0DP(MVSIZ)
 C-----------------------------------------------

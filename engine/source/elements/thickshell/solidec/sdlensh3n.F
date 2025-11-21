@@ -53,7 +53,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, N
+      INTEGER I
       my_real
      .        E1X(MVSIZ), E1Y(MVSIZ), E1Z(MVSIZ),
      .        E2X(MVSIZ), E2Y(MVSIZ), E2Z(MVSIZ),

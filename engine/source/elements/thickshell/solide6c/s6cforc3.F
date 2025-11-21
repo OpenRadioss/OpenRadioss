@@ -186,15 +186,15 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,LCO,NF1,IFLAG,NUVAR,CURRENT_LAYER,IMAT,
-     .   ILAY,NLAY,IR,IS,IT,IP,IBID,MX,L_PLA,L_EPSD
+      INTEGER I,J,NF1,IFLAG,CURRENT_LAYER,IMAT,
+     .   ILAY,NLAY,IR,IS,IT,IBID,MX,L_PLA,L_EPSD
       INTEGER MXT(MVSIZ),NGL(MVSIZ),NGEO(MVSIZ),IBIDON(1)
 c     variables used only in solid routines (as arguments).
       INTEGER NC1(MVSIZ), NC2(MVSIZ), NC3(MVSIZ), NC4(MVSIZ), 
-     .        NC5(MVSIZ), NC6(MVSIZ), NC7(MVSIZ), NC8(MVSIZ)
+     .        NC5(MVSIZ), NC6(MVSIZ)
 C----------
       my_real
-     .   C1,DTI, MBID(1)
+     .   C1,DTI
       my_real
      . VD2(MVSIZ) , DVOL(MVSIZ),DELTAX(MVSIZ),
      . VIS(MVSIZ) , QVIS(MVSIZ), CXX(MVSIZ) ,
@@ -226,11 +226,11 @@ C
      .  VZ1(MVSIZ),VZ2(MVSIZ),VZ3(MVSIZ),VZ4(MVSIZ),
      .  VZ5(MVSIZ),VZ6(MVSIZ),
      .  PX1(MVSIZ),PX2(MVSIZ),PX3(MVSIZ),PX4(MVSIZ),
-     .  PX5(MVSIZ),PX6(MVSIZ),
+     .  
      .  PY1(MVSIZ),PY2(MVSIZ),PY3(MVSIZ),PY4(MVSIZ),
-     .  PY5(MVSIZ),PY6(MVSIZ),
+     .  
      .  PZ1(MVSIZ),PZ2(MVSIZ),PZ3(MVSIZ),PZ4(MVSIZ),
-     .  PZ5(MVSIZ),PZ6(MVSIZ),
+     .  
      .  PX1H(MVSIZ),PX2H(MVSIZ),PX3H(MVSIZ),
      .  PY1H(MVSIZ),PY2H(MVSIZ),PY3H(MVSIZ),
      .  PZ1H(MVSIZ),PZ2H(MVSIZ),PZ3H(MVSIZ),
@@ -248,7 +248,7 @@ C
      .   R31(MVSIZ),R32(MVSIZ),R33(MVSIZ),GAMA(MVSIZ,6)
 C                                                                     12
       my_real
-     .   SIGYM(MVSIZ),G(MVSIZ),NU(MVSIZ),VOLG(MVSIZ),SIGY(MVSIZ),
+     .   NU(MVSIZ),VOLG(MVSIZ),SIGY(MVSIZ),
      .   B1122(MVSIZ),B1221(MVSIZ),B2212(MVSIZ),B1121(MVSIZ),
      .   B1122H(MVSIZ),B1221H(MVSIZ),B2212H(MVSIZ),B1121H(MVSIZ),
      .   B1X(MVSIZ,2),B1Y(MVSIZ,2),B2X(MVSIZ,2),B2Y(MVSIZ,2),
@@ -258,9 +258,9 @@ C                                                                     12
      .   DC5(MVSIZ),DC6(MVSIZ),VZL(MVSIZ),JACI33(MVSIZ),
      .   DHXX(MVSIZ),DHXY(MVSIZ),DHYX(MVSIZ),DHYY(MVSIZ),DHYZ(MVSIZ),
      .   DHZX(MVSIZ),DHZY(MVSIZ),DHZZ(MVSIZ),DH4(MVSIZ),DHXZ(MVSIZ),
-     .   DH5(MVSIZ),DH6(MVSIZ),EINTM(MVSIZ),DDHV(MVSIZ),DD(MVSIZ,6),
+     .   DH5(MVSIZ),DH6(MVSIZ),DDHV(MVSIZ),DD(MVSIZ,6),
      .   SIGZM(MVSIZ),VOLM(MVSIZ),USB(MVSIZ),ET(MVSIZ),
-     .   R1_FREE(MVSIZ),R3_FREE(MVSIZ),R4_FREE(MVSIZ),
+     .   R1_FREE(MVSIZ),R3_FREE(MVSIZ),
      .   STIN(MVSIZ),BID(MVSIZ),DSV(MVSIZ),ALPHA_E(MVSIZ),LLSH(MVSIZ)
 C     
       INTEGER PID,MTN0,IPTHK,IPPOS,IPMAT,NLYMAX,MID,IPANG,IOFFS

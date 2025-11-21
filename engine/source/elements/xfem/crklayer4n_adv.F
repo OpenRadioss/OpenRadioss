@@ -65,25 +65,25 @@ C-----------------------------------------------
      . ELCUTC(2,*),NODEDGE(2,*),CRKNODIAD(*),KNOD2ELC(*),XEDGE4N(4,*)
       my_real DIR1(NLAY,NEL),DIR2(NLAY,NEL),A_I(NEL),
      .  XL2(NEL),YL2(NEL),XL3(NEL),YL3(NEL),XL4(NEL),YL4(NEL)
-      TYPE (ELBUF_STRUCT_), TARGET          :: ELBUF_STR
+ 
       TYPE (ELBUF_STRUCT_), DIMENSION(NXEL) :: XFEM_STR
       TYPE (XFEM_EDGE_)   , DIMENSION(*)    :: CRKEDGE
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,II,R,IR,P1,P2,PP1,PP2,PP3,NEWCRK,IED,OK,
-     . ICRK,IELCRK,ELCRK,NX1,NX2,NX3,NX4,NM,NP,FAC,IFI1,IFI2,IEDGE,
+      INTEGER I, K, II, R, IR, P1, P2, PP1, PP2, PP3, NEWCRK, IED, OK, 
+     . ICRK,ELCRK,NX1,NX2,NX3,NX4,NM,NP,FAC,IFI1,IFI2,IEDGE,
      . ICUT,SIGBETA,NOD1,NOD2,IE1,IE2,IE10,IE20,ITRI,IAD1,IAD2,IAD3,IAD4
 c
       INTEGER ECUT(2,NEL),EDGEL(4,NEL),IENR0(4,NEL),dd(4),d(8),KPERM(8),
-     . N(4),NN(4),IADC(4),IENR(4),ENR(4),ISIGN(4),EN(2,4)
+     . N(4),NN(4),IADC(4),IENR(4),ISIGN(4)
       INTEGER , DIMENSION(NEL) :: JCT,ELFISS,TIP
 c
       my_real, DIMENSION(2) :: XMI,YMI
       my_real, DIMENSION(2,NEL) :: XIN,YIN
       my_real, DIMENSION(4,NEL) :: LEN,XXL,YYL,FIT,BETA0
       my_real
-     .   XINT,YINT,FI,CROSS,ACD,BCD,DLX,DLY,D12,M12,MM,XINT0,YINT0,BETA,
+     . XINT,YINT,FI,CROSS,ACD,BCD,DLX,DLY,M12,MM,XINT0,YINT0,BETA,
      .   BMIN,BMAX,DIR11,DIR22,X1,Y1,X2,Y2,X3,Y3,X4,Y4,AREA1,AREA2,AREA3
 C----------
       DATA d/1,2,2,3,4,3,1,4/

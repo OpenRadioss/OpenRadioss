@@ -66,10 +66,10 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J
+      INTEGER I
 C     REAL
       my_real
-     .     RX(3),RXX1, RXX2, SINT(MVSIZ), 
+     .     RXX1, RXX2, SINT(MVSIZ), 
      .     SUM(MVSIZ) ,SUM2(MVSIZ), SUM3(MVSIZ) ,THETA(MVSIZ),
      .     COST(MVSIZ)
 C-----------------------------------------------

@@ -47,7 +47,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,KK,N,NX,NCT,NC,ILEV,NLEV
+      INTEGER KK,N,NX,NCT,NC,ILEV,NLEV
 C=======================================================================
       DO N = NODFT,NODLT
         NX = INOD_CRK(N)   ! no node systeme xfem

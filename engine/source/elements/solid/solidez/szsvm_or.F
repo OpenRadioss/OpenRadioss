@@ -57,8 +57,8 @@ C-----------------------------------------------
       my_real
      .   S1,S2,S3,SVM0,SR1,SR2,SR3,SR4,
      .   SS1,SS2,SS3,SS4,ST1,ST2,ST3,ST4,SVMR,SVMS,SVMT,
-     .   SVM,SVMRST,COEF,COEF1, JR_1,JS_1,JT_1,NU1,NU2,T1,T2,
-     .   RS,ST,RT,VT1(4),VT2(4),MAX1,MIN1,MAX2,MIN2,MAX0,MIN0, 
+     .   SVMRST,COEF,COEF1, JR_1,JS_1,JT_1,NU1,NU2,T1,T2,
+     .   RS,ST,RT,VT2(4),MAX0,MIN0, 
      .   SR5,SR6,SS5,SS6, ST5,ST6
 C-----------------------------------------------
 C         coef= (3*8*0.75)^2 coef1 =1/0.75

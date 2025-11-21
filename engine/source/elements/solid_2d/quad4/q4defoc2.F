@@ -75,8 +75,7 @@ C-----------------------------------------------
       INTEGER I
       my_real
      .    VY13(MVSIZ),VY24(MVSIZ),VZ13(MVSIZ),VZ24(MVSIZ),
-     .    DYZ(MVSIZ),DZY(MVSIZ),DYY(MVSIZ),DZZ(MVSIZ),
-     .    VY,VZ
+     .    DYZ(MVSIZ),DZY(MVSIZ),DYY(MVSIZ),DZZ(MVSIZ)
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
