@@ -256,6 +256,7 @@
           use sigeps127_mod
           use sigeps128s_mod
           use sigeps129s_mod
+          use sigeps130_mod
           use sigeps133_mod , only : sigeps133
           use sigeps134s_mod
           use sigeps163_mod
@@ -2071,6 +2072,22 @@
               sigy     ,et       ,defp     ,dpla     ,epsd     ,ssp      ,  &
               lbuf%temp,el_temp  ,off      ,tt       ,iexpan   ,amu      ,  &
               sensors  )
+!
+          else if (mtn == 130) then
+            idev = 1
+            call mstrain_rate(nel    ,israte ,asrate ,epsd     ,idev     ,     &
+              ep1      ,ep2      ,ep3      ,ep4      ,ep5      ,ep6      )
+            call sigeps130( &
+              nel      ,nuvar    ,uvar     ,matparam ,et       ,tt       ,     &    
+              epsd     ,sigy     ,ssp      ,nvartmp  ,vartmp   ,ngl      ,     &
+              de1      ,de2      ,de3      ,de4      ,de5      ,de6      ,     &
+              es1      ,es2      ,es3      ,es4      ,es5      ,es6      ,     &
+              ep1      ,ep2      ,ep3      ,ep4      ,ep5      ,ep6      ,     &
+              so1      ,so2      ,so3      ,so4      ,so5      ,so6      ,     &
+              s1       ,s2       ,s3       ,s4       ,s5       ,s6       ,     &
+              sv1      ,sv2      ,sv3      ,sv4      ,sv5      ,sv6      ,     &
+              rho0     ,rho      ,iresp    ,amu      ,off      ,dt1      ,     &
+              deltax   ,asrate   ,l_dmg    ,lbuf%dmg )
 !
           else if (mtn == 133) then
             call sigeps133( &
