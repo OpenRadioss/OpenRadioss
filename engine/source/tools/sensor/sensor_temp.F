@@ -62,8 +62,7 @@ C----------------------------------------------------------
 C Local Variables
 C----------------------------------------------------------
       INTEGER :: I,IGN,ICRIT,TFLAG
-      my_real :: TSTART,TDELAY,TMIN,TEMP_MAX,TEMP_MIN,TEMP_AVG,INFINITY
-      PARAMETER (INFINITY = 1.0E20)
+      my_real :: TSTART,TDELAY,TMIN,TEMP_MAX,TEMP_MIN,TEMP_AVG
 c----------------------------------------------------------
 c     SENSOR%VAR(1)   = TEMP_MAX
 c     SENSOR%VAR(2)   = TEMP_MIN 

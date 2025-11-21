@@ -71,7 +71,7 @@ C
         DTELEM(I)=MIN(DTELEM(I),DTX(I))
         STI(I) = FILL(I) * RHO(I) * VOLG(I) * TWO / SIXTY4 /
      .        MAX(EM20,DTX(I)*DTX(I))
-        FAC=TRHEE_OVER_14
+        FAC=THREE_OVER_14
         AM = MASS(I)*FAC/(EIGHT*FAC + TWELVE)
         BM = MASS(I)*ONE/(EIGHT*FAC + TWELVE)
         MSS(1,I)=AM
@@ -241,7 +241,7 @@ c
        IF(JTHE < 0 ) THEN
         DO I=LFT,LLT
           MASSCP=FILL(I)*RHOCP(I)*VOLG(I)        
-          FAC=TRHEE_OVER_14
+          FAC=THREE_OVER_14
           AM = MASSCP*FAC/(EIGHT*FAC + TWELVE)
           BM = MASSCP*ONE/(EIGHT*FAC + TWELVE)
           MCPS(1,I)=AM

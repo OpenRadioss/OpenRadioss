@@ -58,8 +58,7 @@ C----------------------------------------------------------
       INTEGER NODE,ICRIT
 c
       my_real :: VEL,VX,VY,VZ,VV,VVX,VVY,FVX,FVY,FV,FREQ,
-     .           TMIN,TSTART,TDELAY,INFINITY
-      PARAMETER (INFINITY = 1.0E20)
+     .           TMIN,TSTART,TDELAY
 C=======================================================================
       IF (SENSOR%STATUS == 1) RETURN   ! already activated
 c

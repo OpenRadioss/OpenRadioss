@@ -334,7 +334,7 @@ c!              from: http://www.continuummechanics.org/principalstrain.html
                 I3 = E1*E2*E3 - E1*E52 - E2*E62 - E3*E42 + TWO*E4*E5*E6
 
                 Q  = (THREE*I2 - I1*I1)/NINE
-                R  = (TWO*I1*I1*I1-NINE*I1*I2+TWENTY7*I3)/CINQUANTE4     ! (2*I3^3-9*I1*I2+27*I3)/54
+                R  = (TWO*I1*I1*I1-NINE*I1*I2+TWENTY7*I3)/FIFTY4     ! (2*I3^3-9*I1*I2+27*I3)/54
            
                 R_INTER = MIN(R/SQRT(MAX(EM20,(-Q**3))),ONE)
                 PHI = ACOS(MAX(R_INTER,-ONE))
@@ -555,7 +555,7 @@ c-------------------
               I2 = E1*E2 + E2*E3 + E3*E1 - E4*E4 - E5*E5 - E6*E6
               I3 = E1*E2*E3 - E1*E52 - E2*E62 - E3*E42 + TWO*E4*E5*E6
               Q  = (THREE*I2 - I1*I1)/NINE
-              R  = (TWO*I1*I1*I1-NINE*I1*I2+TWENTY7*I3)/CINQUANTE4     ! (2*I3^3-9*I1*I2+27*I3)/54
+              R  = (TWO*I1*I1*I1-NINE*I1*I2+TWENTY7*I3)/FIFTY4     ! (2*I3^3-9*I1*I2+27*I3)/54
               
               R_INTER = MIN(R/SQRT(MAX(EM20,(-Q**3))),ONE)
               PHI = ACOS(MAX(R_INTER,-ONE))

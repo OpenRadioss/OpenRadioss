@@ -76,7 +76,7 @@ C
       DATA IPERM3/1,3,6,5,0,0,0,0,0,0/
 C
 C-----------------------------------------------------------------------
-      FAC=TRHEE_OVER_14
+      FAC=THREE_OVER_14
       FACIROT = NINE + THIRD
 
       IF(IREST_MSELT /= 0)THEN
@@ -130,7 +130,7 @@ C         Not yet compatible with IMAS_DS/=0
           MSS(6,I)=AM
           MSS(5,I)=AM
           AAA=STI(I)*TWO/THIRTY2
-          BBB=STI(I)*TWO*SEVEN/FOURTY8
+          BBB=STI(I)*TWO*SEVEN/FORTY8
           STIFN(NC(I,1))=STIFN(NC(I,1))+AAA
           STIFN(NC(I,2))=STIFN(NC(I,2))+AAA
           STIFN(NC(I,3))=STIFN(NC(I,3))+AAA
@@ -304,7 +304,7 @@ C
 
       IF(JTHE < 0) THEN
        DO I=LFT,LLT
-        FAC=TRHEE_OVER_14
+        FAC=THREE_OVER_14
         AM = MASSCP(I)*FAC/(FOUR*FAC + SIX)
         BM = MASSCP(I)*ONE/(FOUR*FAC + SIX)
         MCPS(1,I)=AM

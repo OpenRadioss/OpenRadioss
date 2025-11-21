@@ -66,9 +66,8 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER IS1,STATUS_IS1
       INTEGER ACTI
-      my_real TSTART, INFINITY
+      my_real TSTART
 C-----------------------------------------------
-      INFINITY = EP20
       ACTI = 0
 c
       IS1        = SENSOR_TAB(SENS)%IPARAM(1)
