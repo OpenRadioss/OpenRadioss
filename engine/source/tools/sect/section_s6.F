@@ -67,14 +67,13 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER JJJ(MVSIZ), UNPACK(0:255,8),
-     .   NSA, J, I, K, I1, I2, IPACK, N,POWER2(8),IPERM(6),II,JJ
+     . NSA, J, I, K, I1, IPACK, N,POWER2(8),IPERM(6),II
       my_real FX1(MVSIZ), FY1(MVSIZ), FZ1(MVSIZ),
      .        DX1(MVSIZ),DY1(MVSIZ), DZ1(MVSIZ),FST(16),
-     .        MSX, MSY, MSZ, XX1, YY1, ZZ1, XX2, YY2, ZZ2, XX3, YY3, ZZ3,
+     . MSX, MSY, MSZ,
      .        XX4, YY4, ZZ4, XX5, YY5, ZZ5, XX6, YY6, ZZ6, XXN, YYN, ZZN,
-     .        D13, XXC, YYC, ZZC, FSX, FSY, FSZ, FN, FSNX, FSNY, FSNZ, FSTX,
-     .        FSTY, FSTZ, DMX, DMY, DMZ,
-     .        AL4,AL5,AL6
+     . XXC, YYC, ZZC, FSX, FSY, FSZ, FN, FSNX, FSNY, FSNZ, FSTX,
+     .        FSTY, FSTZ, DMX, DMY, DMZ
       DATA POWER2/1,2,4,8,16,32,64,128/
       DATA IPERM/1,2,3,5,6,7/
       my_real, DIMENSION(:,:), ALLOCATABLE :: FSTPARIT

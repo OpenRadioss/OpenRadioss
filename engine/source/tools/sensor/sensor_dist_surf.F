@@ -67,11 +67,11 @@ C-----------------------------------------------
 C----------------------------------------------------------
 C Local Variables
 C----------------------------------------------------------
-       INTEGER I,ISURF,INOD,NP1,NP2,NP3,NP4,NSEG,ICRIT,IFLAG
-       my_real DIST,DMIN,DMAX,ALPHA,TDELAY,TMIN
+       INTEGER ISURF, INOD, NP1, NP2, NP3, ICRIT, IFLAG
+       my_real DIST,DMIN,DMAX,TDELAY,TMIN
        my_real XNOD,YNOD,ZNOD,XP1,YP1,ZP1,XP2,YP2,ZP2,XP3,YP3,ZP3,
-     .    XP4,YP4,ZP4,NORM,INFINITY
-      TYPE (SURF_) ,POINTER :: SURFACE
+     . INFINITY
+ 
       PARAMETER (INFINITY = 1.0E20)
 C=======================================================================
       IF (SENSOR%STATUS == 1) RETURN   ! already activated

@@ -61,8 +61,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,ID,NN,NVAR,ITYP,CPT,GRTMP,IGRTMP(NGRTH+NELEM),
-     .       IGR1,FLAG,OFFSET,NG,CPT1,IGRELE,NENTITY
+      INTEGER I,J,K,ID,ITYP,CPT,GRTMP,IGRTMP(NGRTH+NELEM),
+     .       FLAG,OFFSET,NG,CPT1,IGRELE,NENTITY
       INTEGER :: NEL,NFT
       INTEGER, DIMENSION(:), POINTER :: ELEM
 C-----------------------------------------------

@@ -55,7 +55,7 @@ C-----------------------------------------------
 C----------------------------------------------------------
 C Local Variables
 C----------------------------------------------------------
-      INTEGER I,RBOD_ID,IDIR,ICRIT,ISECT,IFLAG,IAD
+      INTEGER RBOD_ID,IDIR,ICRIT,ISECT,IFLAG,IAD
 c
       my_real :: FMIN,FMAX,FX,FY,FZ,FF,TSTART,TMIN,TDELAY,INFINITY
       PARAMETER (INFINITY = 1.0E20)

@@ -54,7 +54,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       LOGICAL :: BOOL
-      INTEGER I,J,K,L,II,JJ,N, IH, NG,ITY,MTE,NEL,NFT
+      INTEGER I,J,K,II,N, IH, NG,ITY,MTE,NEL,NFT
       INTEGER :: J_FIRST,NITER,IAD,NN,IADV,NVAR,ITYP,IJK
       INTEGER, DIMENSION(NTHGRP2) :: INDEX_COQ
 C-------------------------

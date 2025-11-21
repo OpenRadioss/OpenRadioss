@@ -61,7 +61,7 @@ C Local Variables
 C----------------------------------------------------------
       INTEGER :: N1,N2,ICRIT,SECT_ID,INT_ID,SUB_ID,RWAL_ID,RBOD_ID,
      .           IN,ISECT,INTER,IRWAL,IRBOD
-      my_real :: DX,DY,DZ,DD,FX,FY,FZ,WORK,WMAX,TMIN,TDELAY,
+      my_real :: DX,DY,DZ,FX,FY,FZ,WORK,WMAX,TMIN,TDELAY,
      .           INFINITY
       PARAMETER (INFINITY = 1.0E20)
 C=======================================================================

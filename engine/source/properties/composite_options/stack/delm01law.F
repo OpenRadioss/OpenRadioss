@@ -101,13 +101,13 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER 
-     .   I,J,IDEL,IDEL_L,IFLAG(MVSIZ),INDX(MVSIZ),NINDX,   
+     .   I,J,INDX(MVSIZ),NINDX,   
      .   JST(MVSIZ),IR,JJ,
      .   NINDX0,INDX0(MVSIZ)        
       my_real 
      .   K1(MVSIZ),K2(MVSIZ),K3(MVSIZ),K(MVSIZ),
      .   A(MVSIZ),GAMA1(MVSIZ),GAMA2(MVSIZ),
-     .   Y0(MVSIZ),YC(MVSIZ),TMAX(MVSIZ),FAC,
+     .   Y0(MVSIZ),YC(MVSIZ),FAC,
      .   DAM, YD1,YD2,YD3,CC,DELTA,W,YD,SIG, DAM0
 C--------------------------------------------------------------
 C

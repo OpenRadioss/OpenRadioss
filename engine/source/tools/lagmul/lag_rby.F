@@ -53,8 +53,8 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,JF,N,NN,M,IK,IC,IAD,IFX,IFR,MSL,TNSL,NFIX,NFRE
-      my_real RX,RY,RZ,R1,R2,R3,MMAS,XG(3),VG(3)
+      INTEGER I,J,JF,N,NN,M,IK,IFX,IFR,MSL,TNSL,NFIX,NFRE
+      my_real RX,RY,RZ,R1,R2,R3,VG(3)
 C-----------------------------------------------
 C        NC: number of cinematic condition 
 C        IC : number of the kinematic condition (1,NC)

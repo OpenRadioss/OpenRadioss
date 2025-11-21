@@ -57,9 +57,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, N, NN, IAD, KAD, ITYP, NCA, IDSURF, PMAIN
+      INTEGER I, N, KAD, ITYP, NCA, IDSURF, PMAIN
       INTEGER NTG, NTGI, NNT, KIBALE, KRBALE
-      INTEGER K1, K2, KK2, KI4, KR5, KR6, KR7, NNS, NNI, NTGT
+      INTEGER K1, K2, KK2, KR5, KR6, KR7, NNS, NNI, NTGT
       INTEGER :: KR1, KR2, KR3, KR4
 C-----------------------------------------------------------------------
          K1 = 1

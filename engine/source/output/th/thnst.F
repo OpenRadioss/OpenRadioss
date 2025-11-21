@@ -59,9 +59,9 @@ C
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER II, I, J, N, IH, NG, ITY, MTE, NB0, NB1, NB2, NB3,
-     .   NB4, NB5, NNB3, MB1, MB2, MB3, MB4, MB5, K, IST, IP, L,
-     .   LWA, IMAT, IPROP, NX, IGTYP, NUVAR, NUVARN,NEL,NFT,
+      INTEGER II, I, J, N, IH, NG, ITY, NB1, NB2, NB3,
+     .      MB1, MB2, MB3, MB4, MB5, K, IST, L,
+     .    IPROP, NX, NUVAR, NUVARN,NEL,NFT,
      .   KVAR,KVARN
       INTEGER :: NITER,IAD,NN,IADV,NVAR,ITYP,IJK
       my_real

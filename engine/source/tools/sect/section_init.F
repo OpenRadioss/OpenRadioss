@@ -65,7 +65,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,IR, N, IR1, IR2, IFILNAM(2548),LROOTLEN,LEN,K0,ID_SEC
+      INTEGER I,J, IR1, IR2, IFILNAM(2548),LROOTLEN,LEN,K0
       my_real
      .   TT1, TT2, TT3, TMP(20)
       CHARACTER(LEN=NCHARTITLE) ::  FILNAM
