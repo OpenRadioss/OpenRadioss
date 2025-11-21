@@ -68,10 +68,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,ISH,MX,IPID,IGTYP,IPGMAT,IGMAT,IPOS
-      my_real FSH,VISCDEF,FAC1TMP,KFAC,DN,K58(3),
-     .        RFAC,RFAT,R1,R2,R3,S1,S2,S3,T1,T2,T3,RS1,RS2,RS3,
-     .        R12,S12,R22,S22,R3R3,S3S3,E11,E22,EMIN,K58I, Z0
+      INTEGER I,MX,IPID,IGTYP,IPGMAT,IGMAT,IPOS
+      my_real FAC1TMP,KFAC,DN,K58(3),
+     . RFAC,RFAT,R1,R2,S1,S2,T1,T2,T3,RS1,RS2,
+     . R12,S12,R22,S22,E11,E22,K58I, Z0
 C-----------------------------------------------
       IF(ITHK>0.AND.ISMDISP==0)THEN
         DO I=JFT,JLT
@@ -326,9 +326,9 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,ISH,MX,IPID,J,IGTYP,IPGMAT,IGMAT,IPOS
+      INTEGER I,MX,IPID,IGTYP,IPGMAT,IGMAT,IPOS
 C     REAL
-      my_real FSH,VISCDEF,FAC1TMP,KFAC,DN , Z0   
+      my_real KFAC,DN , Z0
 C-----------------------------------------------
       IF(ITHK>0.AND.ISMDISP==0)THEN
         DO I=JFT,JLT
@@ -484,7 +484,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
-      my_real KFAC ,LMAX
+      my_real KFAC
 C-----------------------------------------------
       IF(IMPL_S>0)THEN
         KFAC= EM01*MIN(ONE,KZ_TOL*2000)
@@ -580,15 +580,14 @@ c  O   HMFOR(NEL,6)      - suppermentary membrane-bending coupling modulus for o
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,MX,IPID,J,J1,J2,J3,JJ,L,IGTYP,
+      INTEGER I,MX,J,J1,J2,J3,JJ,IGTYP,
      .        ISUBSTACK,IGMAT,IPOS,IPT_ALL,ILAY,IPT,IT,NPTT,
      .        LAYNPT_MAX, NLAY_MAX,ILAW_PLY
-            INTEGER MAT_IPLY(MVSIZ,NPT)
       INTEGER, DIMENSION(:)   , ALLOCATABLE :: MATLY   !! 
       my_real, DIMENSION(:)   , ALLOCATABLE :: THKLY   !! 
       my_real, DIMENSION(:,:) , ALLOCATABLE :: POSLY,THK_LY
       my_real
-     .   WMC,FACG,COEF,WM,A11,E11,NU,A12,G
+     . WMC,WM,A11,NU,A12,G
       my_real
      .   HMOR(MVSIZ,2),HMLY(MVSIZ,4),HCLY(MVSIZ,2), 
      .   HMORLY(MVSIZ,2),SHF(MVSIZ),IZZ(MVSIZ),IZ(MVSIZ)

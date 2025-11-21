@@ -74,8 +74,8 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   WA1, WA2, WA3, DD, VI(3),II1,II2,II3,II4,II5,II6,II7,II8,II9,
-     .   ENROTT,ENCINT,XMASST,XMOMTT,YMOMTT,ZMOMTT,MAS,AFM1,AFM2,AFM3,
-     .   ARM1,ARM2,ARM3,STFM,STFRM,
+     .   AFM1,AFM2,AFM3,
+     .   ARM1,ARM2,ARM3,
      .   DET, IL1,IL2,IL3,IL4,IL5,IL6,IL7,IL8,IL9
       my_real,DIMENSION(:), ALLOCATABLE :: F1
       my_real,DIMENSION(:), ALLOCATABLE :: F2

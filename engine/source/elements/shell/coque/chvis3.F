@@ -83,9 +83,9 @@ C     REAL
      .   H1(MVSIZ), H2(MVSIZ), H3(MVSIZ), A11(MVSIZ),
      .   B11(MVSIZ), B12(MVSIZ), B13(MVSIZ), B14(MVSIZ),
      .   B21(MVSIZ), B22(MVSIZ), B23(MVSIZ), B24(MVSIZ),
-     .   H11(MVSIZ), H12(MVSIZ), H13(MVSIZ), H14(MVSIZ),
-     .   H21(MVSIZ), H22(MVSIZ), H23(MVSIZ), H24(MVSIZ),
-     .   H31(MVSIZ), H32(MVSIZ), H33(MVSIZ), H34(MVSIZ),
+     .   H11(MVSIZ), H12(MVSIZ), H13(MVSIZ),
+     .   H21(MVSIZ), H22(MVSIZ), H23(MVSIZ),
+     .   H31(MVSIZ), H32(MVSIZ), H33(MVSIZ),
      .   RX1(MVSIZ), RX2(MVSIZ), RX3(MVSIZ), RX4(MVSIZ),
      .   RY1(MVSIZ), RY2(MVSIZ), RY3(MVSIZ), RY4(MVSIZ),
      .   THK02(MVSIZ),YM(MVSIZ), NU(MVSIZ), ALPE(MVSIZ),
@@ -102,14 +102,14 @@ C     REAL
      .   A1(MVSIZ),  A2(MVSIZ),  A3(MVSIZ),  A4(MVSIZ),
      .   A5(MVSIZ),  A6(MVSIZ),  A7(MVSIZ),  A8(MVSIZ),
      .   B1(MVSIZ),  B2(MVSIZ),  EHOU(MVSIZ),  
-     .   HOUR1(MVSIZ), HOUR2(MVSIZ), 
+     .     
      .   GAMA1(MVSIZ), GAMA2(MVSIZ), GAMA3(MVSIZ), GAMA4(MVSIZ)
       my_real
      .   PX1V, PX2V, PY1V, PY2V, HVISH1, HVISH2,
      .   SHFPR3, FAC, EHOURT, 
      .   R0,R1,T2A,TSA,TD,VV,
      .   HOUR1A,HOUR2A,HOUR3A,
-     .   HH3D,
+     .   
      .   SR2D2,SRSHFPR3, INV9, INV12,SCALE(MVSIZ)
 C=======================================================================
       EHOURT = ZERO

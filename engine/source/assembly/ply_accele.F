@@ -58,11 +58,11 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER  
-     .       J,K,N,NN,NPT
+     .       J,N,NN,NPT
       my_real
-     .         RTMP, FN1,FN2,FN3,FAC,MSI,FM1,FM2,FM3,INER,
+     .         FAC,
      .         MASS,ALPHA(NDDIM),F1,F3,F2,MDT1,MDT2,MDT3,
-     .         FPLY, MPLY,DF1,DF2,DF3,KZI,MASS_NODE,BETA
+     .         FPLY, MPLY,KZI,MASS_NODE,BETA
 C----------------------------------------------------     
 C 
        ALPHA = ONE 
@@ -226,10 +226,10 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER  K,N,NN
+      INTEGER  N,NN
       my_real
-     .         RTMP, FN1,FN2,FN3,FAC,MSI,FM1,FM2,FM3,INER,
-     .         MASS,F1,F2,F3
+     .         RTMP,
+     .         MASS
 C----------------------------------------------------     
 C      
 #include "vectorize.inc" 

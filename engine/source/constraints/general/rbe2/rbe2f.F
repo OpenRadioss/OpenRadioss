@@ -57,8 +57,8 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, N, JT(3,NRBE2),JR(3,NRBE2),IERR,IAD,
-     .        NS,NML,ICOM,ISK,M,K,ID,NSN,MID,IROT,NHI,IRAD
+      INTEGER  J, N, JT(3,NRBE2),JR(3,NRBE2),IAD,
+     .        ICOM,ISK,M,K,NSN,MID,NHI,IRAD
 C     REAL
       DOUBLE PRECISION
      .   FRBE2M6(3,6,NMRBE2),MRBE2M6(3,6,NMRBE2),
@@ -148,7 +148,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, N, NS ,JTW(3),JRW(3),K,IJT,IJR
+      INTEGER I, J, NS ,JTW(3),JRW(3),K,IJT,IJR
 C     REAL
       my_real
      .     RX, RY, RZ,AS(3,NSL),STIS(NSL),DD,FX,FY,FZ
@@ -298,7 +298,7 @@ C-----------------------------------------------
       INTEGER I, J, NS ,K,IC,JT1(3),JR1(3),IJT,IJR,JJ
 C     REAL
       my_real
-     .     RX, RY, RZ,AS(3,NSL),AAR(3),LARM(3),LAS(3,NSL),
+     .     RX, RY, RZ,AS(3,NSL),AAR(3),LAS(3,NSL),
      .     STIS(NSL),DD,CDT(9),CDR(9),CDTR(9),AA
       DOUBLE PRECISION
      .   AS6(6,3,NSL),STIS6(6,NSL)
@@ -441,7 +441,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, K, N, NS ,NML, IAD,JJ,IROT,M
+      INTEGER   N ,IROT,M
 C     REAL
 C======================================================================|
 #include    "vectorize.inc"
@@ -492,7 +492,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, K, N, NS ,NML, IAD,JJ,M,MID,IROT,IRAD
+      INTEGER  K, N ,M,MID,IROT,IRAD
 C     REAL
 C======================================================================|
 #include    "vectorize.inc"
@@ -557,7 +557,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, N,NML,IC,ICT,ICR,IROT
+      INTEGER  J, N,IC,ICT,ICR
 C======================================================================|
       DO N=1,NRBE2
           IC=IRBE2(4,N)
@@ -637,7 +637,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, M,N,ITAG(NUMNOD),IAD,IH(NRBE2),NSL,NS,NIH
+      INTEGER   M,N,ITAG(NUMNOD),IH(NRBE2),NIH
 C======================================================================|
       NMRBE2 = 0
       IF (NRBE2==0) RETURN
@@ -721,10 +721,10 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, N,K,JT1(3),JR1(3),IC
+      INTEGER   K,JT1(3),JR1(3),IC
 C     REAL
       my_real
-     .       RX,RY,RZ,FX,FY,FZ, SKEW(LSKEW),CDT(9),CDR(9),CDTR(9),AAR(3)
+     .       RX,RY,RZ, SKEW(LSKEW),CDT(9),CDR(9),CDTR(9),AAR(3)
 C======================================================================|
           IF (ISK>1) THEN
            DO K=1,9
@@ -795,7 +795,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,J1,L,NS
+      INTEGER I,J,K,J1,NS
       my_real
      .   EJ(3),EJ1(3),S,EA,EB
 C----------------100-------------------------
@@ -939,7 +939,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,J1,L
+      INTEGER J,K,J1
       my_real
      .   EJ(3),EJ1(3),S,EA,EB
 C----------------100-------------------------
@@ -1067,7 +1067,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, NML,ICT,ICR
+      INTEGER  J,ICT,ICR
 C======================================================================|
 C  IC=IRBE2(4,N)
         ICT=IC/512

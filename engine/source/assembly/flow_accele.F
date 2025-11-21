@@ -44,7 +44,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER  J,K,N
+      INTEGER  N
       my_real
      .         RTMP
 C

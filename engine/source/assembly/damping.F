@@ -60,7 +60,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER DIM,ITASK,WEIGHT(*),ICONTACT(*),I_DAMP_RDOF_TAB(*),TAGSLV_RBY(*)
+      INTEGER DIM,WEIGHT(*),ICONTACT(*),I_DAMP_RDOF_TAB(*),TAGSLV_RBY(*)
       INTEGER ,INTENT(IN) :: NDAMP_VREL,ID_DAMP_VREL(NDAMP_VREL)
       INTEGER ,INTENT(IN) :: FR_DAMP_VREL(NSPMD+2,NDAMP_VREL),IPARIT,ISPMD
       my_real V(3,*), VR(3,*), A(3,*), AR(3,*) ,MS(*), IN(*),DAMPR(NRDAMP,*), DAMP(DIM,*), SKEW(LSKEW,*)
@@ -72,12 +72,12 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       LOGICAL :: NEED_COMPUTE
-      INTEGER I,J,N,ND,IGR,ISK,FL_VREL,ID_RBY,FL_FREQ_RANGE,ITYPE
+      INTEGER I,N,ND,IGR,ISK,FL_VREL,ID_RBY,FL_FREQ_RANGE,ITYPE
       my_real, DIMENSION(3) :: DAMP_A,DAMP_B
       my_real, DIMENSION(3) :: DA_,DW_LOCAL,OMEGA_,BETASDT_
-      my_real :: AA,DW,DA,BETASDT,OMEGA,FACTB,DAMPT,D_TSTART,D_TSTOP,
+      my_real :: DW,DA,BETASDT,OMEGA,FACTB,DAMPT,D_TSTART,D_TSTOP,
      .           V_REF(3,NDAMP),A_REF(3,NDAMP),V_REFSKW(3),A_REFSKW(3),
-     .           DAM(3),DARM(3),DFM,GET_U_FUNC
+     .           GET_U_FUNC
       EXTERNAL GET_U_FUNC      
 C-----------------------------------------------
 C     C = a M + b K
@@ -810,7 +810,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER DIM,ITASK,WEIGHT(*),TAGSLV_RBY(*)
+      INTEGER DIM,WEIGHT(*),TAGSLV_RBY(*)
       my_real V(3,*), VR(3,*), A(3,*), AR(3,*) ,MS(*), IN(*),DAMPR(4,*), DAMP(DIM,*)
       DOUBLE PRECISION, INTENT(INOUT) :: WFEXT
 C-----------------------------------------------
@@ -819,7 +819,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,N,ND,IGR
-      my_real BETASDT,AA,DA,DW,OMEGA
+      my_real BETASDT,DA,DW,OMEGA
 C-----------------------------------------------
 C     C = a M + b K
 C======================================================================|
@@ -909,7 +909,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,N
-      my_real BETASDT,AA,DA,DW,OMEGA
+      my_real BETASDT,DA,DW,OMEGA
 C-----------------------------------------------
 C
 C     C = a M + b K

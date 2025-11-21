@@ -59,13 +59,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
-      INTEGER PT,PT00,PT0,I,J,EP,NG1,K
+      INTEGER I,EP
       MY_REAL 
-     .   VPG(2,NPG),THK(MVSIZ),DETJ,DET,
-     .   TFN(3,2),BCX,BCY,V1(2),V2(2),C1,C2,BC1,BC2,VB1,
-     .   VJF1(2,3),VJF(3,3),TBI(2,2),TBC(MVSIZ,2,2),V11(4)
+     .   VPG(2,NPG),THK(MVSIZ),
+     .   TFN(3,2),V1(2),V2(2),C1,C2,BC1,BC2,
+     .   TBI(2,2),TBC(MVSIZ,2,2),V11(4)
       MY_REAL 
-     .   A_1,C11,C12,C21,C22,CC,BETA1,KSI1,KSIY1,BETA2,KSI2,KSIY2,
+     .   A_1,C11,C12,C21,C22,BETA1,KSI1,BETA2,KSI2,
      .   BMT(8),BCT(12),BXY(3),BYX(3)
       MY_REAL 
      .   PG1,PG
@@ -655,7 +655,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
-        INTEGER I ,J,EP
+        INTEGER I ,EP
 #include "vectorize.inc"
        DO EP=NPLAT+1,JLT 
         I=IPLAT(EP)
@@ -695,7 +695,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
-      INTEGER I,J,EP,NPG
+      INTEGER I,J,NPG
       PARAMETER (NPG = 4)
       my_real
      .   VPG(2,NPG),PG,PG1

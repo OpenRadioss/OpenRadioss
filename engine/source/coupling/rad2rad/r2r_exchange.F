@@ -88,7 +88,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-        INTEGER I,IEX,IDP,IDG,NNG,OLD_ACTIV,BID,LENR,SIZE,NTOP
+        INTEGER IEX, IDP, IDG, NNG, OLD_ACTIV, BID, LENR, SIZE, NTOP
 C
         INTEGER, DIMENSION(:), POINTER :: GRNOD
         my_real, POINTER, DIMENSION(:) :: MSNL,VNL,FNL
@@ -304,7 +304,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-        INTEGER IDP, NNG, NGLOB,i,TYP,
+        INTEGER IDP, NNG, NGLOB, TYP, 
      .          GRNOD(*),FLAG_ROT, FLAG_RBY,
      .          WEIGHT(*), DD_R2R(*), IEX
 C     REAL
@@ -315,7 +315,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-        INTEGER II,J
+ 
         my_real
      .          BUFR1(3,NGLOB), BUFR2(3,NGLOB), BUFR3(NGLOB),
      .          BUFR4(NGLOB), BUFR5(3,NGLOB), BUFR6(3,NGLOB),
@@ -385,7 +385,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-        INTEGER LRBUF,i
+        INTEGER LRBUF
         my_real
      .          BUFR1(NGLOB), BUFR2(NGLOB), BUFR3(NGLOB), BUFR4(NGLOB)
 C
@@ -509,7 +509,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-        INTEGER I, IEX, IDP, IDG, NNG,NMOD_R2R, OFF
+        INTEGER IEX, IDP, IDG, NNG, OFF
         INTEGER, DIMENSION(:), POINTER :: GRNOD
 C=======================================================================
 

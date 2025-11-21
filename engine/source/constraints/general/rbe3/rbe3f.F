@@ -83,10 +83,10 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, N, MAX_M,JT(3,NRBE3),JR(3,NRBE3),IERR,NMT,
+      INTEGER  J, N, MAX_M,JT(3,NRBE3),JR(3,NRBE3),NMT,
      .        IADA,IADMS,IADFN,IADAR,IADIN,IADFR,IADM0,IADI0,IADL,
-     .        IPA,IPMS,IPFN,IPAR,IPIN,IPFR,NMP,IADLP,NS,NML,ICOM,
-     .        IADLP1,IADM1,IADI1,NMT0,IADMP(SLRBE3/2),IML(SLRBE3/2),IPEN
+     .        IPA,IPMS,IPFN,IPAR,IPIN,IPFR,NMP,IADLP,NS,ICOM,
+     .        NMT0,IADMP(SLRBE3/2),IML(SLRBE3/2),IPEN
       INTEGER IROTG_LOC   !< Local Max of IROT Flags keep for compatibility
 C======================================================================|
       I7KGLO = 1
@@ -227,7 +227,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, N, NML, IAD,IROT,M,NS
+      INTEGER I, N, NML, IAD,IROT,M,NS
 C-----------------------------------------------
       DO N=1,NRBE3
         IAD = IRBE3(1,N)
@@ -308,8 +308,8 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, N, NS ,NML, IAD,JJ,IROT,IADS,NM,NN,K,IMOD,IADF,
-     .        IPEN,N_P,ipr
+      INTEGER I, J, N, NS ,NML, IAD,IROT,IADS,NN,K,IMOD,IADF,
+     .        IPEN,N_P
 C     REAL
       my_real
      .     FNS(3),MNS(3),MSS(3),INS(3),STN(3),STR(3),FSUM,MSUM,
@@ -523,7 +523,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, N, NS ,NML, IAD,JJ,IROT,M,IPEN
+      INTEGER I, N, NS ,NML, IAD,IROT,M,IPEN
 C     REAL
 C======================================================================|
 #include    "vectorize.inc"
@@ -603,7 +603,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, N, NS ,NML, IAD,JJ,IROT,M,ITAG(NUMNOD)
+      INTEGER I, N, NS ,NML, IAD,IROT,M,ITAG(NUMNOD)
 C     REAL
 C======================================================================|
       DO N =1,NUMNOD
@@ -683,7 +683,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, N, NS ,NML, IAD,JJ,IROT,M
+      INTEGER I, J, N, NS ,NML, IAD,IROT,M
 C     REAL
 C======================================================================|
       DO N=1,NRBE3
@@ -776,10 +776,10 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, N, NS ,NML, IAD,JJ,M
+      INTEGER I, J ,M
 C     REAL
       my_real
-     .   MS1,AX,AY,AZ
+     .   AX,AY,AZ
 C======================================================================|
 #include    "vectorize.inc"
        DO I=1,NMT
@@ -859,7 +859,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J ,M,N,NS,NML,IAD,K,IROT,IPEN
+      INTEGER  J ,M,N,NS,NML,IAD,K,IROT,IPEN
 C     REAL
       my_real
      .   MNS,DMAS0
@@ -967,7 +967,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, N,NML,IC,ICT,ICR,IROT
+      INTEGER  J, N,NML,IC,ICT,ICR,IROT
 C======================================================================|
       MAX_M=0
       IROTG=0
@@ -1058,7 +1058,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, NML,IC,ICT,ICR
+      INTEGER  J,IC,ICT,ICR
 C======================================================================|
           IC=IRBE3(4,N)
         ICT=IC/512
@@ -1163,7 +1163,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, K,N, M ,NML, IAD,JJ,KG,NSNGLR,IELSUB,IERR,ng1
+      INTEGER I, J, K ,KG,NSNGLR,IELSUB,IERR
 C     REAL
       my_real
      *        TW(3,NG), RW(3,NG),
@@ -1183,7 +1183,7 @@ C     REAL
      *                 TMUFX(3), TMUFY(3), TMUFZ(3),
      *                 TFUMX(3), TFUMY(3), TFUMZ(3),
      *                 TMUMX(3), TMUMY(3), TMUMZ(3),
-     *                 A(6,6), C(6,6), T(3,3)
+     *                 A(6,6), C(6,6)
 C
 C     INITIALIZATION
 C
@@ -1814,7 +1814,7 @@ c  !DECLARATIONS
      *     , INTENT(OUT), DIMENSION(N,N) :: INVERSE !INVERTED MATRIX
 
           LOGICAL :: FLAG = .TRUE.
-          INTEGER :: I, J, K, L
+          INTEGER :: I, J, K
       my_real
      *     :: M
       my_real
@@ -1919,7 +1919,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, N,M
+      INTEGER I, J,M
 C     REAL
       my_real
      .        FNS(3),MNS(3)
@@ -1997,7 +1997,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, N,M,IAD,NS,NML,ITAG(NUMNOD)
+      INTEGER I, N,M,IAD,NS,NML,ITAG(NUMNOD)
 C NMT: number (no doublon) of main nodes,AD(M): index from NMT0->NMT
 C======================================================================|
       DO N =1,NUMNOD

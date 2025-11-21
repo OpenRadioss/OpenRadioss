@@ -55,7 +55,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
-        INTEGER I ,J
+        INTEGER I 
         my_real
      .     S1, C2, Y13S8, Y24S8, S42S, S52S, X13S8, X24S8
 C
@@ -132,7 +132,7 @@ C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
         INTEGER I ,J
         my_real
-     .     S1, C2, A05,ERZ,OFF05
+     .      C2,ERZ,OFF05
 C
 C      --------const sig_rz added here---------
        DO I=JFT,JLT

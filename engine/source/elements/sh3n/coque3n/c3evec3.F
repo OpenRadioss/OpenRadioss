@@ -534,7 +534,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, II
+      INTEGER I
 C     REAL
       my_real
      .   THETA
@@ -574,10 +574,10 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J
+      INTEGER I
 C     REAL
       my_real
-     .  M2(MVSIZ),N2(MVSIZ),MN(MVSIZ),CM(4),MN2(MVSIZ),T1,TXY,TYX
+     .  M2(MVSIZ),N2(MVSIZ),MN(MVSIZ),CM(4),MN2(MVSIZ),T1
 C-----------------------------------------------
       DO I=JFT,JLT
        M2(I)= ECOS(I)*ECOS(I)
@@ -639,10 +639,10 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J
+      INTEGER I
 C     REAL
       my_real
-     .  M2(MVSIZ),N2(MVSIZ),MN(MVSIZ),CM(4),MN2(MVSIZ),T1,T2,T3
+     .  M2(MVSIZ),N2(MVSIZ),MN(MVSIZ),CM(4),MN2(MVSIZ),T1,T2
 C-----------------------------------------------
       DO I=JFT,JLT
        M2(I)= ECOS(I)*ECOS(I)
@@ -704,10 +704,10 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J
+      INTEGER I
 C     REAL
       my_real
-     .  M2(MVSIZ),N2(MVSIZ),MN(MVSIZ),CM(5),MN2(MVSIZ),T1,T2,T3
+     .  M2(MVSIZ),N2(MVSIZ),MN(MVSIZ),MN2(MVSIZ),T1
 C-----------------------------------------------
       IF(IFRAM_OLD ==0 ) THEN
        DO I=JFT,JLT

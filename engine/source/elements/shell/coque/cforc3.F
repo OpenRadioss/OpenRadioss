@@ -199,7 +199,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER MAT(MVSIZ),PID(MVSIZ),NDT(MVSIZ),NGL(MVSIZ),FWAVE_EL(NEL),
-     .   I,J,IGTYP,ICSEN,IFLAG,IUN,NPG,ILAY,NLAY,IXEL,IXLAY,NXLAY,N1,N2,N3,N4,
+     . I,J,IGTYP,ICSEN,IUN,NPG,ILAY,NLAY,IXEL,IXLAY,NXLAY,
      .   IBID,NG,IR,IS,L_DIRA,L_DIRB,J1,J2,IGMAT,NPTTOT,IREP,IFAILWAVE,IDRAPE,
      .   NPTT,IT,ACTIFXFEM,SEDRAPE,NUMEL_DRAPE,IMAT
       my_real 
@@ -209,8 +209,8 @@ C-----------------------------------------------
      .   VX1(MVSIZ), VX2(MVSIZ), VX3(MVSIZ), VX4(MVSIZ),
      .   VY1(MVSIZ), VY2(MVSIZ), VY3(MVSIZ), VY4(MVSIZ),
      .   VZ1(MVSIZ), VZ2(MVSIZ), VZ3(MVSIZ), VZ4(MVSIZ),
-     .   VX13(MVSIZ),VX24(MVSIZ),VY13(MVSIZ),VY24(MVSIZ),
-     .   VZ13(MVSIZ),VZ24(MVSIZ),THK02(MVSIZ), 
+     .
+     . THK02(MVSIZ),
      .   X1G(MVSIZ), X2G(MVSIZ), X3G(MVSIZ), X4G(MVSIZ),
      .   Y1G(MVSIZ), Y2G(MVSIZ), Y3G(MVSIZ), Y4G(MVSIZ),
      .   Z1G(MVSIZ), Z2G(MVSIZ), Z3G(MVSIZ), Z4G(MVSIZ),
@@ -240,8 +240,8 @@ C-----------------------------------------------
      .   DIE(MVSIZ),TEMPEL(MVSIZ),THEM(MVSIZ,4),BID,
      .   UX1(MVSIZ),UX2(MVSIZ),UX3(MVSIZ),UX4(MVSIZ),
      .   UY1(MVSIZ),UY2(MVSIZ),UY3(MVSIZ),UY4(MVSIZ),
-     .   DSUB(MVSIZ,3,4),DRSUB(MVSIZ,3,4),TSUB(MVSIZ),
-     .   DTCSUB(MVSIZ),AREAS(MVSIZ),CONDE(MVSIZ),A11R(MVSIZ)
+     .
+     . DTCSUB(MVSIZ),CONDE(MVSIZ),A11R(MVSIZ)
 
       my_real 
      .  AREAT(MVSIZ),PX1T(MVSIZ),PX2T(MVSIZ),PY1T(MVSIZ),PY2T(MVSIZ),
@@ -264,9 +264,9 @@ C--- Variables for non-local
       my_real, DIMENSION(:,:), ALLOCATABLE :: VAR_REG
       my_real, DIMENSION(:), POINTER :: DNL
 C-----
-      TYPE(BUF_LAY_) ,POINTER :: BUFLY
+ 
       TYPE(G_BUFEL_) ,POINTER :: GBUF
-      TYPE(L_BUFEL_) ,POINTER :: LBUF
+ 
       TYPE(L_BUFEL_DIR_) ,POINTER :: LBUF_DIR
       TYPE (STACK_PLY) :: STACK
       INTEGER SDIR_A    ! Size of DIR_A

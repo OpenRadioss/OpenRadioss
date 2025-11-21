@@ -102,21 +102,16 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, K, KN, IKN, JJ, KK, II, IJ, N, M, IX, KMV
-      INTEGER NG, ITY, NEL, NFT, ISOLNOD,ILOC4(4)
-      INTEGER MSR, NSN, KI, KJ, KL, NSR, LOC_PROC, NN, MAIN
+      INTEGER I, J, K, IJ, N, M, KMV
+      INTEGER ILOC4(4)
+      INTEGER NSN, LOC_PROC
       INTEGER K1, IC, ISMS,ICSIZE, IMOV, ITYP, ILAGM, ICOUNT,
      .        N2, N3, N4, N5, N6, N7
-      INTEGER SIZE, LENR, IAD, L, LLT, KAD, JI, 
-     .        NODFT1_SMS, NODLT1_SMS, NODFT2_SMS, NODLT2_SMS,
-     .        NINDXT
+      INTEGER SIZE, LENR, 
+     .        NODFT1_SMS, NODLT1_SMS, NODFT2_SMS, NODLT2_SMS
       INTEGER,DIMENSION(:),ALLOCATABLE :: NOD2ADD
       INTEGER,DIMENSION(:),ALLOCATABLE :: KADI_SMS
       INTEGER,DIMENSION(:),ALLOCATABLE :: NADI_SMS
-      my_real
-     .        MELE4, MELE12, XN, LTIJ, MSLV,
-     .        IXX, IYY, IZZ, XX, YY, ZZ, MAS,
-     .        VRX, VRY, VRZ, V1, V2, V3, GX, GY, GZ
       DATA ILOC4/2,4,6,8/
 C-----------------------------------------------
       CALL MY_ALLOC(NOD2ADD,NUMNOD)

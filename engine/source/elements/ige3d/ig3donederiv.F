@@ -102,7 +102,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NUMLOC, I, J, K, NA, NB, NC
+      INTEGER NUMLOC, I, NA, NB, NC
       my_real
      .  DRDXI(NCTRL,3),SUMTOT, DETDXDXI, FN(NCTRL), 
      .  DNDXI(NCTRL), FM(NCTRL), DMDXI(NCTRL), FL(NCTRL),

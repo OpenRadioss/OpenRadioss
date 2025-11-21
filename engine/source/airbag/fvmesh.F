@@ -3173,7 +3173,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, II, IC1, IC2
+      INTEGER I, II
       my_real
      .        X1, Y1, Z1, X2, Y2, Z2, SS1, SS2, X12, Y12, Z12,
      .        XA1, YA1, ZA1, ALPHA, XM, YM, ZM, SSN
@@ -4338,7 +4338,7 @@ C-----------------------------------------------
      .        TSEG(3,2*NN), NHOL_OLD, ICUT, J, JJ, NSEG_INI, NSEG1,
      .        REDIR(NN), N1, N2, ISTOP, NNP, ICLOSE, ISEG,
      .        POLY(2*NN,NN), IN, IN1, IN2, LENPOLY(NN), K, KK,
-     .        THOL(NHOL), JN, NHOLP, IADHOLP(NHOL), KN, I1, I2,
+     . THOL(NHOL), JN, NHOLP, IADHOLP(NHOL), KN,
      .        ITAG2(2*NN), ITAGN(NN), ITAGS(NN), ISEG_OLD
       my_real
      .        X1, Y1, Z1, X2, Y2, Z2, ZL1, ZL2, ALPHA, NPX, NPY, NPZ,

@@ -56,7 +56,7 @@ C      INTEGER I,J,MTN,NEL,NFT,IAD,NPT,ISTRA,JHBE,IEXPAN,IPT,MIDPT(5)
 C      DATA MIDPT/1,1,2,2,3/
       INTEGER I,J,MTN
       my_real
-     .   LR1,FTHK,C1,C2,C3,LBD1,LBD2,EPSXX,EPSYY,DELTAP,COS_PHI,TAN_PHI,
+     .   LR1,FTHK,C1,C2,C3,LBD1,LBD2,DELTAP,COS_PHI,TAN_PHI,
      .   APOR0,APOR1,RS,DELTAA,EPS(5,1),DIR(1,2)
       my_real,
      .  DIMENSION(:), POINTER :: UVAR
@@ -144,7 +144,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,MTN
       my_real
-     .   LR1,FTHK,C1,C2,C3,LBD1,LBD2,EPSXX,EPSYY,DELTAP,COS_PHI,TAN_PHI,
+     .   LR1,FTHK,C1,C2,C3,LBD1,LBD2,DELTAP,COS_PHI,TAN_PHI,
      .   APOR0,APOR1,RS,DELTAA,EPS(5,1),DIR(1,2)
       my_real,
      .  DIMENSION(:), POINTER :: UVAR

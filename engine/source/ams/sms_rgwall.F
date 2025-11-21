@@ -177,8 +177,8 @@ C-----------------------------------------------
 
 C     REAL
       my_real
-     .   XWL, YWL, ZWL, VXW, VYW, VZW, VX, VY, VZ,
-     .   DV, DA, DVT, FN, MSW,
+     .   XWL, YWL, ZWL, VXW, VYW, VZW,
+     .     FN,
      .   FNXN, FNYN, FNZN, FNXT, FNYT, FNZT, FNDFN, FTDFT, FRIC, FRIC2,
      .   FCOE, FAC, ALPHA, ALPHI, FXT, FYT, FZT, FXN, FYN, FZN
 C-----------------------------------------------
@@ -355,12 +355,12 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, N, N3, N2, N1,IFQ, J, K, M1, M2, M3, M
+      INTEGER I, N, N3, N2, N1,IFQ, J, M1, M2, M3
 
 C     REAL
       my_real
      .   XWL, YWL, ZWL, VXW, VYW, VZW,
-     .   DV, DA, DVT, MSW, FNXN, FNYN, FNZN
+     .   DV, DA
 C-----------------------------------------------
 C
 C     fixed wall only.
@@ -561,12 +561,12 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, N, N3, N2, N1,IFQ, J, K, M1, M2, M3
+      INTEGER I, N, N3, N2, N1,IFQ, J, M1, M2, M3
 
       my_real
      .   VXW, VYW, VZW, VX, VY, VZ,
      .   WFEXTT,
-     .   FNXN, FNYN, FNZN, FNXT, FNYT, FNZT, FN, MSW,
+     .       FN,
      .   FXN, FYN, FZN, FXT, FYT, FZT,
      .   F1(NSN), F2(NSN), F3(NSN), F4(NSN), F5(NSN), F6(NSN), F7(NSN)
 C-----------------------------------------------

@@ -83,18 +83,18 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER N, I, ISK, J, L, K1, K2, K3, ISENS,K,
-     .        II, IC, NN, IDEB, NR, NSK, NFK, IFM, N0,
-     .        ILENC(MVSIZ), IPOSC(MVSIZ), IADC(MVSIZ),
-     .        LC(MVSIZ), INDEX(MVSIZ), ICOOR, ISMOOTH,JJ
+      INTEGER N, I, ISK, J, L, K1, K2, K3, ISENS,
+     .        II, IC, NN, IDEB, NR, IFM,
+     .         IPOSC(MVSIZ),
+     .         INDEX(MVSIZ), ICOOR, ISMOOTH,JJ
       my_real :: 
      .   AX, AXI, AOLD, VV, A0, AA, STARTT, STOPT, 
-     .   DYDX,DW,DW2,DD,RX,RY,RZ,VF,VFX,VFY,VFZ,AFX,AFY,AFZ,RW_SMS(MVSIZ),
+     .   DW,DD,RX,RY,RZ,VF,VFX,VFY,VFZ,RW_SMS(MVSIZ),
      .   R, CTH, STH, SKDIR(3), FMDIR(3), HX, HY, HZ, COEF,
      .   ER(3),ET(3),ALPHA, NOR1, NOR2, NOR3, YIMP, SKEWGLOB,
-     .   AOLD0(6,MVSIZ),DFJ,QF0(9),EJ(3),DDF,DDR,RF
+     .   DFJ,QF0(9),EJ(3),DDF,DDR
 
-      REAL(KIND=8) :: TSTMP,FAC,FACX,YC0(MVSIZ),YC(MVSIZ),TSC0(MVSIZ),TSC(MVSIZ),DYDXC(MVSIZ)
+      REAL(KIND=8) :: TSTMP,FAC,FACX,YC0(MVSIZ),YC(MVSIZ),TSC0(MVSIZ),TSC(MVSIZ)
       INTEGER, DIMENSION(MVSIZ) :: ILENC_SMOOTH,IPOSC_SMOOTH,IADC_SMOOTH
       my_real, DIMENSION(MVSIZ) :: YC0_SMOOTH,YC_SMOOTH,TSC0_SMOOTH,TSC_SMOOTH,DYDXC_SMOOTH
       INTEGER :: NINDEX_SMOOTH,NINDEX_SMOOTH_WSENS

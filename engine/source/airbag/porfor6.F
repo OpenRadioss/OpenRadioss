@@ -37,7 +37,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IPM(NPROPMI,*),NG,IM,IEL,NEL
+      INTEGER IPM(NPROPMI,*),IM,IEL,NEL
       my_real
      .   SVTFAC,PM(NPROPM,*),STRAIN(*),P,PEXT
 C-----------------------------------------------

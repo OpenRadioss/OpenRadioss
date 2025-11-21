@@ -130,7 +130,7 @@ c  I  INOD(NUMNOD)        - Node numbers for PLYXFEM
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
-      INTEGER I,II(6),J,K,L,M,I1,I2,I3,I4,EP,SPLAT,JJ
+      INTEGER I, II(6), J, K, L, M, I1, I2, I3, I4, EP, SPLAT
       INTEGER NN(4),JPLAT(MVSIZ)
       MY_REAL 
      .   XX2,XX3,XX4,YY1,YY2,YY3,YY4,ZZ1,ZZ2,ZZ3,ZZ4

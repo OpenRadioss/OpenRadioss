@@ -87,7 +87,7 @@ C-----------------------------------------------
       INTEGER I, MX, II, J, IC, JST(MVSIZ+1),FLAG
 C     REAL
       my_real
-     .   IN25,XX,YY,ZZ,XY,YZ,ZX, COEF, INEL, 
+     .   IN25,XX,YY,ZZ, INEL, 
      .   VX1(MVSIZ), VX2(MVSIZ), VX3(MVSIZ),
      .   VY1(MVSIZ), VY2(MVSIZ), VY3(MVSIZ), 
      .   VZ1(MVSIZ), VZ2(MVSIZ), VZ3(MVSIZ),

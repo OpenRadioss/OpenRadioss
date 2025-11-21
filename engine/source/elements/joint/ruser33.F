@@ -67,28 +67,28 @@ C----------------------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, K, JTYP, ISK1, ISK2,
+      INTEGER I, K, JTYP,
      .        IFUN_XX,IFUN_YY,IFUN_ZZ,IFUN_RX,IFUN_RY,IFUN_RZ,
      .        IFUN_CXX,IFUN_CYY,IFUN_CZZ,IFUN_CRX,IFUN_CRY,IFUN_CRZ,
      .        IFUN_FMX,IFUN_FMY,IFUN_FMZ,IFUN_FMRX,IFUN_FMRY,IFUN_FMRZ,     
      .        KFUNC,KMAT,KPROP,GET_U_PNU,GET_U_PID,GET_U_MID,GET_U_MNU,
      .        FDOF(6),ICOMBT,ICOMBR     
       my_real 
-     .        LX2,LY2,LZ2,CXX,CYY,CZZ,CRX,CRY,CRZ,
+     .        CXX,CYY,CZZ,CRX,CRY,CRZ,
      .        CR1,CR2,CR3,CR4,CR5,CR6,CX, MS,IN,FAC_CTX,FAC_CRX,
-     .        MY1(MVSIZ),MY2(MVSIZ),MZ1(MVSIZ),MZ2(MVSIZ),MX1(MVSIZ),
-     .        MX2(MVSIZ),FOLD(MVSIZ,6),DXOLD(MVSIZ,6),L2(MVSIZ),
+     .        
+     .        FOLD(MVSIZ,6),DXOLD(MVSIZ,6),
      .        KNX(MVSIZ),KNY(MVSIZ),KNZ(MVSIZ),
      .        KRX(MVSIZ),KRY(MVSIZ),KRZ(MVSIZ),
      .        VX(MVSIZ),VY(MVSIZ),VZ(MVSIZ),
-     .        VX2(MVSIZ),VY2(MVSIZ),VZ2(MVSIZ),
-     .        TH1(MVSIZ),TH2(MVSIZ),TH3(MVSIZ),
+     .        
+     .        
      .        VRX(MVSIZ),VRY(MVSIZ),VRZ(MVSIZ),
      .        GET_U_MAT, GET_U_GEO, GET_U_FUNC,
      .        SMA(6),SMI(6),KNN(MVSIZ),KRR(MVSIZ),CR,
      .        DXS(MVSIZ),DYS(MVSIZ),DZS(MVSIZ),DRXS(MVSIZ),
      .        DRYS(MVSIZ),DRZS(MVSIZ),KF(6),DXSK(6),FM(6),
-     .        FCOMB(6),DEQ(MVSIZ),REQ(MVSIZ),XCENT(6),SMEQT,SMEQR,
+     .        FCOMB(6),DEQ(MVSIZ),REQ(MVSIZ),XCENT(6),
      .        FAC_LOC_L,FAC_LOC_T,FAC_X,FAC_R
       DOUBLE PRECISION X0DP(3)              
 C-----------------------------------------------
@@ -429,7 +429,7 @@ C-----------------------------------------------
 C----------------------------------------------------------
 C   D u m m y   A r g u m e n t s   a n d   F u n c t i o n
 C----------------------------------------------------------
-      INTEGER I,NEL,IFUN,FLAG_FRIC,ICOMB
+      INTEGER I,NEL,IFUN,ICOMB
       my_real DERI, KX(*), DX(*), VX(*), FX(*), KMX(*),CRX, 
      .         CR,DXMI,DXMA,DELTAX,KNN(*),KF,KLOC,FM,FR,BETA,
      .         DFR,FT,FRP(*),GET_U_FUNC,KTAN,FFM,KTMAX,DEQ(*),FCOMB,RADIUS,XCENT,FAC_X
@@ -546,7 +546,7 @@ C----------------------------------------------------------
 C   D u m m y   A r g u m e n t s   a n d   F u n c t i o n
 C----------------------------------------------------------
       INTEGER I,NEL,FLAG
-      my_real DERI, KX(*), DX(*), FX(*), KMX(*), 
+      my_real  KX(*), DX(*), FX(*), KMX(*), 
      .         CRX,CR,DELTAX,KNN(*),DXS(*)       
 C-------------------------------------------------------------------------
       IF (FLAG==0) GOTO 350

@@ -130,10 +130,10 @@ C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
       INTEGER NODFT1_SMS, NODLT1_SMS
       INTEGER NODFT2_SMS, NODLT2_SMS
-      INTEGER N, IBID, IPRI, INFO, ITHIS, IT, M, MSR, NN, IERROR,
-     .        I, IAD, NSN, K, KI, NRBDIM
+      INTEGER N, IPRI, INFO, ITHIS, IT, M, MSR, IERROR,
+     .        I, K, NRBDIM
       my_real
-     .        RBID, DT05, MAS, P1, P2, P3
+     .         DT05, MAS
 C-----
       INTEGER, DIMENSION(:), ALLOCATABLE :: IMV
       my_real

@@ -59,7 +59,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, IG, IR1Y, IR1Z, IR2Y, IR2Z
+      INTEGER I, IG, IR1Y, IR1Z, IR2Y, IR2Z
 C     REAL
       my_real
      .   OFF_L

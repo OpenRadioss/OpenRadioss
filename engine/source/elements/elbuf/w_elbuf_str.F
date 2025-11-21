@@ -53,7 +53,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,K,IL,IR,IS,IT,NG,NEL,NPT,L_REL,BUFLEN,NUVAR,
-     .   ITY,IGTYP,ISRATE,ERR,IFAIL,
+     .   ITY,IGTYP,ERR,IFAIL,
      .   NFAIL,IXFEM,NPG,NPTT,NPTTOT,INLOC,NONL,IDFAIL,
      .   IDAMP_FREQ_RANGE
       INTEGER ! global variables

@@ -166,11 +166,11 @@ c  Indx uses locally unlike 4N shells
       INTEGER MAT(MVSIZ),PID(MVSIZ),NGL(MVSIZ),INDX(MVSIZ),IVS(MVSIZ),
      .   FWAVE_EL(NEL)
       INTEGER 
-     .   I, J, NG,NPG,NNOD,PT0,PT1,PT2,NVS,IFLAG,IBID,NFAIL,
+     . I, J, NG,NPG,NNOD,NVS,IBID,NFAIL,
      .   IR,IS,ILAY,NLAY,IMAT,L_DIRA,L_DIRB,J1,J2,N1,N2,N3,
      .   IGTYP,IGMAT,NPTTOT,IREP,IFAILWAVE,IDRAPE,IT,NPTT,
      .   ACTIFXFEM,SEDRAPE,NUMEL_DRAPE
-      INTEGER ,DIMENSION(:) ,POINTER     :: FWAVE_NOD
+ 
       PARAMETER (NNOD = 3)
       my_real 
      .   STI(MVSIZ),STIR(MVSIZ),RHO(MVSIZ),
@@ -216,9 +216,9 @@ C--- Variables for non-local
       my_real, DIMENSION(:,:), ALLOCATABLE :: VAR_REG
       my_real, DIMENSION(:), POINTER :: DNL,UNL
 C-----
-      TYPE(BUF_LAY_) ,POINTER :: BUFLY
+ 
       TYPE(G_BUFEL_) ,POINTER :: GBUF
-      TYPE(L_BUFEL_) ,POINTER :: LBUF
+ 
       TYPE(L_BUFEL_DIR_) ,POINTER :: LBUF_DIR
       INTEGER SDIR_A    ! Size of DIR_A
       INTEGER SDIR_B    ! Size of DIR_B
