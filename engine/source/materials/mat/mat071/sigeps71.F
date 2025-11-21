@@ -126,21 +126,21 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,J1,J2,I1,I2,KK,IADBUF,EFLAG,ISMSTR,IFUNC(100)
+      INTEGER I,KK,EFLAG,ISMSTR
       my_real
-     .    E,EMART,NU,G,G2,WAVE,SQDT,A,B,C,FCT,FCTP, DFTR,UNMXN,DB,
-     .    ALPHA,EPSL,AA1,FM,DFMSA,DFMAS,UXX,NN,BETA,GM,KM,
-     .    CB,CC,CAAS,CBAS,POLD,DGT,DKT,CP,TINI,INVE, n1,n2,n3,
+     .    E,EMART,NU,G,G2,SQDT,A,B,C,FCT,FCTP, DFTR,UNMXN,DB,
+     .    ALPHA,EPSL,AA1,FM,DFMSA,DFMAS,BETA,GM,KM,
+     .    DGT,DKT,CP,TINI,INVE,
      .    K,P,SXX,CAS,CSA,TSAS,TFAS, TSSA,TFSA,RV_PUI,DFS,
-     .    SYY,SZZ,SXY,SYZ,SZX,FASS,FSAS,FASF,FSAF,RSAS,RFAS,
+     .    SYY,SZZ,FASS,FSAS,FASF,FSAF,RSAS,RFAS,
      .    SV,FS,FS0,YLD_ASS,YLD_ASF,YLD_SAS,YLD_SAF,RSSA,RFSA,
-     .    DFM, FSS,DSXX,DSYY,DSXY,DSYZ,DSZX,DSZZ,VAR,H,ET,
-     .    PM,DELTA,X1,X2,test,test2,ftest,gnew,knew,BETAn,
-     .    NX2,NY2 ,NZ2,NXY2,NYZ2,NZX2,NE,DNX,DNY,DNZ,DNXY,DNYZ,DNZX,
-     .    NXX(NEL),NYY(NEL),NZZ(NEL),NXY(NEL),NYZ(NEL),NZX(NEL), 
-     .    E1(NEL),E2(NEL),E3(NEL),E4(NEL),E5(NEL),E6(NEL),TRDE(NEL),
-     .    DE1(NEL),DE2(NEL),DE3(NEL),GT(NEL),KT(NEL),
-     .    EE1(NEL),EE2(NEL),EE3(NEL),PP(NEL),NNE(NEL),DET(NEL),
+     .    DFM,H,
+     .    
+     .    NE,
+     .    NXX(NEL),NYY(NEL),NZZ(NEL), 
+     .    TRDE(NEL),
+     .    GT(NEL),KT(NEL),
+     .    EE1(NEL),EE2(NEL),EE3(NEL),DET(NEL),
      .    SIGXX(NEL), SIGYY(NEL), SIGZZ(NEL)
       my_real
      .            EV(MVSIZ,3) 

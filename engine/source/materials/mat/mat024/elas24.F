@@ -61,7 +61,7 @@ C-----------------------------------------------
       INTEGER I,K,NBDAMA,NBDAMA0
       INTEGER, DIMENSION(NEL) ::  DAMAI,DAMA0I
       my_real, DIMENSION(NEL) ::  DE4,DE5,DE6
-      my_real  YOUNG,NU,G,A11,A12,DSUP,QQ,DEN,DEPSF,HH1,HH2,HH3
+      my_real  YOUNG,NU,G,A11,A12,DSUP,QQ,DEN,HH1,HH2,HH3
 C=======================================================================
 c     Dei = (1 - Dami) Damage coefficients of the Hook matrix
 c-----------------------------------------------------------------------

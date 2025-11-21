@@ -107,7 +107,7 @@
           integer :: i,j,fail,ioff,icc,nindx
           integer :: fail_old(mvsiz),index(mvsiz),icas(mvsiz),isoft(mvsiz)
           real(kind=WP) :: e11,e22,e33,nu12,nu21,g12,g23,g31,wplaref,cc,epdr
-          real(kind=WP) :: scale, cnn, scale1, scale2, dam1, dam2,b1,b2
+          real(kind=WP) :: scale, scale1, scale2, dam1, dam2,b1,b2
           real(kind=WP) :: coefa,coefb,delta,dwpla,e1,e2,e3,e4,e5,e6
           real(kind=WP)                                                            &
             :: dp1(mvsiz), dp2(mvsiz), dp3(mvsiz),cb(mvsiz),cn(mvsiz),          &
@@ -120,7 +120,7 @@
             dmax(mvsiz),fyld(mvsiz),                                         &
             f1(mvsiz), f2(mvsiz), f12(mvsiz), f11(mvsiz), f22(mvsiz),        &
             f33(mvsiz),epsf1(mvsiz),epsf2(mvsiz),eps(mvsiz,6)
-          real(kind=WP) :: soft(3),beta(mvsiz)
+          real(kind=WP) :: beta(mvsiz)
           real(kind=WP) :: frate(mvsiz)
 ! ======================================================================================================================
           ioff   = mat_param%iparam(2)

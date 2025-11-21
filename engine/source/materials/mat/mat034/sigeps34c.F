@@ -76,14 +76,14 @@ C----------------------------------------------------------------
 C----------------------------------------------------------------
 C  L O C A L  V A R I B L E S
 C----------------------------------------------------------------
-       INTEGER :: I, IFORM
+       INTEGER :: I
        my_real :: BULK,BULK3,G_INS,G_INF,GE,GE2,GV,GV2,C1,C2,BETA,
-     .   AA, BB, DAV, P, TRACE, H0(6),H(6),ALPHA,DP_DRHO,CC2
+     .   AA, BB,H(6),DP_DRHO,CC2
         my_real ,DIMENSION(NEL) :: 
-     .   DEPSM,DEPSZZ, SIGNZZ, SIGOZZ, DEPSDXX,DEPSDYY,DEPSDZZ, DP,
+     .   DEPSM,DEPSZZ, DEPSDXX,DEPSDYY,DEPSDZZ, DP,
      .   DEXX,DEYY,DEZZ,DEXY,DEYZ,DEZX,DDEXX,DDEYY,DDEZZ,DDEXY,DDEYZ,
      .   DDEZX,DEPSDXY,DEPSDYZ,DEPSDZX,EPSPM,
-     .   DEPSVXX,DEPSVYY,DEPSVZZ,DEPSVXY,DEPSVYZ,DEPSVZX,EM,EPSM ,EPSZZ,
+     .   DEPSVXX,DEPSVYY,DEPSVZZ,DEPSVXY,DEPSVYZ,DEPSVZX,EM ,EPSZZ,
      .   EPSPZZ 
 C=======================================================================
           BULK  = UPARAM(1)     

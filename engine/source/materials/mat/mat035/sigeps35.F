@@ -91,26 +91,26 @@ C----------------------------------------------------------------
 C----------------------------------------------------------------
 C  L O C A L  V A R I B L E S
 C----------------------------------------------------------------
-      INTEGER I,J,KF,IFLAG,ICORRECT
+      INTEGER I,KF,IFLAG,ICORRECT
 
       my_real
      . E,POISSON,A,B,ET,POISSONT,FAC,EPSP
       my_real
      . GT2,BULKT3,RELVEXP
       my_real
-     . VMU,VLAMDA,VMU2,VLAMDA3
+     . VMU2,VLAMDA3
       my_real
      . C1,C2,C3,PMIN,DPDMU(MVSIZ)
       my_real
      . P0,PHI,GAMA0
       my_real
-     . ENEW(MVSIZ),DEDOT(MVSIZ)
+     . ENEW(MVSIZ)
       my_real
-     . DPDGAMA(MVSIZ),GAMA(MVSIZ),AMU(MVSIZ)
+     . GAMA(MVSIZ),AMU(MVSIZ)
       my_real
      . SM(MVSIZ),EM(MVSIZ),DEDTM(MVSIZ)
       my_real
-     . G2(MVSIZ),BULK(MVSIZ),BULK3(MVSIZ)
+     . G2(MVSIZ),BULK3(MVSIZ)
       my_real
      . DSXX(MVSIZ),DSYY(MVSIZ),DSZZ(MVSIZ)
       my_real

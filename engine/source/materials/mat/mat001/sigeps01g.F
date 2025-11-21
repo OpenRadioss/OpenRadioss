@@ -64,22 +64,19 @@ C-----------------------------------------------
      .    THK(*),
      .    SIGNXX(NEL),SIGNYY(NEL),SIGNXY(NEL),
      .    MOMNXX(NEL),MOMNYY(NEL),MOMNXY(NEL),
-     .    SIGNYZ(NEL),SIGNZX(NEL),
-     .    SIGVXX(NEL),SIGVYY(NEL)
+     .    SIGNYZ(NEL),SIGNZX(NEL)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,MX,J
+      INTEGER I
 C     REAL
       my_real
-     .   DTINV,AMU,FACT,VISC
-      my_real
      .   B1(MVSIZ),B2(MVSIZ),THK0(MVSIZ),
-     .   B3(MVSIZ),DEGMB(MVSIZ),DEGFX(MVSIZ),
+     . B3(MVSIZ),
      .   THK08,EZZ(MVSIZ)
       my_real
      .   EIGV(MVSIZ,3,2),TRAV(MVSIZ),ROOTV(MVSIZ),  
-     .   EH1(MVSIZ),EH2(MVSIZ),EB1(MVSIZ),EB2(MVSIZ),DEZZ(MVSIZ),
+     . EH1(MVSIZ),EH2(MVSIZ),EB1(MVSIZ),EB2(MVSIZ),
      .   EPSXX (MVSIZ),EPSYY (MVSIZ),EPSXY (MVSIZ),
      .   FOR1(MVSIZ),FOR2(MVSIZ),MOM1(MVSIZ),MOM2(MVSIZ)
 c     .   TAN_A,TAN_A2,SIN2_A(MVSIZ),COS2_A(MVSIZ),SINCOS_A(MVSIZ),ANG

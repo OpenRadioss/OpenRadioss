@@ -149,17 +149,17 @@ C        NPF,TF  : FUNCTION PARAMETER
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,IADBUF,IF1,IF2,AUX,IC,II,K,
+      INTEGER I,J,IADBUF,IF1,IF2,AUX,IC,II,
      .        IAD1(MVSIZ),IPOS1(MVSIZ),ILEN1(MVSIZ),
      .        INDEX(MVSIZ),
      .        NINDX,INDX(MVSIZ)
       my_real
      .        E11,E22,E33,G12,G23,G31,
-     .        Y11,Y22,Y33,Y12,Y23,Y31,EP1,EP2,EP3,EP4,EP5,EP6,
+     .        
      .        YC(MVSIZ),FAC1(MVSIZ),FAC2(MVSIZ),
      .        FAC3(MVSIZ),FAC4(MVSIZ),FAC5(MVSIZ),FAC6(MVSIZ),
-     .        DYDX,DYDXV(MVSIZ),EP(MVSIZ,6),EPC(MVSIZ),
-     .        EMX11,EMX22,EMX33,EMX12,EMX23,EMX31,AMUV
+     .        DYDXV(MVSIZ),EP(MVSIZ,6),EPC(MVSIZ),
+     .        EMX11,EMX22,EMX33,EMX12,EMX23,EMX31
 C=======================================================================
 C     USER VARIABLES INITIALIZATION
 C-----------------------------------------------

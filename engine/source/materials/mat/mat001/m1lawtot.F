@@ -121,11 +121,11 @@ C-----------------------------------------------
      .   C1(MVSIZ), 
      .   ES1(MVSIZ), ES2(MVSIZ), ES3(MVSIZ), 
      .   ES4(MVSIZ), ES5(MVSIZ), ES6(MVSIZ),
-     .    DF,DAV,EKK, DPDM, P,
+     .    DAV,EKK, P,
      .    E1, E2, E3, E4, E5, E6, EINC,
-     .    BID1, BID2, BID3, DTA,  YM, DPDMP,FACQ0,
+     .    BID1, BID2, BID3, DTA,FACQ0,
      .    RHO0_1,C1_1,G2_11,
-     .    SV(3),P3,P2,NU_1,
+     .    P2,NU_1,
      .    EPSTH11(MVSIZ),SIGTMP(MVSIZ,6),FACG,FF,FRHO
 C-----------------------------------------------
       FACQ0 = ONE

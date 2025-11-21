@@ -68,7 +68,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .   PM(NPROPM,*),
      .   OFF(*),DT1C(*),GS(*),THK(*),EPSP(MVSIZ)
       my_real
-     .   EXZ(MVSIZ),EYZ(MVSIZ),KXX(MVSIZ),KYY(MVSIZ),KXY(MVSIZ),
+     .   EXZ(MVSIZ),EYZ(MVSIZ),
      .   NU(MVSIZ),THK0(MVSIZ),DEGMB(MVSIZ),DEGFX(MVSIZ)
       my_real
      .   FOR(NEL,5),MOM(NEL,3),
@@ -88,7 +88,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .   YM(MVSIZ),FP1(MVSIZ),FP2(MVSIZ),FP3(MVSIZ),
      .   M1(MVSIZ),M2(MVSIZ),M3(MVSIZ),MP1(MVSIZ),MP2(MVSIZ),MP3(MVSIZ),
      .   DWELM(MVSIZ),DWELF(MVSIZ),CA(MVSIZ),CB(MVSIZ),CN(MVSIZ),
-     .   EPMX(MVSIZ),YMAX(MVSIZ),YEQ(MVSIZ),DWPLA(MVSIZ),HH(MVSIZ),
+     .   EPMX(MVSIZ),YMAX(MVSIZ),YEQ(MVSIZ),DWPLA(MVSIZ),
      .   RR(MVSIZ),C1(MVSIZ),C2(MVSIZ),C3(MVSIZ),CC(MVSIZ),
      .   B1(MVSIZ),B2(MVSIZ),B3(MVSIZ),EPDR(MVSIZ),EPSL(MVSIZ),HL(MVSIZ),
      .   YLDL(MVSIZ),A1(MVSIZ),A2(MVSIZ),G(MVSIZ),

@@ -119,37 +119,37 @@ C-----------------------------------------------
 C----------------------------------------------------------------
 C  L O C A L  V A R I B L E S
 C----------------------------------------------------------------
-      INTEGER I,IK,IJ 
+      INTEGER I,IK 
       my_real, DIMENSION(NEL) :: 
-     .   JAC ,JEQ ,B11    ,B22 ,B33 ,B12 ,
-     .   B23 ,B13 ,BSQR11 ,BSQR22 ,I1BAR ,I2BAR ,
-     .   BSQR33 ,BSQR12 ,BSQR23 ,BSQR13 ,H1 ,H2 ,H3 ,
-     .   ZXX   ,ZXY ,ZYZ ,ZXZ , ZYX , ZZY ,
+     .   JAC         ,
+     .   
+     .   
+     .   ZXX   ,ZXY ,ZYZ    ,
      .   ZZX   ,ZYY ,ZZZ ,WHYSMAX ,
-     .   ZXXOLD  ,ZXYOLD  ,ZYZOLD ,ZXZOLD , 
-     .   ZYXOLD  , ZZYOLD ,ZZXOLD ,ZYYOLD ,ZZZOLD ,  
-     .   ZXXMID ,ZXYMID ,ZYZMID ,ZXZMID , 
-     .   ZYXMID , ZZYMID ,ZZXMID ,ZYYMID ,ZZZMID ,
-     .   DZXX ,DZXY ,DZYZ ,DZXZ , 
-     .   DZYX , DZZY ,DZZX ,DZYY ,DZZZ ,  
+     .   ZXXOLD  ,ZXYOLD  ,ZYZOLD  , 
+     .    ZZXOLD ,ZYYOLD ,ZZZOLD ,  
+     .   ZXXMID ,ZXYMID ,ZYZMID  , 
+     .    ZZXMID ,ZYYMID ,ZZZMID ,
+     .   DZXX ,DZXY ,DZYZ  , 
+     .    DZZX ,DZYY ,DZZZ ,  
      .   S1   ,S2 ,S3 ,S4 ,S5 ,S6 ,
      .   FS11 ,FS12 ,FS13 ,FS21 ,FS22 ,FS23 ,
      .   FS31 ,FS32 ,FS33 ,SLOPEMAX ,  DAMAGE ,   
-     .   ZXXD ,ZYYD ,ZZZD ,ZXYD ,ZYZD ,ZZXD ,EPST ,YLD
+     .   EPST ,YLD
 c       
       my_real
-     .   G,K,NU,HU, SHAPE ,GS,KS,STIFFMAX,AA, DE,E_NEW,EPSS, E_OLD,
-     .   EP2,EP3,EP4,EP5,EP6,ERT11,ERT12,ERT13,ERT21,E,EMOD,EP1,
+     .   G,K,HU, SHAPE ,GS,KS,STIFFMAX,
+     .   EP2,EP3,EP4,EP5,EP6,ERT11,ERT12,ERT13,ERT21,EMOD,EP1,
      .   ERT22,ERT23,ERT31,ERT32,ERT33,SCAL,
      .   EPSP(3),XSCAL,
 C      
      .   STRAIN(NEL,3),SLOPE(NEL,3),DRATE(NEL,3),EV(NEL,3),
-     .   F(NEL,3,3),FO(NEL,3,3),C(NEL,3,3), EGL(NEL,6),
+     .   F(NEL,3,3),C(NEL,3,3), EGL(NEL,6),
 C
-     .   SPKNODAM(NEL,6),SPKNORATE(NEL,6),SPK(NEL,6),SIG(NEL,6) ,
+     .   SPKNODAM(NEL,6),SPKNORATE(NEL,6),SPK(NEL,6) ,
      .   DFIRST(NEL,3,6),CIJKL(NEL,6,6),
 c
-     .   EVV(MVSIZ,3), VAL(MVSIZ,3),AV(MVSIZ,6),DIRPRV(MVSIZ,3,3) 
+     .   EVV(MVSIZ,3),AV(MVSIZ,6),DIRPRV(MVSIZ,3,3) 
 c     
 c=========================================================================
 c      Isotropic path dependent recoverable foam law

@@ -78,7 +78,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: I
       my_real :: NU,G12,GS,GC,A1C,A2C,TCOAT,DEZZ
-      my_real ,DIMENSION(NEL) :: ET,THFAC
+      my_real ,DIMENSION(NEL) :: ET
 C=======================================================================
       NU      = UPARAM(5)
       G12     = UPARAM(6)

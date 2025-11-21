@@ -74,11 +74,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .   AFILTR,Xscale_SIG0,Yscale_SIG0,Xscale_YOUN,Yscale_YOUN,
      .   Xscale_TANG,Yscale_TANG
       my_real
-     .   DPDT,DLAM,DDEP,DEPXX,DEPYY,DEVEPSPXX,DEVEPSPYY,DEVEPSPZZ,TREPSP,
-     .   NORMXX,NORMYY,NORMXY,DENOM,DFDSIG2,DPDT_NL,DEPSDT,DTINV
+     .   DLAM,DEVEPSPXX,DEVEPSPYY,DEVEPSPZZ,TREPSP,
+     .   NORMXX,NORMYY,NORMXY,DFDSIG2,DEPSDT,DTINV
       my_real, DIMENSION(NEL) ::
      .   SXX,SYY,SZZ,SXY,SIGVM,YLD,HARDP,PHI,DEZZ,YLD0,DYLD0DEPSD,
-     .   DYOUNDEPSD,DTANGDEPSD,TRSIG,DPHI_DLAM,TEST,DPXX,DPYY,DPXY
+     .   DYOUNDEPSD,DTANGDEPSD,TRSIG,DPHI_DLAM,DPXX,DPYY,DPXY
 c
       !=======================================================================
       ! - INITIALISATION OF COMPUTATION ON TIME STEP

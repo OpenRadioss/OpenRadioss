@@ -75,13 +75,13 @@ C
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J, MT, K,ICOUNT,LIST(MVSIZ),ERROR, ALE_OR_EULER
+      INTEGER I,J, MT,ICOUNT,LIST(MVSIZ),ERROR, ALE_OR_EULER
       my_real AL(MVSIZ),
      .        DTX(MVSIZ), AD(MVSIZ), QX(MVSIZ), CX(MVSIZ),SSP_EQ(MVSIZ),
      .        RHO0(MVSIZ),DTMIN(MVSIZ),QA, QB, VISI, FACQ,QAA,
-     .        CNS1, CNS2, SPH, AK1, BK1, AK2, BK2, 
-     .        TLI, AKK, XMU, TMU, RPR,
-     .        ATU, QAD, QBD, QAAP,DD
+     .        CNS1, CNS2, 
+     .         
+     .          DD
       my_real TIDT,TVOL,TRHO,TAIRE, DTINV
 C-----------------------------------------------
 

@@ -98,22 +98,22 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NFIS1(MVSIZ), NFIS2(MVSIZ), NFIS3(MVSIZ), INDX(MVSIZ)
-      INTEGER I, J, JADR, J1, J2, J3, JJ, II, I2, NINDX, I1,
+      INTEGER I, J, II, NINDX,
      .   IOFF,JOFF,IDIR,IFLAG
 C     REAL
       my_real
-     .   DEGMB(MVSIZ),DEGFX(MVSIZ),
-     .   WPLAR(MVSIZ),STRN1(MVSIZ),STRN2(MVSIZ),STRN3(MVSIZ),
-     .   DAMCR(MVSIZ,2), DMAXT(MVSIZ),STRP1(MVSIZ) ,STRP2(MVSIZ),
-     .   EPSPL(MVSIZ),S1(MVSIZ),S2(MVSIZ),S3(MVSIZ),
+     .   
+     .   WPLAR(MVSIZ),
+     .    DMAXT(MVSIZ) ,
+     .   S1(MVSIZ),S2(MVSIZ),S3(MVSIZ),
      .   S4(MVSIZ),S5(MVSIZ),S6(MVSIZ),
      .   EP1(MVSIZ),EP2(MVSIZ),EP3(MVSIZ),EP4(MVSIZ),EP5(MVSIZ),
      .   EP6(MVSIZ),EPST1(MVSIZ),EPST2(MVSIZ),EPSM1(MVSIZ),EPSM2(MVSIZ),
      .   DMAX(MVSIZ),R11(MVSIZ),R12(MVSIZ),R13(MVSIZ),R21(MVSIZ),
      .   R22(MVSIZ),R23(MVSIZ),R31(MVSIZ),R32(MVSIZ),R33(MVSIZ)
        my_real 
-     .   ASRATE,EPS_K2, EPS_M2, SIGT1, SIGT2, 
-     .   ZT, WMC, VISC, DTINV ,EPD,DAV,DAM1,DAM2,DT5,
+     .   ASRATE, 
+     .   EPD,DAV,DAM1,DAM2,DT5,
      .   EPST1_1,EPST2_1,EPSM1_1,EPSM2_1,DMAX_1,SSP_1
 C=======================================================================
 C     Formulation flag

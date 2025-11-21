@@ -150,7 +150,7 @@ c     NPF,TF  : FUNCTION PARAMETER
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,II,J,K,NRATE,JJ(NEL),J1,J2,N,NINDX,IFLAG,IFLAGSR,EXPA,EXPAM2,
+      INTEGER I, II, J, K, NRATE, JJ(NEL), J1, J2, NINDX, IFLAG, IFLAGSR, EXPA, EXPAM2, 
      .        NMAX,INDX(NEL), IPOS1(NEL),ILEN1(NEL),IAD1(NEL),
      .       IPOS2(NEL),ILEN2(NEL),IAD2(NEL)
       my_real
@@ -160,38 +160,31 @@ C-----------------------------------------------
      .        PHIP(NEL),PHIPP(NEL),
      .        DELTAP(NEL), DELTAPP1(NEL), DELTAPP2(NEL), DELTAPP(NEL),
      .        DEPLXX(NEL),DEPLYY(NEL),DEPLXY(NEL),DEPLZZ(NEL),
-     .        DEELZZ(NEL),XP1(NEL),XP2(NEL),XPP1(NEL),
-     .        XPP2(NEL),SIG(NEL),H(NEL),SIGTRXX(NEL),SIGTRYY(NEL),
+     .        SIG(NEL),H(NEL),SIGTRXX(NEL),SIGTRYY(NEL),
      .        SIGTRXY(NEL),RATE(NEL),SIGTRYZ(NEL),SIGTRZZ(NEL),
      .        SIGTRZX(NEL),DEPLYZ(NEL),DEPLZX(NEL),DDEPLYZ(NEL),DDEPLZX(NEL),
      .        DDEPLXX(NEL),DDEPLYY(NEL),DDEPLXY(NEL),DDEPLZZ(NEL)
       my_real
-     .      E,NU,BULK,A1,A2,G,UNSA,DU,R,UMR,G2,LAMDA,
-     .      AL1, AL2 , AL3 , AL4 ,DSIGPL1,DSPL1,
-     .      AL5, AL6 , AL7 , AL8 ,DSIGPL2,DSPL2,
-     .      AL9, AL10, AL11, AL12,DSIGPL3,DSPL3,
-     .      YSCALE,CEPS,EPS0,EXPN,DAV,
-     .      LPP11,LPP12,LP13,LPP21,LPP22,LPP23,
-     .      LPP34,LPP45,LPP56,LPP13,LPP66,
-     .      FCT,FCTP,BPP,CPP,DPP,FP1,FP2,FP3,FP4,FP5,
-     .      KINT,FPP1,FPP2,FPP3,DFP1,DFP2,DFP3,FPP4,FPP5,
-     .      DFPP1,DFPP2,DFPP3,DP,AP,DF1,DF2,DF3,DF,DFP4,DFP5,DFP6,
-     .      DSDEPL1,DSDEPL2,DSDEPL3,NORMEF,EPSPI,DFPP4,DFPP5,DFPP6,
+     . E,NU,BULK,G,UNSA,DU,G2,LAMDA,
+     . AL1, AL2 , AL3 , AL4 ,
+     . AL5, AL6 , AL7 , AL8 ,
+     . AL9, AL10, AL11, AL12,
+     . DAV,
+     . LPP11,LPP12,LPP21,LPP22,LPP23,
+     . LPP34,LPP45,LPP56,LPP13,
+     . FCT,FP1,FP2,FP3,FP4,FP5,
+     . FPP1,FPP2,FPP3,DFP1,DFP2,DFP3,FPP4,FPP5,
+     . DFPP1,DFPP2,DFPP3,DF1,DF2,DF3,DF,DFP4,DFP5,DFP6,
+     . EPSPI,DFPP4,DFPP5,DFPP6,
      .      ASWIFT ,EPSO,QVOCE,BETA,KO,ALPHA,NEXP,DF4,DF5,DF6,
      .      EXPV,KSWIFT,KVOCE,UNSP,UNSC,PLA_I,YLD_I,
-     .      DSWIFT,DVOCE,DFEPSP,YLDP, p2,UNSPT,UNSCT,DFSR,
-     .      TPP1, TPP2,TPP3,TP1,TP2,fiptest,fipptest
-
+     . DSWIFT,DVOCE,DFEPSP,YLDP,UNSPT,UNSCT,
+     . TPP1, TPP2,TPP3,TP1
       my_real
-     .        HK(NEL),NU_1MNU(NEL),EPSF(NEL),PLAP(NEL),F_EPSP(NEL),
-     .        SVM2(NEL),YLD2(NEL),HI(NEL),G3(NEL),T_1PNU(NEL),
-     .        HKIN,NU110,NU210,dezz,svm,DPLA_I(NEL),dr(NEL),
-     .        AA(NEL),BB(NEL),DPLA_J(NEL),U_1MNU(NEL),     
-     .        PP(NEL),QQ(NEL),FAIL(NEL),SVMO(NEL),F_EPSPT(NEL),
-     .        NU11V(NEL),NU21V3(NEL),AANU11V(NEL),BBNU21V3(NEL),
-     .        HI2(NEL), ES2(NEL)
+     . PLAP(NEL),F_EPSP(NEL),
+     . F_EPSPT(NEL)
        my_real
-     .        YFAC(NEL,2),PUI_1,PUI_2
+     . YFAC(NEL,2),PUI_1
        DATA NMAX/5/
 c-----------------------------------------------
 c     USER VARIABLES INITIALIZATION

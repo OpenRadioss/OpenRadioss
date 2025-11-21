@@ -92,7 +92,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER IGURSON,NICE,NINDX,I,J,INDX(NEL),IR,IS,IT
+      INTEGER IGURSON,NICE,NINDX,I,J,INDX(NEL)
 C=======================================================================
 c
       NICE    = NINT(UPARAM(11)) ! Plastic projection method
