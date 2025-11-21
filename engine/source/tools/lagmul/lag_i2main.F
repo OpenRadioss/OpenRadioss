@@ -130,11 +130,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER INOD(5), I,J,K,L,IC,JC,II,JJ,IK,ISK,IAD,NIR,NDL, 
+      INTEGER INOD(5),K,L,IC,II,JJ,IK,IAD,NIR,NDL, 
      .   NC_INI,NCL,COMFLAG
       my_real
-     .   RX(4),RY(4),RZ(4),HLOC(6,6),LLOC(6),
-     .   B1,B2,B3,C1,C2,C3,DET,S,HIJ,
+     .   RX(4),RY(4),RZ(4),
+     .   B1,B2,B3,C1,C2,C3,DET,
      .   X0,X1,X2,X3,X4,XS,Y0,Y1,Y2,Y3,Y4,YS,Z0,Z1,Z2,Z3,Z4,ZS,
      .   X12,X22,X32,X42,Y12,Y22,Y32,Y42,Z12,Z22,Z32,Z42,
      .   XX,YY,ZZ,XXX,YYY,ZZZ,XY,YZ,ZX,XY2,YZ2,ZX2,FACT

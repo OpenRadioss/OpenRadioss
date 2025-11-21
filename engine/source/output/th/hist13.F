@@ -80,15 +80,15 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER ITITLE(80), IFILNAM(2148), ICODE, I, NJOINV, NRBAGV,
-     .   NG, II, N, IH, ITY, NEL, NFT, K, MTN, NACCELV,NINTERS,
-     .   IRUNR,NN,IAD,J,ITYP
+     . II, N, MTN, NACCELV,NINTERS,
+     . NN,IAD,J,ITYP
 
       CHARACTER EOR*8, CH8*8, FILNAM*100, BLA*7
       CHARACTER(LEN=LTITLE) :: CARD
       my_real,DIMENSION(20) :: TITLE
       INTEGER :: LEN_TMP_NAME
       CHARACTER(len=2148) :: TMP_NAME
-      INTEGER, DIMENSION(20) :: TEXT
+ 
       INTEGER  NGLV, NMTV, NINV, NRWV, NRBV, NNODV, NSCV, NELQV, NELSV, NELCV, NELTV, NELPV, NELRV, NELTGV, NELURV
       INTEGER, dimension(:), allocatable :: IWA
 C-----------------------------------------------

@@ -60,7 +60,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,IK,IC,ICF,JCF,IR,IFX,NFIX,NFRE,JC,JF,IH,IHF
+      INTEGER I,J,K,IK,IC,ICF,JCF,IR,IFX,NFIX,NFRE,JC,IH,IHF
       my_real
      .   HIJ,DD
 C=======================================================================
@@ -341,7 +341,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,IK,IC,ICF,JCF,IR,IFX,NFIX,NFRE,JC,JF,IH,IHF,II
+      INTEGER I,J,K,IK,IC,ICF,JCF,IR,IFX,NFIX,NFRE,JC,IH,IHF,II
       my_real
      .   HIJ,DD
 C=======================================================================

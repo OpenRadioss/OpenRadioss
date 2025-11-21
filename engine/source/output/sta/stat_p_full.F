@@ -57,7 +57,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER SIZLOC,SIZP0
+      INTEGER SIZP0
       INTEGER IXP(NIXP,*),IPARG(NPARG,*),IGEO(NPROPGI,*),
      .        IPARTP(*),IPART_STATE(*),STAT_INDXP(*)
       my_real   
@@ -72,7 +72,7 @@ C-----------------------------------------------
      .   IR,IS,PT,L_PLA,G_PLA
       INTEGER,DIMENSION(:),ALLOCATABLE :: PTWA
       INTEGER,DIMENSION(:),ALLOCATABLE :: PTWA_P0
-      CHARACTER*100 DELIMIT,LINE
+      CHARACTER*100 DELIMIT
       TYPE(G_BUFEL_)  ,POINTER :: GBUF
       TYPE(L_BUFEL_)  ,POINTER :: LBUF
 C-----------------------------------------------

@@ -53,12 +53,12 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER
-     .   J, I, K, I1, I2, N
+     .    I, N
       my_real
      .   FX1, FY1, FZ1,MX1, MY1, MZ1, DX1,DY1, DZ1,FST(35),
-     .   MSX, MSY, MSZ, XX1, YY1, ZZ1, XX2, YY2, ZZ2, XX3, YY3, ZZ3,
+     .   MSX, MSY, MSZ,
      .   XX4, YY4, ZZ4, XX5, YY5, ZZ5, XX6, YY6, ZZ6, XXN, YYN, ZZN,
-     .   D13, XXC, YYC, ZZC, FSX, FSY, FSZ, FN, FSNX, FSNY, FSNZ, FSTX,
+     .    XXC, YYC, ZZC, FSX, FSY, FSZ, FN, FSNX, FSNY, FSNZ, FSTX,
      .   FSTY, FSTZ, DMX, DMY, DMZ
 C-----------------------------------------------
 C

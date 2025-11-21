@@ -45,7 +45,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER LEN, N
+      INTEGER  N
 C--------------------------------------
       DO N=1,NTABLE
         TABLE(N)%NOTABLE  = 0
@@ -241,7 +241,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER LEN, N, K, STAT, i
+      INTEGER LEN, N, K
 C--------------------------------------
       DO N=1,NTABLE
         DO K=1,TABLE(N)%NDIM
@@ -292,7 +292,7 @@ C-----------------------------------------------
       INTEGER NXK(4),IPOS(4)
       INTEGER IB(2,2,2,2)
       my_real 
-     .       DX1,DX2,R(4),UNR(4)
+     .       DX2,R(4),UNR(4)
 C-----------------------------------------------
       NDIM=TABLE%NDIM
       IF( SIZE(XX) < NDIM )THEN
@@ -438,7 +438,7 @@ C-----------------------------------------------
       INTEGER NXK(4),IPOS(4)
       INTEGER IB(2,2,2,2)
       my_real 
-     .       DX1,DX2,R(4),UNR(4)
+     .       DX2,R(4),UNR(4)
 C-----------------------------------------------
       NDIM=TABLE%NDIM
       IF( XXDIM < NDIM )THEN
@@ -908,9 +908,9 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       TYPE(TTABLE_XY), POINTER :: TY
       INTEGER NDIM, K, NXK, I, IPOS, IB(2,2,2,2), 
-     .        IP,IN,IM,IL,P,N,M,L,N1,N12,N123
+     .        IM,IL,M,L,N1
       my_real 
-     .       DX1,DX,R(2),UNR(2)
+     .       DX,R(2),UNR(2)
 C-----------------------------------------------
       R(1:2) = HUGE(R(1))
       NDIM=TABLE%NDIM

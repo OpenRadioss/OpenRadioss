@@ -55,7 +55,7 @@ C-----------------------------------------------
       INTEGER ITAB(*),WEIGHT(*),ISTOP,
      .   I_DAMP_RDOF_TAB(*),ICONTACT(*),IXC(NIXC,*)
 C     REAL
-      my_real DT2T, DMAST, DINERT, STIFN(*), STIFR(*), 
+      my_real DT2T, STIFN(*), STIFR(*), 
      .   MS(*) ,IN(*) ,DAMPR(NRDAMP,*),X(3,*)
 C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRNOD) :: IGRNOD
@@ -64,7 +64,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER N,I,J,ISK,IGR,ND,K,L,LL
       my_real FACTB,DAMPBR,DAMPAR,D_TSTART,D_TSTOP,DAMPT,
-     .   DT2N(NUMNOD),BB,COEFF,STIF_MOD,DT_CIBLE,ETA,BETA,
+     .   DT2N(NUMNOD),BB,COEFF,DT_CIBLE,ETA,BETA,
      .   ALPHA,DAMPA0          
 C----------------------------------------------------------
 

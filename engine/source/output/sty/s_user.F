@@ -55,7 +55,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,II,I1,IPT,IL,IR,IS,IT,
+      INTEGER I,II,I1,IPT,IL,IR,IS,IT,
      .        NUVAR,IGTYP,NFT, NBX, IMX,NPTT
       my_real
      .   FAC,AA,VAR(200),FUNC(6)

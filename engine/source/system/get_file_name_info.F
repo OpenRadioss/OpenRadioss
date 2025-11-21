@@ -44,8 +44,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER ERR,FST,LST,V4RNUM,rd
-      CHARACTER ARUN*4,EXT*4,EXT3*3,V4LETTER,V5LETTER
+ 
+      CHARACTER ARUN*4, EXT*4, EXT3*3, V4LETTER, V5LETTER
 C-----------------------------------------------    
       IF (INPUT=='CHECK_DATA')THEN
         LENR = 0

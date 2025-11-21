@@ -65,7 +65,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, IC, N, K1, K2, K3, IK, ISK, IFUN, NNO, ISMOOTH
+      INTEGER  J, IC, N, K1, K2, K3, IK, ISK, IFUN, NNO, ISMOOTH
       my_real
      .  TS, DERI, VF, FAC, FACX, FINTER, FINTER_SMOOTH
       EXTERNAL FINTER, FINTER_SMOOTH
@@ -202,7 +202,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, IC, N, K1, K2, K3, ISK, IFUN, NNO,ISMOOTH
+      INTEGER  J, N, K1, K2, K3, ISK, IFUN, NNO,ISMOOTH
       my_real
      .        TS, DERI, VF, FAC, FACX, FINTER, FINTER_SMOOTH
       EXTERNAL FINTER, FINTER_SMOOTH
