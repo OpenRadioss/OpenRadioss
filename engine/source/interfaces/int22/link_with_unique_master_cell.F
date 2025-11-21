@@ -70,7 +70,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER   ::  IsMain, N, IPOS, LEVEL, IIP
+      INTEGER   ::    IPOS, LEVEL, IIP
       my_real   ::  SCORE(6), MAX, NextMAX, MySum
       my_real   ::  XYZmax(3)
 C-----------------------------------------------

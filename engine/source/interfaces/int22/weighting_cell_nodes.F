@@ -61,8 +61,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER   ::  IsMain, N, IPOS, LEVEL, J, IFAC, I, NumNOD, ListNOD(8),K, NbCut
-      my_real   ::  ALPHA(8),TAG(6),RATIO(6), NFAC(8)
+      INTEGER   ::    J, IFAC, I, NumNOD, ListNOD(8),K, NbCut
+      my_real   ::  ALPHA(8),RATIO(6), NFAC(8)
 C-----------------------------------------------
 C   P r e - C o n d i t i o n
 C----------------------------------------------- 

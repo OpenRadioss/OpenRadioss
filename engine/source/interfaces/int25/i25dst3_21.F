@@ -59,7 +59,7 @@ C-----------------------------------------------
      .        CAND_N(*),
      .        CAND_E(*),NSVG(MVSIZ), ETYP(*), ICODT(*), ISKEW(*)
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ),
-     .        INTTH,MSEGLO(*),IRTLM(4,NSN), KSLIDE(MVSIZ,4), MVOISN(MVSIZ,4), 
+     . MSEGLO(*),IRTLM(4,NSN), KSLIDE(MVSIZ,4), MVOISN(MVSIZ,4),
      .        IBOUND(4,MVSIZ)
       my_real , INTENT(IN) :: DGAPLOAD ,DRAD
       my_real
@@ -75,23 +75,23 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, K, L, N, ITQ, N4N, IKEEP, MGLOB, IB1, IB2, IB3, IBX, IX, IY, IZ
+      INTEGER I, J, K, L, N, N4N, MGLOB, IB1, IB2, IB3, IBX, IX, IY, IZ
       INTEGER I4N(MVSIZ),
      .        INGAP(MVSIZ,4),
      .        IT, JJ, I1, I2, ITRIA(2,4), SUBTRIA(MVSIZ),
-     .        IBC21, IBC22, IBC23, IBCS, ISKS, IBCM(4), ISKM(4), 
+     . IBCS, ISKS, IBCM(4), ISKM(4),
      .        IBCX(MVSIZ), IBCY(MVSIZ), IBCZ(MVSIZ)
       my_real
-     .     XIJ(MVSIZ,4),  XI0V(MVSIZ),  XI5,
-     .     YIJ(MVSIZ,4),  YI0V(MVSIZ),  YI5,
-     .     ZIJ(MVSIZ,4),  ZI0V(MVSIZ),  ZI5,
-     .     X51,  X52,  X53, X54,
-     .     Y51,  Y52,  Y53, Y54,
-     .     Z51,  Z52,  Z53, Z54,
-     .     XO1, XO2, XO3, XO4, XO5, XOI,
-     .     YO1, YO2, YO3, YO4, YO5, YOI,
-     .     ZO1, ZO2, ZO3, ZO4, ZO5, ZOI,
-     .     VO12, VO23, VO34, VO41, PENE
+     . XIJ(MVSIZ,4), XI0V(MVSIZ),
+     . YIJ(MVSIZ,4), YI0V(MVSIZ),
+     . ZIJ(MVSIZ,4), ZI0V(MVSIZ),
+     .
+     .
+     .
+     .
+     .
+     .
+     . PENE
       my_real
      .     GAP_MM(MVSIZ), GAP, GAP2,
      .     XP, YP, ZP,
@@ -99,7 +99,7 @@ C-----------------------------------------------
      .     LAP, HLA, HLB(MVSIZ,4), HLC(MVSIZ,4),
      .     AL(MVSIZ,4)
       my_real
-     .     UNP,ZEROM,EPS,UNPT,ZEROMT,AAA,BB(MVSIZ,4),
+     . AAA,BB(MVSIZ,4),
      .     SX1,SX2,SX3,SX4,
      .     SY1,SY2,SY3,SY4,
      .     SZ1,SZ2,SZ3,SZ4,
@@ -110,7 +110,6 @@ C-----------------------------------------------
      .     PX, PY, PZ, PP, P1, P2, XH, YH, ZH, D1, D2, D3, VX, VY, VZ,
      .     LL ,NN, PN, LD(MVSIZ), LX, LAX, LBX, LCX,
      .     PREC
-      INTEGER ISHEL(MVSIZ)
       DATA ITRIA/1,2,2,3,3,4,4,1/
 C-----------------------------------------------------------------------
 C

@@ -102,17 +102,15 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER KK, NIN, NI25, ISENS, LENT25, IERROR, ITYP,
+      INTEGER NIN, NI25, LENT25, IERROR, ITYP, 
      .        IFQ, IGAP, INTTH, ILEV, IVIS2,
-     .        I_STOK_GLO, I_STOK, I,J, LINDMAX, NSNR, INACTI, NADMSR,
-     .        LENADD, MG, L, N, N_OLD_IMPACT,
-     .        P, RSIZ(NINTER25), ISIZ(NINTER25), SIZBUFS(NSPMD), IADBUFR(NSPMD+1),
+     . I_STOK_GLO, I,J, NSNR, INACTI, NADMSR,
+     . N_OLD_IMPACT,
+     . P, RSIZ(NINTER25), ISIZ(NINTER25), SIZBUFS(NSPMD),
      .        NADMAX, LADMAX, NSLIDMX, NSENDTOT, NSNF, NSNL, NSNRF, NSNRL,INTFRIC ,
      .        FLAGREMN, LREMNORMAX, ISTIF_MSDT, IFSUB_CAREA
       INTEGER SIZOPT, K_STOK, I_OPT_STOK
-      my_real
-     .       TS, STARTT, STOPT
-      INTEGER, DIMENSION(:), ALLOCATABLE :: INDEX2, BUFR, NADD, KADD,
+      INTEGER, DIMENSION(:), ALLOCATABLE :: NADD, KADD, 
      .                                      NSLIDE, FR_SLIDE, INDXTOSEND
 C
       TYPE(real_pointer),    DIMENSION(NSPMD,NINTER25) :: RBUFS,RBUFR

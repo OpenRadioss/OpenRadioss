@@ -82,11 +82,10 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER ADRBUF, I, IL, J3, J2, J1, IN, I3, I2, I1
+      INTEGER ADRBUF, I, IL, IN, I3, I2, I1
       INTEGER NISKYL
       INTEGER NDEB, NREST
       INTEGER DGR
-      INTEGER IPT,NPT,II,JJ
       my_real
      .   A, B, C, AN, BN, CN, ROT(9),
      .   X1, X2, X3, N1, N2, N3, N,

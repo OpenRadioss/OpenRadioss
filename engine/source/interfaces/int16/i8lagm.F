@@ -62,11 +62,10 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,IK,IE,IS,IC,NK,III(MVSIZ,9),LLT,NFT,LE,FIRST,LAST,
-     .        I8
+      INTEGER I, K, IE, IS, IC, III(MVSIZ, 9), LLT, NFT, LE, FIRST, LAST
       my_real
      .   XX(MVSIZ,9),YY(MVSIZ,9),ZZ(MVSIZ,9),
-     .   AA,XMIN,YMIN,ZMIN,XMAX,YMAX,ZMAX,DIST
+     . DIST
 C-----------------------------------------------
 C
 C
@@ -241,7 +240,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,IK,NK,I1,I2,I3,I4,IAD,NN
+      INTEGER I, IK, NK, IAD, NN
       my_real
      .   VX,VY,VZ,VN,AA
       my_real
@@ -525,9 +524,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,IK,NK,ITER,NITERMAX,JTER,NJTERMAX,CONV
-      my_real
-     .   VX,VY,VZ,VN
+      INTEGER I, ITER, NITERMAX, JTER, NJTERMAX, CONV
       my_real
      .   DRDX(MVSIZ),DRDY(MVSIZ),DRDZ(MVSIZ),
      .   DSDX(MVSIZ),DSDY(MVSIZ),DSDZ(MVSIZ),     
@@ -650,9 +647,9 @@ C-----------------------------------------------
       my_real
      .  U_M_R,U_P_R,U_M_S,U_P_S,U_M_T,U_P_T,
      .  UMS_UMT,UMS_UPT,UPS_UMT,UPS_UPT,
-     .  UMR_UMS,UMR_UPS,UPR_UMS,UPR_UPS,
-     .  UMT_UMR,UMT_UPR,UPT_UMR,UPT_UPR,
-     .  A,R05,S05,T05
+     .
+     .
+     . R05,S05,T05
 C-----------------------------------------------------------------------
 C     calculation of ni
 C-----------------------------------------------------------------------
@@ -805,16 +802,16 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,N
+      INTEGER I
       my_real
      .   DXDS(MVSIZ), DYDS(MVSIZ), DZDS(MVSIZ),
      .   DNIDR(8),DNIDS(8),DNIDT(8),
-     .   D, AA, BB, DET(MVSIZ),R9 ,R13 ,S9 ,S10 ,S11 ,S12 ,T10 ,T14
+     . D, DET(MVSIZ)
       my_real
      .  U_M_R,U_P_R,U_M_S,U_P_S,U_M_T,U_P_T,
      .  UMS_UMT,UMS_UPT,UPS_UMT,UPS_UPT,
-     .  UMR_UMS,UMR_UPS,UPR_UMS,UPR_UPS,
-     .  UMT_UMR,UMT_UPR,UPT_UMR,UPT_UPR,
+     .
+     .
      .  A,R05,S05,T05
 C-----------------------------------------------
 C/*

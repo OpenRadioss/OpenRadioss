@@ -84,9 +84,9 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I ,J , K, N, NOR, NOD, L, ISH, FIRST, LAST, NL, LVOIS, NORV
+      INTEGER I, J, K, N, NOR, NOD, L, ISH, FIRST, LAST, NL, LVOIS
       INTEGER NRTMFT, NRTMLT, NSNF, NSNL, NSNRF, NSNRL, NODFT, NODLT,
-     .        I1, I2, I3, I4, M, NOR1, NOR2,  NADMSRFT, NADMSRLT,
+     . M, NOR1, NOR2, NADMSRFT, NADMSRLT,
      .        NRTMFT_FREE, NRTMLT_FREE, NEDGFT, NEDGLT, SOL_EDGE, SH_EDGE
       INTEGER IRM,JRM,IEDG,JEDG
       INTEGER, DIMENSION(:), ALLOCATABLE ::  TAGMSR
@@ -487,12 +487,11 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I ,J , N, LLT, NM, IRM, N1, N2, N3, N4, IAD, LENR, LENS, CC, ISH
+      INTEGER I, J, N, LLT, IRM, IAD, ISH
       INTEGER IX1, IX2, IX3, IX4,
-     .        I1, I2, I3, I4, JRM, JEDG, IEDG, NEDG, IS1,IS2
-      INTEGER NRTMFT, NRTMLT, NEDGFT, NEDGLT, NADMSRFT, NADMSRLT
+     . I1, I2, I3, I4, JRM, JEDG, IEDG, IS1,IS2
+      INTEGER NRTMFT, NRTMLT, NADMSRFT, NADMSRLT
       INTEGER SIZE                 
-      my_real S1,S2
       REAL*4
      .     X0, Y0, Z0,
      .     X1, X2, X3, X4,
@@ -505,10 +504,9 @@ C-----------------------------------------------
      .     XN2(MVSIZ),YN2(MVSIZ),ZN2(MVSIZ),
      .     XN3(MVSIZ),YN3(MVSIZ),ZN3(MVSIZ),
      .     XN4(MVSIZ),YN4(MVSIZ),ZN4(MVSIZ),
-     .     XS(MVSIZ), YS(MVSIZ), ZS(MVSIZ),
      .     AAA, NX, NY, NZ,
      .     VX, VY, VZ, X12, Y12, Z12
-      REAL*4 :: X0S,Y0S,Z0S,X01S,Y01S,Z01S,X02S,Y02S,Z02S
+ 
       LOGICAL :: LIMIT_CASE,IS_QUAD(MVSIZ)
 C     REAL*4 :: RZERO, RUN, REM30, REP30, RDIX
 C     PARAMETER ( RZERO = 0.          )
@@ -527,8 +525,8 @@ C     PARAMETER ( REM30 = RUN/REP30   )
 
 C-----------------------------------------------
 C debug
-      INTEGER IE,JE,I1E,I2E
-      INTEGER :: IDS(4)
+ 
+ 
 
 C     RZERO = 0.
 C     RUN   = 1.
@@ -1144,8 +1142,8 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I ,J, C1, C2, CC
-      INTEGER NADMSRFT, NADMSRLT, NRTMFT, NRTMLT
+      INTEGER I, C1, C2, CC
+      INTEGER NADMSRFT, NADMSRLT
       REAL*4 
      .       AAA
 C------------------------------------

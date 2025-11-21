@@ -229,7 +229,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER J, I , IDF
+ 
 C     REAL
       my_real
      .   ENCINT, EINT,VV1,VV2,FV1,FV2,FV,FF
@@ -332,13 +332,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER J, I,FREQ,IDF,IPI,IPC,NC_ACT,IFIRST
+      INTEGER IDF, IPI, IPC, NC_ACT, IFIRST
       PARAMETER (NC_ACT = 200)
 C     REAL
       my_real
-     .   Q_ES,BETATE_N,FC,FI,BETATE_M
+     . BETATE_N,FC,FI,BETATE_M
       my_real
-     .   F_MAX,F_MIN,F_0,EI_TOL
+     . F_MAX,F_0,EI_TOL
 C     REAL
       CHARACTER*8 FILNAME
 C-----------------------------------------------

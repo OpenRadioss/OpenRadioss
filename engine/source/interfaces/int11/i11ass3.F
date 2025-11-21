@@ -84,11 +84,10 @@ C-----------------------------------------------
      .        CS_LOC(MVSIZ),NSMS(MVSIZ),ICONTACT(*),ISKYI_SMS(*),JTASK
       my_real
      .   A(3,*), FCONT(3,*),
-     .   STIFN(*),FSKYI(LSKYI,NFSKYI),
-     .   DTMI0
+     .   STIFN(*),FSKYI(LSKYI,NFSKYI)
       my_real
      .   HS1(MVSIZ), HS2(MVSIZ), HM1(MVSIZ), HM2(MVSIZ),
-     .   NX(MVSIZ), NY(MVSIZ), NZ(MVSIZ), STIF(MVSIZ),
+     . STIF(MVSIZ),
      .   SECFCUM(7,NUMNOD,NSECT), VISCN(*),
      .   FX1(MVSIZ), FX2(MVSIZ), FX3(MVSIZ), FX4(MVSIZ),
      .   FY1(MVSIZ), FY2(MVSIZ), FY3(MVSIZ), FY4(MVSIZ),
@@ -102,11 +101,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J1, J , K0,NBINTER,K1S,K, NI
-      INTEGER NISKYL,NISKYL1,IDTM
-      my_real
-     .   DTMI(MVSIZ)
-
+      INTEGER I, J, K0, NBINTER, K1S, K
 C---------------------------------
       IF(IDTMINS==2.OR.IDTMINS_INT/=0)
      .  CALL I11SMS2(JLT   ,CS_LOC ,N1    ,N2     ,M1     ,
@@ -770,7 +765,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J1, NISKYL1, NISKYL,IGP,IGM,NISKYFIL
+      INTEGER I, NISKYL1, NISKYL, IGP, IGM, NISKYFIL
 C
       NISKYL1 = 0
       DO I = 1, JLT
@@ -1048,7 +1043,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J1, NISKYL1, NISKYL,IGP,IGM,NISKYFIL
+      INTEGER I, NISKYL1, NISKYL, IGP, IGM, NISKYFIL
 C
       NISKYL1 = 0
       DO I = 1, JLT

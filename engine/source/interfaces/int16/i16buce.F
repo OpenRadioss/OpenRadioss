@@ -53,7 +53,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NME, NSN, NOINT,IDT,ITASK,MX_CAND,
+      INTEGER NME, NSN, NOINT,ITASK,MX_CAND,
      .        ESH_T, I_STOK_GLOB
       INTEGER CAND_E(*),CAND_N(*),IXS(NIXS,*),IXS16(8,*),
      .        NSV(*),MWA(*),NELEM(*),IXS20(12,*),IXS10(6,*)
@@ -66,8 +66,8 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 C
-      INTEGER I, J, K, CONT,NB_N_B,I_STOK   ,NSNF,NSNL,
-     .        IP0, IP1, IP2, IP21, IP22, IP31, MAXSIZ,
+      INTEGER I, J, K, CONT,NB_N_B   ,NSNF,NSNL,
+     .         IP1, IP2, IP21, IP22, IP31, MAXSIZ,
      .        NE,N8,N10,N20,N16
 C-----------------------------------------------
 C   S o u r c e  L i n e s

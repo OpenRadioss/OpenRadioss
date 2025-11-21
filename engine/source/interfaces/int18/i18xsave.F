@@ -47,7 +47,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NSN,NMN,ITASK, ICURV, NRTM_T,
-     .        NSV(*),MSR(*), IRECT(4,*),NMN_L,NTY,INACTI
+     . NSV(*),MSR(*), IRECT(4,*),NMN_L
       my_real
      .        XMAX, YMAX, ZMAX, XMIN, YMIN, ZMIN, C_MAX,
      .        SX, SY, SZ, SX2, SY2, SZ2,
@@ -56,8 +56,6 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NSNF,NMNF,NSNL,NMNL,I, J, II
-      my_real
-     .        XXX, YYY, ZZZ 
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------

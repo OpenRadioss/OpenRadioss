@@ -90,7 +90,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J1, J, K,IG,ISF,NN,NS,JLTF,NE
+      INTEGER I, J, K, ISF, NN, NS, JLTF, NE
       my_real
      .   N1(MVSIZ), N2(MVSIZ), N3(MVSIZ), PENE(MVSIZ),
      .   H1(MVSIZ), H2(MVSIZ), H3(MVSIZ), H4(MVSIZ),
@@ -103,7 +103,7 @@ C-----------------------------------------------
       INTEGER NA1,NA2
       my_real
      .   A0X,A0Y,A0Z,RX,RY,RZ,
-     .   ANX,ANY,ANZ,AAN,AAX,AAY,AAZ ,RR,RS,AAA ,TM,TS
+     . ANX,ANY,ANZ,AAN,AAX,AAY,AAZ ,RR,RS,AAA
 C-----------------------------------------------
 C  dev021
       IF (IRESP==1) THEN
@@ -569,7 +569,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER JLT, INACTI,NIN
+      INTEGER JLT, NIN
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ),
      .        INDEX(MVSIZ)
       my_real
@@ -582,7 +582,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J1, J, K,IG,ISF,NN,NS,NI
+      INTEGER I, ISF, NI
       my_real
      .   VX(MVSIZ), VY(MVSIZ), VZ(MVSIZ), VN(MVSIZ), 
      .   DX(MVSIZ), DY(MVSIZ), DZ(MVSIZ), DN(MVSIZ), 
@@ -590,9 +590,7 @@ C-----------------------------------------------
      .   S2,FACN(MVSIZ),FACF, FACT(MVSIZ)
       my_real
      .   FX,FY,FZ,FN,FT,FNI,FTI,VTX,VTY,VTZ,VT,
-     .   T1(MVSIZ), T2(MVSIZ), T3(MVSIZ),
-     .   KT1,KT2,KT3,KT4,Q1,Q2,H0
-
+     .   T1(MVSIZ), T2(MVSIZ), T3(MVSIZ)
 C-----------------------------------------------
 C
       DO I=1,JLT
@@ -745,7 +743,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER JLT,INACTI,NIN,MFROT, IFQ, NOINT,IRECT(4,*)
+      INTEGER JLT, INACTI, NIN, MFROT, IFQ, IRECT(4, *)
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ),
      .        CE_LOC(MVSIZ),INDEX(MVSIZ),NSVG(MVSIZ)
       my_real
@@ -769,7 +767,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J1, IG, J, JG , K0,NBINTER,K1S,K,IL,IE, NN, NI,NS
+      INTEGER I, IG, IE, NN, NS
       my_real
      .   FXI(MVSIZ), FYI(MVSIZ), FZI(MVSIZ), FNI(MVSIZ),
      .   FXT(MVSIZ),FYT(MVSIZ),FZT(MVSIZ),STIF0(MVSIZ),
@@ -778,12 +776,12 @@ C-----------------------------------------------
      .   VX(MVSIZ), VY(MVSIZ), VZ(MVSIZ), VN(MVSIZ),XMU(MVSIZ), 
      .   DX(MVSIZ), DY(MVSIZ), DZ(MVSIZ), DN0(MVSIZ),
      .    
-     .   VNX, VNY, VNZ, AA, CRIT,S2,DIST,RDIST,
-     .   V2, FM2, FAC,FF,ALPHI,ALPHA,BETA,
-     .   FX, FY, FZ, F2, MAS2, M2SK, DTI,FT,FN,FMAX,FTN,
-     .   H0, LA1, LA2, LA3, LA4,D1,D2,D3,D4,A1,A2,A3,A4, FF0,
+     . VNX, VNY, VNZ, AA,S2,
+     . V2, FAC,ALPHA,BETA,
+     . FX, FY, FZ,FT,FN,FTN,
+     . H0, LA1, LA2, LA3, LA4,D1,D2,D3,D4,A1,A2,A3,A4,
      .   VV,AX1,AX2,AY1,AY2,AZ1,AZ2,AX,AY,AZ,T1,T2,T3,DXT,
-     .   AREA,P,VV1,VV2,V21,DMU, DTI2,H00 ,A0X,A0Y,A0Z,RX,RY,RZ,
+     . AREA,P,VV1,VV2,DMU,H00 ,A0X,A0Y,A0Z,RX,RY,RZ,
      .   ANX,ANY,ANZ,AAN,AAX,AAY,AAZ ,RR,RS,AAA ,GAP2 ,PENE2,PREC 
       INTEGER NA1,NA2
 C-----------------------------------------------

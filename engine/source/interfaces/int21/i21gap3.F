@@ -55,10 +55,10 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NSNF, NSNL, I, J, NELS, NELC, NELTG, NEL
+      INTEGER NSNF, NSNL, I
 C     REAL
       my_real
-     .   GAPM, CRITERL, GAPSUPL
+     .    CRITERL, GAPSUPL
 C------------------------------------
 C     GAP VARIABLE FOR SECONDARY NODES
 C------------------------------------

@@ -123,17 +123,17 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER KD(50), JD(50), JFI, KFI,
-     .        I, J, H, IBC, NOINT, ISECIN, I_STOK, NSEG, 
+      INTEGER  
+     .        I, J, H, IBC, NOINT, ISECIN, I_STOK, 
      .        JLT , NFT, JLT_NEW, IGAP, IVIS2,
-     .        NB_LOC, I_STOK_LOC,DEBUT,I3N, IGSTI,IFORM,INTTH,IKTHE,
-     .        IFORMTH,SFSAVPARIT,NISUB,INTFRIC,NSETPRTS,NPARTFRIC,MFROT,IFQ,
+     .        NB_LOC, I_STOK_LOC,DEBUT, IGSTI,IFORM,INTTH,IKTHE,
+     .        IFORMTH,SFSAVPARIT,NISUB,INTFRIC,NSETPRTS,NPARTFRIC,MFROT,
      .        IERROR,IORTHFRIC,IFRIC,JJ,NINLOADP
       INTEGER N1(MVSIZ), N2(MVSIZ), M1(MVSIZ), M2(MVSIZ),
-     .        NSVG(MVSIZ), CS_LOC(MVSIZ), CM_LOC(MVSIZ),
+     .         CS_LOC(MVSIZ), CM_LOC(MVSIZ),
      .        NSMS(MVSIZ)
-      INTEGER I_STOK_NEW,CAND_S(MVSIZ),CAND_M(MVSIZ),
-     .        INDEXM1(LINDMAX),IELECI(MVSIZ),IELESI(MVSIZ), IPARTFRICSI(MVSIZ),
+      INTEGER 
+     .        IELECI(MVSIZ),IELESI(MVSIZ), IPARTFRICSI(MVSIZ),
      .         IPARTFRICMI(MVSIZ)
       INTEGER,DIMENSION(:), ALLOCATABLE :: INDEX2
 C     REAL

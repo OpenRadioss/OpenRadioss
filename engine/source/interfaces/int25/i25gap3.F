@@ -55,7 +55,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,IW,I1,I2,I3,MG,M,IP,IGTYP,
+      INTEGER I,J,M,
      .        NMNF,NMNL,NRTMF,NRTML,IERROR
       my_real,
      .       DIMENSION(:), ALLOCATABLE :: WA

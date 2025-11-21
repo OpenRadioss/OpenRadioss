@@ -90,20 +90,20 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NOINT,N,K,NRTS,NSN,INOD
-      INTEGER I,NDEB,NREST, NSC, NTC, NNC, MAXFCT
+      INTEGER NOINT,NRTS,NSN,INOD
+      INTEGER I,NDEB, NSC, NTC, NNC, MAXFCT
       INTEGER KSC, KTC, KNC, KMARQND, KWNF, KWTF, KWNS, KWLENG
 C-----------------------------------------------
 C     REAL
       my_real
-     .  STFAC, FRIC, STF,
+     .  STFAC, FRIC,
      .  XP1(3,MVSIZ) ,XP2(3,MVSIZ) ,XP3(3,MVSIZ) , XP4(3,MVSIZ),
      .  GX(3,MVSIZ)  ,XTK(4,MVSIZ) ,YTK(4,MVSIZ) ,ZTK(4,MVSIZ) ,
      .  NTX(4,MVSIZ) ,NTY(4,MVSIZ) ,NTZ(4,MVSIZ) ,
      .  ANS(4,MVSIZ) ,DEPTH(4,MVSIZ),
      .  XI(4,MVSIZ)  ,YI(4,MVSIZ)  ,ZI(4,MVSIZ)  ,
      .  NXI(4,MVSIZ) ,NYI(4,MVSIZ) ,NZI(4,MVSIZ) ,
-     .  DE, ANSMX, FTOT,
+     .  DE, ANSMX,
      .  FNORMX,FNORMY,FNORMZ,FTANGX,FTANGY,FTANGZ
 C-----------------------------------------------
         NOINT=IPARI(15)

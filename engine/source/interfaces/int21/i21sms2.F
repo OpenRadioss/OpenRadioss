@@ -64,7 +64,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, IG, NISKYL1, NISKYL, NN
+      INTEGER I, IG, NISKYL1, NISKYL
       my_real
      .        MAS, DTS
 C

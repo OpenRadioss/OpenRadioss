@@ -67,7 +67,7 @@ C-----------------------------------------------
       my_real
      .  PM(NPROPM,*), X(*), RWL(*), MS(*), FSAV(*), V(*), W(*), 
      .  E(*), A(*),
-     .  TEMP,TSTIF,FHEAT, SAVE(3)
+     .  TEMP,TSTIF,FHEAT
       TYPE(ELBUF_STRUCT_), DIMENSION(NGROUP) :: ELBUF_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -75,7 +75,7 @@ C-----------------------------------------------
       INTEGER M3, M2, M1, I, N, N3, N2, N1, K, PMAIN
       my_real
      .   XWL, YWL, ZWL, VXW, VYW, VZW, FXN, FYN, FZN, FXT, FYT, FZT,
-     .   VX, VY, VZ, UX, UY, UZ, XC, YC, ZC, DP, DV, DA, DVT,
+     .   VX, VY, VZ, UX, UY, UZ, XC, YC, ZC, DP, DV, DVT,
      .   FNXN,FNYN, FNZN, FNXT, FNYT, FNZT, FNDFN, FTDFT, FRIC, FRIC2,
      .   FCOE,
      .   F1(NSN), F2(NSN), F3(NSN), F4(NSN), F5(NSN), F6(NSN)

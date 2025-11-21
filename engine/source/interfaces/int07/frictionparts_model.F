@@ -57,7 +57,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER INTFRIC,JLT,NFRIC_P ,NSET ,NPARTFRIC ,NTY ,MFROT ,IORTHFRIC ,NFORTH ,
+      INTEGER INTFRIC,JLT ,NSET ,NPARTFRIC ,NTY ,MFROT ,IORTHFRIC ,NFORTH ,
      .        NFISOT ,JLT_TIED
       INTEGER IPARTFRICSI(MVSIZ), IPARTFRICMI(MVSIZ), ADPARTS_FRIC(NPARTFRIC+1),
      .        TABCOUPLEPARTS_FRIC(NSET ),TABPARTS_FRIC(NPARTFRIC) ,INDEXORTH(MVSIZ),
@@ -76,7 +76,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I ,J ,K ,IPS ,IPM ,IP ,IPMID ,ADRI ,ADRF ,ADRCOEF ,IPSL ,IPML ,IPI ,IPF , 
-     .       L , IREP ,IORTH,NI,NN ,LENC
+     .       L , IREP ,IORTH ,LENC
       my_real ADR ,E1X ,E1Y ,E1Z ,E2X ,E2Y ,E2Z ,E3X ,E3Y ,E3Z ,RX ,RY ,RZ ,SX ,SY ,SZ ,
      .        SUMA ,S1 ,S2 ,AA ,BB ,V1 ,V2 ,V3 ,VR ,VS  
 C
@@ -364,7 +364,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER INTFRIC,JLT,NFRIC_P ,NSET ,NPARTFRIC ,NTY ,MFROT ,IORTHFRIC ,IFRIC ,
+      INTEGER INTFRIC,JLT ,NSET ,NPARTFRIC ,NTY ,MFROT ,IORTHFRIC ,IFRIC ,
      .        JLT_TIED ,IFORM
       INTEGER IPARTFRICSI(*), IPARTFRICMI(*), ADPARTS_FRIC(NPARTFRIC+1),
      .        TABCOUPLEPARTS_FRIC(NSET),TABPARTS_FRIC(NPARTFRIC) ,NPC(*) ,
@@ -381,7 +381,7 @@ C-----------------------------------------------
      .    LENC 
       my_real ADR  ,THI ,TM ,DYDX
       my_real 
-     .   FINTER,TOTAL 
+     .   FINTER 
       EXTERNAL FINTER
 C
 C-----------------------------------------------
