@@ -117,12 +117,12 @@
 !----------------------------------------------------------------
 !  L o c a l  V a r i a b l e s
 !----------------------------------------------------------------
-      integer i,ii,j,nmax,vp,n,iter,iter_max,nindx,indx(nel)
+      integer i,ii,nmax,vp,iter,nindx,indx(nel)
       real(kind = WP) :: young(nel),nu(nel),shear(nel),bulk(nel),a,b,cm,cn,    &
         tmelt,tref,epsm,sigm,cs,cjc,deps0,eta,tol,t0,dav,deve1,deve2,deve3,deve4
-      real(kind = WP) :: ddep,dfdsig2,sig_dfdsig,tempr,dphi_dlam
+      real(kind = WP) :: ddep,dfdsig2,tempr,dphi_dlam
       real(kind = WP), dimension(nel) :: pla0,hardp,dlam,normxx,normyy,normxy, &
-        dpxx,dpyy,dpxy,temp0,lam,aii,aij,thsoft,phi,dpla_dlam,eheat,ecool,     &
+        dpxx,dpyy,dpxy,temp0,aii,aij,thsoft,phi,dpla_dlam,eheat,ecool,     &
         nutemp,dedt,dnudt,srdep,hard,dezz,epsdot,off0,young0,nu0,shear0,epspzz,&
         eplaxx,eplayy
       real(kind=WP), dimension(nel,1) :: xvec

@@ -56,11 +56,11 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J
+      INTEGER I
 C     REAL
       my_real
      .   YM(NEL),SHF(NEL),B1(NEL),B2(NEL),B3(NEL),
-     .   DEGMB(NEL), DEGFX(NEL), 
+     .    
      .   SH(NEL), YMA2(NEL), SH10(NEL),
      .   SH20(NEL), SH0(NEL), SH1(NEL), SH2(NEL),
      .   DMPM(NEL),DMPF(NEL),RHO(NEL),G(NEL)

@@ -67,7 +67,7 @@ c
       !=======================================================================
       !      Local Variables
       !=======================================================================
-      INTEGER I,K,II,NINDX,INDEX(NEL),Istat
+      INTEGER I,II,NINDX,INDEX(NEL),Istat
 c
        my_real ::  
      .   YOUNG,BULK,LAMHOOK,G,G2,NU,ALPHA,CFAIL,PFAIL,RHOF0

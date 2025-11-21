@@ -137,7 +137,7 @@ C        NPF,TF  : FUNCTION PARAMETER
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,J1,J2,IYLDC,IYLDT,IRATE,NCC,NCT,NFUNC,VP,IADBUF
+      INTEGER I,J,J1,J2,IRATE,NCC,NCT,NFUNC,VP,IADBUF
       INTEGER IPOS1(NEL),IAD1(NEL), ILEN1(NEL),
      .   IPOS2(NEL),IAD2(NEL), ILEN2(NEL),IFUNC(MFUNC),
      .   JJC(NEL),JJT(NEL)

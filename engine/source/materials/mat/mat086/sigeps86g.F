@@ -112,7 +112,7 @@ C        NPF,TF  : FUNCTION PARAMETER
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
-      INTEGER I,J,NRATE,J1,J2,N,NINDX,NMAX,NFUNC,
+      INTEGER I,J,NRATE,J1,J2,N,NINDX,NMAX,
      .        IAD1(MVSIZ),IPOS1(MVSIZ),ILEN1(MVSIZ),
      .        IAD2(MVSIZ),IPOS2(MVSIZ),ILEN2(MVSIZ),
      .        JJ(MVSIZ),INDEX(MVSIZ),IFUNC(100),NFUNCV,
@@ -125,9 +125,9 @@ C-----------------------------------------------
      .        YFAC(MVSIZ,2),NNU1,NU1(MVSIZ),
      .        NU2(MVSIZ),NU3(MVSIZ),DPLA_I,DPLA_J(MVSIZ),H(MVSIZ),
      .        FAIL(MVSIZ),EPSMAX,EPSR1,EPSR2,
-     .        ERR,F,DF,YLD_I,TOL,
+     .        F,DF,YLD_I,TOL,
      .        C1,CP1,CQ1,CP2,CQ2,SM1(MVSIZ),SM2(MVSIZ),SM3,FN,FM,FNM,
-     .        PN2,QN2,PM2,QM2,DFN,DFM,DFNM,DA,DB,A_I,B_I,
+     .        DFN,DFM,DFNM,DA,DB,A_I,B_I,
      .        DFNP,DFNQ,DFMP,DFMQ,DFNMP,DFNMQ,XP,XQ,XPG,XQG,
      .        GM(MVSIZ),CM(MVSIZ),P_M,QM,PNM1,PNM2,QTIER(MVSIZ),
      .        CNM(MVSIZ),AM(MVSIZ),BM(MVSIZ),ANM(MVSIZ),BNM(MVSIZ),

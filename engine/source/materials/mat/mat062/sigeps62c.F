@@ -51,7 +51,7 @@ C-----------------------------------------------
 C----------------------------------------------------------------
 C  I N P U T   A R G U M E N T S
 C----------------------------------------------------------------
-      INTEGER NEL,NUPARAM, NUVAR,ISMSTR, IPM(NPROPMI,*),MAT(NEL),
+      INTEGER NEL,NUPARAM, NUVAR,ISMSTR, IPM(NPROPMI,*),
      .        NPT0,ILAYER, IFLAG(*),NGL(NEL)
       my_real
      .   TIME,TIMESTEP,UPARAM(NUPARAM),THKN(NEL),THKLYL(NEL),
@@ -66,7 +66,7 @@ C----------------------------------------------------------------
       my_real
      .   SIGNXX(NEL),SIGNYY(NEL),SIGNXY(NEL),SIGNYZ(NEL),SIGNZX(NEL),
      .   SIGVXX(NEL),SIGVYY(NEL),SIGVXY(NEL),SIGVYZ(NEL),SIGVZX(NEL),
-     .   SOUNDSP(NEL),VISCMAX(NEL),ET(NEL)
+     .   SOUNDSP(NEL),VISCMAX(NEL)
 C----------------------------------------------------------------
 C  I N P U T  O U T P U T   A R G U M E N T S
 C----------------------------------------------------------------
@@ -76,28 +76,28 @@ C----------------------------------------------------------------
 C  VARIABLES FOR FUNCTION INTERPOLATION
 C----------------------------------------------------------------
       INTEGER NPF(*), NFUNC, IFUNC(NFUNC)
-      my_real FINTER,FINTTE,TF(*),FINT2V
+      my_real FINTER,FINTTE,TF(*)
       EXTERNAL FINTER,FINTTE
 C----------------------------------------------------------------
 C  L O C A L  V A R I B L E S
 C----------------------------------------------------------------
       INTEGER  I,J,K,NORDRE,NPRONY,ITER,IVISC,JNV
       my_real
-     .   NU,GMAX,RBULK,BETA(100),GAMAINF,DVISC,SUM,FAC,RVT,EVL,
+     .   NU,GMAX,RBULK,BETA(100),GAMAINF,DVISC,FAC,RVT,
      .   EV1,EV2,EV3,KT3(NEL),INVR(NEL),DSDEV(NEL),DSVOL(NEL),
      .   DQ1(NEL),DQ2(NEL),DQ3(NEL),SDH01(NEL),
      .   SDH02(NEL),SDH03(NEL),SDH1(NEL),SDH2(NEL),SDH3(NEL),
      .   DQDEV(NEL),DQIDEV,INV31,INV32(NEL),INV33(NEL),
-     .   RVD(NEL),H10,H20,H30,H1,H2,H3,HP1,HP2,HP3,HD1,HD2,HD3,A11,
+     .   RVD(NEL),H10,H20,H30,H1,H2,H3,HP1,HP2,HD1,HD2,HD3,A11,
      .   EMAX,SDHP1,SDHP2,INV11,INV21
       my_real
-     .   EVV(NEL,3),EV(NEL,3),EVM(NEL),DWDL(3),EC(NEL,3),
-     .   RHO(NEL),GAMA(NEL),PRES(NEL),RV(NEL),P,SP(NEL,3),
-     .   T(NEL,3),SV(NEL,3),S(NEL,3),S0(NEL,3),SD(NEL,3),SD0(NEL,3),
+     .   EVV(NEL,3),EV(NEL,3),EC(NEL,3),
+     .   RHO(NEL),GAMA(NEL),RV(NEL),P,SP(NEL,3),
+     .   T(NEL,3),S(NEL,3),SD(NEL,3),
      .   TRAV(NEL),ROOTV(NEL),EIGV(NEL,3,2),DEZZ(NEL),
      .   EV1_SAV(NEL,100),EV2_SAV(NEL,100)
       my_real     
-     .   MU(100),AL(100),D(100),
+     .   MU(100),AL(100),
      .   TAUX(100)
 C=======================================================================
 C SET INITIAL MATERIAL CONSTANTS

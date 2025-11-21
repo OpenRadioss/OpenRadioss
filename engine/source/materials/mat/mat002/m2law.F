@@ -113,15 +113,15 @@ C
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I, J, ICC,IFORM,ISRATE,VP,IDEV,IBID,NINDX
+      INTEGER :: I, J, ICC,IFORM,ISRATE,VP,IDEV,NINDX
       INTEGER :: INDX(NEL)
       my_real RHO0, PLAP,POLD,PSHIFT,BULK,P, EPMX,CC,CN,EPDR,
      .        Z3,Z4,RHOCP,RHOCPI,T_REF,T_MELT,ASRATE,
      .        E1, E2, E3, E4, E5,E6, EINC, G0,G1,G2,G3,G3H,
-     .        SCALE, BID1, BID2, BID3, DTA,MT,
+     . SCALE, DTA,MT,
      .        DSXX,DSYY,DSZZ,DSXY,DSYZ,DSZX,ALPHA,HKIN,
      .        FACQ0,FISOKIN,BETA,VM,VM_1,NORM_1,CA0,CB,SIGM0
-      my_real EPD(MVSIZ),G(MVSIZ), AK(MVSIZ),PC(MVSIZ), QH(MVSIZ),
+      my_real EPD(MVSIZ),G(MVSIZ), AK(MVSIZ), QH(MVSIZ),
      .        AJ2(MVSIZ), DAV(MVSIZ),CA(MVSIZ),SIGMX(MVSIZ),
      .        SIGEXX(MVSIZ),SIGEYY(MVSIZ),SIGEZZ(MVSIZ),
      .        SIGEXY(MVSIZ),SIGEYZ(MVSIZ),SIGEZX(MVSIZ)

@@ -120,9 +120,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I,J,N,NINDX,NMAX,IADBUF,ICC1,ISRATE,VFLAG
-      my_real :: R,UMR,NUX,A,B,C,S11,S22,S12,P,P2,DEZZ, 
-     .   SIGZ,S1,S2,S3,VM2,EPST,F,DF,Q2,YLD_I,E1,A11,A21,
+      INTEGER :: I,J,N,NINDX,NMAX,ICC1,ISRATE,VFLAG
+      my_real :: NUX,P2,DEZZ, 
+     .   S1,S2,S3,EPST,F,DF,Q2,YLD_I,E1,A11,A21,
      .   G1,G31,NNU11,NU11,NU21,NU31,DEVE1,DEVE2,DEVE3,DEVE4,DPDT,
      .   EPSM1,EPSR11,EPSR21,FISOKIN1,CA1,CB1,CN1,CC1,CP1,
      .   DSXX,DSYY,DSXY,DEXX,DEYY,DEXY,ALPHA,YSCALE,DAV

@@ -149,7 +149,7 @@ C----------------------------------------------------------------
 C  VARIABLES FOR FUNCTION INTERPOLATION 
 C----------------------------------------------------------------
       INTEGER NPF(*), NFUNC, IFUNC(NFUNC)
-      my_real FINTER,FINTTE,TF(*),FINT2V
+      my_real FINTER,FINTTE,TF(*)
       EXTERNAL FINTER,FINTTE
 C----------------------------------------------------------------
 C  L o c a l   V a r i a b l e s
@@ -164,8 +164,8 @@ C----------------------------------------------------------------
      .   MU(NEL)
       my_real
      .   PS,PE,ALPHAE,ALPHAP,EN,BETA,ETA,XI,UNSURN,
-     .   BULK0,C0,DALPDPE,AA,HH,HH2,G,G2,DAV,
-     .   BULK1, CRIT, TOL, PNEW1, DFDA, DGDA,
+     .   BULK0,AA,HH,HH2,G,G2,DAV,
+     .   BULK1, CRIT, TOL, DFDA, DGDA,
      .   GS, DGDALPHA, BULK
       my_real
      .   RHOS(NEL),RHOS0(NEL),ESPES(NEL),

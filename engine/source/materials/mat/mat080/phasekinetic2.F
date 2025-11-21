@@ -42,8 +42,8 @@ C-----------------------------------------------
         my_real
      .        TEMPEL(NEL0),TEMPO(NEL0),TEMPMIN(NEL0),TIMESTEP
         my_real
-     .        TIME,ALPHA,TREF,AE1,AE3,BS,MS,GSIZE,NU,FCFER,FCPER,FCBAI,
-     .        FGRAIN,QR2,QR3,QR4,KPER,KBAIN,XEQ2,XEQ4,YX,
+     .        TIME,ALPHA,AE1,AE3,BS,MS,FCFER,FCPER,FCBAI,
+     .        FGRAIN,QR2,QR3,QR4,KPER,KBAIN,XEQ2,XEQ4,
      .        GFAC_F,PHI_F,PSI_F,CR_F,CF,GFAC_P,PHI_P,PSI_P,CR_P,CP,
      .        GFAC_B,PHI_B,PSI_B,CR_B,CB,PHI_M,PSI_M,N_M,FGFER,FGPER,FGBAI
 C-----------------------------------------------

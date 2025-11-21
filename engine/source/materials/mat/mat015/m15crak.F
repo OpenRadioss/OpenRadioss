@@ -46,7 +46,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  NGL(MVSIZ),IMAT
-      INTEGER JFT, JLT,ILAYER,ICHA,IFLAG,NEL
+      INTEGER JFT, JLT,ILAYER,IFLAG,NEL
 C     REAL
       my_real
      .   PM(NPROPM,*),DAMT(NEL,2),
@@ -54,14 +54,14 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J
+      INTEGER I
       INTEGER, DIMENSION(MVSIZ) :: FAILURE
        my_real
      .   EF2,EFC2,EM22,EMC2
       my_real
      .   SIGT1(MVSIZ),SIGT2(MVSIZ),SIGC1(MVSIZ),SIGC2(MVSIZ),
-     .   SIGR12(MVSIZ),BETA(MVSIZ),SCH1(MVSIZ,5),TAUX,S1,S2,S3,
-     .   S4,S5, TMAX(MVSIZ) 
+     .   SIGR12(MVSIZ),BETA(MVSIZ),SCH1(MVSIZ,5),
+     .    TMAX(MVSIZ) 
 C-----------------------------------------------
         DO  I=JFT,JLT
           IFLAG = NINT(PM(147,IMAT))

@@ -84,7 +84,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J, MT
+      INTEGER I, MT
       my_real
      .   AL(MVSIZ),DTX(MVSIZ), QX(MVSIZ), CX(MVSIZ), QXMATER(MVSIZ),
      .   QA, QB, VISI, FACQ,

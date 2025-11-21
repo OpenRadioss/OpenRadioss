@@ -54,7 +54,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER M, I, N, LCOD, ISK, K
+      INTEGER M, I, N, LCOD, K
 C     REAL
       my_real
      .  VI(3),XG,YG,ZG,II1,II2,II3,II4,II5,II6,II7,II8,

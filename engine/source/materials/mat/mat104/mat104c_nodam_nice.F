@@ -68,27 +68,27 @@ c
       !=======================================================================
       !      Local Variables
       !=======================================================================
-      INTEGER I,K,II,NINDX,INDEX(NEL),NICE
+      INTEGER I,II,NINDX,INDEX(NEL),NICE
 c
       my_real 
      .   YOUNG,BULK,LAM,G,G2,NU,CDR,KDR,HARD,YLD0,QVOCE,BVOCE,JCC,
      .   EPSP0,MTEMP,TINI,TREF,ETA,CP,DPIS,DPAD,ASRATE,AFILTR,A11,A12,
      .   NNU, NORMSIG
       my_real 
-     .   H,LDAV,TRDFDS,SIGVM,SIGDR2,YLD2I,OMEGA,
-     .   DTEMP,FCOSH,FSINH,DPDT,DLAM,DDEP,DEPXX,DEPYY
+     .   SIGDR2,YLD2I,
+     .   DTEMP,DPDT,DLAM,DDEP
       my_real 
      .   DPXX,DPYY,DPXY,DPZZ,DSDRDJ2,DSDRDJ3,
      .   DJ3DSXX,DJ3DSYY,DJ3DSXY,DJ3DSZZ,
-     .   DJ2DSXX,DJ2DSYY,DJ2DSXY,
-     .   DFDSXX,DFDSYY,DFDSXY,
+     .   
+     .   
      .   NORMXX,NORMYY,NORMXY,NORMZZ,
-     .   DENOM,DPHI,DPHI_DTRSIG,SIG_DFDSIG,DFDSIG2,
+     .   DENOM,DPHI,SIG_DFDSIG,DFDSIG2,
      .   DPHI_DSIG,DPHI_DYLD,DPHI_DFDR,DPDT_NL,
      .   DYLD_DPLA,DYLD_DTEMP,DTEMP_DLAM,DLAM_NL
 c
       my_real, DIMENSION(NEL) ::
-     .   DSIGXX,DSIGYY,DSIGXY,TRSIG,TRDEP,
+     .   DSIGXX,DSIGYY,DSIGXY,TRSIG,
      .   SXX,SYY,SXY,SZZ,SIGM,J2,J3,SIGDR,YLD,WEITEMP,
      .   HARDP,FHARD,FRATE,FTHERM,FDR,PHI0,PHI,DPLA_DLAM,
      .   DEZZ

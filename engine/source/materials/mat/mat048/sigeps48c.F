@@ -152,15 +152,15 @@ C-----------------------------------------------
      .        SVM(MVSIZ),DR(MVSIZ),
      .        AA(MVSIZ),BB(MVSIZ),DPLA_J(MVSIZ),
      .        PP(MVSIZ),QQ(MVSIZ),FAIL(MVSIZ),H(MVSIZ),HS(MVSIZ),
-     .        EPSM(MVSIZ),
-     .        YLO(MVSIZ),EPSGM(MVSIZ),
+     .        
+     .        YLO(MVSIZ),
      .        SIGEXX(MVSIZ),SIGEYY(MVSIZ),SIGEXY(MVSIZ)
       my_real
      .        R,UMR,NUX,A,B,C,S11,S22,S12,P,P2,DEZZ,SIGZ,S1,S2,S3,
      .        VM2,EPST,NNU2,F,DF,Q2,YLD_I,SIGPXX,E1,A11,A21,G1,G31,
      .        NNU11,NU11,NU21,NU31,NU41,NU51,NU61,SIGPYY,SIGPXY,SIGM1,
      .        EPSM1,EPSR11,EPSR21,YD1,HC1,CN1,C11,C21,CM1,C31,CL1,
-     .        FISOKIN1,EPSGM1,EPS01,PA,PB,PC,PDA,PDB,YY,
+     .        FISOKIN1,EPS01,PA,PB,PC,PDA,PDB,YY,
      .        DSXX,DSYY,DSXY,DEXX,DEYY,DEXY, ALPHA
 C
       DATA NMAX/3/

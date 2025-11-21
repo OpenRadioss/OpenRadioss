@@ -96,14 +96,14 @@ C
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, MX, J
+      INTEGER I, MX
       my_real
      .   RHO0(MVSIZ), 
      .   G(MVSIZ), G1(MVSIZ), G2(MVSIZ),
      .   C1(MVSIZ),
-     .   DF,DAV, DPDM, P,
+     .   DAV, P,
      .   E1, E2, E3, E4, E5, E6, EINC, P2,
-     .   BID1, BID2, BID3, DTA,  YM, DPDMP,FACQ0,
+     .   BID1, BID2, BID3, DTA,FACQ0,
      .   RHO0_1,C1_1
       my_real
      .    lmb(mvsiz),epsm 

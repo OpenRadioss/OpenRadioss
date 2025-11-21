@@ -84,7 +84,7 @@ C----------------------------------------------------------------
      .   SIGYI(NEL),SIGYF(NEL),SIGYOLD(NEL),DMG_OLD(NEL)
       my_real
      .   DAV, CE, SIGSTAR, EPFAIL, P1, YIELD, DELTAU, DPDMU,
-     .   PMIN, RATIO, J2
+     .   PMIN, J2
 C
       !=======================================================================
       ! - INITIALISATION OF COMPUTATION ON TIME STEP

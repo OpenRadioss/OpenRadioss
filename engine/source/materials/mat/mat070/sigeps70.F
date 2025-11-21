@@ -131,7 +131,7 @@ C-----------------------------------------------
 C   I N P U T   O U T P U T   A r g u m e n t s 
 C-----------------------------------------------
       my_real 
-     .    UVAR(NEL,NUVAR), OFF(NEL),  PLA(NEL), OFFG(NEL), RHOREF(MVSIZ)
+     .    UVAR(NEL,NUVAR), OFF(NEL), OFFG(NEL), RHOREF(MVSIZ)
 C-----------------------------------------------
 C   VARIABLES FOR FUNCTION INTERPOLATION 
 C-----------------------------------------------
@@ -150,18 +150,18 @@ C        NPF,TF  : FUNCTION PARAMETER
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I,II,J,J1,J2,IADBUF,NFUNC,
+      INTEGER :: I,II,J,IADBUF,NFUNC,
      .   NINDEX_EPSSM,NINDEX_EPST,NINDEX_MU,NLOAD,NUNLOAD,MX,
      .         ILOAD0,IDAMAGE,ITENS,NUMTABL
       INTEGER, DIMENSION(100)   :: IFUNC
-      INTEGER, DIMENSION(NEL)   :: JJ,IE_CST,ILOAD
+      INTEGER, DIMENSION(NEL)   :: IE_CST,ILOAD
       INTEGER, DIMENSION(NEL)   :: INDEX_EPSSM,INDEX_EPST,INDEX_MU
       INTEGER, DIMENSION(NEL)   :: IPOS1,IADP1,ILENP1
       INTEGER, DIMENSION(NEL,2) :: IPOS
-      my_real :: YLD_EMAX,R,FAC,YP1,YP2,EPSP0,EPSPMAX,E,DELTA,SVM2,SVM,
+      my_real :: YLD_EMAX,R,EPSP0,EPSPMAX,E,DELTA,SVM2,SVM,
      .        AA,E0,NU,EMAX,EPSSMAX,DSIG,P,EXPO,HYS,DE,YFACC,MU,ALPHA
       my_real, DIMENSION(NEL) :: ALPHA_1,AA1,AA2,EPST,YLDMIN,YLDMAX,YLDELAS,
-     .   G,SIG0,EPS0,EPSS,TAB_LOC1,TAB_LOC2,YLD,DFC
+     .   G,SIG0,EPS0,EPSS,TAB_LOC1,YLD,DFC
       my_real, DIMENSION(NEL,2) :: XVEC
 C=======================================================================
       MX = MAT(1)

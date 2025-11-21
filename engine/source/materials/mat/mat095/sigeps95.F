@@ -95,31 +95,31 @@ C----------------------------------------------------------------
 C  VARIABLES FOR FUNCTION INTERPOLATION 
 C----------------------------------------------------------------
       INTEGER NPF(*), NFUNC, IFUNC(NFUNC)
-      my_real FINTER,FINTTE,TF(*),FINT2V
+      my_real FINTER,FINTTE,TF(*)
       EXTERNAL FINTER,FINTTE
 C----------------------------------------------------------------
 C  L O C A L  V A R I B L E S
 C----------------------------------------------------------------
-      INTEGER   I,J,K,KK,LL,FLAGBB,DIRECT,ITER,NITER,FLAG_MUL,IAVIS,IFORM
+      INTEGER   I,FLAG_MUL,IAVIS,IFORM
 
       my_real
-     .   ET1,ET2,ET3,A1,A10,KSI,MU,D,LAM,G,RBULK,AA,BB,CC,SB, TEMP,
-     .   TEMP2,MAXL,STIFF0,DSIG,DEPS,COEF1,COEF2,COEF3,COEF4,COEF5,COEF6,
-     .   AA1,B1,C1,DD1,AA2,B2,C2,DD2,AA3,B3,C3,DD3,INV12,INV22,INV32,
-     .   EVB12,EVB22,EVB32,JDET2,JM1,ETVOL,FACTOR,TAUREF,R3R3,R2R2,R1R1,
-     .   C10,C01,C20,C11,C02,C30,C21,C12,C03,D1,D2,D3,EXPC,EXPM,R(3),JCST(3),
-     .   BI1(NEL),BI2(NEL),JDET(NEL),STIFF(NEL),
-     .   TA1(NEL), TA2(NEL),TA3(NEL),T1(NEL), T2(NEL),T3(NEL),LPCHAIN(NEL), 
-     .   TB1(NEL), TB2(NEL),TB3(NEL),TRACE(NEL),TRACEB(NEL),ETA(NEL),ETB(NEL),
+     .   A1,A10,KSI,G,RBULK,SB,
+     .   MAXL,STIFF0,
+     .   
+     .   FACTOR,TAUREF,R3R3,
+     .   C10,C01,C20,C11,C02,C30,C21,C12,C03,D1,D2,D3,EXPC,EXPM,
+     .   BI1(NEL),BI2(NEL),JDET(NEL),
+     .     
+     .    TRACEB(NEL),
      .   SB1(NEL), SB2(NEL),SB3(NEL),SB4(NEL), SB5(NEL),SB6(NEL),
      .   TBNORM(NEL),DGAMMA(NEL),
-     .   DEVB1(NEL),DEVB2(NEL),DEVB3(NEL),DEVB4(NEL),DEVB5(NEL),DEVB6(NEL),
+     .   
      .   R1X(NEL),R1Y(NEL),R1Z(NEL),R2X(NEL),R2Y(NEL),R2Z(NEL),R3X(NEL),R3Y(NEL),R3Z(NEL),
-     .   NB(NEL,3),
-     .   F(NEL,3,3),FT(NEL,3,3),FE(NEL,3,3),INVFE(NEL,3,3),FET(NEL,3,3),FP(NEL,3,3),
-     .   FFT(NEL,3,3),INVFPO(NEL,3,3),MATB(NEL,3,3),FPO(NEL,3,3),BPO(NEL,3,3),INVSN(NEL,3,3),
-     .   SIG(NEL,3,3),SIGB(NEL,3,3),SIGA(NEL,3,3),SN(NEL,3,3),FEDP(NEL,3,3),
-     .   DFP(NEL,3,3),LB(NEL,3,3),DFP2(NEL,3,3),FPDOT(NEL,3,3),
+     .   
+     .   F(NEL,3,3),FE(NEL,3,3),INVFE(NEL,3,3),FP(NEL,3,3),
+     .   FFT(NEL,3,3),INVFPO(NEL,3,3),MATB(NEL,3,3),FPO(NEL,3,3),
+     .   SIGB(NEL,3,3),SIGA(NEL,3,3),SN(NEL,3,3),FEDP(NEL,3,3),
+     .   DFP(NEL,3,3),LB(NEL,3,3),
      .   CAII(NEL,3),CBII(NEL,3),C_MAX(NEL),CII(3)
       my_real
      .    COEFR,BETAF ,COEFM

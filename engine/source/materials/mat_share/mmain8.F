@@ -123,13 +123,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,JJ(6),J1,J2,IR,NFUNC,NUVAR,NUPARAM,NUVARR,
-     .        NVARF,IRUPT,NUMBER_FAILURE,IADBUF,IMAT,NTABL_FAIL,
+      INTEGER I,J,JJ(6),J1,IR,NFUNC,NUVAR,NUPARAM,
+     .        NVARF,IRUPT,NUMBER_FAILURE,IMAT,NTABL_FAIL,
      .        NIPARAM
       INTEGER IFUNC(MAXFUNC), LF_DAMMX
       INTEGER, DIMENSION(:), POINTER :: ITABL_FAIL, IPARAMF
       my_real
-     .   QNEW(MVSIZ),VIS(MVSIZ),EPSD(MVSIZ),ET(MVSIZ),
+     .   VIS(MVSIZ),ET(MVSIZ),
      .    DPLA(8*MVSIZ), EPSP(8*MVSIZ),TSTAR(MVSIZ),SXX(MVSIZ),
      .    SYY(MVSIZ),SZZ(MVSIZ),SXY(MVSIZ),SYZ(MVSIZ),SZX(MVSIZ)   
       my_real,

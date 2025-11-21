@@ -60,7 +60,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, MX,ITB, K, J, IFRAC(MVSIZ),IQUAD(MVSIZ), IQUADI, IFLAGR(MVSIZ), NBE
+      INTEGER I, MX
       my_real G(MVSIZ)  ,G0   ,G1(MVSIZ)    ,G2(MVSIZ)   ,SIG0,
      .        CB ,CN   ,CB1   ,CB2  ,CH  ,
      .        CF ,EPMX ,SIGMX ,SPH  ,T0  ,

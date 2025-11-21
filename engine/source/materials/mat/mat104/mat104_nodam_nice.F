@@ -70,21 +70,21 @@ c
       !=======================================================================
       !      Local Variables
       !=======================================================================
-      INTEGER I,K,II,NSP,NINDX,INDEX(NEL),NICE
+      INTEGER I,II,NINDX,INDEX(NEL),NICE
 c
       my_real 
      .   YOUNG,BULK,LAM,G,G2,NU,CDR,KDR,HARD,YLD0,QVOCE,BVOCE,JCC,
      .   EPSP0,MTEMP,TINI,TREF,ETA,CP,DPIS,DPAD,ASRATE,AFILTR
       my_real 
-     .   H,LDAV,TRDEP,TRDFDS,SIGVM,SIGDR2,YLD2I,OMEGA,
-     .   DTEMP,FCOSH,FSINH,DPDT,DLAM,DDEP
+     .   LDAV,SIGDR2,YLD2I,
+     .   DTEMP,DPDT,DLAM,DDEP
       my_real 
      .   DPXX,DPYY,DPZZ,DPXY,DPYZ,DPZX,DSDRDJ2,DSDRDJ3,
      .   DJ3DSXX,DJ3DSYY,DJ3DSZZ,DJ3DSXY,DJ3DSYZ,DJ3DSZX,
-     .   DJ2DSXX,DJ2DSYY,DJ2DSZZ,DJ2DSXY,DJ2DSYZ,DJ2DSZX,
-     .   DFDSXX,DFDSYY,DFDSZZ,DFDSXY,DFDSYZ,DFDSZX,
+     .   
+     .   
      .   NORMXX,NORMYY,NORMZZ,NORMXY,NORMYZ,NORMZX,
-     .   DENOM,DPHI,DPHI_DTRSIG,SIG_DFDSIG,DFDSIG2,
+     .   DENOM,DPHI,SIG_DFDSIG,DFDSIG2,
      .   DPHI_DSIG,DPHI_DYLD,DPHI_DFDR,DPDT_NL,
      .   DYLD_DPLA,DYLD_DTEMP,DTEMP_DLAM,NORMSIG
 c

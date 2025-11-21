@@ -89,14 +89,14 @@ C----------------------------------------------------------------
 C----------------------------------------------------------------
 C  L O C A L  V A R I A B L E S
 C----------------------------------------------------------------
-      INTEGER I,II,J,K,KFP,NPRONY,NORDER,IFORM
+      INTEGER I, II, J, KFP, NPRONY, NORDER, IFORM
       my_real TENSIONCUT,AMAX,GVMAX,GMAX,FFAC,TRACE,RBULK,DPDMU,
-     .  AA,CC,FAC,INVE,ETV,RV_PUI,AMIN,NU_1
+     . CC,FAC,INVE,ETV,RV_PUI,AMIN,NU_1
       my_real, DIMENSION(3)   :: LAM_AL,FFT
       my_real, DIMENSION(10)  :: AL,MU
       my_real, DIMENSION(100) :: GI,TAUX
       my_real, DIMENSION(NEL) :: SUMDWDL,RV,J2THIRD,P,DWDRV,ETI,GTMAX 
-      my_real, DIMENSION(3,3) :: A
+ 
       my_real, DIMENSION(NEL,3) :: T1,SIGPRV,EV,EVM,DWDL,CII
       my_real, DIMENSION(NEL,6) :: DOTB,SVISC,C0,C1
       my_real, DIMENSION(NEL,3,3) :: F,LL,BB,LB,BLT

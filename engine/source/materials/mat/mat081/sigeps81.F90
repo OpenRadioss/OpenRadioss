@@ -121,10 +121,10 @@
             dfdsigyz,dfdsigzx,dgdp,dgdseq,dgdsigxx,dgdsigyy,dgdsigzz,dlam,     &
             dgdsigxy,dgdsigyz,dgdsigzx,drcdpa,drcdpb,dseqdsigxx,dseqdsigyy,    &
             dseqdsigzz,dseqdsigxy,dseqdsigyz,dseqdsigzx,dsigxxdlam,dsigyydlam, &
-            dsigzzdlam,dsigxydlam,dsigyzdlam,dsigzxdlam,drcdp,ldav,trdgpds,    &
-            fac,ddepspv,ddepspd,dpxx,dpyy,dpzz,dpxy,dpyz,dpzx,dfdpu,dgdpu,     &
+            dsigzzdlam,dsigxydlam,dsigyzdlam,dsigzxdlam,ldav,trdgpds,    &
+            ddepspv,ddepspd,dpxx,dpyy,dpzz,dpxy,dpyz,dpzx,dfdpu,dgdpu,     &
             dftrcdepspv,ftrc,dmuwdpor,dpordepspv,drcdpu
-          real(kind=WP), dimension(nel) :: k,g,lame,g2,c,pa,pb,p0,dcdepsp,dpbdepsp,  &
+          real(kind=WP), dimension(nel) :: k,g,lame,g2,c,pa,pb,p0,  &
             deri,epspd,epspv,depspd,depspv,dcdepspd,dpbdepspv,dpadepspv,f,     &
             p,sxx,syy,szz,sxy,syz,szx,pu,rc,a,muw,u,dudmuw,por,epspv0,epspd0,  &
             young,dpudp,dpudu

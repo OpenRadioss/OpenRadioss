@@ -111,7 +111,7 @@ C-----------------------------------------------
 C
       INTEGER, INTENT(IN) :: ISMSTR, JTHE
       INTEGER NEL, NUPARAM, NUVAR, NPT0, IPT,IFLAG(*),
-     .   NGL(NEL),MAT(NEL),ISRATE(NEL),NSG,IPM(NPROPMI,*)
+     .   NGL(NEL),MAT(NEL),IPM(NPROPMI,*)
       my_real TIME,TIMESTEP,UPARAM(*),
      .   AREA(NEL),RHO0(NEL),EINT(NEL,2),
      .   THKLY(NEL),PLA(NEL),
@@ -153,29 +153,29 @@ C        NPF,TF  : FUNCTION PARAMETER
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,I1,I2,J,JJ,J1,J2,KK,ITERK,EFLAG 
+      INTEGER I,JJ,KK,ITERK,EFLAG 
       INTEGER CRIT_LOOP(NEL)
       INTEGER INDX_LOOP(NEL),NINDX_LOOP,NINDX_LOOP_LOC,II
       INTEGER, DIMENSION(NEL) :: INDX_LOOP_LOC
      .        
       my_real
-     .    E,EMART,NU,G,G2,WAVE,SQDT,A,B,C,FCT,FCTP, DFTR,UNMXN,DB,
-     .    ALPHA,EPSL,AA1,FM,DFMSA,DFMAS,UXX,NN,BETA,GM,KM,H,
-     .    CB,CC,CAAS,CBAS,POLD,DGT,DKT,CP,TINI,SSPSH ,SSPSOL,
+     .    E,EMART,NU,G,G2,SQDT,A,B,C,FCT,FCTP, DFTR,UNMXN,DB,
+     .    ALPHA,EPSL,AA1,FM,DFMSA,DFMAS,BETA,GM,KM,H,
+     .    DGT,DKT,CP,TINI,SSPSH ,SSPSOL,
      .    K,P11(NEL),SXX(NEL),CAS,CSA,TSAS,TFAS, TSSA,TFSA,INVE,
-     .    SYY(NEL),SZZ(NEL),SXY,SYZ,SZX,FASS,FSAS,FASF,FSAF,RSAS,RFAS,
+     .    SYY(NEL),SZZ(NEL),FASS,FSAS,FASF,FSAF,RSAS,RFAS,
      .    SV(NEL),FS(NEL),FS0,YLD_ASS,YLD_ASF,YLD_SAS,YLD_SAF,RSSA,RFSA,
-     .    DFM(NEL), FSS,DSXX,DSYY,DSXY,DSYZ,DSZX,DSZZ,VAR,RV_PUI,
-     .    PM,DELTA,X1,X2,test,test2,ftest,gnew,knew,BETAn,
-     .    NX2,NY2 ,NZ2,NXY2,NYZ2,NZX2,NE,DNX,DNY,DNZ,DNXY,DNYZ,DNZX,
-     .    NXX(NEL),NYY(NEL),NZZ(NEL),NXY(NEL),NYZ(NEL),NZX(NEL), 
-     .    E1(NEL),E2(NEL),E3(NEL),E4(NEL),E5(NEL),E6(NEL),TRDE(NEL),
-     .    DE1(NEL),DE2(NEL),DE3(NEL),GT(NEL),KT(NEL),
-     .    EE1(NEL),EE2(NEL),EE3(NEL),PP(NEL),NNE(NEL),DET(NEL),
+     .    DFM(NEL),RV_PUI,
+     .    test,
+     .    NE,
+     .    NXX(NEL),NYY(NEL),NZZ(NEL), 
+     .    TRDE(NEL),
+     .    GT(NEL),KT(NEL),
+     .    EE1(NEL),EE2(NEL),EE3(NEL),DET(NEL),
      .    SIGXX(NEL), SIGYY(NEL), SIGZZ(NEL),DFS(NEL)
       my_real
-     .    DEPSZZTR(NEL),DEPSZZ(NEL),EPSZZ(NEL),SIGNZZ(NEL),EPSZZTR(NEL),
-     .    DEPSIM1(NEL),SIGZIM1(NEL),DEPSI(NEL),EPSIM1(NEL),EPSI(NEL)
+     .    EPSZZ(NEL),
+     .    SIGZIM1(NEL),EPSIM1(NEL),EPSI(NEL)
       my_real
      .            EV(MVSIZ,3) 
       my_real

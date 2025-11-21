@@ -108,8 +108,8 @@ C foam variable
 C         UVAR(10 + ..) 
 #include      "param_c.inc"
 C
-      INTEGER NEL, NUPARAM, NUVAR,IPT,
-     .   NGL(NEL),MAT(NEL),IPLA,IPM(NPROPMI,*)
+      INTEGER NEL, NUPARAM, NUVAR,
+     .   NGL(NEL),MAT(NEL),IPM(NPROPMI,*)
       my_real
      .   TIME,TIMESTEP,UPARAM(*),
      .   RHO(NEL),RHO0(NEL),VOLUME(NEL),EINT(NEL),
@@ -135,7 +135,7 @@ C-----------------------------------------------
 C   I N P U T   O U T P U T   A r g u m e n t s 
 C-----------------------------------------------
       my_real 
-     .        UVAR(NEL,NUVAR), OFF(NEL),  PLA(NEL)
+     .        UVAR(NEL,NUVAR), OFF(NEL)
 C-----------------------------------------------
 C   VARIABLES FOR FUNCTION INTERPOLATION 
 C-----------------------------------------------
@@ -154,22 +154,22 @@ C        NPF,TF  : FUNCTION PARAMETER
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,J1,J2,I1,I2,IADBUF,NC,NFUNC,ILOAD(MVSIZ),
+      INTEGER I,J,J1,J2,NC,NFUNC,ILOAD(MVSIZ),
      .        IFUNC(MVSIZ,100),NLOAD,NUNLOAD,
-     .         IE_CST(MVSIZ),ILOAD0,IDAMAGE,NPAR_FOAM,IFUNCR,
+     .         IE_CST(MVSIZ),ILOAD0,IDAMAGE,IFUNCR,
      .         IFUNCK
       my_real
-     .        R,FAC,YP1,YP2,YN1,YN2,COEFF,RMIN,RMAX,
-     .        E,E1,E2,E3,E4,E5,E6,DF,BB,CC,DELTA,ALPHA,X1,X2,SVM2,
+     .        R,FAC,YP1,YP2,
+     .        E,DF,BB,DELTA,ALPHA,SVM2,
      .        SVM,RHO_AIR,E_AIR,V0,DVOL,MU ,GAMA,RHO_AIR0,P0,
      .        E0,G(MVSIZ),NU,AA1(MVSIZ),AA2(MVSIZ),PFOAM,
-     .        FAIL(MVSIZ),
+     .        
      .        EPST(MVSIZ),AA,YLDMIN(MVSIZ),YLDMAX(MVSIZ),
      .        YLD(MVSIZ),RATE(MVSIZ,2),EF(MVSIZ),
      .        YFAC(MVSIZ,2),EPS0(MVSIZ),EPSS(MVSIZ),
-     .        EPSSMAX,DF1,DF2,DAV,EMAX,PEXT,P_AIR(MVSIZ),
-     .        EPS_MAX,DSIG ,YLDELAS(MVSIZ),P,SVM1(MVSIZ),EXPO,HYS,
-     .        DE,PGAZ,VNEW,EL(MVSIZ),DEN,PGAZ0,E_AIR0,ESPE,PAIR0,
+     .        EPSSMAX,DF1,DF2,EMAX,PEXT,P_AIR(MVSIZ),
+     .        DSIG ,YLDELAS(MVSIZ),EXPO,HYS,
+     .        DE,PGAZ,VNEW,PGAZ0,E_AIR0,ESPE,PAIR0,
      .        VAR,KK,ALPHA0,ET
 C-----------------------------------------------
 C     USER VARIABLES INITIALIZATION

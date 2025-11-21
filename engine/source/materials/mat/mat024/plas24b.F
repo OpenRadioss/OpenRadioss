@@ -60,7 +60,7 @@ C-----------------------------------------------
      .   BT, AC, HBP, ALI0, ALF0, VKY, TOL, ROK0, RO0, HV0, VMAX, EXPO,
      .   YOUNG, NU, G, DEN,  RATE, FAC, FAC1,ROK, R2, AJ3, CS3T,
      .   BB, DF, RF, RF2, AJ2, AJJ, DKDSM, DRFDSM, B0, DRF3, B1,
-     .   B2, ALPHA, PHI, TO, DFDTO, HPV, HP, ECR,SIGM,
+     .   B2, ALPHA, PHI, TO, DFDTO, HPV, ECR,SIGM,
      .   TS1, TS2, TS3, TS4, TS5, TS6, 
      .   DFS1,DFS2,DFS3,DFS4,DFS5,DFS6,DGS1,DGS2,DGS3,DGS4,DGS5,DGS6, 
      .   H1A, H2A, H3A, H4A,H5A, H6A, H1N, H2N, H3N, H4N, H5N, H6N, HH,
@@ -68,9 +68,9 @@ C-----------------------------------------------
      .   DEPSEL1,DEPSEL2,DEPSEL3,DEPSEL4,DEPSEL5,DEPSEL6,
      .   DEPSVP, RR,VKMAX, RO, DIV, VKK, NUMER, DENOM,
      .   BULK,DP,RHO0,HVFAC,D1,D2,D3,DEPSV,SEUIL,DFDJ,NORMS,
-     .   CP11,CP12,CP13,CP14,CP15,CP16,CP21,CP22,CP23,CP24,CP25,CP26,CP31,
-     .   CP32,CP33,CP34,CP35,CP36,CP41,CP42,CP43,CP44,CP45,CP46,CP51,CP52,
-     .   CP53,CP54,CP55,CP56,CP61,CP62,CP63,CP64,CP65,CP66,
+     .   
+     .   
+     .   
      .   C11,C12,C13,C22,C23,C33
 C=======================================================================
       LAMBDA = ZERO

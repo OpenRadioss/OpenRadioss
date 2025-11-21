@@ -76,7 +76,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,II,J,NMAX,NINDX,INDEX(MVSIZ),NITER,ITER
+      INTEGER I,II,NINDX,INDEX(MVSIZ),NITER,ITER
       my_real
      . E,NU,G,A11,A12,
      . SIGY,EPS0,NEXP,

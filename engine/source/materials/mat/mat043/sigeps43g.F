@@ -100,18 +100,18 @@ C-----------------------------------------------
      .        JJ(MVSIZ),INDEX(MVSIZ),IFUNC(100), IFUNCE,MX,ISRATE
       my_real 
      .        E(MVSIZ),NU,A,B,C,FAC,DEZZ,S1,S2,S12,S3,
-     .        DPLA,EPST,A1(MVSIZ),A2(MVSIZ),G(MVSIZ),G3(MVSIZ),
+     .        EPST,A1(MVSIZ),A2(MVSIZ),G(MVSIZ),G3(MVSIZ),
      .        DYDX1(MVSIZ),DYDX2(MVSIZ),RATE(MVSIZ,2),SVM(MVSIZ),
      .        YLD(MVSIZ),Y1(MVSIZ),Y2(MVSIZ),DR,F1,F2,
-     .        YFAC(MVSIZ,2),NNU1,NU1(MVSIZ),
+     .        YFAC(MVSIZ,2),NNU1,
      .        NU2(MVSIZ),NU3(MVSIZ),NU4(MVSIZ),NU5(MVSIZ),DPLA_I,
      .        FAIL(MVSIZ),EPSMAX,EPSR1,EPSR2,
-     .        ERR,F,DF,YLD_I,DPLA_J(MVSIZ),
+     .        F,DF,YLD_I,DPLA_J(MVSIZ),
      .        AA1,AA2,AA3,FN(3),FM(3),FNM(3),SN1,SN2,SM1,SM2,
      .        PN(3),P_M(3),DFN(3),DFM(3),DFNM(3),DJAC(3),JAC(3),C1,
      .        XP(3),PNM1(3),PNM2(3),JQ(MVSIZ),JQ2(MVSIZ),S(MVSIZ),
      .        GM(MVSIZ),CM(MVSIZ),QTIER(MVSIZ),CNM(MVSIZ),
-     .        NUM1(MVSIZ),NUM2(MVSIZ),AN(MVSIZ),BN(MVSIZ),
+     .        
      .        AM1(MVSIZ),AM2(MVSIZ),GAMA(MVSIZ),GAMA2(MVSIZ),
      .        H(MVSIZ),EINF,CE,DYDXE(MVSIZ),
      .        ESCALE(MVSIZ)

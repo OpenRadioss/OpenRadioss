@@ -60,7 +60,7 @@ C-----------------------------------------------
      .   BT, AC, HBP, ALI0, ALF0, VKY, TOL, ROK0, RO0, HV0, VMAX, EXPO,
      .   YOUNG, NU, G, DEN,  RATE, FAC, ROK, R2, AJ3, CS3T,
      .   BB, DF, RF, RF2, AJ2, AJJ, DKDSM, DRFDSM, B0, DRF3, B1,
-     .   B2, ALPHA, PHI, DFDTO1, DFDTO2, TO, SQ32, DFDTO, HPV, HP, ECR,
+     .   B2, ALPHA, PHI, DFDTO1, DFDTO2, TO, DFDTO, HPV, HP, ECR,
      .   TS1, TS2, TS3, TS4, TS5, TS6, DFS1, DFS2, DFS3, DFS4, DFS5,
      .   DFS6, DGS1, DGS2, DGS3, DGS4, DGS5, DGS6, H1A, H2A, H3A, H4A,
      .   H5A, H6A, H1N, H2N, H3N, H4N, H5N, H6N, HH, CP11, CP12, CP13,

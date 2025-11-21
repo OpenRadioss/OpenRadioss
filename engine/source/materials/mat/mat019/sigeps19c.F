@@ -72,9 +72,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I,II,ISENS
+      INTEGER :: I,ISENS
       my_real :: E11,E22,NU12,NU21,G12,G23,G31,A11,A12,A22,RCOMP,
-     .           S,D,T,P1,P2,R,BETA,ZEROSTRESS,TSTART,DSIG
+     .           S,D,P1,P2,R,BETA,ZEROSTRESS,TSTART,DSIG
       my_real ,DIMENSION(NEL) :: ET
 C=======================================================================
       ISENS = IPARAM(1)
