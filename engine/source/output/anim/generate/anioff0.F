@@ -61,7 +61,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 C     REAL
       INTEGER I, NG, NEL, NFT, IAD, ITY, LFT,
-     .        N, LLT, MLW, NB1, 
+     .        N, LLT, MLW, 
      .        NN1,NN2,RBUF
       INTEGER, DIMENSION(:),ALLOCATABLE :: IOFFBUF
       INTEGER, DIMENSION(:),ALLOCATABLE :: IOFF_LOC

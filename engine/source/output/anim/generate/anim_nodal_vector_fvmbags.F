@@ -74,12 +74,12 @@ C-----------------------------------------------
       INTEGER :: NN, II    !< loop
       INTEGER :: ITYP      !< monvol type (refer to read_monvol.F)
       INTEGER :: IH3D_FLAG !< node group identifier
-      INTEGER :: NNODES    !< number of nodes in group
+ 
       INTEGER :: IFV       !< FVMBAG identifier in [1, NFVBAG] where NFVBAG <= NVOLU
-      INTEGER :: nodeID    !< node identifier (internal)
+ 
       my_real :: VALUE(3)  !< polyhedron value
       INTEGER :: K_SHIFT   !< shift value for index : sum of previous NPOLH
-      INTEGER :: INDX
+ 
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------    

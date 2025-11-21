@@ -62,7 +62,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
       INTEGER K1, KK1, KIBALE, KRBALE, IFV, N, ITYP, PMAIN, NN, NTG,
-     .        ITAG, MSGOFF, LEN, IERR, STAT(MPI_STATUS_SIZE), IAD,
+     .         MSGOFF, LEN, IERR, STAT(MPI_STATUS_SIZE), IAD,
      .        I,MSGTAG
       my_real
      .       , DIMENSION(:), ALLOCATABLE :: RBUF

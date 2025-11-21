@@ -73,7 +73,7 @@ C-----------------------------------------------
      .        SIZ,L,NB_NOD,CC,NBIRECV, II, JJ, L0,MSGOFF,
      .        IAD_RECV(NSPMD+1),
      .        REQ_R(NSPMD),REQ_S(NSPMD),IRINDEX(NSPMD),
-     .        STATUS(MPI_STATUS_SIZE),POINT,LSAV
+     .        STATUS(MPI_STATUS_SIZE),LSAV
       my_real, DIMENSION(:), ALLOCATABLE :: RBUF,SBUF
       DATA MSGOFF/170/
 C-----------------------------------------------

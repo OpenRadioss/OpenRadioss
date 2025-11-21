@@ -90,7 +90,7 @@ C-----------------------------------------------
       INTEGER :: NIN,KK,NTY
       INTEGER :: COLOR_INACTI,COLOR_INT25_SOLID_EROSION
       INTEGER :: INACTI,IFQ,ITIED
-      INTEGER :: IDEL,IDELKEEP,ITY,SOLID_EROSION
+      INTEGER :: IDEL,IDELKEEP,SOLID_EROSION
       INTEGER :: COLOR_CRIT
 C-----------------------------------------------
 C   S o u r c e  L i n e s

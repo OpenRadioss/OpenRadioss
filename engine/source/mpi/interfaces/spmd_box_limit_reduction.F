@@ -63,8 +63,6 @@ C-----------------------------------------------
         INTEGER :: I
         REAL(kind=8), DIMENSION(6) :: BUFFER_S,BUFFER_R
 #ifdef MPI        
-        INTEGER :: ierror
-        INTEGER :: STATUS_(MPI_STATUS_SIZE)
         CHARACTER(len=4) :: MY_OPERATION
 C-----------------------------------------------
         !   ------------------  

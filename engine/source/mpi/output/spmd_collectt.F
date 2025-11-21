@@ -61,7 +61,7 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER MSGOFF,MSGOFF0,MSGTYP,INFO,I,K,NG,N,
+      INTEGER MSGOFF,MSGOFF0,MSGTYP,I,K,N,
      .        EMPL,SDNODG(NUMNODM),FILEN
       INTEGER STATUS(MPI_STATUS_SIZE),IERROR
       DOUBLE PRECISION

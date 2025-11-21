@@ -80,14 +80,13 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER P, L, ADD, LL, NB, LEN, SIZ, KFI, LOC_PROC, MULTIMP, II,
-     .        NIN, IDEB, N, MSGTYP, IERROR, NI, NOD, I,
+      INTEGER P, L, ADD, LL, NB, LEN, SIZ, LOC_PROC, II,
+     . NIN, IDEB, N, MSGTYP, IERROR, NOD, I,
      .        NTY, IALLOCS, IALLOCR, MSGOFF,INTERFRIC,LF,
      .        STATUS(MPI_STATUS_SIZE),DEBUT(NINTER),
      .        ADDS(NSPMD+1), ADDR(NSPMD+1),
      .        REQ_SI(NSPMD),REQ_RI(NSPMD)
       DATA MSGOFF/190/
-      LOGICAL ITEST
       my_real       ,DIMENSION(:), ALLOCATABLE :: BBUFS, BBUFR
 C-----------------------------------------------
 C   S o u r c e  L i n e s

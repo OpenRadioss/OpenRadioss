@@ -53,10 +53,10 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER, DIMENSION(:),ALLOCATABLE :: PLYNODTAG,SENDBUF,RECBUF
-      INTEGER MAXSENDSZ,RECSZ,PLYSZ
-      INTEGER I,J,P,ND, ITAG, IDCMAXP(NSPMD-1), REQ(NSPMD-1),NODCOUNT
-      INTEGER MSGOFF,MSGOFF2,STAT(MPI_STATUS_SIZE,NSPMD-1), IERR
+ 
+      INTEGER RECSZ
+      INTEGER I, P, ITAG
+      INTEGER MSGOFF, STAT(MPI_STATUS_SIZE, NSPMD-1), IERR
 C-----------------------------------------------
       DATA MSGOFF/7054/
 C-----------------------------------------------
