@@ -66,12 +66,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
-      INTEGER NVAR
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      CHARACTER(LEN=NCHARLINE100) :: CARTE,CARTE1,TEXT
-      INTEGER I,J,L,N_H3D_PART,STEXT
+      CHARACTER(LEN=NCHARLINE100) :: TEXT
+      INTEGER I,N_H3D_PART,STEXT
 C=========================================================================
       TEXT = ''
       STEXT = 0

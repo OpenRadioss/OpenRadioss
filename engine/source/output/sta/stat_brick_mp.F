@@ -66,7 +66,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, N, JJ, IPRT0, IPRT, K, STAT_NUMELS_1,N10,N20,N16
+      INTEGER I, N, JJ, IPRT0, IPRT, K,N10,N20,N16
       INTEGER NG, NEL, NFT, LFT, LLT, ITY, ISOLNOD, IOFF
       INTEGER WORK(70000)
       INTEGER,DIMENSION(:),ALLOCATABLE :: NP

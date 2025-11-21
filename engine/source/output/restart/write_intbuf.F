@@ -61,7 +61,7 @@ c     .
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,N,NI,SIZ,L_INTBUF_SIZE
+      INTEGER N,NI,SIZ,L_INTBUF_SIZE
 C=======================================================================
       ALLOCATE(INTBUF_SIZE(L_INTBUF_SIZE_MAX))
       INTBUF_SIZE(1:L_INTBUF_SIZE_MAX) = 0
@@ -1405,7 +1405,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,K,NBS_INTERF,NBM_INTERF,SIZ,P2
+      INTEGER K,NBS_INTERF,NBM_INTERF,SIZ,P2
 
       IF(NSPMD > 1) THEN
          SIZ = T8%S_COMM 

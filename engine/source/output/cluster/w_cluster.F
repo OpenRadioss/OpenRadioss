@@ -56,8 +56,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J,K, IEL, NEL,NELG, NNOD
-      INTEGER II,IFAIL,ITY,ID,RL,IL
+      INTEGER I, J, NEL, NNOD
+      INTEGER IFAIL,ITY,ID,RL,IL
       INTEGER ILCLUSTER(NCLUSTER),RLCLUSTER(NCLUSTER)
       INTEGER RLCLUSTER_MAX,ILCLUSTER_MAX
       my_real,

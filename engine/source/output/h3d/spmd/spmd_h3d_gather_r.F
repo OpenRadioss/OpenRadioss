@@ -52,8 +52,8 @@ C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
        INTEGER IAD
 #ifdef MPI
-      INTEGER STATUS(MPI_STATUS_SIZE),IERROR,
-     .        MSGTYP,I,SIZ,LENP(NSPMD),DISP(NSPMD)
+      INTEGER IERROR,
+     .        I,LENP(NSPMD),DISP(NSPMD)
 
 
 

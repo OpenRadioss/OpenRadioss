@@ -100,10 +100,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, N, JJ,J, IPRT0, IPRT, K, STAT_NUMELS_1, KK, INOD
-      INTEGER NG, NEL, NFT, LFT, LLT, ITY, ISOLNOD, IOFF,NPT
-      INTEGER NUM_CENTROIDS, IPOS,MLW,IFORM,NBMAT,NB2,ISUBMAT,NNOD,NNOD2
-      INTEGER NUVAR,NUM_CELL
+      INTEGER I, N, JJ,J, IPRT, K, KK
+      INTEGER NG, NEL, NFT, LFT, LLT, ITY, ISOLNOD,NPT
+      INTEGER NUM_CENTROIDS, IPOS,MLW,NBMAT,NB2,ISUBMAT,NNOD,NNOD2
+      INTEGER NUVAR
       TYPE(G_BUFEL_)  ,POINTER :: GBUF     
       my_real P0(3),P0_INF(3),P0_SUP(3),SHIFT_C,SHIFT_N,LENGTH
       my_real MAX_XC,MAX_YC,MAX_ZC,MIN_XC,MIN_YC,MIN_ZC

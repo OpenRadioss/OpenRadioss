@@ -310,18 +310,18 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER N1,N2,N3,N4,N5,N6,N7,N8,N9,N10,I,M,NEL,NFACE,
+      INTEGER N1, N2, N3, N4, N5, N6, N7, N8, I, M, NEL, 
      .        K1, K2, K3, K4, K5, K6, K7, K8, K9, K10, K11,K12,
      .        NEL1D,NEL2D,NEL3D, L1, IFIL, CPTFILE,IFILABF,
      .        IAD, J, THUPDT,IFLAG, IFV,ITHFLAG,NSENSOR
       INTEGER :: IFLAG_ANIPCONT
-      INTEGER :: SN1,SN2,SN3,SN4,SN5,SN6,SN7,SN8,SN9,NELG,
+      INTEGER :: SN1, SN2, SN3, SN4, SN5, SN6, SN7, SN9, NELG, 
      .           SKUIX, SKXUSR ,SKFACPTX,SKXEDGE,SKXFACET,SKXSOLID,SKNUMX1,
      .           SKNUMX2,SKNUMX3,SKOFFX1,SKOFFX2,SKOFFX3,SKMASS1,SKMASS2,
      .           SKMASS3,SKFUNC1,SKFUNC2,SKFUNC3,SKFIN,SIG3DSOLID
       INTEGER LENR,LENG,LENGC,LENGTG,LENGS,LENGT,LENGR,LENGP,LENGQ,LENGSPH
-      INTEGER SIZE_MES,LONG,LONG_TMP,N
-      INTEGER IFILNAM(2148),IFILNAM_TMP(2148)
+      INTEGER SIZE_MES, N
+ 
 
       my_real WFEXTH,ENINTOT,EKINTOT,DYDX,FINTER
       EXTERNAL FINTER
@@ -329,9 +329,9 @@ C-----------------------------------------------
       my_real,  DIMENSION(:),ALLOCATABLE :: VMCDN
       my_real,  DIMENSION(:),ALLOCATABLE :: CSEFRIC,CSEFRIC_STAMP,CSEFRICG,CSEFRICG_STAMP
 
-      INTEGER :: LEN_TMP_NAME,LEN_TMP_NAME2
-      CHARACTER(len=100) :: TMP_NAME,TMP_NAME2   
-      CHARACTER FILNAMABF*100,FILNAMABF_TMP*100
+ 
+ 
+      CHARACTER FILNAMABF*100, FILNAMABF_TMP*100
       LOGICAL :: NEED_TO_REINIT_FSAV !< boolean to re-initialize PARTSAV array 
 C=======================================================================
       IF(IPLYXFEM == 0 ) ANIM_PLY = 0

@@ -47,7 +47,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       my_real
-     .   XWL, YWL, ZWL,XN,YN,ZN,D,DX,DY,DZ,XL1,YL1,ZL1,XL2,YL2,ZL2
+     .   XWL, YWL, ZWL,XN,YN,ZN,XL1,YL1,ZL1,XL2,YL2,ZL2
       REAL R4
 C-----------------------------------------------
 C

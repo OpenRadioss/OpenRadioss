@@ -54,14 +54,14 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER N, ADRBUF
-      INTEGER INOE, I, J, K, IDG, ITER
+      INTEGER INOE, I, J, K, IDG
       my_real XG,YG,ZG,A,B,C,ROT(9),
      1        DGR,AN,BN,CN,
-     2        XLN,YLN,ZLN,NXL,NYL,NZL,NORMN
+     2        XLN,YLN,ZLN
       my_real
      1   NCOR(3,384),
-     2   XA,XB,XC,LA,LB,LC,
-     3   XX,YY,ZZ,XL,YL,ZL,E,D
+     2   
+     3   XX,YY,ZZ,XL,YL,ZL,E
       my_real
      1   XX0,YY0,ZZ0,
      2   X0(6),Y0(6),Z0(6),DX0(6),DY0(6),DZ0(6),DX1(6),DY1(6),DZ1(6)

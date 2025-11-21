@@ -66,7 +66,7 @@ C     REAL
      .        NANIM1D_L,
      .        IS_WRITTEN_ONED(*),ID_ELEM(*),ITY_ELEM(*),
      .        IPARTT(*) ,IPARTP(*),IPARTR(*),H3D_PART(*)
-      INTEGER BUF,INFO1,INFO2
+      INTEGER INFO1, INFO2
 C
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
       CHARACTER(LEN=NCHARLINE100) :: KEYWORD
@@ -79,7 +79,7 @@ C     REAL
      .   OFF, P, VONM2, VONM, S1, S2, S12, S3, VALUE(3),
      .   A1,B1,B2,B3,YEQ,F1,M1,M2,M3, XM,     
      .   FOR, AREA, FEQ, EPLAS, RHO0, A0, XX1, YY1, ZZ1, AL0
-      INTEGER I, II, NG, NEL, NFT, IAD, ITY, LFT, NPT, ISS, ISC,
+      INTEGER I, NG, NEL, NFT, ITY, 
      .        IADD, N, J, LLT, MLW, NB1, NB2, NB3, NB4, NB5, 
      .        NB6, NB7, NB8, NB9, NB10, NB11, NB12, NB13, NB14, NB15,
      .        NB16, LLL,NUVAR,IGTYP,
@@ -87,10 +87,10 @@ C     REAL
      .        NN1,NN2,NN3,NN4,NN5,NN6,NN7,NN8,NN9,NN10,NF,
      .        OFFSET,K,INC,KK,IHBE,ISROT,ILAYER,IR,IS,JJ(6),IOK_PART(MVSIZ),
      .        IS_WRITTEN_VALUE(MVSIZ),N1, N2
-      REAL R4
+ 
 C
       TYPE(G_BUFEL_) ,POINTER :: GBUF
-      TYPE(L_BUFEL_),POINTER :: LBUF
+ 
 C-----------------------------------------------
 C
       NN1 = 1
