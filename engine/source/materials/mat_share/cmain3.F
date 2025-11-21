@@ -272,7 +272,7 @@ c
      5       PID     ,TF      ,NPF     ,MTN     ,DT1C    ,A11     ,
      6       BUFMAT  ,SSP     ,RHO     ,VISCMX  ,IOFC    ,A12     ,
      7       INDXDEL ,NGL     ,ZCFAC   ,GS      ,SIGY    ,G       ,
-     8       THK0    ,EPSD_PG,IPLA    ,IGEO    ,IPM     ,TABLE   ,
+     8       THK0    ,EPSD_PG ,IPLA    ,IGEO    ,IPM     ,
      9       IR      ,IS      ,F_DEF   ,ISMSTR  ,NU      ,VOL0    ,
      A       KFTS    ,ZSHIFT  ,IDAMP_FREQ_RANGE,MAT_ELEM,DAMP_BUF ,
      B       FOR_G )
@@ -333,7 +333,7 @@ c
      E       DIR1_CRK,DIR2_CRK,IPARG   ,JHBE    ,ISMSTR  ,JTHE    ,
      F       TENS    ,IR      ,IS      ,NLAY    ,NPT     ,IXLAY   ,
      G       IXEL    ,ITHK    ,F_DEF   ,ISHPLYXFEM,
-     H       ITASK   ,ISUBSTACK,STACK  ,ALPE    ,
+     H       ITASK   ,ISUBSTACK,STACK  ,ALPE    ,IKT     ,
      I       PLY_EXX ,PLY_EYY ,PLY_EXY ,PLY_EXZ ,PLY_EYZ ,PLY_F   ,
      J       VARNL   ,ETIMP   ,NLOC_DMG,NLAY_MAX,LAYNPT_MAX ,DT,
      K       NCYCLE  ,SNPC    ,STF,IMPL_S  ,IMCONV  ,NPROPGI,

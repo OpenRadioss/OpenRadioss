@@ -118,6 +118,7 @@
           use table_mod
           use mat_elem_mod
           use message_mod
+          use sigeps36s_mod
           use sigeps50s_mod
           use fail_spalling_s_mod
           use precision_mod, only : WP
@@ -248,7 +249,7 @@
           integer :: nvarf, iexpan8,jj(6),inloc,ieos,dmg_flag
           integer :: niparf
           ! floating point variables
-          real(kind=WP), dimension(llt) :: cst1
+          real(kind=WP), dimension(llt) :: yldfac
           real(kind=WP), dimension(mvsiz) :: c1
           real(kind=WP), dimension(mvsiz) :: pnew
           real(kind=WP), dimension(mvsiz) :: pp
@@ -271,6 +272,7 @@
           real(kind=WP), dimension(mvsiz) :: df
           real(kind=WP), dimension(mvsiz) :: amu
           real(kind=WP), dimension(mvsiz) :: bidv
+          real(kind=WP), dimension(mvsiz,6) :: bidv6
 
           real(kind=WP) :: e1,e2,e3,e4,e5,e6
           real(kind=WP) :: dav,dta
@@ -288,8 +290,6 @@
           !
           character option*256
           integer size
-          integer :: nrate
-          real(kind=WP) :: fisokin
           real(kind=WP), dimension(nel), target :: vecnul
           real(kind=WP), dimension(:), pointer  :: sigbxx,sigbyy,sigbzz,sigbxy,sigbyz,sigbzx
           real(kind=WP), target :: nothing(1)
@@ -329,7 +329,7 @@
           bidon3 = zero
           bidon4 = zero
           bidon5 = zero
-          cst1(lft:llt) = one
+          yldfac(lft:llt) = one
 
           do i=lft,llt
             c1(i)  = pm(32,imat)
@@ -641,9 +641,7 @@
                 endif
               enddo
 
-              nrate = nint(uparam0(1))
-              fisokin = uparam0(6+2*nrate+8)
-              if(fisokin>0) then
+              if (bufly%l_sigb > 0) then
                 sigbxx => lbuf%sigb(1      :  nel)
                 sigbyy => lbuf%sigb(nel+1  :2*nel)
                 sigbzz => lbuf%sigb(2*nel+1:3*nel)
@@ -660,18 +658,17 @@
                 sigbzx => vecnul(1:nel)
               endif
 
-              call sigeps36(&
-                llt      ,nuvar    ,nfunc    ,ifunc    ,npf      ,tf       ,&
-                dt1      ,uparam0  ,rho0     ,&
-                de1      ,de2      ,de3      ,de4      ,de5      ,de6   ,&
-                es1      ,es2      ,es3      ,es4      ,es5      ,es6   ,&
-                so1      ,so2      ,so3      ,so4      ,so5      ,so6   ,&
-                s1       ,s2       ,s3       ,s4       ,s5       ,s6    ,&
-                sspp     ,vis      ,uvar     ,off      ,ngl      ,ieos  ,&
-                ipm      ,mat      ,epsd     ,ipla     ,sigy     ,lbuf%pla,&
-                dpla     ,et       ,bidon    ,bidon    ,amu      ,bidv      ,&
-                cst1     ,nvartmp  ,vartmp   ,lbuf%dmg ,inloc    ,lbuf%planl,&
-                sigbxx,sigbyy,sigbzz,sigbxy,sigbyz,sigbzx )
+              call sigeps36s(mat_param(imat),                                 &
+                 nel    ,nuvar  ,nvartmp,dt1    ,tt     ,                   &
+                 de1    ,de2    ,de3    ,de4    ,de5    ,de6   ,            &
+                 es1    ,es2    ,es3    ,es4    ,es5    ,es6   ,            &
+                 so1    ,so2    ,so3    ,so4    ,so5    ,so6   ,            &
+                 s1     ,s2     ,s3     ,s4     ,s5     ,s6    ,            &
+                 sigbxx ,sigbyy ,sigbzz ,sigbxy ,sigbyz ,sigbzx,            &
+                 sspp   ,uvar   ,vartmp ,off    ,ngl    ,0     ,            &
+                 epsd   ,ipla   ,sigy   ,lbuf%pla,inloc ,lbuf%planl,        &
+                 dpla   ,et     ,bidv   ,bidv6  ,amu    ,bidv  ,            &
+                 yldfac ,lbuf%dmg,bufly%l_sigb,bufly%l_dmg,bufly%l_planl)          
 !
               defp(1:llt)   =  lbuf%pla(1:llt)
 !

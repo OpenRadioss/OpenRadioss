@@ -718,6 +718,9 @@ c
      9                      HF   ,HC    ,HMFOR,MTN  ,NEL) 
           END IF ! (IMPL_S > 0 .OR. IORTH == 0) THEN
         ENDIF    !  ISROT 
+!          do i=1,nel
+!            print*,'for=',i,gbuf%for(i),gbuf%for(nel+i),gbuf%for(2*nel+i)
+!          end do
 c-------------------------
 c     Virtual internal forces of regularized non local ddl 
 c--------------------------
