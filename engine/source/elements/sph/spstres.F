@@ -137,7 +137,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NF1, IFLAG, NB3S, I, OFFSET, IPRT,ILAY
+      INTEGER NF1, IFLAG, OFFSET,ILAY
 C-----
       INTEGER MXT(MVSIZ),NGL(MVSIZ), IBIDON(1),IBID
       my_real
@@ -164,7 +164,7 @@ C Variables used (as arguments) in solid routines (only).
       INTEGER NC1(MVSIZ),NGEO(MVSIZ)
       my_real
      .   OFF(MVSIZ) , RHOO(MVSIZ),
-     .   VX1(MVSIZ), VY1(MVSIZ), VZ1(MVSIZ),
+     .     
      .   DXY(MVSIZ),DYX(MVSIZ),
      .   DYZ(MVSIZ),DZY(MVSIZ),
      .   DZX(MVSIZ),DXZ(MVSIZ),DIE(MVSIZ)

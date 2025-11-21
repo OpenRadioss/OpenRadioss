@@ -66,12 +66,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, N, NS, INOD, JNOD, M, NVOIS, NN, 
-     .        NSPACTF, NSPACTL, IPRT, IGEO, ID, IS,
-     .        NVOISS, JS, SM, NC, IACT
+      INTEGER  J, N, NS, INOD, JNOD, M, NVOIS, NN, 
+     .        NSPACTF, NSPACTL, IPRT, IGEO,
+     .          IACT
       my_real
-     .       XI, YI, ZI, XJ, YJ, ZJ, DI, DMIN, DD, WGHT,
-     .       XS, YS, ZS, ZSTAB,NUL,UNO
+     .       XI, YI, ZI, DI, DD, WGHT,
+     .          ZSTAB,NUL,UNO
 C-----------------------------------------------
       NUL=ZERO
       UNO=ONE
@@ -182,12 +182,12 @@ C-----------------------------------------------
       INTEGER I, J, N, NINDX, INDEX(MVSIZ), KS, JS, SM, SS, KR, NR,
      .        IG, NELEM, NG, OFFSET, NEL,
      .        NC, IC, IS, ISLIDE, NSPHRFT, NSPHRLT, L, SIZE,
-     .        NS, INOD, JNOD, M, NVOIS, 
+     .          
      .        NSPACTF, NSPACTL
       my_real
      .       SIGPRV(3,MVSIZ), DIRPRV(3,3,MVSIZ),
-     .       R1, R2, R3, XI, YI, ZI, XJ, YJ, ZJ, DI, DMIN, DD, WGHT,
-     .       XS, YS, ZS, SIG(6,MVSIZ)
+     .       R1, R2, R3,
+     .          SIG(6,MVSIZ)
 C-----------------------------------------------
 C SMP dynamic parallel loop
 C
@@ -520,7 +520,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, L, N, II, NN, LMAX, LMAXV(MVSIZ),
+      INTEGER   N, II, NN, LMAX, LMAXV(MVSIZ),
      .       NINDEX1, NINDEX2, NINDEX3, 
      .       INDEX1(MVSIZ), INDEX2(MVSIZ), INDEX3(MVSIZ)
       my_real
@@ -528,9 +528,9 @@ C-----------------------------------------------
      .   XMAG(3,MVSIZ), PR, AA, BB, AAA(MVSIZ),
      .   CC, ANGP, DD, FTPI, TTPI, STRMAX,
      .   TOL1(MVSIZ), TOL2(MVSIZ), XMAXV(MVSIZ), NORMINF(MVSIZ), 
-     .   VMAG, S11,
-     .   S21, S31, S12, S22, S32, S13, S23, S33, A11, A12, A13, A21,
-     .   A22, A23, A31, A32, A33,
+     .   VMAG,
+     .      
+     .       
      .   MDEMI, XMAXINV, FLM
       REAL FLMIN
 C-----------------------------------------------

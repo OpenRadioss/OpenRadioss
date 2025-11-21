@@ -95,9 +95,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,II,J,K,L,N1,N2,N3,N4,N5,N6,N7,N8,
-     .        L_NLOC,NDDL,NDNOD,NINDX6,INDX6(NEL),
-     .        NINDX8,INDX8(NEL)
+      INTEGER I, II, J, K, N1, N2, N3, N4, N5, N6, N7, N8, 
+     . L_NLOC,NDDL,NDNOD
       INTEGER :: NODA_DT
       INTEGER, DIMENSION(:), ALLOCATABLE   ::
      .   POS1,POS2,POS3,POS4,POS5,POS6,POS7,POS8
@@ -113,7 +112,7 @@ C-----------------------------------------------
      .   F1,F2,F3,F4,F5,F6,F7,F8,STIFNLTH,DTN,
      .   STI1,STI2,STI3,STI4,STI5,STI6,STI7,STI8
       my_real, POINTER, DIMENSION(:) :: 
-     .   VNL,FNL,UNL,STIFNL,MASS,MASS0,VNL0
+     . VNL,FNL,UNL,MASS,MASS0,VNL0
       my_real, POINTER, DIMENSION(:,:) :: 
      .   MASSTH,UNLTH,VNLTH,FNLTH
       my_real

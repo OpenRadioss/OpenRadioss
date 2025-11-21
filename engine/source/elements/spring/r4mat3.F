@@ -127,7 +127,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER 
      . I, J,JPOS(MVSIZ), JLEN(MVSIZ),JAD(MVSIZ),
-     . JPOS0(MVSIZ),JFUNC,JFUNC2,INDEX(MVSIZ),NC
+     . JPOS0(MVSIZ),JFUNC,INDEX(MVSIZ),NC
       my_real
      .   XX(MVSIZ) ,DYDX(MVSIZ) ,YY(MVSIZ),E_SEG,E_T,E_MIN,
      .   X0(MVSIZ),F0(MVSIZ)

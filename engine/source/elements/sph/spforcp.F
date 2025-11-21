@@ -75,9 +75,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER N,INOD,JNOD,J,NVOIS,M,IPRT,IPROP,IMAT,I,
-     .        NVOISS,IC,NC,IS,SM,JS,ISLIDE,SS,NSTAB,NN,KS,NR, 
-     .        K,JPERM(KVOISPH),IERROR
+      INTEGER N, INOD, JNOD, J, NVOIS, M, IPRT, IPROP, I, 
+     . NVOISS,NC,SM,JS,NN,KS,NR
       my_real
      .       XI,YI,ZI,DI,RHOI,XJ,YJ,ZJ,DJ,RHOJ,
      .       SXX,SXY,SXZ,SYY,SYZ,SZZ,
@@ -87,16 +86,12 @@ C-----------------------------------------------
      .       DIJ,MM,
      .       VXI,VYI,VZI,VXJ,VYJ,VZJ,MUIJ,MUIJ2,PIJ,SSP,
      .       FACT,QA,QB,
-     .       OX,OY,OZ,UX,UY,UZ,VX,VY,VZ,WX,WY,WZ,
-     .       UXX,UXY,UXZ,UYX,UYY,UYZ,UZX,UZY,UZZ,
-     .       VXX,VXY,VXZ,VYY,VYZ,VZZ,
      .       DIVVI,DIVVJ,ROTVI,ROTVJ,FI,FJ,
      .       FVX,FVY,FVZ,WVIS,
-     .       STIF,PJ,STIJ,SFAC,DLDT,L,CIJ,DZETA,WNORM,
+     .       STIJ,SFAC,DLDT,L,CIJ,DZETA,WNORM,
      .        VI,VJ,VIJ,
-     .        DRHOI,DRHOJ,SSP2I,SSP2J,STII,DRHOIDR,DRHOJDR,
+     .        SSP2I,SSP2J,STII,
      .        ALPHAI,ALPHAXI,ALPHAYI,ALPHAZI,
-     .        BETAXI,BETAYI,BETAZI,
      .        BETAXXI,BETAYXI,BETAZXI,
      .        BETAXYI,BETAYYI,BETAZYI,
      .        BETAXZI,BETAYZI,BETAZZI,
@@ -105,9 +100,9 @@ C-----------------------------------------------
      .        BETAXXJ,BETAYXJ,BETAZXJ,
      .        BETAXYJ,BETAYYJ,BETAZYJ,
      .        BETAXZJ,BETAYZJ,BETAZZJ,
-     .        BETAX,WGRDX,WGRDY,WGRDZ,WGRD(3),
+     .        WGRDX,WGRDY,WGRDZ,WGRD(3),DRHOJDR,DRHOIDR,
      .        VOLI,VOLJ,DXIJ,NXIJ,
-     .        CX,CY,CZ,DX,DY,DZ,TX,TY,TZ,WFEXTT, WW, WI, WR, ZSTAB
+     . CX,CY,CZ,DX,DY,DZ,TX,TY,TZ,WFEXTT, WW, WI, WR
 C-----------------------------------------------
       WFEXTT=ZERO
       DO 10 I=LFT,LLT

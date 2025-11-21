@@ -49,9 +49,9 @@ C
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J,ipr
+      INTEGER I
       my_real
-     .   FF,FACG,FACC,FRHO,P,FACMAX,FACD,DP,SIG2(6)
+     .   FF,FACG,P,FACD,SIG2(6)
 C-----------------------------------------------
         DO I=1,NEL
          FF = -MIN(SIG(I,1),SIG(I,2),SIG(I,3))

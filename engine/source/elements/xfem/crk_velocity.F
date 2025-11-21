@@ -52,9 +52,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,KK,IL,N,IAD,IAD1,IAD2,NN,NC,NCT,EN0,EN,EN1,IFI,ILAY,
-     .   IXEL,ILEV,NLEV,N1,N2,NX1
-      my_real X1,X2,X3,V1,V2,V3,A1,A2,A3,AR1,AR2,AR3,DX,DY,DZ
+      INTEGER KK,N,NN,NC,NCT,EN0,EN,IFI,ILAY,
+     .   IXEL,ILEV,NLEV
+      my_real A1,A2,A3,AR1,AR2,AR3,DX,DY,DZ
 C=======================================================================
       DO N = NODFT,NODLT
         NN = INOD_CRK(N)
@@ -150,7 +150,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,KK,N,NN,NCT,NC,ILEV,NLEV
+      INTEGER KK,N,NN,NCT,NC,ILEV,NLEV
 C=======================================================================
       DO  N = NODFT,NODLT
         NN = INOD_CRK(N)
@@ -200,7 +200,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,KK,N,NN,NCT,NC,ILEV,NLEV
+      INTEGER KK,N,NN,NCT,NC,ILEV,NLEV
 C=======================================================================
       DO N = NODFT,NODLT
         NN = INOD_CRK(N)

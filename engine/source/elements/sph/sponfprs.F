@@ -79,7 +79,7 @@ C-----------------------------------------------
      .        IPRT,IPPV,J,M,JNOD,IMPOSE,JMPOSE,
      .        IMAT,IFPRES,NP,JMPOSE2,NN,KK(6)
       my_real
-     .       PENTP,PN,PSHFT,PX,
+     .       PENTP,PN,PX,
      .       XI,YI,ZI,XJ,YJ,ZJ,DMIN,DD,VX,VY,VZ,
      .       PMIN,VN,VO,PO,RHOI,SSPI,PINFINI,LC,ALP,
      .       WFEXTT,DVOL

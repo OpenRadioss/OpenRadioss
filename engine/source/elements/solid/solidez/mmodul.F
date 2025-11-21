@@ -63,12 +63,12 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,MX,IAD,J,K,ipr,NBDAMA
+      INTEGER I,MX,J
 C     REAL
       my_real
      .   NU,LAMDA,GG,C1,QC(MVSIZ,9),QCG(MVSIZ,9),QG(MVSIZ,9),
-     .   QGC(MVSIZ,9),G3(MVSIZ,3),TT,TV,CA,CB,CN,
-     .   S1,NU12,NU21,EFAC,ARMA,ARM1,ARM2,ARM3,ET24
+     .   QGC(MVSIZ,9),G3(MVSIZ,3),TT,TV,
+     .   S1,NU12,NU21,ARMA,ARM1,ARM2,ARM3,ET24
       my_real
      .   CC24(MVSIZ,3,3),C3(MVSIZ,3)
 C-----------------------------------------------

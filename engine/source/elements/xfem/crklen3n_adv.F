@@ -63,16 +63,16 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,IR,p1,p2,NEWCRK,IED,IED1,IED2,FAC,OK,ICRK,
+      INTEGER I,K,IR,p1,p2,NEWCRK,IED,IED1,IED2,FAC,OK,ICRK,
      . NOD1,NOD2,ELCRK,ELCRKTG,IEDGE,ICUT
-      INTEGER JCT(NEL),EDGEL(3,NEL),ELTIP(NEL),TIP(NEL)
-      INTEGER DD(3),D(6),ISIGN(3),N(3),IENR(3),NN(3),INV(2)
+      INTEGER JCT(NEL),EDGEL(3,NEL),TIP(NEL)
+      INTEGER DD(3),D(6),INV(2)
 C----------
       my_real, DIMENSION(NEL)   ::  XL1,YL1
       my_real, DIMENSION(2,NEL) ::  XIN,YIN
       my_real, DIMENSION(3,NEL) ::  XXL,YYL,LEN
-      my_real BETA0(3,NEL),XN(3),YN(3),ZN(3),XMI(2),YMI(2)
-      my_real BETA,XINT,YINT,BMIN,BMAX,X10,Y10,Z10,X20,Y20,Z20,
+      my_real BETA0(3,NEL)
+      my_real BETA,XINT,YINT,BMIN,BMAX,X10,Y10,X20,Y20,
      .   M12,MM,CROSS1,CROSS12,XINT0,YINT0,DIR11,DIR22
 c
       DATA d/1,2,2,3,1,3/

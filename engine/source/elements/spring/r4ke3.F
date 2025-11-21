@@ -68,7 +68,7 @@ C-----------------------------------------------
      .        ETAG(*),IDDL(*)  ,NDOF(*)  ,IADK(*) ,JDIK(*)
 
 C     REAL
-      my_real DT2T ,
+      my_real
      .   GEO(NPROPG,*),X(*),TF(*),SKEW(LSKEW,*),
      .   FR_WAVE(*),PM(*),KE11(9,MVSIZ),KE12(9,MVSIZ),KE22(9,MVSIZ),
      .   OFF(MVSIZ),K_DIAG(*) ,K_LT(*)
@@ -81,9 +81,6 @@ C     REAL
       my_real
      .     AL(MVSIZ),KX(MVSIZ),EX(MVSIZ),EY(MVSIZ),EZ(MVSIZ)
       INTEGER  PID(MVSIZ),NGL(MVSIZ)
-      INTEGER NB1, NB2, NB3, NB4, NB5, NB6, NB7, NB8, NB9, NB10,
-     .   NB11, NB12,  NEL3, NEL4,NB15,  NB16,NBFI
-C
       TYPE(G_BUFEL_)  ,POINTER :: GBUF
 C-----------------------------------------------
       GBUF => ELBUF_TAB%GBUF

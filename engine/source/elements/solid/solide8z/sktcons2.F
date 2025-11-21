@@ -63,10 +63,10 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,MX,J,K,IPLAST
+      INTEGER I,J,K
 C     REAL
       my_real
-     .   NU,SIG(6,MVSIZ),ALPHA(MVSIZ),G2,TT,TV
+     .   SIG(6,MVSIZ),ALPHA(MVSIZ),G2,TT,TV
       TYPE(L_KTBUFEP_)    , POINTER :: LBUF
       TYPE(MLAW_TAG_)     , POINTER :: MTAG
 C-----------------------------------------------
