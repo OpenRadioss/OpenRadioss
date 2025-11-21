@@ -110,7 +110,7 @@
 !||    sigeps33               ../engine/source/materials/mat/mat033/sigeps33.F
 !||    sigeps34               ../engine/source/materials/mat/mat034/sigeps34.F
 !||    sigeps35               ../engine/source/materials/mat/mat035/sigeps35.F
-!||    sigeps36s              ../engine/source/materials/mat/mat036/sigeps36s.F90
+!||    sigeps36               ../engine/source/materials/mat/mat036/sigeps36.F
 !||    sigeps37               ../engine/source/materials/mat/mat037/sigeps37.F
 !||    sigeps38               ../engine/source/materials/mat/mat038/sigeps38.F
 !||    sigeps40               ../engine/source/materials/mat/mat040/sigeps40.F
@@ -247,7 +247,6 @@
           use ale_connectivity_mod
           use message_mod
           use nlocal_reg_mod
-          use sigeps36s_mod
           use sigeps50s_mod
           use sigeps81_mod
           use sigeps88_mod
@@ -520,8 +519,9 @@
           real(kind=WP), dimension(nel), target  :: le_max
           real(kind=WP) :: wfextt !< external force work accumulation
 !----
-          real(kind=WP), dimension(:), pointer :: uparam,uparam0,uparf,uvarf,dfmax
-          real(kind=WP), dimension(:), pointer :: tdel,yldfac,dam,el_len,el_pla,damini
+          real(kind=WP), dimension(:), pointer   :: uparam,uparam0,uparf,uvarf,dfmax,&
+          &tdel,yldfac,dam,el_len,&
+          &el_pla,damini
           real(kind=WP), dimension(nel), target :: el_pla_dum
           real(kind=WP), dimension(:), allocatable ,target  :: bufzero
           type(l_bufel_)  ,pointer         :: lbuf
@@ -538,8 +538,9 @@
 !
           character :: option*256
           integer :: size,nvareos,nvarvis
-          integer :: nodadt
+          integer :: nrate,nodadt
           integer :: k1,k2,k3,k4,k5,k6
+          real(kind=WP) :: fisokin
           real(kind=WP), dimension(nel), target :: vecnul
           real(kind=WP), dimension(:), pointer  :: sigbxx,sigbyy,sigbzz,sigbxy,sigbyz,sigbzx
           real(kind=WP), dimension(nel) :: off_old
@@ -1108,13 +1109,14 @@
             &sv1 ,sv2 ,sv3 ,sv4  ,sv5  ,sv6 ,&
             &ssp ,vis ,uvar,off  ,israte,asrate,&
             &epsd)
-!
           else if (mtn == 36) then
             idev = 1
             call mstrain_rate(nel    ,israte ,asrate ,epsd   ,idev   ,&
-                 ep1    ,ep2    ,ep3    ,ep4    ,ep5    ,ep6)
+            &ep1    ,ep2    ,ep3    ,ep4    ,ep5    ,ep6)
 !
-            if (elbuf_tab(ng)%bufly(ilay)%l_sigb > 0) then
+            nrate = nint(uparam0(1))
+            fisokin = uparam0(6+2*nrate+8)
+            if(fisokin>0) then
               sigbxx => lbuf%sigb(1      :  nel)
               sigbyy => lbuf%sigb(nel+1  :2*nel)
               sigbzz => lbuf%sigb(2*nel+1:3*nel)
@@ -1129,18 +1131,18 @@
               sigbyz => vecnul(1:nel)
               sigbzx => vecnul(1:nel)
             end if
-            call sigeps36s(matparam,                                          &
-                 nel    ,nuvar  ,nvartmp,dt1    ,tt     ,                     &
-                 de1    ,de2    ,de3    ,de4    ,de5    ,de6   ,              &
-                 es1    ,es2    ,es3    ,es4    ,es5    ,es6   ,              &
-                 so1    ,so2    ,so3    ,so4    ,so5    ,so6   ,              &
-                 s1     ,s2     ,s3     ,s4     ,s5     ,s6    ,              &
-                 sigbxx ,sigbyy ,sigbzz ,sigbxy ,sigbyz ,sigbzx,              &
-                 ssp    ,uvar   ,vartmp ,off    ,ngl    ,impl_s ,             &
-                 epsd   ,ipla   ,sigy   ,defp   ,inloc  ,lbuf%planl,          &
-                 dpla   ,et     ,al_imp ,signor ,amu    ,dpdm  ,              &
-                 yldfac ,lbuf%dmg,l_sigb,l_dmg,l_planl)          
-!
+            call sigeps36(nel    ,nuvar  ,nfunc  ,ifunc  ,npf    ,tf    ,&
+                          dt1    ,uparam0,rho0   ,                       &
+                          de1    ,de2    ,de3    ,de4    ,de5    ,de6   ,&
+                          es1    ,es2    ,es3    ,es4    ,es5    ,es6   ,&
+                          so1    ,so2    ,so3    ,so4    ,so5    ,so6   ,&
+                          s1     ,s2     ,s3     ,s4     ,s5     ,s6    ,&
+                          ssp    ,vis    ,uvar   ,off    ,ngl    ,matparam%ieos, &
+                          ipm    ,mat    ,epsd   ,ipla   ,sigy   ,defp  ,&
+                          dpla   ,et     ,al_imp ,signor ,amu    ,dpdm  ,&
+                          yldfac ,nvartmp,vartmp ,lbuf%dmg,inloc,lbuf%planl,&
+                          sigbxx ,sigbyy ,sigbzz ,sigbxy ,sigbyz ,sigbzx )
+
           else if (mtn == 37) then
             if (n2d == 0) then
               n48 = 8

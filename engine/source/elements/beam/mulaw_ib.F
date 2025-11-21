@@ -34,7 +34,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    matparam_def_mod   ../common_source/modules/mat_elem/matparam_def_mod.F90
 !||    sigeps36pi_mod     ../engine/source/materials/mat/mat036/sigeps36pi.F90
 !||====================================================================
-      SUBROUTINE MULAW_IB(ELBUF_STR,MAT_PARAM,
+      SUBROUTINE MULAW_IB(ELBUF_STR,
      1                    NEL     ,NPT     ,MTN     ,IMAT    ,
      2                    PID     ,NGL     ,IPM     ,
      3                    GEO     ,OFF     , 
@@ -45,8 +45,6 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE ELBUFDEF_MOD
-      use matparam_def_mod
-      use sigeps36pi_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -70,7 +68,6 @@ C-----------------------------------------------
       my_real , INTENT(INOUT) :: SIGY(NEL,NPT)
 C
       TYPE (ELBUF_STRUCT_), TARGET :: ELBUF_STR
-      type(matparam_struct_) ,intent(in) :: mat_param
       TARGET :: BUFMAT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -176,12 +173,13 @@ C---
      5         EPSXY    ,EPSXZ )
 C---
           CASE (36)
-            CALL SIGEPS36PI(mat_param, 
-     1         NEL      ,IPT      ,NGL      ,NVARTMP  ,VARTMP   ,
-     2         OFF      ,EPSP     ,ETSE     ,LBUF%PLA ,SIGY_IPT ,
-     3         DEPSXX   ,DEPSXY   ,DEPSXZ   ,
-     4         SIGOXX   ,SIGOXY   ,SIGOXZ   ,
-     5         SIGNXX   ,SIGNXY   ,SIGNXZ   )
+            CALL SIGEPS36PI(
+     1         NEL      ,IFUNC    ,IPT      ,NPF      ,TF       ,
+     2         NGL      ,TT       ,DT1      ,BUFMAT   ,IPM     ,
+     3         IMAT     ,E        ,G        ,OFF      ,DEPSXX  ,
+     4         DEPSXY   ,DEPSXZ   ,SIGOXX   ,SIGOXY   ,SIGOXZ  ,
+     5         SIGNXX   ,SIGNXY   ,SIGNXZ   ,ETSE     ,LBUF%PLA,
+     6         EPSP     ,NVARTMP  ,VARTMP   ,SIGY_IPT)
 C---
           CASE (44)
             CALL SIGEPS44PI(
