@@ -81,7 +81,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,N, ICOR
       my_real
-     .   D, AA, BB, DET(MVSIZ)
+     .   D, DET(MVSIZ)
 C-----------------------------------------------
 C
 C

@@ -78,9 +78,9 @@ C-----------------------------------------------
      .   XC(MVSIZ),YC(MVSIZ),ZC(MVSIZ),STIF(MVSIZ),
      .   VC(MVSIZ,3),FORC_N(MVSIZ,3),FOR_T1(MVSIZ,3),
      .   FOR_T2(MVSIZ,3),FOR_T3(MVSIZ,3),FOR_T4(MVSIZ,3),
-     .   FCX,FCY,FCZ,FAC,GAP_MAX,GAP_MIN,TOL_T,TOL_C,TOL_V,
-     .   PENMIN(MVSIZ),PENREF(MVSIZ),MARGE(MVSIZ)
-      INTEGER I,J,NCTL,IFCTL,IFC1(MVSIZ)
+     .   FCX,FCY,FCZ,GAP_MAX,GAP_MIN,TOL_C,TOL_V,
+     .   PENMIN(MVSIZ),PENREF(MVSIZ)
+      INTEGER I,NCTL,IFCTL,IFC1(MVSIZ)
 C-----------------------------------------------
 C   S o u r c e   C o d e
 C-----------------------------------------------

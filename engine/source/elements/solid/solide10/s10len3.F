@@ -67,7 +67,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,IP,N,M,J
+      INTEGER I,IP,N,J
       INTEGER ITER,NITER,INIT_PITER
       my_real
      .   UL(MVSIZ,10),
@@ -76,10 +76,10 @@ C-----------------------------------------------
       my_real
      .   D(MVSIZ),GFAC,BFAC,LD,P,MASS,MREF,FAC,
      .   AA,BB,A1,A2,A3,A4,
-     .   A1X,A2X,A3X,A4X,A1Y,A2Y,A3Y,A4Y,A1Z,A2Z,A3Z,A4Z,AA0
+     .   A1X,A2X,A3X,A4X,A1Y,A2Y,A3Y,A4Y,A1Z,A2Z,A3Z,A4Z
       my_real
      .   UX(MVSIZ,10), UY(MVSIZ,10), UZ(MVSIZ,10), VX(MVSIZ,10), VY(MVSIZ,10), VZ(MVSIZ,10), 
-     .   NV(MVSIZ), LL, BU(MVSIZ,6), NINV(MVSIZ)
+     .   NV(MVSIZ), BU(MVSIZ,6), NINV(MVSIZ)
       my_real
      .   B1(MVSIZ), B2(MVSIZ), B3(MVSIZ), BB4(MVSIZ), 
      .   C1(MVSIZ), C2(MVSIZ), C3(MVSIZ), C4(MVSIZ),

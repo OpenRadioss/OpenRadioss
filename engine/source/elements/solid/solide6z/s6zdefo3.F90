@@ -95,7 +95,7 @@
 !    L o c a l   v a r i a b l e s
 !-------------------------------------------------------------------------------
        integer :: i                                              !< Loop counter
-       real(kind=wp) :: dv, dvz, ddv, tol, dt1d2, dt1d1          !< Local work variables
+       real(kind=wp) ::   tol, dt1d2, dt1d1          !< Local work variables
 !===============================================================================
 !     S o u r c e  l i n e s
 !===============================================================================

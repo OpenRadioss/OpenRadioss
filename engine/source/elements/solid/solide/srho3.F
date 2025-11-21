@@ -95,8 +95,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      my_real :: RHO0,DVV, E0,VAVG,RV,RVP,RHON_OLD(MVSIZ),DDVOL,RHOREF
-      INTEGER :: I, J,COUNT,LIST(MVSIZ),II, MX
+      my_real :: RHO0,DVV, E0,VAVG,RHON_OLD(MVSIZ),DDVOL,RHOREF
+      INTEGER :: I,COUNT,LIST(MVSIZ),II, MX
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------

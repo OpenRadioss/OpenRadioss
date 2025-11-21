@@ -57,8 +57,8 @@ C-----------------------------------------------
      .   VOL(MVSIZ),KSI,ETA,ZETA
       DOUBLE PRECISION
      .   KL(24,24,MVSIZ), HH(2,MVSIZ), 
-     .   DN_X(MVSIZ,8),DN_Y(MVSIZ,8),DN_Z(MVSIZ,8),KTEMP(6,24),B(6,24),
-     .   HV(6,6),DN_R(8),DN_S(8),DN_T(8),INVJ(9,MVSIZ)!,KLL(24,24)
+     .   DN_Y(MVSIZ,8),DN_Z(MVSIZ,8),
+     .   DN_R(8),DN_S(8),DN_T(8),INVJ(9,MVSIZ)!,KLL(24,24)
       my_real
      .   X1(MVSIZ), X2(MVSIZ), X3(MVSIZ), X4(MVSIZ),
      .   X5(MVSIZ), X6(MVSIZ), X7(MVSIZ), X8(MVSIZ),

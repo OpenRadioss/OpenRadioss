@@ -39,7 +39,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J ,IP
+      INTEGER  IP
       my_real
      .   PG2,KSI(8),ETA(8),ZETA(8),ETAZETA(8),KSIETA(8),KSIZETA(8),PG,MPG
        PARAMETER (PG=.577350269189625D0)

@@ -59,9 +59,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I ,J ,N   
-      INTEGER IP,IR, IS, IT,JHBE,IREP,MPT,NLAY,NPTR,NPTS,NPTT,NUVAR,
-     .       L_PLA,L_SIGB,NSPHDIR, NCELF, NCELL,LLPIJ,L_JAC,NNPT
+      INTEGER IP,IR, IS, IT,NPTR,NPTS,NPTT,
+     . LLPIJ
 C     REAL
       TYPE(L_BUFEL_) ,POINTER :: LBUF     
       TYPE(G_BUFEL_) ,POINTER :: GBUF     
@@ -74,7 +73,7 @@ C     REAL
      .   PYC1(MVSIZ),PYC2(MVSIZ),PYC3(MVSIZ),PYC4(MVSIZ),
      .   PZC1(MVSIZ),PZC2(MVSIZ),PZC3(MVSIZ),PZC4(MVSIZ)
       my_real
-     .   WT,ZR,ZS,ZT,ZZ,WI
+     . WT,ZR,ZS,ZT,WI
 C-----------------------------------------------
       my_real
      .  W_GAUSS(9,9),A_GAUSS(9,9)

@@ -68,7 +68,7 @@ C     REAL
       my_real
      .   DT1D2
       my_real 
-     .   PXX2,PYY2,PZZ2,PXX2P,PYY2P,PZZ2P,AAA,BBB
+     .   PXX2,PYY2,PZZ2,AAA
 C-----------------------------------------------
 C   
       IF(ISROT /= 1)THEN                                                                 

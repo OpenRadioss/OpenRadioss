@@ -153,7 +153,7 @@ C     REAL
       my_real
      .   DT1D2,DVC(MVSIZ),TOL,DT1D
       DOUBLE PRECISION 
-     .   DVP,DV,DV1
+     .   DV,DV1
 C                                                                     12
 C-----------------------------------------------
       TOL = ONE-EM20

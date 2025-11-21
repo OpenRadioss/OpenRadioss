@@ -66,11 +66,9 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
       my_real
-     .   D,A4MB4,A4,B4,BB,AB,B2,
-     .   DXDR,DXDS,DXDT,DYDR,DYDS,DYDT,DZDR,DZDS,DZDT
-     
+     . A4MB4,A4,B4
       DOUBLE PRECISION 
-     .   AA,A4M1,B4M1
+     . A4M1,B4M1
       
       my_real
      .   DRDX, DSDX, DTDX,

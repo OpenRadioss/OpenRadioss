@@ -91,16 +91,16 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, FLUID,MX, J, II, IC, JST(MVSIZ+1)
+      INTEGER I
 C     REAL
       my_real
      .   CAQ(MVSIZ), FCL(MVSIZ), FCQ(MVSIZ),EHOU(MVSIZ),
-     .   H11(MVSIZ), H12(MVSIZ), H13(MVSIZ), H14(MVSIZ),
-     .   H15(MVSIZ), H16(MVSIZ), H17(MVSIZ), H18(MVSIZ),
-     .   H21(MVSIZ), H22(MVSIZ), H23(MVSIZ), H24(MVSIZ),
-     .   H25(MVSIZ), H26(MVSIZ), H27(MVSIZ), H28(MVSIZ),
-     .   H31(MVSIZ), H32(MVSIZ), H33(MVSIZ), H34(MVSIZ),
-     .   H35(MVSIZ), H36(MVSIZ), H37(MVSIZ), H38(MVSIZ),
+     .      
+     .      
+     .      
+     .      
+     .      
+     .      
      .   HX1(MVSIZ), HX2(MVSIZ), HX3(MVSIZ), HX4(MVSIZ),
      .   HY1(MVSIZ), HY2(MVSIZ), HY3(MVSIZ), HY4(MVSIZ),
      .   HZ1(MVSIZ), HZ2(MVSIZ), HZ3(MVSIZ), HZ4(MVSIZ),
@@ -116,7 +116,7 @@ C     REAL
      .   G52(MVSIZ),G62(MVSIZ),G72(MVSIZ),G82(MVSIZ),
      .   G13(MVSIZ),G23(MVSIZ),G33(MVSIZ),G43(MVSIZ),
      .   G53(MVSIZ),G63(MVSIZ),G73(MVSIZ),G83(MVSIZ),
-     .   LEN(MVSIZ),
+     .   
      .   EHOURT     
 C-----------------------------------------------
        DO I=1,NEL

@@ -57,7 +57,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J     
+      INTEGER I     
       my_real
      .   JAC1(MVSIZ), JAC2(MVSIZ), JAC3(MVSIZ), 
      .   JAC4(MVSIZ), JAC5(MVSIZ), JAC6(MVSIZ),

@@ -69,7 +69,7 @@ C-----------------------------------------------
       INTEGER I
 C     REAL
       my_real
-     .  UX,UY,UZ,VX,VY,VZ,WX,WY,WZ,D1,D2,D3,GX,GY,GZ,SUMA,S2,S3
+     .  UX,UY,UZ,VX,VY,VZ,D1,D2,D3,SUMA
 C=======================================================================
       IF (IREP == 0) THEN 
         DO I=1,NEL                                            

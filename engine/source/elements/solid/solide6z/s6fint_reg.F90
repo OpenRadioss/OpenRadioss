@@ -106,7 +106,7 @@
 !-----------------------------------------------
 !   L o c a l   V a r i a b l e s
 !-----------------------------------------------
-      integer i,ii,k,nnod,n1,n2,n3,n4,n5,n6,l_nloc
+      integer i,ii,k,n1,n2,n3,n4,n5,n6,l_nloc
       integer, dimension(:), allocatable :: pos1,pos2,pos3,pos4,pos5,pos6
       real(kind = WP) :: l2,ntn_unl,ntn_vnl,xi,ntvar,a,b1,b2,b3,b4,b5,b6
       real(kind = WP) :: zeta,sspnl,dtnl,le_max,maxstif,ntn

@@ -419,7 +419,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, N, K, L, NOD,LOC_PROC,CC,N1,N2
+      INTEGER I, J, K, NOD,LOC_PROC,CC,N1,N2
 C-----------------------------------------------
 C   Initialization of  ITAGND,FR_NBCCI2
 C-----------------------------------------------
@@ -533,7 +533,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,N,NTY,NSN,NMN,IM,II,N1,N2,ND,NS,ILEV,IPEN,L,NUS,SIZ
+      INTEGER I,J,N,NTY,NSN,NMN,IM,II,N1,N2,NS,ILEV,L,NUS,SIZ
       INTEGER ITAGS(NUMNOD)
 C=======================================================================
        DO I = 1, NS10E
@@ -649,11 +649,11 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J,NFTSK,NLTSK,N, K,ID1,ID2,NC,N1,N2,ND,CC,NCT,
+      INTEGER I, J,N, K,ID1,ID2,NC,N1,N2,ND,NCT,
      .         ISIZE,LCOMM,LENS,LENR
 CC     REAL
       my_real
-     .   FX1,FY1,FZ1 ,FX2,FY2,FZ2,FAC,FAC1,FAC2,DT05,VX,VY,VZ
+     .   FX1,FY1,FZ1 ,FX2,FY2,FZ2,FAC,FAC1,FAC2,VX,VY,VZ
       my_real
      .   TMP(NUMNOD)
 C======================================================================|
@@ -786,7 +786,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, N, K,LCOMM,IK,ND
+      INTEGER I, K,IK,ND
 C     REAL
 C======================================================================|
 C-----get STIFND from interface part
@@ -878,7 +878,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,N,IP,NB,nd
+      INTEGER J,N,IP,NB
 C=======================================================================
        NB = 1
        DO IP = 1,NSPMD
@@ -921,7 +921,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J,NFTSK,NLTSK,N, K,ID1,ID2,NC,N1,N2,ND,CC,NCT
+      INTEGER I,N1,N2,ND
 C     REAL
          DO I=1,NS10E
            N1  = ICNDS10(2,I)
@@ -972,7 +972,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,N,NTY,NSN,NMN,IM,II,N1,N2,ND,NS,ILEV,IPEN,L,NUS,SIZ
+      INTEGER I,J,N,NTY,NSN,NMN,IM,II,NS,ILEV,L,SIZ
 C=======================================================================
        DO I = 1, NS10E
         N = ICNDS10(1,I)
@@ -1070,7 +1070,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,N,NTY,NSN,NMN,IM,II,N1,N2,ND,NS,ILEV,IPEN,L,NK,SIZ
+      INTEGER I,N,II,NK
 C=======================================================================
 C -------only cinematic--> mass condensation
 C-----MASI2ND0 will be modified (as added mass) after DTNODA 
@@ -1114,7 +1114,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,N,NS
+      INTEGER I,N,NS
       my_real
      .   DMAS,DMAS2,MASND
 C=======================================================================
@@ -1184,7 +1184,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,N,NS
+      INTEGER I,N,NS
       my_real
      .   DMAS,VX,VY,VZ,DT05
 C=======================================================================
@@ -1256,7 +1256,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J,NMD,NLTSK,N, K,ID1,ID2,NC,N1,N2,ND,CC,NCT,ISK,IGR
+      INTEGER I, J,NMD,N, K,ID1,ID2,NC,N1,N2,ND,NCT,ISK,IGR
       INTEGER ITAGS(NUMNOD),ISIZE,LCOMM,LENS,LENR
 C     REAL
       my_real
@@ -1592,11 +1592,11 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J,NFTSK,NLTSK,N, K,ID1,ID2,NC,N1,N2,ND,CC,NCT,NGR2USR,
+      INTEGER I, J,N, K,ID1,ID2,NC,N1,N2,ND,NCT,NGR2USR,
      .         ISIZE,LCOMM,LENS,LENR
 C     REAL
       my_real
-     .   FX1,FY1,FZ1 ,FX2,FY2,FZ2,FAC,FAC1,FAC2,DT05,VX,VY,VZ,DAMPC,DOMEGA
+     .   FX1,FY1,FZ1 ,FX2,FY2,FZ2,FAC,FAC1,FAC2,VX,VY,VZ,DAMPC,DOMEGA
       my_real
      .   TMP(NUMNOD)
       INTEGER ITAG(NUMNOD)
@@ -1787,7 +1787,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, N, K,LCOMM,IK,ND
+      INTEGER I, K,LCOMM,IK,ND
       my_real
      .   STIFEL(NS10E)
 C======================================================================|

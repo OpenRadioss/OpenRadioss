@@ -62,11 +62,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J
+      INTEGER I
 C                                                                     12
       my_real
-     .   VXC,VYC,VZC,FX,FY,FZ,FAC,VNJ(4),VL,TOL_V2,
-     .   VXMAX,VYMAX,VZMAX,V2MAX,VC2,LAM_MIN,LAM_MIN2,LAM_MAX
+     .   FAC,VNJ(4),VL,TOL_V2,
+     .   V2MAX,VC2
 C----------------------------
         TOL_V2 = TOL_V*TOL_V
         IFCTL = 0

@@ -85,7 +85,7 @@ C-----------------------------------------------
       INTEGER I,IREP1,MTN
 C     REAL
       my_real
-     .   OFF_L,CS,SN,KSI,NR,X0,Y0,Z0,VX0,VY0,VZ0,DTI,CC,COSIN
+     .   OFF_L,CS,SN,KSI,X0,Y0,Z0,VX0,VY0,VZ0,DTI,CC,COSIN
       my_real 
      .   P1X(NEL), P2X(NEL),  P3X(NEL),  P4X(NEL), 
      .   P1Y(NEL), P2Y(NEL),  P3Y(NEL),  P4Y(NEL), 
