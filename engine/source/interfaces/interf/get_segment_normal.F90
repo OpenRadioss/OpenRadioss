@@ -72,14 +72,13 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer :: i,j
-          integer :: node_id,elem_id
+          integer :: i
+          integer :: node_id
           integer :: node_id_3,node_id_4
           integer :: node_number
           real(kind=WP) :: xx13,yy13,zz13,xx24,yy24,zz24
           real(kind=WP) :: nor1,nor2,nor3
-          real(kind=WP) :: area,dds
-          real(kind=WP) :: xc,yc,zc
+          real(kind=WP) :: area
           real(kind=WP) :: ratio
           real(kind=WP), dimension(4) :: xx1,xx2,xx3
 ! ----------------------------------------------------------------------------------------------------------------------

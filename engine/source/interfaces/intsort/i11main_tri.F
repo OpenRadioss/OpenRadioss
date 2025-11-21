@@ -100,11 +100,11 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER KD(50), JD(50), JFI, KFI, MULTIMP,
-     .        I, ILD, I_SK_OLD, I_STOK1, 
-     .        ADD1, NB_N_B, NOINT,
+      INTEGER   MULTIMP,
+     .        I, ILD, I_SK_OLD, 
+     .         NB_N_B, NOINT,
      .        NCONT, NCONTACT,I_MEM,CAND_N_OLD,
-     .        LOC_PROC, KD11_T,I_SK_NEW,NFT,JLT,J,I_STOK,IADFIN,IFORM
+     .        LOC_PROC,I_SK_NEW,NFT,JLT,I_STOK,IFORM
       INTEGER, DIMENSION(:), ALLOCATABLE :: OLDINBUF1, OLDINBUF2
 C     REAL
       my_real

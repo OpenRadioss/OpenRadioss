@@ -134,20 +134,20 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER 
-     .        I,J,SS1,SS2,IBUG,
-     .        N1,N2,MM1,MM2, iN1, iN2, iM1, iM2, K,L,
+     .        I,J,SS1,SS2,
+     .        N1,N2,MM1,MM2, K,L,
      .        PROV_S(2*MVSIZ),PROV_M(2*MVSIZ),    !Provisional table of candidates sent to i11stok
      .        IX1,IY1,IZ1,IX2,IY2,IZ2, 
      .        IX,IY,IZ, FIRST_ADD,
      .        I_STOK, I_STOK_BAK, IEDG,
      .        PREV_ADD, CHAIN_ADD, CURRENT_ADD,   !for scanning chain arrays
-     .        NEDG, DEJA , MAX_ADD ,II_STOK0, M,REMOVE_REMOTE
+     .        NEDG, DEJA , MAX_ADD , M,REMOVE_REMOTE
       INTEGER, DIMENSION(3) :: TMIN,TMAX
       my_real
      .        XX1, XX2,
      .        XMIN, XMAX,YMIN, YMAX,ZMIN, ZMAX, 
      .        YY1,YY2,ZZ1,ZZ2,
-     .        AAA, DD,
+     .        AAA,
      .        XMAX_EDGS(NRTS+NRTSR), XMIN_EDGS(NRTS+NRTSR),   !min/max coordinates of secondary and main edges
      .        YMAX_EDGS(NRTS+NRTSR), YMIN_EDGS(NRTS+NRTSR),
      .        ZMAX_EDGS(NRTS+NRTSR), ZMIN_EDGS(NRTS+NRTSR),

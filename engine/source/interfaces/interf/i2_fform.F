@@ -37,7 +37,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NIR,I
+      INTEGER NIR
       my_real
      .  S,T,LS1,LS2,LT1,LT2,LS,LT
       my_real
@@ -47,7 +47,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       my_real
-     .  SLM,SLP,TLM,TLP,SHM,SHP,THM,THP,SM2,SP2,TM2,TP2,SRM,SRP,TRM,TRP,
+     .  SLM,SLP,TLM,TLP,SM2,SP2,TM2,TP2,
      .  SRPM,SRPP,TRPM,TRPP,S2,S3,T2,T3
 C-----------------------------------------------
 C     Form functions based on Adini Clough Melosh rectangular element

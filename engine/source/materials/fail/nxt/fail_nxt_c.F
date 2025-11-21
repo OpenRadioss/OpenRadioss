@@ -104,7 +104,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: I,J,NINDX,CHECK
       INTEGER ,DIMENSION(NEL) :: INDX
-      my_real :: S1,S2,SS,S12,DYDX1,DYDX2,S2DYDX1,SIGSR,SIG3D
+      my_real :: S1,S2,SS,S12,DYDX1,DYDX2,SIGSR,SIG3D
       my_real ,DIMENSION(NEL)  :: SIG1,SIG2,LAMBDANXT
 C=======================================================================
       DO I=1,NEL

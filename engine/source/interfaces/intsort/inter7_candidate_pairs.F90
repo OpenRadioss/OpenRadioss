@@ -175,11 +175,11 @@
           real(kind=WP) :: xmin, xmax, ymin, ymax, zmin, zmax
           real(kind=WP) :: xx1, xx2, xx3, xx4, yy1, yy2, yy3, yy4, zz1, zz2, zz3, zz4
           real(kind=WP) :: d1x, d1y, d1z, d2x, d2y, d2z, dd1, dd2, d2, a2
-          integer, dimension(:), allocatable :: last_nod
+ 
           integer :: ix, iy, iz, m1, m2, m3, m4, ix1, iy1, iz1, ix2, iy2, iz2
-          integer :: iix, iiy, iiz
+ 
           real(kind=WP) :: xminb, yminb, zminb, xmaxb, ymaxb, zmaxb, xmine, ymine, zmine, xmaxe, ymaxe, zmaxe, aaa
-          integer :: first, last
+ 
           integer, dimension(GROUP_SIZE) :: prov_n, prov_e !< temporary list of candidates
           integer :: cellid
 
@@ -611,7 +611,7 @@
 !                                                   local variables
 ! ----------------------------------------------------------------------------------------------------------------------
           integer :: i, j, iostat, unitNum
-          integer :: pos
+ 
 
           open(NEWUNIT=unitNum, FILE=filename, FORM="UNFORMATTED", STATUS="REPLACE", IOSTAT=iostat)
           if (iostat /= 0) then
@@ -813,7 +813,7 @@
 !                                                   local variables
 ! ----------------------------------------------------------------------------------------------------------------------
           integer :: i, j, iostat, unitNum
-          integer :: pos
+ 
           open(NEWUNIT=unitNum, FILE=filename, FORM="UNFORMATTED", STATUS="OLD", IOSTAT=iostat)
           if (iostat /= 0) then
             write(6,*) "error opening file: ", filename

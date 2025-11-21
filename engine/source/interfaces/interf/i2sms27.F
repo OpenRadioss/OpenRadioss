@@ -60,9 +60,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, IG, NISKYL1, NISKYL, NN
+      INTEGER I
       my_real
-     .        MAS, DTS, MASM, FAC
+     .        MAS, DTS, MASM
 C
       DO I=1,JLT
        DMINT2(1,I)=ZERO

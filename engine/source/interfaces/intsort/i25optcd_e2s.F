@@ -81,33 +81,32 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I , L, M, E, IE, JE, NN1, NN2, IL, JL, I1, I2, SOL_EDGE, SH_EDGE, 
+      INTEGER I , L, IE, JE, NN1, NN2, SOL_EDGE, SH_EDGE,
      .        NRTMFT, NRTMLT
       my_real
-     .        XI,YI,ZI,X1S,X2S,Y1S,Y2S,Z1S,Z2S,
+     . X1S,X2S,Y1S,Y2S,Z1S,Z2S,
      .        X1,X2,X3,X4,
      .        Y1,Y2,Y3,Y4,
      .        Z1,Z2,Z3,Z4,
-     .        X5,X6,X7,X8,
-     .        Y5,Y6,Y7,Y8,
-     .        Z5,Z6,Z7,Z8,
+     .
+     .
+     .
      .        XMINS,XMAXS,YMINS,YMAXS,ZMINS,ZMAXS,
      .        XMINM,XMAXM,YMINM,YMAXM,ZMINM,ZMAXM,
-     .        XMINM_1,XMAXM_1,YMINM_1,YMAXM_1,ZMINM_1,ZMAXM_1,
-     .        XMINM_2,XMAXM_2,YMINM_2,YMAXM_2,ZMINM_2,ZMAXM_2,DXM,DYM,DZM,
-     .        V12,V22,V32,V42,VV,GAPVD,S
+     .
+     . DXM,DYM,DZM,
+     . GAPVD,S
       INTEGER MSEG,CT
       my_real
-     .        GAPV(MVSIZ),DTTI(MVSIZ)
+     . GAPV(MVSIZ)
       INTEGER LIST(MVSIZ), LISTI(MVSIZ)
-      INTEGER IS,JS,LS,NLS,NLT,NSEG,NLF,II,NLS2,NLSAV
-      INTEGER N1(MVSIZ),N2(MVSIZ),M1(MVSIZ),M2(MVSIZ)
+      INTEGER IS,JS,LS,NLS,NLT,NSEG,NLF,II,NLS2
+      INTEGER N1(MVSIZ),N2(MVSIZ)
       INTEGER SG, FIRST, LAST,COUNT_CAND
       INTEGER, DIMENSION(:),ALLOCATABLE :: TAGM
       my_real, 
      .         DIMENSION(:,:),ALLOCATABLE :: BOXM
       SAVE TAGM,BOXM
-      INTEGER :: IDS(4)
       INTEGER :: J
       INTEGER :: MY_SIZE
       INTEGER, DIMENSION(:), ALLOCATABLE :: LIST_REAL_CANDIDATE

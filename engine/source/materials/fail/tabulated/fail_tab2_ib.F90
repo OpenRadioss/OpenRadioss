@@ -122,7 +122,7 @@
           real(kind=WP) :: fcrit, dn, dcrit, ecrit, exp_ref, expo, el_ref, &
             sr_ref1, fscale_el, shrf, biaxf, sr_ref2, &
             fscale_sr, cjc, fscale_dlim, temp_ref, fscale_temp
-          real(kind=WP) :: lambda, fac, df, dpl_def, cos3theta, det, p, svm, &
+          real(kind=WP) :: lambda, df, dpl_def, cos3theta, det, p, svm, &
             sxx, syy, szz
           real(kind=WP), dimension(nel) :: inst, dc, l0, triax, xi, epsf, epsl, &
             depsf, depsl, sizefac, ratefac, dsize, &

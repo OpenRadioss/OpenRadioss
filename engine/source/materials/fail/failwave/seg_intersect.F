@@ -35,12 +35,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      my_real  :: X1,Y1,X2,Y2,X3,Y3,X4,Y4,XINT,YINT,RATIO
+      my_real  :: X1,Y1,X2,Y2,X3,Y3,X4,Y4,XINT,YINT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER  :: OK,IDEBUG
-      my_real  :: AX,BX,AY,BY,CX,CY,SY,SX,DM,ALPHA,BETA,TOL
+      my_real  :: AX,BX,AY,BY,CX,CY,DM,ALPHA,BETA
 c----------------------------------------------------------
 c     Calculated intersection of two 2D segments: N1-N2 and N3-N4
 c     intersection finds => ok = 1, otherwise ok = 0

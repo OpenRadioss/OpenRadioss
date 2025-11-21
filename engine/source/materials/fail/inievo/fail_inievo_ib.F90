@@ -114,7 +114,7 @@
           real(kind=WP), dimension(:), allocatable :: sr_ref, fscale, ini_p1, el_ref, elscal, disp, &
             ener, alpha2
 
-          real(kind=WP) :: lambda, fac, df, sxx, syy, szz, plas_disp, r_inter, yld0, center, &
+          real(kind=WP) ::  sxx, syy, szz, plas_disp, r_inter, yld0, center, &
             devsp1, devsp2, radius, sigp1, sigp2
           real(kind=WP), dimension(nel) :: l0, triax, epsf, depsf, sizefac, epsmod, p, svm, &
             dmgmax, dmgmul, maxshear, sigpmaj, alpha, dsize

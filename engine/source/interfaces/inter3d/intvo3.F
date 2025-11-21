@@ -86,16 +86,12 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ),I
+ 
 C     REAL
       my_real
-     .   X1(MVSIZ), X2(MVSIZ), X3(MVSIZ), X4(MVSIZ),
-     .   Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ),
-     .   Z1(MVSIZ), Z2(MVSIZ), Z3(MVSIZ), Z4(MVSIZ),
      .   DIST(MVSIZ)
-      INTEGER IBC, NCIMP, NRTM4, NOINT, NGROUS, NGROUM, NG,IGIMP, 
-     .        NCI, I_STOK, NSEG, LLT_NEW, IDT, JFI, KFI
-      INTEGER IFQ,MFROT,JD(50),KD(50),IBAG,IADM,IFORM,IFT0
+      INTEGER IBC, NCIMP, NRTM4, NOINT, NGROUS, NGROUM, NG,IGIMP 
+      INTEGER MFROT, IBAG, IADM, IFORM, IFT0
 
       INTEGER, DIMENSION(MVSIZ) :: IX11,IX12,IX13,IX14
       my_real, DIMENSION(MVSIZ) :: X11,X12,X13,X14,XI
@@ -117,7 +113,7 @@ C     REAL
       my_real, DIMENSION(MVSIZ) :: H1,H2,H3,H4
 C     REAL
       my_real
-     .   STARTT, FRIC, GAP, MAXBOX, MINBOX, STOPT, FB_CAM, FB_IMM,
+     . STARTT, FRIC, GAP, STOPT,
      .   VISC,VISCF,FNOR,DEPTH
       INTEGER :: NMN, NTY, NSN
       INTEGER :: LFT, LLT, NFT

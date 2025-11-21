@@ -79,7 +79,7 @@ C I N P U T A r g u m e n t s
 C-----------------------------------------------
        INTEGER, INTENT(IN) :: ILAY,IPTT,IPG
        INTEGER NEL,  NUVAR, NGL(NEL),
-     .   IPT,NPT0,NOFF(NEL)
+     .   IPT,NPT0
        my_real TIME,UPARAM(*),DPLA(NEL),
      .   EPSXX(NEL) ,EPSYY(NEL) ,EPSXY(NEL),
      .   EPSYZ(NEL) ,EPSZX(NEL),
@@ -90,14 +90,14 @@ C-----------------------------------------------
 C I N P U T O U T P U T A r g u m e n t s
 C-----------------------------------------------
        INTEGER ,DIMENSION(NEL), INTENT(INOUT) :: FOFF
-       my_real UVAR(NEL,NUVAR), OFF(NEL),OFFL(NEL),
+       my_real UVAR(NEL,NUVAR), OFF(NEL),
      .   SIGNXX(NEL),SIGNYY(NEL),UEL(NEL),
      .   SIGNXY(NEL)
 
 C-----------------------------------------------
 C L o c a l V a r i a b l e s
 C-----------------------------------------------
-       INTEGER I,J,NINDX,LEN
+       INTEGER I,J,NINDX
        INTEGER, DIMENSION(NEL) :: INDX
        my_real   E_HYD,E_11,E_22,E_33,E_12,E_23,E_13,
      .           EEQ,D_EEQ,SIG_11,SIG_A,SIG_B

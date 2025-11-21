@@ -109,8 +109,8 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER LOC_PROC, IFQ, INTTH, ITIED,
-     .        I, IP0, IP1, IP2, IP21, I_SK_OLD, 
-     .        ADD1, NB_N_B, NOINT, INACTI, MULTIMP, IGAP, I_STOK ,NMN_L
+     .         IP0, IP1, I_SK_OLD, 
+     .         NB_N_B, NOINT, INACTI, MULTIMP ,NMN_L
       INTEGER 
      .       ILD, NCONTACT,NCONT,INTFRIC,
      .       I_MEM,CAND_N_OLD,IDUM1(1),ILEV, IVIS2

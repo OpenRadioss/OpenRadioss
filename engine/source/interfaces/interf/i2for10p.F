@@ -238,7 +238,7 @@ C-----------------------------------------------
       INTEGER I, J, II, L, NN
 C     REAL
       my_real
-     .   SS, TT, XMSI, FXI, FYI, FZI, MXI, MYI, MZI,INS,
+     .   SS, TT, FXI, FYI, FZI, MXI, MYI, MZI,INS,
      .   X0,X1,X2,X3,X4,Y0,Y1,Y2,Y3,Y4,Z0,Z1,Z2,Z3,Z4,AA,
      .   XC0,YC0,ZC0,SP,SM,TP,TM,XC,YC,ZC,H1, H2,H3,H4,
      .   STF,H21,H22,H23,H24

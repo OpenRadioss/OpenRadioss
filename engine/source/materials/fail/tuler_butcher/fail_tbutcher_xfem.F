@@ -80,13 +80,13 @@ C-----------------------------------------------
       INTEGER NGL(NEL),ELCRKINI(NXLAYMAX,*),NOFF(NEL)
       my_real 
      .   TIME,TIMESTEP(NEL),UPARAM(NUPARAM),NPTTF(NEL),
-     .   SIGNXX(NEL),SIGNYY(NEL),SIGNZZ(NEL),SIGNXY(NEL),SIGNYZ(NEL),
+     . SIGNXX(NEL),SIGNYY(NEL),SIGNXY(NEL),SIGNYZ(NEL),
      .   SIGNZX(NEL),TENS(NEL,5),DFMAX(NEL),TDEL(NEL)
 C-----------------------------------------------
 C   I N P U T   O U T P U T   A r g u m e n t s 
 C-----------------------------------------------
       my_real UVAR(NEL,NUVAR), OFF(NEL),OFFL(NEL)
-      my_real, DIMENSION(:) ,POINTER  :: SIGSAV
+ 
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

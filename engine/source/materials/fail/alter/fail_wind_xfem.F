@@ -75,7 +75,7 @@ C-----------------------------------------------
       INTEGER ELCRKINI(NXLAYMAX,NEL),NGL(NEL)
       my_real TIME,TIMESTEP
       my_real, DIMENSION(NEL) :: SSP,ALDT,TDEL,CRKLEN,
-     .   SIGNXX,SIGNYY,SIGNZZ,SIGNXY,SIGNYZ,SIGNZX
+     . SIGNXX,SIGNYY,SIGNXY,SIGNYZ,SIGNZX
       my_real UPARAM(NUPARAM),DIR_A(NEL,2),CRKDIR(NEL,2),DIR1_CRK(NXLAYMAX,MVSIZ),
      .   DIR2_CRK(NXLAYMAX,NEL)
       TARGET :: DIR1_CRK,DIR2_CRK
@@ -89,12 +89,12 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,NINDX,NINDXD,IDEB,ISRATE
       INTEGER , DIMENSION(NEL) :: INDX,INDXD,RFLAG
-      my_real SIGMAX,AA,BB,CC,S1,S2,S3,CR,K_IC,K_TH,V0,VC,TFACT,REFLEN,
+      my_real AA,BB,CC,S1,S2,S3,CR,K_IC,K_TH,V0,VC,TFACT,REFLEN,
      .   COSI,COSX,COSY,SINX,SINY,COS2,SIN2,DMG1,DMG3,
      .   SP1,SP2,SP3,GEORED,CR_FOIL,CR_AIR,CR_CORE,CR_EDGE,ALPHA,ALPHAI,EXP_N,EXP_M
       my_real, DIMENSION(NEL) :: DADV,TPROPG,AI,FORMF,SIGP_AKT,DMG_SCALE,
      .   SIGP1,SIGP2,SIGDT1,SIGDT2,SIG_DTF1,SIG_DTF2,SIGP_MIN,SIGP_MAX
-      my_real, DIMENSION(:), POINTER :: DIR1,DIR2
+ 
       CHARACTER (LEN=3) :: XCHAR
 c--------------------------------------------------------------------
 c!  cm(6):  initial crack depth in contact to foil

@@ -55,7 +55,7 @@ C-----------------------------------------------
      .        IPARI(NPARI,NINTER),DELTA_PMAX_GAP_NODE,ITAB(*)
 C     REAL
       my_real 
-     .   X(3,*), V(3,*),DELTA_PMAX_GAP,PMAX_GAP,
+     .   X(3,*), V(3,*),DELTA_PMAX_GAP,
      .   XSLV_L(*), XMSR_L(*), VSLV_L(*), VMSR_L(*),
      .   DELTA_PMAX_DGAP
       TYPE(INTBUF_STRUCT_) INTBUF_TAB
@@ -65,7 +65,7 @@ C-----------------------------------------------
       INTEGER IEDGE,INTPLY
 C     REAL
       my_real
-     .   STARTT, STOPT, BID(1)
+     .   STARTT, STOPT
       INTEGER :: NMN,NSN
 C-----------------------------------------------
 C   S o u r c e   L i n e s

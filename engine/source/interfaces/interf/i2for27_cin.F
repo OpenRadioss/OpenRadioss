@@ -70,7 +70,7 @@ C-----------------------------------------------
      .        IX1,IX2,IX3,IX4
 C     REAL
       my_real
-     .   H(4),XMSJ, SS, ST, XMSI,FS(3),SP,SM,TP,TM,
+     .   H(4), SS, ST, XMSI,FS(3),SP,SM,TP,TM,
      .   E1X,E1Y,E1Z,E2X,E2Y,E2Z,E3X,E3Y,E3Z,
      .   X1,X2,X3,X4,Y1,Y2,Y3,Y4,Z1,Z2,Z3,Z4,X0,Y0,Z0,XS(3),XM(3),
      .   STIFM,FMX(4),FMY(4),FMZ(4),FX(4),FY(4),FZ(4),

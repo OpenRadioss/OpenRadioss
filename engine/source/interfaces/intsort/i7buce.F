@@ -61,7 +61,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NMN, NRTM, NSN, NOINT,IDT,INACTI,IFQ, NIN, NSNR, NSNROLD
+      INTEGER NMN, NRTM, NSN, NOINT, INACTI, IFQ, NIN, NSNR, NSNROLD
       INTEGER IRECT(4,*),NSV(*),CAND_A(*), RENUM(*),NUM_IMP, ITASK
       INTEGER CAND_E(*),CAND_N(*),IFPEN(*),KREMNOD(*),REMNOD(*),ITAB(*)
       INTEGER NCONTACT,ESHIFT,ILD,NB_N_B, IGAP, NCONT,INTTH,I_MEM,
@@ -84,13 +84,10 @@ C-----------------------------------------------
       INTEGER I_ADD_MAX,I_ADD
       PARAMETER (I_ADD_MAX = 1001) 
       INTEGER ADD(2,I_ADD_MAX)
-
-      INTEGER I, J, 
-     .        LOC_PROC, N, ISZNSNR,
-     .        NSNFIOLD(NSPMD)
+      INTEGER ISZNSNR
 C     REAL
       my_real
-     .        XYZM(6,I_ADD_MAX-1), MARGE, AAA
+     . XYZM(6,I_ADD_MAX-1), MARGE
 C-----------------------------------------------
 C     PROV
 C-----------------------------------------------
@@ -98,8 +95,8 @@ cc      INTEGER INIVOXEL, VOXEL(LVOXEL),NBX,NBY,NBZ
 c      INTEGER INIVOXEL, VOXEL(1),NBX,NBY,NBZ
 cc      SAVE INIVOXEL, VOXEL
 cc      DATA INIVOXEL /1/
-      INTEGER NBX,NBY,NBZ
-      INTEGER (KIND=8) :: NBX8,NBY8,NBZ8,RES8,LVOXEL8
+ 
+ 
       INTEGER MAXSIZ                 
 
 
@@ -220,7 +217,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NMN,NSN, NOINT,IDT,INACTI,IFQ, NIN, NSNR, NSNROLD
+      INTEGER NMN, NSN, NOINT, INACTI, IFQ, NIN, NSNR, NSNROLD
       INTEGER, INTENT(in) :: NRTM !< number of segments per threads
       INTEGER, INTENT(in) :: TOTAL_NB_NRTM !< total number of segments
       INTEGER IRECT(4,*),NSV(*),CAND_A(*), RENUM(*),NUM_IMP, ITASK
@@ -244,9 +241,8 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J,
-     .        LOC_PROC, N, ISZNSNR,
-     .        NSNFIOLD(NSPMD)
+      INTEGER I, 
+     . ISZNSNR
 C     REAL
       my_real
      .        XYZM(6,2), MARGE, AAA

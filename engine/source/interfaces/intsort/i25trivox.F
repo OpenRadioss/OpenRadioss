@@ -117,25 +117,25 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NB_NCN,NB_NCN1,NB_ECN,I,J,DIR,NB_NC,NB_EC,
-     .        N1,N2,N3,N4,NN,NE,K,L,J_STOK,II,JJ,
+      INTEGER I,J,
+     .        NN,NE,K,L,J_STOK,JJ,
      .        PROV_N(MVSIZ),PROV_E(MVSIZ),
-     .        NSNF, NSNL,M,NS1,NS2,NSE,NS,ip,DELNOD
+     .        NSNF, NSNL,M,DELNOD
 C     REAL
       my_real
-     .   DX,DY,DZ,XS,YS,ZS,XX,SX,SY,SZ,S2,
-     .   XMIN, XMAX,YMIN, YMAX,ZMIN, ZMAX, TZ, GAPSMX, GAPL,
+     .   XS,YS,ZS,SX,SY,SZ,S2,
+     .   XMIN, XMAX,YMIN, YMAX,ZMIN, ZMAX,
      .   XX1,XX2,XX3,XX4,YY1,YY2,YY3,YY4,ZZ1,ZZ2,ZZ3,ZZ4,
-     .   D1X,D1Y,D1Z,D2X,D2Y,D2Z,DD1,DD2,D2,A2,GS
+     .   D1X,D1Y,D1Z,D2X,D2Y,D2Z,DD1,DD2,D2,A2
 c 
-      INTEGER  IX,IY,IZ,NEXT,M1,M2,M3,M4,
+      INTEGER  IX,IY,IZ,M1,M2,M3,M4,
      .         IX1,IY1,IZ1,IX2,IY2,IZ2
       INTEGER,  DIMENSION(:),ALLOCATABLE :: LAST_NOD
       INTEGER,  DIMENSION(:),ALLOCATABLE :: IIX,IIY,IIZ
       my_real
      .   XMINB,YMINB,ZMINB,XMAXB,YMAXB,ZMAXB,
      .   XMINE,YMINE,ZMINE,XMAXE,YMAXE,ZMAXE,AAA
-      INTEGER FIRST,NEW,LAST
+      INTEGER FIRST,LAST
       SAVE IIX,IIY,IIZ
       INTEGER, DIMENSION(:),ALLOCATABLE :: TAG
 C-----------------------------------------------

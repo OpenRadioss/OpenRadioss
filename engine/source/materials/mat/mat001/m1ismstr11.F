@@ -52,14 +52,14 @@ C----------------------------------------------------------------
 C----------------------------------------------------------------
 C  L O C A L  V A R I B L E S
 C----------------------------------------------------------------
-      INTEGER    I,J,K,IFAST(MVSIZ),NPRIN,INDEX(MVSIZ),NFAST
+      INTEGER I, K, IFAST(MVSIZ), NPRIN, INDEX(MVSIZ)
       my_real
      .    SV(3),EV(MVSIZ,3),DIRPRV(MVSIZ,3,3),EKK,DAV,P3,
      .    ESPIN1(MVSIZ), ESPIN2(MVSIZ), ESPIN3(MVSIZ), 
      .    ESPIN4(MVSIZ), ESPIN5(MVSIZ), ESPIN6(MVSIZ),
-     .    E1, E2, E3, E4, E5, E6,ESPIN(MVSIZ,6), 
+     . E1, E2, E3, E4, E5, E6,
      .    E1Q,E2Q,E3Q,E4Q,E5Q,E6Q,
-     .    E1T,E2T,E3T,E4T,E5T,E6T,B2(6),EMIN,EMAX
+     . B2(6),EMIN,EMAX
 C----------------------------------------------------------------
           NPRIN = 0
           DO I=1,NEL
