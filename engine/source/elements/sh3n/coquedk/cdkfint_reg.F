@@ -73,7 +73,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,K,N1,N2,N3,L_NLOC,II,J,NDNOD
       my_real 
-     .  L2,NTN_UNL1,NTN_UNL2,NTN_UNL3,XI,NTVAR,A,
+     .  L2,NTN_UNL1,NTN_UNL2,NTN_UNL3,XI,
      .  B1,B2,B3,ZETA,SSPNL,
      .  NTH1,NTH2,BTH1,BTH2,K1,K2,K12,
      .  NTN_VNL1,NTN_VNL2,NTN_VNL3,H(3),NTVAR1,NTVAR2,

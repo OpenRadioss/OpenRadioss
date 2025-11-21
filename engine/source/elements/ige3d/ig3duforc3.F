@@ -168,29 +168,28 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,NF1,IFLAG,IG,IGT,NUPARAM,
-     .   NUVAR,NUVARP,IMAT,IPID,N1,N2,N3,NKNOT1,NKNOT2,NKNOT3,
+      INTEGER I, J, NF1, IFLAG, NUPARAM, 
+     . NUVAR,IMAT,N1,N2,N3,NKNOT1,NKNOT2,NKNOT3,
      .   IDX(MVSIZ),IDY(MVSIZ),IDZ(MVSIZ),IFUNC(MAXFUNC),NFUNC,IADBUF,
-     .   IBID,ISTRAIN,IBIDV(1),IP,ILAY,IERROR,IAD_KNOT,IDFRSTLOCKNT, IDPC,
+     . IBID,ISTRAIN,IBIDV(1),ILAY,IERROR,IAD_KNOT,IDFRSTLOCKNT,
      .   IDX2(MVSIZ),IDY2(MVSIZ),IDZ2(MVSIZ)
 C-----
-      INTEGER SID(MVSIZ),IPROP,NC(MVSIZ,8),
-     .   MAT(MVSIZ)
+      INTEGER IPROP
       my_real
-     . MX(NEL,NCTRL),MY(NEL,NCTRL) , MZ(NEL,NCTRL),
-     .   STI(MVSIZ),STIN(MVSIZ),STIR(MVSIZ), VISCM(MVSIZ) ,VISCR(MVSIZ),RHO0(MVSIZ)
+     .
+     . STI(MVSIZ) ,RHO0(MVSIZ)
       my_real
-     .   OFF(MVSIZ) , RHOO(MVSIZ),FR_W_E(MVSIZ),
+     . OFF(MVSIZ) ,
      .   XX(NCTRL,NEL),YY(NCTRL,NEL),ZZ(NCTRL,NEL), 
      .   DX(NCTRL,NEL),DY(NCTRL,NEL),DZ(NCTRL,NEL), 
-     .   UX(NCTRL,NEL),UY(NCTRL,NEL),UZ(NCTRL,NEL),
+     .
      .   VX(NCTRL,NEL),VY(NCTRL,NEL),VZ(NCTRL,NEL),
-     .   VRX(NCTRL,NEL),VRY(NCTRL,NEL),VRZ(NCTRL,NEL),
-     .   DTE(MVSIZ)  ,WW(NCTRL,NEL),RBID, ZR, ZS, ZT
+     .
+     . WW(NCTRL,NEL),RBID, ZR, ZS, ZT
 
       TYPE(G_BUFEL_) ,POINTER :: GBUF 
       TYPE(L_BUFEL_) ,POINTER :: LBUF     
-      TYPE(BUF_MAT_) ,POINTER :: MBUF    
+ 
       my_real,
      .   DIMENSION(:),POINTER :: UVAR
       INTEGER MXT(MVSIZ),NGL(MVSIZ),NGEO(MVSIZ)
@@ -200,16 +199,16 @@ C-----
      . S1(MVSIZ)  , S2(MVSIZ)  , S3(MVSIZ)  ,
      . S4(MVSIZ)  , S5(MVSIZ)  , S6(MVSIZ)  ,
      . D4(MVSIZ)  , D5(MVSIZ)  , D6(MVSIZ)  , 
-     . AJC1(MVSIZ) , AJC2(MVSIZ) , AJC3(MVSIZ) ,
-     . AJC4(MVSIZ) , AJC5(MVSIZ) , AJC6(MVSIZ) ,
-     . AJC7(MVSIZ) , AJC8(MVSIZ) , AJC9(MVSIZ) ,
+     .
+     .
+     .
      . AJ1(MVSIZ) , AJ2(MVSIZ) , AJ3(MVSIZ) ,
      . AJ4(MVSIZ) , AJ5(MVSIZ) , AJ6(MVSIZ),
      . WXX(MVSIZ) , WYY(MVSIZ) , WZZ(MVSIZ),
      . VDX(MVSIZ) , VDY(MVSIZ) , VDZ(MVSIZ),
      . MUVOID(MVSIZ),SSP_EQ(MVSIZ),AIRE(MVSIZ),
      . SIGY(MVSIZ),ET(MVSIZ),R1_FREE(MVSIZ),
-     . R3_FREE(MVSIZ),R4_FREE(MVSIZ),DEFP(MVSIZ),
+     . R3_FREE(MVSIZ),DEFP(MVSIZ),
      . MFXX(MVSIZ),MFXY(MVSIZ),MFYX(MVSIZ),
      . MFYY(MVSIZ),MFYZ(MVSIZ),MFZY(MVSIZ),
      . MFZZ(MVSIZ),MFZX(MVSIZ),MFXZ(MVSIZ),
@@ -221,7 +220,7 @@ C
      .   DXY(MVSIZ), DXZ(MVSIZ), DYX(MVSIZ), 
      .   DYZ(MVSIZ), DZX(MVSIZ), DZY(MVSIZ),DIVDE(MVSIZ)
 
-      INTEGER ITEL, ITNCTRL, K, N, JJ, INCTRL, L, IFACE
+      INTEGER ITEL, ITNCTRL, K, N, INCTRL
       my_real,
      .  DIMENSION(NCTRL) :: R 
       my_real,
@@ -235,14 +234,14 @@ C
       my_real
      . DETJAC, PGAUSS, VOLG(MVSIZ)
       my_real
-     .   DD,BtDBAloc(3*NCTRL,MVSIZ),
+     . BtDBAloc(3*NCTRL,MVSIZ),
      .   BA(6,MVSIZ),DBA(6,MVSIZ), Aloc(3*NCTRL,MVSIZ),
      .   MASS(NCTRL,MVSIZ),MMUNK(MVSIZ),KNOTLOCX(PX+1,NCTRL,MVSIZ),
      .   KNOTLOCY(PY+1,NCTRL,MVSIZ),KNOTLOCZ(PZ+1,NCTRL,MVSIZ),
      .   KNOTLOCELX(2,MVSIZ),
      .   KNOTLOCELY(2,MVSIZ),KNOTLOCELZ(2,MVSIZ)
       my_real
-     .   AIRENURBS(3), AFACE(6,MVSIZ), TC, LC, 
+     . AIRENURBS(3), AFACE(6,MVSIZ), TC,
      .   VMIN(MVSIZ), SMAX(MVSIZ), SUMV,AMU(MVSIZ)
       my_real VARNL(NEL)
       my_real,

@@ -72,7 +72,7 @@ C subroutine is unplugged
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER :: IXS(NIXS,*),NV46,IPM(NPROPMI,*),NEL
+      INTEGER :: IXS(NIXS,*),IPM(NPROPMI,*),NEL
       my_real :: VOL(MVSIZ),DXX(MVSIZ),DYY(MVSIZ), DZZ(MVSIZ),X(3,*)
       my_real :: N1X(*), N2X(*),  N3X(*), N4X(*), N5X(*), N6X(*),
      .           N1Y(*), N2Y(*),  N3Y(*), N4Y(*), N5Y(*), N6Y(*),

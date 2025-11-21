@@ -157,6 +157,7 @@ C-----------------------------------------------
       INTEGER, INTENT(IN)    :: SNPC        ! size of NPC
       INTEGER, INTENT(IN) :: JTUR
       INTEGER, INTENT(IN) :: IGRE
+      INTEGER, INTENT(IN) :: IPRI
       INTEGER JFT, JLT, NVC, MTN,NELTST,ITYPTST, OFFSET,
      .        NEL    ,ISTRAIN,ISH3N , ICSEN,
      .        ITHK  ,IOFC   ,IPLA  ,NFT   ,ISMSTR ,NPT,KFTS,IFAILURE,
@@ -199,9 +200,9 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER INDX(MVSIZ)  ! local definition contrary to 4-node-shell elems
       INTEGER MAT(MVSIZ),PID(MVSIZ),NGL(MVSIZ),FWAVE_EL(NEL)
-      INTEGER I,J,IFLAG,NPG,IBID,IDRIL,NG,IR,IS,N1,N2,N3,
+      INTEGER I, J, NPG, IBID, IDRIL, NG, IR, IS, 
      .   IXEL,IXLAY,ILAY,NXLAY,NLAY,L_DIRA,L_DIRB,J1,J2,IGMAT,IGTYP,
-     .   IMAT,NPTTOT,IREP,ipr,IFRAM_OLD,IPRI,IFAILWAVE, IDRAPE,NPTT,IT,
+     . IMAT,NPTTOT,IREP,IFRAM_OLD,IFAILWAVE, IDRAPE,NPTT,IT,
      .   ACTIFXFEM ,SEDRAPE,NUMEL_DRAPE
       my_real :: DTIME
       INTEGER SDIR_A    ! Size of DIR_A
@@ -232,7 +233,7 @@ C-----------------------------------------------
      .   VX13(MVSIZ), VX23(MVSIZ),VY12(MVSIZ),
      .   RLZ(MVSIZ,3),WXY(MVSIZ),MLZ(MVSIZ,3),KRZ(MVSIZ),
      .   B0RZ(MVSIZ,3),BKRZ(MVSIZ,2),BERZ(MVSIZ,2),BM0RZ(MVSIZ,3,2),
-     .   CONDE(MVSIZ),A11R(MVSIZ),FAC1,ALDT(MVSIZ),SSP(MVSIZ)
+     . CONDE(MVSIZ),A11R(MVSIZ),ALDT(MVSIZ),SSP(MVSIZ)
       my_real 
      .   AREAT(MVSIZ),X2T(MVSIZ) ,Y2T(MVSIZ), X3T(MVSIZ),Y3T(MVSIZ),
      .   F_DEF(MVSIZ,8), U21X(MVSIZ),U31X(MVSIZ),U21Y(MVSIZ),U31Y(MVSIZ),
@@ -252,7 +253,7 @@ C-----------------------------------------------
 C--- Variables for non-local formulation
       INTEGER :: NDDL, K, INOD(3),NC1(MVSIZ), NC2(MVSIZ), NC3(MVSIZ), L_NLOC, IPOS(3),INLOC
       my_real, DIMENSION(:,:), ALLOCATABLE :: VAR_REG
-      my_real, DIMENSION(:), POINTER :: BPRELD,DNL
+      my_real, DIMENSION(:), POINTER :: DNL
 C-----------------------------------------------
       INTEGER, DIMENSION(NEL) :: OFFLY
       INTEGER, ALLOCATABLE, DIMENSION(:) :: ELCRKINI
@@ -260,9 +261,9 @@ C-----------------------------------------------
       my_real ,DIMENSION(:) ,POINTER     :: DIR_A,DIR_B,CRKDIR,CRKLEN,DADV
       TARGET :: DIRA,DIRB
 C-----
-      TYPE(BUF_LAY_) ,POINTER :: BUFLY
+ 
       TYPE(G_BUFEL_) ,POINTER :: GBUF
-      TYPE(L_BUFEL_) ,POINTER :: LBUF
+ 
       TYPE(L_BUFEL_DIR_) ,POINTER :: LBUF_DIR
 C-----------------------------------------------
 C   S o u r c e   L i n e s

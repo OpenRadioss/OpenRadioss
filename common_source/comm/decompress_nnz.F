@@ -42,7 +42,7 @@ C---------------------------------------------
 C        Local Variables
 C---------------------------------------------
 
-        INTEGER I,J,IBEGIN, NNZ
+        INTEGER J,IBEGIN, NNZ
 
         CALL READ_I_C(IBEGIN,1)
         J = 2
@@ -81,7 +81,7 @@ C---------------------------------------------
 C        Local Variables
 C---------------------------------------------
 
-        INTEGER I,J,IBEGIN, NNZ
+        INTEGER J,IBEGIN, NNZ
 
         CALL READ_I_C(IBEGIN,1)
         J = 2

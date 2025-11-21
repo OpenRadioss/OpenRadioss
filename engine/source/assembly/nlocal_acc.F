@@ -46,10 +46,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER  N,NDDL,NPOS,K
+      INTEGER N,NDDL,NPOS
       my_real, POINTER, DIMENSION(:) :: 
      .  F,M
-      LOGICAL :: MY_ISNAN
 C-----------------------------------------------
 c     calculation of acceleration of the non-local variable
 c=======================================================================

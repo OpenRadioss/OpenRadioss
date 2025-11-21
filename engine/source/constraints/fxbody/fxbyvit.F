@@ -70,10 +70,10 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NFX,ANOD,AMOD,ACP,AGLM,ALM,AVAR,ARPM,NME,NMOD,AMCD,
-     .        ASE,NSN,IDMAST,M,ISH,DMT,LMOD,ITN,NCYCLP1,N2,NN2,
+     . ASE,NSN,IDMAST,ISH,DMT,LMOD,ITN,NCYCLP1,N2,NN2,
      .        NSNT,IBLO,IFILE,NSNI,IRCM,PMAIN
       my_real
-     .        TT2
+     .   VDT
 C
       N2=NINTER+NRWALL+NRBODY+NSECT+NJOINT+NRBAG+NVOLU
       ITN=0

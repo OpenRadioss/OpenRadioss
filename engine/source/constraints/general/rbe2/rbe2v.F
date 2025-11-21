@@ -50,8 +50,8 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, N, M, NS ,NML, IAD,JJ,IROT,IADS,
-     .        JT(3,NRBE2),JR(3,NRBE2),NM,NN,K,ISK,NSN,IRAD,NSN_G
+      INTEGER   N, M , IAD,
+     .        JT(3,NRBE2),JR(3,NRBE2),ISK,NSN,IRAD,NSN_G
 C     REAL
 C======================================================================|
       CALL PRERBE2(IRBE2 ,JT  ,JR   )
@@ -93,7 +93,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, N, NS
+      INTEGER I, J, NS
 C     REAL
       my_real
      .     XS, YS, ZS,VRM(3)
@@ -151,7 +151,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, N, NS
+      INTEGER I, NS
 C     REAL
       my_real
      .   XS, YS, ZS,RX, RY,RZ,LRX, LRY,LRZ,RVX,RVY,RVZ,
@@ -238,8 +238,8 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, N, M, NS ,NML, IAD,JJ,ISK,
-     .        JT(3,NRBE2),JR(3,NRBE2),NM,NN,K,NSL,IRAD
+      INTEGER   N, M , IAD,ISK,
+     .        JT(3,NRBE2),JR(3,NRBE2),NSL,IRAD
 C     REAL
 C======================================================================|
       CALL PRERBE2(IRBE2 ,JT  ,JR   )
@@ -292,7 +292,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, N, NS
+      INTEGER I, J, NS
 C     REAL
       my_real
      .     XS, YS, ZS,VRM(3),LSM(3),VS(3)
@@ -468,8 +468,8 @@ C-----------------------------------------------
       INTEGER I, NS ,NT,NR,ICT,ICR
 C     REAL
       my_real
-     .   XS, YS, ZS,RX, RY,RZ,LRX, LRY,LRZ,RVX,RVY,RVZ,
-     .   DVX,DVY,DVZ,VVX,VVY,VVZ,KTR(3,3)
+     .   XS, YS, ZS,RX, RY,RZ,
+     .   KTR(3,3)
 C======================================================================|
         NT=JT(1)+JT(2)+JT(3)
         NR=JR(1)+JR(2)+JR(3)
@@ -548,7 +548,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,J1,L,NS
+      INTEGER I,J,K,J1,NS
       my_real
      .   VQ(3,3),EJ(3),EJ1(3),VLM(3),VV(3),VLS(3),S
 C----------------------------------------
@@ -892,14 +892,14 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, N, NS,ICR
+      INTEGER I, J, NS,ICR
 C     REAL
       my_real
-     .   XS, YS, ZS,RX, RY,RZ,LRX, LRY,LRZ,RVX,RVY,RVZ,
+     .   XS, YS, ZS,RX, RY,RZ,
      .   DVX,DVY,DVZ,VVX,VVY,VVZ,LXS(NSL),LYS(NSL),LZS(NSL)
       my_real
-     .   V1X2, V2X1, V2X3, V3X2, V3X1, V1X3,USDT,DT05,
-     .   VX1, VX2, VX3,VRG(3),VRL(3),USDT1(3),KTR(3,3),
+     .      USDT,DT05,
+     .   VX1, VX2, VX3,VRG(3),USDT1(3),KTR(3,3),
      .   LSM(3),VS(3),AS(3)
 C----we modify A,AR(*,NS) so that V,VR(*,NS) follow the constraint equations     
 C======================================================================|
@@ -1040,11 +1040,11 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, NT,NR,ICT,ICR,NSN,ISL(1),K
+      INTEGER  NT,NR,ICT,ICR,NSN,ISL(1),K
 C     REAL
       my_real
-     .   XS, YS, ZS,RX, RY,RZ,LRX, LRY,LRZ,RVX,RVY,RVZ,
-     .   DVX,DVY,DVZ,VVX,VVY,VVZ,KTR(3,3),SKEW(LSKEW)
+     .   XS, YS, ZS,RX, RY,RZ,
+     .   KTR(3,3),SKEW(LSKEW)
 C======================================================================|
         NT=JT(1)+JT(2)+JT(3)
         NR=JR(1)+JR(2)+JR(3)
@@ -1141,7 +1141,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 
-      INTEGER I , J , K
+      INTEGER I , J 
       my_real
      * ANGELV, RZ(3,3), LOCALZ(3), L, LOCALX(3), LSMUNI(3),TRANS(3,3),
      * LOCALY(3), LSMLOCAL(3), LSMLTR(3), LSMGTR(3)
@@ -1307,8 +1307,8 @@ C-----------------------------------------------
      .        TDOF1,TDOF2,TDOF3,RDOF1,RDOF2,RDOF3
 C     REAL
       my_real
-     .   RX, RY,RZ,LRX, LRY,LRZ,RVX,RVY,RVZ,
-     .   DVX,DVY,DVZ,VVX,VVY,VVZ,KTR(3,3), VLM(3),LOCALSM(3),GL0BLSM(3),
+     .    
+     .    VLM(3),LOCALSM(3),GL0BLSM(3),
      .   VLS(3), VRLM(3), VRLS(3),VSROT(3),VRTEMP(3)
 
 C======================================================================|
