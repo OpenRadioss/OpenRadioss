@@ -32,7 +32,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
 !||====================================================================
-      SUBROUTINE MULAW_IB(ELBUF_STR,
+      SUBROUTINE MULAW_IB(ELBUF_STR,MAT_PARAM,
      1                    NEL     ,NPT     ,MTN     ,IMAT    ,
      2                    PID     ,NGL     ,IPM     ,
      3                    GEO     ,OFF     , 
@@ -44,8 +44,9 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE ELBUFDEF_MOD
-      USE SIGEPS131PI_MOD
-      USE MATPARAM_DEF_MOD
+      use matparam_def_mod
+      use sigeps36pi_mod
+      use sigeps131pi_mod  
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -70,6 +71,7 @@ C-----------------------------------------------
       my_real , INTENT(IN) :: TORS_FACT
 C
       TYPE (ELBUF_STRUCT_), TARGET :: ELBUF_STR
+      type(matparam_struct_) ,intent(in) :: mat_param
       TARGET :: BUFMAT
       TYPE (MATPARAM_STRUCT_) ,INTENT(IN) :: MATPARAM
       my_real, INTENT(IN) :: ASRATE
@@ -177,13 +179,12 @@ C---
      5         EPSXY    ,EPSXZ )
 C---
           CASE (36)
-            CALL SIGEPS36PI(
-     1         NEL      ,IFUNC    ,IPT      ,NPF      ,TF       ,
-     2         NGL      ,TT       ,DT1      ,BUFMAT   ,IPM     ,
-     3         IMAT     ,E        ,G        ,OFF      ,DEPSXX  ,
-     4         DEPSXY   ,DEPSXZ   ,SIGOXX   ,SIGOXY   ,SIGOXZ  ,
-     5         SIGNXX   ,SIGNXY   ,SIGNXZ   ,ETSE     ,LBUF%PLA,
-     6         EPSP     ,NVARTMP  ,VARTMP   ,SIGY_IPT)
+            CALL SIGEPS36PI(mat_param, 
+     1         NEL      ,IPT      ,NGL      ,NVARTMP  ,VARTMP   ,
+     2         OFF      ,EPSP     ,ETSE     ,LBUF%PLA ,SIGY_IPT ,
+     3         DEPSXX   ,DEPSXY   ,DEPSXZ   ,
+     4         SIGOXX   ,SIGOXY   ,SIGOXZ   ,
+     5         SIGNXX   ,SIGNXY   ,SIGNXZ   )
 C---
           CASE (44)
             CALL SIGEPS44PI(

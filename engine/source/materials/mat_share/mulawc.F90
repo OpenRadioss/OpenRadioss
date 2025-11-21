@@ -198,7 +198,7 @@
         & dir1_crk ,dir2_crk ,iparg    ,jhbe      ,ismstr   ,jthe     , &
         & tensx    ,ir       ,is       ,nlay      ,npt      ,ixlay    , &
         & ixel     ,ithk     ,f_def    ,ishplyxfem                    , &
-        & itask    ,isubstack,stack    ,alpe                ,           &
+        & itask    ,isubstack,stack    ,alpe      ,ikt      ,           &
         & ply_exx  ,ply_eyy  ,ply_exy  ,ply_exz   ,ply_eyz  ,ply_f    , &
         & varnl    ,etimp    ,nloc_dmg ,nlay_max  ,laynpt_max,dt      , &
         & ncycle   ,snpc     ,stf      ,impl_s    ,imconv    ,npropgi , &
@@ -217,6 +217,7 @@
           use message_mod
           use nlocal_reg_mod
           use sensor_mod
+          use sigeps36c_mod
           use sigeps57c_mod
           use sigeps87c_mod
           use sigeps88c_mod
@@ -297,6 +298,7 @@
           integer, intent(in) :: snpc
           integer, intent(in) :: ncycle
           integer, intent(in) :: idt_therm
+          integer, intent(in) :: ikt
           integer, intent(in),dimension(mvsiz) :: mat
           integer, intent(in),dimension(mvsiz) :: pid
           integer, intent(in),dimension(mvsiz) :: ngl
@@ -394,19 +396,18 @@
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
           integer :: numtabl
-          integer :: ipt
-          integer :: i,k,ii,jj,jmly,ipg,it,ifl,ilay,npg,mpt,mx,imat, &
-            irupt,nfail,iadbuf,igtyp,nuvar,nvarf,jdir,&
-            nfunc, jpos, nindx,nupar,niparam,nuparam,nuparam0,nfunc_fail,ntabl_fail,&
-            ifailwv,nsensor,iun,ibidon1,ibidon2,ibidon3,&
-            iptx,ilayer,irot,dmg_flag,lf_dammx,nipar,&
-            igmat,ipgmat,nptt,ipt_all,npttot,nuvarv,ilaw,&
-            ply_id,iseq,progressive_crack,&
-            orth_damage,l_dmg,iprony,israte,nvartmp,inloc,idrape,nvar_damp,flag_incr, &
+          integer :: i,k,ii,jj,jmly,ipg,it,ifl,ilay,ipt,npg,mpt,mx,imat
+          integer :: irupt,nfail,iadbuf,igtyp,nuvar,nvarf,jdir
+          integer :: nfunc, jpos, nindx,nupar,niparam,nuparam,nuparam0,nfunc_fail,ntabl_fail
+          integer :: ifailwv,nsensor,iun,ibidon1,ibidon2,ibidon3
+          integer :: iptx,ilayer,irot,dmg_flag,lf_dammx,nipar
+          integer :: igmat,ipgmat,nptt,ipt_all,npttot,nuvarv,ilaw
+          integer :: ply_id,iseq,progressive_crack
+          integer :: orth_damage,iprony,israte,nvartmp,inloc,idrape,nvar_damp,flag_incr, &
             islice
           integer :: ij1,ij2,ij3,ij4,ij5
           integer :: ij(5),iflag(1)
-          integer :: l_sigb
+          integer :: l_sigb,l_dmg,l_planl
           integer ,dimension(maxfunc) :: ifunc
           integer ,dimension(mvsiz)   :: ioff_duct,nfis1,nfis2,nfis3
 !
@@ -456,7 +457,7 @@
 !
           character :: option*256
           integer :: size
-          integer :: nrate,nprony
+          integer :: nprony
           real(kind=WP) :: fisokin,kv,zshift,wm_zshift,tref,tmelt
           real(kind=WP), dimension(nel) :: eps1,eps2
           real(kind=WP), dimension(nel), target :: vecnul
@@ -634,6 +635,8 @@
             nuvarv = bufly%nvar_visc
             iseq   = bufly%l_seq
             l_sigb = bufly%l_sigb
+            l_dmg  = bufly%l_dmg
+            l_planl= bufly%l_planl
             iadbuf = max(1,ipm(7,imat))
             nuparam0=  ipm(9,imat)                      ! old uparam stored in bufmat
             uparam0 => bufmat(iadbuf:iadbuf+nuparam0-1) ! old uparam stored in bufmat
@@ -1258,9 +1261,8 @@
                 &lbuf%epsd)
 !
               elseif (ilaw == 36) then
-                nrate = nint(uparam0(1))
-                fisokin = uparam0(2*nrate + 14)
-                if(fisokin>0) then
+                fisokin = mat_elem%mat_param(imat)%uparam(7)
+                if (fisokin > 0) then
                   sigbxx => lbuf%sigb(1      :  nel)
                   sigbyy => lbuf%sigb(nel+1  :2*nel)
                   sigbxy => lbuf%sigb(3*nel+1:4*nel)
@@ -1270,22 +1272,20 @@
                   sigbxy => vecnul(1:nel)
                 endif
 
-                call sigeps36c(&
-                  jlt    ,nuvar  ,nvartmp  ,nfunc   ,&
-                  ifunc  ,npf    ,iflag   ,&
-                  tf     ,dt1c   ,uparam0   ,rho     ,&
-                  thklyl ,israte ,asrate  ,epsd_pg  ,lbuf%epsd  ,&
-                  epspxx ,epspyy ,epspxy  ,&
-                  depsxx ,depsyy ,depsxy  ,depsyz   ,depszx ,&
-                  epsxx  ,epsyy  ,epsxy   ,&
-                  sigoxx,sigoyy,sigoxy,sigoyz,sigozx,&
-                  signxx ,signyy ,signxy  ,signyz   ,signzx ,&
-                  ssp    ,viscmx ,thkn    ,lbuf%pla ,uvar   ,&
-                  vartmp ,off    ,ipm     ,imat     ,&
-                  etse   ,gs     ,sigy    ,&
-                  dpla   ,g_imp  ,sigksi  ,shf      ,hardm      ,&
-                  yldfac ,inloc ,varnl(1,it),lbuf%dmg,lbuf%planl,&
-                  bufly%l_planl,sigbxx,sigbyy,sigbxy,lbuf%off)
+                call sigeps36c(mat_elem%mat_param(imat),             &
+                  nel     ,nuvar   ,nvartmp ,ipla    ,dt1     ,      &
+                  thklyl  ,epsd_pg ,lbuf%epsd,     &
+                  epspxx  ,epspyy  ,epspxy  ,uvar    ,vartmp  ,      &
+                  depsxx  ,depsyy  ,depsxy  ,depsyz  ,depszx  ,      &
+                  epsxx   ,epsyy   ,epsxy   ,                        &
+                  sigoxx  ,sigoyy  ,sigoxy  ,sigoyz  ,sigozx  ,      &
+                  signxx  ,signyy  ,signxy  ,signyz  ,signzx  ,      &
+                  ssp     ,thkn    ,lbuf%pla,impl_s  ,ikt     ,      &
+                  off     ,etse    ,gs      ,sigy    ,l_dmg   ,      &
+                  dpla    ,g_imp   ,sigksi  ,shf     ,hardm   ,      &
+                  yldfac  ,inloc   ,varnl(1,it),lbuf%dmg,lbuf%planl, &
+                  l_sigb  ,l_planl ,sigbxx  ,sigbyy  ,sigbxy  ,      &
+                  lbuf%off)
 !
               elseif (ilaw == 42) then
                 call sigeps42c(&
@@ -3042,9 +3042,14 @@
             mom(1:jlt,3)=mom(1:jlt,3)*gbuf%intvar(1:jlt)
           endif
 !
-          degmb(1:jlt) = degmb(1:jlt)+ for(1:jlt,1)*exx(1:jlt)+for(1:jlt,2)*eyy(1:jlt)&
-          &+ for(1:jlt,3)*exy(1:jlt)+for(1:jlt,4)*eyz(1:jlt)+ for(1:jlt,5)*exz(1:jlt)
-          degfx(1:jlt) = degfx(1:jlt)+ mom(1:jlt,1)*kxx(1:jlt)+mom(1:jlt,2)*kyy(1:jlt)+mom(1:jlt,3)*kxy(1:jlt)
+          degmb(1:jlt) = degmb(1:jlt) + for(1:jlt,1)*exx(1:jlt)    &
+                                      + for(1:jlt,2)*eyy(1:jlt)    &
+                                      + for(1:jlt,3)*exy(1:jlt)    &
+                                      + for(1:jlt,4)*eyz(1:jlt)    &
+                                      + for(1:jlt,5)*exz(1:jlt)
+          degfx(1:jlt) = degfx(1:jlt) + mom(1:jlt,1)*kxx(1:jlt)    &
+                                      + mom(1:jlt,2)*kyy(1:jlt)    &
+                                      + mom(1:jlt,3)*kxy(1:jlt)
 !-----------------------------------------------------------------------
 !---
           if (mtn == 25) then
