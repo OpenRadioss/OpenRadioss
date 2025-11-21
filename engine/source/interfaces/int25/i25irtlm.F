@@ -84,7 +84,7 @@ C               Shooting Nodes
                 L = INTBUF_TAB%IRTLM(4*(N-1)+3)
                 IF(INTBUF_TAB%STFM(L)==ZERO)THEN
 C
-C                 Reset IRTLM when a Secnd node is in contact with a Main surface which was deleted.
+C                 Reset IRTLM when a Second node is in contact with a Main surface which was deleted.
                   INTBUF_TAB%IRTLM(4*(N-1)+1)=0
                   INTBUF_TAB%IRTLM(4*(N-1)+2)=0
 C
@@ -160,7 +160,7 @@ C               Shooting Nodes
                 L = IRTLM_FI(NIN)%P(3,N)
                 IF(INTBUF_TAB%STFM(L)==ZERO)THEN
 C
-C                 Reset IRTLM when a Secnd node is in contact with a Main surface which was deleted.
+C                 Reset IRTLM when a Second node is in contact with a Main surface which was deleted.
                   IRTLM_FI(NIN)%P(1,N)=0
                   IRTLM_FI(NIN)%P(2,N)=0
 C
@@ -236,7 +236,7 @@ C               Shooting Nodes
                 L = INTBUF_TAB%IRTLM(4*(N-1)+3)
                 IF(INTBUF_TAB%STFM(L)==ZERO)THEN
 C
-C                 Reset IRTLM when a Secnd node is in contact with a Main surface which was deleted.
+C                 Reset IRTLM when a Second node is in contact with a Main surface which was deleted.
                   INTBUF_TAB%IRTLM(4*(N-1)+1)=0
                   INTBUF_TAB%IRTLM(4*(N-1)+2)=0
 C
@@ -312,7 +312,7 @@ C               Shooting Nodes
                 L = IRTLM_FI(NIN)%P(3,N)
                 IF(INTBUF_TAB%STFM(L)==ZERO)THEN
 C
-C                 Reset IRTLM when a Secnd node is in contact with a Main surface which was deleted.
+C                 Reset IRTLM when a Second node is in contact with a Main surface which was deleted.
                   IRTLM_FI(NIN)%P(1,N)=0
                   IRTLM_FI(NIN)%P(2,N)=0
 C

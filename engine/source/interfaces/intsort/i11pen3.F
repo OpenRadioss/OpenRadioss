@@ -198,7 +198,7 @@ C
           ALM = -(XB + ALS*XSM) / XM2
           ALM=MIN(ONE,MAX(ZERO,ALM))
 
-C  PENE = GAP^2 - DIST^2 UTILISE POUR TESTER SI NON NUL
+C  PENE = GAP^2 - DIST^2 USED TO TEST IF NON-NULL
 
           XX =  ALS*X11 + (ONE-ALS)*X21
      .        - ALM*X(1,M1) - (ONE-ALM)*X(1,M2)
@@ -362,7 +362,7 @@ C
           ALM = -(XB + ALS*XSM) / XM2
           ALM=MIN(ONE,MAX(ZERO,ALM))
 
-C  PENE = GAP^2 - DIST^2 UTILISE POUR TESTER SI NON NUL
+C  PENE = GAP^2 - DIST^2 USED TO TEST IF NON-NULL
 
           XX =  ALS*X11 + (ONE-ALS)*X21
      .        - ALM*X(1,M1) - (ONE-ALM)*X(1,M2)

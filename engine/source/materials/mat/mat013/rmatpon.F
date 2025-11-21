@@ -115,7 +115,7 @@ C phase 2 :
 C
       ELSEIF (IFLAG==2) THEN
 C     
-C Traitement Parith/ON apres echange
+C Parith/ON processing after exchange
 C
        ARBY(1,M)  = RBF6(1,1)+RBF6(1,2)+RBF6(1,3)+
      +            RBF6(1,4)+RBF6(1,5)+RBF6(1,6)
@@ -271,7 +271,7 @@ C
      .                   + ((RB(12)-RB(10))*VI(3)*VI(1))
           ARRBY(3,M) = ARRBY(3,M)  
      .                   + ((RB(10)-RB(11))*VI(1)*VI(2))
-C CALCUL D'ONE PSEUDO MOMENT: 
+C COMPUTATION OF A PSEUDO MOMENT:
 C IN FACT THE ROTATION ACCELERATION * MAIN NODE INERTIA (IMIN OF RB)
 C
           WA1 = ARRBY(1,M)*IN/RB(10)

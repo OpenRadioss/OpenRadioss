@@ -229,7 +229,7 @@ C
            VMZ=VMZ+V(3,NG4)
         ENDIF
 C
-c bilan masse et energie totale
+c mass and total energy balance
 c
         ROOU = SEGVAR%RHO(KSEG)
         ENOU = SEGVAR%EINT(KSEG)

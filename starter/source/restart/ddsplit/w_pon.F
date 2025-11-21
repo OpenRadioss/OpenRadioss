@@ -391,7 +391,7 @@ C
               IF(CEP(I+OFFC)==PROC-1) THEN
                 J_L = J_L + 1
                 IADMV2(J_L) = J
-C sauvegarde du no local J correspondant a I
+C save local number J corresponding to I
                 ITAGC(I) = J_L - J0
               END IF
             ELSEIF (ITY==7) THEN
@@ -399,7 +399,7 @@ C sauvegarde du no local J correspondant a I
               IF(CEP(I+OFFTG)==PROC-1) THEN
                 J_L = J_L + 1
                 IADMV2(J_L) = J
-C sauvegarde du no local J correspondant a I
+C save local number J corresponding to I
                 ITAGTG(I) = J_L - J0
               END IF
             ELSE
@@ -991,7 +991,7 @@ C
               CC_L = CC_L + 1
               PROCNE_PXFEM(CC_L) = PROC_L
 C
-C Remplissage IADX si elt interne
+C Fill IADX if internal element
 C
              IF (PROC==PROC_L) THEN
 C procloc
@@ -1047,7 +1047,7 @@ C
               CC_L = CC_L + 1
               PROCNE_CRKXFEM(CC_L) = PROC_L
 C
-C             Remplissage IADX si elt interne
+C             Fill IADX if internal element
 C
               IF (PROC == PROC_L) THEN
                 IF (N0 <= ECRKXFEC) THEN
@@ -1243,7 +1243,7 @@ C
             CC_L = CC_L + 1
             PROCNI2(CC_L) = PROC_L
 C
-C Remplissage IADI2 si elt interne
+C Fill IADI2 if internal element
 C
             IF (PROC==PROC_L) THEN
               DO K = 1, NIR
@@ -1365,7 +1365,7 @@ C
             CC_L = CC_L + 1
             PROCNCND(CC_L) = PROC_L
 
-C Remplissage IADCND si elt interne
+C Fill IADCND if internal element
 
             IF (PROC==PROC_L) THEN
               DO K = 1, 2

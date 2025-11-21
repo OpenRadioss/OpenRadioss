@@ -255,7 +255,7 @@ card
      .                C1=TITR,
      .                I2=FLAG_HE)
       ENDIF
-      !FIN LECTURE PARAMETRES HYPERELASTQUES
+      !FIN READING PARAMETRES HYPERELASTQUES
       !--------------------------------------
       !--------------------------------------
 Card FOR PLASTICITY
@@ -333,7 +333,7 @@ card
 
        ENDDO
 
-       !NUVAR = NUVAR +50 !POUR DEBUG
+       !NUVAR = NUVAR +50 !FOR DEBUG
 C      
       SB = ZERO
       DO NET = 1,N_NETWORK
@@ -429,12 +429,12 @@ C=======================================================================
        UPARAM(TAB + 1)  =  SCALE1
        UPARAM(TAB + 2)  =  SCALE2
        UPARAM(TAB + 3)  =  NFUNC
-       !UPARAM(TAB+4) AND UPARAM(TAB+5) CALCULE DANS UPDMAT
+       !UPARAM(TAB+4) AND UPARAM(TAB+5) CALCULATED IN UPDMAT
        TAB = TAB + NHYPER         
       ENDIF
       !NETWORK 
 
-      !POUR FUTUR STOCKAGE PARAMETRE MULINS THERMIQUE PLASTIQUE
+      !FOR FUTURE STORAGE OF MULINS THERMAL PLASTIC PARAMETER
       IF (FLAG_PL == 1) THEN
         NPLAS = 5 
         UPARAM(TAB + 1) =  FF 

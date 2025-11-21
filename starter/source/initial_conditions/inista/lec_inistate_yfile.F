@@ -67,7 +67,7 @@ C-----------------------------------------------
       my_real S(6), SIGLOC(6)
 C=======================================================================
 C
-C -- LECTURE OF INITIAL STATE DATA - EXTRACTED FROM INITIA.F
+C -- READING OF INITIAL STATE DATA - EXTRACTED FROM INITIA.F
 C
 C=======================================================================
 

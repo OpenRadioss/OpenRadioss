@@ -111,7 +111,7 @@ C
             ENDIF
           ENDDO
 C
-C Calcul pression initiale nodale
+C Calculation pression initiale nodale
 C
           DO I=1,NOD
             P0(I)=ZERO

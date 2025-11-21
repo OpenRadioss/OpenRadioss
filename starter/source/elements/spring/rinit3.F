@@ -1219,7 +1219,7 @@ C
 C-----
       ENDIF  ! IGTYP
 C------------------------------------------
-C     CALCUL DES DT ELEMENTAIRES & DT Nodal (take into account XCM)
+C     COMPUTATION OF ELEMENT TIME STEPS & Nodal DT (take into account XCM)
 C------------------------------------------
 C
       K1 = 4

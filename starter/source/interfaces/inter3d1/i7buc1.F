@@ -129,11 +129,11 @@ C-----------------------------------------------
       IF(INACTI==7)TYPE18=.TRUE.
       
 
-C     1-CALCUL TAILLE DES ZONES INFLUENCES
+C     1-CALCULATION TAILLE DES ZONES INFLUENCES
 C     dd is the average length of the element
       DD=ZERO
       DO 10 L=1,NRTM
-C      CONNECIVITES ELEMENT
+C      ELEMENT CONNECTIVITIES
        N1=IRECT(1,L)
        N2=IRECT(2,L)
        N3=IRECT(3,L)
@@ -182,7 +182,7 @@ C DD + 2*Tzinfo: Size element increased in influence zone
       MINBOX= HALF*MAXBOX
       MAXBOX_ST= HALF*(DD + 2*TZINF_ST)
       MINBOX_ST= HALF*MAXBOX_ST
-C     MIS A ZERO POUR FAIRE SEARCH COMPLET CYCLE 0 ENGINE
+C     SET TO ZERO TO PERFORM COMPLETE SEARCH CYCLE 0 ENGINE
       DIST = ZERO     
 C--------------------------------
 C     calculation of the domain bounds
@@ -333,7 +333,7 @@ C------------------
         RETURN
       ENDIF
 C     I_MEM = 1 ==> PAS ASSEZ DE MEMOIRE PILE
-C     I_MEM = 2 ==> PAS ASSEZ DE MEMOIRE CANDIDATS
+C     I_MEM = 2 ==> PAS ASSEZ DE MEMOIRE CANDIDATES
       IF(I_MEM==1)THEN
         NB_N_B = NB_N_B + 1
         I_MEM = 0

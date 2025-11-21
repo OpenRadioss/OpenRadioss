@@ -55,7 +55,7 @@ C-------------------------------------------------------------------------------
 C     NOM    DIMENSION               DESCRIPTION                       E/S
 C-------------------------------------------------------------------------------
 C
-C    NIN    1                        NUMERO INTERFACE                   E
+C    NIN    1                        INTERFACE NUMBER                   E
 C                  
 C   IPARI   NPARI,NINTER             PARAMETRES D'INTERFACE             E
 C                  
@@ -235,7 +235,7 @@ C
 C
       DO NFT = 0 , I_STOK - 1 , NVSIZ
           JLT = MIN( NVSIZ, I_STOK - NFT )
-C preparation candidats retenus
+C preparation CANDIDATES retenus
           CALL I7CDCOR3(
      1         JLT,INDEX2(NFT+1),INTBUF_TAB(NIN)%CAND_E,INTBUF_TAB(NIN)%CAND_N,
      2         CAND_E_N,CAND_N_N)

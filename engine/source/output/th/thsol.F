@@ -1436,9 +1436,9 @@ c
                         LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,IT)
                         MBUF => ELBUF_TAB(NG)%BUFLY(1)%MAT(IR,IS,IT)
 c
-C                       IPWWA calcule sur la base de 3*9*3 points d'integration (r*s*t)
+C                       IPWWA calculated using 3*9*3 integration points (r*s*t)
                         IPT = IR + ( (IS-1) + (IT-1)*NPTS )*NPTR
-C                       IPWWA calcule sur la base de 3*9*3 points d'integration (s*t*r)
+C                       IPWWA calculated using 3*9*3 integration points (s*t*r)
                         IPWWA = (IR-1)*3*9*7 + (IT-1)*3*7 + (IS-1)*7
                         IUWWA = (IR-1)*3*9*9 + (IT-1)*3*9 + (IS-1)*9
 c
@@ -1835,7 +1835,7 @@ c
                         LBUF => ELBUF_TAB(NG)%BUFLY(IL)%LBUF(IR,IS,IT)
                         MBUF => ELBUF_TAB(NG)%BUFLY(IL)%MAT(IR,IS,IT)
 c
-C                       IPWWA calcule sur la base de 3*9*3 points d'integration (r*s*t)
+C                       IPWWA calculated using 3*9*3 integration points (r*s*t)
                          CPT=(IT-1)*99*6+((IR-1)*9+IS-1)*6
 
                         IPT   = IR + ( (IS-1) + (IT-1)*NPTS )*NPTR

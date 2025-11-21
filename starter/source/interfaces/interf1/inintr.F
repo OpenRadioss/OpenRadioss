@@ -436,7 +436,7 @@ C - with low stiffness
 C - included in the *main interface*
 C
 C *main interface* : interface that concern a lot of nodes with
-C significantly different velocities between secnd and main
+C significantly different velocities between second and main
       displacement_max = 0.0
       NS = 0
       MAIN_INTERFACE_SIZE = -1 
@@ -510,7 +510,7 @@ C
                IF(displacement > displacement_max / 10.0 .AND. NMN + NSN > MAIN_INTERFACE_SIZE) THEN
                  IF( NMN + NSN > NUMNOD / 100 ) THEN
                    ! main interface = interface that has the maximum displacement velocity
-                   ! between main and secnd, and that contains at least 1% of the nodes
+                   ! between main and second, and that contains at least 1% of the nodes
                    MAIN_INTERFACE_SIZE = NMN + NSN
                    ID_MAIN_INTERFACE = N
 C                  CONDITION(N) = .FALSE.
@@ -559,7 +559,7 @@ c         WRITE(,*) "main stiff=",main_stiff
               ! interface
                  min_stiff = MIN(min_stiff,avg_stiff(N)) 
                  IPARI(69,N) = 1
-C Appel   routine poids noeuds interfaces
+C Call routine for interface node weights
               ENDIF !CPT
             ENDIF ! CONDITION
           ENDDO ! NINTER

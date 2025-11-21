@@ -48,7 +48,7 @@ C-----------------------------------------------
       my_real :: VDT
       DOUBLE PRECISION VDT2
 C-------------------------------------------------------------
-C         CALCUL DES  DEPLACEMENTS TRANSLATIONS PUIS ROTATIONS
+C         CALCULATION OF DISPLACEMENTS: TRANSLATIONS THEN ROTATIONS
 C-------------------------------------------------------------
 
       IF (IRESP==1) THEN

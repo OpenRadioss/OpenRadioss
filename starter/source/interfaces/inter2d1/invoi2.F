@@ -30,7 +30,7 @@ C
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
-C FOR A GIVEN SECND NODE FIND THE NEAREST MAIN SEGMENT
+C FOR A GIVEN SECOND NODE FIND THE NEAREST MAIN SEGMENT
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -89,7 +89,7 @@ C-----------------------------------------------
         !   lies on segment             is out of segment
         !
         !         I
-        !         +                                    I     <- secnd node
+        !         +                                    I     <- second node
         !        /                                     +
         !      /                                       |
         !    /                                         |
@@ -106,7 +106,7 @@ C-----------------------------------------------
           ! main segment
           C2=X(2,MG)-X(2,K)
           C3=X(3,MG)-X(3,K)
-          !  other node on this segment -> secnd node
+          !  other node on this segment -> second node
           S2=X(2,I)-X(2,K)
           S3=X(3,I)-X(3,K)
           !

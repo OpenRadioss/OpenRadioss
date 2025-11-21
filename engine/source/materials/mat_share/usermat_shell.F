@@ -1915,7 +1915,7 @@ c
 c
           ENDIF   ! IGTYP                                                          
 C-----------------------------------------------
-C         FACTEURS POUR COQUES B.L. (Zeng&Combescure)
+C         FACTORS FOR B.L. SHELLS (Zeng&Combescure)
 C-----------------------------------------------
           IF(FLAG_ZCFAC) THEN
               ZCFAC(JFT:JLT,1) = ZCFAC(JFT:JLT,1) + ETSE(JFT:JLT) * THLY(JFT:JLT)

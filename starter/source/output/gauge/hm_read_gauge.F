@@ -93,7 +93,7 @@ C=======================================================================
       IS_AVAILABLE = .FALSE.
 C-----------------------------------------------
 C---------------------------------------------
-C     LECTURE DES PARAMETRES DE GAUGES
+C     READING DES PARAMETRES DE GAUGES
 C-----------------------------------------------
 c     LGAUGE(3,*)
 c 1:  -Isolid                              -(NUMELS_G+1) if SPH gauge

@@ -565,7 +565,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J
-C----6-----ICi est deja en ordre croissante--return indice dans IC1--7---------8
+C----6-----ICi est deja en ordre croissante--return indice in IC1--7---------8
       INTAB2=0
       IF (IC1(NIC1)<IC2(1).OR.IC2(NIC2)<IC1(1)) RETURN
 C      IF (NIC1>NIC2) THEN

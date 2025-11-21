@@ -50,7 +50,7 @@ C-----------------------------------------------
      .   I, J,
      .   INACTI,IGAP,MULTIMP,NSN0,ITY,NSNE,S
 C---------------------------------------------
-C     MISE A JOUR DES RIGIDITES NODALES EQUIVALENTES (COTE SECOND)
+C     SET A JOUR DES RIGIDITES NODALES EQUIVALENTES (COTE SECOND)
 C---------------------------------------------
       NSN   =IPARI(5)
       DO I=1,NSN

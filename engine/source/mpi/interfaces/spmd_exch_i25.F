@@ -310,7 +310,7 @@ c                          ELSEIF(ABS(TIME_S_2) > ABS(TIME_SR_2))THEN
                             INTBUF_TAB(NIN)%TIME_S(2*(ND-1)+2) = TIME_SR_2
 c                          END IF 
 
-c inutile
+c useless
 c                       elseif(SURFR > 0 .AND. TIME_SR_1 == EP20 .AND. KLEAVE_R > 0)THEN
 c
 c                         INTBUF_TAB(NIN)%IRTLM(4*(ND-1)+1)  = SURFR
@@ -568,7 +568,7 @@ c                       ELSEIF(ABS(TIME_S_2) > ABS(TIME_SR_2))THEN
 c                       END IF 
 
 
-c inutile
+c useless
 c                     elseif(SURFR > 0 .AND. TIME_SR_1 == EP20 .AND. KLEAVE_R > 0)THEN
 cC
 cC the node has exited the contact where it was previously on the remote proc

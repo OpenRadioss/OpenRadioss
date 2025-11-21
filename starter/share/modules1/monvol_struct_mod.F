@@ -115,7 +115,7 @@ C-----------------------------------------------
       INTEGER, DIMENSION(:, :), ALLOCATABLE :: ELEM
       INTEGER, DIMENSION(:), ALLOCATABLE :: ITAGEL
       INTEGER, DIMENSION(:), ALLOCATABLE :: FVBAG_ELEMID
-!     Adress of element inside IXC and IXTG
+!     Address of element inside IXC and IXTG
       INTEGER, DIMENSION(:), ALLOCATABLE :: ELTG
 !     Store mat number of triagnel surface
       INTEGER, DIMENSION(:), ALLOCATABLE :: MATTG
@@ -145,7 +145,7 @@ C-----------------------------------------------
       LOGICAL :: EDGES_BUILT
       INTEGER :: NEDGE
       INTEGER, DIMENSION(:), ALLOCATABLE :: EDGE_NODE1, EDGE_NODE2, EDGE_ELEM, IAD_EDGE_ELEM
-!     Keep old adresses until full conversion is done
+!     Keep old addresses until full conversion is done
       INTEGER :: IADALE, IADALE2, IADALE3, IADALE4, IADALE5, IADALE6, IADALE7, IADALE8, IADALE9, 
      .     IADALE10, IADALE11, IADALE12, IADALE13, KRA5, KRA6, KR5
       LOGICAL :: OK_REORIENT

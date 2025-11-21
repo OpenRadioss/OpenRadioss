@@ -272,7 +272,7 @@ c  Relative displacement + gap
 c         XXG = MAX(XSLV(7,I)-XMSR(10,I),XMSR(7,I)-XSLV(10,I),ZERO)
 c         XYG = MAX(XSLV(8,I)-XMSR(11,I),XMSR(8,I)-XSLV(11,I),ZERO)
 c         XZG = MAX(XSLV(9,I)-XMSR(12,I),XMSR(9,I)-XSLV(12,I),ZERO)
-c  deplacement relatif + pene-gap (PENE_OLD(3,i))
+c  displacement relatif + pene-gap (PENE_OLD(3,i))
 c         XXP = MAX(XSLV(13,I)-XMSR(4,I),XMSR(1,I)-XSLV(16,I),ZERO)
 c         XYP = MAX(XSLV(14,I)-XMSR(5,I),XMSR(2,I)-XSLV(17,I),ZERO)
 c         XZP = MAX(XSLV(15,I)-XMSR(6,I),XMSR(3,I)-XSLV(18,I),ZERO)
@@ -313,7 +313,7 @@ c         D8 = XX+XY+XZP
 C--------
 C
 c VMAXDT can be optimize : VMAXDT is a local overestimate of relative 
-c velocity between local main nodes and ALL secnd nodes
+c velocity between local main nodes and ALL second nodes
 c (no need to communicate VMAXDT in SPMD)
          VMAXDT = ONEP01*VV*DT1
          INTBUF_TAB(I)%VARIABLES(24) = VMAXDT
@@ -377,7 +377,7 @@ c  Relative displacement
 C--------
 C
 c VMAXDT can be optimize : VMAXDT is a local overestimate of relative 
-c velocity between local main nodes and ALL secnd nodes
+c velocity between local main nodes and ALL second nodes
 c (no need to communicate VMAXDT in SPMD)
          VMAXDT = ONEP01*VV*DT1                           
 ! If VMAXDT > MARGE0, the run is likely diverging. 
@@ -481,7 +481,7 @@ c     .       F20.10,A,F14.7,A,F20.10,A,I4)')
 C=======================================================================
         ELSE ! all other NTYP
 C=======================================================================
-c        a optimiser pour l'interface type 7 (cf type 24)
+c        a optimiser for l'interface type 7 (cf type 24)
          XX = MAX(XSLV(1,I)-XMSR(4,I),XMSR(1,I)-XSLV(4,I),ZERO)
          XY = MAX(XSLV(2,I)-XMSR(5,I),XMSR(2,I)-XSLV(5,I),ZERO)
          XZ = MAX(XSLV(3,I)-XMSR(6,I),XMSR(3,I)-XSLV(6,I),ZERO)

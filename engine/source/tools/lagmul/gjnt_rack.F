@@ -49,7 +49,7 @@ C-----------------------------------------------
 C        NC: number of cinematic condition 
 C        ic: number of the kinematic condition (1,nc)
 C        IK : 
-C        I  : numero global du noeud (1,NUMNOD)
+C        I  : global node number (1,NUMNOD)
 C        J ': direction 1,2,3,4,5,6
 C------
 C        IADLL(NC)        : IAD = IADLL(IC)

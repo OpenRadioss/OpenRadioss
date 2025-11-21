@@ -127,7 +127,7 @@ C
             ENDIF
           END DO
         ELSE
-C         sans sensor
+C         without sensor
           DO II = 1, MIN(NFXVEL-IDEB,NVSIZ)
             N = II+IDEB
             STARTT = VEL(2,N)
@@ -1584,7 +1584,7 @@ C
             INDEX(IC) = N
 210       CONTINUE
         ELSE
-C         sans sensor
+C         without sensor
           DO 220 II = 1, MIN(NFXVEL-IDEB,NVSIZ)
             N = II+IDEB
             STARTT = VEL(2,N)

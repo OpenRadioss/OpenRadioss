@@ -101,7 +101,7 @@ C-----------------------------------------------
       TYPE(OUTPUT_),INTENT(INOUT) :: OUTPUT
       TYPE(PYTHON_), INTENT(INOUT) :: PYTHON     
 C-----------------------------------------------
-C     N(3,*)  NORMALE STOCKEE DANS WA
+C     N(3,*)  NORMAL STORED IN WA
 C     PORO(*) STORED IN WA
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s

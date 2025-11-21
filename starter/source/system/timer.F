@@ -72,7 +72,7 @@ C-----------------------------------------------
         ENDDO 
       ENDDO
       CALL SYSTEM_CLOCK(CLOCK0)   ! GETTING START TIME IN CLOCK0
-      ELAPSED = ZERO  ! initialisation a zero de l'elapsed time
+      ELAPSED = ZERO  ! initialize elapsed time to zero
 
 #ifdef _OPENMP
         OMP_STARTING_TIME = OMP_GET_WTIME( )
@@ -166,7 +166,7 @@ C-----------------------------------------------
       CALL SYSTEM_CLOCK(COUNT=CLOCK1, COUNT_RATE=CLOCKRATE,
      +                  COUNT_MAX=NBMAX                   )
       SECS = CLOCK1-CLOCKINI(EVENT,ITASK)    ! Different time common - Initial time
-      IF(SECS<ZERO) SECS = SECS + NBMAX   ! cas depassement nb de periode maximum
+      IF(SECS<ZERO) SECS = SECS + NBMAX   ! case overflow of maximum period number
       SECS = SECS/CLOCKRATE
 #endif
       REALTIME(EVENT,ITASK)=REALTIME(EVENT,ITASK)+SECS
@@ -363,7 +363,7 @@ c---Format
 !||--- calls      -----------------------------------------------------
 !||====================================================================
         SUBROUTINE ELAPSTIME(ETIME)
-C       reset timer elapsed time et calcul du temps elapsed courant
+C       reset timer elapsed time and calculate current elapsed time
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -404,7 +404,7 @@ C-----------------------------------------------
         ELAPSED = SECS
 #else    
         SECS = CLOCK1-CLOCK0         ! Different time common - Initial time (which may not be 0!)
-        IF(SECS<ZERO) SECS = SECS + NBMAX   ! cas depassement nb de periode maximum
+        IF(SECS<ZERO) SECS = SECS + NBMAX   ! case overflow of maximum period number
         SECS = SECS/CLOCKRATE
         ELAPSED = ELAPSED + SECS
 #endif

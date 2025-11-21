@@ -44,7 +44,7 @@ C-----------------------------------------------
 C-----------------------------------------------------------------------
 C     READING SURFACES AND COUNTING SEGMENTS
 C           ENTREE : 
-C                    NRT_IGE NOMBRE DE RENSEIGNEMENTS A LIRE
+C                    NRT_IGE NUMBER OF ITEMS TO READ
 C           SORTIE : 
 C                    IRECT 
 C-----------------------------------------------

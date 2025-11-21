@@ -118,7 +118,7 @@ C-------------------------------------------------------
        ENDDO
 C-------------------------------------------------------
 C      - Radial projection on the ellipsoide.
-C      - Passage au repere global.
+C      - Transformation to global reference frame.
 C-------------------------------------------------------
        AN=A**IDG
        BN=B**IDG

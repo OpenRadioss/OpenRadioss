@@ -358,7 +358,7 @@ C-------------------------------------
         NNZ = NNZ/FAC
 C
 C---------------------------------
-C       W LAGRANGIEN SUIVANT N
+C       W LAGRANGIEN ACCORDING TO N
 C---------------------------------
 C---------------------------------
 C       grid boundary conditions
@@ -372,7 +372,7 @@ C---------------------------------
           VN = V(1,N)*NNX + V(2,N)*NNY + V(3,N)*NNZ
           WN = W(1,N)*NNX + W(2,N)*NNY + W(3,N)*NNZ
 C-------------------------------------
-C         W LAGRANGIEN SUIVANT N + BCS
+C         W LAGRANGIEN ACCORDING TO N + BCS
 C-------------------------------------
           IF(ABS(WN)>EM30)THEN
             FAC = VN / WN
@@ -382,8 +382,8 @@ C-------------------------------------
           ENDIF
         ELSEIF(IEULT/=0)THEN
 C-------------------------------------
-C         W LAGRANGIEN SUIVANT N
-C         W EULERIEN SUIVANT T
+C         W LAGRANGIEN ACCORDING TO N
+C         W EULERIEN ACCORDING TO T
 C---------------------------------
           VN = V(1,N)*NNX + V(2,N)*NNY + V(3,N)*NNZ
           W(1,N) = VN * NNX
@@ -391,8 +391,8 @@ C---------------------------------
           W(3,N) = VN * NNZ
         ELSE
 C-------------------------------------
-C         W LAGRANGIEN SUIVANT N
-C         LIBRE SUIVANT T
+C         W LAGRANGIEN ACCORDING TO N
+C         LIBRE ACCORDING TO T
 C---------------------------------
           DVN = VX * NNX + VY * NNY + VZ * NNZ
           W(1,N) = W(1,N) + DVN * NNX
@@ -409,7 +409,7 @@ C
       IF(INTTH/=ZERO) THEN
        IF(NSPMD > 1) THEN
 C
-C Envoi buffer elems updates
+C Envoi buffer elements updates
 C
          CALL SPMD_RBCAST(COMBUF,COMBUF,1,ILEN,0,2)
        END IF

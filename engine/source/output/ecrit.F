@@ -660,7 +660,7 @@ C-----------------------------------------------
             WRITE(ISTDO,'(2(A,I8),A,1PE11.4)') '     LAG_NC=',LAG_NC,',   NITER_GC=',NITER_GC,',   LAG_ERSQ2=',LAG_ERSQ2
           ENDIF
           IF(IMON > 0 .AND. TT-TT0 > ZERO) THEN
-C calcul temps restant
+C compute remaining time
             RETIME = (ETIME*(TSTOP-TT0)) / (TT-TT0) - ETIME
             WRITE(ISTDO,'(A,F14.2,A,A,F14.2,A)')' ELAPSED TIME=',ETIME,' s ',' REMAINING TIME=',RETIME,' s'
           END IF 
@@ -684,7 +684,7 @@ C
        CALL FVSTATS1(IUSC3,MONVOL,1)
              
        IF(IMON > 0 .AND. TT > ZERO) THEN
-C calcul temps restant
+C compute remaining time
          RETIME = (ETIME*TSTOP) / TT - ETIME
          WRITE(IUSC3,'(A)',ERR=990)        ' '
          WRITE(IUSC3,'(A,F14.2,A)',ERR=990)' CURRENT ELAPSED TIME    =',ETIME,' s '

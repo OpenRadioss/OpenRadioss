@@ -322,7 +322,7 @@ C================================================================
       CALL MY_BARRIER !wait for complete initialization 
 
 C=======================================================================
-C 3   Calcul Intersections
+C 3   Calculation Intersections
 C================================================================    
       if(itask==0 .AND. debug_outp)then
           print *,"  Calcul des Intersections sur Proc=", ITASK+1

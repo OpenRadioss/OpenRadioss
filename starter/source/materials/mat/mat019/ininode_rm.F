@@ -31,7 +31,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C=======================================================================
 C            EN SORTIE    
 C    IRBY    Rigid node 
-C    SLN     secnd node number by rigid material
+C    SLN     second node number by rigid material
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -154,7 +154,7 @@ C remaining number of elements
                  DO I=1,NER0
                     INDXE(I)  = INDXE0(I)
                 ENDDO
-C noeud restant
+C node restant
                  NREST = NREST - NR1 
               ELSE
                NRB = NRB  + 1 

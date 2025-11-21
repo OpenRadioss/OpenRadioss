@@ -193,7 +193,7 @@ C stress
      .               R31,R32,R33) 
        ENDIF  
 C-----------------------------------------------------------
-C     CONTRAINTES PLASTIQUEMENT ADMISSIBLES
+C     PLASTICALLY ADMISSIBLE STRESSES
 C-----------------------------------------------------------
       IF (IFLAG == 0) THEN    ! Tsai-Wu
         CALL MAT25_TSAIWU_S(MAT_PARAM,

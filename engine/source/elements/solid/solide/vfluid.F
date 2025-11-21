@@ -66,7 +66,7 @@ C
         UVAR(I + NEL) = PHI2(IE)*VOL0
       ENDDO    
 C------------------------------------------------------
-C     CALCUL DES CONTRAINTES SUIVANT LOIS CONSTITUTIVES
+C     CALCULATION OF STRESSES ACCORDING TO CONSTITUTIVE LAWS
 C------------------------------------------------------
       RETURN
       END

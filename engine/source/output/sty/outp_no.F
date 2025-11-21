@@ -90,7 +90,7 @@ C
        ENDIF
 C
 C INNODA: address of the last variable
-C (INCREMENTEE DE NUMNOD A CHAQUE PASSAGE)
+C (INCREMENTED BY NUMNOD AT EACH PASS)
 C 
       RETURN
       END

@@ -163,8 +163,7 @@ C
           EM(J2)=EM(J2)+FY4(I)
           EM(J3)=EM(J3)+FZ4(I)
 c
-c         Force visc secnd        
-c
+c         Force visc second c
           I3 = 3*IL
           I2 = I3-1
           I1 = I2-1

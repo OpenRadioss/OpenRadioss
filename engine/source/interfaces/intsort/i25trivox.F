@@ -76,22 +76,21 @@ C   D u m m y   A r g u m e n t s
 C
 C     NOM          DESCRIPTION                       E/S
 C
-C     IRECT(4,*)   TABLEAU DES CONEC FACETTES        E
+C     IRECT(4,*)   ARRAY OF CONEC FACETTES        E
 C     X(3,*)       COORDONNEES NODALES               E
-C     NSV          NOS SYSTEMES DES NOEUDS           E
+C     NSV          NOS SYSTEMES DES NODES E
 C     Xmax larger abcisse existing e
 C     XMAX largest order.existing E
 C     Xmax larger existing side E
 C     i_stok       storage level of pairs
-C                                candidats impact    E/S
-C     CAND_N       boites resultats noeuds
-C     CAND_E       adresses des boites resultat elements
+C                                CANDIDATES impact    E/S
+C     CAND_N       boites resultats nodes C     CAND_E       adresses des boites resultat elements
 C                  mulnsn = multimp*nsn max size now allowed for the
-C                  COUPLES NOEUDS,ELT CANDIDATS
-C     NOINT        NUMERO USER DE L'INTERFACE
+C                  COUPLES NODES,ELT CANDIDATES
+C     NOINT        INTERFACE USER NUMBER
 C
 C     Prov_n Provisional Cand_n (static variable in i7tri)
-C     PROV_E       CAND_E provisoire (variable static dans i7tri)
+C     PROV_E       CAND_E provisoire (variable static in i7tri)
 
 C     voxel(ix,iy,iz) contains the local number of the first node of
 C                  the box

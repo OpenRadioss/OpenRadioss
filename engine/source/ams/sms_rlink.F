@@ -101,7 +101,7 @@ C parallel loop on SMP threads
           IF(NSPMD > 1) THEN
 !$OMP SINGLE
 
-C routine appelee rlink par rlink a optimiser si besoin
+C routine called rlink by rlink to optimize if needed
             DO N=1,NRLINK
               IF(TAG_LNK_SMS(N)==0)CYCLE
 C calculation routine Parith/ON of A rigid link
@@ -228,7 +228,7 @@ C parallel loop on SMP threads
           IF(NSPMD > 1) THEN
 !$OMP SINGLE
 
-C routine appelee rlink par rlink a optimiser si besoin
+C routine called rlink by rlink to optimize if needed
 
             DO N=1,NLINK
               IF(TAG_LNK_SMS(NRLINK+N) < 0)CYCLE

@@ -121,7 +121,7 @@ C-------------------------------------------------------------
          END IF  
 C
 C-----------------------------------------------
-C         Distance between secnd node 
+C         Distance between second node 
 C              and main segment 
 C-----------------------------------------------
          DIST = -(SX2*SX1+SY2*SY1+SZ2*SZ1) / MAX(EM15,NORM)
@@ -287,7 +287,7 @@ C-------------------------------------------------------------
          END IF  
 C
 C-----------------------------------------------
-C         Distance between secnd node 
+C         Distance between second node 
 C              and main segment 
 C-----------------------------------------------
          DIST = -(SX2*SX1+SY2*SY1+SZ2*SZ1) / MAX(EM15,NORM)

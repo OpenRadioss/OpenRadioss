@@ -325,7 +325,7 @@ C
       ENDIF
 C
 C---------------------------------
-C     TRAITEMENT MULTIDOMAINES
+C     MULTI-DOMAIN TREATMENT
 C---------------------------------
        
        IF (IRAD2R==1) THEN

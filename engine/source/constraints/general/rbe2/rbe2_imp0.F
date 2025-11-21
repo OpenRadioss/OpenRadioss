@@ -208,7 +208,7 @@ C------------------------------------
         IP =5
         IMD = IDDL(M)+1
         ND = NDOF(M)
-C--------boucle secnd nodes--
+C--------secondary nodes loop--
        NTDOF=JT(1)+JT(2)+JT(3)+JR(1)+JR(2)+JR(3)
 C-----cas exception: e.g.:contact-----
        IF ((JT(1)+JT(2)+JT(3))==3.AND.JR(1)<0) THEN
@@ -294,7 +294,7 @@ C-------  Update ---
            IF (IR==1) CALL PRINT_WKIJ(ITAB(N) ,ITAB(M) ,IP )
              ENDIF
         ENDIF
-C-------fin -boucle secnd nodes--
+C-------end of secondary nodes loop--
        ENDDO
 C
       RETURN
@@ -354,7 +354,7 @@ C--------upd B--
          CALL RBE2_IMPBL(M      ,NSN    ,ISL   ,X   ,JT       ,
      1                   JR     ,NDOF   ,IDDL  ,B   ,SKEW     ,
      2                   IRAD   )
-C--------boucle secnd nodes--
+C--------secondary nodes loop--
        J1=0
        DO I=1,NSN
 C--------block diagonal Kmm--
@@ -441,7 +441,7 @@ C        ENDIF
      1                    JDIK ,DIAG_K,LT_K  ,N     ,IR    )
           ENDIF
         ENDIF
-C-------fin -boucle secnd nodes--
+C-------end of secondary nodes loop--
        ENDDO
 C
       RETURN

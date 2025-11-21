@@ -90,7 +90,7 @@ C-----------------------------------------------
      .                  XREM_EDGE,E_RBUF_SIZE,NEDGE_REMOTE,DGAPLOAD)
 
 C-----------------------------------------------
-C SUPPRESSION DES ANCIENS CANDIDATS DEJA STOCKES (PENE INITIALE)
+C SUPPRESSION DES ANCIENS CANDIDATES DEJA STOCKES (PENE INITIALE)
 C-----------------------------------------------
 C     IF(INACTI==5)THEN
         DO I=1,J_STOK

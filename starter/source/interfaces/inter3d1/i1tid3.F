@@ -38,7 +38,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
-C     INTERFACE TIED CALCUL DE S,T
+C     INTERFACE TIED CALCULATION DE S,T
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------

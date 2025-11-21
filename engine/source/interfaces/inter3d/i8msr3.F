@@ -83,10 +83,9 @@ C-----------------------------------------------
       EXTERNAL IS_SUP_FACE_ID
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8----+----9----+----A----+----B----+----C--
 
-      ! At the end of this routine 
-      !HAS_MOVED(i) == 1 : the main node of the ith secnd may have
+      ! At the end of this routine !HAS_MOVED(i) == 1 : the main node of the ith second may have
       !changed (i.e. it has changed locally, or was not on this processor)
-      !HAS_MOVED(i) == 0 : the ith secnd node keep the same main
+      !HAS_MOVED(i) == 0 : the ith second node keep the same main
 
       HAS_MOVED(1:NBSECNDS) = 1
       TAB_RMAX(1:NBSECNDS)  = ZERO
@@ -108,7 +107,7 @@ C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
          LSEG_NEW=0
 C
          IF(L<=0) GOTO 100
-       ! IF this secnd has a main face from the previous cycle, 
+       ! IF this second has a main face from the previous cycle, 
        ! this one is checked first                                      
 
          FACE_GLOB_ID(1)  = ITAB(MSR(IRECT(1,L)))

@@ -52,19 +52,18 @@ C   D u m m y   A r g u m e n t s
 C
 C     NOM          DESCRIPTION                       E/S
 C
-C     BPE          TABLEAU DES FACETTES A TRIER      S
+C     BPE          ARRAY OF FACETTES TO SORT      S
 C                  and result on max side
-C     PE           TABLEAU DES FACETTES              E
+C     PE           ARRAY OF FACETTES              E
 C                  RESULTAT COTE MIN
-C     BPN          TABLEAU DES NOEUDS A TRIER        S
+C     BPN          SORTED NODES ARRAY        S
 C                  and result on max side
-C     PN           TABLEAU DES NOEUDS                E
+C     PN           NODES ARRAY E
 C                  RESULTAT COTE MIN
-C     ADD(2,*)     TABLEAU DES ADRESSES              E  
-C          1.......ADRESSES NOEUDS
-C          2.......ADRESSES ELEMENTS
-C     NB_NC        NOMBRE DE NOEUDS CANDIDATS        s 
-C     NB_EC        NOMBRE D'ELTS CANDIDATS           s 
+C     ADD(2,*)     ARRAY OF ADRESSES              E  
+C          1.......ADRESSES NODES C          2.......ADRESSES ELEMENTS
+C     NB_NC        NUMBER OF CANDIDATE NODES        s 
+C     NB_EC        NUMBER OF CANDIDATE ELEMENTS           s 
 C 
 C-----------------------------------------------
       INTEGER NB_NC,NB_EC

@@ -789,7 +789,7 @@ C-----------------------------------------------
       INTEGER I,J,N,N1,N2,NE,IG
 C-----------------------------------------------
        DO I = 1, JLT
-C--------secnd node-----
+C--------second node-----
         IG = NS_IMP(I)
        IF (IG>NSN) THEN
         NE=NE_IMP(I)
@@ -842,14 +842,14 @@ C-----------------------------------------------
 C-----------------------------------------------
       IF (INTP_D>0) THEN
        DO I = 1, NSL
-C--------secnd node--------------
+C--------second node--------------
         N = ISL(I)
         IF (ILOC(N)==0) ILOC(N)=I
        ENDDO
       ELSE
 
        DO I = 1, NSL
-C--------secnd node-----
+C--------second node-----
         N = ISL(I)
         IF (ILOC(N)==0) THEN
          N_IMPN=N_IMPN+1
@@ -910,7 +910,7 @@ C-----------------------------------------------
       INTEGER M,NSN,JI,L,NNOD,NJ,NL,NI
 C-----------------------------------------------
        DO I = 1, NSL
-C--------local secnd node-----
+C--------local second node-----
         N = ISL(I)
          DO J = 1, MIN(3,NDOF(N))
           ND = IDDL(N)+J
@@ -1071,7 +1071,7 @@ C-----------------------------------------------
       INTEGER M,NSN,L,NNOD,NJ,NL,NI
 C-----------------------------------------------
        DO I = 1, NSL
-C--------local secnd node-----
+C--------local second node-----
         N = ISL(I)
          DO J = 1, MIN(3,NDOF(N))
           ND = IDDL(N)+J
@@ -3496,7 +3496,7 @@ C------- First it is local ------------
          ENDDO
         ENDDO
        ENDIF
-C------definit IFRLOC (global)pour ind_glob_k---
+C------definit IFRLOC (global)for ind_glob_k---
        IF(ALLOCATED(IFRLOC)) DEALLOCATE(IFRLOC)
        ALLOCATE(IFRLOC(N_FR),STAT=IERROR1)
        NN=0
@@ -4204,7 +4204,7 @@ C -----update---condense-IKC>=1------------------------------------
       CALL SPMD_SUM_S(STMP)
       NDDLFRB1 = NDDLFRB-INT(STMP)
       IF (NDDLFR<=0) RETURN
-C-------s'il y a condensation-------
+C-------if there is condensation-------
       IF (NDN(NSPMD)>0) THEN
        IAD = ND_FR(1) + 1
        DO IP =2,NSPMD
@@ -4574,7 +4574,7 @@ C-----------------------------------------------
       INTEGER I,J,N,N1,N2,NE,IG,M1,M2
 C-----------------------------------------------
        DO I = 1, JLT
-C--------secnd node-----
+C--------second node-----
         IG = NS_IMP(I)
        IF (IG>NSN) THEN
         NE=NE_IMP(I)
@@ -5406,9 +5406,9 @@ C-------iddlm-----------------
       DO I=1,NSREM
         NF_SI(I) = 0
       ENDDO
-C------s'il y a des neouds kin---IKC_SL(NSL)>0->IKC_SI----
+C------if there is des neouds kin---IKC_SL(NSL)>0->IKC_SI----
       CALL INI_FRKC(NSREM  ,NSL ,IKC ,NDOF ,IDDL)
-C------com. [Ksm] secnds remotes dependant--s.KSI;r.KSL-IKC_SI,SL->nb [Ksm]--
+C------com. [Ksm] seconds remotes dependant--s.KSI;r.KSL-IKC_SI,SL->nb [Ksm]--
       CALL DIM_FRKM(NSREM  ,NSL  ,LSI   ,LSL  )
       LSI0 = LSI
       LSG = LSI+LSL
@@ -5442,7 +5442,7 @@ C------- Use tempo ksi_fr for k_sl modifies- (handshakes) ----------------------
      5    IDDL      ,IKC       ,NDOF      ,IDDLM     ,UD        ,
      6    A         ,LB        ,KSS       ,KSL_FR    ,KSI_FR    ,
      7    IRBE3     ,LRBE3     ,FRBE3     ,IRBE2     ,LRBE2     )
-C-------s'il y a imposed Ud(secnd local), il faut renvoyer UDSL->UDSI---------
+C-------if there is imposed Ud(local second), must return UDSL->UDSI---------
 C-------NFV: nb of /IMPVEL node in SL, use ISLM(NFV) to save node num.
         IF (IFDIS>0) THEN
          CALL DIM_FVN(
@@ -7780,7 +7780,7 @@ C-----------------------------------------------
      .  EJ(3),KSM(9),KNM(9,4),KRM(9,4),RBID
       my_real,
      .         DIMENSION(:),ALLOCATABLE :: KNM3,KRM3
-C-----only [ksm] to update : secnd dependant :FRK_SI, secnd inde. LT_SI,
+C-----only [ksm] to update : second dependant :FRK_SI, second inde. LT_SI,
 C     ----       --added inde,:FRK_SL-----------
        IFSS = 0
        IFSM = 1
@@ -8458,7 +8458,7 @@ c----------DIMENSION----
        NZ = 0
        IAD = 1
        DO I=1,NSREM
-C-----------SECND DEPEND.: FRK_SI---------
+C-----------SECOND DEPEND.: FRK_SI---------
         IF (IKC_SI(I)>0) THEN
          DO J =1, NF_SI(I)
           DO K = 1,NDOFI
@@ -8486,7 +8486,7 @@ C-----------DEPEND. SUP-:FRK_SL--------
           ENDDO
           IAD = IAD + 1
          ENDDO
-C-----------SECND INDEPEND.:LT,FRK_SL---------
+C-----------SECOND INDEPEND.:LT,FRK_SL---------
         ELSE
          DO K = 1,NDOFI
           NL = NL + 1
@@ -8543,7 +8543,7 @@ C
        IAD_SI(NL+1) = NZ+1
        DO P=1,NSPMD
         DO I=IAD_SREM(P),IAD_SREM(P+1)-1
-C-----------SECND DEPEND.: FRK_SI---------
+C-----------SECOND DEPEND.: FRK_SI---------
         IF (IKC_SI(I)>0) THEN
          NR = IAD_SINR(I+1)-IAD_SINR(I)
          DO J =1, NF_SI(I)
@@ -8595,7 +8595,7 @@ C-----------DEPEND. SUP-:FRK_SL--------
           ENDDO
           IAD = IAD + 1
          ENDDO
-C-----------SECND INDEPEND.:LT,FRK_SL---------
+C-----------SECOND INDEPEND.:LT,FRK_SL---------
         ELSE
          DO K = 1,NDOFI
           NL = NL + 1
@@ -8715,7 +8715,7 @@ C----------------------------
       NFV=0
 C--------imposed velocity---------------
        DO N = 1, NUMNOD
-C--------local secnd node-----
+C--------local second node-----
         IF (INLOC(N)>0) THEN
          NS = 0
          DO J = 1, MIN(3,NDOF(N))
@@ -8766,7 +8766,7 @@ C-----------use islm-----------------
       NF=0
 C--------imposed velocity---------------
        DO N = 1, NUMNOD
-C--------local secnd node-----
+C--------local second node-----
         IF (INLOC(N)>0) THEN
          NS=0
          DO J = 1, MIN(3,NDOF(N))
@@ -9335,7 +9335,7 @@ C
        IAD = 1
        IADI = 1
        DO I=1,NSREM
-C-----------SECND DEPEND.: FRK_SI---------
+C-----------SECOND DEPEND.: FRK_SI---------
         IF (IKC_SI(I)>0) THEN
          DO J =1, NF_SI(I)
           DO K = 1,NDOFI
@@ -9346,7 +9346,7 @@ C-----------SECND DEPEND.: FRK_SI---------
           ENDDO
           IAD = IAD + 1
          ENDDO
-C-----------SECND INDEPEND.:LT,FRK_SL---------
+C-----------SECOND INDEPEND.:LT,FRK_SL---------
         ELSE
          DO K = 1,NDOFI
           NL = NL + 1
@@ -9603,7 +9603,7 @@ C-----------------------------------------------
       my_real
      .  KII(6,6),KIJ(6,6),LT_CP(NZ_SL),DIAG_CP(NDDL_SL)
 C-------------------------------------
-C----------s'il y a kin modif copy----
+C----------if there is kin modif copy----
       IF (NDDL_SL>0) THEN
        NN = 0
        DO I = 1,NSL

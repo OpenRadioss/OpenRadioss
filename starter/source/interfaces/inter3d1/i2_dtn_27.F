@@ -544,14 +544,14 @@ C------------------------------------------------
 C
           IF (IROT > ZERO) THEN
 C
-C--   Secnd node shell of  spring
+C--   Second node shell of  spring
 C
             LEN2 = XSM**2+YSM**2+ZSM**2
             STR = (STFR(II)+STFN(II)*LEN2)*(VISC + SQRT(VISC**2 + ONE))**2
 C
           ELSE
 C
-C--   Secnd node of solids
+C--   Second node of solids
 C
             STR = ZERO
 c           update main forces (moment balance)

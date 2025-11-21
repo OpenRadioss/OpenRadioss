@@ -101,7 +101,7 @@ C
         DMCPGP(8,I)=RHOCP(I)*VOLGP(8,I)
        ENDDO  
       ENDIF 
-C     mass init en parith/on si spmd
+C     mass init in parith/on if spmd
 
        DO I=LFT,LLT
         MSS(1,I)=DMASGP(1,I)

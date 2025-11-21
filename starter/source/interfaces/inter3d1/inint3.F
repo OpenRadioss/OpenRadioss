@@ -934,7 +934,7 @@ C-----------------------------------------------------------------------
 C-----------------------------------------------------------------------
       ELSEIF(NTY==10) THEN
 C-----------------------------------------------------------------------
-C      K14 = CANDIDATE ELEMS...
+C      K14 = CANDIDATE ELEMENTS...
 C      K15 = CANDIDATE NODES + INDEXES
        ITIED=NINT(INTBUF_TAB(NIN)%VARIABLES(1))
 C
@@ -1295,8 +1295,7 @@ C      check segments with zero area
      7  XN2      ,YN2    ,ZN2    ,XN3     ,YN3   ,
      8  ZN3      ,XN4    ,YN4    ,ZN4      )
 C
-C      SEARCHING FOR SECND ELEMS and CHECK MAIN ELEMS
-C      + Heat pre-treatment
+C      SEARCHING FOR SECOND ELEMENTS and CHECK MAIN ELEMENTS C      + Heat pre-treatment
 C
        CALL I21ELS3(
      1 X         ,INTBUF_TAB(NIN)%IRECTS,INTBUF_TAB(NIN)%IRECTM  ,NRTS      ,NRTM      ,
@@ -1362,8 +1361,7 @@ C      detects segments with null area
      7  XN2      ,YN2    ,ZN2    ,XN3     ,YN3   ,
      8  ZN3      ,XN4    ,YN4    ,ZN4      )
 C
-C      GAP CALCULATION / SEARCHING SECND ELEMS and CHECK MAIN ELEMS
-C
+C      GAP CALCULATION / SEARCHING SECOND ELEMENTS and CHECK MAIN ELEMENTS C
        CALL I23GAP3(
      1 X     ,INTBUF_TAB(NIN)%IRECTS,INTBUF_TAB(NIN)%IRECTM  ,NRTS      ,NRTM      ,
      2 GEO     ,IXS        ,PM        ,IXC        ,IXTG      ,
@@ -1520,14 +1518,14 @@ C---------GAP_S for fictive nodes
      1                     INTBUF_TAB(NIN)%IS2PT ,NSN     ,IPARTNS   )
           CALL I24ISEGPT_INI(INTBUF_TAB(NIN)%IRTSE   ,NSNE    ,INTBUF_TAB(NIN)%IS2SE   ,INTBUF_TAB(NIN)%NSV    ,
      1                 INTBUF_TAB(NIN)%IS2PT ,NSN ,INTBUF_TAB(NIN)%ISEGPT,3 ,INTBUF_TAB(NIN)%ISPT2)
-C---------secnd normal (nodal)------------------     
+C---------second normal (nodal)------------------     
           CALL I24FICV_INI(INTBUF_TAB(NIN)%IRTSE   ,NSNE    ,INTBUF_TAB(NIN)%IS2SE   ,INTBUF_TAB(NIN)%NSV    ,
      1                     INTBUF_TAB(NIN)%IS2PT ,NSN     ,INTBUF_TAB(NIN)%PENE_OLD,3   )
           CALL I24FICI_INI(INTBUF_TAB(NIN)%IRTSE   ,NSNE    ,INTBUF_TAB(NIN)%IS2SE   ,INTBUF_TAB(NIN)%NSV    ,
      1                     INTBUF_TAB(NIN)%IS2PT ,NSN     ,INTBUF_TAB(NIN)%NBINFLG )
         END IF
 
-C      INITIALIZE NODAL SECND,MAIN LENGTH FOR [K]geo(implicit) 
+C      INITIALIZE NODAL SECOND,MAIN LENGTH FOR [K]geo(implicit) 
 C------------------
        IF(INTKG > 0 ) THEN
         CALL I24LL_KG(

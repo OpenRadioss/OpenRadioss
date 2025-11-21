@@ -206,7 +206,7 @@ C
           SOLD6(I)=SIGP(JJ(6)+I)*DAV
         ENDDO
 C--------------------------------------------------
-C     CONTRAINTES DEVIATORIQUES AUX POINTS DE GAUSS
+C     DEVIATORIC STRESSES AT GAUSS POINTS
 C--------------------------------------------------
         DO I=1,NEL
           DAV=-THIRD*(D1(I,IPT)+D2(I,IPT)+D3(I,IPT))
@@ -330,7 +330,7 @@ C        actual yield stress.
         ENDDO
       ENDIF
 C--------------------------------------------------
-C     CONTRAINTE AUX POINTS DE GAUSS
+C     STRESS AT GAUSS POINTS
 C--------------------------------------------------
         DO I=1,NEL
           SIGP(JJ(1)+I)=(SIGP(JJ(1)+I)-PNEW(I))*OFF(I)
@@ -353,7 +353,7 @@ C--------------------------------------------------
      +                         D6(I,IPT)*(SOLD6(I)+SIGP(JJ(6)+I)))
         ENDDO
 C--------------------------------------------------
-C     CONTRAINTE MOYENNE (OUTPUT)
+C     MEAN STRESS (OUTPUT)
 C--------------------------------------------------
         DO I=1,NEL
           SIG(I,1)=SIG(I,1)+ONE_OVER_8*SIGP(JJ(1)+I)

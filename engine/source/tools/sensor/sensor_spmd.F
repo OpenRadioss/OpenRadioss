@@ -208,7 +208,7 @@ c-------------
        ENDDO
 c-----------------------------------------------------------------------
        IF (ISENST1 == 1) THEN
-c        Extra communication pour sensor type 1 (accelerometre associe)
+c        Extra communication for sensor type 1 (associated accelerometer)
 C
          CALL SPMD_SD_ACC(ACCELM,IACCP,NACCP)
          CALL SPMD_RBCAST(ACCELM,ACCELM,LLACCELM,NACCELM,0,2)

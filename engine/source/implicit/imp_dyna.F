@@ -1267,7 +1267,7 @@ C       rotation of the orientation matrix (principal directions)
         VI(3)=RBY(7)*VR(1,M)+RBY(8)*VR(2,M)+RBY(9)*VR(3,M)
         CALL ROTBMR(VI,RBY,DT1)
 C
-C       matrice d'inertie en repere global
+C       matrice d'inertie en frame global
         II1=RBY(10)*RBY(1)
         II2=RBY(10)*RBY(2)
         II3=RBY(10)*RBY(3)
@@ -1349,7 +1349,7 @@ C------------------
         ENDIF
        ELSE
 C-------------------
-C       REPERE OBLIQUE
+C       frame OBLIQUE
 C------------------
 C
 C       Passage into the skew: (velocity), moments, inertia matrix.
@@ -1480,7 +1480,7 @@ C
        WA1=-DY_AR(1,M)
        WA2=-DY_AR(2,M)
        WA3=-DY_AR(3,M)
-C repere globale -> repere d'inertie principale
+C frame globale -> frame d'inertie principale
        AM(1,M)=RBY(1)*WA1+RBY(2)*WA2+RBY(3)*WA3
        AM(2,M)=RBY(4)*WA1+RBY(5)*WA2+RBY(6)*WA3
        AM(3,M)=RBY(7)*WA1+RBY(8)*WA2+RBY(9)*WA3
@@ -1497,13 +1497,13 @@ C
        AM(2,M) = AM(2,M) - (RBY(12)-RBY(10))*VI(3)*VI(1)*WEIGHT(M)
        AM(3,M) = AM(3,M) - (RBY(10)-RBY(11))*VI(1)*VI(2)*WEIGHT(M)
 C
-C CALCUL D'ONE PSEUDO MOMENT:
+C CALCULATION D'ONE PSEUDO MOMENT:
 C IN FACT THE ROTATION ACCELERATION * INERTIA OF THE MAIN NODE (IMIN OF THE RB)
 C--------
         WA1 = AM(1,M)*RBY(10)
         WA2 = AM(2,M)*RBY(11)
         WA3 = AM(3,M)*RBY(12)
-C repere d'inertie principale -> repere globale
+C frame d'inertie principale -> frame globale
        AM(1,M)=RBY(1)*WA1+RBY(4)*WA2+RBY(7)*WA3
        AM(2,M)=RBY(2)*WA1+RBY(5)*WA2+RBY(8)*WA3
        AM(3,M)=RBY(3)*WA1+RBY(6)*WA2+RBY(9)*WA3
@@ -1854,7 +1854,7 @@ C-------int2,RBE3,rby condense----------
           CALL RBY_IMPR1(X, RBY(1,N),LPBY(K1),NPBY(1,N),
      1                   NDOF  ,IDDL   ,W    )
          ENDDO
-C-------int2,rby speciale (elems deleted)----------
+C-------int2,rby speciale (elements deleted)----------
          DO I=1,NINT2
           N=IINT2(I)
           CALL I2_IMPR2(IPARI(1,N),INTBUF_TAB(N) ,DY_DAM ,DY_DAMR,
@@ -2028,7 +2028,7 @@ C-------int2,RBE3,rby condense----------
           CALL RBY_IMPR1(X, RBY(1,N),LPBY(K1),NPBY(1,N),
      1                   NDOF  ,IDDL   ,W    )
          ENDDO
-C-------int2,rby speciale (elems deleted)----------
+C-------int2,rby speciale (elements deleted)----------
          DO I=1,NINT2
           N=IINT2(I)
           CALL I2_IMPR2(IPARI(1,N),INTBUF_TAB(N) ,DY_A ,DY_AR,

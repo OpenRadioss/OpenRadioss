@@ -134,13 +134,13 @@ C-----------
                      ELSE
                        !Reference has an initialized group
                        IF (NONTRI == 0) THEN
-                         !sorted group, tag les noeuds
+                         !sorted group, tag the nodes
                          DO L=1,IGRELEM(IGRS)%NENTITY
                            IF (JJ < 0) THEN
                              !removes nodes from the group if JJ < 0
                               BUFTMP(IGRELEM(IGRS)%ENTITY(L))=-1
                            ELSEIF (BUFTMP(IGRELEM(IGRS)%ENTITY(L)) == 0) THEN
-                              !ajoute les noeuds au group si JJ > 0 et noeud non rire
+                              !add nodes to group if JJ > 0 and node not removed
                              BUFTMP(IGRELEM(IGRS)%ENTITY(L))=1
                            ENDIF
                          ENDDO
@@ -195,7 +195,7 @@ C                       tag the nodes
 C                           removes nodes from the group if JJ < 0
                             BUFTMP(IGRELEM(IGRS)%ENTITY(L))=-1
                           ELSEIF (BUFTMP(IGRELEM(IGRS)%ENTITY(L)) == 0) THEN
-C                           ajoute les noeuds au group si JJ > 0 et noeud non retire            
+C                           add nodes to group if JJ > 0 and node not removed
                             BUFTMP(IGRELEM(IGRS)%ENTITY(L))=1
                           ENDIF                                                                   
                         ENDDO                                                                     

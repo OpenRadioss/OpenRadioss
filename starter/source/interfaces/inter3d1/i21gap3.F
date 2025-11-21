@@ -113,7 +113,7 @@ C------------------------------------
         CALL I4GMX3(X,IRECTS,INRT,GAPMX)
   250 CONTINUE
 C-------------------------------------------------------
-C     THICKNESS PART ON SECND NODES FOR GAP CALCULATION
+C     THICKNESS PART ON SECOND NODES FOR GAP CALCULATION
 C-------------------------------------------------------
       IF(IGAP>=1)THEN
          ALLOCATE (THK_PART_NODS(NUMNOD)        ,STAT=stat)
@@ -146,7 +146,7 @@ C-------------------------------------------------------
       ENDIF
 
 C------------------------------------
-C     GAP VARIABLE NOEUDS SECONDS
+C     GAP VARIABLE NODES SECONDS
 C------------------------------------
       IF(IGAP>=1)THEN
        DO I=1,NSN

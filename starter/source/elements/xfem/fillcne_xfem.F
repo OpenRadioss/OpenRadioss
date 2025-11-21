@@ -63,7 +63,7 @@ C-----------------------------------------------
       INTEGER, DIMENSION(NUMELC*2) :: INDXC
       INTEGER, DIMENSION(NUMELTG*2):: INDXTG
 C=======================================================================
-C   CALCUL DE CNE ADDCNE_CRKXFEM CEL for XFEM part
+C   CALCULATION OF CNE ADDCNE_CRKXFEM CEL for XFEM part
 C-----------------------------------------------
       ALLOCATE(KNOD2ELC(NUMNOD+1))
       KNOD2ELC = 0

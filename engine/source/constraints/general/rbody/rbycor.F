@@ -66,7 +66,7 @@ C     REAL
      .   XMOMT_T,YMOMT_T,ZMOMT_T,ENCIN2_T,ENROT2_T
 C-----------------------------------------------
 C-------------------------------------
-C CALCUL SUPER RIGID BODIES (non multi-thread) sur premiere tache libre
+C COMPUTATION FOR SUPER RIGID BODIES (non multi-thread) on first free task
 C-------------------------------------
 !$OMP SINGLE
       DO KK=1,NRBYKIN_L
@@ -93,7 +93,7 @@ C-------------------------------------
       ENDDO
 !$OMP END SINGLE
 C-------------------------------------
-C CALCUL FORCE RIGID BODIES CLASSIQUES (multi-thread)
+C FORCE COMPUTATION FOR CLASSICAL RIGID BODIES (multi-thread)
 C-------------------------------------
 C
 C   optimisation locks

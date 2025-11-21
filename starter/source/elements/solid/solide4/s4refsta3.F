@@ -256,7 +256,7 @@ c     .             Z1   ,Z2   ,Z3   ,Z4   )
      .         Z1   ,Z2   ,Z3   ,Z4   )
         ENDIF
 C----------------------------
-C       Retourne la reference en repere global.
+C       Returns the reference in global frame.
 C----------------------------
 c        CALL S4ROTAT3(E1X ,E1Y ,E1Z ,E2X ,E2Y ,E2Z ,E3X ,E3Y ,E3Z ,
 c     .       XR(1,1)   ,XR(1,2)   ,XR(1,3)   ,XR(1,4)   ,

@@ -435,7 +435,7 @@ C------------------------------------------------
 C
           IF (IRODDL == 1 .AND. IN(I) > ZERO) THEN
 C
-C--   Secnd node shell of  spring 
+C--   Second node shell of  spring 
 C
           IF(IN(I)==ZERO.OR.IN(IX1(K))==ZERO.OR.
      .                      IN(IX2(K))==ZERO.OR.
@@ -484,7 +484,7 @@ C
 C
           ELSE
 C
-C--   Secnd node of solids
+C--   Second node of solids
 C
           MGX = ZERO
           MGY = ZERO
@@ -506,7 +506,7 @@ C
           STR     = (STFR(II)+STFN(II)*LEN2)*(VISC + SQRT(VISC**2 + ONE))**2
 C
 C----------------------------------------------------
-C         Secnd forces/moments -> global coordinates 
+C         Second forces/moments -> global coordinates 
 C----------------------------------------------------
 C
           A(1,I) = A(1,I) - FS(1)

@@ -165,7 +165,7 @@ C
           ELSE
             SUM = ONE / MAX(SQRT(VX*VX+VY*VY+VZ*VZ),EM20)
           ENDIF
-C         repere orthogononalise facette
+C         orthogonalized frame facet
 C         E3 = E1 x E2, E1' = V, E2' = E3 x E1'
           F1X(I) = VX * SUM
           F1Y(I) = VY * SUM
@@ -173,7 +173,7 @@ C         E3 = E1 x E2, E1' = V, E2' = E3 x E1'
           F2X(I) = F3Y*F1Z(I) - F3Z*F1Y(I)
           F2Y(I) = F3Z*F1X(I) - F3X*F1Z(I)
           F2Z(I) = F3X*F1Y(I) - F3Y*F1X(I)
-C         dir ortho ds repere global
+C         ortho dir in global frame
 C         S1 = vect F1 + rot(phi) in the facet plane
 C         S2 = vect F2 + rot(phi) in the facet plane
           SK(1) = CP*F1X(I) + SP*F2X(I)
@@ -182,7 +182,7 @@ C         S2 = vect F2 + rot(phi) in the facet plane
           SK(4) =-SP*F1X(I) + CP*F2X(I)
           SK(5) =-SP*F1Y(I) + CP*F2Y(I)
           SK(6) =-SP*F1Z(I) + CP*F2Z(I)
-C         dir ortho ds repere elementaire
+C         ortho dir in element frame
           GAMA(I,1) = SK(1)*E1X(I) + SK(2)*E1Y(I) + SK(3)*E1Z(I)
           GAMA(I,2) = SK(1)*E2X(I) + SK(2)*E2Y(I) + SK(3)*E2Z(I)
           GAMA(I,3) = SK(1)*E3X(I) + SK(2)*E3Y(I) + SK(3)*E3Z(I)
@@ -216,7 +216,7 @@ C
           ELSE
             SUM= ONE / MAX(SQRT(VX*VX+VY*VY+VZ*VZ),EM20)
           ENDIF
-C         repere orthogononalise facette
+C         orthogonalized frame facet
 C         E3 = E1 x E2, E1' = V, E2' = E3 x E1'
           F1X(I) = VX * SUM
           F1Y(I) = VY * SUM
@@ -224,7 +224,7 @@ C         E3 = E1 x E2, E1' = V, E2' = E3 x E1'
           F2X(I) = F3Y*F1Z(I) - F3Z*F1Y(I)
           F2Y(I) = F3Z*F1X(I) - F3X*F1Z(I)
           F2Z(I) = F3X*F1Y(I) - F3Y*F1X(I)
-C         dir ortho ds repere global
+C         ortho dir in global frame
 C         S1 = vect F1 + rot(phi) in the facet plane
 C         S2 = vect F2 + rot(phi) in the facet plane
           SK(1) = F3X
@@ -233,7 +233,7 @@ C         S2 = vect F2 + rot(phi) in the facet plane
           SK(4) = CP*F1X(I) + SP*F2X(I)
           SK(5) = CP*F1Y(I) + SP*F2Y(I)
           SK(6) = CP*F1Z(I) + SP*F2Z(I)
-C         dir ortho ds repere elementaire
+C         ortho dir in element frame
           GAMA(I,1) = SK(1)*E1X(I) + SK(2)*E1Y(I) + SK(3)*E1Z(I)
           GAMA(I,2) = SK(1)*E2X(I) + SK(2)*E2Y(I) + SK(3)*E2Z(I)
           GAMA(I,3) = SK(1)*E3X(I) + SK(2)*E3Y(I) + SK(3)*E3Z(I)

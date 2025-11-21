@@ -101,7 +101,7 @@ C-----------------------
         SSP(I)=SQRT(ABS(DPDM(I))/RHO0(I))
       ENDDO
 C-------------------------------
-C     CONTRAINTES DEVIATORIQUES
+C     DEVIATORIC STRESSES
 C-------------------------------
       DO I=1,NEL
         SIG(I,1)=SIG(I,1)+P(I)+G2(I)*(D1(I)+DAV(I))

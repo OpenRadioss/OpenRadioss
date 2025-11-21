@@ -250,7 +250,7 @@ C     REAL
 C------------------------------------
 C     velocities of secondary nodes
 C------------------------------------
-C-------pour simplement etre coherent avec INTTI2, on ne distinque pas 3n,4n
+C-------for simplement etre coherent with INTTI2, on ne distinque pas 3n,4n
 Cwe still have to distinguish, otherwise the matrix is no longer positive
 C      FACM = ONE / NIR
       NUN=-ONE 
@@ -1578,7 +1578,7 @@ C
         FY0=FYS*FACM
         FZ0=FZS*FACM
 C------------------------------------------------------
-C     FORCES TRANSMISES AUX NOEUDS MAINS
+C     FORCES TRANSMISES AUX NODES MAINS
 C------------------------------------------------------
         DO JJ=1,NIR
          J=IRECT(JJ,L)

@@ -223,7 +223,7 @@ C-----------------------------------------------
        END SUBROUTINE  
       END INTERFACE     
 C-----------------------------------------------
-C     IELT = ELEMENT TYPE (0 POUR NOEUDS, 1 BRIC, 2 QUAD, 3 SHELL, 
+C     IELT = ELEMENT TYPE (0 FOR NODES, 1 BRIC, 2 QUAD, 3 SHELL, 
 C                          4 TRUSS, 5 BEAM, 6 SPRINGS,7 SHELL_3N)
 C=======================================================================
 C     Tag submodels
@@ -283,7 +283,7 @@ c
 C-------------------------------------
 C Tag submodel ELEMS
 C-------------------------------------
-C     IELT = ELEMENT TYPE (0 POUR NOEUDS, 1 BRIC, 2 QUAD, 3 SHELL, 
+C     IELT = ELEMENT TYPE (0 FOR NODES, 1 BRIC, 2 QUAD, 3 SHELL, 
 C                          4 TRUSS, 5 BEAM, 6 SPRINGS,7 SHELL_3N)
       IF (IELT == 1) THEN
         ELEMTYPE = 208

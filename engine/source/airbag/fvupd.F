@@ -415,7 +415,7 @@ C
 
 C
          NNSA=FVSPMD(IFV)%NNSA
-C Cacher XXX, VVV WAX WA dans FVSPMD 
+C Cache XXX, VVV WAX WA in FVSPMD 
 c        CALL SPMD_FVB_GATH_BEGIN(IFV,X,FVSPMD(IFV)%XXX,FVSPMD(IFV)%WAX,
 c    .                                V,FVSPMD(IFV)%VVV,FVSPMD(IFV)%WAV )
          CALL SPMD_FVB_GATH_END(IFV,X,FVSPMD(IFV)%XXX,FVSPMD(IFV)%WAX,
@@ -798,12 +798,12 @@ C
 C Polyedre Imax a deja re   u un polyedre
                ILOOP=1
             ELSE
-C Merge polyedre I dans polyedre Imax
+C Merge polyhedron I into polyhedron Imax
                DO J=IFVPADR(IMAX),IFVPADR(IMAX+1)-1
                   JJ=IFVPOLH(J)
                   K=IFVTADR(JJ)
                   KK=IFVPOLY(K)
-C Tag Polygone common to the Polyedres Imax and I
+C Tag Polygon common to Polyhedra Imax and I
                   IF (IFVTRI(4,KK)==0.AND.(IFVTRI(5,KK)==I.OR.
      .                                       IFVTRI(6,KK)==I))
      .               ITAGP(JJ)=1

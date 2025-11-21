@@ -2482,7 +2482,7 @@ C   mon tri flottant
 !||====================================================================
       SUBROUTINE ELAPSTIME(T,ETIME)
         USE TIMER_MOD
-C     reset timer elapsed time et calcul tu temps elapsed courant
+C     reset timer elapsed time and calculate current elapsed time
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -2527,7 +2527,7 @@ C-----------------------------------------------
 #else
       IF(CLOCK1 > 0 ) THEN
         SECS = CLOCK1-CLOCK0         ! Different time common - Initial time (which may not be 0!)
-        IF(SECS<ZERO) SECS = SECS + NBMAX   ! cas depassement nb de periode maximum
+        IF(SECS<ZERO) SECS = SECS + NBMAX   ! case overflow of maximum period number
         SECS = SECS/CLOCKRATE
         CLOCK0 = CLOCK1              !retrieval of the current time in clock0
         ELAPSED = ELAPSED + SECS

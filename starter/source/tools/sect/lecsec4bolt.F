@@ -296,7 +296,7 @@ C
          DO L=1,NINTER                                                                                     
           IF(NSTRF(K1-1+J)==IPARI(15,L))THEN                                                             
             IPARI(28,L) = IPARI(28,L) + 1                                                                  
-C numero interne      NSTRF(K1-1+J) = L
+C internal number      NSTRF(K1-1+J) = L
           ENDIF 
          ENDDO  
         ENDDO   

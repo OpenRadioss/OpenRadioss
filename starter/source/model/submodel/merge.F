@@ -470,8 +470,8 @@ C------------------------------------------------------------
 !||    merge_node            ../starter/source/elements/nodes/merge_node.F
 !||====================================================================
       INTEGER FUNCTION USRTOSC(IU,ITABM1)
-C      IDENTIQUE A USR2SYS, SANS GENERER D'ERREUR
-C      FONCTION DONNE N0 SYSTEME DU NOEUD USER IU
+C      IDENTICAL TO USR2SYS, WITHOUT GENERATING ERROR
+C      FUNCTION GIVES SYSTEM NUMBER OF USER NODE IU
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

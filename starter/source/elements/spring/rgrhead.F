@@ -44,17 +44,17 @@ C-----------------------------------------------
 C-----------------------------------------------
 C            A R G U M E N T S
 C-----------------------------------------------
-C     IXR(6,NUMELR)     TABLEAU CONECS+PID+NOS RESSORTS            E
+C     IXR(6,NUMELR)     CONNECTIVITY+PID+SPRING NUMBERS TABLE      E
 C     geo(npropG,numgeo)table of characteristics of pid
-C     INUM(6,NUMELR)    TABLEAU DE TRAVAIL                         E/S
-C     ISEL(NSELR)       TABLEAU DES RESSORTS CHOISIS POUR TH       E/S
-C     ITR1(NSELR)       TABLEAU DE TRAVAIL                         E/S
-C     EADD(NUMELR)      TABLEAU DES ADRESSES DANS IDAM CHGT DAMIER   S
-C     INDEX(NUMELR)     TABLEAU DE TRAVAIL                         E/S
-C     ITRI(4,NUMELR)    TABLEAU DE TRAVAIL                         E/S
-C     IPARTR(NUMELR)    TABLEAU PART                               E/S
-C     CEP(NUMELR)    TABLEAU PROC                               E/S
-C     XEP(NUMELR)    TABLEAU PROC                               E/S
+C     INUM(6,NUMELR)    WORK TABLE                                 E/S
+C     ISEL(NSELR)       TABLE OF SPRINGS CHOSEN FOR TH             E/S
+C     ITR1(NSELR)       WORK TABLE                                 E/S
+C     EADD(NUMELR)      TABLE OF ADDRESSES IN IDAM CHGT DAMIER     S
+C     INDEX(NUMELR)     WORK TABLE                                 E/S
+C     ITRI(4,NUMELR)    WORK TABLE                                 E/S
+C     IPARTR(NUMELR)    PART TABLE                                 E/S
+C     CEP(NUMELR)    PROC TABLE                                 E/S
+C     XEP(NUMELR)    PROC TABLE                                 E/S
 C-----------------------------------------------
 C   I M P L I C I T   T Y P E S
 C-----------------------------------------------

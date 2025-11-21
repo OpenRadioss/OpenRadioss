@@ -127,7 +127,7 @@ C a revoir :
       ENDIF
 C--------------------------------------------------
       IF (INIT==1) THEN
-C premier appel a i21buce
+C premier call a i21buce
 C--------------------------------------------------
 C      case of recalculation of sorting by buckets
 C--------------------------------------------------
@@ -269,7 +269,7 @@ C     margin larger than in the sorting criterion
       IF (I_MEM == 2) RETURN
 C
 C     I_MEM = 1 ==> PAS ASSEZ DE MEMOIRE PILE
-C     I_MEM = 2 ==> PAS ASSEZ DE MEMOIRE CANDIDATS
+C     I_MEM = 2 ==> PAS ASSEZ DE MEMOIRE CANDIDATES
 C     I_MEM = 3 ==> TROP NIVEAUX PILE 
       IF(I_MEM==1)THEN
         NB_N_B = NB_N_B + 1

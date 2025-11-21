@@ -88,7 +88,7 @@ C-----------------------------------------------
       IF(IFIRST==0)THEN
         IFIRST=1
         IF(RNOI==0)THEN
-C NE : NOMBRE D'ECHANTILLON ENTRE CHAQUE SORTIE
+C NE : NUMBER OF SAMPLES BETWEEN EACH OUTPUT
         TE=DT2
          DT2R=TE
         NE=MAX(1,INT(DTNOISE/TE))

@@ -33,8 +33,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                   ICODE  ,IPARTQ,IGRQUAD,IPM    ,IGEO )
 C--------------------------------------------------------
 C     READING 2D ELEMENTS
-C     VERSION NUMEROTATION DES NOEUDS LIBRE/MARS 90/DIM
-C     LECTURE FORMAT IDENTIQUE AUX COQUES
+C     NODE NUMBERING VERSION FREE/MARS 90/DIM
+C     READING FORMAT IDENTICAL TO SHELLS
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------

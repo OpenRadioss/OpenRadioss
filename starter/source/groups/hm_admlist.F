@@ -105,7 +105,7 @@ C-----------------------
       ENDDO
       NEL=K
 C-----------------------
-C TRI DE IX EN ORDRE CROISSANT si KK = 0
+C SORT IX IN ASCENDING ORDER if KK = 0
 C-----------------------
       IF(KK==0)THEN
         DO I=1,NUMEL

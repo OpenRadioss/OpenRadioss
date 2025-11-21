@@ -792,7 +792,7 @@ C
       
       LVARINT=493+19+8+1      
 C
-C-----  fin chk pt restart
+C-----  end chk pt restart
 C
       LVARINT=LVARINT+1
       TABVINT(LVARINT)=NRBYLAG
@@ -991,7 +991,7 @@ C
       LVARINT=LVARINT+1
       TABVINT(LVARINT)= 0
 C
-C-----  fin chk pt restart
+C-----  end chk pt restart
 C
       LVARINT=LVARINT+1
       TABVINT(LVARINT)= TRIMAT
@@ -1756,7 +1756,7 @@ C
       LVARINT=LVARINT+1
       TABVINT(LVARINT) = 0
 C
-C-----  fin chk pt restart
+C-----  end chk pt restart
 C
 !     H3D -> number of skid lines    
       LVARINT=LVARINT+1

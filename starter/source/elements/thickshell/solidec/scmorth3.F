@@ -104,7 +104,7 @@ C---- tag elm /w /INIBRI/ORTHO
         ENDDO
       ENDIF
 C---
-C     Repere orthotrope pour thick shells-------
+C     Orthotropic frame for thick shells-------
 C     Transpose storage (G) P.R.A.Corotationeel Systems like the shells
 C     GAMA(1)= sina , GAMA(2) = cosa, only first 2 are useful --
 C---
@@ -217,7 +217,7 @@ C------Uij-->gij; Wij->[g]-1-----
         DO I=LFT,LLT
           IG = PID(I)
           IPNUM = IGEO(2,IG)
-C----par rapport a HA8, permitation si s16----
+C----compared to HA8, permutation if s16----
           SELECT CASE (IPNUM)
           CASE (1)
            U1X = RX(I)*E2X(I)+RY(I)*E2Y(I)+RZ(I)*E2Z(I)

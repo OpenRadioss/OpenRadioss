@@ -84,7 +84,7 @@ c        if(ibug22_trivox==1)print *, "   lockoff", ITASK
       DO I=1,J_STOK         
         I_STOK = I_STOK + 1                         
         CAND_B(I_STOK) = PROV_B(I) !brick number in the local group
-        CAND_E(I_STOK) = PROV_E(I) !est deja un numero global (1:NIRECT_L) pas besoin ESHIFT    
+        CAND_E(I_STOK) = PROV_E(I) !is already a global number (1:NIRECT_L) no need ESHIFT    
 c        if(ibug22_trivox==1)WRITE(*,FMT='(A,I8,A,I8,I8)')
 c     .   "   I22sto : ecriture Bric=", 
 c     .   IXS(11,BUFBRIC(PROV_B(I))), " ShellDiag= ",

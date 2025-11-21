@@ -294,7 +294,7 @@ C
       ENDDO
 
 C
-C     THIS is provisional (solids => Zero gap even if secnd shell edge)
+C     THIS is provisional (solids => Zero gap even if second shell edge)
       DO I=1,JLT
         GAPE_M(I)=ZERO ! Solids 
                        ! If edge is shared by solid and shell : edge is considered as a shell edge
@@ -380,7 +380,7 @@ C
         ENDDO
       ENDIF
 C
-C----Friction model : secnd part IDs---------
+C----Friction model : second part IDs---------
       IF(INTFRIC > 0) THEN
          DO I=1,JLT
 

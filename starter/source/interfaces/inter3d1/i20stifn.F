@@ -52,7 +52,7 @@ C-----------------------------------------------
      .   I, J,
      .   INACTI,IGAP,MULTIMP
 C---------------------------------------------
-C     MISE A JOUR DES RIGIDITES NODALES EQUIVALENTES (COTE SECOND)
+C     SET A JOUR DES RIGIDITES NODALES EQUIVALENTES (COTE SECOND)
 C---------------------------------------------
       CALL I20STIFN2(IPARI(35),INTBUF_TAB%NLG,INTBUF_TAB%STFA,STIFINT)
 C

@@ -150,7 +150,7 @@ C
       VIS2(I)=TWO*VIS(I)
    30 DAV(I) =-(D1(I)+D2(I)+D3(I))*THIRD
 C------------------------------
-C     CONTRAINTES DEVIATORIQUES
+C     DEVIATORIC STRESSES
 C------------------------------
       DO 40 I=1,NEL
       SIG(I,1)=VIS2(I)*(D1(I)+DAV(I))

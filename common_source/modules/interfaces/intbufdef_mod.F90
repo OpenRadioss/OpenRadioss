@@ -1050,63 +1050,63 @@
           integer ::   s_irects     !  4*nrts     :irects:connectivites faces seconds     :1,2,3,4
           integer ::   s_irectm     !  4*nrtm_fe+4*9*nrtm_ige :irectm:connectivites faces main  :1,2,3,4,5,6,7,8,20,24
           integer ::   s_nsv        !  nsn        :nsv   :noeuds seconds                  :1,2,3,4,  7
-          integer ::   s_msr        !  nmn+16*nrtm_ige  :msr   :noeuds mains                   :1,2,3,4
-          integer ::   s_irtlm      !  nsn        :face main la plus proche    :1,2,3,4
-          integer ::   s_irupt      !  nsn        :irupt :flag rupture                     :2
-          integer ::   s_inorm      !  nsn        :inorm  :main orientation flag: type2 avec rupture
+          integer ::   s_msr        !  nmn+16*nrtm_ige  :msr   :main nodes                   :1,2,3,4
+          integer ::   s_irtlm      !  nsn        :closest main face    :1,2,3,4
+          integer ::   s_irupt      !  nsn        :irupt :rupture flag                     :2
+          integer ::   s_inorm      !  nsn        :inorm  :main orientation flag: type2 with rupture
           integer ::   s_ielec      !  (type20)
-          integer ::   s_ieles      !  nrts       :ieles :element secnd                    :              9
-          integer ::   s_lisub      !  nisub      :lisub :liste des sous-interfaces        :     7
+          integer ::   s_ieles      !  nrts       :ieles :secondary element                    :              9
+          integer ::   s_lisub      !  nisub      :lisub :list of sub-interfaces        :     7
           integer ::   s_typsub     !  nisub      :typsub :type of subinterfaces           :     25
-          integer ::   s_addsubs    !  nsn+1      :addsubs:adresse ds zone de ss interf. cote second. :     7, 10, 24, 25
-          integer ::   s_addsubm    !  nrtm+1     :addsubm:adresse ds zone de ss interf. cote main  :     7, 10, 24, 25
-          integer ::   s_lisubs     !  nisubs     :lisubs :zone des ss interf. cote second.           :     7, 10, 24, 25
-          integer ::   s_lisubm     !  nisubm     :lisubm :zone des ss interf. cote main            :     7, 10, 24, 25
-          integer ::   s_inflg_subs !  nisubs     :inflg_subs: zone d appartenance a s1/s2 des ss interf. cote second. : 25
-          integer ::   s_inflg_subm !  nisubs     :inflg_subs: zone d appartenance a s1/s2 des ss interf.cote main   : 25
+          integer ::   s_addsubs    !  nsn+1      :addsubs:address in sub interf. zone secondary side :     7, 10, 24, 25
+          integer ::   s_addsubm    !  nrtm+1     :addsubm:address in sub interf. zone main side  :     7, 10, 24, 25
+          integer ::   s_lisubs     !  nisubs     :lisubs :sub interf. zone secondary side           :     7, 10, 24, 25
+          integer ::   s_lisubm     !  nisubm     :lisubm :sub interf. zone main side            :     7, 10, 24, 25
+          integer ::   s_inflg_subs !  nisubs     :inflg_subs: belonging zone to s1/s2 of sub interf. secondary side : 25
+          integer ::   s_inflg_subm !  nisubs     :inflg_subs: belonging zone to s1/s2 of sub interf. main side   : 25
           integer ::   s_msegtyp    !  nrtm       :msegtyp: element type                   :      2,3,5,7,10,21,23; used only in starter
-          integer ::   s_cand_e     !  multimp*nsn:cand_e:facettes candidates              :7,10,11,20
-          integer ::   s_cand_n     !  multimp*nsn:cand_n:noeuds candidats                 :7,10,11,20
+          integer ::   s_cand_e     !  multimp*nsn:cand_e:candidate facets              :7,10,11,20
+          integer ::   s_cand_n     !  multimp*nsn:cand_n:candidate nodes                 :7,10,11,20
           integer ::   s_i_stok     !             : ii_stok                                : 7    10,11,20,24
           integer ::   s_i_stok_e   !             : ii_stok_e                              : 7    10,11,20,24
           integer ::   s_ifpen      !  multimp*nsn:ifpen :flag penetr. (filtr frottement)  :           7
           integer ::   s_kremnode   !  nrtm+1     :kremnode:address nodes removed from contact in remnode array :      7
           integer ::   s_remnode    !  nremnode   :remnode: nodes removed from contact     :      7
-          integer ::   s_adccm      !  nrtm       :addcm :adresse dans chaine du 1er main:                  11
-          integer ::   s_chain      !  2*multimp*nsn:chaine(1,adds) : bord second.     :                  11
+          integer ::   s_adccm      !  nrtm       :addcm :address in chain of 1st main:                  11
+          integer ::   s_chain      !  2*multimp*nsn:chaine(1,adds) : secondary edge     :                  11
 !type20
           integer ::   s_daanc6     !  18*2*nln   :daanc6:contient 18*nln double precision : 20
-          integer ::   s_nbinflg    !  nbinflg    :nln    :flags binaire noeuds            nbin:      20, 24, 25
-          integer ::   s_mbinflg    !  mbinflg    :nrtm  :flag multiusage facettes        :      20, 24, 25
-          integer ::   s_ebinflg    !  ebinflg    :nedge :flag multiusage edges           :      25
+          integer ::   s_nbinflg    !  nbinflg    :nln    :binary flags nodes            nbin:      20, 24, 25
+          integer ::   s_mbinflg    !  mbinflg    :nrtm  :multiuse flag facets        :      20, 24, 25
+          integer ::   s_ebinflg    !  ebinflg    :nedge :multiuse flag edges           :      25
           integer ::   s_nlg        !  nln        :nlg   :local to global node             :      20
-          integer ::   s_islins     !  2*nlins    :islins:surface second. et cote          :      20
-          integer ::   s_islinm     !  2*nlinm    :islinm:surface main et cote           :      20
-          integer ::   s_ixlins     !  2*nlins    :ixlins:connectivites bords seconds     :      20
-          integer ::   s_ixlinm     !  2*nlinm    :ixlinm:connectivites bords mains      :      20
-          integer ::   s_nsvl       !  nsne       :nsvl  :noeuds seconds des lignes       :      20
-          integer ::   s_msrl       !  nmne       :msrl  :noeuds mains                   :      20
-          integer ::   s_lcand_n    !  multimp*nmne:lcand_n:lignes mains candidates      :      20
-          integer ::   s_lcand_s    !  multimp*nsne:lcand_n:lignes seconds candidates     :      20
-          integer ::   s_adccm20    !  nlinm      :addcm :adresse dans chaine du 1er main:      20
-          integer ::   s_chain20    !  2*multimp*nsne:chaine(1,adds) : bord second.        :      20            11                                  !                       :chaine(2,adds) : adresse suivante       :      20
+          integer ::   s_islins     !  2*nlins    :islins:secondary surface and side          :      20
+          integer ::   s_islinm     !  2*nlinm    :islinm:main surface and side           :      20
+          integer ::   s_ixlins     !  2*nlins    :ixlins:secondary edge connectivities     :      20
+          integer ::   s_ixlinm     !  2*nlinm    :ixlinm:main edge connectivities      :      20
+          integer ::   s_nsvl       !  nsne       :nsvl  :secondary nodes of lines       :      20
+          integer ::   s_msrl       !  nmne       :msrl  :main nodes                   :      20
+          integer ::   s_lcand_n    !  multimp*nmne:lcand_n:candidate main lines      :      20
+          integer ::   s_lcand_s    !  multimp*nsne:lcand_n:candidate secondary lines     :      20
+          integer ::   s_adccm20    !  nlinm      :addcm :address in chain of 1st main:      20
+          integer ::   s_chain20    !  2*multimp*nsne:chaine(1,adds) : secondary edge        :      20            11                                  !                       :chaine(2,adds) : next address       :      20
 !type1
-          integer ::   s_ilocs      !  nsn        :ilocs :noeud main le plus proche      :1, ,3,4
-          integer ::   s_nsegm      !  1+nmn      :nsegm :adresse du vecteur lmsr (main) :1, ,3,4,5
-          integer ::   s_nrt        !  nrt        :lmsr  :faces connectees au noeud main :1, ,3,4,5
+          integer ::   s_ilocs      !  nsn        :ilocs :closest main node      :1, ,3,4
+          integer ::   s_nsegm      !  1+nmn      :nsegm :address of lmsr vector (main) :1, ,3,4,5
+          integer ::   s_nrt        !  nrt        :lmsr  :faces connected to main node :1, ,3,4,5
 !type2
           integer ::   s_msegtyp2   !  :nrtm      :msegtyp: main segment type sol/shell  :2
           integer ::   s_csts_bis   !  :nrtm      :msegtyp: main segment type sol/shell  :2
 !type3
-          integer ::   s_irtls      !  nmn        :irtls :face second. la plus proche      :    3,4
-          integer ::   s_ilocm      !  nmn        :ilocm :noeud second. le plus proche     :    3,4
-          integer ::   s_irtlom     !  nsn        :irtlom:anc. face main. la plus proche  :    3,4
-          integer ::   s_irtlos     !  nmn        :irtlos:anc. face secnd. la plus proche  :    3,4
-          integer ::   s_nsegs      !  1+nsn      :nsegs :adresse du vecteur lnsv (second):    3,4,5
-          integer ::   s_lnsv       !  nrt        :lmsr  :faces connectees au noeud main :1, ,3,4,5
-          integer ::   s_lmsr       !  nrt        :lmsr  :faces connectees au noeud main :1, ,3,4,5
+          integer ::   s_irtls      !  nmn        :irtls :closest secondary face      :    3,4
+          integer ::   s_ilocm      !  nmn        :ilocm :closest secondary node     :    3,4
+          integer ::   s_irtlom     !  nsn        :irtlom:old closest main face  :    3,4
+          integer ::   s_irtlos     !  nmn        :irtlos:old closest secondary face  :    3,4
+          integer ::   s_nsegs      !  1+nsn      :nsegs :address of lnsv vector (secondary):    3,4,5
+          integer ::   s_lnsv       !  nrt        :lmsr  :faces connected to main node :1, ,3,4,5
+          integer ::   s_lmsr       !  nrt        :lmsr  :faces connected to main node :1, ,3,4,5
 !type4
-          integer ::   s_ielem      !  nrtm       :ielem :element main                   :              9
+          integer ::   s_ielem      !  nrtm       :ielem :main element                   :              9
 !type12
           integer ::   s_fcount     !  nsn: 12
 !type14
@@ -1122,29 +1122,29 @@
           integer ::   s_mseglo     !  nrtm       :mseglo: global segment number (spmd)    :24, 25
           integer ::   s_msegtyp24  !  nrtm       :msegtyp: shell segment type             :24
 !type25
-          integer ::   s_evoisin    !  4*nrtm            :evoisin: no edge voisine
-          integer ::   s_admsr      !  4*nrtm            :admsr  : adresse des normales aux noeuds mains : 25
-          integer ::   s_ledge      !  4*nedge           :ledge  : description des edges : 25
-          integer ::   s_lbound     !  nadmsr            :lbound : index des sommets sur les aretes libres : 25
-          integer ::   s_actnor     !  nadmsr            :actnor : tag des normales actives (0/1) : 25
+          integer ::   s_evoisin    !  4*nrtm            :evoisin: no neighbor edge
+          integer ::   s_admsr      !  4*nrtm            :admsr  : address of normals at main nodes : 25
+          integer ::   s_ledge      !  4*nedge           :ledge  : edges description : 25
+          integer ::   s_lbound     !  nadmsr            :lbound : vertex index on free edges : 25
+          integer ::   s_actnor     !  nadmsr            :actnor : active normals tag (0/1) : 25
           integer ::   s_farm       !  4*multimp*nsn     :farm   :flag in/out wrt 4 sub-triangles : 25
-          integer ::   s_adskyn     !  4*nrtm+1          :adskyn : skyline for assembly parith/on of normals : 25
-          integer ::   s_iadnor     !  4*nrtm            :iadnor : skyline for assembly parith/on of normals : 25
-          integer ::   s_islide     !  4*nsn             :islide : sommets (0  4) sur lesquels le noeud secnd glisse : 25
-          integer ::   s_knor2msr   !  nadmsr+1          :knor2msr: address of connected segments to normals in nor2msr : 25
+          integer ::   s_adskyn     !  4*nrtm+1          :adskyn : skyline for normal assembly parith/on : 25
+          integer ::   s_iadnor     !  4*nrtm            :iadnor : skyline for normal assembly parith/on : 25
+          integer ::   s_islide     !  4*nsn             :islide : vertices (0  4) on which secondary node slides : 25
+          integer ::   s_knor2msr   !  nadmsr+1          :knor2msr: adress of connected segments to normals in nor2msr : 25
           integer ::   s_nor2msr    !  ...               :nor2msr : connected segments to normals in nor2msr : 25
-          integer ::   s_cand_opt_n !  multimp*nsn       :cand_opt_n : candidats apres optimisation <=> nd second. (i25optcd.f)
-          integer ::   s_cand_opt_e !  multimp*nsn       :cand_opt_e : candidats apres optimisation <=> segment main (i25optcd.f)
+          integer ::   s_cand_opt_n !  multimp*nsn       :cand_opt_n : candidates after optimization <=> secondary nd (i25optcd.f)
+          integer ::   s_cand_opt_e !  multimp*nsn       :cand_opt_e : candidates after optimization <=> main segment (i25optcd.f)
           integer ::   s_if_adh     !  nsn               :if_adh: if adhesion spring exists (1) or not (0)  :  25
-          integer ::   s_candm_e2e  !  multimp*nconte    :candm_e2e : main line : aretes candidates mains (shell & beams))
-          integer ::   s_cands_e2e  !  multimp*nconte    :cands_e2e : secnd line : aretes candidates secnds
-          integer ::   s_candm_e2s  !  multimp*nconte    :candm_e2s : main segment : facettes candidates mains (solid edges)
-          integer ::   s_cands_e2s  !  multimp*nconte    :cands_e2s : secnd line : aretes candidates secnds
+          integer ::   s_candm_e2e  !  multimp*nconte    :candm_e2e : main line : candidate main edges (shell & beams))
+          integer ::   s_cands_e2e  !  multimp*nconte    :cands_e2e : secnd line : candidate secondary edges
+          integer ::   s_candm_e2s  !  multimp*nconte    :candm_e2s : main segment : candidate main facets (solid edges)
+          integer ::   s_cands_e2s  !  multimp*nconte    :cands_e2s : secnd line : candidate secondary edges
           integer ::   s_candl_max
           integer ::   s_cands_max
-          integer ::   s_addsube    !  nedge+1     :addsubes:adresse ds zone edges de ss interf. cote second.             : 25
-          integer ::   s_lisube     !  nisube      :lisube  :zone edges des ss interf. cote second.                       : 25
-          integer ::   s_inflg_sube !  nisube      :inflg_sube :: zone d appartenance a s1/s2 des ss interf.cote main   : 25
+          integer ::   s_addsube    !  nedge+1     :addsubes:address in edge zone of sub interf. secondary side             : 25
+          integer ::   s_lisube     !  nisube      :lisube  :edge zone of sub interf. secondary side                       : 25
+          integer ::   s_inflg_sube !  nisube      :inflg_sube :: belonging zone to s1/s2 of sub interf. main side   : 25
 !-------s_iseadd,s_isedge,s_cand_t will be cleaned after, for the moment with size 0
           integer ::   s_iseadd     !  iseadd     :secnd edge address                      :      24
           integer ::   s_isedge     !  l24add     :isedge:secnd edges nodes and flags      :      24
@@ -1191,13 +1191,13 @@
 !=======================================================================
 ! define sizes (float arrays)
 !=======================================================================
-          integer ::   s_stfac        !  1          :stfac :facteur de rigidite d'interface(manager)
+          integer ::   s_stfac        !  1          :stfac :interface stiffness factor(manager)
           integer ::   s_variables    !   +1, ...
-          integer ::   s_csts         !  2*nsn      :csts  :s et t des noeuds seconds       :   ,3,4,
+          integer ::   s_csts         !  2*nsn      :csts  :s and t of secondary nodes       :   ,3,4,
           integer ::   s_dpara        !  7*nsn      :dpara :det,b1,b2,b3,c1,c2,c3            :  2
-          integer ::   s_nmas         !  nmn        :mmas  :masse noeuds mains             :  2
-          integer ::   s_smas         !  nsn      :smas : masse et inertie des noeuds secnd :   2
-          integer ::   s_siner        !  nsn      :siner : masse et inertie des noeuds secnd :   2
+          integer ::   s_nmas         !  nmn        :mmas  :mass main nodes             :  2
+          integer ::   s_smas         !  nsn      :smas : mass and inertia of secondary nodes :   2
+          integer ::   s_siner        !  nsn      :siner : mass and inertia of secondary nodes :   2
           integer ::   s_areas2       !  nsn       area       : secnd area                  :  int2 with rupture
           integer ::   s_uvar         !  nsn*nuvar uvar       : user buffer for secnds      :  int2 with rupture
           integer ::   s_xm0          !  nsn*3     xm0(x,y,z) : secnd-main initial distance: int2 with rupture
@@ -1208,25 +1208,25 @@
           integer ::   s_fsm          !  nsn*3     fsm(x,y,z) : secnd-main force           :  int2 with rupture
           integer ::   s_rupt         !  6         rupt       : penality/rupture parameters  :  int2 with rupture
           integer ::   s_fini         !  ilev=25   :3*nsn  :  int2 with rupture
-          integer ::   s_stfns        !  nsn        :stfns :rigidite noeuds seconds         :   ,3,4,    7
-          integer ::   s_stfm         !  nrtm       :stfm  :rigidite faces main        :   ,3,4,    7  10,11
-          integer ::   s_stfs         !  nrts       :stfs  :rigidite faces seconds          :   ,3,4          11
-          integer ::   s_penim        !  2*nrtm     :penim :pene initiale max / main       :     20           11
-          integer ::   s_penis        !  2*nrts     :penis :pene initiale max / secnd        :                  11
-          integer ::   s_gap_m        !  nrtm       :gap_m :gap faces main             :(7)10,11,24
-          integer ::   s_gap_s        !  nsn        :gap_s :gap noeuds seconds              :(7)10,20
+          integer ::   s_stfns        !  nsn        :stfns :stiffness secondary nodes         :   ,3,4,    7
+          integer ::   s_stfm         !  nrtm       :stfm  :stiffness main faces        :   ,3,4,    7  10,11
+          integer ::   s_stfs         !  nrts       :stfs  :stiffness secondary faces          :   ,3,4          11
+          integer ::   s_penim        !  2*nrtm     :penim :max initial pene / main       :     20           11
+          integer ::   s_penis        !  2*nrts     :penis :max initial pene / secnd        :                  11
+          integer ::   s_gap_m        !  nrtm       :gap_m :gap main faces             :(7)10,11,24
+          integer ::   s_gap_s        !  nsn        :gap_s :gap secondary nodes              :(7)10,20
           integer ::   s_xsav         !  3*min(numnod,nsn+nmn):crit  :x(xyz)                   :            7
-          integer ::   s_crit         !  12         :crit  :min et max deplacement (spmd)    :            7 (10,11)
+          integer ::   s_crit         !  12         :crit  :min and max displacement (spmd)    :            7 (10,11)
           integer ::   s_fric_p       !  10         :fric_p:friction parameters              :        5,  7     24
-          integer ::   s_xfiltr       !  1          :xfiltr:coeff filtrage frottement     )  :        5,  7     24
+          integer ::   s_xfiltr       !  1          :xfiltr:friction filtering coeff     )  :        5,  7     24
           integer ::   s_areas        !  nsn       area       : secnd area                  :  7
           integer ::   s_aream        !  nrtm      area       : main area                  :  11
           integer ::   s_gap_sl       !  nsn        :gap_s_l :
           integer ::   s_gap_ml       !  nrtm       :gap_m_l :
-          integer ::   s_cand_p       !  multimp*nsn:cand_p:penetration initiale             :           (7)
-          integer ::   s_ftsavx       !  multimp*nsn:ftsavx :    sauvegarde filtrage         :            7, 8  24
-          integer ::   s_ftsavy       !  multimp*nsn:ftsavy :    sauvegarde filtrage         :            7, 8  24
-          integer ::   s_ftsavz       !  multimp*nsn:ftsavz :    sauvegarde filtrage         :            7, 8  24
+          integer ::   s_cand_p       !  multimp*nsn:cand_p:initial penetration             :           (7)
+          integer ::   s_ftsavx       !  multimp*nsn:ftsavx :    filtering save         :            7, 8  24
+          integer ::   s_ftsavy       !  multimp*nsn:ftsavy :    filtering save         :            7, 8  24
+          integer ::   s_ftsavz       !  multimp*nsn:ftsavz :    filtering save         :            7, 8  24
           integer ::   s_ftsavx_e   !  multimp*nconte    :ftsavx_e : friction for saving     :            25
           integer ::   s_ftsavy_e   !  multimp*nconte    :ftsavx_e : friction for saving     :            25
           integer ::   s_ftsavz_e   !  multimp*nconte    :ftsavx_e : friction for saving     :            25
@@ -1239,40 +1239,40 @@
           integer ::   s_vige
           integer ::   s_massige
 !type10
-          integer ::   s_cand_f       !  6*4*nsn    :cand_f:ancienne forces locales +h1 a h3 :               10
+          integer ::   s_cand_f       !  6*4*nsn    :cand_f:old local forces +h1 to h3 :               10
 !type11
           integer ::   s_cand_max
 !type20
           integer ::   s_cand_fx      !
           integer ::   s_cand_fy      !
           integer ::   s_cand_fz      !
-          integer ::   s_xa           !  3*nsn;3*nln:xa    :xa des noeuds                    :       20
-          integer ::   s_va           !  3*nsn;3*nln:va    :va des noeuds                    :       2
+          integer ::   s_xa           !  3*nsn;3*nln:xa    :xa of nodes                    :       20
+          integer ::   s_va           !  3*nsn;3*nln:va    :va of nodes                    :       2
           integer ::   s_stfa         !
-          integer ::   s_penia        !  5*nln      :penia :pene initiale points d'ancrages  :     20
-          integer ::   s_alphak       !  3*nln      :alphak:reduction de rigidite d'ancrages :     20
-          integer ::   s_gap_sh       !  nrtm       :gap_sh:gap shift for zero gap solids:     20
-          integer ::   s_avx_ancr     !  9*nln :a-v-x-ancr :accel vit deplacement point d'ancrage: 20
+          integer ::   s_penia        !  5*nln      :penia :initial pene of anchor points  :     20
+          integer ::   s_alphak       !  3*nln      :alphak:anchor stiffness reduction :     20
+          integer ::   s_gap_sh       !  nrtm       :gap_sh:gap shift for null gap solids:     20
+          integer ::   s_avx_ancr     !  9*nln :a-v-x-ancr :accel vel displacement anchor point: 20
           integer ::   s_critx        !
           integer ::   s_gap_me       !
-          integer ::   s_stf          !  nlinm      :stfm  :rigidite faces main        :       20
-          integer ::   s_penime       !  2*nlinm    :penime:pene initiale max / edge main       :       20
+          integer ::   s_stf          !  nlinm      :stfm  :stiffness main faces        :       20
+          integer ::   s_penime       !  2*nlinm    :penime:max initial pene / edge main       :       20
           integer ::   s_gap_se       !
-          integer ::   s_penise       !  2*nlins    :penise:pene initiale max / edge secnd   :       20
-          integer ::   s_stfne        !  nsne       :stfne :rigidite noeuds seconds         :       20
+          integer ::   s_penise       !  2*nlins    :penise:max initial pene / edge secnd   :       20
+          integer ::   s_stfne        !  nsne       :stfne :stiffness secondary nodes         :       20
 !type1
-          integer ::   s_n            !  3*nsn      :n     :normale                          :1,
+          integer ::   s_n            !  3*nsn      :n     :normal                          :1,
 !type3,4,5,9
-          integer ::   s_cstm         !  2*nmn      :cstm  :s et t des noeuds mains        :   ,3,4,
-          integer ::   s_stfnm        !  nmn        :stfnm :rigidite noeuds mains          :   ,3,4
-          integer ::   s_fricos       !  3*nsn      :fricos:force de friction(second)       :   ,3,4,
-          integer ::   s_fricom       !  3*nmn      :fricom:force de friction(main)        :   ,3,4,
-          integer ::   s_ftsav        !  3*nsn      :ftsav :     sauvegarde filtrage         :        5
+          integer ::   s_cstm         !  2*nmn      :cstm  :s and t of main nodes        :   ,3,4,
+          integer ::   s_stfnm        !  nmn        :stfnm :stiffness main nodes          :   ,3,4
+          integer ::   s_fricos       !  3*nsn      :fricos:friction force(secondary)       :   ,3,4,
+          integer ::   s_fricom       !  3*nmn      :fricom:friction force(main)        :   ,3,4,
+          integer ::   s_ftsav        !  3*nsn      :ftsav :     filtering save         :        5
 !type6
           integer ::   s_fcont        !  1          :fcont :                                 :          6
-          integer ::   s_fs           !  3*nsn      :fs    :sauvegarde de la penetration     :          6
-          integer ::   s_fm           !  3*nsn      :fm    :sauvegarde de la penetration     :          6
-          integer ::   s_rmas         !  2          :rmas  :masse des rigid body             :          6
+          integer ::   s_fs           !  3*nsn      :fs    :save of penetration     :          6
+          integer ::   s_fm           !  3*nsn      :fm    :save of penetration     :          6
+          integer ::   s_rmas         !  2          :rmas  :mass of rigid body             :          6
           integer ::   s_ansmx0
 !type 8
           integer ::   s_t8          !   size of t8 structure  (1 if type8, 0 elsewhere)            :          8

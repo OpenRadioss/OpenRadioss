@@ -78,7 +78,7 @@ C-----------------------------------------------
        END IF
 !$OMP END SINGLE
 C-------------------------------------
-C CALCUL SUPER RIGID BODIES (non multi-thread) sur premiere tache libre
+C COMPUTATION FOR SUPER RIGID BODIES (non multi-thread) on first free task
 C-------------------------------------
 
 !$OMP SINGLE
@@ -93,7 +93,7 @@ C-------------------------------------
             FT    = RBY(27,N)
             EXPN  = RBY(28,N)
             EXPT  = RBY(29,N)
-C correction variables globales faites dans rbycor
+C correction of global variables done in rbycor
             CALL RGBODV(V        ,VR         ,X     ,RBY(1,N)  ,LPBY(K),
      2                  NPBY(1,N),SKEW       ,ISKEW ,FSAV(1,J) ,ITAB   ,
      3                  WEIGHT   ,A         ,AR     ,MS        ,IN     ,
@@ -109,7 +109,7 @@ C
 !$OMP END SINGLE
 
 C-------------------------------------
-C CALCUL FORCE RIGID BODIES CLASSIQUES (multi-thread)
+C FORCE COMPUTATION FOR CLASSICAL RIGID BODIES (multi-thread)
 C-------------------------------------
 
 !$OMP DO SCHEDULE(DYNAMIC,1)
@@ -124,7 +124,7 @@ C-------------------------------------
             FT    = RBY(27,N)
             EXPN  = RBY(28,N)
             EXPT  = RBY(29,N)
-C correction variables globales faites dans rbycor
+C correction of global variables done in rbycor
             CALL RGBODV(V        ,VR         ,X     ,RBY(1,N)  ,LPBY(K),
      2                  NPBY(1,N),SKEW       ,ISKEW ,FSAV(1,J) ,ITAB   ,
      3                  WEIGHT   ,A         ,AR     ,MS        ,IN     ,

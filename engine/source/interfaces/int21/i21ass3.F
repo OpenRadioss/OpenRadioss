@@ -265,7 +265,7 @@ C
         END IF
       ELSE
 C
-C Precalcul impact locaux / remote
+C Precalcul impact local / remote
 C
         NISKYL1 = 0
         NISKYL2 = 0

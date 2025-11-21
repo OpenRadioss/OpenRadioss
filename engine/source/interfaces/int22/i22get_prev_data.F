@@ -48,7 +48,7 @@ C  consistent data if brick is sill there
 C  Example :
 C    * nodes which were main
 C    * old volume
-C    * list of previous secnds (for merge/demerge)
+C    * list of previous seconds (for merge/demerge)
 C    * IIAD22 is also reset for all brick in
 C      previous buffer
 C-----------------------------------------------

@@ -101,7 +101,7 @@ C-----------------------------------------------
      .             MBINFLG,ISEADD ,ISEDGE ,PENE_E,IEDGE )
 
 C-----------------------------------------------
-C SUPPRESSION DES ANCIENS CANDIDATS DEJE STOCKES 
+C SUPPRESSION DES ANCIENS CANDIDATES DEJE STOCKES 
 C-----------------------------------------------
       DO I=1,J_STOK
        IF(PENE(I)/=ZERO)THEN
@@ -292,7 +292,7 @@ C=======================================================================
              IAD = ISEADD(N)
              NES = ISEDGE(IAD)
            ELSE
-c a faire !!!!!!!!!!!!!!!!!!!!!!!!!
+c a to perform !!!!!!!!!!!!!!!!!!!!!!!!!
              stop 987
            ENDIF
            IF(IME /= 1 .or. NES == 0) PENE_E(I)=ZERO

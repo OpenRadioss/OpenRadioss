@@ -113,7 +113,7 @@ C-----------------------------------------------
       LOGICAL IS_STATE
 C=======================================================================
 C
-C -- LECTURE OF INITIAL STATE DATA - EXTRACTED FROM INITIA.F
+C -- READING OF INITIAL STATE DATA - EXTRACTED FROM INITIA.F
 C
 C=======================================================================
       IUSER = 0

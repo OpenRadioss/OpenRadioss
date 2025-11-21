@@ -104,7 +104,7 @@ C-----------------------------------------------
       ENDDO !next II
 
       IF(IER1 > 0)THEN
-        ! ** ERROR TIED INTERFACE: SECND NODE OUTSIDE main SEGMENT
+        ! ** ERROR TIED INTERFACE: SECOND NODE OUTSIDE main SEGMENT
         CALL ANCMSG(MSGID=81,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=ID,C1=TITR)
       ENDIF
 C-----------------------------------------------

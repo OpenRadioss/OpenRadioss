@@ -188,7 +188,7 @@ C----------------------------------------------------------
       IL=KSC(I+NDEB)
       IN=KSI(IL)
 C---------------------------------
-C     CALCUL DES MOMENTS MS ^ F (REP. GLOBAL).
+C     CALCULATION DES MOMENTS MS ^ F (REP. GLOBAL).
 C     the forces are transmitted to the (same) point
 C     que l'on a recu !!!
 C---------------------------------
@@ -296,7 +296,7 @@ C------------------------------------------------------------
 C---------------------------------
 C     for work of forces on secondary nodes
 C     1ere partie : ici
-C     2eme partie : apres calcul de DT2.
+C     2eme partie : apres calculation de DT2.
 C---------------------------------
       DO I=1,MIN(MVSIZ,NREST)
          IL=KSC(I+NDEB)
@@ -528,7 +528,7 @@ C----------------------------------------------------------
       IL=KSP(I+NDEB)
       IN=KSI(IL)
 C---------------------------------
-C     CALCUL DES MOMENTS MS ^ F (REP. GLOBAL).
+C     CALCULATION DES MOMENTS MS ^ F (REP. GLOBAL).
 C     the forces are transmitted to the (same) point
 C     que l'on a recu !!!
 C---------------------------------
@@ -624,7 +624,7 @@ C------------------------------------------------------------
 C---------------------------------
 C     for work of forces on secondary nodes
 C     1ere partie : ici
-C     2eme partie : apres calcul de DT2.
+C     2eme partie : apres calculation de DT2.
 C---------------------------------
       DO I=1,MIN(MVSIZ,NREST)
          IL=KSP(I+NDEB)

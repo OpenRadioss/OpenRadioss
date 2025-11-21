@@ -118,7 +118,7 @@ C
           STFN=STIFN(IS)*W                
           STFR=STIFR(IS)*W                        
 C
-C---      secnd forces -> rep local
+C---      second forces -> rep local
 C
           FSLOC(1) = ROT(1)*FS(1) + ROT(4)*FS(2) + ROT(7)*FS(3)
           FSLOC(2) = ROT(2)*FS(1) + ROT(5)*FS(2) + ROT(8)*FS(3)
@@ -127,7 +127,7 @@ C
           FSLOC(5) = ROT(2)*MOMS(1) + ROT(5)*MOMS(2) + ROT(8)*MOMS(3)  
           FSLOC(6) = ROT(3)*MOMS(1) + ROT(6)*MOMS(2) + ROT(9)*MOMS(3)
 C
-C-------  transfer secnd forces to main
+C-------  transfer second forces to main
           DO JJ=1,NIR                                               
             FMLOC(JJ,1) = H(JJ)*FSLOC(1)             
             FMLOC(JJ,2) = H(JJ)*FSLOC(2)             
@@ -139,7 +139,7 @@ C-------  transfer secnd forces to main
      .                  + HXS(JJ)*FSLOC(4)  + HPRT(JJ)*FSLOC(5)     
             FMLOC(JJ,6) = H(JJ)*FSLOC(6)             
           ENDDO                                                     
-C-------  transfer secnd mass + inertia + stiffness to main
+C-------  transfer second mass + inertia + stiffness to main
           DO JJ=1,NIR                                               
             IM  = INOD(JJ)
             LEN = SQRT((X(1,IM)-XC)**2+(X(2,IM)-YC)**2+(X(3,IM)-ZC)**2)                       

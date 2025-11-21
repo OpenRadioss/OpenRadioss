@@ -35,7 +35,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                   IXIG3D,TAB_STAY,FLAG_PRE)
 C----------------------------------------------------------------------
 C   routine that will insert the new knot into the patch by creating
-C   NOUVELLES FONCTIONS, EN EN SUPPRIMANT CERTAINES, TOUT EN TENANT 
+C   new functions, deleting some of them, while taking into account
 C   count of existing functions, on the patch or on the other patches
 C   and which modifies the x, v, d coordinates of the points if needed
 C----------------------------------------------------------------------

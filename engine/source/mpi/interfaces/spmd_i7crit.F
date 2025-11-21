@@ -1609,7 +1609,7 @@ C
         END IF            
       END IF
 C
-C allocations additionnelles pour interface type20
+C additional allocations for interface type20
 C
       IF(ITY==20) THEN
         IF(ASSOCIATED(ALPHAKFI(NIN)%P)) DEALLOCATE(ALPHAKFI(NIN)%P)    
@@ -2638,7 +2638,7 @@ C factor 2 to store the 2 nodes
         ENDIF
       ENDIF
 C
-C allocations specifiques interface type20
+C specific allocations for interface type20
 C
       IF(ASSOCIATED(DAANC6FIE(NIN)%P)) DEALLOCATE(DAANC6FIE(NIN)%P)    
       ALLOCATE(DAANC6FIE(NIN)%P(3,6,NODFI),STAT=IERROR1)
@@ -2911,7 +2911,7 @@ C
         ENDDO
 C facteur 16 ?
         LSKYFI = NN*MULTIMAX
-C   nmesr inutile ici
+C   nmesr useless here
         NMESR = NN
       ENDIF
 C

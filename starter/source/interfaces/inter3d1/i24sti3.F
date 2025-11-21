@@ -169,7 +169,7 @@ C-----NRTT:NRTM
 C     NRT_SH nb of shells before symetrization, NRT nb of MAIN segments before symetrization (symetrization in i24surfi)
       NRTT =NRT+NRT_SH
 C------------------------------------
-C     GAP NOEUDS SECONDS
+C     GAP NODES SECONDS
 C------------------------------------
       ALLOCATE(TAGB(NUMNOD))
       DO I=1,NUMNOD
@@ -507,7 +507,7 @@ C IELENRTS tab : Element number for each SECONDARY segment
              ENDDO
           ENDIF
 
-C ADRECTS tab : Adress of each SECONDARY node in element connectivity for PARITH/ON computation
+C ADRECTS tab : address of each SECONDARY node in element connectivity for PARITH/ON computation
           ADRECTS (1:4,1:NRT) = 0
           DO I=1,NRT
             IE = IELNRTS(I)
@@ -1873,7 +1873,7 @@ c triangle we do nothing
 c ditto previous we do nothing
             BOLD=1
           ELSEIF(I2 == I2M .and. I1 == I1M)THEN
-c idem suivant pas de bord
+c idem according to pas de bord
             BORD=0
             BOLD=0
           ELSE

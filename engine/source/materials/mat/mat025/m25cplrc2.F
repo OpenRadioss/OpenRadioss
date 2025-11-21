@@ -151,7 +151,7 @@ C
          A12(I) = NU21(I)*A11(I)*SCALE
       ENDDO
 C-------------------------------------------------------------------
-C     CONTRAINTES ELASTIQUES
+C     ELASTIC STRESSES
 C-----------------------------
       DO I=JFT,JLT
       T1(I)   =A11(I)*S1(I)+A12(I)*S2(I)

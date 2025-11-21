@@ -222,9 +222,9 @@ C
         !IGR3SHN flag
         !
         !     IGRN(1,I) : IDENTIFICATEUR DE GROUP
-        !     IGRN(2,I) : NOMBRE DE NOEUDS
+        !     IGRN(2,I) : NUMBER OF NODES
         ! IGRN(3,I) : ADDRESS OF NODES IN IBUFSSG
-        !     IGRN(4,I) : TYPE (0 POUR NOEUDS, 1 BRIC, 2 QUAD, 3 SHELL, 
+        !     IGRN(4,I) : TYPE (0 FOR NODES, 1 BRIC, 2 QUAD, 3 SHELL, 
         !                         4 TRUSS, 5 BEAM, 6 SPRINGS,7 SHELL_3N)
         !        
         LOGI_I22GRSH3N = .FALSE.

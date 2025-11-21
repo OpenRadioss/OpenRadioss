@@ -149,7 +149,7 @@ C   NSNSI Writing: 0
           LEN_IA = LEN_IA + NSPMD
           IF(((INACTI/=5.AND.INACTI/=6.AND.INACTI/=7).OR.
      .        ITYP==10).AND.ITYP/=23.AND.INACTI/=-1) THEN
-C   ecriture nsnfi : 0 si inacti # 5, 6 et 7
+C   write nsnfi : 0 if inacti # 5, 6 and 7
             CALL WRITE_I_C(NSNFI,NSPMD) ! nsnfi at engine
             LEN_IA = LEN_IA + NSPMD
           ELSE
@@ -361,7 +361,7 @@ C
 
             CALL WRITE_I_C(ITAFI,NODFI) !ITAFI
             LEN_IA = LEN_IA + NODFI
-C   ecriture bidon kinfi
+C   dummy write kinfi
             CALL WRITE_I_C(NSVFI,NODFI)
             LEN_IA = LEN_IA + NODFI
 C   Void writing for MATSFI
@@ -439,7 +439,7 @@ C
             DEALLOCATE(ITAFI)
             DEALLOCATE(TAGE)
             IF (ITYP==24.OR.ITYP==25)DEALLOCATE(IRTLMFI)
-C fin type 7
+C end type 7
 ! +++++++++++++++++++++++++++++++++++++++++++++++
            ELSEIF(ITYP==11)THEN
 
@@ -536,9 +536,9 @@ C
 C
             CALL WRITE_I_C(NSNFI,NSPMD)
             CALL WRITE_I_C(NSVFI,NODFI)
-C   ecriture bidon itafi n1
+C   dummy write itafi n1
             CALL WRITE_I_C(NSVFI,NODFI)
-C   ecriture bidon itafi n2
+C   dummy write itafi n2
             CALL WRITE_I_C(NSVFI,NODFI)
 C   Void writing for MATSFI
             IF (INTTH>0) THEN
@@ -555,7 +555,7 @@ C
             DEALLOCATE(NRTSP)
             DEALLOCATE(NSVFI)
             DEALLOCATE(TAGE)
-C fin type 11
+C end type 11
            ELSEIF(ITYP==20)THEN
 C type 20 (partie non edge)
             IFQ    = IPARI(31,NI)
@@ -659,13 +659,13 @@ C
             LEN_IA = LEN_IA + NSPMD
             CALL WRITE_I_C(NSVFI,NODFI)
             LEN_IA = LEN_IA + NODFI
-C   ecriture bidon itafi
+C   dummy write itafi
             CALL WRITE_I_C(NSVFI,NODFI)
             LEN_IA = LEN_IA + NODFI
-C   ecriture bidon kinfi
+C   dummy write kinfi
             CALL WRITE_I_C(NSVFI,NODFI)
             LEN_IA = LEN_IA + NODFI
-C   ecriture bidon nbinflfi
+C   dummy write nbinflfi
             CALL WRITE_I_C(NSVFI,NODFI)
             LEN_IA = LEN_IA + NODFI
 C   Void writing for MATSFI
@@ -678,8 +678,8 @@ C
             DEALLOCATE(NSNP)
             DEALLOCATE(NSVFI)
             DEALLOCATE(TAGE)
-           END IF ! fin type20
-C fin interface de contact inacti
+           END IF ! end type20
+C end inactive contact interface
           END IF
 C Type20 added for edge
           IF (ITYP==20)THEN
@@ -690,7 +690,7 @@ C   NSNSIE Writing: 0
              CALL WRITE_I_C(NSNFI,NSPMD)
              INACTI = IPARI(22,NI)
              IF(INACTI/=5.AND.INACTI/=6.AND.INACTI/=7) THEN
-C   ecriture nsnfie : 0 si inacti # 5, 6 et 7
+C   write nsnfie : 0 if inacti # 5, 6 and 7
                CALL WRITE_I_C(NSNFI,NSPMD)
              ELSE
                NRTS   = IPARI(3,NI)
@@ -803,9 +803,9 @@ C
 C
                CALL WRITE_I_C(NSNFI,NSPMD)
                CALL WRITE_I_C(NSVFI,NODFI)
-C   ecriture bidon itafi n1
+C   dummy write itafi n1
                CALL WRITE_I_C(NSVFI,NODFI)
-C   ecriture bidon itafi n2
+C   dummy write itafi n2
                CALL WRITE_I_C(NSVFI,NODFI)
 C
                DEALLOCATE(NRTSLOCAL)
@@ -887,13 +887,13 @@ C
         IF(ITYP==21 ) THEN
           INTTH = IPARI(47,NI)
           IF(INTTH==2.OR.IPARI(95,NI) > 0) THEN
-C   ecriture NMNSI : 0
+C   write NMNSI : 0
           DO P = 1, NSPMD
             NMNFI(P) = 0
           END DO
           CALL WRITE_I_C(NMNFI,NSPMD)
           LEN_IA = LEN_IA + NSPMD
-C   ecriture nmnfi : 0
+C   write nmnfi : 0
           CALL WRITE_I_C(NMNFI,NSPMD)
           LEN_IA = LEN_IA + NSPMD
 C

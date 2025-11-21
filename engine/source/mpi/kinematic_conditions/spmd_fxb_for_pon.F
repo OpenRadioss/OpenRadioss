@@ -156,7 +156,7 @@ C
 #elif 1 
 
 
-C version simplifiee pour mono non SPMD
+C simplified version for mono non-SPMD
 !||====================================================================
 !||    spmd_fxb_for_pon      ../engine/source/mpi/kinematic_conditions/spmd_fxb_for_pon.F
 !||--- called by ------------------------------------------------------

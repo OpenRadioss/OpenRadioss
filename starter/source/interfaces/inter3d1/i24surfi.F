@@ -189,10 +189,9 @@ C------------ call anyway, if coating shell MSEGTYP(L)=MSEGTYP(L)+1
 #endif
       ENDIF
 C=======================================================================
-c     NOEUDS
-C=======================================================================
+c     NODES C=======================================================================
 c-----------------------------------------------------------------
-c     tag noeuds surfaces S1 S2; 1,2 on S1,S2, 3 on both (ILEV=1)
+c     tag nodes surfaces S1 S2; 1,2 on S1,S2, 3 on both (ILEV=1)
 c-----------------------------------------------------------------
       DO I=1,NUMNOD
         TAG(I)=0 ! initialisation
@@ -358,7 +357,7 @@ c-----------------------------------------------------------------
        IPARI(52) = NLS2
        IF (IEDGE == 4) IPARI(52) = NRTSE
        IPARI(55) = NSNE
-C------initialization of doubler M_seg pour shells  add ISU1>0
+C------initialization of doubler M_seg for shells  add ISU1>0
        NRTM_SH= IPARI(42)
        NRTM0 = IPARI(4) - NRTM_SH
        CALL SH2SURF(NRTM0,IRECT,IMBIN,MBINFLG,MSEGTYP,IPARI(4))
@@ -728,7 +727,7 @@ c             print *,'edge I,J=',itab(IXWORK(1,L)),itab(IXWORK(2,L)),L
         ENDDO
       ENDIF
 c---------------------------------------
-c       nombre de lignes: may keep only NACTIF
+c       number de lignes: may keep only NACTIF
 c---------------------------------------
       NACTIF = NACTIF + NL
 c---------------------------------------

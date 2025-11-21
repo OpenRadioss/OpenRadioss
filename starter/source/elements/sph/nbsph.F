@@ -83,7 +83,7 @@ C
       CALL HM_OPTION_COUNT('/SPH/INOUT',NSPHIO)
 c
 c NSPHRES (number of SPH reserve for inlet) for each proc
-c in order to assure an suffisant number of reserve for inlet in SPMD
+c in order to assure a sufficient number of reserve for inlet in SPMD
       NSPHRES = NSPHRES*MAX(1,NSPMD)
 
       IF (NBPARTINLET > 0 .AND. NSPHRES == 0) THEN

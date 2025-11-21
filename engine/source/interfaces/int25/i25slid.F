@@ -1033,7 +1033,7 @@ C
                 IBUF(P,NI25)%p(LI+1) = INTBUF_TAB%NSV_ON_PMAIN(I)
 c                 IF(MAIN_PROC(NOD) == LOC_PROC) THEN
 c                   IBUF(P,NI25)%p(LI+1) = -ITAB(NOD)
-c                   ! on peut metre ici directement le numero local
+c                   ! on peut metre ici directement le local number
 c                 ELSE
 c                   IBUF(P,NI25)%p(LI+1) = -ITAB(NOD)
 c                 ENDIF

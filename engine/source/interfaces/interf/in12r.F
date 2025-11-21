@@ -72,7 +72,7 @@ C temporary transformation in the main reference frame
          ENDIF
         ENDDO
        ELSE
-C RETOUR REPERE SECOND
+C RETOUR frame SECOND
         DO II=1,NSN
          IF(TAGKINE(II)>0)THEN
            I=NSV(II)

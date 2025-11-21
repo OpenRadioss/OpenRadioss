@@ -1067,7 +1067,7 @@ C-----------------------------------------------
       INTEGER I,J,K,EP,ID,JD,JDL,L,JJ,NN(MVSIZ),NELD
       my_real
      .   KIJD(ND,ND,MVSIZ),OFFD(MVSIZ)
-C---- s'il y a des elms degeneres--------------
+C---- if there is des elms degeneres--------------
       NELD=0
       DO EP = 1,NEL
           IF (NI(EP)==NJ(EP).AND.OFF(EP)>ZERO.AND.NI(EP)>0) THEN
@@ -2686,7 +2686,7 @@ C-----------------------------------------------
       INTEGER I,J,K,EP,ID,JD,JDL,L,JJ,NN(MVSIZ),NELD,N,N1,N2
       my_real
      .   KIJD(ND,ND,MVSIZ),OFFD(MVSIZ)
-C---- s'il y a des elms degeneres--------------
+C---- if there is des elms degeneres--------------
       NELD=0
       DO EP = 1,NEL
           IF (NI(EP)==NJ(EP).AND.OFF(EP)>ZERO.AND.NI(EP)>0) THEN

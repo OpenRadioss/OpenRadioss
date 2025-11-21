@@ -38,7 +38,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
       SUBROUTINE HM_PREREAD_RBE3(LNUM ,LREAL,  IGRNOD, GRNOD_UID,LSUBMODEL)
 C-------------------------------------
-C     LECTURE STRUCTURE RIGIDES 
+C     READING STRUCTURE RIGIDES 
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------

@@ -252,7 +252,7 @@ C-----------------------------------------------
        G2=TWO*G1
        SSP(I)=SQRT((ONEP333*G(I)+C1(I))/RHO0(I))
        !-------------------------------
-       !     CONTRAINTES DEVIATORIQUES
+       !     DEVIATORIC STRESSES
        !-------------------------------
        DAV     =-THIRD*(D1(I)+D2(I)+D3(I))
        SIG(I,1)=SIG(I,1)+P(I)+G2*(D1(I)+DAV)
@@ -281,7 +281,7 @@ C-----------------------------------------------
        G2=TWO*G1
        SSP(I)=SQRT((ONEP333*G(I)+C1(I))/RHO0(I))
        !-------------------------------
-       !     CONTRAINTES DEVIATORIQUES
+       !     DEVIATORIC STRESSES
        !-------------------------------
        IF(EPXE(I)>EPSL(I).AND.THREE*G(I)<EM15)THEN
         SIG(I,1)=ZERO
@@ -320,7 +320,7 @@ C-----------------------------------------------
        G2=TWO*G1
        SSP(I)=SQRT((ONEP333*G(I)+C1(I))/RHO0(I))
        !-------------------------------
-       !     CONTRAINTES DEVIATORIQUES
+       !     DEVIATORIC STRESSES
        !-------------------------------
        IF(EPXE(I)>EPSL(I).AND.G(I)*(THREE*G0(I)+QH(I))<EM15)THEN
         SIG(I,1)=ZERO

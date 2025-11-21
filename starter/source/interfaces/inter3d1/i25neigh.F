@@ -534,19 +534,19 @@ C
       LBOUND(1:NADMSR)=0
 C-----------------------------------------------------------------------
 C     LEDGE(1:NLEDGE)
-C       1: "left" segment number <=> index dans IRECT(1:NRTM)
+C       1: "left" segment number <=> index in IRECT(1:NRTM)
 C       2: local number of the edge within "left" segment
 C       3: "right" segment number
 C       4: local number of the edge within "right" segment     ! Squeezing T, X.. shapes wrt rupture
 C       5: I1 = Local NUE NUMB 1 in NSV (1: NSN)
-C       6: I2 = local numero of node 1 in NSV (1: nsn)
+C       6: I2 = local number of node 1 in NSV (1: nsn)
 C       7: Type of the edge :
 C             <0 <=> the arete is only main, not second
 C             +/-1 edge of solid
 C             +/-2 edge of shell
 C for engine:
 C       8: Global ID (id in starter)
-C       9: Weight = 1 => secondary secnd handled by current domain
+C       9: Weight = 1 => secondary second handled by current domain
 C      10: orientation flag left seg
 C      11: first node of left seg
 C      12: Second node left seg
@@ -1017,7 +1017,7 @@ C
           END DO
         END DO
 C-----------------------------------------
-C       Calcul de ADDSUBE, LISUBE, INFLG_SUBE a partir de ADDSUBN, LISUBN, INFLG_SUBN
+C       Calculation de ADDSUBE, LISUBE, INFLG_SUBE a partir de ADDSUBN, LISUBN, INFLG_SUBN
 C-----------------------------------------
         ADDSUBE(1:NEDGE+1)  = 0 
         INFLG_SUBE(1:NISUBE)=0
@@ -1176,7 +1176,7 @@ C
        END DO
 C        
 C------------------------------------
-C     GAP NOEUDS IN WA
+C     GAP NODES IN WA
 C------------------------------------
        DO I=1,NUMELC
          MG=IXC(6,I)
@@ -1612,7 +1612,7 @@ C--------groupe YJ*Ni<0 :convex keep angle (min_cos) only
         END IF !(J==N) then
 C ------still no valid one-----------       
         IF (J1==0) then
-c        print *,'***warning** No valid Neighbour Segs of',N,' candidats'
+c        print *,'***warning** No valid Neighbour Segs of',N,' CANDIDATES'
          IRR = 11
          IC(1)=0         
         ELSE

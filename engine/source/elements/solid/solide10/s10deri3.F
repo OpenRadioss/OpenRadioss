@@ -227,7 +227,7 @@ C
           ENDIF
         ENDDO
       ENDDO
-C-------------attention, /STOP /DEL are not implemented
+C-------------note: /STOP /DEL are not implemented
       IF(JLAG/=0)THEN
        IF(ICOR/=0.AND.INCONV==1)THEN
        DO IP=1,NPT

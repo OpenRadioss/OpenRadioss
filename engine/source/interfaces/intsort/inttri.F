@@ -1083,7 +1083,7 @@ c          IF(ITASK==NTHREAD-1)NRTM_T=IPARI(4,N)-(NTHREAD-1)*NRTM_T
           ESHIFT = ITASK*NRTM_T
           IF(ITASK==NTHREAD-1)NRTM_T=(IPARI(4,N)-IPARI(42,N))
      +                                -(NTHREAD-1)*NRTM_T
-C-------  KINET,MS used for commu remot secnd, for the moment no need.   
+C-------  KINET,MS used for commu remot second, for the moment no need.   
          NSNE3 = 3*IPARI(55,N)
         IF (NSNE3 >0 ) THEN
          CALL MY_BARRIER
@@ -1122,7 +1122,7 @@ c-----------------------------------------------------------------------
           SSHIFT = ITASK*NRTM_T
           IF(ITASK==NTHREAD-1)NRTM_T=(IPARI(4,N)-IPARI(42,N))
      +                                -(NTHREAD-1)*NRTM_T
-C-------  KINET,MS used for commu remot secnd, for the moment no need.   
+C-------  KINET,MS used for commu remot second, for the moment no need.   
           CALL I25MAIN_TRI(TIMERS,
      1      IPARI   ,X       ,V       ,INTBUF_TAB(N),
      2      MS      ,N            ,ITASK        ,WEIGHT  ,
@@ -1255,7 +1255,7 @@ C=======================================================================
 C
 C       parallel calculation of normals
 C
-C       il FAUT garder une barriere avant i25main_norm !!!
+C       must garder une barriere avant i25main_norm !!!
         CALL MY_BARRIER
 C
         IF (IMON>0 .AND. ITASK==0) THEN
