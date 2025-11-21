@@ -75,9 +75,8 @@ C     REAL
       my_real
      .   AJ11, AJ12, AJ13, AJ21,
      .   AJ22, AJ23, AJ31, AJ32,
-     .   AJ33, AI11, AI12, AI13,
-     .   AI21, AI22, AI23, AI31,
-     .   AI32, AI33
+     . AJ33, AI11,
+     . AI21, AI31
 C     REAL
       my_real
      .   X12(MVSIZ), X34(MVSIZ), X56(MVSIZ),
@@ -87,7 +86,7 @@ C     REAL
      .   Y58(MVSIZ), Y67(MVSIZ), Z14(MVSIZ), Z23(MVSIZ), Z58(MVSIZ),
      .   Z67(MVSIZ), X15(MVSIZ), X26(MVSIZ), X37(MVSIZ), X48(MVSIZ),
      .   Y15(MVSIZ), Y26(MVSIZ), Y37(MVSIZ), Y48(MVSIZ), Z15(MVSIZ),
-     .   Z26(MVSIZ), Z37(MVSIZ), Z48(MVSIZ), H(8), VLINV,
+     . Z26(MVSIZ), Z37(MVSIZ), Z48(MVSIZ), H(8),
      .   XX1,YY1,ZZ1,XX2,YY2,ZZ2,XX3,YY3,ZZ3,SMAX(MVSIZ),VMIN,
      .   P1(8), P2(8), P3(8),VLINC(MVSIZ,8)
       my_real

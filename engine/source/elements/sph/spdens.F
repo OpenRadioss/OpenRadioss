@@ -61,23 +61,23 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,N,INOD,JNOD,J,NVOIS,M,
-     .        NVOISS,SM,JS,NC,NS,NN
+     .        NVOISS,SM,JS,NC,NN
       my_real
      .       XI,YI,ZI,DI,RHOI,XJ,YJ,ZJ,DJ,RHOJ,DIJ,
      .       VXI,VYI,VZI,VXJ,VYJ,VZJ,
      .       VJ,VJX,VJY,VJZ,
      .       DRHO,WGHT,WGRAD(3),DIVV,
      .       MUIJ,MUMAX,
-     .       FACT,WUN,WVX,WVY,WVZ,WRHO,
+     .       
      .       DXX,DXY,DXZ,DYX,DYY,DYZ,DZX,DZY,DZZ,DT1D2,
      .       EXX,EXY,EXZ,EYX,EYY,EYZ,EZX,EZY,EZZ,
      .       ROTVX,ROTVY,ROTVZ,ROTV,
      . ALPHAI,ALPHAXI,ALPHAYI,ALPHAZI,
-     . BETAXI,BETAYI,BETAZI,
+     . 
      . BETAXXI,BETAYXI,BETAZXI,
      . BETAXYI,BETAYYI,BETAZYI,
      . BETAXZI,BETAYZI,BETAZZI,
-     . BETAX,WGRDX,WGRDY,WGRDZ
+     . WGRDX,WGRDY,WGRDZ
 C-------------------------------------------
       DO I=LFT,LLT
        N    =NFT+I

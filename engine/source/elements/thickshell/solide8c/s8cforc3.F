@@ -204,9 +204,9 @@ C
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER  I,J,N,LCO,NF1,IFLAG,IAD0,NLAY,L_PLA,L_EPSD,
+      INTEGER I, J, NF1, IFLAG, IAD0, NLAY, L_PLA, L_EPSD, 
      .   IP,IR,IS,IT,IL,NPTR,NPTS,NPTT,ICR,ICS,ICT,PID,MTN0,IPTHK,
-     .   IPPOS,IPMAT,NLYMAX,MID,IPANG,IOR_TSH,NPTR0,NPTS0,NPTT0,IBID,MX,
+     . IPPOS,IPMAT,NLYMAX,MID,IPANG,IOR_TSH,IBID,MX,
      .   II(6),CURRENT_LAYER
       INTEGER MXT(MVSIZ),NGL(MVSIZ),NGEO(MVSIZ),MXT0(MVSIZ),IBIDON(1),
      .  IDEG(MVSIZ)
@@ -264,9 +264,9 @@ C variables used only in solid routines (as arguments).
      .  VY5(MVSIZ),VY6(MVSIZ),VY7(MVSIZ),VY8(MVSIZ),
      .  VZ1(MVSIZ),VZ2(MVSIZ),VZ3(MVSIZ),VZ4(MVSIZ),
      .  VZ5(MVSIZ),VZ6(MVSIZ),VZ7(MVSIZ),VZ8(MVSIZ),
-     .  HX1(MVSIZ),HX2(MVSIZ),HX3(MVSIZ),HX4(MVSIZ),
-     .  HY1(MVSIZ),HY2(MVSIZ),HY3(MVSIZ),HY4(MVSIZ),
-     .  HZ1(MVSIZ),HZ2(MVSIZ),HZ3(MVSIZ),HZ4(MVSIZ),
+     .
+     .
+     .
      .  PX1(MVSIZ),PX2(MVSIZ),PX3(MVSIZ),PX4(MVSIZ),
      .  PX5(MVSIZ),PX6(MVSIZ),PX7(MVSIZ),PX8(MVSIZ),
      .  PY1(MVSIZ),PY2(MVSIZ),PY3(MVSIZ),PY4(MVSIZ),
@@ -331,9 +331,9 @@ C variables used only in solid routines (as arguments).
      .   VOLM(MVSIZ),SIGM(MVSIZ),DTI,BID(MVSIZ)
       my_real
      .   SIGY(MVSIZ), SIGN(NEL,6),ET(MVSIZ), NU1(MVSIZ),
-     . R1_FREE(MVSIZ),R3_FREE(MVSIZ),R4_FREE(MVSIZ)
+     . R1_FREE(MVSIZ),R3_FREE(MVSIZ)
       my_real
-     .   VX0(MVSIZ,8),VY0(MVSIZ,8),VZ0(MVSIZ,8),
+     .
      .   ALPHA_E(MVSIZ),LLSH(MVSIZ),LLSMIN(MVSIZ),AREA(MVSIZ)
       DOUBLE PRECISION 
      .   FACDP
@@ -343,8 +343,6 @@ C variables used only in solid routines (as arguments).
      .   SX(MVSIZ), SY(MVSIZ), SZ(MVSIZ),
      .   TX(MVSIZ), TY(MVSIZ), TZ(MVSIZ)
       my_real, DIMENSION(MVSIZ,NNPT) :: SMTT
-      my_real, 
-     .  DIMENSION(:), POINTER :: EINT
       my_real, dimension(mvsiz) :: fheat
 C-----
       my_real,
@@ -358,7 +356,7 @@ C-----
       my_real 
      .  H(8),PR(8),PS(8),PT(8)
       my_real
-     .   EV(mvsiz),evd(mvsiz)    !!!!   BIDON !!!!!
+     . d(mvsiz) !!!! BIDON !!!!!
       TYPE(G_BUFEL_) ,POINTER :: GBUF
       TYPE(L_BUFEL_) ,POINTER :: LBUF
       INTEGER SZ_IX

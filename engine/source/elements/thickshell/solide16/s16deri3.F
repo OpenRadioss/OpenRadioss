@@ -80,7 +80,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,N,ICOR
       my_real
-     .   D, AA, BB, DET(MVSIZ),R9 ,R13 ,S9 ,S10 ,S11 ,S12 ,T10 ,T14
+     .   D, DET(MVSIZ),R9 ,R13 ,S9 ,S10 ,S11 ,S12 ,T10 ,T14
       DOUBLE PRECISION 
      .   DETDP
 C-----------------------------------------------

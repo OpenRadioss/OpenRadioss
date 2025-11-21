@@ -64,18 +64,18 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,R,IR,P1,P2,NEWCRK,IED,OK,ELCRK,NX1,NX2,NX3,NX4,NM,NP,
-     . FAC,IFI1,IFI2,IEDGE,ICUT,SIGBETA,ICRK,IELCRK,NOD1,NOD2
+      INTEGER I,K,R,IR,P1,P2,NEWCRK,IED,OK,ELCRK,
+     . FAC,IEDGE,ICUT,NOD1,NOD2
 c
       INTEGER JCT(NEL),EDGEL(4,NEL),TIP(NEL),ECUT(2,NEL),dd(4),d(8),KPERM(8)
 c
       my_real
-     .   XIN(2,NEL),YIN(2,NEL),LEN(4,NEL),XMI(2),YMI(2),
+     .   XIN(2,NEL),YIN(2,NEL),LEN(4,NEL),
      .   XXL(4,NEL),YYL(4,NEL),BETA0(4,NEL)
       my_real
-     .   XINT,YINT,ZINT,FI,XXX,YYY,ZZZ,CROSS,ACD,BCD,DLX,DLY,
-     .   X10,Y10,Z10,X20,Y20,Z20,D12,M12,MM,XINT0,YINT0,DIR11,DIR22,
-     .   X1,Y1,X2,Y2,X3,Y3,X4,Y4,BETA,BMIN,BMAX
+     .   XINT,YINT,CROSS,ACD,BCD,DLX,DLY,
+     .   M12,MM,XINT0,YINT0,DIR11,DIR22,
+     .   BETA,BMIN,BMAX
 C----------
       DATA d/1,2,2,3,4,3,1,4/
       DATA dd/2,3,4,1/

@@ -64,7 +64,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER K,N,INOD,JS,
+      INTEGER N,INOD,
      .        IS,IC,NC,ISLIDE,ILEV,
      .        NG,NEL,I,II(6),NS,J
       my_real

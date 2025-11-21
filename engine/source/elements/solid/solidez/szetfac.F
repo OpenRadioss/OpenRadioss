@@ -49,9 +49,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J,K
+      INTEGER I
       my_real
-     .   FAC_L,FAC_U,FAC(MVSIZ),ETE,FAC_MIN,FAC_MAX
+     .   FAC_L,FAC_U,FAC(MVSIZ)
 C-------IKT=2 for the moment----------
       FAC_L=FIVEEM2
       DO I=LFT,LLT

@@ -58,7 +58,7 @@ C-----------------------------------------------
       INTEGER IECROU(MVSIZ), IFUNC(MVSIZ),IFUNC2(MVSIZ)
 C     REAL
       my_real
-     .   A(MVSIZ),FRIC,FF
+     .   A(MVSIZ),FRIC
 C-----------------------------------------------
 C
       DO I=JFT,JLT

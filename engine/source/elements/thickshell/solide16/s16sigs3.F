@@ -58,7 +58,7 @@ C-----------------------------------------------
       INTEGER I,MX
       my_real
      .   AA, DXY, DYZ, DZX, DRR, DSS, DTT, DRS, DST, DTR,
-     .   SHF,A11,A12,A13,A21,A22,A23,A31,A32,A33,E,NU,D11
+     .   SHF,A11,A12,A13,A21,A22,A23,A31,A32,A33,E,NU
 C-----------------------------------------------
       MX = MXT(1)
       E  = PM(20,MX)

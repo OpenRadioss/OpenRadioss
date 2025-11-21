@@ -49,9 +49,9 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   SS(3,MVSIZ),ST(3,MVSIZ),P,SIGY2,G(MVSIZ),
-     .   SS2,DS2,ST2,NORM(MVSIZ),NORMI,G2,TT,TV
+     .   SS2,DS2,ST2,NORM(MVSIZ),G2,TT,TV
       my_real    
-     .   EW(3,MVSIZ),TOL,LAMDA(MVSIZ),EV(3,3),KK(3,3)
+     .   TOL
 C
       TOL=EM5
 C----------  verifier-------------------------------------

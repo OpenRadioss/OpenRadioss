@@ -75,16 +75,16 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,  J, IR, IS, IT, KP, NP, N, INOD, MG, NG, NEL,
-     .        KFT, N1, N2, N3, N4, N5, N6, N7, N8,
-     .        LENR, IG , NELEM, OFFSET, NSPHDIR, IPRTSPH, IAW,
+      INTEGER I,  J, IR, IS, IT, KP, NP, N, INOD, NG, NEL,
+     .         N1, N2, N3, N4, N5, N6, N7, N8,
+     .         IG , NELEM, OFFSET, NSPHDIR, IPRTSPH, IAW,
      .        MY_IAW, IERROR, NISK, NIFTSK, NILTSK, NISKYL, NSOL
 C                                                                    
       my_real
      .   PHI1,PHI2,PHI3,PHI4,PHI5,PHI6,PHI7,PHI8,
      .   KSI, ETA, ZETA
 C-----
-      TYPE(G_BUFEL_) ,POINTER :: GBUF, GBUFSP
+      TYPE(G_BUFEL_) ,POINTER :: GBUF
       TYPE(L_BUFEL_) ,POINTER :: LBUF     
       TYPE(BUF_MAT_) ,POINTER :: MBUF  
 C-----------------------------------------------
@@ -557,11 +557,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,  N, IP, KP, NG, MG, J, NP, KFT, IG, NELEM,
+      INTEGER I,  N, KP, NG, MG, J, NP, KFT, IG,
      .        NEL, OFFSET, MLW, IPLA,NELSP,K,IR,IS,IT,NSPHDIR,
      .        NPTR,NPTS,NPTT,II(6),JJ(6)
       my_real
-     .   RHON, RHOO, DIVV, SM,
+     .   RHON, RHOO, DIVV,
      .   R11(MVSIZ),R12(MVSIZ),R13(MVSIZ),
      .   R21(MVSIZ),R22(MVSIZ),R23(MVSIZ),
      .   R31(MVSIZ),R32(MVSIZ),R33(MVSIZ),
@@ -573,11 +573,11 @@ C-----------------------------------------------
      .   RZ(MVSIZ),SZ(MVSIZ),TZ(MVSIZ),
      .   G11,G22,G33,G12,G21,G23,G32,G13,G31,
      .   S11,S22,S33,S12,S21,S23,S32,S13,S31,
-     .   L11,L22,L33,L12,L21,L23,L32,L13,L31,
+     .   L11,L22,L33,L12,L23,L13,
      .   SIGLO(MVSIZ,6), STRAGLO(MVSIZ,6), ANGL(MVSIZ,6), 
      .   DGLO24(MVSIZ,6),SIG_HEPH(MVSIZ,6,7),
-     .   JR0(MVSIZ),JS0(MVSIZ),JT0(MVSIZ),NU(MVSIZ),SIG_HEPH_GLO(MVSIZ,6,7),
-     .   RBID(6,MVSIZ),ZETA,ETA,KSI,SIG_HA8(MVSIZ,3,3,3,6)
+     .   JR0(MVSIZ),JS0(MVSIZ),JT0(MVSIZ),SIG_HEPH_GLO(MVSIZ,6,7),
+     .   ZETA,ETA,KSI,SIG_HA8(MVSIZ,3,3,3,6)
 C                                                                    
 C-----
       TYPE(G_BUFEL_) ,POINTER :: GBUF, GBUFSP

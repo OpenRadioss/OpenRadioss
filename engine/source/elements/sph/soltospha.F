@@ -78,7 +78,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,  J, IR, IS, IT, KP, NP, N, INOD, IG, NG, MG, NEL,
-     .        N1, N2, N3, N4, N5, N6, N7, N8, IPRT, IMAT,
+     . N1, N2, N3, N4, N5, N6, N7, N8, IPRT,
      .        NELEM, OFFSET, NSPHDIR, KFT, IERROR
 C                                                                    
       my_real
@@ -86,10 +86,9 @@ C
      .   VY1,VY2,VY3,VY4,VY5,VY6,VY7,VY8,
      .   VZ1,VZ2,VZ3,VZ4,VZ5,VZ6,VZ7,VZ8,
      .   PHI1,PHI2,PHI3,PHI4,PHI5,PHI6,PHI7,PHI8,
-     .   KSI, ETA, ZETA, WI,
+     . KSI, ETA, ZETA,
      .   VXI, VYI, VZI, USDT, DT05,
-     .   XMASS_T, XMOMT_T, YMOMT_T, ZMOMT_T, ENCIN_T,
-     .   RHO0, MASS, VI2
+     .   XMASS_T, XMOMT_T, YMOMT_T, ZMOMT_T, ENCIN_T
 C-----
       TYPE(G_BUFEL_) ,POINTER :: GBUF, GBUFSP
       TYPE(L_BUFEL_) ,POINTER :: LBUF     

@@ -118,7 +118,7 @@ C   D u m m y   A r g u m e n t s   a n d   F u n c t i o n
 C----------------------------------------------------------
       INTEGER IOUT,NEL,NUVAR,IPROP,
      .        GET_U_PNU,GET_U_PID,GET_U_MID,GET_U_MNU,
-     .        KFUNC,KMAT,KPROP
+     .        KFUNC
       my_real
      .   UVAR(NUVAR,*),DT ,
      .   FX(*), FY(*), FZ(*), E(*), VX(*),MASS(*) ,XINER(*),
@@ -142,8 +142,8 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,IFUNC1,IFUNC2,IFUNC3,IFUNC4,IFUNC5,EPSI
       my_real
-     .        ELASTIF,X,DXDY,XLIM1,XLIM2,FMX,FMN,DX,DAMP,
-     .        FUX1,FUX2,FUX3,FUX4,DEBUG,SLOPE
+     .        ELASTIF,X,DXDY,XLIM1,XLIM2,DX,DAMP,
+     .        FUX1,FUX2,FUX3,FUX4,SLOPE
       my_real
      .        TT,NEWLEN,DELTALEN,DELTALENDOT,SCALET,SCALEX,SCALEV,SCALEF
 C-----------------------------------------------

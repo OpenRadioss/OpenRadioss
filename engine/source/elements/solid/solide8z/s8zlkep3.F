@@ -75,7 +75,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J,IS
+      INTEGER I,IS
 C     REAL
       my_real
      .   TT,TV,DD(3,3,MVSIZ),

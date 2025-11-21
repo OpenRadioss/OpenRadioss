@@ -56,7 +56,7 @@ C-----------------------------------------------
      .            PX2(MVSIZ), PY2(MVSIZ),PZ2(MVSIZ),
      .            PX3(MVSIZ), PY3(MVSIZ),PZ3(MVSIZ),
      .            PX4(MVSIZ), PY4(MVSIZ),PZ4(MVSIZ),
-     .    NI(8), TEMPNC(*), FPHI(MVSIZ,8), PM(NPROPM,*), HEAT(*),
+     .     TEMPNC(*), FPHI(MVSIZ,8), PM(NPROPM,*), HEAT(*),
      .    DT1, TEL(*), OFF(*), OFFG(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s

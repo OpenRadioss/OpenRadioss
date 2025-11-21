@@ -66,7 +66,7 @@ C     REAL
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
-      INTEGER :: I,J
+      INTEGER :: I
 C                                                                     12
       my_real
      .   DETT ,  
@@ -81,7 +81,7 @@ C                                                                     12
      .   X_17_46 , X_28_35 ,
      .   Y_17_46 , Y_28_35 ,
      .   Z_17_46 , Z_28_35 ,
-     .   HX,HY,HZ,H1X,H1Y,H1Z,H2X,H2Y,H2Z,H3Y,H3Z,H4X,H4Y,H4Z,
+     .   HX,HY,HZ,H1X,H1Y,H1Z,H2X,H2Y,H2Z,
      .   PX1(MVSIZ), PX2(MVSIZ), PX3(MVSIZ), PX4(MVSIZ),  
      .   PY1(MVSIZ), PY2(MVSIZ), PY3(MVSIZ), PY4(MVSIZ),  
      .   PZ1(MVSIZ), PZ2(MVSIZ), PZ3(MVSIZ), PZ4(MVSIZ),  

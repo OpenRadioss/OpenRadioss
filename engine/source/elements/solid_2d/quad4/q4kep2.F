@@ -59,7 +59,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, IS
+      INTEGER I, IS
       my_real
      .    BH(MVSIZ), 
      .    PY3(MVSIZ), PY4(MVSIZ), PZ3(MVSIZ), PZ4(MVSIZ)

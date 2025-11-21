@@ -59,7 +59,7 @@ C-----------------------------------------------
       INTEGER I
 C     REAL
       my_real
-     .  UX,UY,UZ,VX,VY,VZ,WX,WY,WZ,D1,D2,D3,GX,GY,GZ,SUMA,S2,S3
+     .  UX,UY,UZ,VX,VY,VZ,WX,WY,WZ,SUMA
       my_real, 
      .  DIMENSION(6)  :: GAMA0
 C=======================================================================

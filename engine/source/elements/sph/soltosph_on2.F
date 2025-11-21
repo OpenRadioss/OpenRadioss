@@ -72,13 +72,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,  N, IP, KP, NG, MG, J, NP, KFT, IG, NELEM,
+      INTEGER I, NG, J, NP, IG, NELEM, 
      .        NEL, OFFSET, NVOIS, M, JNOD, NN, IERROR
 C                                                                    
 C-----
-      TYPE(G_BUFEL_) ,POINTER :: GBUF, GBUFSP
-      TYPE(L_BUFEL_) ,POINTER :: LBUF     
-      TYPE(BUF_MAT_) ,POINTER :: MBUF  
+ 
+ 
+ 
 C-----------------------------------------------
       IF(ITASK==0)THEN
         ALLOCATE(WSPCLOUD(NUMSPH),STAT=IERROR)

@@ -56,7 +56,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER IC,NC,IS,SM,JS,ISLIDE,SS
       my_real
-     .       SXX,SXY,SXZ,SYY,SYZ,SZZ,
+     .       
      .       TXX,TXY,TXZ,TYY,TYZ,TZZ,
      .       OX,OY,OZ,UX,UY,UZ,VX,VY,VZ,WX,WY,WZ,
      .       UXX,UXY,UXZ,UYX,UYY,UYZ,UZX,UZY,UZZ,

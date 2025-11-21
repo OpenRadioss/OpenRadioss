@@ -84,7 +84,7 @@ C-----------------------------------------------
      .   YL2(MVSIZ),XL3(MVSIZ),YL3(MVSIZ),XL4(MVSIZ),YL4(MVSIZ),
      .   FIT(4,MVSIZ),OFFG(MVSIZ),XIN(2,MVSIZ),YIN(2,MVSIZ),
      .   XXL(4,MVSIZ),YYL(4,MVSIZ),XN(4),YN(4),DX(8),XM(2),YM(2)
-      my_real XXX,YYY,ZZZ,FI,BETA,X10,Y10,Z10,X20,Y20,Z20,
+      my_real XXX,YYY,ZZZ,FI,BETA,
      .   X1,Y1,X2,Y2,X3,Y3,X4,Y4,AREA1,AREA2,AREA3
       DATA DD/2,3,4,1/
       DATA DX/1,2,3,4,1,2,3,4/

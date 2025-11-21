@@ -72,7 +72,7 @@ C-----------------------------------------------
       INTEGER I,MX
 C     REAL
       my_real
-     .     VX1L, VY1L, VY2L, VZ1L, VZ2L,THETA , XLDEMI,XSIGN
+     .       VY2L, VZ2L,THETA , XLDEMI,XSIGN
 C-----------------------------------------------
 C--------------------------------------------
 C     VELOCITIES convected frameE

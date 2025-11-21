@@ -77,9 +77,9 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   VY13(MVSIZ), VY24(MVSIZ), VZ13(MVSIZ),VZ24(MVSIZ),
-     .   YM1(MVSIZ), YM2(MVSIZ), YM3(MVSIZ), YM4(MVSIZ),
-     .   ZM1(MVSIZ), ZM2(MVSIZ), ZM3(MVSIZ), ZM4(MVSIZ),
-     .   YAVG(MVSIZ),A1(MVSIZ) , A2(MVSIZ), ZAVG(MVSIZ),
+     .      
+     .      
+     .   YAVG(MVSIZ),A1(MVSIZ) , A2(MVSIZ),
      .   VYG(MVSIZ),VY,VZ,Y,Z
 C-----------------------------------------------
 C

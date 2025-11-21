@@ -75,7 +75,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER  I,J,NINDX,PID
-      INTEGER NC1(MVSIZ), NC2(MVSIZ),INDX(MVSIZ),IFUNC(MVSIZ),
+      INTEGER  INDX(MVSIZ),IFUNC(MVSIZ),
      .        IFUNC2(MVSIZ),IFAIL(MVSIZ),ILENG(MVSIZ),ITENS(MVSIZ),
      .        FSMOOTH(MVSIZ)
 C     REAL
@@ -85,7 +85,7 @@ C     REAL
      .   FSCALE2(MVSIZ),ASCALE(MVSIZ),ASCALE2(MVSIZ),FOLD(MVSIZ),
      .   NEXP(MVSIZ),FCUT(MVSIZ),ALPHA(MVSIZ),FKOLD(MVSIZ)
       my_real
-     .    BID,SUM,DT11,DAMP,DAMM
+     .    SUM,DT11,DAMP,DAMM
       DOUBLE PRECISION EXDP(MVSIZ),EYDP(MVSIZ),EZDP(MVSIZ),ALDP(MVSIZ),
      .                 AL0DP(MVSIZ)
       LOGICAL :: ANY_PYTHON_FUNCTION

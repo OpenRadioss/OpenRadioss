@@ -113,14 +113,14 @@ c 37:              ! Butterworth !
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,N,INOD,JNOD,J,NVOIS,M,
-     .        NVOISS,SM,JS,NC,NS,NN,
-     .        IG,NEL,KAD,NG,K,KK,SFGAUGE,FR_RL(NSPMD+2)
+      INTEGER I, N, JNOD, J, NVOIS, M, 
+     . NVOISS,SM,JS,NC,
+     . IG,K,SFGAUGE,FR_RL(NSPMD+2)
       my_real
-     .       XI,YI,ZI,DI,RHOI,XJ,YJ,ZJ,DJ,RHOJ,VJ,
+     . XI,YI,ZI,XJ,YJ,ZJ,DJ,RHOJ,VJ,
      .       WGHT,ALPHAI,WCOMPI,
-     .       PP,EE,PRESS,ENER,RHO
-      TYPE(G_BUFEL_)  ,POINTER :: GBUF
+     . PP,PRESS,ENER,RHO
+ 
       my_real
      .       , DIMENSION(:), ALLOCATABLE :: FGAUGE1,FGAUGE2,FGAUGE3,FGAUGE4        
 C-----------------------------------------------
@@ -274,7 +274,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER J,IFIRST
+      INTEGER J
       my_real
      . PI1,PI8,PI38,SPI8,SPI38,C0,C1,C2,C3,C4,C5,C6,C7,C8,C9,
      , X1,X2,X3,Y1,Y2,Y3,Z1,Z2,Z3,D,DD,D2,DP,E,G,F

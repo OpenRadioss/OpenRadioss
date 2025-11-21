@@ -71,7 +71,7 @@ C-----------------------------------------------
       INTEGER I
       my_real
      .   DT(MVSIZ),DTC(MVSIZ),
-     .   A, MASS2, IN2, B, DTA, DTB, MX
+     .   A, MASS2, IN2, DTA, DTB, MX
 C-----------------------------------------------
       IF(NODADT/=0.OR.IDTMINS==2)THEN
 C
