@@ -57,7 +57,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,N,NIT,IBUG,NINDEX,NINDEX2,ICRIT_OUTP
       INTEGER INDEX(NEL)
-      my_real H1, H2, H3, H4, H5, H6, RO0,ROK0, TOLF,
+      my_real       RO0,ROK0, TOLF,
      .   FC,RT,RC,RCT1,RCT2,AA,AC,BC,BT,TOL
       my_real DS1(NEL),DS2(NEL),DS3(NEL),DS4(NEL),DS5(NEL),DS6(NEL),
      .   FA(NEL), XN(NEL),FN(NEL),SN1(NEL),SN2(NEL),

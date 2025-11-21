@@ -99,7 +99,7 @@ C OFF     | NEL     | F |R/W| DELETED ELEMENT FLAG (=1. ON, =0. OFF)
 C---------+---------+---+---+--------------------------------------------
       INTEGER ,INTENT(IN) :: IEOS
       INTEGER NEL, NUPARAM, NUVAR,IPT,NVARTMP,
-     .   NGL(NEL),MAT(NEL),IPM(NPROPMI,*), IPLA,IEXPAN,
+     .   NGL(NEL),MAT(NEL),IPM(NPROPMI,*), IPLA,
      .   ISRATE
       my_real
      .   TIME,TIMESTEP,UPARAM(NUPARAM),
@@ -141,7 +141,7 @@ C-------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,IADBUF,ICC,VFLAG,IPOS(MVSIZ),IAD(MVSIZ),ILEN(MVSIZ),IDEV
+      INTEGER I,ICC,VFLAG,IPOS(MVSIZ),IAD(MVSIZ),ILEN(MVSIZ),IDEV
       my_real
      . E,NU,P,DAV,VM,R,EPST,E1,E2,E3,E4,E5,E6,C,CD,D,
      .        Y,YP,E42,E52,E62,EPST2,RQ,BULK,

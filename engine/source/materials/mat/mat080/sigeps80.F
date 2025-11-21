@@ -115,11 +115,11 @@ C-----------------------------------------------
 C   I N P U T   A r g u m e n t s
 C-----------------------------------------------
 C
-      INTEGER NEL, NUPARAM, NUVAR,NVARTMP, NPT0, IPT,
-     .   NGL(NEL),MAT(NEL),IPM(NPROPMI,*),ITHK
+      INTEGER NEL, NUPARAM, NUVAR,NVARTMP,
+     .   NGL(NEL),MAT(NEL),IPM(NPROPMI,*)
       my_real TIME,TIMESTEP,UPARAM(*),
-     .   AREA(NEL),RHO0(NEL),EINT(NEL,2),
-     .   THKLY(NEL),PLA(NEL),RHO(NEL),
+     .   RHO0(NEL),EINT(NEL,2),
+     .   PLA(NEL),RHO(NEL),
      .   EPSPXX(NEL),EPSPYY(NEL),EPSPZZ(NEL),
      .   EPSPXY(NEL),EPSPYZ(NEL),EPSPZX(NEL),
      .   DEPSXX(NEL),DEPSYY(NEL),DEPSZZ(NEL),
@@ -129,7 +129,7 @@ C
      .   SIGOXX(NEL),SIGOYY(NEL),SIGOZZ(NEL),
      .   SIGOXY(NEL),SIGOYZ(NEL),SIGOZX(NEL),
      .   VOL(NEL) ,TEMP(NEL),
-     .   DIE(NEL),COEF(NEL) 
+     .   DIE(NEL) 
       INTEGER, INTENT(IN) :: JTHE
       INTEGER, INTENT(IN) :: IDT_THERM
       my_real ,intent(in) :: THEACCFACT
@@ -145,7 +145,7 @@ C   I N P U T   O U T P U T   A r g u m e n t s
 C-----------------------------------------------
       my_real 
      .   UVAR(NEL,NUVAR),EPSP(NEL),
-     .   OFF(NEL),THK(NEL),YLD(NEL),EINTTH(NEL)
+     .   OFF(NEL),YLD(NEL),EINTTH(NEL)
       INTEGER :: VARTMP(NEL,NVARTMP)
 
       TYPE(TTABLE) TABLE(*)
@@ -158,27 +158,27 @@ C-----------------------------------------------
 c-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,NRATE(NEL),II,J1,J2,N,NINDX,IADBUF,NINDXGLOB,NINDXLOC,
-     .        NMAX,INDEX(NEL),K2,ITERK2,ITER,NITER,NPFG(2),ITABLE(5),
-     .        EFUNC,IFUNC(5),ITERK,FLAG,NTAB,HEATFLAG,HEATOPTION,
-     .        NIHEAT,NICOOL,FLAG_LOC ,LOCAL,FLAG_TR_STRAIN,FLAG_TR_KINETICS
+      INTEGER I,J,II,NINDXGLOB,NINDXLOC,
+     .        INDEX(NEL),ITERK2,ITER,NITER,NPFG(2),ITABLE(5),
+     .        ITERK,NTAB,HEATFLAG,HEATOPTION,
+     .        NICOOL,FLAG_LOC ,FLAG_TR_STRAIN,FLAG_TR_KINETICS
 
       INTEGER, DIMENSION(NEL)   :: INDXLOC,INDXGLOB
       my_real
-     .        CUN ,CDEUX,CTROIS,DENO,EFAC,
-     .        ALAMBDA,BLAMBDA,CEPS,PEPS,SOL1,SOL2,
-     .        YSCALE(5),TETA2,TETA3,TETA4,TETA5,QR2,QR3,QR4,PP,
-     .        ALFA1,ALFA2,T2,T3,T4,T5,T1,VOLI,XFAC(5),RSCALE(5),
-     .        PPXX,PPYY,PPZZ,PPXY,PPYZ,PPZX,ESFIM1,
-     .        ALPHA,TREF,AE1,AE3,BS,MS,GSIZE,NU,FCFER,FCPER,FCBAI,FG,
-     .        E1PO(NEL),RHNEW,EODE,FGRAIN,KPER,HFCTN,KBAIN,XEQ2,
-     .        XEQ4,LAT1,LAT2,HFP,HB,HM,VOL0,TINI,UNITT,
-     .        TGZ(12),CRIT,TEST, HEATFLAG1,DXRHO,
-     .        CONV,HUITCENT,SSPSHELL,SSPSOL,QPTT,SLOPE,DYDXR,
+     .        CUN ,CDEUX,CTROIS,EFAC,
+     .        CEPS,PEPS,
+     .        YSCALE(5),TETA2,TETA3,TETA4,TETA5,QR2,QR3,QR4,
+     .        ALFA1,ALFA2,XFAC(5),RSCALE(5),
+     .        
+     .        ALPHA,TREF,AE1,AE3,BS,MS,GSIZE,NU,FCFER,FCPER,FCBAI,
+     .        FGRAIN,KPER,KBAIN,XEQ2,
+     .        XEQ4,LAT1,LAT2,HFP,HB,HM,TINI,UNITT,
+     .        TGZ(12), HEATFLAG1,DXRHO,
+     .        HUITCENT,QPTT,SLOPE,DYDXR,
      .         TAU1, TAU3,
      .         GFAC_F,PHI_F,PSI_F,CR_F,CF,GFAC_P,PHI_P,PSI_P,CR_P,CP,
      .         GFAC_B,PHI_B,PSI_B,CR_B,CB,PHI_M,PSI_M,N_M,FGFER,FGPER,FGBAI,
-     .         FAC,DSVM,
+     .         
      .         NORMXX,NORMYY,NORMZZ,NORMXY,NORMYZ,NORMZX,DDLAM,DFDSIG_DSIG,DPLA_DLAM,DDEP
 
       my_real
@@ -186,40 +186,40 @@ C-----------------------------------------------
      .        LAMDA(NEL),DYDXGZ(NEL),DYDXE(NEL),
      .        FRAC1(NEL),FRAC2(NEL),FRAC3(NEL)  ,FRAC4(NEL), 
      .        FRAC5(NEL),TOTFRAC(NEL),TOTFRACOLD(NEL) ,SOXX(NEL) ,
-     .        GZ(NEL)   ,TREO(NEL)   ,SIGOM(NEL),SOYY(NEL),SOZZ(NEL),
+     .        GZ(NEL)      ,SIGOM(NEL),SOYY(NEL),SOZZ(NEL),
      .        DYDX1(NEL),DYDX2(NEL)  ,DYDX3(NEL),
      .        DYDX4(NEL),DYDX5(NEL)  ,YIELD(NEL),
      .        Y1(NEL)   ,Y2(NEL),Y3(NEL),Y4(NEL),Y5(NEL),
-     .        STRIALXX(NEL),STRIALYY(NEL),STRIALZZ(NEL),
-     .        STRIALXY(NEL),STRIALYZ(NEL),STRIALZX(NEL),SVM(NEL),
-     .        EOXX(NEL),EOYY(NEL),EOZZ(NEL),EPSTH(NEL),
-     .        EOXY(NEL),EOYZ(NEL),EOZX(NEL),
-     .        EODEXX(NEL),EODEYY(NEL),EODEZZ(NEL),
-     .        EODEXY(NEL),EODEZX(NEL),EODEYZ(NEL),Y1INI(NEL),
-     .        EPSOXX(NEL),EPSOYY(NEL),EPSOZZ(NEL),
-     .        EPSOXY(NEL),EPSOYZ(NEL),EPSOZX(NEL),
-     .        DPLA(NEL)  ,SNORM(NEL),SEFF(NEL),
-     .        SIGM(NEL)  ,SXX(NEL),SYY(NEL),SZZ(NEL),
+     .        
+     .        SVM(NEL),
+     .        
+     .        
+     .        
+     .        Y1INI(NEL),
+     .        
+     .        
+     .        DPLA(NEL)  ,
+     .        SXX(NEL),SYY(NEL),SZZ(NEL),
      .        SXY(NEL)   ,SYZ(NEL),SZX(NEL)   ,
-     .        DEPLXX(NEL),DEPLYY(NEL),DEPLZZ(NEL),DEPLXY(NEL),DEPLYZ(NEL),DEPLZX(NEL),
+     .        
      .        DPLA1(NEL),DPLA2(NEL),DPLA3(NEL),DPLA4(NEL),DPLA5(NEL),
      .        PLA1(NEL) ,PLA2(NEL) ,PLA3(NEL) ,PLA4(NEL) ,PLA5(NEL),
-     .        DEPSELZZ(NEL),DEPSPLZZ(NEL),DEPSIM1(NEL),DEPSI(NEL),
-     .        DEPSIP1(NEL),SIGZIM1(NEL),SIGI(NEL),
-     .        VOLOLD(NEL),RH(NEL),DE12(NEL),YLDOLD(NEL),
-     .        DEPSELOZZ(NEL),DEPSPLOZZ(NEL),
-     .        SVMI(NEL),TRDEPSTH(NEL),SVMIM1(NEL),SVMTR(NEL),TRDEPS,
-     .        DEPSTHXX(NEL),DEPSTHYY(NEL),DEPSTHZZ(NEL),DEPSTH(NEL),
-     .        X1(NEL),X2(NEL),X3(NEL),X4(NEL),X5(NEL),HARD(NEL),
-     .        DEXX(NEL),DEYY(NEL),DEZZ(NEL),GOLD(NEL),SVMtest(NEL),
-     .        EPLXX(NEL),EPLYY(NEL),EPLZZ(NEL) ,EPLXY(NEL),EPLYZ(NEL),EPLZX(NEL),
-     .        EELOXX(NEL),EELOYY(NEL),EELOYZ(NEL),EELOZX(NEL),
-     .        EELOXY(NEL),EELOZZ(NEL),SIGKK(NEL),
-     .        XGAMA(NEL),TEMPMIN(NEL),VR(NEL),H(NEL),TEMPO(NEL),
+     .        
+     .        
+     .        
+     .        
+     .        TRDEPSTH(NEL),
+     .        DEPSTH(NEL),
+     .        X2(NEL),X3(NEL),X4(NEL),X5(NEL),HARD(NEL),
+     .        GOLD(NEL),
+     .        
+     .        
+     .        SIGKK(NEL),
+     .        XGAMA(NEL),TEMPMIN(NEL),VR(NEL),TEMPO(NEL),
      .        ZEQ(NEL), TAU(NEL),NORMDEV(NEL),DETH12(NEL),DEPSTR(NEL),
      .        RHO_A(NEL),RHO_F(NEL),RHO_P(NEL),RHO_B(NEL),RHO_M(NEL),RHO_N(NEL)
       my_real, DIMENSION(NEL) ::
-     .        A1, A2,FCT,DF,SVMO,DEPSVOL,HFCT,A,B,C,DH,GSIG,DGSIG,ESF,DESF,P,SVMT,
+     .        A1, A2,FCT,DF,SVMO,HFCT,A,B,C,GSIG,P,SVMT,
      .        LNF2,LNF3,LNF4,LNF5,FACCS,STXX,STYY,STZZ,STXY,STYZ,STZX,LOGZ,LOGZM1,
      .        DPXX,DPYY,DPZZ,DPXY,DPYZ,DPZX,PHI2,PHI3,PHI4,PHI5,PSI2 ,PSI3,PSI4,PSI5
       my_real,

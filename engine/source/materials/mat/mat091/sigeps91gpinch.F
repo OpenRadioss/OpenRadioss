@@ -88,28 +88,28 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,MX,J,IADBUF
+      INTEGER I,MX,IADBUF
 C     REAL
       my_real
      .   PA1,PA2,PA3,PA4,PA5,
      .   E,NU,G,GS,SIGY,HM,SIGY0,
-     .   MS,FS,D1,D2,D3,C1,C2,C3, 
-     .   AAA,BBB,CCC,P,BULK
+     . MS,D1,D2,D3,C1,C2,C3,
+     . BULK
       my_real
-     .   VOL(MVSIZ),SPHEPS(MVSIZ), 
-     .   DEVDEPSXX(MVSIZ),DEVDEPSYY(MVSIZ),DEVDEPSZZ(MVSIZ),
-     .   DEVDEPSXY(MVSIZ),DEVDEPSYZ(MVSIZ),DEVDEPSXZ(MVSIZ),
+     . VOL(MVSIZ),
+     .
+     .
      .   B1(MVSIZ),B2(MVSIZ),B3(MVSIZ),B4(MVSIZ),B5(MVSIZ),
      .   THK08(MVSIZ),VISCMX(MVSIZ),THKX(MVSIZ),MU(MVSIZ),
-     .   SVONM(MVSIZ),CRIT(MVSIZ),SPHSIG(MVSIZ),MAGDEV(MVSIZ),INVMAGDEV(MVSIZ),
-     .   DEVSXX(MVSIZ),DEVSYY(MVSIZ),DEVSZZ(MVSIZ),
-     .   DEVSXY(MVSIZ),DEVSYZ(MVSIZ),DEVSZX(MVSIZ),
-     .   N1(MVSIZ),N2(MVSIZ),N3(MVSIZ),N4(MVSIZ),N5(MVSIZ),N6(MVSIZ),
+     .
+     .
+     .
+     .
      .   RR(MVSIZ),UNSYEQ(MVSIZ),HH(MVSIZ),ETSE(MVSIZ),
      .   DEGSH_LOC(MVSIZ),DEGMB_LOC(MVSIZ),DEGFX_LOC(MVSIZ),DWELM(MVSIZ),
      .   DWELF(MVSIZ),DWPLA(MVSIZ),DPLA(MVSIZ),
-     .   SDEVXX(MVSIZ),SDEVYY(MVSIZ),SDEVZZ(MVSIZ),
-     .   SIGNDEVXX(MVSIZ),SIGNDEVYY(MVSIZ),SIGNDEVZZ(MVSIZ),PNEW(MVSIZ),PTRIAL(MVSIZ),
+     .
+     . SIGNDEVXX(MVSIZ),SIGNDEVYY(MVSIZ),SIGNDEVZZ(MVSIZ),PNEW(MVSIZ),
      .   POLD(MVSIZ),SIGODEVXX(MVSIZ),SIGODEVYY(MVSIZ),SIGODEVZZ(MVSIZ),DD(MVSIZ)
 C-----------------------------------------------
 C

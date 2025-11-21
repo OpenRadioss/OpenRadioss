@@ -73,13 +73,13 @@ C----------------------------------------------------------------
 C----------------------------------------------------------------
 C  L O C A L  V A R I B L E S
 C----------------------------------------------------------------
-      INTEGER :: I,J,K,ITER,NORDER,NITER,II
+      INTEGER :: I,ITER,NORDER,NITER,II
       my_real :: NU,RBULK,TENSCUT,GMAX,SUM,SUMDWDL,PARTP,EMAX,A11         
-      my_real :: E11,E22,E12,PUI11,PUI22,ALMA1,ALMA2,ALMA3,AMAX
-      my_real ,DIMENSION(3)       :: DDWDDL,DWDL,LAM_AL
+      my_real :: AMAX
+      my_real ,DIMENSION(3)       :: LAM_AL
       my_real ,DIMENSION(5)       :: MU,AL    
       my_real ,DIMENSION(NEL)     :: RVT,GTMAX,DLAM3,KT3,RHO,KIR3
-      my_real ,DIMENSION(NEL)     :: INVRV,INVV3,DEZZ,RV,TRAV,ROOTV
+      my_real ,DIMENSION(NEL)     :: INVRV,DEZZ,RV,TRAV,ROOTV
       my_real ,DIMENSION(NEL,3)   :: T,EVV,EV,EVM,CII,S_LDWDL      
       my_real ,DIMENSION(NEL,3,2) :: EIGV(NEL,3,2)      
 C=======================================================================

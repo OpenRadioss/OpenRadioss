@@ -109,7 +109,7 @@ C-----------------------------------------------
 C   I N P U T   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NEL0, NUPARAM, NUVAR, NPT0, IPT,IFLAG(*),
-     .   NGL(NEL0),MAT(NEL0),INLOC
+     .   NGL(NEL0),INLOC
       my_real TIME,TIMESTEP,
      .   AREA(NEL0),RHO0(NEL0),EINT(NEL0,2),
      .   THKLY(NEL0),PLA(NEL0),
@@ -155,14 +155,14 @@ C        NPF,TF  : FUNCTION PARAMETER
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,NRATE(MVSIZ),J1,J2,N,NINDX,NMAX,INDEX(MVSIZ)
+      INTEGER I,J,N,NINDX,NMAX,INDEX(MVSIZ)
       my_real
      .        E,A1,A2,G,G3,
      .        AA(MVSIZ),BB(MVSIZ),PP(MVSIZ),QQ(MVSIZ),H(MVSIZ),
-     .        EPSMAX(MVSIZ),CC,DD(MVSIZ),AHS,
+     .        CC,AHS,
      .        BHS, CN, CM, K1,
      .        K2, DH, VM0, TEMP(MVSIZ),
-     .        VOL0,DVM, VM(MVSIZ),HK(MVSIZ),NU,
+     .        VOL0,DVM, VM(MVSIZ),NU,
      .        NNU2,NU1,NU2,NU3,NU4, 
      .        NU5,NU6,SVM(MVSIZ)
       my_real

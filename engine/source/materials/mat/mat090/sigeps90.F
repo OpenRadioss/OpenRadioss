@@ -123,19 +123,19 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I,J,K,II,KK,I1,J1,J2,IFLAG,IDAM,NE_L,NE_UNL,TFLAG,NINDX,
+      INTEGER :: I,J,K,II,KK,J1,J2,IFLAG,IDAM,NE_L,NE_UNL,TFLAG,NINDX,
      .           NINDX_PRINT,N,FAIL
       INTEGER :: ILOAD(MVSIZ,3),INDX_L(MVSIZ),INDX_UNL(MVSIZ),INDX(MVSIZ),
      .           INDX_PRINT(NEL)
       INTEGER ,DIMENSION(NEL) :: IAD,ILEN,IPOS,JJ,UNLOAD
       my_real
      . E0,AA,G,NU,SHAPE,HYS,
-     . YFAC1,YFACJ1,YFACJ2,RATEJ1,RATEJ2, EPSE,EP1,
+     . YFAC1,EP1,
      . EP2,EP3,EP4,EP5,EP6,ERT11,ERT12,ERT13,ERT21,
-     . ERT22,ERT23,ERT31,ERT32,ERT33,SJ1,SJ2,FAC,T1,T2,T3,
+     . ERT22,ERT23,ERT31,ERT32,ERT33,FAC,T1,T2,T3,
      . DAM,EPE,E_MIN(MVSIZ),DELTA,ALPHA,TCUT,DE,RATEEPS, 
      . DEPS,E_MAX,E_NEW,E_OLD,EPSS,TCUT0
-      my_real :: DF(3),EPSP(3)
+      my_real :: EPSP(3)
    
       my_real ,DIMENSION(NEL)       :: DYDX,STMP1,STMP2
       my_real, DIMENSION(NEL,3)     :: STRAIN,STRAINRATE,S,SQSTAT

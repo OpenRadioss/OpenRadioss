@@ -68,7 +68,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER,INTENT(IN) :: NEL
       INTEGER,INTENT(IN) :: MAT(NEL)
-      my_real PM(NPROPM,*), SIG(NEL,6), MU_OLD(NEL), EPXE(NEL), EINT(NEL), RHO(NEL), VOL(NEL),SEQ_OUTPUT(NEL)
+      my_real PM(NPROPM,*), SIG(NEL,6), EPXE(NEL), EINT(NEL), RHO(NEL), VOL(NEL),SEQ_OUTPUT(NEL)
       my_real,INTENT(INOUT) :: PNEW(NEL)
       my_real,INTENT(INOUT) :: PSH(NEL)
       my_real,INTENT(IN) :: OFF(NEL)
@@ -86,14 +86,14 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, MX
       my_real T1(NEL), T2(NEL), T3(NEL), T4(NEL),
-     .        T5(NEL), T6(NEL), POLD(NEL), P(NEL), PNE1(NEL),
-     .        G(NEL), BULK(NEL), A0(NEL), A1(NEL),
+     .        T5(NEL), T6(NEL), POLD(NEL),
+     .        G(NEL), A0(NEL), A1(NEL),
      .        A2(NEL), AMX(NEL), AJ2(NEL), G0(NEL), GG(NEL),
      .        MU2(NEL), SVRT(NEL), RATIO(NEL),
      .        YIELD2(NEL), G43(NEL),
      .        RHO0(NEL),PTOT,PSTAR(NEL),
-     .        G43_1,C0_1,C1_1,C2_1,C3_1,
-     .        BULK_1,BULK2_1,MU_MAX_1,PSH_1,
+     .        G43_1,
+     .        PSH_1,
      .        PSTAR_1,A0_1,A1_1,A2_1,AMX_1,
      .        RHO0_1,PFRAC
 C-----------------------------------------------

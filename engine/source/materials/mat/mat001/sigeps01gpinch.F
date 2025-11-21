@@ -78,7 +78,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,MX,J
+      INTEGER I
 C     REAL
       my_real
      .   PA1(MVSIZ),PA2(MVSIZ),PA3(MVSIZ),PA4(MVSIZ),PA5(MVSIZ),

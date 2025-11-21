@@ -148,18 +148,18 @@ C        NPF,TF  : FUNCTION PARAMETER
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-       INTEGER I,J,IADBUFV(MVSIZ),J1,J2,JJ(MVSIZ),NFUNC,
-     .        NRATE(MVSIZ),IPOS1(MVSIZ),IPOS2(MVSIZ),IAD1(MVSIZ),
-     .        ILEN1(MVSIZ),IAD2(MVSIZ),ILEN2(MVSIZ),
-     .        IFUNC(MVSIZ,100),NFUNCV(MVSIZ),PFUN(MVSIZ),
-     .        IPOSP(MVSIZ),IADP(MVSIZ),ILENP(MVSIZ),NFUNCM,NRATEM,
-     .        IPFLAG,IPARAM,NPAR, IFLAG(MVSIZ)
+       INTEGER I,J,IADBUFV(MVSIZ),JJ(MVSIZ),NFUNC,
+     .        IPOS1(MVSIZ),IAD1(MVSIZ),
+     .        ILEN1(MVSIZ),
+     .        IFUNC(MVSIZ,100),
+     .        
+     .         IFLAG(MVSIZ)
        my_real   
-     .        RATE(MVSIZ,2),YFAC(MVSIZ,2),
-     .        Y1(MVSIZ),Y2(MVSIZ),H(MVSIZ),DYDX1(MVSIZ),
-     .        DYDX2(MVSIZ),PLA(MVSIZ),FAIL(MVSIZ),EPSR1(MVSIZ),
-     .        P0(MVSIZ),PFAC(MVSIZ),
-     .        DFDP(MVSIZ),DPLA,
+     .        
+     .        Y1(MVSIZ),Y2(MVSIZ),DYDX1(MVSIZ),
+     .        PLA(MVSIZ),
+     .        
+     .        
      .        EVL(MVSIZ),
      .        E11(MVSIZ), E22(MVSIZ), G12(MVSIZ),G23(MVSIZ),
      .        F1(MVSIZ), F2(MVSIZ), F11(MVSIZ), F22(MVSIZ), F12(MVSIZ), 

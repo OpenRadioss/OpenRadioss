@@ -127,15 +127,15 @@
         integer, parameter :: niter = 6    !< Number of recursive iterations
         integer, parameter :: niter2d = 3  !< Number of plane stress iterations
         !< Real working variables
-        real(kind=WP) :: ldav,scale,lam_r,denom,fr,lam_tg,prev,sgnR,taper,xhat,&
-          xmag,amax,xhat_raw,sgnR_dom,denom_dom,dlam_eff,gdir,lamj,dlam_tg,    &
-          Rblend,dt3_dlam3,a11,rho0,young,dlamb1_dlam3,dlamb2_dlam3,dlamb3_dlam3
+        real(kind=WP) :: ldav, scale, lam_r, denom, lam_tg, prev, xhat, &
+          xmag,amax,dlam_eff,gdir,lamj, &
+          Rblend,dt3_dlam3,a11,rho0,young
         real(kind=WP), dimension(nel) :: deint0,deint,p,epseq,emax,loadflg,    &
-          sigdxx,sigdyy,sigdzz,sigdxy,sigdyz,sigdzx,sigdeff,erate,rv,rv_mth,   &
-          gmax,ecurent,unl,dunldlam,loadflg_old,gunl,dgunldlam,ratioR,fcrit,   &
-          i1,i2,dpdrv,trav,rootv,invrv,lam3_0,fJ,dfJdx,gJ,dgJdlam,dgJsqrdlam,  &
+          sigdxx,sigdyy,sigdxy,sigdeff,erate,rv,rv_mth, &
+          gmax,ecurent,loadflg_old,gunl,dgunldlam,ratioR,fcrit, &
+          i1,i2,dpdrv,trav,rootv,lam3_0,fJ,dfJdx,gJ,dgJdlam,dgJsqrdlam, &
           gJsqr,xhat_dom,xfoam
-        real(kind=WP), dimension(2,2) :: epsp
+ 
         real(kind=WP), dimension(nel,3) :: lam,evv,evvp,ee,eep,f,dfdlam,t,g,   &
           gsqr,dgdlam,dgsqrdlam
         real(kind=WP), dimension(nel,6) :: xvec

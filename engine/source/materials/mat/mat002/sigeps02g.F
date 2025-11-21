@@ -68,7 +68,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !-----------------------------------------------
 !   D u m m y   A r g u m e n t s
 !-----------------------------------------------
-      INTEGER JFT,JLT,IOFC,KFTS,NLAY,IR,IS,NEL
+      INTEGER JFT,JLT,IOFC,KFTS,IR,IS,NEL
       INTEGER NGL(MVSIZ),INDX(MVSIZ), 
      .        IOFF_DUCT(*),MX
       INTEGER, INTENT(IN) :: NUVAR
@@ -91,7 +91,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .    SIGNXX(NEL),SIGNYY(NEL),SIGNXY(NEL),
      .    MOMNXX(NEL),MOMNYY(NEL),MOMNXY(NEL),
      .    SIGNYZ(NEL),SIGNZX(NEL),
-     .    SIGVXX(NEL),SIGVYY(NEL),ETSE(NEL)
+     .    ETSE(NEL)
       TYPE(ELBUF_STRUCT_), TARGET :: ELBUF_STR
       type (matparam_struct_) ,intent(in) :: mat_param
 !-----------------------------------------------
@@ -114,10 +114,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .   DEGMB_LOC(MVSIZ),DEGSH_LOC(MVSIZ),DEGFX_LOC(MVSIZ),YLD(MVSIZ),
      .   LOGEP(MVSIZ),PLAP(MVSIZ)
       my_real :: DPLA_I,DR,A,B,F,DF,YLD_I,CP1,CQ1,CP2,CQ2,SM3,FNM,
-     .   DA,DB,A_I,B_I,PN,QN,SN1,SN2,S,MM1,MM2,
+     .   DA,DB,A_I,B_I,QN,SN1,SN2,S,MM1,MM2,
      .   DFNP,DFNQ,DFMP,DFMQ,DFNMP,DFNMQ,XP,XQ,XPG,XQG,
      .   QNM1,QNM2,FNP,FNQ,FMP,FMQ,FNMP,FNMQ,S3,AA,BB,PLAP1,
-     .   THK12,EZZ,AAA,BBB,CCC,FACT,ASRATE,EPDR,
+     .   THK12,EZZ,AAA,BBB,CCC,ASRATE,EPDR,
      .   MS,FS,D1,D2,MT,TMELT,TREF,TSTAR,CA_1,CB_1,YMAX_1
       my_real :: DPLA(MVSIZ)
       TYPE(L_BUFEL_) ,POINTER :: LBUF

@@ -72,9 +72,9 @@ C-----------------------------------------------
      .           NDIM,IRELOAD
       my_real :: NU12,NU21,G12,A11,A12,A22,RCOMP,
      .           FSCALE,FSCALE1,FSCALE2,FSCALET,DW,HT,HF,
-     .           DET,S,D,T,P1,P2,R,DEZZ,SVM2,XINT,YINT
+     .           DET,S,D,P1,P2,R,SVM2,XINT,YINT
       INTEGER ,DIMENSION(NEL)   :: INDXU,INDXL,INDXR,INDXT,INDXC,INDXX
-      my_real ,DIMENSION(NEL)   :: EPSQ,SVM,ETX,ETL,ETU,EXX,EYY,DX,DY,
+      my_real ,DIMENSION(NEL)   :: EPSQ,SVM,ETX,ETL,ETU,
      .  SIGF,EMAX,SMAX,EMINRL,SMINRL,EMAXRL,SMAXRL,BETA
       INTEGER ,DIMENSION(NEL,1) :: IPOS1
       my_real ,DIMENSION(NEL,1) :: XX1

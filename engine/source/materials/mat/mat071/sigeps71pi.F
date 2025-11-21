@@ -65,9 +65,8 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: I,IADBUF,KK
       INTEGER ,DIMENSION(NEL) ::EFLAG
-      my_real :: FASS,FSAS,FASF,FSAF,RSAS,RFAS,FS0,RSSA,RFSA,DFM, FSS,SCALE_SIG,
-     .           SQDT,AA,BB,CC,FCT,FCTP,BETA,DGT,GS,DET,SHFACT,DFMSA,DFMAS ,
-     .           delta, sol1,sol2
+      my_real :: FASS, FSAS, FASF, FSAF, RSAS, RFAS, FS0, RSSA, RFSA, DFM, SCALE_SIG, 
+     .           SQDT,AA,BB,CC,FCT,FCTP,BETA,DGT,GS,DET,SHFACT,DFMSA,DFMAS
       my_real, DIMENSION(NEL) ::E,K,EMART,G,G2, ALPHA,EPSL,GM,KM,
      .           YLD_ASS,YLD_ASF,YLD_SAS,TINI,
      .           YLD_SAF,CAS,CSA,TSAS,TFAS, TSSA,TFSA,FS,ET,GT

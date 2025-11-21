@@ -54,7 +54,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I,KK
+      INTEGER :: I
       my_real :: GG,A0,A1,A2,AMAX,TMELT,THETL,AMUMX,SIGMX
       my_real :: T0,FACT
       my_real :: PTOT

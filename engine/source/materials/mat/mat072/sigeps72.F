@@ -49,7 +49,7 @@ C---------+---------+---+---+--------------------------------------------
 #include      "com08_c.inc"
 #include      "units_c.inc"
 C
-      INTEGER NEL,NUPARAM,NUVAR,IPT,NGL(NEL),INLOC
+      INTEGER NEL,NUPARAM,NUVAR,NGL(NEL),INLOC
       my_real
      .   TIME,TIMESTEP,UPARAM(NUPARAM),
      .   RHO(NEL),RHO0(NEL),

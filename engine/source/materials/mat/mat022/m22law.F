@@ -107,12 +107,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER ICC(MVSIZ), I, MX, II,IBID,ICC_1
+      INTEGER ICC(MVSIZ), I, MX, II,ICC_1
       my_real
      .   RHO0(MVSIZ), 
      .   G(MVSIZ),AK(MVSIZ),
      .   QH(MVSIZ), C1(MVSIZ),
-     .   P(MVSIZ), EPMX(MVSIZ), THETL(MVSIZ),
+     .   P(MVSIZ), EPMX(MVSIZ),
      .   CA(MVSIZ), CB(MVSIZ), CC(MVSIZ), CN(MVSIZ), 
      .   EPDR(MVSIZ),
      .   DVOL(MVSIZ), SIGMX(MVSIZ),

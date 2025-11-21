@@ -156,11 +156,11 @@ C-----------------------------------------------
      .        ILEN1(MVSIZ),IAD2(MVSIZ),ILEN2(MVSIZ),
      .        IFUNC(100),NFUNCV,PFUN,
      .        IPOSP(MVSIZ),IADP(MVSIZ),ILENP(MVSIZ),NFUNCM,NRATEM,
-     .        IPFLAG,IPARAM,NPAR,IPOS3(MVSIZ),IPOS4(MVSIZ),IAD3(MVSIZ),
+     .        IPFLAG,IPOS3(MVSIZ),IPOS4(MVSIZ),IAD3(MVSIZ),
      .        ILEN3(MVSIZ),IAD4(MVSIZ),ILEN4(MVSIZ),J1, J2, J3, J4,
      .        NINDX,INDX(MVSIZ), NN,OPTE,IFUNCE,MX
       my_real
-     .        E(MVSIZ),NU,P,DAV,VM,R,FAC,EPST,EP1,EP2,EP3,EP4,EP5,EP6,
+     .        E(MVSIZ),NU,P,DAV,VM,R,FAC,EPST,
      .        E1,E2,E3,E4,E5,E6,C,CC,D,Y,YP,E42,E52,E62,EPST2,
      .        C1(MVSIZ),G(MVSIZ),G2(MVSIZ),G3(MVSIZ),
      .        EPSMAX,RATE(MVSIZ,4),YFAC(MVSIZ,4),
