@@ -1224,6 +1224,9 @@ C SPH
       INTEGER DEF_INTER(100)
       ! constraint structure
       type(constraint_) :: constraint_struct
+C RWALL PENALTY   
+      INTEGER :: SLN_PEN
+      my_real, DIMENSION(:), ALLOCATABLE :: RWSTIF_PEN
 c=======================================================================
       IREAC = 0 
       PYTHON%NB_FUNCTS = 0
@@ -7812,6 +7815,7 @@ C
         ALLOCATE(RWORK(SRWORK)    ,STAT=stat)
         RWORK = ZERO
         NRWLAG = 0
+        SLN_PEN = 0
 c
         IF(NRWALL > 0) THEN
           WRITE(ISTDO,'(A)')TITRE(39)
@@ -7821,12 +7825,14 @@ c
      3         IXQ      ,NPC1     ,D        ,IGRNOD   ,
      4         SRWBUF   ,IMERGE   ,UNITAB   ,
      5         IKINE1LAG,IDDLEVEL ,LSUBMODEL ,RTRANS  ,
-     6         NOM_OPT(LNOPT1*INOM_OPT(5)+1),ITAGND)
+     6         NOM_OPT(LNOPT1*INOM_OPT(5)+1),ITAGND   ,SLN_PEN )
         ENDIF
 C
 
         IF(IDDLEVEL==0) THEN
           ALLOCATE(LPRW(SLPRW)  ,STAT=stat)
+          CALL MY_ALLOC(RWSTIF_PEN,SLN_PEN)
+          RWSTIF_PEN = ZERO
         END IF
         LPRW = IWORK(1:SLPRW)
         DEALLOCATE(IWORK)
@@ -8797,7 +8803,8 @@ C
      &            IPARI      , INTBUF_TAB     , INTERFACES       , MAT_ELEM%MAT_PARAM ,
      &            NPRELOAD_A , PRELOAD_A      , FAIL_FRACTAL     ,FAIL_BROKMANN       ,DEFAULTS  ,
      &            NDAMP_FREQ_RANGE,DAMPR      , IBEAM_VECTOR     , RBEAM_VECTOR       ,D         ,
-     &            LSIGI      ,LSIGSP          , SRNOISE2         )
+     &            LSIGI      ,LSIGSP          , SRNOISE2         ,NPRW               ,LPRW       ,
+     &            RWSTIF_PEN ,SLN_PEN )
 
 
       IF(NINTER>0.AND.NUMELIG3D>0) THEN
@@ -11129,7 +11136,7 @@ c
      D         KLOADPINTER  ,LOADPINTER   ,DGAPLOADINT   ,S_LOADPINTER, SCEP,DYNAIN_DATA,
      E         DRAPEG       ,USER_WINDOWS ,OUTPUT        ,INTERFACES  ,NUMBER_LOAD_CYL ,
      F         LOADS_PER_PROC(P), PYTHON,DPL0CLD,VEL0CLD ,NAMES_AND_TITLES,
-     G         BCS_PER_PROC(P),constraint_struct,glob_therm,PBLAST)
+     G         BCS_PER_PROC(P),constraint_struct,glob_therm,PBLAST,RWSTIF_PEN ,SLN_PEN )
       GOTO 220
  221  CONTINUE
 

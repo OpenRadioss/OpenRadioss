@@ -98,6 +98,7 @@ C-----------------------------------------------
       CHARACTER MESS*40
       CHARACTER(LEN=NCHARTITLE) :: TITR
       LOGICAL :: IS_AVAILABLE
+      INTEGER :: IPEN
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
@@ -155,6 +156,7 @@ C
         CALL HM_GET_INTV('slidingflag',ITIED,IS_AVAILABLE,LSUBMODEL)  
         CALL HM_GET_INTV('NodeSet_ID',IGU,IS_AVAILABLE,LSUBMODEL)  
         CALL HM_GET_INTV('excludeNodeSet_ID',IGU2,IS_AVAILABLE,LSUBMODEL)  
+        CALL HM_GET_INTV('Iform',IPEN,IS_AVAILABLE,LSUBMODEL)  
 C
         IF(NUSER /= 0) THEN
           MSR = USR2SYS(NUSER,ITABM1,MESS,NUSER)
@@ -275,18 +277,18 @@ C
         NSL = 0
         DO I = 1,NUMNOD
           IF (LPRW(K+I) > 0) THEN
-            IF (NS10E > 0) THEN
+            IF (NS10E > 0.AND. IPEN==0) THEN
               IF( ITAGND(I) /= 0) CYCLE
             ENDIF
             NSL = NSL+1
             LPRW(K+NSL) = I
-            IF (IDDLEVEL == 0) THEN
+            IF (IDDLEVEL == 0.AND. IPEN==0) THEN
               CALL KINSET(4,ITAB(I),IKINE(I),1,N+NUMSKW+1,IKINE1(I))
             ENDIF
           ENDIF
         ENDDO
         ! Itet=2 of S10      
-        IF (NS10E > 0 ) CALL REMOVE_ND(NSL,LPRW(K+1),ITAGND)
+        IF (NS10E > 0 .AND. IPEN==0) CALL REMOVE_ND(NSL,LPRW(K+1),ITAGND)
         IFI=IFI+NSL
         IF (IFQ > 0) THEN
           MFI=MFI+3*NSL
@@ -299,6 +301,7 @@ C
         ELSE
           WRITE(IOUT,1150) N,ITYP,ITIED,NSL,NUSER,XMAS,VX,VY,VZ
         ENDIF
+        IF (IPEN > 0) WRITE(IOUT,2500)
 C
         WRITE(IOUT,2003)(RWL(L,N),L=4,6),RWL(7,N)
 C        
@@ -314,6 +317,7 @@ C
         NPRW(N+3*NRWALL) = ITYP
         NPRW(N+4*NRWALL) = 0
         NPRW(N+5*NRWALL) = 0
+        NPRW(N+8*NRWALL) = IPEN
         K  = K+NSL
 C
       ENDDO
@@ -345,5 +349,6 @@ C
      .       /10X,'FRICTION COEFFICIENT . . .',1PG14.4
      .       /10X,'FILTRATION FLAG. . . . . .',I10
      .       /10X,'FILTRATION FACTOR. . . . .',1PG14.4)
+ 2500 FORMAT(/5X,'RIGID WALL FORMULATION     : PENALTY'/)
       END
 
