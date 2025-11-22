@@ -525,7 +525,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_read_mat33                       ../starter/source/materials/mat/mat033/hm_read_mat33.F
 !||    hm_read_mat34                       ../starter/source/materials/mat/mat034/hm_read_mat34.F
 !||    hm_read_mat35                       ../starter/source/materials/mat/mat035/hm_read_mat35.F
-!||    hm_read_mat36                       ../starter/source/materials/mat/mat036/hm_read_mat36.F90
+!||    hm_read_mat36                       ../starter/source/materials/mat/mat036/hm_read_mat36.F
 !||    hm_read_mat37                       ../starter/source/materials/mat/mat037/hm_read_mat37.F
 !||    hm_read_mat38                       ../starter/source/materials/mat/mat038/hm_read_mat38.F
 !||    hm_read_mat40                       ../starter/source/materials/mat/mat040/hm_read_mat40.F
@@ -896,6 +896,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    law129_upd                          ../starter/source/materials/mat/mat129/law129_upd.F90
 !||    law158_upd                          ../starter/source/materials/mat/mat158/law158_upd.F
 !||    law19_upd                           ../starter/source/materials/mat/mat019/law19_upd.F90
+!||    law36_upd                           ../starter/source/materials/mat/mat036/law36_upd.F
 !||    law42_upd                           ../starter/source/materials/mat/mat042/law42_upd.F
 !||    law58_upd                           ../starter/source/materials/mat/mat058/law58_upd.F
 !||    law62_upd                           ../starter/source/materials/mat/mat062/law62_upd.F
@@ -1205,7 +1206,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    szrefderi3                          ../starter/source/elements/solid/solide/srefsta3.F
 !||    t3grhead                            ../starter/source/elements/solid_2d/tria/t3grhead.F
 !||    t3grtails                           ../starter/source/elements/solid_2d/tria/t3grtails.F
-!||    table_mat2d_deintersect             ../starter/source/materials/tools/table_mat2d_deintersect.F90
 !||    table_slope                         ../starter/source/materials/tools/table_slope.F
 !||    tag_node_from_1d_2d_elem            ../starter/source/model/sets/tag_node_from_1D_2D_elem.F
 !||    tag_node_from_part_sphcel           ../starter/source/model/sets/tag_node_from_part_sphcel.F90

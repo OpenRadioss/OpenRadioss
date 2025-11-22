@@ -42,6 +42,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    damping_range_shell_mom_mod   ../engine/source/general_controls/damping/damping_range_shell_mom.F90
 !||    elbufdef_mod                  ../common_source/modules/mat_elem/elbufdef_mod.F90
 !||    mat_elem_mod                  ../common_source/modules/mat_elem/mat_elem_mod.F90
+!||    table_mod                     ../engine/share/modules/table_mod.F
 !||====================================================================
       SUBROUTINE MULAWGLC(ELBUF_STR,
      1           JFT    ,JLT    ,PM     ,FOR   ,MOM   ,THK   ,

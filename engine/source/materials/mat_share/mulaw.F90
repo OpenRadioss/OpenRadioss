@@ -181,7 +181,6 @@
 !||    sigeps133_mod          ../engine/source/materials/mat/mat133/sigeps133.F90
 !||    sigeps134s_mod         ../engine/source/materials/mat/mat134/sigeps134s.F90
 !||    sigeps163_mod          ../engine/source/materials/mat/mat163/sigeps163.F90
-!||    sigeps36s_mod          ../engine/source/materials/mat/mat036/sigeps36s.F90
 !||    sigeps50s_mod          ../engine/source/materials/mat/mat050/sigeps50s.F90
 !||    sigeps51_mod           ../engine/source/materials/mat/mat051/sigeps51.F90
 !||    sigeps81_mod           ../engine/source/materials/mat/mat081/sigeps81.F90

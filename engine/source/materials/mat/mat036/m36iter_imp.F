@@ -21,15 +21,14 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    m36iter_imp             ../engine/source/materials/mat/mat036/m36iter_imp.F
+!||    m36iter_imp   ../engine/source/materials/mat/mat036/m36iter_imp.F
 !||--- called by ------------------------------------------------------
-!||    sigeps36s               ../engine/source/materials/mat/mat036/sigeps36s.F90
+!||    sigeps36      ../engine/source/materials/mat/mat036/sigeps36.F
 !||--- calls      -----------------------------------------------------
-!||    imp_stop                ../engine/source/implicit/imp_solv.F
-!||    table_mat_vinterp       ../engine/source/materials/tools/table_mat_vinterp.F
-!||--- uses       -----------------------------------------------------
-!||    table4d_mod             ../common_source/modules/table4d_mod.F
-!||    table_mat_vinterp_mod   ../engine/source/materials/tools/table_mat_vinterp.F
+!||    finter2       ../engine/source/tools/curve/vinter.F
+!||    imp_stop      ../engine/source/implicit/imp_solv.F
+!||    vinter2       ../engine/source/tools/curve/vinter.F
+!||    vinter2dp     ../engine/source/tools/curve/vinter.F
 !||====================================================================
       SUBROUTINE M36ITER_IMP( SIGNXX,  SIGNYY,  SIGNZZ,
      $                        SIGNXY,  SIGNYZ,  SIGNZX,

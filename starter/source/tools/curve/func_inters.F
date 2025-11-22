@@ -23,6 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
 !||    func_inters            ../starter/source/tools/curve/func_inters.F
 !||--- called by ------------------------------------------------------
+!||    law36_upd              ../starter/source/materials/mat/mat036/law36_upd.F
 !||    law58_upd              ../starter/source/materials/mat/mat058/law58_upd.F
 !||--- uses       -----------------------------------------------------
 !||====================================================================

@@ -174,7 +174,6 @@
 !||    hm_read_mat134                           ../starter/source/materials/mat/mat134/hm_read_mat134.F90
 !||    hm_read_mat163                           ../starter/source/materials/mat/mat163/hm_read_mat163.F90
 !||    hm_read_mat169_arup                      ../starter/source/materials/mat/mat169/hm_read_mat169.F90
-!||    hm_read_mat36                            ../starter/source/materials/mat/mat036/hm_read_mat36.F90
 !||    hm_read_mat50                            ../starter/source/materials/mat/mat050/hm_read_mat50.F90
 !||    hm_read_mat57                            ../starter/source/materials/mat/mat057/hm_read_mat57.F90
 !||    hm_read_mat81                            ../starter/source/materials/mat/mat081/hm_read_mat81.F90
@@ -342,9 +341,6 @@
 !||    sigeps134s                               ../engine/source/materials/mat/mat134/sigeps134s.F90
 !||    sigeps163                                ../engine/source/materials/mat/mat163/sigeps163.F90
 !||    sigeps169_connect                        ../engine/source/materials/mat/mat169/sigeps169_connect.F90
-!||    sigeps36c                                ../engine/source/materials/mat/mat036/sigeps36c.F90
-!||    sigeps36pi                               ../engine/source/materials/mat/mat036/sigeps36pi.F90
-!||    sigeps36s                                ../engine/source/materials/mat/mat036/sigeps36s.F90
 !||    sigeps50s                                ../engine/source/materials/mat/mat050/sigeps50s.F90
 !||    sigeps51                                 ../engine/source/materials/mat/mat051/sigeps51.F90
 !||    sigeps51_boundary_material               ../engine/source/materials/mat/mat051/sigeps51_boundary_material.F90
@@ -368,7 +364,6 @@
 !||    stat_sphcel_full                         ../engine/source/output/sta/stat_sphcel_full.F90
 !||    stifint_icontrol                         ../starter/source/interfaces/interf1/stifint_icontrol.F90
 !||    sz_dt1                                   ../engine/source/elements/solid/solidez/sz_dt1.F90
-!||    table_mat2d_deintersect                  ../starter/source/materials/tools/table_mat2d_deintersect.F90
 !||    table_mat_vinterp_c1                     ../engine/source/materials/tools/table_mat_vinterp_c1.F90
 !||    test_jc_shell_detach                     ../engine/source/engine/node_spliting/detach_node.F90
 !||    therm_param_mod                          ../common_source/modules/mat_elem/therm_param_mod.F90

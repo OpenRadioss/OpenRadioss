@@ -122,7 +122,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_read_mat33                ../starter/source/materials/mat/mat033/hm_read_mat33.F
 !||    hm_read_mat34                ../starter/source/materials/mat/mat034/hm_read_mat34.F
 !||    hm_read_mat35                ../starter/source/materials/mat/mat035/hm_read_mat35.F
-!||    hm_read_mat36                ../starter/source/materials/mat/mat036/hm_read_mat36.F90
+!||    hm_read_mat36                ../starter/source/materials/mat/mat036/hm_read_mat36.F
 !||    hm_read_mat37                ../starter/source/materials/mat/mat037/hm_read_mat37.F
 !||    hm_read_mat38                ../starter/source/materials/mat/mat038/hm_read_mat38.F
 !||    hm_read_mat40                ../starter/source/materials/mat/mat040/hm_read_mat40.F
@@ -218,6 +218,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    init_mlaw_tag                ../starter/source/elements/elbuf_init/init_mlaw_tag.F
 !||    initvars_auto                ../starter/source/elements/elbuf_init/initvars_auto.F
 !||    law104_upd                   ../starter/source/materials/mat/mat104/law104_upd.F
+!||    law36_upd                    ../starter/source/materials/mat/mat036/law36_upd.F
 !||    lecstack_ply                 ../starter/source/properties/composite_options/stack/lecstack_ply.F
 !||    lectur                       ../starter/source/starter/lectur.F
 !||    m20dcod                      ../starter/source/system/fsdcod.F

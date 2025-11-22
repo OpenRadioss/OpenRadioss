@@ -31,9 +31,11 @@
       contains
 !! \brief initialize state variables (UVAR) in material law36
 !||====================================================================
-!||    m36init            ../starter/source/materials/mat/mat036/m36init.F90
+!||    m36init         ../starter/source/materials/mat/mat036/m36init.F90
 !||--- called by ------------------------------------------------------
-!||    matini             ../starter/source/materials/mat_share/matini.F
+!||    matini          ../starter/source/materials/mat_share/matini.F
+!||--- calls      -----------------------------------------------------
+!||    finter          ../starter/source/tools/curve/finter.F
 !||--- uses       -----------------------------------------------------
 !||====================================================================
       subroutine m36init(nel    ,nuparam,nuvar  ,nfunc  ,ifunc  ,yldfac ,          &

@@ -36,8 +36,6 @@
 !||    radioss2                        ../engine/source/engine/radioss2.F
 !||    sigeps106                       ../engine/source/materials/mat/mat106/sigeps106.F90
 !||    sigeps106c                      ../engine/source/materials/mat/mat106/sigeps106c.F90
-!||    sigeps36pi                      ../engine/source/materials/mat/mat036/sigeps36pi.F90
-!||    sigeps36s                       ../engine/source/materials/mat/mat036/sigeps36s.F90
 !||    sigeps88                        ../engine/source/materials/mat/mat088/sigeps88.F90
 !||    sigeps88c                       ../engine/source/materials/mat/mat088/sigeps88c.F90
 !||    sigeps90                        ../engine/source/materials/mat/mat090/sigeps90.F

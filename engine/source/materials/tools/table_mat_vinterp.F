@@ -30,7 +30,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    condamage                     ../engine/source/materials/mat/mat190/condamage.F
 !||    conversion                    ../engine/source/materials/mat/mat190/conversion.F
 !||    granular51                    ../engine/source/materials/mat/mat051/granular51.F90
-!||    m36iter_imp                   ../engine/source/materials/mat/mat036/m36iter_imp.F
 !||    mat87c_tabulated              ../engine/source/materials/mat/mat087/mat87c_tabulated.F90
 !||    mat87c_tabulated_3dir_ortho   ../engine/source/materials/mat/mat087/mat87c_tabulated_3dir_ortho.F90
 !||    no_asso_lplas76c              ../engine/source/materials/mat/mat076/no_asso_lplas76c.F
@@ -44,10 +43,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    sigeps129s                    ../engine/source/materials/mat/mat129/sigeps129s.F90
 !||    sigeps133                     ../engine/source/materials/mat/mat133/sigeps133.F90
 !||    sigeps163                     ../engine/source/materials/mat/mat163/sigeps163.F90
-!||    sigeps36c                     ../engine/source/materials/mat/mat036/sigeps36c.F90
-!||    sigeps36g                     ../engine/source/materials/mat/mat036/sigeps36g.F
-!||    sigeps36pi                    ../engine/source/materials/mat/mat036/sigeps36pi.F90
-!||    sigeps36s                     ../engine/source/materials/mat/mat036/sigeps36s.F90
 !||    sigeps50s                     ../engine/source/materials/mat/mat050/sigeps50s.F90
 !||    sigeps57c                     ../engine/source/materials/mat/mat057/sigeps57c.F90
 !||    sigeps70                      ../engine/source/materials/mat/mat070/sigeps70.F
@@ -66,7 +61,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    condamage                     ../engine/source/materials/mat/mat190/condamage.F
 !||    conversion                    ../engine/source/materials/mat/mat190/conversion.F
 !||    granular51                    ../engine/source/materials/mat/mat051/granular51.F90
-!||    m36iter_imp                   ../engine/source/materials/mat/mat036/m36iter_imp.F
 !||    mat87c_tabulated              ../engine/source/materials/mat/mat087/mat87c_tabulated.F90
 !||    mat87c_tabulated_3dir_ortho   ../engine/source/materials/mat/mat087/mat87c_tabulated_3dir_ortho.F90
 !||    no_asso_lplas76c              ../engine/source/materials/mat/mat076/no_asso_lplas76c.F
@@ -79,10 +73,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    sigeps129s                    ../engine/source/materials/mat/mat129/sigeps129s.F90
 !||    sigeps133                     ../engine/source/materials/mat/mat133/sigeps133.F90
 !||    sigeps163                     ../engine/source/materials/mat/mat163/sigeps163.F90
-!||    sigeps36c                     ../engine/source/materials/mat/mat036/sigeps36c.F90
-!||    sigeps36g                     ../engine/source/materials/mat/mat036/sigeps36g.F
-!||    sigeps36pi                    ../engine/source/materials/mat/mat036/sigeps36pi.F90
-!||    sigeps36s                     ../engine/source/materials/mat/mat036/sigeps36s.F90
 !||    sigeps50s                     ../engine/source/materials/mat/mat050/sigeps50s.F90
 !||    sigeps57c                     ../engine/source/materials/mat/mat057/sigeps57c.F90
 !||    sigeps70                      ../engine/source/materials/mat/mat070/sigeps70.F

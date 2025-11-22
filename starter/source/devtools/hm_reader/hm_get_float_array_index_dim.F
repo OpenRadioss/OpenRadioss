@@ -26,7 +26,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_read_bem                    ../starter/source/loads/bem/hm_read_bem.F
 !||    hm_read_fail_inievo            ../starter/source/materials/fail/inievo/hm_read_fail_inievo.F
 !||    hm_read_inject1                ../starter/source/properties/injector/hm_read_inject1.F
-!||    hm_read_mat36                  ../starter/source/materials/mat/mat036/hm_read_mat36.F90
+!||    hm_read_mat36                  ../starter/source/materials/mat/mat036/hm_read_mat36.F
 !||    hm_read_mat51                  ../starter/source/materials/mat/mat051/hm_read_mat51.F
 !||    hm_read_mat57                  ../starter/source/materials/mat/mat057/hm_read_mat57.F90
 !||    hm_read_mat59                  ../starter/source/materials/mat/mat059/hm_read_mat59.F
