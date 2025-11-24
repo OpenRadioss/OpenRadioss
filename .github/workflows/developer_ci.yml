@@ -112,6 +112,8 @@ jobs:
       - name: Running build
         run: |
           echo "Running using ref: refs/pull/${{ github.event.number }}/merge"
+
+          gcc --version
           
           mpi_opts=''
           if [ ! -z ${{ matrix.mpi }} ]
