@@ -3676,7 +3676,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER II,J,IS,NSLICE,NPT,NDIM_INDX_PLY,NDIM,NDIM_SLICE,
+      INTEGER LEN,OFF,II,J,IS,NSLICE,NPT,NDIM_INDX_PLY,NDIM,NDIM_SLICE,
      .        NPT_DRAPE
       my_real, DIMENSION(:,:), ALLOCATABLE :: RTMP
       my_real, DIMENSION(:)  , ALLOCATABLE :: THK
