@@ -112,7 +112,7 @@ jobs:
       - name: Running build
         run: |
           echo "Running using ref: refs/pull/${{ github.event.number }}/merge"
-          source ~/.bashrc
+          source /home/adminqa/.bashrc
           gcc --version
           
           mpi_opts=''
