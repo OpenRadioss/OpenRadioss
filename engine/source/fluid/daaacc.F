@@ -44,9 +44,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER  I, K, N1, N2, N3, N4
+      INTEGER  I, K, N, N1, N2, N3, N4
       INTEGER  II, JJ, KK, JFORM, NNO_L, LENBUF
-      my_real  AX, AY, AZ, WI(4,2)
+      my_real  AX, AY, AZ, WI(4,2), PM1
       my_real  AL(3,NNO)
       my_real, ALLOCATABLE :: SBUF(:), RBUF(:)
 C
