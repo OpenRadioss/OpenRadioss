@@ -44,18 +44,13 @@ CDECL void cpp_node_read_(int *ITAB, double *X, double *W, int *SUBID_NOD, int *
     sdiValue unitIdval;
     sdiIdentifier identifier_unitid("unitid");
     sdiIdentifier identifier_shadow_submodelid("shadow_submodelid");
-    sdiIdentifier search_value_identifier("Search_Value");
     sdiValue value;
-    sdiValue search_value_val;
     bool is_cnode;
 //
 // Nodes loop
 //
     while(nodes.Next())
     {
-        is_cnode = nodes->GetValue(search_value_identifier, search_value_val);
-        if(!is_cnode)
-        {
 // Get Submodel Id
             submodelId=0;
             includeId=0;
@@ -83,7 +78,6 @@ CDECL void cpp_node_read_(int *ITAB, double *X, double *W, int *SUBID_NOD, int *
             X[3 * i + 2] = pos.Z();
 // next        
             i++;
-        }
     }
 }
 
@@ -117,7 +111,6 @@ CDECL void cpp_nodes_read_(int *ITAB, double *X, double *CMERGE, int *SUBID_NOD,
 //
     while(nodes.Next())
     {
-        is_cnode = nodes->GetValue(search_value_identifier, search_value_val);
 // Get Submodel Id
         submodelId=0;
         includeId=0;
@@ -145,13 +138,48 @@ CDECL void cpp_nodes_read_(int *ITAB, double *X, double *CMERGE, int *SUBID_NOD,
         X[3 * cptNodes + 2] = pos.Z();
 // next      
         cptNodes = cptNodes + 1;
-        if(is_cnode)
-        {   
-            search_value_val.GetValue(dmerge);
-            CMERGE[cptCnodes] = dmerge ;
-            cptCnodes = cptCnodes + 1;
-        }
     }
+    
+    SelectionNodeRead cnodes(g_pModelViewSDI, "/CNODE");
+    
+//
+// CNodes loop
+//
+    while(cnodes.Next())
+    {
+// Get Submodel Id
+        submodelId=0;
+        includeId=0;
+        HandleRead hInclude(cnodes->GetInclude());
+        while(0 == submodelId && hInclude.IsValid())
+        {
+             EntityRead parent(g_pModelViewSDI, hInclude);
+             parent.GetValue(sdiIdentifier("shadow_submodelid"), value);
+             value.GetValue(submodelId);
+             if(submodelId == 0) hInclude = parent.GetInclude();
+        }
+        includeId = (int) hInclude.GetId(g_pModelViewSDI);
+        SUBID_NOD[cptNodes] = includeId;
+// Get Uid
+        cnodes->GetValue(identifier_unitid, unitIdval);
+        sdiValueEntity unit;
+        unitIdval.GetValue(unit);
+        UID_NOD[cptNodes] = unit.GetId();
+// Get Id
+        ITAB[cptNodes] = cnodes->GetId() ;
+// Get coords
+        sdiTriple pos = cnodes->GetPosition();
+        X[3 * cptNodes] = pos.X();
+        X[3 * cptNodes + 1] = pos.Y();
+        X[3 * cptNodes + 2] = pos.Z();
+// next
+        cptNodes = cptNodes + 1;
+        cnodes->GetValue(search_value_identifier, search_value_val);
+        search_value_val.GetValue(dmerge);
+        CMERGE[cptCnodes] = dmerge ;
+        cptCnodes = cptCnodes + 1;
+    }
+
 }
 
 CDECL void CPP_NODES_READ(int *ITAB, double *X, double *CMERGE, int *SUBID_NOD, int *UID_NOD)
@@ -213,7 +241,7 @@ CDECL void cpp_node_id_read(int *ITAB, int *SUBID_NOD)
 
 CDECL void cpp_cnode_read_(int *ITAB, double *X, double *CMERGE, int *SUBID_NOD, int *UID_NOD)
 {
-    SelectionNodeRead nodes(g_pModelViewSDI, "/NODE");
+    SelectionNodeRead cnodes(g_pModelViewSDI, "/CNODE");
     unsigned int includeId=0;
     unsigned int submodelId=0;
     int cptCnodes=0;
@@ -226,18 +254,15 @@ CDECL void cpp_cnode_read_(int *ITAB, double *X, double *CMERGE, int *SUBID_NOD,
     sdiValue search_value_val;
     bool is_cnode;
 //
-// Nodes loop
+// Cnodes loop
 //
-    while(nodes.Next())
+    while(cnodes.Next())
     {
-        is_cnode = nodes->GetValue(search_value_identifier, search_value_val);
-
-        if(is_cnode)
-        {   
+        cnodes->GetValue(search_value_identifier, search_value_val);  
 // Get Submodel Id
             submodelId=0;
             includeId=0;
-            HandleRead hInclude(nodes->GetInclude());
+            HandleRead hInclude(cnodes->GetInclude());
             while(0 == submodelId && hInclude.IsValid())
             {
                  EntityRead parent(g_pModelViewSDI, hInclude);
@@ -248,14 +273,14 @@ CDECL void cpp_cnode_read_(int *ITAB, double *X, double *CMERGE, int *SUBID_NOD,
             includeId = (int) hInclude.GetId(g_pModelViewSDI);
             SUBID_NOD[cptCnodes] = includeId;
 // Get Uid
-            nodes->GetValue(identifier_unitid, unitIdval);
+            cnodes->GetValue(identifier_unitid, unitIdval);
             sdiValueEntity unit;
             unitIdval.GetValue(unit);
             UID_NOD[cptCnodes] = unit.GetId();
 // Get Id
-            ITAB[cptCnodes] = nodes->GetId() ;
+            ITAB[cptCnodes] = cnodes->GetId() ;
 // Get coords
-            sdiTriple pos = nodes->GetPosition();
+            sdiTriple pos = cnodes->GetPosition();
             X[3 * cptCnodes] = pos.X();
             X[3 * cptCnodes + 1] = pos.Y();
             X[3 * cptCnodes + 2] = pos.Z();
@@ -263,7 +288,6 @@ CDECL void cpp_cnode_read_(int *ITAB, double *X, double *CMERGE, int *SUBID_NOD,
             search_value_val.GetValue(dmerge);
             CMERGE[cptCnodes] = dmerge ;
             cptCnodes = cptCnodes + 1;
-        }
     }
 }
 
