@@ -92,7 +92,7 @@ jobs:
           #   binary: engine
 
     container: 
-      image: "fr-qafactorydev.europe.altair.com/$image_name"
+      image: "fr-qafactorydev.europe.altair.com/${{ matrix.image_name }}"
       volumes: 
         - /etc/localtime:/etc/localtime:ro
 
