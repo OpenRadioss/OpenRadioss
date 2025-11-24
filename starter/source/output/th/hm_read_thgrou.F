@@ -1186,6 +1186,9 @@ C   monitored volume
      . 'AO      ','UO      ','AC      ','UC      ','CP      ',
      . 'CV      ','GAMA    ','DTBAG   ','NFV     ','MASS-IN ',
      . 'ENTHA-IN','ENER-INT','WORK    ','UPCRIT  '/
+C
+C Caution : all variables added or defined in VARMV/ must be added also in VARMVENT/
+C
       DATA VARMVENT/
      . 'MASS    ','VOL     ','P       ','A       ','T       ',
      . 'AO      ','UO      ','AC      ','UC      ','CP      ',
@@ -3257,7 +3260,7 @@ C-------------------------------------
      2      NVARS2        ,NVARS3        ,NVARS4           ,NVARS5            ,NVARS6           ,
      3      NVARS7        ,NVARS8        ,NVARS9           ,NVARS10           ,NVARSNLOC        ,
      4      NVARP         ,NVARR         ,NVART            ,NVARNS            ,NVARSPH          ,
-     5      NVARIN        ,NVARRW        ,NVARRB           ,NVARMV            ,NVARSE           ,
+     5      NVARIN        ,NVARRW        ,NVARRB           ,NVARSE            ,
      5      NVARAC        ,NVARJO        ,NVARMVENT        ,NVARPA            ,NVARFX           ,
      6      NVARGAU       ,NVARFR        ,NVARSLIP         ,NVARRET           ,NVARCLUS         ,
      7      NVARFLOW      ,NVARSURF      ,NVARC            ,NVARSENS          ,
@@ -3267,17 +3270,17 @@ C-------------------------------------
      B      VARS6_TITLE   ,VARS7_TITLE   ,VARS8_TITLE      ,VARS9_TITLE       ,VARSNLOC_TITLE   ,
      C      VARC_TITLE    ,VARS10_TITLE  ,
      D      VARNS_TITLE   ,VARSPH_TITLE  ,VARIN_TITLE      ,
-     E      VARRW_TITLE   ,VARRB_TITLE   ,VARMV_TITLE      ,VARSE_TITLE       ,VARAC_TITLE      ,
+     E      VARRW_TITLE   ,VARRB_TITLE   ,VARSE_TITLE      ,VARAC_TITLE       ,
      F      VARJO_TITLE   ,VARMVENT_TITLE,VARPA_TITLE      ,VARFX_TITLE       ,VARGAU_TITLE     ,
      G      VARFR_TITLE   ,VARSLIP_TITLE ,VARRET_TITLE     ,VARCLUS_TITLE     ,VARFLOW_TITLE    ,
      H      VARSURF_TITLE ,VARSENS_TITLE ,
-     I      VARN1         ,VARN1A        ,VARN2            ,VARNPINCH        ,
+     I      VARN1         ,VARN1A        ,VARN2            ,VARNPINCH         ,
      J      VARP          ,VARR          ,VART             ,VARS1             ,VARS2            ,
      K      VARS3         ,VARS4         ,VARS5            ,VARS6             ,VARS7            ,
-     L      VARS8         ,VARS9         ,VARS10           ,VARSNLOC         ,
+     L      VARS8         ,VARS9         ,VARS10           ,VARSNLOC          ,
      M      VARC          ,
      N      VARNS         ,VARSPH        ,VARIN            ,
-     O      VARRW         ,VARRB         ,VARMV            ,VARSE             ,VARAC            ,
+     O      VARRW         ,VARRB         ,VARSE            ,VARAC             ,
      P      VARJO         ,VARMVENT      ,VARPA            ,VARFX             ,VARGAU           ,
      Q      VARFR         ,VARSLIP       ,VARRET           ,VARCLUS           ,VARFLOW          ,
      R      VARSURF       ,VARSENS       )

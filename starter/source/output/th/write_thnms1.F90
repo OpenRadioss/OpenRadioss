@@ -47,7 +47,7 @@
           nvars2        ,nvars3        ,nvars4           ,nvars5            ,nvars6           ,&
           nvars7        ,nvars8        ,nvars9           ,nvars10           ,nvarsnloc        ,&
           nvarp         ,nvarr         ,nvart            ,nvarns            ,nvarsph          ,&
-          nvarin        ,nvarrw        ,nvarrb           ,nvarmv            ,nvarse           ,&
+          nvarin        ,nvarrw        ,nvarrb           ,nvarse            ,&
           nvarac        ,nvarjo        ,nvarmvent        ,nvarpa            ,nvarfx           ,&
           nvargau       ,nvarfr        ,nvarslip         ,nvarret           ,nvarclus         ,&
           nvarflow      ,nvarsurf      ,nvarc            ,nvarsens          ,&
@@ -57,17 +57,17 @@
           vars6_title   ,vars7_title   ,vars8_title      ,vars9_title       ,varsnloc_title   ,&
           varc_title    ,vars10_title  ,&
           varns_title   ,varsph_title  ,varin_title      ,&
-          varrw_title   ,varrb_title   ,varmv_title      ,varse_title       ,varac_title      ,&
+          varrw_title   ,varrb_title   ,varse_title      ,varac_title       ,&
           varjo_title   ,varmvent_title,varpa_title      ,varfx_title       ,vargau_title     ,&
           varfr_title   ,varslip_title ,varret_title     ,varclus_title     ,varflow_title    ,&
           varsurf_title ,varsens_title,&
           varn1         ,varn1a        ,varn2            ,varnpinch         ,&
           varp          ,varr          ,vart             ,vars1             ,vars2            ,&
           vars3         ,vars4         ,vars5            ,vars6             ,vars7            ,&
-          vars8         ,vars9         ,vars10           ,varsnloc         ,&
+          vars8         ,vars9         ,vars10           ,varsnloc          ,&
           varc          ,&
           varns         ,varsph        ,varin            ,&
-          varrw         ,varrb         ,varmv            ,varse             ,varac            ,&
+          varrw         ,varrb         ,varse            ,varac             ,&
           varjo         ,varmvent      ,varpa            ,varfx             ,vargau           ,&
           varfr         ,varslip       ,varret           ,varclus           ,varflow          ,&
           varsurf       ,varsens)
@@ -106,7 +106,6 @@
           integer,                                   intent(in) :: nvarin
           integer,                                   intent(in) :: nvarrw
           integer,                                   intent(in) :: nvarrb
-          integer,                                   intent(in) :: nvarmv
           integer,                                   intent(in) :: nvarse
           integer,                                   intent(in) :: nvarac
           integer,                                   intent(in) :: nvarjo
@@ -147,7 +146,6 @@
           character(len=100),                        intent(in) :: varin_title(nvarin)
           character(len=100),                        intent(in) :: varrw_title(nvarrw)
           character(len=100),                        intent(in) :: varrb_title(nvarrb)
-          character(len=100),                        intent(in) :: varmv_title(nvarmv)
           character(len=100),                        intent(in) :: varse_title(nvarse)
           character(len=100),                        intent(in) :: varac_title(nvarac)
           character(len=100),                        intent(in) :: varjo_title(nvarjo)
@@ -187,7 +185,6 @@
           character(len=10),                        intent(in) :: varin(nvarin)
           character(len=10),                        intent(in) :: varrw(nvarrw)
           character(len=10),                        intent(in) :: varrb(nvarrb)
-          character(len=10),                        intent(in) :: varmv(nvarmv)
           character(len=10),                        intent(in) :: varse(nvarse)
           character(len=10),                        intent(in) :: varac(nvarac)
           character(len=10),                        intent(in) :: varjo(nvarjo)
@@ -350,11 +347,6 @@
 
           write(io, *) "$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
           write(io, *) "$$ MONVOL"
-          write(io, *) "$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
-          call write_thnms1_titles(io,nvarmv,varmv_title,varmv,0)
-
-          write(io, *) "$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
-          write(io, *) "$$ VENT"
           write(io, *) "$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
           call write_thnms1_titles(io,nvarmvent,varmvent_title,varmvent,0)
 
