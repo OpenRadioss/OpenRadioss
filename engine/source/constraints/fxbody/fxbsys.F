@@ -41,7 +41,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
- 
+      INTEGER I,II,I1,M,K,INFO,IPIV(N)
 #ifndef MYREAL8
           DOUBLE PRECISION :: MTDB(N,N)
           DOUBLE PRECISION :: STDB(N)
