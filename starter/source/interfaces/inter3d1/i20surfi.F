@@ -613,7 +613,8 @@ c       inactive lines
           ENDDO      
         ENDIF
 
-c       nodes         L = 0
+c       nodes
+        L = 0
         DO I=1,NUMNOD
           IF(TAG(I) == 1)THEN
             TAG(I) = 0 
