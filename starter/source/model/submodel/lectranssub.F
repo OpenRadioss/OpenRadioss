@@ -740,10 +740,18 @@ C
 C
           CALL HM_GET_INTV('node1',N0,IS_AVAILABLE,LSUBMODEL)
 C
-          CALL HM_GET_FLOATV('scalefactor_x',RTRANS(I,20),IS_AVAILABLE,LSUBMODEL,UNITAB)
-          CALL HM_GET_FLOATV('scalefactor_y',RTRANS(I,21),IS_AVAILABLE,LSUBMODEL,UNITAB)
-          CALL HM_GET_FLOATV('scalefactor_z',RTRANS(I,22),IS_AVAILABLE,LSUBMODEL,UNITAB)
+          CALL HM_GET_FLOATV('scalefactor_x',SX,IS_AVAILABLE,LSUBMODEL,UNITAB)
+          CALL HM_GET_FLOATV('scalefactor_y',SY,IS_AVAILABLE,LSUBMODEL,UNITAB)
+          CALL HM_GET_FLOATV('scalefactor_z',SZ,IS_AVAILABLE,LSUBMODEL,UNITAB)
 c          
+          IF (SX == ZERO) SX = ONE
+          IF (SY == ZERO) SY = ONE
+          IF (SZ == ZERO) SZ = ONE
+c
+          RTRANS(I,20) = SX
+          RTRANS(I,21) = SY
+          RTRANS(I,22) = SZ
+c
           IF (N0 > 0) THEN
             I0 = USRTOS(N0,ITABM1)
             IF (I0 == 0) THEN
