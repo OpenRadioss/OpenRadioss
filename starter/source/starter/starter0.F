@@ -551,7 +551,7 @@ C new composite shell pid max nbs 200
       NIMV   = 75 ! array size for Monitored Volumes
       NRBY   = 30
       NRBYLAG= 0
-      NNPBY  = 19
+      NNPBY  = 19 + 1
       NMGRBY = 7
       NRWLP  = 26
       NIBVEL = 0

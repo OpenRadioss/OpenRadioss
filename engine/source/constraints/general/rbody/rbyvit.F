@@ -34,7 +34,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      2                  FSAV  ,LPBY    ,NPBY     ,ISKEW,ITAB,
      3                  WEIGHT,A       ,AR       ,MS   ,IN  ,
      4                  KIND  ,IRBKIN_L,NRBYKIN_L,NODREAC,FTHREAC,
-     5                  FREAC )
+     5                  FREAC ,NHIER_RBY)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -54,6 +54,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER WEIGHT(*),LPBY(*),NPBY(NNPBY,*),ISKEW(*),ITAB(*),
      .        KIND(NRBYKIN),IRBKIN_L(*),NRBYKIN_L,NODREAC(*)
+      INTEGER, INTENT(IN) :: NHIER_RBY
 C     REAL
       my_real
      .   RBY(NRBY,*) ,X(3,*) ,V(3,*) ,VR(3,*),SKEW(*),
@@ -61,7 +62,7 @@ C     REAL
 C----------------------------------------------3
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER  J,K,N,KK,IFAIL
+      INTEGER  J,K,N,KK,IFAIL,ICOMM,IM
       my_real
      .       FN, FT,EXPN,EXPT
       my_real, DIMENSION(:), ALLOCATABLE ::  
@@ -77,6 +78,8 @@ C-----------------------------------------------
          ALLOCATE(CRIT(0))
        END IF
 !$OMP END SINGLE
+!      
+      IF (NHIER_RBY ==0) THEN
 C-------------------------------------
 C COMPUTATION FOR SUPER RIGID BODIES (non multi-thread) on first free task
 C-------------------------------------
@@ -138,6 +141,32 @@ C
         ENDDO
 
 !$OMP END DO
+      ELSE ! hierarchy level>0
+!$OMP SINGLE
+        DO N=NRBYKIN,1,-1
+          K  = KIND(N)
+          IM  =NPBY(1,N)
+          IF(NPBY(7,N)>0 .AND. IM>0) THEN
+            J = NINTER+NRWALL+N
+            IFAIL = NPBY(18,N)
+            FN    = RBY(26,N)
+            FT    = RBY(27,N)
+            EXPN  = RBY(28,N)
+            EXPT  = RBY(29,N)
+! correction variables globales faites dans rbycor
+            CALL RGBODV(V        ,VR         ,X     ,RBY(1,N)  ,LPBY(K),
+     2                  NPBY(1,N),SKEW       ,ISKEW ,FSAV(1,J) ,ITAB   ,
+     3                  WEIGHT   ,A         ,AR     ,MS        ,IN     ,
+     4                  NPBY(4,N),NPBY(6,N) ,IFAIL  ,FN        ,EXPN   ,
+     5                  FT       ,EXPT      ,RBY(30,N),NODREAC,FTHREAC ,
+     6                  FREAC     )
+!
+            IF(NRBFAIL /= 0 .AND. NSPMD > 1) CRIT(N)= RBY(30,N)
+!
+          ENDIF
+        ENDDO
+!$OMP END SINGLE
+      END IF !(NHIER_RBY ==0) THEN
 C
 !$OMP SINGLE
       IF(NRBFAIL /= 0 .AND. NSPMD > 1)THEN

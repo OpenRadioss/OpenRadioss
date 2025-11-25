@@ -646,6 +646,7 @@ C-----------------------------------------------
       use hm_read_bcs_nrf_mod , only : hm_read_bcs_nrf
       use element_mod , only : nixs,nixq,nixc,nixp,nixt,nixr,nixtg
       use hm_preread_skw_mod, ONLY : hm_preread_skw
+      use hierarchy_rbody_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -7958,6 +7959,13 @@ C--------------------------------------------
      .      LSUBMODEL)
       ENDIF
 C--------------------------------------------
+C     rigid body hierarchy
+C--------------------------------------------
+      IF(NRBYKIN > 0) THEN
+        call hierarchy_rbody(NRBYKIN ,NNPBY ,NPBY  ,SLRBODY ,LPBY  ,
+     .                       NRBY    ,RBY   ,NUMNOD,IOUT )
+      ENDIF
+C--------------------------------------------
 C     Checking rigid structures
 C--------------------------------------------
       IF(NRBYKIN > 0) THEN
@@ -10552,6 +10560,13 @@ C--------------------------------------------
         END IF
        END IF
       END IF
+C--------------------------------------------
+C     traitement for hierarchy_rbody
+C--------------------------------------------
+      IF(NRBYKIN > 0) THEN
+        call hierarchy_rbody_ddm(NRBYKIN ,NNPBY ,NPBY  ,SLRBODY ,LPBY  ,
+     .                           NUMNOD  ,NSPMD )
+      ENDIF
 C   preparation of spmd processing of flows by bem
       CALL TRACE_OUT1()
       ERR_MSG='PROCESS BEM FOR SPMD'
