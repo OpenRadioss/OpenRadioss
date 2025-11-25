@@ -7554,7 +7554,8 @@ C----- put N1,N2,N3 (sys_id) in E_REF(1:3),  E_REF(4)=E_REF(3)
             END DO
           END DO
           IF (ILSKEW >0)  LSKEW_G=1
-C--- ending routine RETURN
+C--- ending routine
+        RETURN
         END IF
         NBC = 0
         DO I =1,NUMNOD

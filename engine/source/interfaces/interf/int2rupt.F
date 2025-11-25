@@ -183,7 +183,8 @@ C
           L=IRTL(II)
           IRUPT(II) = 0
           INORM(II) = 0  
-C         initial distance main-second           S = CRST(1,II)                                         
+C         initial distance main-second
+          S = CRST(1,II)                                         
           T = CRST(2,II)                                         
           SP=ONE + S                                              
           SM=ONE - S                                              
@@ -372,7 +373,8 @@ C          local frame
            VUY = VNZ * VTX - VNX * VTZ
            VUZ = VNX * VTY - VNY * VTX
 C------------------------------------------------                  
-C         force main/second C------------------------------------------------                  
+C         force main/second
+C------------------------------------------------                  
            IF (IRUPT(II) == 0) THEN
 C            No break - cinematic interface          
              MCDG = ONE/(MS(I)+MS(N1)+MS(N2)+MS(N3)+MS(N4))
@@ -389,7 +391,8 @@ C            No break - cinematic interface
              FY = A(2,I) + (V(2,I) - VY)*MS(I)*DT12M 
              FZ = A(3,I) + (V(3,I) - VZ)*MS(I)*DT12M
            ELSEIF (IRUPT(II) == -1) THEN
-C            rupture partielle = spring main/second              FX  = STIFN(I)*DX
+C            rupture partielle = spring main/second
+             FX  = STIFN(I)*DX
              FY  = STIFN(I)*DY              
              FZ  = STIFN(I)*DZ              
            ENDIF

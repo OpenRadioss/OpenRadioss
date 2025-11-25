@@ -1080,7 +1080,8 @@ C cote main
 C No offset because solid
             IF(CEP(IE)==PROC) NMN_L = NMN_L + 1
           END DO
-C cote second           NSN_L = 0
+C cote second  
+          NSN_L = 0
           DO K = 1, NSN
             IE = IGRBRIC(IGN)%ENTITY(K)
 C No offset because solid
