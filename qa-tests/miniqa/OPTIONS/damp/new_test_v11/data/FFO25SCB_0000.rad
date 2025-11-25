@@ -33,10 +33,10 @@ FFO25SCB
 /DAMP/         1
 damping                                                                                                                                     
   0.000000000000     1.6000000000000E-03         1         0  0.000000000000      0.500000000000                                                                                                                             
-/GRNOD/PART    /         1
+/GRNOD/PART/         1
 parts                                                                                                                                       
          1         2         0         0         0         0         0         0         0         0
-/MAT/COMPSH  /         1
+/MAT/COMPSH/         1
 UD T300-914  referenced material from property                                                                                              
               .00103                   0                                                                                                    
               131563               10581                .345         1                                                                      
@@ -56,7 +56,7 @@ UD T300-914  referenced material from property
                    0                   0                   0                   0                                                            
                    0                   0                   0                                                                                
          0                   0                                                                                                              
-/MAT/COMPSH  /         2
+/MAT/COMPSH/         2
 UD T300-914  referenced material from property                                                                                              
               .00103                   0                                                                                                    
               131563               10581                .345         1                                                                      
@@ -76,7 +76,7 @@ UD T300-914  referenced material from property
                    0                   0                   0                   0                                                            
                    0                   0                   0                                                                                
          0                   0                                                                                                              
-/FAIL/CHANG   /         1
+/FAIL/CHANG/         1
           267.000E+0          54.0000E+0                86.5               1e+30          213.000E+0                                        
                   1.               0.012         2                                                                                          
 /NODE
@@ -242,47 +242,47 @@ Part number 2
   0.000000000000     0.1300000000000      0.000000000000             2                                                                      
   0.000000000000     0.1300000000000      0.000000000000             2                                                                      
   0.000000000000     0.1300000000000      0.000000000000             2                                                                      
-/FUNCT/         1
+/FUNCT/1
 f1                                                                                                                                          
                    0                   0                                                                                                    
                   10                 -.1                                                                                                    
                10000                 -.1                                                                                                    
-/FUNCT/         2
+/FUNCT/2
 f2                                                                                                                                          
                    0                   0                                                                                                    
                   10                  -0                                                                                                    
                10000                  -0                                                                                                    
-/RWALL/CYL     /         1
+/RWALL/CYL/         1
 rwc1                                                                                                                                        
        210         0         0         0
                   20                   0                  25                   0         0                                                  
                    0                   0                   0                   0                                                            
                   50                  10                12.5                                                                                
-/RWALL/CYL     /         2
+/RWALL/CYL/         2
 rwg1                                                                                                                                        
        211         0         0         0
                   15                  .1                  10                   0         0                                                  
                    0                   0                   0                   0                                                            
                   10                  10                  -5                                                                                
-/RWALL/CYL     /         3
+/RWALL/CYL/         3
 rwd1                                                                                                                                        
        212         0         0         0
                   15                  .1                  10                   0         0                                                  
                    0                   0                   0                   0                                                            
                   90                  10                  -5                                                                                
-/RWALL/CYL     /         4
+/RWALL/CYL/         4
 rwc2                                                                                                                                        
        213         0         0         0
                   20                   0                  25                   0         0                                                  
                    0                   0                   0                   0                                                            
                   50                  10                62.5                                                                                
-/RWALL/CYL     /         5
+/RWALL/CYL/         5
 rwg2                                                                                                                                        
        214         0         0         0
                   15                  .1                  10                   0         0                                                  
                    0                   0                   0                   0                                                            
                   10                  10                  45                                                                                
-/RWALL/CYL     /         6
+/RWALL/CYL/         6
 rwd2                                                                                                                                        
        215         0         0         0
                   15                  .1                  10                   0         0                                                  
@@ -292,7 +292,7 @@ rwd2
 rwc1                                                                                                                                        
          1         Z         0         0         9         0
                    1                   1                   0                   0                                                            
-/GRNOD/NODE    /         9
+/GRNOD/NODE/         9
 GRNOD 9                                                                                                                                     
        210         0         0         0         0         0         0         0         0         0
 /IMPVEL/         2/
@@ -307,7 +307,7 @@ nodes
 DEF                                                                                                                                         
        210         0                                                                                                    
        213         0                                                                                                    
-/TH/PART    /         2
+/TH/PART/         2
 Part selection                                                                                                                              
 DEF                                                                                                                                         
          1         2         0         0         0         0         0         0         0         0
@@ -315,7 +315,7 @@ DEF
 1                                                                                                                                           
 DEF                                                                                                                                         
          1         4         2         3         5         6
-/TH/SHEL    /         4
+/TH/SHEL/         4
 Part_selection                                                                                                                              
 DEF       E1        E2        K1        K2        SIG_1     SIG_15                                                                          
          5                                                                                                              
