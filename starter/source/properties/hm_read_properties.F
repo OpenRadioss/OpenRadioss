@@ -756,30 +756,6 @@ C-----OTHER ply
      .                     C2=LAW_ID)
   350        CONTINUE
 C
-C  check for layer materials compatibility with TYPE_17 to add when cfg file ready
-C
-            IF (IGTYP == 17) THEN
-              DO 450 N=1,N1
-                J = STACK_INFO(NUMS)%MID(N)
-                MID = IPM(1,J)
-                JPID = STACK_INFO(NUMS)%PID(N)
-                MLAWLY = IPM(2,J)
-                IF (MLAWLY == 15 .OR. MLAWLY == 25 .OR. MLAWLY == 27 .OR.
-     .             (MLAWLY >= 29 .AND.MLAWLY <= 31).OR. MLAWLY == 36 .OR.
-     .              MLAWLY == 72 .OR. MLAWLY == 99) GOTO 450
-C
-                  WRITE(LAW_ID,'(I2)')MLAWLY
-                  CALL FRETITL2(IDTITL,IGEO(NPROPGI-LTITR+1,JPID),LTITR)
-                  CALL ANCMSG(MSGID=1202,
-     .                        MSGTYPE=MSGERROR,
-     .                        ANMODE=ANINFO,
-     .                        I1=IGEO(1,JPID),
-     .                        C1=IDTITL,
-     .                        I2=MID,
-     .                        C2=LAW_ID,
-     .                        I3=MLAWLY)
-  450         CONTINUE
-            ENDIF !IF (IGTYP == 17) THEN
          ENDIF ! begin igtype = 17   
       ENDDO ! DO CPT = 1, HM_NUMGEO
 C
