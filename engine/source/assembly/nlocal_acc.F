@@ -24,8 +24,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    nlocal_acc       ../engine/source/assembly/nlocal_acc.F
 !||--- called by ------------------------------------------------------
 !||    resol            ../engine/source/engine/resol.F
-!||--- calls      -----------------------------------------------------
-!||    my_isnan         ../engine/source/system/my_isnan.F
 !||--- uses       -----------------------------------------------------
 !||    nlocal_reg_mod   ../common_source/modules/nlocal_reg_mod.F
 !||====================================================================

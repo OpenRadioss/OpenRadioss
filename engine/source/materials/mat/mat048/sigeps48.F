@@ -25,8 +25,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- called by ------------------------------------------------------
 !||    mulaw      ../engine/source/materials/mat_share/mulaw.F90
 !||    mulaw8     ../engine/source/materials/mat_share/mulaw8.F90
-!||--- calls      -----------------------------------------------------
-!||    finter     ../engine/source/tools/curve/finter.F
 !||====================================================================
       SUBROUTINE SIGEPS48(
      1     NEL    ,NUPARAM,NUVAR   ,MFUNC   ,KFUNC   ,NPF    ,

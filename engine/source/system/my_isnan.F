@@ -24,7 +24,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    my_isnan        ../engine/source/system/my_isnan.F
 !||--- called by ------------------------------------------------------
 !||    check_nan_acc   ../engine/source/output/outfile/check_nan_acc.F
-!||    nlocal_acc      ../engine/source/assembly/nlocal_acc.F
 !||====================================================================
         FUNCTION MY_ISNAN(X) RESULT(BOOL)
 #ifdef COMP_ARMFLANG

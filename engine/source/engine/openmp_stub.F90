@@ -55,14 +55,12 @@
 !||    omp_get_thread_num      ../engine/source/engine/openmp_stub.F90
 !||--- called by ------------------------------------------------------
 !||    convec                  ../engine/source/constraints/thermic/convec.F
-!||    forintc                 ../engine/source/elements/forintc.F
 !||    get_u_task              ../engine/source/user_interface/upidmid.F
 !||    get_volume_area         ../engine/source/airbag/get_volume_area.F90
 !||    imp_fsa_inv2hp          ../engine/source/implicit/imp_fsa_inv.F
 !||    imp_fsa_invhp           ../engine/source/implicit/imp_fsa_inv.F
 !||    imp_glob_khp            ../engine/source/implicit/imp_glob_k.F
 !||    imp_smpini              ../engine/source/implicit/imp_solv.F
-!||    inixfem                 ../engine/source/elements/xfem/inixfem.F
 !||    inter_init_component    ../engine/source/interfaces/generic/inter_init_component.F90
 !||    lin_solv                ../engine/source/implicit/lin_solv.F
 !||    lin_solvh0              ../engine/source/implicit/lin_solv.F
@@ -70,7 +68,6 @@
 !||    lin_solvhm              ../engine/source/implicit/lin_solv.F
 !||    lin_solvih2             ../engine/source/implicit/lin_solv.F
 !||    pblast_1                ../engine/source/loads/pblast/pblast_1.F
-!||    r2r_init                ../engine/source/coupling/rad2rad/r2r_init.F
 !||    radiation               ../engine/source/constraints/thermic/radiation.F
 !||    radioss2                ../engine/source/engine/radioss2.F
 !||    resol                   ../engine/source/engine/resol.F

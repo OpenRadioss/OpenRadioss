@@ -27,7 +27,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- calls      -----------------------------------------------------
 !||    finter                        ../engine/source/tools/curve/finter.F
 !||    finter_smooth                 ../engine/source/tools/curve/finter_smooth.F
-!||    sysfus2                       ../engine/source/system/sysfus.F
 !||--- uses       -----------------------------------------------------
 !||    h3d_mod                       ../engine/share/modules/h3d_mod.F
 !||    nodal_arrays_mod              ../common_source/modules/nodal_arrays.F90

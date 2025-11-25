@@ -37,7 +37,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    init_link_c          ../engine/source/coupling/rad2rad/rad2rad_c.c
 !||    init_link_nl_c       ../engine/source/coupling/rad2rad/rad2rad_c.c
 !||    init_link_spmd       ../engine/source/coupling/rad2rad/r2r_init.F
-!||    omp_get_thread_num   ../engine/source/engine/openmp_stub.F90
 !||    openfifo_c           ../engine/source/coupling/rad2rad/rad2rad_c.c
 !||    opensem_c            ../engine/source/coupling/rad2rad/rad2rad_c.c
 !||    openshm_c            ../engine/source/coupling/rad2rad/rad2rad_c.c

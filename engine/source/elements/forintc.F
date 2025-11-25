@@ -34,7 +34,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    cforc3_crk                  ../engine/source/elements/xfem/cforc3_crk.F
 !||    czforc3                     ../engine/source/elements/shell/coquez/czforc3.F
 !||    czforc3_crk                 ../engine/source/elements/xfem/czforc3_crk.F
-!||    omp_get_thread_num          ../engine/source/engine/openmp_stub.F90
 !||    seatbelt_reduction_factor   ../engine/source/tools/seatbelts/seatbelt_reduction_factor.F
 !||    section_3n                  ../engine/source/tools/sect/section_3n.F
 !||    section_c                   ../engine/source/tools/sect/section_c.F
