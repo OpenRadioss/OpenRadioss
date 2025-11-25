@@ -167,7 +167,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      6  TAGSLV_RBY,NFNCA2 ,NFTCA2  ,IN0  ,SORT_COMM,STACK,OUTPUT,
      7  THKE ,SFR_ELEM ,SH_OFFSET_TAB,
      8  NEED_COMM_INT25_SOLID_EROSION,COMM_INT25_SOLID_EROSION,
-     9  ISKWN ,IFRAME, LOADS ,GLOB_THERM,PBLAST,RBE3)
+     9  ISKWN ,IFRAME, LOADS ,GLOB_THERM,PBLAST,RBE3,NHIER_RBY)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -297,6 +297,7 @@ C-----------------------------------------------
 !                 INT7ITIED = 0 type 7 + ITIED/=0 not used
 !                 INT7ITIED = 1 type 7 + ITIED/=0 used
       INTEGER, INTENT(INOUT) :: INT7ITIED
+      INTEGER, INTENT(INOUT) :: NHIER_RBY
       my_real
      .   X(3,*), D(3,*), V(3,*), VR(3,*),
      .   MS(*), IN(*),  WA(*),  A(3,*), AR(3,*),
@@ -386,7 +387,8 @@ C
 C
 C kinematic conditions : arrays init. (RBY & INT20)
 C
-      CALL INIT_KYNE(IKINE,NPBY,LPBY,TAGSLV_RBY)
+      CALL INIT_KYNE(IKINE,NPBY,LPBY,TAGSLV_RBY,NHIER_RBY)
+      CALL SPMD_MAX_I(NHIER_RBY)
 C
 C reaction force (node array)
 C
@@ -1626,7 +1628,7 @@ C
 !||--- called by ------------------------------------------------------
 !||    resol_init   ../engine/source/engine/resol_init.F
 !||====================================================================
-      SUBROUTINE INIT_KYNE(IKINE,NPBY,LPBY,TAGSLV_RBY)
+      SUBROUTINE INIT_KYNE(IKINE,NPBY,LPBY,TAGSLV_RBY,NHIER_RBY)
 C----6---------------------------------------------------------------7---------8
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1642,6 +1644,7 @@ C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IKINE(NUMNOD),NPBY(NNPBY,*),LPBY(*),TAGSLV_RBY(*)
+      INTEGER, INTENT(INOUT) :: NHIER_RBY
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -1654,8 +1657,10 @@ C-------------------------------------
 C Processing Rigid Bodies
 C-------------------------------------
       K = 0
+      NHIER_RBY = 0
       DO N=1,NRBYKIN
         NSN = NPBY(2,N)
+        NHIER_RBY = MAX(NHIER_RBY,NPBY(20,N))
         DO I=1,NSN
           J=LPBY(K+I)
           IKINE(J) = (IKINE(J)/2)*2 + 1

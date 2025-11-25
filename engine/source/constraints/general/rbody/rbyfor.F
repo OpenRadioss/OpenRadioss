@@ -49,7 +49,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      7   TABSENSOR,NODREAC,FTHREAC,CPTREAC,DAMPR   ,
      8   SDAMP    ,DAMP   ,NDAMP_VREL,ID_DAMP_VREL,IGRNOD,
      9   TAGSLV_RBY,IPARIT,WFEXT,NDAMP_VREL_RBYG,SIZE_RBY6_C,
-     A   RBY6_C)
+     A   RBY6_C  ,NHIER_RBY)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -75,6 +75,7 @@ C-----------------------------------------------
 C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: NHIER_RBY
       TYPE(TIMER_), INTENT(inout) :: TIMERS
       INTEGER ICODR(*),ISKEW(*),WEIGHT(*),LPBY(*),NPBY(NNPBY,*),
      .        KIND(NRBYKIN),FR_RBY6(*),IAD_RBY(*),IRBKIN_L(*),
@@ -93,9 +94,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER  K,N,KK,N2,
+      INTEGER  J,K,N,KK,N2,
      .         ISU,ADRSRF,IM, NRBDIM,IPARSENS,ISECT,
-     .         DIM    
+     .         DIM,NHI    
 C-------------------------------------
 C INIT RBY6 to ZERO for deactivated Rigid Bodies (non multi-thread)
 C-------------------------------------
@@ -117,6 +118,7 @@ C-------------------------------------
         ENDIF
       ENDDO
 !$OMP END SINGLE 
+      IF (NHIER_RBY ==0) THEN
 C-------------------------------------
 C FORCE COMPUTATION FOR SUPER RIGID BODIES (non multi-thread)
 C-------------------------------------
@@ -268,7 +270,8 @@ C-------------------------------------
      .                        NDAMP_VREL,IPARIT   ,NUMNOD  ,DT1       ,ID_DAMP_VREL,
      .                        TT        ,NNPBY    ,NRBYKIN  ,NPBY      ,RBY6      ,
      .                        RBY6_C    ,TAGSLV_RBY,WEIGHT  ,LSKEW     ,NUMSKW    ,
-     .                        DIM       ,DAMP     ,SKEW     ,WFEXT     ,SIZE_RBY6_C)
+     .                        DIM       ,DAMP     ,SKEW     ,WFEXT     ,SIZE_RBY6_C,
+     .                        NHIER_RBY )
 !$OMP END SINGLE
       ENDIF 
 
@@ -339,7 +342,6 @@ c
       ENDDO
 
 !$OMP END DO
-C      
 C-------------------------------------
 C Computation of stability of main node for DAMP/VREL
 C-------------------------------------
@@ -347,9 +349,133 @@ C-------------------------------------
 !$OMP SINGLE               
         call damping_vref_rby_stiff(NUMNOD,NNPBY,NRBYKIN,NRBYKIN_L,NPBY,
      .                              RBY6_C,MS,IN,STIFN,STIFR,SIZE_RBY6_C,  
-     .                              IRBKIN_L )
+     .                              IRBKIN_L ,NHIER_RBY)
 !$OMP END SINGLE
       ENDIF 
+C
+      ELSE ! NHIER_RBY>0
+!$OMP SINGLE               
+        DO NHI = 0 ,NHIER_RBY
+          DO N=1,NRBYKIN
+            IM = NPBY(1,N)
+            IF(NPBY(7,N)==0 .OR. IM<=0 .OR. NPBY(20,N)/=NHI) CYCLE
+            K  = KIND(N)
+            N2 = NINTER+NRWALL+N
+            ISU=NPBY(8,N)
+            IF(ISPMD==0.AND.ISU/=0) THEN
+              IM=NPBY(1,N)
+              ADRSRF=IGRSURF(ISU)%IAD_BUFR
+              A(1,IM) =A(1,IM) +BUFSF(ADRSRF+25)
+              A(2,IM) =A(2,IM) +BUFSF(ADRSRF+26)
+              A(3,IM) =A(3,IM) +BUFSF(ADRSRF+27)
+              AR(1,IM)=AR(1,IM)+BUFSF(ADRSRF+28)
+              AR(2,IM)=AR(2,IM)+BUFSF(ADRSRF+29)
+              AR(3,IM)=AR(3,IM)+BUFSF(ADRSRF+30)
+              STIFN(IM)=STIFN(IM)+BUFSF(ADRSRF+31)
+              STIFR(IM)=STIFR(IM)+BUFSF(ADRSRF+32)
+C             output to th of interface forces.
+              FSAV(10,N2)=FSAV(10,N2)+BUFSF(ADRSRF+25)*DT1
+              FSAV(11,N2)=FSAV(11,N2)+BUFSF(ADRSRF+26)*DT1
+              FSAV(12,N2)=FSAV(12,N2)+BUFSF(ADRSRF+27)*DT1
+              FSAV(13,N2)=FSAV(13,N2)+BUFSF(ADRSRF+28)*DT1
+              FSAV(14,N2)=FSAV(14,N2)+BUFSF(ADRSRF+29)*DT1
+              FSAV(15,N2)=FSAV(15,N2)+BUFSF(ADRSRF+30)*DT1
+            END IF
+c         
+            IPARSENS=0
+            ISECT=0
+            IF(STABSEN/=0) ISECT=TABSENSOR(N+NSECT+NINTSUB+NINTER+NRWALL+1)-
+     .            TABSENSOR(N+NSECT+NINTSUB+NINTER+NRWALL)
+            IF(ISECT/=0) THEN
+              IPARSENS=1
+              CALL RGBODFP(
+     1          A        ,AR       ,X            ,FSAV(1,N2),RBY(1,N),
+     2          LPBY(K)  ,NPBY(1,N),IN           ,VR        ,STIFN   ,
+     3          STIFR    ,FANI(1,1+2*(NSECT+N-1)),WEIGHT,MS ,V       ,
+     4          1        ,ICODR    ,ISKEW        ,SKEW   ,RBY6(1,1,N),
+     5          NPBY(2,N),NATIV_SMS,FBSAV6(1,1,ISECT) ,IPARSENS,
+     6          NODREAC,FTHREAC,CPTREAC,NPBY(5,N))
+            ELSE
+              CALL RGBODFP(
+     1          A        ,AR       ,X            ,FSAV(1,N2),RBY(1,N),
+     2          LPBY(K)  ,NPBY(1,N),IN           ,VR        ,STIFN   ,
+     3          STIFR    ,FANI(1,1+2*(NSECT+N-1)),WEIGHT,MS ,V       ,
+     4          1        ,ICODR    ,ISKEW        ,SKEW   ,RBY6(1,1,N),
+     5          NPBY(2,N),NATIV_SMS,RBID         , IPARSENS,
+     6          NODREAC,FTHREAC,CPTREAC,NPBY(5,N))
+            END IF
+          END DO !N=1,NRBYKIN
+C-------------------------------------
+C Contribution of damping forces from /DAMP/VREL
+C-------------------------------------
+          IF ((NDAMP_VREL_RBYG > 0).AND.(NRBYKIN_L > 0)) THEN
+            DIM = 3+3*IRODDL    
+            CALL damping_vref_rby(IGRNOD    ,NGRNOD   ,V        ,VR        ,A         ,
+     .                            X         ,MS       ,DAMPR    ,NRDAMP    ,NDAMP     ,
+     .                            NDAMP_VREL,IPARIT   ,NUMNOD  ,DT1       ,ID_DAMP_VREL,
+     .                            TT        ,NNPBY    ,NRBYKIN  ,NPBY      ,RBY6      ,
+     .                            RBY6_C    ,TAGSLV_RBY,WEIGHT  ,LSKEW     ,NUMSKW    ,
+     .                            DIM       ,DAMP     ,SKEW     ,WFEXT     ,SIZE_RBY6_C,
+     .                            NHI       )
+          ENDIF 
+
+          IF (NSPMD > 1) THEN
+            IF (IMON>0) CALL STARTIME(TIMERS,11)
+              IF(NINTSTAMP == 0) THEN
+                IF (NDAMP_VREL_RBYG == 0) THEN
+                  NRBDIM=8
+                  CALL SPMD_EXCH_A_RB6(NRBDIM,IAD_RBY,FR_RBY6,IAD_RBY(NSPMD+1),RBY6)
+                ELSE
+                  NRBDIM=10
+                  CALL SPMD_EXCH_A_RB6_VREL(NRBDIM,IAD_RBY,FR_RBY6,IAD_RBY(NSPMD+1),RBY6,
+     .                                      RBY6_C,SIZE_RBY6_C)
+                ENDIF      
+              ELSE
+                CALL SPMD_EXCH_A_RB6G(NPBY,RBY6)
+              END IF                
+            IF (IMON>0) CALL STOPTIME(TIMERS,11)
+          END IF
+! back to main node : IFLAG=2           
+          DO N=1,NRBYKIN
+            IM = NPBY(1,N)
+            K  = KIND(N)
+            N2 = NINTER+NRWALL+N
+            IF(NPBY(7,N)==0 .OR. IM<=0 .OR. NPBY(20,N)/=NHI) CYCLE
+!         
+            IPARSENS=0
+            ISECT=0
+            IF(STABSEN/=0) ISECT=TABSENSOR(N+NSECT+NINTSUB+NINTER+NRWALL+1)-
+     .            TABSENSOR(N+NSECT+NINTSUB+NINTER+NRWALL)
+            IF(ISECT/=0) THEN
+              IPARSENS=1
+              CALL RGBODFP(
+     1          A        ,AR       ,X            ,FSAV(1,N2),RBY(1,N),
+     2          LPBY(K)  ,NPBY(1,N),IN           ,VR        ,STIFN   ,
+     3          STIFR    ,FANI(1,1+2*(NSECT+N-1)),WEIGHT,MS ,V       ,
+     4          2        ,ICODR    ,ISKEW        ,SKEW,   RBY6(1,1,N),
+     5          NPBY(2,N),NATIV_SMS,FBSAV6(1,1,ISECT) ,IPARSENS,
+     6          NODREAC,FTHREAC,CPTREAC,NPBY(5,N))
+            ELSE
+              CALL RGBODFP(
+     1          A        ,AR       ,X            ,FSAV(1,N2),RBY(1,N),
+     2          LPBY(K)  ,NPBY(1,N),IN           ,VR        ,STIFN   ,
+     3          STIFR    ,FANI(1,1+2*(NSECT+N-1)),WEIGHT,MS ,V       ,
+     4          2        ,ICODR    ,ISKEW        ,SKEW,   RBY6(1,1,N),
+     5          NPBY(2,N),NATIV_SMS,RBID         ,IPARSENS,
+     6          NODREAC,FTHREAC,CPTREAC,NPBY(5,N))
+            END IF
+          END DO
+C-----------------------------------
+C Computation of stability of main node for DAMP/VREL
+C-----------------------------------
+          IF (NDAMP_VREL_RBYG > 0) THEN
+            call damping_vref_rby_stiff(NUMNOD,NNPBY,NRBYKIN,NRBYKIN_L,NPBY,
+     .                                  RBY6_C,MS,IN,STIFN,STIFR,SIZE_RBY6_C,  
+     .                                  IRBKIN_L ,NHI  )
+          ENDIF 
+        END DO !NHI = ,NHIER
+!$OMP END SINGLE
+      END IF !IF (NHIER ==0)
 C
       RETURN
       END

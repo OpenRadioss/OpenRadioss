@@ -1030,7 +1030,7 @@ C-----------------------------------------------
      .                ISLEN17, IRLEN17,IRLEN7T,ISLEN7T,LINDIDEL,LBUFIDEL,LBUFSEGLO,
      .                ISLEN20, IRLEN20, ISLEN20T, IRLEN20T, NBINT20,
      .                ISLEN20E, IRLEN20E,LAG_SEC,LENS1,LENR1,INT18KINE,
-     .                NRBYKIN_L, INT24USE, NELEML,I24MAXNSNE,INT24E2EUSE
+     .                NRBYKIN_L, INT24USE, NELEML,I24MAXNSNE,INT24E2EUSE,NHIER_RBY
               INTEGER :: INT7ITIED
               INTEGER, DIMENSION(:,:),ALLOCATABLE ::
      .                ISENDTO,IRCVFROM,FR_NBCC,FR_NBCCI2,FR_NBCC1
@@ -1052,7 +1052,7 @@ C----
      .             ILENXV, ISIZXV, ISLEN17, IRLEN17,IRLEN7T,ISLEN7T,
      .             ISLEN20, IRLEN20, ISLEN20T, IRLEN20T, NBINT20, NISKYFIE,
      .             ISLEN20E, IRLEN20E, NRBYKIN_L, IRBKIN_L, QFRICINT,
-     .             INTLIST25
+     .             INTLIST25,NHIER_RBY
               SAVE DRETRI, XSEC, LISENDP, LIRECVP, ISENDP, IRECVP,
      .             CNEL, ADDCNEL, ADDTMPL, IPARTL, NPARTL, LINDIDEL, LBUFIDEL,
      .             LBUFSEGLO
@@ -2295,7 +2295,7 @@ C
      6         NODES%TAG_S_RBY,NFNCA2  ,NFTCA2  ,NODES%IN0 ,SORT_COMM,STACK,OUTPUT,
      7         THKE   ,NODES%BOUNDARY_SIZE  ,SH_OFFSET_TAB,
      8         NEED_COMM_INT25_SOLID_EROSION,COMM_INT25_SOLID_EROSION ,
-     9         ISKWN  ,IFRAME  ,LOADS ,GLOB_THERM,PBLAST,RBE3)
+     9         ISKWN  ,IFRAME  ,LOADS ,GLOB_THERM,PBLAST,RBE3,NHIER_RBY)
 
 !$OMP END PARALLEL
               CALL PYTHON_END_OPENMP(PYTHON)
@@ -6175,7 +6175,7 @@ C===============================================================================
      7            SENSORS%TABSENSOR,NODREAC      ,FTHREAC         ,CPTREAC         ,DAMPR,
      8            SDAMP            ,DAMP         ,NDAMP_VREL      ,ID_DAMP_VREL    ,IGRNOD         ,
      9            NODES%TAG_S_RBY       ,IPARIT       ,OUTPUT%TH%WFEXT    ,NDAMP_VREL_RBYG ,SIZE_RBY6_C    ,
-     A            RBY6_C)
+     A            RBY6_C,NHIER_RBY)
 
 !$OMP END PARALLEL
                 CALL PYTHON_END_OPENMP(PYTHON)
@@ -8273,7 +8273,7 @@ C // --------------------------
      2            FSAV   ,LPBY    ,NPBY     ,NODES%ISKEW,NODES%ITAB ,
      3            NODES%WEIGHT ,NODES%A       ,NODES%AR       ,NODES%MS   ,NODES%IN   ,
      4            KINDRBY,IRBKIN_L,NRBYKIN_L,NODREAC,FTHREAC,
-     5            FREAC  )
+     5            FREAC  ,NHIER_RBY)
 
 !$OMP END PARALLEL
                 CALL PYTHON_END_OPENMP(PYTHON)
