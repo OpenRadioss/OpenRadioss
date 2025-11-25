@@ -155,7 +155,7 @@ C--------------------------------------------------
         ENDIF
 C direction input by vector VX,VY,VZ
         NORM = SQRT(VX(I)**2 + VY(I)**2 + VZ(I)**2)
-        IF (NORM > ZERO) THEN
+        IF (NORM > EM20) THEN
           IBEAM_VECTOR(I) = 1
           RBEAM_VECTOR(1,I) = VX(I) / NORM
           RBEAM_VECTOR(2,I) = VY(I) / NORM
