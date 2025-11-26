@@ -1496,51 +1496,12 @@ C for chkpt :: ISMSCH=1
      .                                 MSKYI_SMS,ISKYI_SMS,JADI_SMS,JDII_SMS,LTI_SMS,LSKYI_SMS,
      .                                 npart,numelc,numels,numels10,numelt,numelp,numelr,numeltg,numnod)
 C------------------------------------------
-              IF (IREAC == 1 ) THEN
-                ALLOCATE(NODREAC(NUMNOD))
-              ELSE
-                ALLOCATE(NODREAC(0))
-              ENDIF
-              IF (IGRELEM == 1) THEN
-                NGPE = NTHPART
-                NGRTH = NTHPART
-                NELEM=NUMELSG+3*NUMELS16G+NUMSPHG+NUMELCG+NUMELTGG+NUMELQG+NUMELTG+NUMELPG+2*NUMELRG
-              ELSE
-                NGPE = 0
-                NGRTH = 0
-                NELEM = 0
-              ENDIF
-C
-              IF (IGRELEM == 1 ) THEN
-                ALLOCATE(GRTH(NELEM+NGRTH+1))
-                ALLOCATE(IGRTH(NELEM+1))
-              ELSE
-                ALLOCATE(GRTH(1))
-                ALLOCATE(IGRTH(1))
-              ENDIF
-              IGRTH = 0
-              GRTH = 0
-              DXANCG = ZERO
-C------------------------------------------
-C     ALLOCATION IGROUPC AND IGROUPTG
-C     TABLE GIVING GROUP NUMBER FOR SHELLS
-C     ALLOCATION IGROUPS FOR BRICKS
-C------------------------------------------
-              IGROUPFLG(1:2)=0
-              IF(NVOLU > 0) IGROUPFLG(1) = 1
-              DO I=1,NUMMAT
-                IF(IPM(2,I)/=19.AND.IPM(2,I)/=58) CYCLE
-                IF(IPM(4,I) >= 4) IGROUPFLG(1)=1
-              ENDDO
-              IF(IGROUPFLG(1) == 1) THEN
-                ALLOCATE(IGROUPC(NUMELC))
-                ALLOCATE(IGROUPTG(NUMELTG))
-              ELSE
-                ALLOCATE(IGROUPC(0))
-                ALLOCATE(IGROUPTG(0))
-              ENDIF
-              IGROUPFLG(2)=1
-              ALLOCATE(IGROUPS(NUMELS))
+             call resol_alloc_phase11(IREAC,IGRELEM,NUMNOD,NUMELSG,NUMELS16G,NUMSPHG, 
+     .                                NUMELCG,NUMELTGG,NUMELQG,NUMELTG,NUMELPG,NUMELRG,NTHPART, 
+     .                                NGPE,NGRTH,NELEM,NODREAC,GRTH,IGRTH,DXANCG, 
+     .                                IGROUPFLG,IGROUPC,IGROUPTG,IGROUPS,NUMMAT,IPM,NPROPMI, 
+     .                                NVOLU,NUMELC,NUMELS)
+ 
 C-----------------------------------------------
 C /IMPDISP/FGEO
               FXVEL_FGEO = 0
@@ -1571,46 +1532,10 @@ C-----------------------------------------------
 C     Initialisations
 C-----------------------------------------------
 
-              L1 = 1+NIXS*NUMELS + NSVOIS*NIXS
-              L2 = L1+6*NUMELS10
-              L3 = L2+12*NUMELS20
-              LL1 = 1+8*NUMELS
-              LL2 = LL1+6*NUMELS10
-              LL3 = LL2+12*NUMELS20
-              IF(NADMESH/=0.AND.IDEL7NG>=1)THEN
-                ALLOCATE(TAGTRIMC(NUMELC))
-                ALLOCATE(TAGTRIMTG(NUMELTG))
-              ELSE
-                ALLOCATE(TAGTRIMC(0))
-                ALLOCATE(TAGTRIMTG(0))
-              ENDIF
+              ALLOCATE(TAGTRIMC(MERGE(NUMELC, 0, NADMESH/=0.AND.IDEL7NG>=1)))
+              ALLOCATE(TAGTRIMTG(MERGE(NUMELTG, 0, NADMESH/=0.AND.IDEL7NG>=1)))
 
-C NITSCHE METHOD
-              NFACNIT =0
-              IF (NITSCHE > 0 ) THEN
-
-c  Element mean stress
-                ALLOCATE(STRESSMEAN(6,NUMELS))
-
-c  Equivalent nodal force
-                IF(IPARIT /= 0 ) THEN
-                  IF(NUMELS10G ==0) THEN
-                    NFACNIT = 6
-                    ALLOCATE(FORNEQSKY(18*LSKY))
-                    FORNEQSKY(1:18*LSKY) = ZERO
-                  ELSE
-                    NFACNIT = 16
-                    ALLOCATE(FORNEQSKY(48*LSKY))
-                    FORNEQSKY(1:48*LSKY) = ZERO
-                  ENDIF
-                ELSE
-                  ALLOCATE(FORNEQSKY(0))
-                ENDIF
-                STRESSMEAN(1:6,1:NUMELS)=ZERO
-              ELSE
-                ALLOCATE(STRESSMEAN(0,0))
-                ALLOCATE( FORNEQSKY(0))
-              ENDIF
+              call resol_alloc_nitsche(NFACNIT, NITSCHE, IPARIT, NUMELS, NUMELS10G, LSKY, STRESSMEAN, FORNEQSKY)
 
               CALL NEWSKW_INIT(ISKWP,NUMSKW_L,NSKWP,NUMSKW_L_SEND,ISKWP_L_SEND,RECVCOUNT)
               PARTSAV2(1:2,1:NPART) = ZERO
@@ -1619,60 +1544,21 @@ c  Equivalent nodal force
               ALLOCATE( INTER_STRUCT(NINTER) )
               ALLOCATE( SORT_COMM(NINTER) )
               CALL INTER_STRUCT_INIT(INTER_STRUCT,SORT_COMM)
-
-
 C========================================================================================
 
 C save the Python functions into the Python interpreter dictionarry
-              CALL PYTHON_REGISTER(PYTHON,NODES,NUMNOD,
-     .                             IXS, NIXS, NUMELS,
-     .                             ELEMENT%SHELL%IXC, NIXC, NUMELC,
-     .                             IXP, NIXP, NUMELP,
-     .                             IXT, NIXT, NUMELT,
-     .                             IXQ, NIXQ, NUMELQ,
-     .                             IXTG, NIXTG, NUMELTG,
-     .                             IXR, NIXR, NUMELR,
-     .                             IPARG, NGROUP, NPARG, MVSIZ)
-
-             IF(PYTHON%NB_FUNCTS > 0) CALL PYTHON_SHARE_MEMORY(PYTHON,NODES,NUMNOD,
-     .                             IXS, NIXS, NUMELS,
-     .                             ELEMENT%SHELL%IXC, NIXC, NUMELC,
-     .                             IXP, NIXP, NUMELP,
-     .                             IXT, NIXT, NUMELT,
-     .                             IXQ, NIXQ, NUMELQ,
-     .                             IXTG, NIXTG, NUMELTG,
-     .                             IXR, NIXR, NUMELR,
-     .                             IPARG, NGROUP, NPARG)
-
-
-
-              K1=1+LIPART1*(NPART+NTHPART)+2*9*(NPART+NTHPART)
-              K2=K1+NUMELS
-              K3=K2+NUMELQ
-              K4=K3+NUMELC
-              K5=K4+NUMELT
-              K6=K5+NUMELP
-              K7=K6+NUMELR
-              K8=K7
-              K9=K8+NUMELTG
-              CALL python_dummy_active_node(PYTHON)
-              CALL FUNCT_PYTHON_UPDATE_ELEMENTS(PYTHON, ISPMD,
-     .                 N2D,  NGROUP,  NIXC, NIXTG, NIXS,NIXQ,
-     .                 NUMGEO, NUMELC, NUMELTG, NUMELS, NUMELQ, NUMMAT, NUMNOD,
-     .                 NPARG, NPROPG, NPROPM, NPROPMI, NPROPGI,
-     .                 SNERCVOIS, SNESDVOIS, SLERCVOIS, SLESDVOIS,
-     .                 STHKE, SEANI, NPART,
-     .                 ELBUF_TAB   ,IPARG       ,GEO        ,
-     .                 ELEMENT%SHELL%IXC         ,IXTG      , IXS, IXQ, PM          ,BUFMAT     ,
-     .                 EANI,
-     .                 IPM         ,IGEO      ,THKE      ,ERR_THK_SH4 ,ERR_THK_SH3,
-     .                 NODES                  ,W           ,ALE_CONNECTIVITY,
-     .                 NERCVOIS    ,NESDVOIS  ,LERCVOIS    ,LESDVOIS,
-     .                 M51_N0PHAS, M51_NVPHAS, STACK       ,
-     .                 IPART(K3:K4-1),IPART(K1:K2-1),IPART(K8:K9-1), IPART(K2:K3-1),
-     .                 MULTI_FVM ,
-     .                 MAT_ELEM%MAT_PARAM , OUTPUT%DATA%FANI_CELL,GLOB_THERM%ITHERM)
-
+              call resol_alloc_python(PYTHON, NODES, NUMNOD, IXS, NIXS, NUMELS, 
+     .            NIXC, NUMELC, IXP, NIXP, NUMELP, IXT, NIXT, NUMELT, 
+     .            IXQ, NIXQ, NUMELQ, IXTG, NIXTG, NUMELTG, 
+     .            IXR, NIXR, NUMELR, IPARG, NGROUP, NPARG, MVSIZ, 
+     .            IPART, LIPART1, NPART, NTHPART, ISPMD, N2D, NUMGEO, NUMMAT, 
+     .            ELBUF_TAB, GEO, PM, BUFMAT, EANI, 
+     .            IPM, IGEO, THKE, STHKE, ERR_THK_SH4, ERR_THK_SH3, 
+     .            W, ALE_CONNECTIVITY, NPROPG, NPROPGI, NPROPM, NPROPMI, SEANI, 
+     .            snercvois, snesdvois, slercvois, slesdvois, 
+     .            NERCVOIS, NESDVOIS, LERCVOIS, LESDVOIS, 
+     .            M51_N0PHAS, M51_NVPHAS, STACK, 
+     .            MULTI_FVM, MAT_ELEM, OUTPUT, GLOB_THERM, ELEMENT)
 C========================================================================================
 C Initialize SENSORS & communication buffers.
 C Play Time & Logical sensors.
@@ -1701,6 +1587,12 @@ C===============================================================================
 
               NEED_COMM_INT25_SOLID_EROSION(1:NSPMD) = .FALSE.
               COMM_INT25_SOLID_EROSION = 0
+              L1 = 1+NIXS*NUMELS + NSVOIS*NIXS
+              L2 = L1+6*NUMELS10
+              L3 = L2+12*NUMELS20
+              LL1 = 1+8*NUMELS
+              LL2 = LL1+6*NUMELS10
+              LL3 = LL2+12*NUMELS20
               CALL PYTHON_BEGIN_OPENMP(PYTHON)
 !$OMP PARALLEL
 !$OMP+ PRIVATE(ITSK,NODFTSK,NODLTSK,NUMNTSK,NDTSK,IPMTSK,IGMTSK)
@@ -2000,27 +1892,20 @@ C
 C       ALLOCATION Flying Nodes if IDEL
               IF(IDEL7NG>0)THEN
                 IERROR = 0
-                ALLOCATE(IBUFIDEL(LBUFIDEL),STAT=IERROR2)
-                IERROR = IERROR + IERROR2
-                ALLOCATE(INDIDEL(LINDIDEL),STAT=IERROR2)
-                IERROR = IERROR + IERROR2
+                ALLOCATE(IBUFIDEL(LBUFIDEL))
+                ALLOCATE(INDIDEL(LINDIDEL))
                 IF(INT24USE==1.OR.NINTER25/=0)THEN
-                  ALLOCATE (IBUFSEGLO(LBUFSEGLO),STAT=IERROR2)
-                  ALLOCATE (INDSEGLO(NINTER+1),STAT=IERROR2)
-                ENDIF
-                IF(IERROR/=0)THEN
-                  CALL ANCMSG(MSGID=158,ANMODE=ANINFO,
-     .                  I1=IERROR)
-                  CALL ARRET(2)
+                  ALLOCATE (IBUFSEGLO(LBUFSEGLO))
+                  ALLOCATE (INDSEGLO(NINTER+1))
                 ENDIF
               ELSE
-                ALLOCATE(IBUFIDEL(0)  ,STAT=IERROR2)
-                ALLOCATE(INDIDEL(0)   ,STAT=IERROR2)
+                ALLOCATE(IBUFIDEL(0) )
+                ALLOCATE(INDIDEL(0)  )
               END IF
 
               IF(NSPMD > 1.AND.PDEL > 0)  THEN
-                ALLOCATE(IBUFPDEL(4*NCONLD+4*NPRESLOAD),STAT=IERR)
-                ALLOCATE(NINDEXPDEL(NCONLD+NPRESLOAD),STAT=IERR)
+                ALLOCATE(IBUFPDEL(4*NCONLD+4*NPRESLOAD))
+                ALLOCATE(NINDEXPDEL(NCONLD+NPRESLOAD))
               ENDIF
 
 C========================================================================================
@@ -2213,13 +2098,7 @@ C
      9          NODES%BOUNDARY_ADD   ,NODES%BOUNDARY    ,RWALL%NPRW       ,RWALL%LPRW       ,IPART      ,
      A          IGEO       ,NATIV_SMS  )
 
-                ALLOCATE(KDI_SMS(KNZ_SMS),PK_SMS(KNZ_SMS),STAT=IERROR)
-                IF(IERROR/=0) THEN
-                  CALL ANCMSG(MSGID=19,ANMODE=ANINFO,
-     .                C1='(/DT/.../AMS)')
-                  CALL ARRET(2)
-                ENDIF
-
+                ALLOCATE(KDI_SMS(KNZ_SMS),PK_SMS(KNZ_SMS))
                 NSGDONE=1
                 CALL SMS_INI_KDI(
      2                 ELEMENT%SHELL%IXC      ,IPARG   ,IXS      ,IXT      ,IXP     ,
@@ -2234,12 +2113,7 @@ C
      B                 LAD_SMS   ,IPART,IGEO     ,NODES%WEIGHT    ,
      C                 NATIV_SMS)
 
-                ALLOCATE(IDI_SMS(NNZ_SMS),JDI_SMS(NNZ_SMS),STAT=IERROR)
-                IF(IERROR/=0) THEN
-                  CALL ANCMSG(MSGID=19,ANMODE=ANINFO,
-     .                C1='(/DT/.../AMS)')
-                  CALL ARRET(2)
-                ENDIF
+                ALLOCATE(IDI_SMS(NNZ_SMS),JDI_SMS(NNZ_SMS))
 
                 NSGDONE=1
                 CALL SMS_INI_JAD_1(
@@ -2255,14 +2129,7 @@ C
      B                 LAD_SMS   ,IPART      ,IGEO      ,NODES%WEIGHT  ,NATIV_SMS,
      C                 IAD_SMS   ,IDI_SMS,JAD_SMS  ,JDI_SMS   ,T2MAIN_SMS)
                 DEALLOCATE(JDI_SMS)
-
-                ALLOCATE(JDI_SMS(NNZ_SMS),STAT=IERROR)
-                IF(IERROR/=0) THEN
-                  CALL ANCMSG(MSGID=19,ANMODE=ANINFO,
-     .                C1='(/DT/.../AMS)')
-                  CALL ARRET(2)
-                ENDIF
-
+                ALLOCATE(JDI_SMS(NNZ_SMS))
                 NSGDONE=1
                 CALL SMS_INI_JAD_2(
      2                 ELEMENT%SHELL%IXC      ,IPARG   ,IXS      ,IXT      ,IXP     ,
@@ -2279,18 +2146,8 @@ C
      C             IGEO    ,NODES%WEIGHT  ,NATIV_SMS,IRBE2      ,LRBE2     ,
      D             IAD_SMS ,IDI_SMS ,JAD_SMS  ,JDI_SMS    ,T2MAIN_SMS)
                 DEALLOCATE(JDI_SMS)
-                ALLOCATE(JDI_SMS(NNZ_SMS),STAT=IERROR)
-                IF(IERROR/=0) THEN
-                  CALL ANCMSG(MSGID=19,ANMODE=ANINFO,
-     .                C1='(/DT/.../AMS)')
-                  CALL ARRET(2)
-                ENDIF
-                ALLOCATE(JSM_SMS(NNZ_SMS),STAT=IERROR)
-                IF(IERROR/=0) THEN
-                  CALL ANCMSG(MSGID=19,ANMODE=ANINFO,
-     .                C1='(/DT/.../AMS)')
-                  CALL ARRET(2)
-                ENDIF
+                CALL MY_ALLOC(JDI_SMS,NNZ_SMS)
+                CALL MY_ALLOC(JSM_SMS,NNZ_SMS)
 
                 NSGDONE=1
                 CALL SMS_INI_JAD_3(
@@ -2307,22 +2164,8 @@ C
      C                 IAD_SMS ,IDI_SMS ,JAD_SMS ,JDI_SMS    ,T2MAIN_SMS)
 
                 DEALLOCATE(IAD_SMS,IDI_SMS)
-
-                ALLOCATE(LTK_SMS(KNZ_SMS),LT_SMS(NNZ_SMS),STAT=IERROR)
-                IF(IERROR/=0) THEN
-                  CALL ANCMSG(MSGID=19,ANMODE=ANINFO,
-     .                C1='(/DT/.../AMS)')
-                  CALL ARRET(2)
-                ENDIF
-
-                ALLOCATE(TAG_LNK_SMS(NRLINK+NLINK+NJOINT),
-     .                   NRWL_SMS(SLPRW),
-     .                   STAT=IERROR)
-                IF(IERROR/=0) THEN
-                  CALL ANCMSG(MSGID=19,ANMODE=ANINFO,
-     .                C1='(/DT/.../AMS)')
-                  CALL ARRET(2)
-                ENDIF
+                ALLOCATE(LTK_SMS(KNZ_SMS),LT_SMS(NNZ_SMS))
+                ALLOCATE(TAG_LNK_SMS(NRLINK+NLINK+NJOINT),NRWL_SMS(SLPRW))
 
                 IF(IDTMINS==1)THEN
 C             Obsolete
@@ -2431,21 +2274,11 @@ C===============================================================================
 
 C ALLOCATION OF WORKING ARRAYS FOR AIRBAG BEM
 C
-              ALLOCATE(WIBEM(LWIBEM), WRBEM(LWRBEM), STAT=IERROR)
-              IF (IERROR/=0) THEN
-                CALL ANCMSG(MSGID=160,ANMODE=ANINFO,
-     .               I1=IERROR)
-                CALL ARRET(2)
-              ENDIF
+              ALLOCATE(WIBEM(LWIBEM), WRBEM(LWRBEM))
               DO I=1,LWIBEM
                 WIBEM(I)=0
               ENDDO
-              ALLOCATE(WIFLOW(LWIFLOW), WRFLOW(LWRFLOW), STAT=IERROR)
-              IF (IERROR/=0) THEN
-                CALL ANCMSG(MSGID=160,ANMODE=ANINFO,
-     .               I1=IERROR)
-                CALL ARRET(2)
-              ENDIF
+              ALLOCATE(WIFLOW(LWIFLOW), WRFLOW(LWRFLOW))
               DO I=1,LWIFLOW
                 WIFLOW(I)=0
               ENDDO
@@ -2806,8 +2639,7 @@ C
               IF(IMPL_S>0) THEN
                 IF(NCYCLE>0) THEN
                   IF (IMON>0) CALL STARTIME(TIMERS,TIMER_INTEG)
-                  CALL IMP_FANIE(OUTPUT ,FEXT_IMP,NFIA  ,NFEA  ,NODFT ,NODLT,
-     .                           H3D_DATA  )
+                  CALL IMP_FANIE(OUTPUT ,FEXT_IMP,NFIA  ,NFEA  ,NODFT ,NODLT, H3D_DATA)
                   IF (IMON>0) CALL STOPTIME(TIMERS,TIMER_INTEG)
                 ENDIF
               END IF
@@ -2827,7 +2659,6 @@ C----------------------------------
               IF(INTER_ITHKNOD/=0)THEN
                 NSGDONE=1
                 THKNOD(NODFT:NODLT)=ZERO
-C       /---------------/
 C       /---------------/
                 CALL THICKVAR(IPARG,ELBUF_TAB,ELEMENT%SHELL%IXC,IXTG,THKSH4,
      .                        THKSH3,THKNOD,THKE,SH4TREE,SH3TREE)
@@ -3162,12 +2993,11 @@ C-------------------------------------------------
                 IF (IMONM > 0) CALL STARTIME(TIMERS,41)
                 CALL FIXFLUX(IBFFLUX, FBFFLUX,  NPC,  TF,     NODES%X,     IXS,
      .                    NSENSOR,SENSORS%SENSOR_TAB, FTHE, ELEMENT%PON%IAD_FXFLUX, FTHESKY, PYTHON,
-     .                       GLOB_THERM)
+     .                    GLOB_THERM)
                 IF (IMONM > 0) CALL STOPTIME(TIMERS,41)
                 IF (IMON>0) CALL STOPTIME(TIMERS,TIMER_KIN)
               ENDIF
-
-
+C Airbags
               ICONTACT_OLD(1:SICONTACT) = ICONTACT(1:SICONTACT)
               IF(NVOLU/=0)THEN
                 IF (IMONM > 0) CALL STARTIME(TIMERS,50)
@@ -3397,14 +3227,7 @@ C
 C
                   LSKYI_SMS = NINT(LSKYI_SMS_NEW*1.2)
                   ALLOCATE(MSKYI_SMS(LSKYI_SMS),ISKYI_SMS(LSKYI_SMS,3),
-     .                     JDII_SMS(2*LSKYI_SMS),LTI_SMS(2*LSKYI_SMS),
-     .                     STAT=IERROR)
-C
-                  IF(IERROR/=0) THEN
-                    CALL ANCMSG(MSGID=19,ANMODE=ANINFO,
-     .                    C1='LSKYI_SMS RESIZE')
-                    CALL ARRET(2)
-                  ENDIF
+     .                     JDII_SMS(2*LSKYI_SMS),LTI_SMS(2*LSKYI_SMS))
 C
                 ENDIF
               ENDIF
@@ -6031,20 +5854,11 @@ C===============================================================================
 C                                     NON PARALLEL SECTION (SMP)
 C========================================================================================
 C
-              IF (GLOB_THERM%IDT_THERM == 1)THEN
-                IF(DT2T<DT2)THEN
-                  NELTS  = NELTST
-                  ITYPTS = ITYPTST
-                  DT2    = DT2T
-                ENDIF
-              ELSE
-                IF(DT2T<DT2)THEN
-                  NELTS  = NELTST
-                  ITYPTS = ITYPTST
-                  DT2    = DT2T
-                ENDIF
+              IF(DT2T<DT2)THEN
+                NELTS  = NELTST
+                ITYPTS = ITYPTST
+                DT2    = DT2T
               ENDIF
-
 C----------------------------
 C    IMPLICIT SYNCHRONISATION On DT2 FBIG
 C----------------------------
@@ -6638,7 +6452,7 @@ C
                   IF(IMONM > 0) CALL STOPTIME(TIMERS,40)
                 ENDIF
 C--------------------
-C       SENSOR //  NODES%IN IMPLICIT
+C       SENSOR //  IN IMPLICIT
 C-----------------------------------------------
 C       Exchange SENSORS%FSAV for sensors 6-13
 C-----------------------------------------------
@@ -6682,9 +6496,7 @@ c
                   CALL SENSOR_LOGICAL(SENSORS)
 
                 ENDIF
-
                 GOTO 111
-
               ENDIF
 C-----------------------------
 C       Non pure thermal case
@@ -6712,8 +6524,6 @@ C-------  ----------------
 
 !$OMP END PARALLEL
                 CALL PYTHON_END_OPENMP(PYTHON)
-
-
 C-----------------------------------------------
 C         SPH SMOOTHING OF VELOCITIES
 C-----------------------------------------------
@@ -6724,11 +6534,7 @@ C------------------------
                   IF (IMONM > 0) CALL STARTIME(TIMERS,48)
                   IF (IMONM > 0) CALL STARTIME(TIMERS,89)
 
-                  ALLOCATE(WASPSYM(3*NSPHSYM+1),STAT=IERROR)
-                  IF(IERROR/=0)THEN
-                    CALL ANCMSG(MSGID=19,ANMODE=ANINFO,C1="WASPSYM")
-                    CALL ARRET(2)
-                  ENDIF
+                  ALLOCATE(WASPSYM(3*NSPHSYM+1))
 C========================================================================================
 C                                     PARALLEL SECTION (SMP)
 C========================================================================================
@@ -6751,28 +6557,23 @@ C===============================================================================
 !$OMP END PARALLEL
                   CALL PYTHON_END_OPENMP(PYTHON)
                   DEALLOCATE(WASPSYM)
-
 C========================================================================================
 C                                   NON PARALLEL SECTION (SMP)
 C========================================================================================
 
                   IF (IMONM > 0) CALL STOPTIME(TIMERS,48)
                   IF (IMONM > 0) CALL STOPTIME(TIMERS,89)
-C
 C------------------------
 C           Second Part of artificial forces work.
 C--- //0 ----------------
                   IF (IMON>0) CALL STARTIME(TIMERS,6)
                   IF (IMONM > 0) CALL STARTIME(TIMERS,48)
-                  CALL SPWFVIS(SPBUF,IPART(K10),PARTSAV,IPARG,ELBUF_TAB,
-     .                         KXSP ,WASPH(KSPACTIV))
+                  CALL SPWFVIS(SPBUF,IPART(K10),PARTSAV,IPARG,ELBUF_TAB, KXSP ,WASPH(KSPACTIV))
                   IF (IMONM > 0) CALL STOPTIME(TIMERS,48)
                   IF (IMON>0) CALL STOPTIME(TIMERS,6)
-
 C========================================================================================
 C                                     PARALLEL SECTION (SMP)
 C========================================================================================
-
                   CALL PYTHON_BEGIN_OPENMP(PYTHON)
 !$OMP PARALLEL
 !$OMP+ PRIVATE(ITSK,NODFTSK,NODLTSK,NUMNTSK,NDTSK,IPMTSK,IGMTSK)
@@ -6827,7 +6628,6 @@ C===============================================================================
                 ITSK = OMP_GET_THREAD_NUM()
                 NODFTSK   = 1+ITSK*NUMNOD/ NTHREAD
                 NODLTSK   = (ITSK+1)*NUMNOD/NTHREAD
-
 C--- // ---------------------------------------
 C       ACCELERATIONS (TRANSLATIONS)
 C-----------------------------------------------
@@ -6892,8 +6692,7 @@ C-----------------------------------------------
 C------------------------------------------
 C       DT_DC for thick-shell
 C-----------------------------------------------
-                IF(NTSHEGG>0.AND.NSPMD > 1)
-     .              CALL SPMD_EXCH_VMAX(IAD_STSH ,FR_STSH ,IAD_RTSH ,FR_RTSH ,ALPHA_DC )
+                IF(NTSHEGG>0.AND.NSPMD > 1) CALL SPMD_EXCH_VMAX(IAD_STSH ,FR_STSH ,IAD_RTSH ,FR_RTSH ,ALPHA_DC )
                 IF(NTSHEG > 0) THEN
 
 C========================================================================================
@@ -6917,15 +6716,9 @@ C---------------------------------------------------------------------
 C DEBUG TEMPERATURES OUTPUT
 C---------------------------------------------------------------------
                 IF (DEBUG(MACRO_DEBUG_TEMP)==1) THEN
-                  IF (NCYCLE>=TDEBSTART .AND.
-     .                           MOD(NCYCLE-TDEBSTART,TRSTFREQ)==0) THEN
-
+                  IF (NCYCLE>=TDEBSTART .AND.MOD(NCYCLE-TDEBSTART,TRSTFREQ)==0) THEN
                     IF(NSPMD > 1) THEN
-                      IF (ISPMD==0) THEN
-                        SIZ = NUMNODG
-                      ELSE
-                        SIZ = 0
-                      END IF
+                       SIZ = MERGE(NUMNODG, 0, ISPMD==0)
                       CALL SPMD_COLLECTT(NODES%TEMP,NODES%ITAB,NODES%WEIGHT,NODES%NODGLOB,SIZ)
                     ELSE
                       CALL COLLECTT(NODES%TEMP,NODES%ITAB,NODES%WEIGHT,NODES%NODGLOB)
@@ -6942,7 +6735,6 @@ C-----------------------------------------------
 C  INLETS,OUTLETS.
 C-----------------------------------------------
                 IF(NSPHIO/=0)THEN
-
 C globalize NSPHACT in NSPHACTG
                   NSPHACTG = NSPHACT
 
@@ -6950,7 +6742,6 @@ C globalize NSPHACT in NSPHACTG
                     CALL SPMD_GLOB_ISUM9(NSPHACTG,1)
                     CALL SPMD_IBCAST(NSPHACTG,NSPHACTG,1,1,0,2)
                   END IF
-
                   IF(NSPHACTG/=0)THEN
 C--- //0 ----------------
                     IF (IMON>0) CALL STARTIME(TIMERS,6)
@@ -6967,14 +6758,6 @@ C--- //0 ----------------
                     IF (IMON>0) CALL STOPTIME(TIMERS,6)
                   ENDIF
                 END IF
-
-C========================================================================================
-C                                     NON PARALLEL SECTION (SMP)
-C========================================================================================
-
-C-----------------------------------------------
-C INLETS,OUTLETS.
-C-----------------------------------------------
                 IF(NSPHIO/=0.AND.NSPHACTG/=0)THEN
 C--- //0 ----------------
                   IF (IMON>0) CALL STARTIME(TIMERS,6)
@@ -7434,7 +7217,7 @@ C-----------------------------------------------
 !$OMP PARALLEL PRIVATE(ITSK,NODFTSK,NODLTSK)
 
                 ITSK = OMP_GET_THREAD_NUM()
-                NODFTSK   = 1+ITSK*NUMNOD/ NTHREAD
+                NODFTSK   = 1+ITSK*NUMNOD/NTHREAD
                 NODLTSK   = (ITSK+1)*NUMNOD/NTHREAD
 
 C--- // ---------------------------------------
@@ -7922,7 +7705,6 @@ C check that proc is concerned. Otherwise necessary exchange for sensor, th
 C implicit barrier on end do
 !$OMP END PARALLEL DO
                   CALL PYTHON_END_OPENMP(PYTHON)
-
               END IF ! Fin NACCELM > 0
 
 C--------------------
@@ -7934,19 +7716,15 @@ C-- // --------------
                 DO K=1,NBGAUGE
                   IF(IGAUP(K)==ISPMD+1)THEN
                     N  = LGAUGE(1,K)
-C
 C SPH Gauges
                     IF(N < -(NUMELS+NUMELQ+NUMELTG))THEN
-                      CALL SPGAUGE_F(
-     .                  GAUGE(10,K),GAUGE(9,K),GAUGE(14,K),GAUGE(22,K),
-     .                  GAUGE(30,K),4)
+                      CALL SPGAUGE_F(GAUGE(10,K),GAUGE(9,K),GAUGE(14,K),GAUGE(22,K),GAUGE(30,K),4)
                     END IF
                   END IF
                 ENDDO
 C implicit barrier on end do
 !$OMP END PARALLEL DO
               CALL PYTHON_END_OPENMP(PYTHON)
-
               END IF ! Fin NBGAUGE > 0
 
 C--------------------
@@ -7959,8 +7737,7 @@ C-- // --------------
                   IF (ISPHIO(1,K)>1) THEN
                     IVAD = ISPHIO(4,K)
                     CALL SPGAUGE_F(
-     .                VSPHIO(IVAD+13),VSPHIO(IVAD+15),VSPHIO(IVAD+18),VSPHIO(IVAD+20),
-     .                VSPHIO(IVAD+16),1)
+     .                VSPHIO(IVAD+13),VSPHIO(IVAD+15),VSPHIO(IVAD+18),VSPHIO(IVAD+20),VSPHIO(IVAD+16),1)
                   END IF
                 ENDDO
 C implicit barrier on end do
@@ -8137,7 +7914,6 @@ c--------------
                         TT = TT_DOUBLE
                       ENDIF
                     ENDIF
-                    !TT=TT+TTMP
                   ENDIF
                   NTMP = 1
                 ENDIF
