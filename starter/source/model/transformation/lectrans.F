@@ -105,7 +105,7 @@ C-----------------------------------------------
      .    NSEG,NNO,SURFNOD,SUB_INDEX,ISK,ISK0,XYZFLAG0(3)
       my_real
      .   LX,LY,LZ,TX,TY,TZ,R,S,RX,RY,RZ,SX,SY,SZ,ANGLE,AT,FAC_L,
-     .   XP,YP,ZP,GAP
+     .   XP,YP,ZP,GAP,orig(3)
       my_real
      .   VR(3),X0(3),X1(3),X2(3),X3(3),X4(3),X5(3),X6(3),
      .   ROT(9),PP(3,3),QQ(3,3),P(3),NORM1, NORM2, NORM3, SCAL1, 
@@ -160,6 +160,7 @@ C--------------------------------------------------
           CALL HM_GET_INTV('node2',N1,IS_AVAILABLE,LSUBMODEL)
           CALL HM_GET_INTV('SUBMODEL',ITRANSSUB,IS_AVAILABLE,LSUBMODEL)
           CALL HM_GET_INTV('skew_ID',ISK0,IS_AVAILABLE,LSUBMODEL)
+          IF( ISK0 == 0 .AND. SUB_INDEX /= 0 ) ISK0 = LSUBMODEL(SUB_INDEX)%SKEW
 C--------------------------------------------------
 C EXTRACT DATAS (REAL VALUES)
 C--------------------------------------------------
@@ -199,7 +200,7 @@ c---------------------
                 ENDIF
               ENDDO
               IF(.NOT. IS_FOUND)THEN
-                CALL ANCMSG(MSGID=3112,
+                CALL ANCMSG(MSGID=3117,
      .                      MSGTYPE=MSGERROR,
      .                      ANMODE=ANINFO,
      .                      I1= ID,
@@ -207,8 +208,8 @@ c---------------------
      .                      I2= ISK0)
               ENDIF
           ENDIF
-
           IF (N0 > 0 .OR. N1 > 0) THEN
+            ISK = 0
             I0 = USRTOS(N0,ITABM1)
             I1 = USRTOS(N1,ITABM1)
             IF (I0 == 0) THEN
