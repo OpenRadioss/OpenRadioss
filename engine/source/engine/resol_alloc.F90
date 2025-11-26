@@ -975,5 +975,292 @@
 
         end subroutine resol_alloc_phase10
 
+        subroutine resol_alloc_phase11(IREAC,IGRELEM,NUMNOD,NUMELSG,NUMELS16G,NUMSPHG, &
+          NUMELCG,NUMELTGG,NUMELQG,NUMELTG,NUMELPG,NUMELRG,NTHPART, &
+          NGPE,NGRTH,NELEM,NODREAC,GRTH,IGRTH,DXANCG, &
+          IGROUPFLG,IGROUPC,IGROUPTG,IGROUPS,NUMMAT,IPM,NPROPMI, &
+          NVOLU,NUMELC,NUMELS)
+          use precision_mod, only : wp
+          use constant_mod, only : ZERO
+          implicit none
+  ! ----------------------------------------------------------------------------------------------------------------------
+  !                                                     arguments
+  ! ----------------------------------------------------------------------------------------------------------------------
+          integer, intent(in) :: IREAC
+          integer, intent(in) :: IGRELEM
+          integer, intent(in) :: NUMNOD
+          integer, intent(in) :: NUMELSG
+          integer, intent(in) :: NUMELS16G
+          integer, intent(in) :: NUMSPHG
+          integer, intent(in) :: NUMELCG
+          integer, intent(in) :: NUMELTGG
+          integer, intent(in) :: NUMELQG
+          integer, intent(in) :: NUMELPG
+          integer, intent(in) :: NUMELRG
+          integer, intent(in) :: NTHPART
+          integer, intent(in) :: NUMMAT
+          integer, intent(in) :: NVOLU
+          integer, intent(in) :: NUMELC
+          integer, intent(in) :: NUMELS
+          integer, intent(in) :: NUMELTG
+          integer, intent(in) :: NPROPMI
+          integer, intent(inout) :: NGPE
+          integer, intent(inout) :: NGRTH
+          integer, intent(inout) :: NELEM
+          integer, allocatable, intent(inout) :: NODREAC(:)
+          integer, allocatable, intent(inout) :: GRTH(:)
+          integer, allocatable, intent(inout) :: IGRTH(:)
+          real(kind=wp), intent(inout) :: DXANCG(:,:)
+          integer, intent(inout) :: IGROUPFLG(2)
+          integer, allocatable, intent(inout) :: IGROUPC(:)
+          integer, allocatable, intent(inout) :: IGROUPTG(:)
+          integer, allocatable, intent(inout) :: IGROUPS(:)
+          integer, intent(in) :: IPM(NPROPMI,*)
+  ! ----------------------------------------------------------------------------------------------------------------------
+          integer :: I
+            IF (IREAC == 1 ) THEN
+                ALLOCATE(NODREAC(NUMNOD))
+              ELSE
+                ALLOCATE(NODREAC(0))
+              ENDIF
+              IF (IGRELEM == 1) THEN
+                NGPE = NTHPART
+                NGRTH = NTHPART
+                NELEM=NUMELSG+3*NUMELS16G+NUMSPHG+NUMELCG+NUMELTGG+NUMELQG+NUMELTG+NUMELPG+2*NUMELRG
+              ELSE
+                NGPE = 0
+                NGRTH = 0
+                NELEM = 0
+              ENDIF
+              IF (IGRELEM == 1 ) THEN
+                ALLOCATE(GRTH(NELEM+NGRTH+1))
+                ALLOCATE(IGRTH(NELEM+1))
+              ELSE
+                ALLOCATE(GRTH(1))
+                ALLOCATE(IGRTH(1))
+              ENDIF
+              IGRTH = 0
+              GRTH = 0
+              DXANCG = ZERO
+!------------------------------------------
+!     ALLOCATION IGROUPC AND IGROUPTG
+!     TABLE GIVING GROUP NUMBER FOR SHELLS
+!     ALLOCATION IGROUPS FOR BRICKS
+!------------------------------------------
+              IGROUPFLG(1:2)=0
+              IF(NVOLU > 0) IGROUPFLG(1) = 1
+              DO I=1,NUMMAT
+                IF(IPM(2,I)/=19.AND.IPM(2,I)/=58) CYCLE
+                IF(IPM(4,I) >= 4) IGROUPFLG(1)=1
+              ENDDO
+              IF(IGROUPFLG(1) == 1) THEN
+                ALLOCATE(IGROUPC(NUMELC))
+                ALLOCATE(IGROUPTG(NUMELTG))
+              ELSE
+                ALLOCATE(IGROUPC(0))
+                ALLOCATE(IGROUPTG(0))
+              ENDIF
+              IGROUPFLG(2)=1
+              ALLOCATE(IGROUPS(NUMELS))
+        end subroutine resol_alloc_phase11
+
+        subroutine resol_alloc_nitsche(NFACNIT, NITSCHE, IPARIT, NUMELS, NUMELS10G, LSKY, &
+          STRESSMEAN, FORNEQSKY)
+          use constant_mod, only : ZERO
+          use precision_mod, only : wp
+          implicit none
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                     arguments
+! ----------------------------------------------------------------------------------------------------------------------
+          integer, intent(in) :: NITSCHE
+          integer, intent(in) :: IPARIT
+          integer, intent(in) :: NUMELS
+          integer, intent(in) :: NUMELS10G
+          integer, intent(in) :: LSKY
+          integer, intent(inout) :: NFACNIT
+          real(kind=wp), allocatable, intent(inout) :: STRESSMEAN(:,:)
+          real(kind=wp), allocatable, intent(inout) :: FORNEQSKY(:)
+! ----------------------------------------------------------------------------------------------------------------------
+! NITSCHE METHOD
+              NFACNIT =0
+              IF (NITSCHE > 0 ) THEN
+!  Element mean stress
+                ALLOCATE(STRESSMEAN(6,NUMELS))
+!  Equivalent nodal force
+                IF(IPARIT /= 0 ) THEN
+                  IF(NUMELS10G ==0) THEN
+                    NFACNIT = 6
+                    ALLOCATE(FORNEQSKY(18*LSKY))
+                    FORNEQSKY(1:18*LSKY) = ZERO
+                  ELSE
+                    NFACNIT = 16
+                    ALLOCATE(FORNEQSKY(48*LSKY))
+                    FORNEQSKY(1:48*LSKY) = ZERO
+                  ENDIF
+                ELSE
+                  ALLOCATE(FORNEQSKY(0))
+                ENDIF
+                STRESSMEAN(1:6,1:NUMELS)=ZERO
+              ELSE
+                ALLOCATE(STRESSMEAN(0,0))
+                ALLOCATE( FORNEQSKY(0))
+              ENDIF
+        end subroutine resol_alloc_nitsche
+
+        subroutine resol_alloc_python(PYTHON, NODES, NUMNOD, IXS, NIXS, NUMELS, &
+          NIXC, NUMELC, IXP, NIXP, NUMELP, IXT, NIXT, NUMELT, &
+          IXQ, NIXQ, NUMELQ, IXTG, NIXTG, NUMELTG, &
+          IXR, NIXR, NUMELR, IPARG, NGROUP, NPARG, MVSIZ, &
+          IPART, LIPART1, NPART, NTHPART, ISPMD, N2D, NUMGEO, NUMMAT, &
+          ELBUF_TAB, GEO, PM, BUFMAT, EANI, &
+          IPM, IGEO, THKE, STHKE, ERR_THK_SH4, ERR_THK_SH3, &
+          W, ALE_CONNECTIVITY, NPROPG, NPROPGI, NPROPM, NPROPMI, SEANI, &
+          snercvois, snesdvois, slercvois, slesdvois, &
+          NERCVOIS, NESDVOIS, LERCVOIS, LESDVOIS, &
+          M51_N0PHAS, M51_NVPHAS, STACK, &
+          MULTI_FVM, MAT_ELEM, OUTPUT, GLOB_THERM, ELEMENT)
+          use precision_mod, only : wp
+          use python_funct_mod
+          use python_register_mod
+          use PYTHON_SHARE_MEMORY_mod
+          use nodal_arrays_mod, only : nodal_arrays_
+          use funct_python_update_elements_mod
+          USE python_call_funct_cload_mod
+          use mat_elem_mod, only : MAT_ELEM_
+          use elbufdef_mod
+          use stack_mod, only : STACK_PLY
+          USE MULTI_FVM_MOD
+          USE ALE_CONNECTIVITY_MOD, only : T_ALE_CONNECTIVITY
+          USE CONNECTIVITY_MOD
+          use glob_therm_mod, only : glob_therm_
+          use output_mod, only : output_
+
+          implicit none
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                     arguments
+! ----------------------------------------------------------------------------------------------------------------------
+          type(python_),intent(inout) :: python      !< the Fortran structure that holds the python function
+          TYPE(connectivity_), INTENT(INOUT) :: ELEMENT
+          integer,      intent(inout) :: numnod         !< the global number of nodes
+          type(nodal_arrays_), intent(inout) :: nodes   !< the nodal arrays
+          TYPE(MAT_ELEM_), INTENT(INOUT) :: MAT_ELEM
+          type (glob_therm_) ,intent(inout)                  :: glob_therm
+          type (output_) ,intent(inout)                  :: output
+          integer, intent(in) :: nixs                !< number of integers in the solid data structure
+          integer, intent(in) :: numels              !< number of solids
+          integer, intent(inout) :: ixs(nixs,numels)    !< solid data structure
+          integer, intent(in) :: nixc                !< number of integers in the shell data structure
+          integer, intent(in) :: numelc              !< number of shells
+          integer, intent(in) :: nixp                !< number of integers in the beam data structure
+          integer, intent(in) :: numelp              !< number of beams
+          integer, intent(inout) :: ixp(nixp,numelp)    !< beam data structure
+          integer, intent(in) :: nixt                !< number of integers in the truss data structure
+          integer, intent(in) :: numelt              !< number of trusses
+          integer, intent(in) :: ixt(nixt,numelt)    !< truss data structure
+          integer, intent(in) :: nixtg               !< number of integers in the triangle data structure
+          integer, intent(in) :: numeltg             !< number of triangles
+          integer, intent(inout) :: ixtg(nixtg,numeltg) !< triangle data structure
+          integer, intent(in) :: nixr                !< number of integers in the spring data structure
+          integer, intent(in) :: numelr              !< number of springs
+          integer, intent(in) :: ixr(nixr,numelr)    !< spring data structure
+          integer, intent(in) :: nixq                !< number of integers in the quad data structure
+          integer, intent(in) :: numelq              !< number of quads
+          integer, intent(inout) :: ixq(nixq,numelq)    !< quad data structure
+          integer, intent(in) :: ngroup              !< number of groups
+          integer, intent(in) :: nparg               !< number of integers in the group data structure
+          integer, intent(inout) :: iparg(nparg,ngroup) !< group data structure
+          integer, intent(in) :: mvsiz               !< maximum size of a group
+          integer, intent(in) :: lipart1             !< index in ipart array
+          integer, intent(in) :: npart               !< number of particles
+          integer, intent(in) :: nthpart             !< number of thermal particles
+          integer, intent(in) :: ispmd               !< flag for smoothed particle method
+          integer, intent(in) :: n2d                 !< number of 2D elements
+          integer, intent(in) :: numgeo              !< number of geometrical entities
+          integer, intent(in) :: nummat              !< number of materials
+          integer, intent(in) :: npropg              !< number of properties in geo array
+          integer, intent(in) :: npropgi             !< number of integers in geo array
+          integer, intent(in) :: npropm              !< number of properties in pm array
+          integer, intent(in) :: npropmi             !< number of integers in pm array
+          integer, intent(in) :: seani                                   
+          integer, intent(in) :: M51_N0PHAS !< law 51 phases
+          integer, intent(in) :: M51_nvphas !< law 51 phases
+          integer, intent(in) :: sthke               !< size of thke array
+          real(kind=WP), intent(inout) :: w(3,numnod) !< for ALE?
+          real(kind=WP), intent(inout) :: thke(sthke) !< thickness of shell elements ?
+          real(kind=WP), intent(inout) :: geo(npropg,numgeo) !< property array
+          real(kind=WP), intent(inout) :: pm(npropm,nummat) !< property array
+          real(kind=WP), intent(inout) :: err_thk_sh4(numelc) !< ?
+          real(kind=WP), intent(inout) :: err_thk_sh3(numeltg) !< ?
+          real(kind=WP), intent(inout) :: eani(seani) !< working array ?
+          integer, intent(inout) :: ipart(*) !< part array
+          integer, intent(inout) :: ipm(npropmi,nummat) !< property array
+          integer, intent(inout) :: igeo(npropgi,numgeo) !< property array
+          integer, intent(inout) :: snercvois 
+          integer, intent(inout) :: snesdvois
+          integer, intent(inout) :: slercvois
+          integer, intent(inout) :: slesdvois
+          integer, intent(inout) :: nercvois(snercvois) !< for Schlieren option
+          integer, intent(inout) :: nesdvois(snesdvois) !< for Schlieren option
+          integer, intent(inout) :: lercvois(slercvois) !< for Schlieren option
+          integer, intent(inout) :: lesdvois(slesdvois) !< for Schlieren option
+          type(ELBUF_STRUCT_), dimension(ngroup), intent(inout), target :: elbuf_tab !< element buffer structure
+          type(STACK_PLY), intent(inout) :: stack !< tack structure
+          type(MULTI_FVM_STRUCT), intent(in) :: multi_fvm !< finite volume structure
+          real(kind=WP), intent(in) :: bufmat(*) !< buffer material ?
+          type(T_ALE_CONNECTIVITY), intent(in) :: ALE_CONNECTIVITY
+
+!
+!
+
+! ------------------------------------------------------------------------------------------------------
+          integer :: K1,K2,K3,K4,K5,K6,K7,K8,K9
+              CALL PYTHON_REGISTER(PYTHON,NODES,NUMNOD, &
+                                   IXS, NIXS, NUMELS, &
+                                   ELEMENT%SHELL%IXC, NIXC, NUMELC, &
+                                   IXP, NIXP, NUMELP, &
+                                   IXT, NIXT, NUMELT, &
+                                   IXQ, NIXQ, NUMELQ, &
+                                   IXTG, NIXTG, NUMELTG, &
+                                   IXR, NIXR, NUMELR, &
+                                   IPARG, NGROUP, NPARG, MVSIZ)
+
+             IF(PYTHON%NB_FUNCTS > 0) CALL PYTHON_SHARE_MEMORY(PYTHON,NODES,NUMNOD, &
+                                   IXS, NIXS, NUMELS, &
+                                   ELEMENT%SHELL%IXC, NIXC, NUMELC, &
+                                   IXP, NIXP, NUMELP, &
+                                   IXT, NIXT, NUMELT, &
+                                   IXQ, NIXQ, NUMELQ, &
+                                   IXTG, NIXTG, NUMELTG, &
+                                   IXR, NIXR, NUMELR, &
+                                   IPARG, NGROUP, NPARG)
+
+              K1=1+LIPART1*(NPART+NTHPART)+2*9*(NPART+NTHPART)
+              K2=K1+NUMELS
+              K3=K2+NUMELQ
+              K4=K3+NUMELC
+              K5=K4+NUMELT
+              K6=K5+NUMELP
+              K7=K6+NUMELR
+              K8=K7
+              K9=K8+NUMELTG
+              CALL python_dummy_active_node(PYTHON)
+              CALL FUNCT_PYTHON_UPDATE_ELEMENTS(PYTHON, ISPMD, &
+                       N2D,  NGROUP,  NIXC, NIXTG, NIXS,NIXQ, &
+                       NUMGEO, NUMELC, NUMELTG, NUMELS, NUMELQ, NUMMAT, NUMNOD, &
+                       NPARG, NPROPG, NPROPM, NPROPMI, NPROPGI, &
+                       SNERCVOIS, SNESDVOIS, SLERCVOIS, SLESDVOIS, &
+                       STHKE, SEANI, NPART, &
+                       ELBUF_TAB   ,IPARG       ,GEO        , &
+                       ELEMENT%SHELL%IXC ,IXTG, IXS, IXQ, PM,BUFMAT, &
+                       EANI, &
+                       IPM         ,IGEO      ,THKE      ,ERR_THK_SH4 ,ERR_THK_SH3, &
+                       NODES                  ,W           ,ALE_CONNECTIVITY,  &
+                       NERCVOIS    ,NESDVOIS  ,LERCVOIS    ,LESDVOIS, &
+                       M51_N0PHAS, M51_NVPHAS, STACK,& 
+                       IPART(K3:K4-1),IPART(K1:K2-1),IPART(K8:K9-1), IPART(K2:K3-1), &
+                       MULTI_FVM , &
+                       MAT_ELEM%MAT_PARAM , OUTPUT%DATA%FANI_CELL,GLOB_THERM%ITHERM)
+
+        end subroutine resol_alloc_python
       end module resol_alloc_mod
 
