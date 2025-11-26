@@ -257,7 +257,13 @@ protected:
 
     void SetDataPointer(IMECPreObject* ptr)
     {
-        if(!ptr || !(p_ptr && !strcmp(ptr->GetKernelFullType(), p_ptr->GetKernelFullType()))) p_pDescr = 0;
+         if(!ptr ||
+           !(p_ptr && !strcmp(ptr->GetKernelFullType(), p_ptr->GetKernelFullType())) ||
+           !(p_ptr && strlen(ptr->GetKernelFullType()) == 0 &&
+             !strcmp(ptr->GetInputFullType(), p_ptr->GetInputFullType())))
+        {
+            p_pDescr = 0;
+        }
         p_vpSubDescr.resize(0); /* we could check the subobjects one by one, but they might be different,
                                  * so this is a simple and safe approach */
         p_ptr = ptr;
