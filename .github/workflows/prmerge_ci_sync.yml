@@ -117,14 +117,8 @@ jobs:
           git remote -v
 
           # Merge github commits into this branch and push on remote
-          # Temporarily disable the LFS smudge filter to avoid some weirds error
-          export GIT_LFS_SKIP_SMUDGE=1
           git fetch github 
-          git lfs fetch github
           git merge github/main
-          # Get real LFS objects
-          unset GIT_LFS_SKIP_SMUDGE
-          git lfs pull github
           # Push modif
           git push --set-upstream origin from_github_main        
 
