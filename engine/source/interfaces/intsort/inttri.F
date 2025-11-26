@@ -155,6 +155,7 @@ C-----------------------------------------------
       USE GLOB_THERM_MOD
       USE INT18_LAW151_NSV_SHIFT_MOD , ONLY : INT18_LAW151_NSV_SHIFT
       use element_mod , only : nixtg
+      USE TRI25EBOX , ONLY : NEDGE_REMOTE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1280,6 +1281,7 @@ C
        IF(IDEL7NOK_SAV > 0) THEN
          DO N = 1,NINTER25
           NIN = INTLIST25(N)
+          NEDGE_REMOTE = IPARI(69,NIN)
           IF(IPARI(MACRO_IEDGE,NIN) > 0) THEN
 C
 C           Also needed in SMP for resetting STFE !

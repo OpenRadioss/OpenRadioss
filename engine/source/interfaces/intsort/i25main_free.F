@@ -45,6 +45,7 @@ C-----------------------------------------------
       USE TIMER_MOD
       USE INTBUFDEF_MOD   
       USE TRI7BOX
+      USE TRI25EBOX , ONLY : NEDGE_REMOTE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -103,6 +104,7 @@ C
 !$OMP SINGLE
       DO N = 1,NINTER25
        NIN = INTLIST25(N)
+       NEDGE_REMOTE = IPARI(69,NIN)
        IF(IPARI(MACRO_IEDGE,NIN) > 0) THEN
 C
 C        Also needed in SMP for resetting STFE !
