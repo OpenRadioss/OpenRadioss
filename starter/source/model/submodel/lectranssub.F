@@ -219,7 +219,7 @@ C
           CALL HM_GET_FLOATV('translation_y',TY,IS_AVAILABLE,LSUBMODEL,UNITAB)
           CALL HM_GET_FLOATV('translation_z',TZ,IS_AVAILABLE,LSUBMODEL,UNITAB)
           CALL HM_GET_INTV('skew_ID',ISK0,IS_AVAILABLE,LSUBMODEL)
-          !!IF (ISK0 == 0 .AND. SUB_INDEX > 0) ISK = LSUBMODEL(SUB_INDEX)%SKEW
+          IF( ISK0 == 0 .AND. SUB_INDEX /= 0 ) ISK0 = LSUBMODEL(SUB_INDEX)%SKEW
 
           ISK = 0
           IF (ISK0 > 0) THEN
@@ -232,7 +232,7 @@ C
                 ENDIF
               ENDDO
               IF(.NOT. IS_FOUND)THEN
-                CALL ANCMSG(MSGID=3112,
+                CALL ANCMSG(MSGID=3117,
      .                      MSGTYPE=MSGERROR,
      .                      ANMODE=ANINFO,
      .                      I1= ID,
@@ -240,9 +240,9 @@ C
      .                      I2= ISK0)
               ENDIF
           ENDIF
-          RTRANS(I,23) = ISK
 c
           IF (N0 > 0 .OR. N1 > 0) THEN
+            ISK = 0
             I0 = USRTOS(N0,ITABM1)
             I1 = USRTOS(N1,ITABM1)
             IF (I0 == 0) THEN
@@ -263,11 +263,17 @@ c
             END IF
 C
 C TRANSFORMATION OF COORDS OF NODES N0 & N1
+            X0(1) = X(1,I0)
+            X0(2) = X(2,I0) 
+            X0(3) = X(3,I0)
             IF(TAGNODSUB(I0) == ITRANSSUB) THEN
               DO J=1,I-1
                 IF(RTRANS(J,1) == ITRANSSUB) CALL RTRANSPOS(X0,J,RTRANS)
               END DO
             END IF
+            X1(1) = X(1,I1)
+            X1(2) = X(2,I1) 
+            X1(3) = X(3,I1)
             IF(TAGNODSUB(I1) == ITRANSSUB) THEN
               DO J=1,I-1
                 IF(RTRANS(J,1) == ITRANSSUB) CALL RTRANSPOS(X1,J,RTRANS)
@@ -285,6 +291,7 @@ C TRANSFORMATION OF COORDS OF NODES N0 & N1
           RTRANS(I,16) = TY
           RTRANS(I,17) = TZ
           S = SQRT(TX*TX + TY*TY + TZ*TZ)
+          RTRANS(I,23) = ISK
 C
           ROT(1:9)=ZERO
           ROT(1) = ONE
