@@ -737,7 +737,6 @@ C-----------------------
 !||====================================================================
 !||    user2sys   ../starter/source/system/nintrr.F
 !||--- called by ------------------------------------------------------
-!||    nintlstn   ../starter/source/system/nintrr.F
 !||====================================================================
       INTEGER FUNCTION USER2SYS(IU,IXX_S,NIX,CUR,LAST)
 C      FUNCTION RETURNS SYSTEM ID FROM A LIST OF USER ELEMENTS OR ZERO IF NOT FOUND
@@ -793,7 +792,6 @@ C
 !||    hm_lecgre              ../starter/source/groups/hm_lecgre.F
 !||--- calls      -----------------------------------------------------
 !||    ancmsg                 ../starter/source/output/message/message.F
-!||    user2sys               ../starter/source/system/nintrr.F
 !||--- uses       -----------------------------------------------------
 !||    message_mod            ../starter/share/message_module/message_mod.F
 !||====================================================================

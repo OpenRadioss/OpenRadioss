@@ -1881,6 +1881,7 @@ C Str uses temporary table instead of temporary scalars
 !||    valpvec_v   ../engine/source/materials/mat/mat033/sigeps33.F
 !||--- called by ------------------------------------------------------
 !||    sigeps124   ../engine/source/materials/mat/mat124/sigeps124.F
+!||    sigeps130   ../engine/source/materials/mat/mat130/sigeps130.F90
 !||    sigeps163   ../engine/source/materials/mat/mat163/sigeps163.F90
 !||    sigeps190   ../engine/source/materials/mat/mat190/sigeps190.F
 !||    sigeps33    ../engine/source/materials/mat/mat033/sigeps33.F
@@ -2211,6 +2212,7 @@ C
 !||--- called by ------------------------------------------------------
 !||    fail_spalling_s   ../engine/source/materials/fail/spalling/fail_spalling_s.F90
 !||    sigeps124         ../engine/source/materials/mat/mat124/sigeps124.F
+!||    sigeps130         ../engine/source/materials/mat/mat130/sigeps130.F90
 !||    sigeps163         ../engine/source/materials/mat/mat163/sigeps163.F90
 !||    sigeps190         ../engine/source/materials/mat/mat190/sigeps190.F
 !||    sigeps33          ../engine/source/materials/mat/mat033/sigeps33.F

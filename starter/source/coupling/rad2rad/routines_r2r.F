@@ -466,17 +466,16 @@ C-----------GAUGES------------------
       end function R2R_EXIST
 
 !||====================================================================
-!||    r2r_listcnt        ../starter/source/coupling/rad2rad/routines_r2r.F
+!||    r2r_listcnt      ../starter/source/coupling/rad2rad/routines_r2r.F
 !||--- called by ------------------------------------------------------
-!||    hm_read_thgrsurf   ../starter/source/output/th/hm_read_thgrsurf.F
-!||    hm_thgrki_vent     ../starter/source/output/th/hm_thgrki_vent.F
+!||    hm_thgrki_vent   ../starter/source/output/th/hm_thgrki_vent.F
 !||--- calls      -----------------------------------------------------
-!||    my_exit            ../starter/source/output/analyse/analyse.c
-!||    r2r_exist          ../starter/source/coupling/rad2rad/routines_r2r.F
+!||    my_exit          ../starter/source/output/analyse/analyse.c
+!||    r2r_exist        ../starter/source/coupling/rad2rad/routines_r2r.F
 !||--- uses       -----------------------------------------------------
-!||    format_mod         ../starter/share/modules1/format_mod.F90
-!||    r2r_mod            ../starter/share/modules1/r2r_mod.F
-!||    reader_old_mod     ../starter/share/modules1/reader_old_mod.F90
+!||    format_mod       ../starter/share/modules1/format_mod.F90
+!||    r2r_mod          ../starter/share/modules1/r2r_mod.F
+!||    reader_old_mod   ../starter/share/modules1/reader_old_mod.F90
 !||====================================================================
       INTEGER FUNCTION R2R_LISTCNT(NVAR,TYP)
 C-----------------------------------------------

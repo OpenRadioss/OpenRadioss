@@ -32,7 +32,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_get_int_array_index     ../starter/source/devtools/hm_reader/hm_get_int_array_index.F
 !||    hm_get_intv                ../starter/source/devtools/hm_reader/hm_get_intv.F
 !||    nintri                     ../starter/source/system/nintrr.F
-!||    usr2sys                    ../starter/source/system/sysfus.F
 !||--- uses       -----------------------------------------------------
 !||    elbuftag_mod               ../starter/share/modules1/elbuftag_mod.F
 !||    hm_option_read_mod         ../starter/share/modules1/hm_option_read_mod.F

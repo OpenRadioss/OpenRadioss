@@ -20,6 +20,11 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+!||====================================================================
+!||    sigeps130_mod   ../engine/source/materials/mat/mat130/sigeps130.F90
+!||--- called by ------------------------------------------------------
+!||    mulaw           ../engine/source/materials/mat_share/mulaw.F90
+!||====================================================================
       module sigeps130_mod
       implicit none
       contains
@@ -27,6 +32,23 @@
         ! \brief Modified honeycomb material law /MAT/LAW130
         ! \details Modified honeycomb material law 
         ! ======================================================================================================================
+!||====================================================================
+!||    sigeps130               ../engine/source/materials/mat/mat130/sigeps130.F90
+!||--- called by ------------------------------------------------------
+!||    mulaw                   ../engine/source/materials/mat_share/mulaw.F90
+!||--- calls      -----------------------------------------------------
+!||    fix_principal_dirs      ../engine/source/materials/mat/mat130/sigeps130.F90
+!||    order3                  ../engine/source/materials/mat/mat130/sigeps130.F90
+!||    table_mat_vinterp       ../engine/source/materials/tools/table_mat_vinterp.F
+!||    valpvec_v               ../engine/source/materials/mat/mat033/sigeps33.F
+!||    valpvecdp_v             ../engine/source/materials/mat/mat033/sigeps33.F
+!||--- uses       -----------------------------------------------------
+!||    constant_mod            ../common_source/modules/constant_mod.F
+!||    matparam_def_mod        ../common_source/modules/mat_elem/matparam_def_mod.F90
+!||    mvsiz_mod               ../engine/share/spe_inc/mvsiz_mod.F90
+!||    precision_mod           ../common_source/modules/precision_mod.F90
+!||    table_mat_vinterp_mod   ../engine/source/materials/tools/table_mat_vinterp.F
+!||====================================================================
         subroutine sigeps130(                                                  &
           nel      ,nuvar    ,uvar     ,matparam ,et       ,time     ,         &    
           epsd     ,sigy     ,ssp      ,nvartmp  ,vartmp   ,ngl      ,         &
@@ -1006,6 +1028,16 @@
         !<----------------------------------------------------------------------
         !< Subroutine to order 3 values and return their indexes
         !<----------------------------------------------------------------------
+!||====================================================================
+!||    order3          ../engine/source/materials/mat/mat130/sigeps130.F90
+!||--- called by ------------------------------------------------------
+!||    sigeps130       ../engine/source/materials/mat/mat130/sigeps130.F90
+!||--- calls      -----------------------------------------------------
+!||    iswap           ../engine/source/materials/mat/mat130/sigeps130.F90
+!||    rswap           ../engine/source/materials/mat/mat130/sigeps130.F90
+!||--- uses       -----------------------------------------------------
+!||    precision_mod   ../common_source/modules/precision_mod.F90
+!||====================================================================
         subroutine order3(sig, i1,i2,i3, s1,s2,s3)
           use precision_mod, only: WP
           real(WP), intent(in)  :: sig(3)
@@ -1041,6 +1073,11 @@
           s2=y
           s3=z
         contains
+!||====================================================================
+!||    iswap    ../engine/source/materials/mat/mat130/sigeps130.F90
+!||--- called by ------------------------------------------------------
+!||    order3   ../engine/source/materials/mat/mat130/sigeps130.F90
+!||====================================================================
           subroutine iswap(i,j)
             integer, intent(inout) :: i,j
             integer :: t
@@ -1048,6 +1085,11 @@
             i = j
             j = t
           end subroutine iswap
+!||====================================================================
+!||    rswap    ../engine/source/materials/mat/mat130/sigeps130.F90
+!||--- called by ------------------------------------------------------
+!||    order3   ../engine/source/materials/mat/mat130/sigeps130.F90
+!||====================================================================
           subroutine rswap(r,t)
             real(WP), intent(inout) :: r,t
             real(WP) :: q
@@ -1057,6 +1099,15 @@
           end subroutine rswap
         end subroutine order3
 !
+!||====================================================================
+!||    fix_principal_dirs          ../engine/source/materials/mat/mat130/sigeps130.F90
+!||--- called by ------------------------------------------------------
+!||    sigeps130                   ../engine/source/materials/mat/mat130/sigeps130.F90
+!||--- calls      -----------------------------------------------------
+!||    enforce_plane_orientation   ../engine/source/materials/mat/mat130/sigeps130.F90
+!||--- uses       -----------------------------------------------------
+!||    precision_mod               ../common_source/modules/precision_mod.F90
+!||====================================================================
         subroutine fix_principal_dirs(sigp, dir, strong_axis)
           use precision_mod, only : WP
           implicit none
@@ -1152,6 +1203,11 @@
         
         contains
         
+!||====================================================================
+!||    enforce_plane_orientation   ../engine/source/materials/mat/mat130/sigeps130.F90
+!||--- called by ------------------------------------------------------
+!||    fix_principal_dirs          ../engine/source/materials/mat/mat130/sigeps130.F90
+!||====================================================================
           subroutine enforce_plane_orientation(nplane, A, vperp, vother)
             real(WP), intent(in)  :: nplane(3), A(3)
             real(WP), intent(out) :: vperp(3), vother(3)

@@ -101,6 +101,7 @@
 !||    sigeps127              ../engine/source/materials/mat/mat127/sigeps127.F90
 !||    sigeps128s             ../engine/source/materials/mat/mat128/sigeps128s.F90
 !||    sigeps129s             ../engine/source/materials/mat/mat129/sigeps129s.F90
+!||    sigeps130              ../engine/source/materials/mat/mat130/sigeps130.F90
 !||    sigeps133              ../engine/source/materials/mat/mat133/sigeps133.F90
 !||    sigeps134s             ../engine/source/materials/mat/mat134/sigeps134s.F90
 !||    sigeps163              ../engine/source/materials/mat/mat163/sigeps163.F90
@@ -178,6 +179,7 @@
 !||    sigeps127_mod          ../engine/source/materials/mat/mat127/sigeps127.F90
 !||    sigeps128s_mod         ../engine/source/materials/mat/mat128/sigeps128s.F90
 !||    sigeps129s_mod         ../engine/source/materials/mat/mat129/sigeps129s.F90
+!||    sigeps130_mod          ../engine/source/materials/mat/mat130/sigeps130.F90
 !||    sigeps133_mod          ../engine/source/materials/mat/mat133/sigeps133.F90
 !||    sigeps134s_mod         ../engine/source/materials/mat/mat134/sigeps134s.F90
 !||    sigeps163_mod          ../engine/source/materials/mat/mat163/sigeps163.F90

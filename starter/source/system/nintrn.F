@@ -25,7 +25,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- called by ------------------------------------------------------
 !||    hm_read_thgrne         ../starter/source/output/th/hm_read_thgrne.F
 !||    hm_read_thgrns         ../starter/source/output/th/hm_read_thgrns.F
-!||    hm_read_thgrsurf       ../starter/source/output/th/hm_read_thgrsurf.F
 !||    hm_thgrki_vent         ../starter/source/output/th/hm_thgrki_vent.F
 !||    thprin                 ../starter/source/output/th/thprin.F
 !||    thprin_sub             ../starter/source/output/th/thprin.F

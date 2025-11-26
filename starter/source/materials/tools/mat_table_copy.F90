@@ -27,6 +27,7 @@
 !||--- called by ------------------------------------------------------
 !||    hm_read_mat106       ../starter/source/materials/mat/mat106/hm_read_mat106.F90
 !||    hm_read_mat128       ../starter/source/materials/mat/mat128/hm_read_mat128.F90
+!||    hm_read_mat130       ../starter/source/materials/mat/mat130/hm_read_mat130.F90
 !||    hm_read_mat133       ../starter/source/materials/mat/mat133/hm_read_mat133.F90
 !||    hm_read_mat163       ../starter/source/materials/mat/mat163/hm_read_mat163.F90
 !||    hm_read_mat87        ../starter/source/materials/mat/mat087/hm_read_mat87.F90
@@ -45,6 +46,7 @@
 !||--- called by ------------------------------------------------------
 !||    hm_read_mat106     ../starter/source/materials/mat/mat106/hm_read_mat106.F90
 !||    hm_read_mat128     ../starter/source/materials/mat/mat128/hm_read_mat128.F90
+!||    hm_read_mat130     ../starter/source/materials/mat/mat130/hm_read_mat130.F90
 !||    hm_read_mat133     ../starter/source/materials/mat/mat133/hm_read_mat133.F90
 !||    hm_read_mat163     ../starter/source/materials/mat/mat163/hm_read_mat163.F90
 !||    hm_read_mat87      ../starter/source/materials/mat/mat087/hm_read_mat87.F90

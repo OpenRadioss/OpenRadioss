@@ -26,7 +26,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    lectur         ../starter/source/starter/lectur.F
 !||--- calls      -----------------------------------------------------
 !||    get_u_geo      ../starter/source/user_interface/uaccess.F
-!||    reset_u_geo    ../starter/source/user_interface/uaccess.F
 !||    sptri          ../starter/source/elements/sph/sptri.F
 !||--- uses       -----------------------------------------------------
 !||====================================================================

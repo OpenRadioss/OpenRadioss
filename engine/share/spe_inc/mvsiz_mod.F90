@@ -46,6 +46,7 @@
 !||    sfor_ns2s4                     ../engine/source/elements/solid/solide/sfor_ns2s4.F90
 !||    sfor_visn6                     ../engine/source/elements/thickshell/solide6c/sfor_visn6.F90
 !||    shour_ctl                      ../engine/source/elements/solid/solidez/shour_ctl.F90
+!||    sigeps130                      ../engine/source/materials/mat/mat130/sigeps130.F90
 !||    sigeps88                       ../engine/source/materials/mat/mat088/sigeps88.F90
 !||    sigeps88c                      ../engine/source/materials/mat/mat088/sigeps88c.F90
 !||    sz_dt1                         ../engine/source/elements/solid/solidez/sz_dt1.F90

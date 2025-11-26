@@ -117,6 +117,7 @@
 !||    fill_voxel_local_partial                 ../engine/source/interfaces/intsort/fill_voxel.F90
 !||    fill_voxel_remote                        ../engine/source/interfaces/intsort/fill_voxel.F90
 !||    finter_mixed_mod                         ../engine/source/tools/finter_mixed.F90
+!||    fix_principal_dirs                       ../engine/source/materials/mat/mat130/sigeps130.F90
 !||    force                                    ../engine/source/loads/general/force.F90
 !||    fpcont2_max_output                       ../engine/source/output/h3d/h3d_results/fpcont2_max_output.F90
 !||    fpcont2_min_output                       ../engine/source/output/h3d/h3d_results/fpcont2_min_output.F90
@@ -170,6 +171,7 @@
 !||    hm_read_mat127                           ../starter/source/materials/mat/mat127/hm_read_mat127.F90
 !||    hm_read_mat128                           ../starter/source/materials/mat/mat128/hm_read_mat128.F90
 !||    hm_read_mat129                           ../starter/source/materials/mat/mat129/hm_read_mat129.F90
+!||    hm_read_mat130                           ../starter/source/materials/mat/mat130/hm_read_mat130.F90
 !||    hm_read_mat133                           ../starter/source/materials/mat/mat133/hm_read_mat133.F90
 !||    hm_read_mat134                           ../starter/source/materials/mat/mat134/hm_read_mat134.F90
 !||    hm_read_mat163                           ../starter/source/materials/mat/mat163/hm_read_mat163.F90
@@ -254,6 +256,7 @@
 !||    newman_raju                              ../common_source/fail/newman_raju.F90
 !||    nodal_arrays_mod                         ../common_source/modules/nodal_arrays.F90
 !||    offset_nproj                             ../engine/source/interfaces/shell_offset/offset_nproj.F90
+!||    order3                                   ../engine/source/materials/mat/mat130/sigeps130.F90
 !||    output_mod                               ../common_source/modules/output/output_mod.F90
 !||    parith_on_mod                            ../common_source/modules/parith_on_mod.F90
 !||    pblast_deallocate                        ../common_source/modules/loads/pblast_mod.F90
@@ -337,6 +340,7 @@
 !||    sigeps128c                               ../engine/source/materials/mat/mat128/sigeps128c.F90
 !||    sigeps128s                               ../engine/source/materials/mat/mat128/sigeps128s.F90
 !||    sigeps129s                               ../engine/source/materials/mat/mat129/sigeps129s.F90
+!||    sigeps130                                ../engine/source/materials/mat/mat130/sigeps130.F90
 !||    sigeps133                                ../engine/source/materials/mat/mat133/sigeps133.F90
 !||    sigeps134s                               ../engine/source/materials/mat/mat134/sigeps134s.F90
 !||    sigeps163                                ../engine/source/materials/mat/mat163/sigeps163.F90
