@@ -32,7 +32,7 @@ jobs:
       # Get last git modifications, WS is not persistent here
       - uses: actions/checkout@v4
         with:
-          lfs: 'true'
+          lfs: 'false'
           # Use a PAT else the push won't trigger the next workflow
           token: ${{ env.GIT_PUSH_SERVBOT_PAT }}
 
