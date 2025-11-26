@@ -3,7 +3,7 @@ name: Developer CI
 on:
   
   pull_request:
-    # CI is disbabled if ONLY workflow files are changed
+    # CI is disabled if ONLY workflow files are changed
     paths-ignore:
       - '.github/workflows/**'
 
@@ -46,12 +46,8 @@ jobs:
     #   group: ${{ github.ref_name }}
     #   cancel-in-progress: true
 
-    # DEV ONLY # runs-on: ["build","dev_devci"]
+    # DEV ONLY # runs-on: ["build","dev","dev_ci"]
     runs-on: ["build","developer_ci"]
-    container: 
-      image: fr-qafactorydev.europe.altair.com/build-linux64_gf:cos8-ompi411-devts11
-      volumes: 
-        - /etc/localtime:/etc/localtime:ro
 
     env:
       BUILD_NB_THREAD: 2
@@ -65,33 +61,45 @@ jobs:
             precision: dp
             os: linux64
             binary: starter
+            image_name: build-linux64_gf:cos8-ompi411-devts11
 
           - build: starter_linux64_gf_sp 
             precision: sp
             os: linux64
             binary: starter
+            image_name: linux64-cos10-bld:ompi4.1.1-ts15
 
           - build: engine_linux64_gf_ompi
             precision: dp
             os: linux64
             binary: engine
             mpi: ompi
+            image_name: build-linux64_gf:cos8-ompi411-devts11
 
           - build: engine_linux64_gf_ompi_sp
             precision: sp
             os: linux64 
             binary: engine
             mpi: ompi
+            image_name: linux64-cos10-bld:ompi4.1.1-ts15
 
-          - build: engine_linux64_gf
-            precision: dp
-            os: linux64
-            binary: engine
+          # Disabled since error would be seen in ompi version
+          # - build: engine_linux64_gf
+          #   precision: dp
+          #   os: linux64
+          #   binary: engine
+          #   image_name: build-linux64_gf:cos8-ompi411-devts11
 
-          - build: engine_linux64_gf_sp
-            precision: sp
-            os: linux64 
-            binary: engine
+          # - build: engine_linux64_gf_sp
+          #   precision: sp
+          #   os: linux64 
+          #   binary: engine
+          #   image_name: build-linux64_gf:cos8-ompi411-devts11
+
+    container: 
+      image: "fr-qafactorydev.europe.altair.com/${{ matrix.image_name }}"
+      volumes: 
+        - /etc/localtime:/etc/localtime:ro
 
     steps:
 
@@ -103,7 +111,7 @@ jobs:
       # Get last git modifications, WS is not persistent here
       - uses: actions/checkout@v4
         with:
-          lfs: 'true'
+          lfs: 'false'
           ref: refs/pull/${{ github.event.number }}/merge
 
       - name: Running build
@@ -189,7 +197,7 @@ jobs:
       # Get last git modifications, WS is not persistent here
       - uses: actions/checkout@v4
         with:
-          lfs: 'true'
+          lfs: 'false'
           ref: refs/pull/${{ github.event.number }}/merge
 
       - name: Generate Fortran Signatures
@@ -255,7 +263,7 @@ jobs:
       # Get git related to the commit
       - uses: actions/checkout@v4
         with:
-          lfs: 'true'
+          lfs: 'false'
           ref: refs/pull/${{ github.event.number }}/merge
 
       - name: Clean local exe dir

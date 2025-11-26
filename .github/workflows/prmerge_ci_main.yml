@@ -25,6 +25,8 @@ jobs:
     runs-on: ["${{ matrix.build }}","prmerge_ci"]
     container: 
       image: fr-qafactorydev.europe.altair.com/build-linux64_gf:cos8-ompi411-devts11
+      # DEV ONLY #
+      # image: fr-qafactorydev.europe.altair.com/build-linux64_gf:cos8-ompi411-devts11-uid10000
       credentials: 
         username: ${{secrets.DOCKER_REGISTRY_USER}}
         password: ${{secrets.DOCKER_REGISTRY_PASSWD}}
@@ -85,6 +87,9 @@ jobs:
             echo "WORKDIR=${{github.base_ref}}" >> $GITHUB_ENV
           fi
 
+          # DEV ONLY #
+          # echo "WORKDIR=main" >> $GITHUB_ENV
+
       - name: Create branch oriented WS directory & integration WS
         run: |
           mkdir -p ${{ env.WORKDIR }}
@@ -101,7 +106,7 @@ jobs:
         with:
           path: ${{ env.WORKDIR }}
           clean: 'false'
-          lfs: 'true'
+          lfs: 'false'
 
       - name: Running build
         working-directory: ${{ env.WORKDIR }}
@@ -253,7 +258,7 @@ jobs:
       - name: Checkout git sources
         uses: actions/checkout@v4
         with:
-          lfs: 'true'
+          lfs: 'false'
 
       - name: Clean local exe dir
         run: |
@@ -475,7 +480,7 @@ jobs:
         with:
           path: ${{ env.WORKDIR }}
           clean: 'false'
-          lfs: 'true'
+          lfs: 'false'
 
       - name: Running builds
         working-directory: ${{ env.WORKDIR }}
@@ -595,7 +600,7 @@ jobs:
       - name: Checkout git sources
         uses: actions/checkout@v4
         with:
-          lfs: 'true'
+          lfs: 'false'
 
       # Get OpenRadioss extras from dedicated repository
       - name: Checkout git EXTRA sources

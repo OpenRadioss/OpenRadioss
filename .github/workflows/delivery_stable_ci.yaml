@@ -18,7 +18,6 @@ env:
   QA_TIMEOUT_PER_TEST_LINUX: 150
   QA_TIMEOUT_PER_TEST_WIN: 500
   LAST_STABLE_TAG_NAME: ${{ github.event.inputs.tag_name }}
-  RADIOSS_SHA_HEADER: ${{ github.sha }}
 
 jobs:
 
