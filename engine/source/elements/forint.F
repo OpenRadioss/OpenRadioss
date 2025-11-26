@@ -704,7 +704,7 @@ C-------------------------
      .        ISCAU   ,ISMDISP   ,ISMSTR   ,ISORTH   ,ISORTHG  ,JALE     ,JCVT     ,
      .        JEUL    ,JLAG      ,JSPH     ,JPLASOL  ,JTHE     ,MSTOP    ,MTN      , 
      .        N2D     ,NCPRI     ,NCYCLE   ,NFILSOL  ,NFT      ,IINT     ,NODADT   ,
-     .        DTFAC1  )
+     .        DTFAC1  ,D         ,IMATVIS  ,INVSTR   ,ICP )
 c
               IF (NSECT>0) THEN
                 K0 = NSTRF(25)

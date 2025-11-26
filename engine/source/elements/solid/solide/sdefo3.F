@@ -172,6 +172,7 @@ C-----------------------------------------------
           ENDDO
           IF (IMPL_S == 0 .OR. (IDYNA > 0 .AND. ISMDISP == 0)) THEN
             DO I=1,NEL
+   
              EXX=DXX(I)
              EYY=DYY(I)
              EZZ=DZZ(I)

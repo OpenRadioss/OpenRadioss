@@ -262,6 +262,7 @@ C-----------
 C-----------
 C     convected frame (ITERATIONS).
 C-----------
+
       CALL SREPISO3(
      1   XD1,     XD2,     XD3,     XD4,
      2   XD5,     XD6,     XD7,     XD8,
@@ -305,7 +306,7 @@ C------stocker [R] in %GAMA_R--------------
 C-------sauf thick shells --------------     
       IF (IGTYP /= 21 .AND. IGTYP /= 22) THEN
         IF (ISORTH == 0) THEN
-          DO I=LFT,LLT                                          
+          DO I=LFT,LLT                                   
             GAMA(I,1) = ONE                             
             GAMA(I,2) = ZERO                              
             GAMA(I,3) = ZERO
@@ -663,6 +664,7 @@ c copy and cast XD (DP) to C(SP) to assure coherence between XD et X
         X8(I)= XD8(I) 
         Y8(I)= YD8(I) 
         Z8(I)= ZD8(I) 
+
       ENDDO          
 C-----------
 C     transfer of velocities to the convected (or orthotropic) frame.

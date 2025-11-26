@@ -63,7 +63,7 @@ C     REAL
      .  X(3,*),TIME,D(3,*),OFF(*),OFF0(*),
      .  VX0(MVSIZ,NPE),VY0(MVSIZ,NPE),VZ0(MVSIZ,NPE)
       DOUBLE PRECISION 
-     .   X0(MVSIZ,NPE), Y0(MVSIZ,NPE), Z0(MVSIZ,NPE),
+     .  X0(MVSIZ,NPE), Y0(MVSIZ,NPE), Z0(MVSIZ,NPE),
      .  SAV(NEL,3*(NPE-1)),XDP(3,*),XD,YD,ZD
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -81,6 +81,15 @@ C
         NC(I,3)=IXS(7,I)
         NC(I,4)=IXS(6,I)
        ENDDO
+      ELSEIF (NPE==6) THEN
+       DO I=1,NEL
+        NC(I,1)=IXS(2,I)
+        NC(I,2)=IXS(3,I)
+        NC(I,3)=IXS(4,I)
+        NC(I,4)=IXS(6,I)
+        NC(I,5)=IXS(7,I)
+        NC(I,6)=IXS(8,I)
+       ENDDO   
       ELSE
        DO N=1,NPE
         DO I=1,NEL
@@ -97,9 +106,10 @@ C----------------------------
        DO I=1,NEL
         X0(I,N)=SAV(I,N)
         Y0(I,N)=SAV(I,N2)
-        Z0(I,N)=SAV(I,N3)
+        Z0(I,N)=SAV(I,N3)       
        ENDDO
       ENDDO 
+      
 C--------ISMSTR == 12 diff format of SAV 
       IF (ISMSTR == 12.AND.IDTMIN(1)==3 .AND.MTN==1) THEN
          DO N=1,NPE1
@@ -131,8 +141,9 @@ C----------------------------
       ELSE      
       DO N=1,NPE1
        DO I=1,NEL
+        
         N2 = NC(I,N)
-        N3 = NC(I,NPE)
+        N3 = NC(I,NPE)    
         VX0(I,N)=X(1,N2)-X(1,N3)-X0(I,N)
         VY0(I,N)=X(2,N2)-X(2,N3)-Y0(I,N)
         VZ0(I,N)=X(3,N2)-X(3,N3)-Z0(I,N)
@@ -149,7 +160,7 @@ C
        VZ0(I,NPE)=ZERO
       ENDDO
 C      
-      IF (ISMSTR == 12.AND.IDTMIN(1)==3) THEN
+      IF (ISMSTR == 12.AND.IDTMIN(1)==3) THEN   
         DO I=1,NEL
          OFF0(I)=OFF(I)
         ENDDO

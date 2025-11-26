@@ -43,8 +43,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .         X1   ,X2   ,X3   ,X4   ,X5   ,X6   ,X7   ,X8  ,   
      .         Y1   ,Y2   ,Y3   ,Y4   ,Y5   ,Y6   ,Y7   ,Y8  ,   
      .         Z1   ,Z2   ,Z3   ,Z4   ,Z5   ,Z6   ,Z7   ,Z8  ,   
-     .         RX   ,RY   ,RZ   ,SX   ,SY   ,SZ   ,TX   ,TY   ,TZ   ,
-     .         E1X  ,E1Y  ,E1Z  ,E2X  ,E2Y  ,E2Z  ,E3X  ,E3Y  ,E3Z  ,
+     .         RX   ,RY   ,RZ   ,SX   ,SY   ,SZ   ,TX   ,TY  ,TZ     ,
+     .         E1X  ,E1Y  ,E1Z  ,E2X  ,E2Y  ,E2Z  ,E3X  ,E3Y ,E3Z    ,
      .         F1X  ,F1Y  ,F1Z  ,F2X  ,F2Y  ,F2Z  ,TEMP0,TEMP,NINTEMP,
      .         XD1  ,XD2  ,XD3  ,XD4  ,XD5  ,XD6  ,XD7  ,XD8   ,
      .         YD1  ,YD2  ,YD3  ,YD4  ,YD5  ,YD6  ,YD7  ,YD8   ,
@@ -388,7 +388,7 @@ C-----------------------------------------------
 C   E x t e r n a l  F u n c t i o n s
 C-----------------------------------------------
       my_real
-     .   CHECKVOLUME_4N
+     .   CHECKVOLUME_4N,CHECKVOLUME_6N
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -419,6 +419,32 @@ C           renumber connectivity
         NC(I,3)=IXS(7,I)
         NC(I,4)=IXS(6,I)
        ENDDO
+      ELSEIF (NPE == 6) THEN 
+        DO I=LFT,LLT
+          IF (CHECKVOLUME_6N(X ,IXS(1,I)) < ZERO) THEN
+C         renumber connectivity reorganised in negative volume case
+            NC(I,1)=IXS(6,I) 
+            NC(I,2)=IXS(7,I)
+            NC(I,3)=IXS(8,I)
+            NC(I,4)=IXS(2,I)
+            NC(I,5)=IXS(3,I)
+            NC(I,6)=IXS(4,I)
+            IXS(2,I)=NC(I,1)
+            IXS(3,I)=NC(I,2)
+            IXS(4,I)=NC(I,3)
+            IXS(6,I)=NC(I,4)
+            IXS(7,I)=NC(I,5)
+            IXS(8,I)=NC(I,6)
+          ENDIF 
+        ENDDO  
+          DO I=LFT,LLT
+            NC(I,1)=IXS(2,I)
+            NC(I,2)=IXS(3,I)
+            NC(I,3)=IXS(4,I)
+            NC(I,4)=IXS(6,I)
+            NC(I,5)=IXS(7,I)
+            NC(I,6)=IXS(8,I)
+          ENDDO       
       ELSE
        DO N=1,NPE
         DO I=LFT,LLT
@@ -437,6 +463,7 @@ C
          SAV(I,N)       = X(1,NC(I,N))-XL(I)
          SAV(I,N+NPE1)  = X(2,NC(I,N))-YL(I)
          SAV(I,N+2*NPE1)= X(3,NC(I,N))-ZL(I)
+
         ENDDO
        ENDDO 
 C
