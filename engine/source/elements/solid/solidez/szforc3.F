@@ -332,6 +332,7 @@ C     IBOLTP : flag bolt preloading
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C=======================================================================
+      
       GBUF => ELBUF_TAB(NG)%GBUF
       LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(1,1,1)
       ISM12_11 = ELBUF_TAB(NG)%BUFLY(1)%L_SIGL
@@ -383,6 +384,9 @@ C Gather nodal variables and compute rotation
      .   XDP, X0 , Y0 , Z0 , NEL, XGXA, XGYA, XGZA,
      .   XGXA2,XGYA2,XGZA2,XGXYA,XGYZA,XGZXA,IPARG(1,NG),
      .   GBUF%GAMA_R) 
+
+
+
 C
       NN_DEL = 0
       PID  = NGEO(1)
@@ -410,6 +414,7 @@ C
       END IF
       ISCTL = IGEO(97,PID)
 C Total strain Pij are in global system for ISMSTR=10,12 and in local system for ISMSTR=11
+   
       IF ((ISMSTR >= 10.AND.ISMSTR <= 12).AND.JLAG > 0) THEN
         CALL SGCOOR3(
      1   TT,        8,         X,         IXS(1,NF1),
@@ -417,6 +422,9 @@ C Total strain Pij are in global system for ISMSTR=10,12 and in local system for
      3   VY0,       VZ0,       GBUF%SMSTR,D,
      4   GBUF%OFF,  OFFG0,     NEL,       XDP,
      5   MTN,       ISMSTR)
+
+
+     
         IF (ISMSTR == 11) THEN
         CALL SRROTADP(
      1   R11,     R12,     R13,     R21,
@@ -455,12 +463,14 @@ C Total strain Pij are in global system for ISMSTR=10,12 and in local system for
      .    JAC1,JAC2,JAC3,
      .    JAC4,JAC5,JAC6,JAC9,JLAG)
         ELSE
+          
           CALL SZDERITO3(
      1   OFF,       VOLN,      PX1,       PX2,
      2   PX3,       PX4,       PY1,       PY2,
      3   PY3,       PY4,       PZ1,       PZ2,
      4   PZ3,       PZ4,       GBUF%JAC_I,NEL,
      5   JLAG)
+
         END IF
          CALL SDEFOT3(
      1   PX1,     PX2,     PX3,     PX4,
@@ -475,6 +485,7 @@ C Total strain Pij are in global system for ISMSTR=10,12 and in local system for
      A   MFXX,    MFXY,    MFXZ,    MFYX,
      B   MFYY,    MFYZ,    MFZX,    MFZY,
      C   MFZZ,    NEL)
+
 c
         IF (ISMSTR==10.OR.ISMSTR==12.OR.ISORTH/=0) THEN
           CALL SZTORTH3(LFT,LLT,ISORTH,NEL,
@@ -484,6 +495,7 @@ c
      .         MFZX, MFZY, MFZZ,
      .         G1X, G1Y, G1Z, G2X, G2Y, G2Z, G3X, G3Y, G3Z)
         ENDIF
+
       ENDIF   !  ISMSTR==10.AND.JLAG>0
 C-----------
 C
