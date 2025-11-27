@@ -111,7 +111,7 @@
       integer,                                    intent(in)    :: nparg      !< Number of parameters per group
       integer,       dimension(nparg),            intent(inout) :: iparg      !< Element group parameters
       integer,                                    intent(inout) :: nel        !< Number of elements
-      real(kind=wp), dimension(nel),              intent(inout) :: dtelem     !< Element time step array
+      real(kind=wp), dimension(numels),           intent(inout) :: dtelem     !< Element time step array
       integer,                                    intent(in)    :: nsigs    
       integer,                                    intent(in)    :: lsigi     
       real(kind=wp), dimension(nsigs,lsigi),      intent(inout) :: sigi
@@ -125,7 +125,7 @@
       integer,                                    intent(in)    :: npart      !< Number of parts
       real(kind=wp), dimension(npsav,npart),      intent(inout) :: partsav    !< Part save array
       real(kind=wp), dimension(3,numnod),         intent(inout) :: v          !< Nodal velocity array
-      integer,       dimension(nel),              intent(inout) :: iparts     !< Part array
+      integer,       dimension(numels),           intent(inout) :: iparts  !< Part array with the number of solid element
       real(kind=wp), dimension(8,numels),         intent(inout) :: mss        !< Element mass array
       integer,                                    intent(in)    :: lipart1    !< Logical flag for part 1
       integer,       dimension(lipart1, npart),   intent(inout) :: ipart
