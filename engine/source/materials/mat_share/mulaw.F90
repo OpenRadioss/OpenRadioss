@@ -2088,8 +2088,8 @@
               so1      ,so2      ,so3      ,so4      ,so5      ,so6      ,     &
               s1       ,s2       ,s3       ,s4       ,s5       ,s6       ,     &
               sv1      ,sv2      ,sv3      ,sv4      ,sv5      ,sv6      ,     &
-              rho0     ,rho      ,iresp    ,amu      ,off      ,dt1      ,     &
-              deltax   ,asrate   ,l_dmg    ,lbuf%dmg )
+              rho0     ,rho      ,iresp    ,off      ,dt1      ,deltax   ,     &
+              asrate   ,l_dmg    ,lbuf%dmg )
 !
           else if (mtn == 133) then
             call sigeps133( &

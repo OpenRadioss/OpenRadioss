@@ -58,8 +58,8 @@
           sigoxx   ,sigoyy   ,sigozz   ,sigoxy   ,sigoyz   ,sigozx   ,         &
           signxx   ,signyy   ,signzz   ,signxy   ,signyz   ,signzx   ,         &
           sigvxx   ,sigvyy   ,sigvzz   ,sigvxy   ,sigvyz   ,sigvzx   ,         &
-          rho0     ,rho      ,iresp    ,amu      ,off      ,timestep ,         &
-          deltax   ,asrate   ,l_dmg    ,dmg      )
+          rho0     ,rho      ,iresp    ,off      ,timestep ,deltax   ,         &
+          asrate   ,l_dmg    ,dmg      )
 !----------------------------------------------------------------
 !   M o d u l e s
 !----------------------------------------------------------------
@@ -127,7 +127,6 @@
           real(kind=WP), dimension(nel),       intent(in)     :: rho0      !< Material initial density
           real(kind=WP), dimension(nel),       intent(in)     :: rho       !< Material current density
           integer,                             intent(in)     :: iresp     !< Indicator for simple precision
-          real(kind=WP), dimension(nel),       intent(in)     :: amu       !< Volumic strain
           real(kind=WP), dimension(nel),       intent(inout)  :: off       !< Element deletion variable
           real(kind=WP),                       intent(in)     :: timestep  !< Current time step
           real(kind=WP), dimension(nel),       intent(in)     :: deltax    !< Element characteristic length
@@ -152,7 +151,7 @@
             lambdbc,dlambdbc,lambdca,dlambdca,epspm,nuab,nubc,nuac,nuba,nuca,  &
             nucb,delta,caa,cab,cac,cba,cbb,cbc,cca,ccb,ccc,damab,dambc,damca,  &
             ddamab,ddambc,ddamca,le,epspxx_f,epspyy_f,epspzz_f,epspxy_f,       &
-            epspyz_f,epspzx_f
+            epspyz_f,epspzx_f,epsv
           real(kind=WP), dimension(nel,20)    :: xvec
           real(kind=WP), dimension(nel,3)     :: phi,c2,s2,sigi,dsigi,sigyi
           real(kind=WP), dimension(mvsiz,3)   :: sigp
@@ -261,6 +260,8 @@
           do i = 1,nel
             !< Relative volume
             vr(i) = rho0(i)/rho(i)
+            !< Volumetric strain
+            epsv(i) = one - vr(i)
             !< Volume variation coefficient
             beta(i) = max(min((one-vr(i))/(one-vf),one),zero)
             !< List compacted and uncompacted elements
@@ -589,12 +590,12 @@
                   ipos(j,2) = vartmp(i,2)
                   ipos(j,3) = vartmp(i,3)
                   !< Table 2 : Strong axis limit stress 
-                  ! -> sigs = f(amu)
-                  xvec(j,4) = amu(i)
+                  ! -> sigs = f(epsv)
+                  xvec(j,4) = epsv(i)
                   ipos(j,4) = vartmp(i,4)
                   !< Table 3 : Weak axis limit stress
-                  ! -> sigw = f(amu)
-                  xvec(j,5) = amu(i)
+                  ! -> sigw = f(epsv)
+                  xvec(j,5) = epsv(i)
                   ipos(j,5) = vartmp(i,5)
                   !< Interpolation for strain rate dependency
                   if (lcsrtmp > 0) then 
@@ -745,13 +746,13 @@
                   phiu = acosd(cs)
 !
                   !< Preparation of interpolation variables
-                  ! -> Table 1 : uniaxial stress limit = f(phi, amu) 
+                  ! -> Table 1 : uniaxial stress limit = f(phi, epsv) 
                   xvec(j,1) = phiu
-                  xvec(j,2) = amu(i)
+                  xvec(j,2) = epsv(i)
                   ipos(j,1) = vartmp(i,1)
                   ipos(j,2) = vartmp(i,2)
-                  ! -> Table 2 : shear/hydrostatic stress limit = f(amu)
-                  xvec(j,3) = amu(i)
+                  ! -> Table 2 : shear/hydrostatic stress limit = f(epsv)
+                  xvec(j,3) = epsv(i)
                   ipos(j,3) = vartmp(i,3)
                   !< Interpolation for strain rate dependency
                   if (lcsrtmp > 0) then 
@@ -834,7 +835,7 @@
               do j = 1, nindxuc
                 i = indxuc(j)
                 !< Viscous damping coefficient
-                a = ssp(i)*rho(i)*mu*le(i)/(one + amu(i))
+                a = ssp(i)*rho(i)*mu*le(i)/(one + epsv(i))
                 aaa = a*(eaa(i)/young)
                 abb = a*(ebb(i)/young)
                 acc = a*(ecc(i)/young)
@@ -907,7 +908,7 @@
               !< Viscous stresses computation
               if (mu > zero) then
                 !< Viscous damping coefficient
-                a = ssp(i)*rho(i)*mu*le(i)/(one + amu(i))
+                a = ssp(i)*rho(i)*mu*le(i)/(one + epsv(i))
                 ldav = third*(epspxx_f(i) + epspyy_f(i) + epspzz_f(i))
                 !< Viscous stresses
                 sigvxx(i) = a*(epspxx_f(i)-ldav)
