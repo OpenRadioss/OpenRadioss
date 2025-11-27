@@ -102,6 +102,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    sensor_mod                   ../common_source/modules/sensor_mod.F90
 !||    spmd_mod                     ../engine/source/mpi/spmd_mod.F90
 !||    timer_mod                    ../engine/source/system/timer_mod.F90
+!||    tri25ebox                    ../engine/share/modules/tri25ebox.F
 !||    tri7box                      ../engine/share/modules/tri7box.F
 !||====================================================================
       SUBROUTINE INTTRI(OUTPUT ,TIMERS,

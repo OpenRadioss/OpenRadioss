@@ -34,6 +34,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- uses       -----------------------------------------------------
 !||    intbufdef_mod         ../common_source/modules/interfaces/intbufdef_mod.F90
 !||    timer_mod             ../engine/source/system/timer_mod.F90
+!||    tri25ebox             ../engine/share/modules/tri25ebox.F
 !||    tri7box               ../engine/share/modules/tri7box.F
 !||====================================================================
       SUBROUTINE I25MAIN_FREE(TIMERS,

@@ -29,6 +29,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    i25dst3_e2s               ../engine/source/interfaces/int25/i25dst3_e2s.F
 !||    i25for3_e2s               ../engine/source/interfaces/int25/i25for3_e2s.F
 !||    i25for3e                  ../engine/source/interfaces/int25/i25for3e.F
+!||    i25main_free              ../engine/source/interfaces/intsort/i25main_free.F
 !||    i25main_tri               ../engine/source/interfaces/intsort/i25main_tri.F
 !||    i25mainf                  ../engine/source/interfaces/int25/i25mainf.F
 !||    i25optcd_e2s              ../engine/source/interfaces/intsort/i25optcd_e2s.F
@@ -37,6 +38,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    i25sto_edg                ../engine/source/interfaces/intsort/i25sto_edg.F
 !||    i25trivox_edg             ../engine/source/interfaces/intsort/i25trivox_edg.F
 !||    intmass_update            ../engine/source/interfaces/interf/intmass_update.F
+!||    inttri                    ../engine/source/interfaces/intsort/inttri.F
 !||    mpp_init                  ../engine/source/mpi/interfaces/spmd_i7tool.F
 !||    spmd_exch_efric           ../engine/source/mpi/interfaces/spmd_exch_efric.F
 !||    spmd_exch_press           ../engine/source/mpi/interfaces/spmd_exch_press.F
