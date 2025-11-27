@@ -113,18 +113,7 @@ C======================================================================|
        IADL=IADFR+NMT
 C       ALLOCATE(RSUM(IADL),STAT=IERR)
        CALL ZERO1(RBE3%RRBE3,IADL)
-       CALL RBE3F(RBE3%IRBE3 ,RBE3%LRBE3 ,NODES%X    ,NODES%A     ,NODES%AR    ,
-     1           NODES%MS    ,NODES%IN    ,RBE3%FRBE3,SKEW  ,NODES%WEIGHT,
-     2           NODES%STIFN ,NODES%STIFR ,JT   ,JR    ,RBE3%IROTG ,
-     3           MAX_M ,RBE3%RRBE3(IADA),RBE3%RRBE3(IADAR) ,RBE3%RRBE3(IADMS),
-     4           RBE3%RRBE3(IADIN),RBE3%RRBE3(IADFN),RBE3%RRBE3(IADFR),NMT0  ,
-     5           IADMP ,RBE3%pen,NODES%V,NODES%VR,NMT ,DT1 ,IRODDL )
-C
-       IF (NSPMD>1.AND.IPARIT==0) THEN
-            CALL RBE3POFF(RBE3%IRBE3 ,RBE3%LRBE3 ,NODES%A ,NODES%MS ,NODES%WEIGHT,
-     1                    NODES%AR    ,NODES%IN    ,NODES%STIFN,NODES%STIFR )
-       END IF
-       IF (IPARIT>0) THEN
+! P/ON part       
         NMP = 6*NMT
         IPA=1
         IPMS=IPA+3*NMP
@@ -139,16 +128,22 @@ C
          IPFR=IPIN
         ENDIF
         IADLP=IPFR+NMP
-C         version spmd p/on
-C   RSUM_PON=ZERO
-        CALL FOAT_TO_6_FLOAT(1  ,NMT*3  ,RBE3%RRBE3(IADA) ,RBE3%RRBE3_PON(IPA) )
-        CALL FOAT_TO_6_FLOAT(1  ,NMT    ,RBE3%RRBE3(IADMS),RBE3%RRBE3_PON(IPMS))
-        CALL FOAT_TO_6_FLOAT(1  ,NMT    ,RBE3%RRBE3(IADFN),RBE3%RRBE3_PON(IPFN))
-        IF (RBE3%IROTG>0) THEN
-         CALL FOAT_TO_6_FLOAT(1  ,NMT*3  ,RBE3%RRBE3(IADAR) ,RBE3%RRBE3_PON(IPAR))
-         CALL FOAT_TO_6_FLOAT(1  ,NMT    ,RBE3%RRBE3(IADIN),RBE3%RRBE3_PON(IPIN))
-         CALL FOAT_TO_6_FLOAT(1  ,NMT    ,RBE3%RRBE3(IADFR),RBE3%RRBE3_PON(IPFR))
-        ENDIF
+        RBE3%RRBE3_PON = ZERO
+       CALL RBE3F(RBE3%IRBE3 ,RBE3%LRBE3 ,NODES%X    ,NODES%A     ,NODES%AR    ,
+     1           NODES%MS    ,NODES%IN    ,RBE3%FRBE3,SKEW  ,NODES%WEIGHT,
+     2           NODES%STIFN ,NODES%STIFR ,JT   ,JR    ,RBE3%IROTG ,
+     3           MAX_M ,RBE3%RRBE3(IADA),RBE3%RRBE3(IADAR) ,RBE3%RRBE3(IADMS),
+     4           RBE3%RRBE3(IADIN),RBE3%RRBE3(IADFN),RBE3%RRBE3(IADFR),NMT0  ,
+     5           IADMP ,RBE3%pen,NODES%V,NODES%VR,NMT ,DT1 ,IRODDL ,
+     6           RBE3%RRBE3_PON(IPA),RBE3%RRBE3_PON(IPAR),RBE3%RRBE3_PON(IPMS),
+     7           RBE3%RRBE3_PON(IPIN),RBE3%RRBE3_PON(IPFN),RBE3%RRBE3_PON(IPFR),
+     8           IPARIT)
+C
+       IF (NSPMD>1.AND.IPARIT==0) THEN
+            CALL RBE3POFF(RBE3%IRBE3 ,RBE3%LRBE3 ,NODES%A ,NODES%MS ,NODES%WEIGHT,
+     1                    NODES%AR    ,NODES%IN    ,NODES%STIFN,NODES%STIFR )
+       END IF
+       IF (IPARIT>0) THEN
         IF (ICOM>0) THEN
             CALL SPMD_EXCH_RBE3_PON(
      .       RBE3%RRBE3_PON(IPA),RBE3%RRBE3_PON(IPAR),RBE3%RRBE3_PON(IPMS),RBE3%RRBE3_PON(IPIN),
@@ -276,7 +271,9 @@ C-----------
      2                 STIFN ,STIFR ,JT   ,JR    ,IROTG ,
      3                 MAX_M ,AM    ,ARM  ,MSM   ,INM   ,
      4                 STIFNM,STIFRM,NMT0 ,IADMP ,PEN   ,
-     5                 V     ,VR    ,NMT  ,DT1   ,IRODDL)
+     5                 V     ,VR    ,NMT  ,DT1   ,IRODDL,
+     6                 AM_P  ,ARM_P ,MSM_P,INM_P ,STIFNM_P,
+     7                STIFRM_P,IPARIT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -297,7 +294,7 @@ C-----------------------------------------------
       INTEGER IRBE3(NRBE3L,*),LRBE3(*),WEIGHT(*)
       INTEGER MAX_M,IROTG,JT(3,*),JR(3,*),NMT0,IADMP(*)
       INTEGER, INTENT(IN) :: NMT ! dimension of AM,STIFNM...
-      INTEGER, INTENT(IN) :: IRODDL
+      INTEGER, INTENT(IN) :: IRODDL,IPARIT
 C     REAL
       my_real
      .   X(3,*), A(3,*), AR(3,*), MS(*), IN(*), FRBE3(*),SKEW(*),
@@ -305,17 +302,24 @@ C     REAL
      .   STIFNM(*) ,STIFRM(*), V(3,*), VR(3,*)
       my_real, INTENT(IN) :: DT1
       TYPE (RBE3_pen), INTENT(INOUT) :: PEN
+      DOUBLE PRECISION
+     .        AM_P(6,3,NMT), ARM_P(6,3,NMT), MSM_P(6,NMT), INM_P(6,NMT),
+     .        STIFNM_P(6,NMT), STIFRM_P(6,NMT)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, N, NS ,NML, IAD,IROT,IADS,NN,K,IMOD,IADF,
-     .        IPEN,N_P
+     .        IPEN,N_P,ICOLINE
 C     REAL
       my_real
      .     FNS(3),MNS(3),MSS(3),INS(3),STN(3),STR(3),FSUM,MSUM,
      .     FMAX,SMAX,MMAX,SFD,SMD,F2MAX
       my_real,
      .         DIMENSION(:,:,:),ALLOCATABLE :: FDSTNB ,MDSTNB
+      my_real, DIMENSION(:,:), ALLOCATABLE :: AMP ,ARMP
+      my_real, DIMENSION(:), ALLOCATABLE   :: MSMP ,INMP,STIFNMP,STIFRMP
+      DOUBLE PRECISION, DIMENSION(:,:), ALLOCATABLE     :: R1_6, R2_6
+      DOUBLE PRECISION, DIMENSION(:,:,:), ALLOCATABLE   :: RR_6
 
 C======================================================================|
       IADS = NMT0
@@ -323,6 +327,223 @@ C======================================================================|
         ALLOCATE(FDSTNB(3,6,MAX_M))
         IF (IROTG>0) ALLOCATE(MDSTNB(3,6,MAX_M))
       END IF
+      ALLOCATE(AMP(3,MAX_M))
+      ALLOCATE(MSMP(MAX_M))
+      ALLOCATE(STIFNMP(MAX_M))
+      IF (IROTG>0) THEN
+        ALLOCATE(ARMP(3,MAX_M))
+        ALLOCATE(INMP(MAX_M))
+        ALLOCATE(STIFRMP(MAX_M))
+      END IF
+      IF (IPARIT>0) THEN
+        IF (MAX_M>0) THEN
+          ALLOCATE(RR_6(6,3,MAX_M))
+          ALLOCATE(R1_6(6,MAX_M))
+          ALLOCATE(R2_6(6,MAX_M))
+        END IF 
+        DO N=1,NRBE3
+          IAD = IRBE3(1,N)
+          NS  = IRBE3(3,N)
+          NML = IRBE3(5,N)
+          IROT =IRBE3(6,N)
+          IMOD =IRBE3(8,N)
+          IPEN =IRBE3(9,N)
+         IF (NS==0.OR.IPEN>0) CYCLE
+         IF (WEIGHT(NS)==1) THEN
+          CALL RBE3CL(LRBE3(IAD+1),LRBE3(IADS+IAD+1),NS     ,X      ,
+     .                FRBE3(6*IAD+1),SKEW    ,NML     ,IROT   ,FDSTNB ,
+     .                MDSTNB  ,IRBE3(2,N))
+            DO J = 1,3
+             NN = JT(J,N)*WEIGHT(NS)
+             FNS(J) = A(J,NS)*NN
+             MSS(J) = MS(NS)*NN/3
+             STN(J) = STIFN(NS)*NN
+            END DO
+           AMP = ZERO
+           MSMP = ZERO
+           STIFNMP = ZERO
+C---not to add supplementary mass globally
+           IF (IMOD <=3) THEN
+             CALL MFAC_RBE3(FDSTNB,MDSTNB,NML  ,IROTG,SFD ,SMD)
+             DO I=1,NML
+               DO J = 1,3
+                FSUM = FDSTNB(J,1,I)+FDSTNB(J,2,I)+FDSTNB(J,3,I)
+                MSMP(I) = MSMP(I) + ABS(FSUM)*MSS(J)*SFD
+              END DO
+             END DO
+           ELSEIF (IMOD ==4) THEN
+             DO I=1,NML
+               IADF =6*(IAD+I-1)
+               DO J = 1,3
+                MSMP(I) = MSMP(I)+FRBE3(IADF+J)*MSS(J)
+               END DO
+             END DO
+           END IF
+          DO I=1,NML
+            DO J = 1,3
+              AMP(1:3,I) = AMP(1:3,I)+FDSTNB(1:3,J,I)*FNS(J)
+            END DO
+C-----IMOD=4  STIFNM might be over_estimated but safe         
+             SMAX = ZERO
+            DO J = 1,3
+             FMAX=ABS(FDSTNB(J,1,I))+ABS(FDSTNB(J,2,I))+ABS(FDSTNB(J,3,I))
+             F2MAX=FDSTNB(J,1,I)*FDSTNB(J,1,I)+FDSTNB(J,2,I)*FDSTNB(J,2,I)+
+     .             FDSTNB(J,3,I)*FDSTNB(J,3,I)
+             SMAX = MAX(SMAX,MAX(FMAX,F2MAX)*STN(J))
+            END DO
+             STIFNMP(I) = SMAX
+          ENDDO
+          IF ((JR(1,N)+JR(2,N)+JR(3,N))>0) THEN
+             DO J = 1,3
+                 NN = JR(J,N)*WEIGHT(NS)
+                 MNS(J) = AR(J,NS)*NN
+                 INS(J) = IN(NS)*NN/3
+                 STR(J) = STIFR(NS)*NN
+             END DO
+             DO I=1,NML
+               DO J = 1,3
+                  AMP(1:3,I) = AMP(1:3,I)+FDSTNB(1:3,J+3,I)*MNS(J)
+               END DO
+               SMAX = ZERO
+               DO J = 1,3
+!       FSUM = FDSTNB(J,J+3,I)
+                 FSUM = FDSTNB(J,4,I)+FDSTNB(J,5,I)+FDSTNB(J,6,I)
+                 MSMP(I) =MSMP(I)+ABS(FSUM)*INS(J)
+                 FMAX=ABS(FDSTNB(J,4,I))+ABS(FDSTNB(J,5,I))+ABS(FDSTNB(J,6,I))
+                 F2MAX=FDSTNB(J,4,I)*FDSTNB(J,4,I)+FDSTNB(J,5,I)*FDSTNB(J,5,I)+
+     .              FDSTNB(J,6,I)*FDSTNB(J,6,I)
+                 SMAX = MAX(SMAX,MAX(FMAX,F2MAX)*STR(J))
+               END DO
+               STIFNMP(I) = STIFNM(I)+SMAX
+             END DO
+          ENDIF
+          CALL FOAT_TO_6_FLOAT(1  ,NML*3  ,AMP    ,RR_6 )
+          CALL FOAT_TO_6_FLOAT(1  ,NML    ,MSMP   ,R1_6 )
+          CALL FOAT_TO_6_FLOAT(1  ,NML    ,STIFNMP,R2_6 )
+          DO I=1,NML
+             K = IADMP(IAD+I)
+             DO J = 1,6
+               AM_P(J,1:3,K) = AM_P(J,1:3,K)+RR_6(J,1:3,I) 
+               MSM_P(J,K) = MSM_P(J,K)+R1_6(J,I) 
+               STIFNM_P(J,K) = STIFNM_P(J,K)+R2_6(J,I) 
+             END DO
+          END DO
+          IF (IROT>0) THEN
+            ARMP = ZERO
+            INMP = ZERO
+            STIFRMP = ZERO
+            DO I=1,NML
+              DO J = 1,3
+                ARMP(1:3,I) = ARMP(1:3,I)+MDSTNB(1:3,J,I)*FNS(J)
+              END DO
+              SMAX = ZERO
+              DO J = 1,3
+                MSUM = MDSTNB(J,1,I)+MDSTNB(J,2,I)+MDSTNB(J,3,I)
+                IF (IMOD /=4) INMP(I) = INMP(I)+ABS(MSUM)*MSS(J)
+                MMAX=ABS(MDSTNB(J,1,I))+ABS(MDSTNB(J,2,I))+ABS(MDSTNB(J,3,I))
+                SMAX = MAX(SMAX,MMAX*STN(J))
+              END DO
+              STIFRMP(I) = STIFRMP(I)+SMAX
+            END DO
+           IF ((JR(1,N)+JR(2,N)+JR(3,N))>0) THEN
+             IF (IMOD <=3) THEN
+               DO I=1,NML
+                 DO J = 1,3
+                  MSUM = MDSTNB(J,4,I)+MDSTNB(J,5,I)+MDSTNB(J,6,I)
+                  INMP(I) = INMP(I)+ABS(MSUM)*INS(J)*SMD
+                 END DO
+               ENDDO
+             ELSEIF (IMOD ==4) THEN
+               DO I=1,NML
+                 IADF =6*(IAD+I-1)
+                 DO J = 1,3
+                  INMP(I) = INMP(I)+FRBE3(IADF+J+3)*INS(J)
+                 END DO
+               END DO
+             END IF
+             DO I=1,NML
+               DO J = 1,3
+                  ARMP(1:3,I) =ARMP(1:3,I)+MDSTNB(1:3,J+3,I)*MNS(J)
+               END DO
+              SMAX = ZERO
+              DO J = 1,3
+                MMAX=ABS(MDSTNB(J,4,I))+ABS(MDSTNB(J,5,I))+ABS(MDSTNB(J,6,I))
+                SMAX = MAX(SMAX,MMAX*STR(J))
+              END DO
+              STIFRMP(I) = STIFRMP(I)+SMAX
+             END DO
+           END IF ! (JR(1,N)
+           CALL FOAT_TO_6_FLOAT(1  ,NML*3  ,ARMP   ,RR_6 )
+           CALL FOAT_TO_6_FLOAT(1  ,NML    ,INMP   ,R1_6 )
+           CALL FOAT_TO_6_FLOAT(1  ,NML    ,STIFRMP,R2_6 )
+           DO I=1,NML
+              K = IADMP(IAD+I)
+              DO J = 1,6
+                ARM_P(J,1:3,K) = ARM_P(J,1:3,K)+RR_6(J,1:3,I) 
+                INM_P(J,K) = INM_P(J,K)+R1_6(J,I) 
+                STIFRM_P(J,K) = STIFRM_P(J,K)+R2_6(J,I) 
+              END DO
+           END DO
+          END IF !(IROT>0) THEN
+! 
+          STIFN(NS) = EM20
+          IF ((JR(1,N)+JR(2,N)+JR(3,N))>0) STIFR(NS) = EM20
+         END IF !(WEIGHT(NS)==1) THEN
+        END DO
+!     penalty formulation
+        N_P = 0
+        DO N=1,NRBE3
+          IAD = IRBE3(1,N)
+          NS  = IRBE3(3,N)
+          NML = IRBE3(5,N)
+          IROT =IRBE3(6,N)
+          IMOD =IRBE3(8,N)
+          IPEN =IRBE3(9,N)
+          IF (NS==0.OR.IPEN<=0) CYCLE
+          IF (WEIGHT(NS)==1) THEN 
+            N_P = N_P +1 
+            AMP = ZERO
+            STIFNMP = ZERO
+            IF (IROT>0) THEN
+              ARMP = ZERO
+              STIFRMP = ZERO
+            END IF 
+            CALL RBE3F_PEN(                                       
+     .            NS      ,NUMNOD      ,DT1           ,IRODDL    ,         
+     .            NML     ,LRBE3(IAD+1),LRBE3(IADS+IAD+1),IN     ,        
+     .            A       ,AR          ,AMP         ,ARMP        ,         
+     .            STIFN   ,STIFR       ,STIFNMP     ,STIFRMP     ,         
+     .            V       ,VR          ,FRBE3(6*IAD+1),X         ,         
+     .           LSKEW    ,NUMSKW      ,SKEW          ,
+     .           PEN%RRBE3PEN_F(1,N_P) ,PEN%RRBE3PEN_STF(1,N_P) ,         
+     .           PEN%RRBE3PEN_FAC(N_P) ,PEN%RRBE3PEN_VI(N_P)    ,
+     .           PEN%RRBE3PEN_M(1,N_P) ,ICOLINE )
+            CALL FOAT_TO_6_FLOAT(1  ,NML*3  ,AMP    ,RR_6 )
+            CALL FOAT_TO_6_FLOAT(1  ,NML    ,STIFNMP,R2_6 )
+            DO I=1,NML
+               K = IADMP(IAD+I)
+               DO J = 1,6
+                 AM_P(J,1:3,K) = AM_P(J,1:3,K)+RR_6(J,1:3,I) 
+                 STIFNM_P(J,K) = STIFNM_P(J,K)+R2_6(J,I) 
+               END DO
+            END DO
+            IF (ICOLINE>0) THEN
+              CALL FOAT_TO_6_FLOAT(1  ,NML*3  ,ARMP   ,RR_6 )
+              CALL FOAT_TO_6_FLOAT(1  ,NML    ,STIFRMP,R2_6 )
+              DO I=1,NML
+                 K = IADMP(IAD+I)
+                 DO J = 1,6
+                   ARM_P(J,1:3,K) = ARM_P(J,1:3,K)+RR_6(J,1:3,I) 
+                   STIFRM_P(J,K) = STIFRM_P(J,K)+R2_6(J,I) 
+                 END DO
+              END DO
+            END IF 
+          END IF ! (WEIGHT(NS)==1) T
+        END DO
+        DEALLOCATE(RR_6)
+        DEALLOCATE(R1_6)
+        DEALLOCATE(R2_6)
+      ELSE !P/OFF as before
       DO N=1,NRBE3
         IAD = IRBE3(1,N)
         NS  = IRBE3(3,N)
@@ -473,23 +694,48 @@ C  MS(NS) = ZERO
         IPEN =IRBE3(9,N)
         IF (NS==0.OR.IPEN<=0) CYCLE
         IF (WEIGHT(NS)==1) THEN !STIFNM(k),STIFN(NS),AM(1:3,k)
-          N_P = N_P +1 
-          CALL RBE3F_PEN(                                       
-     .          NS      ,NMT0        ,NUMNOD      ,NMT         ,         
-     .          NML     ,LRBE3(IAD+1),LRBE3(IADS+IAD+1),IADMP(IAD+1),        
-     .          A       ,AR          ,AM          ,ARM         ,         
-     .          STIFN   ,STIFR       ,STIFNM      ,STIFRM      ,         
-     .          V       ,VR          ,FRBE3(6*IAD+1),X         ,         
-     .         LSKEW    ,NUMSKW      ,SKEW          ,
-     .         PEN%RRBE3PEN_F(1,N_P) ,PEN%RRBE3PEN_STF(1,N_P) ,         
-     .         PEN%RRBE3PEN_FAC(N_P) ,PEN%RRBE3PEN_VI(N_P)    ,
-     .         PEN%RRBE3PEN_M(1,N_P) ,DT1           ,IN       ,
-     .         IRODDL )
+            AMP = ZERO
+            STIFNMP = ZERO
+            IF (IROT>0) THEN
+              ARMP = ZERO
+              STIFRMP = ZERO
+            END IF 
+            CALL RBE3F_PEN(                                       
+     .            NS      ,NUMNOD      ,DT1           ,IRODDL    ,         
+     .            NML     ,LRBE3(IAD+1),LRBE3(IADS+IAD+1),IN     ,        
+     .            A       ,AR          ,AMP         ,ARMP        ,         
+     .            STIFN   ,STIFR       ,STIFNMP     ,STIFRMP     ,         
+     .            V       ,VR          ,FRBE3(6*IAD+1),X         ,         
+     .           LSKEW    ,NUMSKW      ,SKEW          ,
+     .           PEN%RRBE3PEN_F(1,N_P) ,PEN%RRBE3PEN_STF(1,N_P) ,         
+     .           PEN%RRBE3PEN_FAC(N_P) ,PEN%RRBE3PEN_VI(N_P)    ,
+     .           PEN%RRBE3PEN_M(1,N_P) ,ICOLINE )
+            DO I=1,NML
+               K = IADMP(IAD+I)
+               AM(1:3,K) = AM(1:3,K)+AMP(1:3,I) 
+               STIFNM(K) = STIFNM(K)+STIFNMP(I) 
+            END DO
+            IF (ICOLINE>0) THEN
+              DO I=1,NML
+                 K = IADMP(IAD+I)
+                 ARM(1:3,K) = ARM(1:3,K)+ARMP(1:3,I) 
+                 STIFRM(K) = STIFRM(K)+STIFRMP(I) 
+              END DO
+            END IF 
         ENDIF
       ENDDO
+      END IF !(IPARIT>0) THEN
 C
       DEALLOCATE(FDSTNB)
       IF (IROTG>0) DEALLOCATE(MDSTNB)
+      DEALLOCATE(AMP)
+      DEALLOCATE(MSMP)
+      DEALLOCATE(STIFNMP)
+      IF (IROTG>0) THEN
+        DEALLOCATE(ARMP)
+        DEALLOCATE(INMP)
+        DEALLOCATE(STIFRMP)
+      END IF
 C---
       RETURN
       END
