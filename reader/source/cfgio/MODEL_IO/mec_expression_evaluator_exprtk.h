@@ -20,47 +20,16 @@
 //Copyright>    As an alternative to this open-source version, Altair also offers Altair Radioss
 //Copyright>    software under a commercial license.  Contact Altair to discuss further if the
 //Copyright>    commercial version may interest you: https://www.altair.com/radioss/.*/
-#ifndef MECI_PARAMETER_H
-#define MECI_PARAMETER_H
-#include "hcio.h"
+#ifndef MEC_EXPRESSION_EVALUATOR_EXPRTK_H
+#define MEC_EXPRESSION_EVALUATOR_EXPRTK_H
 
-#include <string>
+#include "mec_expression_evaluator.h"
 
-class IParameter
+// implementation using www.partow.net/programming/exprtk
+class HCIO_DATA_DLL_API ExpressionEvaluatorExprTk : public IExpressionEvaluator
 {
 public:
-    //!Three types of parameters are supported: Integer, Double and String
-    enum Type
-    {
-        TYPE_DOUBLE = 0,
-        TYPE_INTEGER = 1,
-        TYPE_STRING = 2,
-        TYPE_DOUBLE_EXPRESSION = 10,
-        TYPE_INTEGER_EXPRESSION = 11,
-        TYPE_UNKNOWN
-    };
-
-    //!enum to know the type of the parameter keyword
-    enum Keywordtype
-    {
-        REGULAR,
-        EXPRESSION,
-        DUPLICATION,
-        LOCAL
-    };
-
-    IParameter() {}
-    virtual ~IParameter() { }
-    virtual int GetFileIndex() const = 0;
-    virtual int GetIntValue() const = 0;
-    virtual double GetDoubleValue() const = 0;
-    virtual std::string GetStringValue() const = 0;
-    virtual std::string GetName() const = 0;
-    virtual Type GetType() const = 0;
-    virtual Keywordtype GetKeywordType() const = 0;
-    virtual std::string GetExpression() const { return std::string(); }
-    virtual void SetExpressionValue(double value) {}
+    virtual double Evaluate(const char* expression, int* pError = nullptr) const;
 };
 
-
-#endif //MECI_PARAMETER_H
+#endif // MEC_EXPRESSION_EVALUATOR_EXPRTK_H

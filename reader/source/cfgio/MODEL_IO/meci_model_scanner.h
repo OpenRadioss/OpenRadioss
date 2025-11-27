@@ -33,6 +33,9 @@
 #include <HCDI/hcdi_mec_pre_object.h>
 #include "hcio.h"
 #include "hcioi_solverinf.h"
+
+class IExpressionEvaluator;
+
 /// Base class for creating a model
 class HCIO_DATA_DLL_API MECIModelScanner {
 
@@ -307,6 +310,9 @@ virtual IMECPreObject *GetIniCondData(const char *otype,int comp_index,int i,IME
 
   //@}
   
+
+  /// Get an expression evaluator
+  virtual const IExpressionEvaluator* GetBaseExpressionEvaluator() const { return nullptr; }
 
  
   protected:

@@ -31,7 +31,7 @@ MECIModelFactoryParameterEvaluator::MECIModelFactoryParameterEvaluator(
     const MECMsgManager* pMsgManager,
     const std::vector<std::string>& paramStack):
     p_pModelFactory(pModelFactory), p_fileIndex(fileIndex),
-    IValueExpressionEvaluator(pEvaluator), p_pMsgManager(pMsgManager), p_paramStack(paramStack)
+    IVariableExpressionEvaluator(pEvaluator), p_pMsgManager(pMsgManager), p_paramStack(paramStack)
 {}
 
 bool MECIModelFactoryParameterEvaluator::GetValue(const char* name, double& value) const

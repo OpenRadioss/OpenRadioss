@@ -26,27 +26,21 @@
 #include <boost/lexical_cast.hpp>
 using std::string;
 
-IValueExpressionEvaluator::IValueExpressionEvaluator(const IExpressionEvaluator* pEvaluator) :
+IVariableExpressionEvaluator::IVariableExpressionEvaluator(const IExpressionEvaluator* pEvaluator) :
     p_pEvaluator(const_cast<IExpressionEvaluator*>(pEvaluator)), p_doDelete(false)
 {}
 
-IValueExpressionEvaluator::IValueExpressionEvaluator(IExpressionEvaluator* pEvaluator,bool doDelete) :
+IVariableExpressionEvaluator::IVariableExpressionEvaluator(IExpressionEvaluator* pEvaluator,bool doDelete) :
     p_pEvaluator(pEvaluator), p_doDelete(doDelete)
 {}
 
-IValueExpressionEvaluator::~IValueExpressionEvaluator()
+IVariableExpressionEvaluator::~IVariableExpressionEvaluator()
 {
     if(p_doDelete) delete p_pEvaluator;
 }
 
-double IValueExpressionEvaluator::Evaluate(const char* expression, int* pError) const
+double IVariableExpressionEvaluator::Evaluate(const char* expression, int* pError) const
 {
-    if(nullptr == p_pEvaluator)
-    {
-        if(nullptr != pError) *pError = -2;
-        return 0;
-    }
-
     // replace variables by their values
     string srcExpression(expression), newExpression;
     size_t posTokenStart = 0, posTokenEnd = 0;
@@ -86,6 +80,11 @@ double IValueExpressionEvaluator::Evaluate(const char* expression, int* pError) 
             }
             else if(sscanf(token.c_str(), "%lg", &tokenValue) == 1)
             { // the token is a number, so just copy
+                if(posTokenStart == 0 && posTokenEnd == srcExpression.npos)
+                { // easy case: only a single number, so just return it
+                    if(nullptr != pError) *pError = 0;
+                    return tokenValue;
+                }
                 newExpression += token;
             }
             else if(GetValue(token.c_str(), tokenValue))
@@ -101,6 +100,12 @@ double IValueExpressionEvaluator::Evaluate(const char* expression, int* pError) 
         }
     }
 
+    if(nullptr == p_pEvaluator)
+    {
+        if(nullptr != pError) *pError = -2;
+        return 0;
+    }
+
     // replace '**' with '^' in case p_pEvaluator doesn't support this
     while((posTokenStart = newExpression.find("**",0)) != newExpression.npos)
     {
@@ -109,28 +114,20 @@ double IValueExpressionEvaluator::Evaluate(const char* expression, int* pError) 
 
     // evaluate newExpression
     int error = 0;
-    double value = p_pEvaluator->Evaluate(newExpression.c_str(), &error);
+    double value = 0;
+    if(nullptr != p_pEvaluator)
+    {
+        value = p_pEvaluator->Evaluate(newExpression.c_str(), &error);
     if(0 != error) value = 0;
+    }
+    else
+    {
+        error = -2;
+    }
 
     // return error if desired (potential shifting to be done!)
     if(nullptr != pError) *pError = error;
 
     return value;
 };
-
-#include <exprtk.hpp>
-double ExpressionEvaluatorExprTk::Evaluate(const char* expression, int* pError) const
-{
-    exprtk::expression<double> exprtkexpression;
-    exprtk::parser<double> parser;
-
-    if (!parser.compile(std::string(expression), exprtkexpression))
-    {
-        if(nullptr != pError) *pError = -1;
-        return 0;
-    }
-
-    if(nullptr != pError) *pError = 0;
-    return exprtkexpression.value();
-}
 

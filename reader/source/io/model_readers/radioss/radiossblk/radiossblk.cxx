@@ -353,17 +353,20 @@ static bool RadiossblkInitCFGKernel()
 static std::vector<IMECPreObject *> pre_obj_lst[HCDI_OBJ_TYPE_HC_MAX];
 
 #include <MODEL_IO/solverCDR.h>
-
+#include <MODEL_IO/cfgio_model_factory_reader_po_exprtk.h>
+ 
 extern "C" RADIOSSBLK_DECLS
 sdi::ModelViewEdit* RadiossblkReadModel(const char *filename)
 {
     RadiossblkReadMessageFile();
     if(!RadiossblkInitCFGKernel()) return nullptr;
-
+ 
     // read file
     SolverSyntaxInfos syntaxSolverInfos;
     SolverInputInfo solverInf;
-    CommonDataReaderCFG reader("radioss", rad_version, "", true);
+    ModelFactoryReaderPOExprTk* model = new ModelFactoryReaderPOExprTk();
+    CommonDataReaderCFG reader(model, "radioss", rad_version, "", true);
+
     reader.ReadModel(filename, pre_obj_lst);
 
     //Apply id offsets (of includes and submodels)

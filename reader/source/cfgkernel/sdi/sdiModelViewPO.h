@@ -392,9 +392,6 @@ public:
         return HandleEdit(this->p_entityType, this->p_index, p_index2);
     }
 
-    // Get value of an attribute for this element (by attribute name)
-    inline virtual Status GetValue(const sdiIdentifier& identifier, sdiValue& value) const;
-    
     friend class SDISelectionDataPOArray<SPECIALTYPE>;
     friend class SDIElementSelectionDataElemCache;
 
@@ -484,6 +481,8 @@ public:
     }
 
 
+    // Get value of an attribute for this element (by attribute name)
+    inline virtual Status GetValue(const sdiIdentifier& identifier, sdiValue& value) const;
     
     virtual unsigned int GetNodeCount() const
     {
@@ -709,12 +708,12 @@ public:
 
             sdiString kernelFullType = this->p_pre_obj_lst->at(i)->GetKernelFullType();
 
-            sdiString inputFullType = this->p_pre_obj_lst->at(i)->GetInputFullType();
-
             bool isSame = true;
-            
-            if (!(strcmp(this->p_keyword.c_str(), inputFullType.c_str()) == 0)) {
-                isSame = false;
+            if (kernelFullType.find("/ELEMS") == 0) {
+                kernelFullType.erase(0, 6); // Remove "/ELEMS"
+                if (!(strcmp(this->p_keyword.c_str(), kernelFullType.c_str()) == 0)) {
+                    isSame = false;
+                }
             }
 
             if(this->p_pre_obj_lst->at(i) != nullptr && isSame)
@@ -2439,17 +2438,13 @@ const IDescriptor *TSDIEntityDataPO<SPECIALTYPE>::GetDescriptor() const
 }
 
 
-template<sdi::SpecializationType SPECIALTYPE>
-Status TSDIEntityDataPOArray<SPECIALTYPE>::GetValue(const sdiIdentifier& identifier,
+Status SDIElementDataPO::GetValue(const sdiIdentifier& identifier,
                                   sdiValue&            value) const
 {
     const ModelViewPO* mv = static_cast<const ModelViewPO*>(this->GetModelView());
     assert(mv);
     sdiIdentifier arrayIdentifier(identifier.GetNameKey(), identifier.GetSolverIdx(), p_index2);
-    bool isOk = mv->GetValueFromPreObject(this->p_ptr, arrayIdentifier, value, this, &(this->p_pDescr));
-    if(isOk) return true;
-
-    return mv->GetValueFromPreObject(this->p_ptr, identifier, value, this, &(this->p_pDescr));
+    return mv->GetValueFromPreObject(p_ptr, arrayIdentifier, value, this, &p_pDescr);
 }
 
 

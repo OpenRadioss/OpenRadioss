@@ -989,8 +989,8 @@ void MECDataWriter::Assign(const PseudoFileFormatCard_t *card_p,
     {
     case ASSIGN_EXPRESSION:
     {
-        ExpressionEvaluatorExprTk evaluator;
-        MECPreObjectExpressionEvaluator pre_object_handler(&pre_object, a_descr_p, &evaluator, ind);
+        const IExpressionEvaluator* evaluator_p = mv_model->GetBaseExpressionEvaluator();
+        MECPreObjectExpressionEvaluator pre_object_handler(&pre_object, a_descr_p, evaluator_p, ind);
         if (a_assign_card_format_p->exp_str && a_assign_card_format_p->exp_str[0] != '[')
             value = pre_object_handler.Evaluate(a_assign_card_format_p->exp_str);
         else if (a_assign_card_format_p->exp_str && (a_assign_card_format_p->exp_str[0] == '[' || a_assign_card_format_p->exp_str[0] == '@'))

@@ -98,7 +98,7 @@ private:
     string         cur_paramvaltypeskey;
 
 };
-class ModelFactoryReaderPO : public MvModelFactory_t
+class HCIO_DATA_DLL_API ModelFactoryReaderPO : public MvModelFactory_t
 {
 public:
     //typedef std::vector< std::pair<std::string, cfgkernel::Variant> > IdentifierValuePairList;
@@ -137,6 +137,15 @@ public:
     CommonDataReaderCFG(const std::string& profile, const std::string& subprofile,
                         const string& cfg_dir_path = "", bool set_cur_kernel = false,
                         const ReadFileFactorySP& p_fileFactory=nullptr);
+
+    CommonDataReaderCFG(ModelFactoryReaderPO* pmodel,
+                        const std::string& profile, const std::string& subprofile,
+                        const string& cfg_dir_path = "", bool set_cur_kernel = false,
+                        const ReadFileFactorySP& p_fileFactory=nullptr);
+
+    void Init(const std::string& profile, const std::string& subprofile,
+              const string& cfg_dir_path, bool set_cur_kernel,
+              const ReadFileFactorySP& p_fileFactory);
 
    ~CommonDataReaderCFG();
 

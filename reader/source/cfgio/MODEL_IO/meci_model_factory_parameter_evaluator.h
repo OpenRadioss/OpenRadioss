@@ -29,7 +29,7 @@
 class MECIModelFactory;
 class MECMsgManager;
 
-class HCIO_DATA_DLL_API MECIModelFactoryParameterEvaluator : public IValueExpressionEvaluator
+class HCIO_DATA_DLL_API MECIModelFactoryParameterEvaluator : public IVariableExpressionEvaluator
 {
 public:
 

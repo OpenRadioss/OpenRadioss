@@ -20,47 +20,23 @@
 //Copyright>    As an alternative to this open-source version, Altair also offers Altair Radioss
 //Copyright>    software under a commercial license.  Contact Altair to discuss further if the
 //Copyright>    commercial version may interest you: https://www.altair.com/radioss/.*/
-#ifndef MECI_PARAMETER_H
-#define MECI_PARAMETER_H
-#include "hcio.h"
 
-#include <string>
+#include "mec_expression_evaluator_exprtk.h"
 
-class IParameter
+#include <exprtk.hpp>
+
+double ExpressionEvaluatorExprTk::Evaluate(const char* expression, int* pError) const
 {
-public:
-    //!Three types of parameters are supported: Integer, Double and String
-    enum Type
+    exprtk::expression<double> exprtkexpression;
+    exprtk::parser<double> parser;
+
+    if (!parser.compile(std::string(expression), exprtkexpression))
     {
-        TYPE_DOUBLE = 0,
-        TYPE_INTEGER = 1,
-        TYPE_STRING = 2,
-        TYPE_DOUBLE_EXPRESSION = 10,
-        TYPE_INTEGER_EXPRESSION = 11,
-        TYPE_UNKNOWN
-    };
+        if(nullptr != pError) *pError = -1;
+        return 0;
+    }
 
-    //!enum to know the type of the parameter keyword
-    enum Keywordtype
-    {
-        REGULAR,
-        EXPRESSION,
-        DUPLICATION,
-        LOCAL
-    };
+    if(nullptr != pError) *pError = 0;
+    return exprtkexpression.value();
+}
 
-    IParameter() {}
-    virtual ~IParameter() { }
-    virtual int GetFileIndex() const = 0;
-    virtual int GetIntValue() const = 0;
-    virtual double GetDoubleValue() const = 0;
-    virtual std::string GetStringValue() const = 0;
-    virtual std::string GetName() const = 0;
-    virtual Type GetType() const = 0;
-    virtual Keywordtype GetKeywordType() const = 0;
-    virtual std::string GetExpression() const { return std::string(); }
-    virtual void SetExpressionValue(double value) {}
-};
-
-
-#endif //MECI_PARAMETER_H

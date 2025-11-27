@@ -195,7 +195,7 @@ HC_DATA_DLL_API bool HCDI_UpdatePreObjectValue(IMECPreObject& pre_object, const 
         if (ind < 0)
         {
             int otype = a_descr_p->getObjectType(attrib_ikey);
-            string otype_str = HCDI_get_entitystringtype(otype);
+            const string& otype_str = HCDI_get_entitystringtype(otype);
             if (str_val != "")
                 pre_object.AddObjectValue(skeyword.c_str(), otype_str.c_str(), str_val.c_str());
             else
@@ -432,7 +432,7 @@ HC_DATA_DLL_API void HCDI_AddArrayAttributesToPreObject(IMECPreObject& pre_objec
         int a_array_index = pre_object.GetIndex(IMECPreObject::ATY_ARRAY, IMECPreObject::VTY_OBJECT, a_arr_skw.c_str());
         int Obj_Id = UINT_MAX;
         int otype = a_descr_p->getObjectType(arr_ikw);
-        string otype_str = HCDI_get_entitystringtype(otype);
+        const string& otype_str = HCDI_get_entitystringtype(otype);
         if (a_array_index >= 0)
         {
             int a_nb_values = pre_object.GetNbValues(IMECPreObject::VTY_OBJECT, a_array_index);

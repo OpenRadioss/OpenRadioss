@@ -409,6 +409,14 @@ void MECIReadModelBase::ManageReadKeyWord( MECIModelFactory* model_p, const char
         const char* title_p = preobj_lst[i]->GetTitle();
         if (headerdata->pdescrp && (!title_p || (title_p && title_p[0] == '\0')))
         {
+                // one more trial: use a solvername "TITLE", if there is one
+                const string &title_skey = headerdata->pdescrp->getSKeywordFromSolverName("TITLE");
+                if(!title_skey.empty()) title_p = preobj_lst[i]->GetStringValue(title_skey.c_str());
+                if(title_p && strlen(title_p) > 0) preobj_lst[i]->SetTitle(title_p);
+            }
+            if (headerdata->pdescrp && (!title_p || (title_p && title_p[0] == '\0')))
+            {
+                // no other possibility found, so generate a default title
             string title = headerdata->pdescrp->getKeyword();
             MYOBJ_INT id = preobj_lst[i]->GetId();
             if (0 < id && title != "")
@@ -1447,6 +1455,9 @@ void SplitArrayToSingleObjects(MECIModelFactory* model_p, const IDescriptor* des
                     int id = 0;
                     if(preobj_lst[j]->GetId() > 0) id = preobj_lst[j]->GetId() + i;
                     set_obj = model_p->CreateObject(k_fulltype, i_fulltype, title, id, unit_id);
+                    set_obj->SetFileIndex(preobj_lst[j]->GetFileIndex());
+                    set_obj->SetComponentIndex(preobj_lst[j]->GetComponentIndex());
+                    set_obj->SetSubdeckIndex(preobj_lst[j]->GetSubdeckIndex());
                     preobj_lst.push_back(set_obj);
                 }
                 // copy array attributes to single with matching comment

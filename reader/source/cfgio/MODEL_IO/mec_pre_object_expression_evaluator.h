@@ -27,7 +27,7 @@
 class IMECPreObject;
 class IDescriptor;
 
-class HCIO_DATA_DLL_API MECPreObjectExpressionEvaluator : public IValueExpressionEvaluator
+class HCIO_DATA_DLL_API MECPreObjectExpressionEvaluator : public IVariableExpressionEvaluator
 {
 public:
 
