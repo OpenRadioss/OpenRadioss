@@ -28,7 +28,7 @@
 
 #include <convertutilsbase.h>
 #include <sstream>
-#include <mec_expression_evaluator.h>
+#include <mec_expression_evaluator_exprtk.h>
 
 using namespace std;
 using namespace sdi;

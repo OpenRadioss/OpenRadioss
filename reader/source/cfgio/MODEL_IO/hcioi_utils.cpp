@@ -489,7 +489,6 @@ void ResizeArrayAttributesToPreObject(IMECPreObject& pre_object, const IDescript
     {
         int a_array_index = pre_object.GetIndex(IMECPreObject::ATY_ARRAY, IMECPreObject::VTY_OBJECT, a_arr_skw);
         int otype = a_descr_p->getObjectType(arr_ikw);
-        string otype_str = HCDI_get_entitystringtype(otype);
         if (a_array_index >= 0)
         {
             int a_nb_values = pre_object.GetNbValues(IMECPreObject::VTY_OBJECT, a_array_index);

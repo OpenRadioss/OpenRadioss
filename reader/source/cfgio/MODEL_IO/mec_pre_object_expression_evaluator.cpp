@@ -30,7 +30,7 @@ MECPreObjectExpressionEvaluator::MECPreObjectExpressionEvaluator(
     const IMECPreObject* preobject_p, const IDescriptor *descriptor_p,
     const IExpressionEvaluator* pEvaluator, int ind):
     myPreObjectPtr(preobject_p), myDescriptorPtr(descriptor_p),
-    IValueExpressionEvaluator(pEvaluator), index(ind)
+    IVariableExpressionEvaluator(pEvaluator), index(ind)
 {}
 
 bool MECPreObjectExpressionEvaluator::GetValue(const char* name, double& value) const

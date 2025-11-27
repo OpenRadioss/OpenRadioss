@@ -889,8 +889,8 @@ void MECIDataReader::assign(const PseudoFileFormatCard_t       *card_format_p,
     {
     case ASSIGN_EXPRESSION:
     {
-        ExpressionEvaluatorExprTk evaluator;
-        MECPreObjectExpressionEvaluator pre_object_handler(object_p, a_descr_p, &evaluator, ind);
+        const IExpressionEvaluator* evaluator_p = mv_model->GetBaseExpressionEvaluator();
+        MECPreObjectExpressionEvaluator pre_object_handler(object_p, a_descr_p, evaluator_p, ind);
         if(a_result != VTYPE_STRING && a_assign_card_format_p->exp_str && a_assign_card_format_p->exp_str[0] != '[')
             value = pre_object_handler.Evaluate(a_assign_card_format_p->exp_str);
 

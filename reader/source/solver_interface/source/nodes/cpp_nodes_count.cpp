@@ -55,9 +55,24 @@ CDECL void cpp_nodes_count_(int *nbNodes, int *nbCnodes)
 {
     sdiValue search_value_val;
     SelectionNodeRead nodes(g_pModelViewSDI, "/NODE");
-    SelectionNodeRead cnodes(g_pModelViewSDI, "/CNODE");
-    *nbNodes = nodes.Count();
-    *nbCnodes = cnodes.Count();
+    sdiIdentifier search_value_identifier("Search_Value");
+    bool is_cnode;
+    int cpt = 0;
+    int cpt1 = 0;
+    while(nodes.Next())
+    {
+        is_cnode = nodes->GetValue(search_value_identifier, search_value_val);
+        if(!is_cnode)
+        {
+            cpt = cpt + 1;
+        }
+        else
+        {
+            cpt1 = cpt1 + 1;
+        }
+    }
+    *nbNodes = cpt;
+    *nbCnodes = cpt1;
 }
 CDECL void CPP_NODES_COUNT(int *nbNodes, int *nbCnodes)
 {cpp_nodes_count_ (nbNodes,nbCnodes);}

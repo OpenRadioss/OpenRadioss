@@ -36,15 +36,15 @@ public:
 /// Interface that evaluates a mathematical expression with variables.
 /// The Evaluate() method replaces variable with their values by calling GetValue(),
 /// and then calls pEvaluator->Evaluate() to evaluate the resulting expression.
-class HCIO_DATA_DLL_API IValueExpressionEvaluator : public IExpressionEvaluator
+class HCIO_DATA_DLL_API IVariableExpressionEvaluator : public IExpressionEvaluator
 {
 protected:
-    IValueExpressionEvaluator() {} // just to avoid compiler errors, doesn't make sense
-    IValueExpressionEvaluator(const IExpressionEvaluator* pEvaluator);
-    IValueExpressionEvaluator(IExpressionEvaluator* pEvaluator, bool doDelete);
+    IVariableExpressionEvaluator() {} // just to avoid compiler errors, doesn't make sense
+    IVariableExpressionEvaluator(const IExpressionEvaluator* pEvaluator);
+    IVariableExpressionEvaluator(IExpressionEvaluator* pEvaluator, bool doDelete);
     virtual bool GetValue(const char* name, double& value) const = 0;
 public:
-    virtual ~IValueExpressionEvaluator();
+    virtual ~IVariableExpressionEvaluator();
     /// Evaluate a mathematical expression with variables.
     virtual double Evaluate(const char* expression, int* pError = nullptr) const;
 
@@ -52,13 +52,6 @@ protected:
     IExpressionEvaluator* p_pEvaluator = nullptr;
 private:
     bool p_doDelete = false;
-};
-
-// implementation using www.partow.net/programming/exprtk
-class HCIO_DATA_DLL_API ExpressionEvaluatorExprTk : public IExpressionEvaluator
-{
-public:
-    virtual double Evaluate(const char* expression, int* pError = nullptr) const;
 };
 
 #endif // MEC_EXPRESSION_EVALUATOR_H

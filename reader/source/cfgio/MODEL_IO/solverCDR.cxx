@@ -307,9 +307,9 @@ void ModelFactoryReaderPO::EvaluateExpressionParameters(const MECMsgManager* pMs
         if(!pdescrp) continue;
         string paramname_skey = GetAttribNameFromDrawable(pdescrp, cdr::g_AttribParamName);
         const char* paramname = obj->GetStringValue(paramname_skey.c_str());
-        ExpressionEvaluatorExprTk baseEvaluator;
+        const IExpressionEvaluator* pBaseEvaluator = GetBaseExpressionEvaluator();
         int fileIndex = obj->GetFileIndex();
-        MECIModelFactoryParameterEvaluator parameterEvaluator(this, fileIndex, &baseEvaluator, pMsgManager);
+        MECIModelFactoryParameterEvaluator parameterEvaluator(this, fileIndex, pBaseEvaluator, pMsgManager);
         double value;
         parameterEvaluator.GetValue(paramname, value);
     }
@@ -428,6 +428,24 @@ CommonDataReaderCFG::CommonDataReaderCFG(const std::string& profile, const std::
                                          const ReadFileFactorySP& p_fileFactory) :
     m_pfileFactory(p_fileFactory)
 {
+    Init(profile, subprofile, cfg_dir_path, set_cur_kernel, p_fileFactory);
+    m_pmodel = new ModelFactoryReaderPO(nullptr);
+}
+
+CommonDataReaderCFG::CommonDataReaderCFG(ModelFactoryReaderPO* pmodel,
+                                         const std::string& profile, const std::string& subprofile,
+                                         const string& cfg_dir_path, bool set_cur_kernel,
+                                         const ReadFileFactorySP& p_fileFactory) :
+    m_pfileFactory(p_fileFactory)
+{
+    Init(profile, subprofile, cfg_dir_path, set_cur_kernel, p_fileFactory);
+    m_pmodel = pmodel;
+}
+
+void CommonDataReaderCFG::Init(const std::string& profile, const std::string& subprofile,
+                               const string& cfg_dir_path,bool set_cur_kernel,
+                               const ReadFileFactorySP& p_fileFactory)
+{
     m_set_cur_kernel = set_cur_kernel;
     m_prev_loaded_fileformat = MultiCFGKernelMgr::getInstance().GetActiveUserProfile();
 
@@ -461,7 +479,7 @@ CommonDataReaderCFG::~CommonDataReaderCFG()
 void CommonDataReaderCFG::ReadModel(const std::string& filepath, vector<IMECPreObject*>* preobjLst)
 {
     //
-    m_pmodel = new ModelFactoryReaderPO(preobjLst);
+    m_pmodel->SetPreObjectLst(preobjLst);
     MvFileFormat_e a_fileformat = MultiCFGKernelMgr::getInstance().GetActiveUserProfile();
 
     // Due to historical reasons, the CFG files for LSDyna are inconsistent. 

@@ -46,7 +46,8 @@ void DynakeyMessages::ShowMessage(const sdiMessageHandler::Level &level, int cod
 static std::vector<IMECPreObject *> pre_obj_lst[HCDI_OBJ_TYPE_HC_MAX];
 
 #include <MODEL_IO/solverCDR.h>
-
+#include <MODEL_IO/cfgio_model_factory_reader_po_exprtk.h>
+ 
 extern "C" DYNAKEY_DECLS
 sdi::ModelViewEdit* DynakeyReadModel(const char *filename)
 {
@@ -74,7 +75,8 @@ sdi::ModelViewEdit* DynakeyReadModel(const char *filename)
 
     SolverSyntaxInfos syntaxSolverInfos;
     SolverInputInfo solverInf;
-    CommonDataReaderCFG reader("", str_version, "", true);
+    ModelFactoryReaderPOExprTk* model = new ModelFactoryReaderPOExprTk();
+    CommonDataReaderCFG reader(model,"", str_version, "", true);
     reader.ReadModel(filename, pre_obj_lst);
     const CFGKernel* cfgkernel = MultiCFGKernelMgr::getInstance().GetCurrentCFGKernel();
     sdi::ModelViewPO* pModelViewSDI =  new sdi::ModelViewPO(

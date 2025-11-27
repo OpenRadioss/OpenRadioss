@@ -39,6 +39,7 @@
 
 class MvSubset_t;
 class MECMsgManager;
+class IExpressionEvaluator;
 
 typedef const vector<string> MyVecString;
 typedef pair< IMECPreObject*, InputInfos::IdentifierValuePairList *>  MyPairPreobjString;
@@ -105,6 +106,8 @@ public: /** @name Managing parameter*/
     virtual IParameter::Type GetParameterValueType(const char* param_str, const int file_index) = 0;
     /// Evaluate expression parameters, to be called by reader
     virtual void EvaluateExpressionParameters(const MECMsgManager* pMsgManager) {}
+    /// Get an expression evaluator
+    virtual const IExpressionEvaluator* GetBaseExpressionEvaluator() const { return nullptr; }
 
     virtual IMECPreObject* FindByFullType(const string& fulltype) = 0;
     virtual IMECPreObject* FindByObjectId(int entity_type, int id) = 0;
