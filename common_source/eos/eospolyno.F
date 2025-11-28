@@ -81,7 +81,8 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: I
       my_real :: AA, BB, DVV, PP
-      my_real :: C0,C1,C2,C3,C4,C5
+      my_real :: C0,C1,C2,C3,C4,C5,C6
+      my_real :: MU_POS
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
@@ -91,33 +92,36 @@ C-----------------------------------------------
         C3         = EOS_STRUCT%UPARAM(4)
         C4         = EOS_STRUCT%UPARAM(5)
         C5         = EOS_STRUCT%UPARAM(6)
+        C6         = EOS_STRUCT%UPARAM(7)
         PSH(1:NEL) = EOS_STRUCT%PSH
 
       IF(IFLAG == 0) THEN
         DO I=1,NEL
-          PP      = C0 +(C1 +C3 *MU(I)*MU(I))*MU(I)+C2 *MU2(I) + (C4 +C5 *MU(I))*ESPE(I)
-          DPDM(I) = C1 + TWO*C2 *MAX(ZERO,MU(I))+THREE*C3 *MU(I)*MU(I) + C5 *ESPE(I)+(C4 +C5 *MU(I))*DF(I)*DF(I)*(PP+PSH(I) )
-          DPDE(I) = C4 +C5 *MU(I)
+          MU_POS  = MAX(ZERO,MU(I))
+          PP      = C0 +(C1+C3*MU(I)*MU(I))*MU(I)+C2*MU2(I) + (C4 +C5 *MU(I) + C6*MU2(I))*ESPE(I)
+          DPDM(I) = C1 + TWO*C2*MU_POS + THREE*C3*MU(I)*MU(I) + (C5+C6*MU_POS)*ESPE(I) + (C4 +C5*MU(I) +C6*MU2(I))*DF(I)*DF(I)*(PP+PSH(I))
+          DPDE(I) = C4 + C5*MU(I) + C6*MU2(I)
           PNEW(I) = MAX(PP,PMIN)*OFF(I)! P(mu[n+1],E[n])
         ENDDO
 
       ELSEIF(IFLAG == 1) THEN
         DO I=1,NEL
-          AA      = C0 +MU(I)*(C1 +C3 *MU(I)*MU(I))+C2 *MU2(I)
-          BB      = C4 +C5 *MU(I)
+          AA      = C0 +MU(I)*(C1 +C3 *MU(I)*MU(I))+C2*MU2(I)
+          BB      = C4 +C5*MU(I) + C6*MU2(I)
           DVV     = HALF*DVOL(I)*DF(I) / MAX(EM15,VNEW(I))
           PNEW(I) = (AA+BB*(ESPE(I)-PSH(I) *DVV))/(ONE+BB*DVV)
           PNEW(I) = MAX(PNEW(I),PMIN )*OFF(I) ! P(mu[n+1],E[n+1])
           EINT(I) = EINT(I) - HALF*DVOL(I)*(PNEW(I)+PSH(I))
-          DPDE(I) = C4 +C5 *MU(I)
+          DPDE(I) = BB
         ENDDO
 
       ELSEIF(IFLAG == 2) THEN
          DO I=1, NEL
            IF (VNEW(I) > ZERO) THEN
-             PNEW(I) = C0 + (C1 +C3*MU(I)*MU(I))*MU(I) + C2*MU2(I) + (C4 +C5 *MU(I))*ESPE(I)
-             DPDE(I) = C4+C5*MU(I)
-             DPDM(I) = C1 + TWO*C2*MAX(ZERO,MU(I)) + THREE*C3*MU(I)*MU(I) + C5*ESPE(I)  + (DPDE(I)) * DF(I)*DF(I)*(PNEW(I)+PSH(I))
+             MU_POS  = MAX(ZERO,MU(I))
+             PNEW(I) = C0 + (C1 +C3*MU(I)*MU(I))*MU(I) + C2*MU2(I) + (C4 +C5 *MU(I) + C6*MU2(I))*ESPE(I)
+             DPDE(I) = C4+C5*MU(I)+C6*MU2(I)
+             DPDM(I) = C1 + TWO*C2*MU_POS + THREE*C3*MU(I)*MU(I) + (C5+C6*MU_POS)*ESPE(I)  + (DPDE(I)) * DF(I)*DF(I)*(PNEW(I)+PSH(I))
              PNEW(I) = MAX(PNEW(I),PMIN )*OFF(I)
            ENDIF
          ENDDO
