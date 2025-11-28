@@ -99,7 +99,7 @@ C-----------------------------------------------
         DO I=1,NEL
           MU_POS  = MAX(ZERO,MU(I))
           PP      = C0 +(C1+C3*MU(I)*MU(I))*MU(I)+C2*MU2(I) + (C4 +C5 *MU(I) + C6*MU2(I))*ESPE(I)
-          DPDM(I) = C1 + TWO*C2*MU_POS + THREE*C3*MU(I)*MU(I) + (C5+C6*MU_POS)*ESPE(I) + (C4 +C5*MU(I) +C6*MU2(I))*DF(I)*DF(I)*(PP+PSH(I))
+          DPDM(I) = C1+TWO*C2*MU_POS+THREE*C3*MU(I)*MU(I) +(C5+C6*MU_POS)*ESPE(I) + (C4+C5*MU(I)+C6*MU2(I))*DF(I)*DF(I)*(PP+PSH(I))
           DPDE(I) = C4 + C5*MU(I) + C6*MU2(I)
           PNEW(I) = MAX(PP,PMIN)*OFF(I)! P(mu[n+1],E[n])
         ENDDO
@@ -121,7 +121,7 @@ C-----------------------------------------------
              MU_POS  = MAX(ZERO,MU(I))
              PNEW(I) = C0 + (C1 +C3*MU(I)*MU(I))*MU(I) + C2*MU2(I) + (C4 +C5 *MU(I) + C6*MU2(I))*ESPE(I)
              DPDE(I) = C4+C5*MU(I)+C6*MU2(I)
-             DPDM(I) = C1 + TWO*C2*MU_POS + THREE*C3*MU(I)*MU(I) + (C5+C6*MU_POS)*ESPE(I)  + (DPDE(I)) * DF(I)*DF(I)*(PNEW(I)+PSH(I))
+             DPDM(I) = C1 + TWO*C2*MU_POS + THREE*C3*MU(I)*MU(I) + (C5+C6*MU_POS)*ESPE(I) + (DPDE(I))*DF(I)*DF(I)*(PNEW(I)+PSH(I))
              PNEW(I) = MAX(PNEW(I),PMIN )*OFF(I)
            ENDIF
          ENDDO
