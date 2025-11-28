@@ -399,9 +399,24 @@ C---------node 6---
       ENDDO
       DO EP=NVS+1,JLT
        I =IVS(EP)
-       IF (NC4(I) <= 0) N4Z(I)=ONE
-       IF (NC5(I) <= 0) N5Z(I)=ONE
-       IF (NC6(I) <= 0) N6Z(I)=ONE
+       IF (NC4(I) <= 0) THEN 
+         N4X(I)=ZERO
+         N4Y(I)=ZERO
+         N4Z(I)=ONE
+         AREA4(I)=ONE/SQRT(AREA2(I))
+       END IF
+       IF (NC5(I) <= 0) THEN 
+         N5X(I)=ZERO
+         N5Y(I)=ZERO
+         N5Z(I)=ONE
+         AREA5(I)=ONE/SQRT(AREA2(I))
+       END IF
+       IF (NC6(I) <= 0) THEN 
+         N6X(I)=ZERO
+         N6Y(I)=ZERO
+         N6Z(I)=ONE
+         AREA6(I)=ONE/SQRT(AREA2(I))
+       END IF
       ENDDO
       DO I=JFT,JLT
         VLZ(I,4)=N4X(I)*VX4(I)+N4Y(I)*VY4(I)+N4Z(I)*VZ4(I)
