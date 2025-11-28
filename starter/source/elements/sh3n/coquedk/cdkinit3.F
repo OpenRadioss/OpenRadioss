@@ -121,7 +121,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER  I,J,NDEPAR,IGTYP,IMAT,IPROP,IGMAT,NVC,IHBE,NPG,MPT,
      .   PTM,PTF,PTS,NUVAR,NUVARR,ID,LENF,LENM,LENS,IREP,IPG
-      INTEGER JJ(5),IX1(MVSIZ),IX2(MVSIZ),IX3(MVSIZ),
+      INTEGER JJ(8),IX1(MVSIZ),IX2(MVSIZ),IX3(MVSIZ),
      .   MAT(MVSIZ),PID(MVSIZ),NGL(MVSIZ)
       INTEGER  LAYNPT_MAX,LAY_MAX,NPT_ALL
       my_real,
@@ -144,7 +144,7 @@ C-----------------------------------------------
       PARAMETER (LAY_MAX = 100)
       INTEGER MATLY(MVSIZ*LAY_MAX)
       my_real
-     .   POSLY(MVSIZ,LAY_MAX*LAYNPT_MAX)
+     .   POSLY(MVSIZ,LAY_MAX*LAYNPT_MAX),NPGTH
 C-----------------------------------------------
       TYPE(BUF_LAY_) ,POINTER :: BUFLY
       TYPE(L_BUFEL_) ,POINTER :: LBUF     
@@ -170,7 +170,7 @@ C
       LENM = NEL*GBUF%G_MOMPG/NPG
       LENS = NEL*GBUF%G_STRPG/NPG
 !
-      DO I=1,5
+      DO I=1,8
         JJ(I) = NEL*(I-1)
       ENDDO
 C
@@ -324,7 +324,14 @@ C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
      8               E1Z   ,E2Z      ,E3Z      ,DIR_A  ,DIR_B,POSLY )
            IF (MPT == 0) THEN
              DO I=LFT,LLT
-               GBUF%FOR_G(I+JJ(1:5))=GBUF%FOR(I+JJ(1:5))
+               GBUF%FORPG_G(PTF+I+JJ(1:5))=GBUF%FORPG(PTF+I+JJ(1:5))
+             END DO
+           END IF 
+           IF (ITHKSHEL == 2) THEN
+             NPGTH = ONE/NPG
+             DO I=LFT,LLT
+               GBUF%STRA(I+JJ(1:8))=GBUF%STRA(I+JJ(1:8))+
+     .                              NPGTH*GBUF%STRPG(PTS+I+JJ(1:8))
              END DO
            END IF 
           ELSEIF ( ITHKSHEL == 1 .AND. ISH3N == 30 ) THEN
