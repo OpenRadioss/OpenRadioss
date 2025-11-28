@@ -56,7 +56,6 @@
 !||    jcook51_mod                      ../engine/source/materials/mat/mat051/jcook51.F90
 !||    matparam_def_mod                 ../common_source/modules/mat_elem/matparam_def_mod.F90
 !||    multimat_param_mod               ../common_source/modules/multimat_param_mod.F90
-!||    polynomial51_mod                 ../engine/source/materials/mat/mat051/polynomial51.F
 !||    precision_mod                    ../common_source/modules/precision_mod.F90
 !||    prop_param_mod                   ../common_source/modules/mat_elem/prop_param_mod.F90
 !||    sigeps51_boundary_material_mod   ../engine/source/materials/mat/mat051/sigeps51_boundary_material.F90
@@ -94,7 +93,6 @@
           use granular51_mod , only : granular51
           use jcook51_mod , only : jcook51
           use matparam_def_mod , only : matparam_struct_
-          use polynomial51_mod , only : polynomial51
           use eosmain51_mod , only : eosmain51
 !---------+---------+---+---+--------------------------------------------
 ! VAR     | SIZE    |TYP| RW| DEFINITION

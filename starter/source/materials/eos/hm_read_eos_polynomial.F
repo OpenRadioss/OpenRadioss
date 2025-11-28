@@ -72,9 +72,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      my_real
-     .   C0, C1, C2, C3, C4, C5, E0, PSH, RHO0,RHOR,MU0,
-     .   RHOI, G0, SSP0, DF, DPDMU
+      my_real :: C0, C1, C2, C3, C4, C5, C6, E0, PSH, RHO0,RHOR,MU0,MU02,RHOI, G0, SSP0, DF, DPDMU
       LOGICAL :: IS_ENCRYPTED, IS_AVAILABLE, IS_AVAILABLE_RHO0     
 C-----------------------------------------------
 C   S o u r c e   L i n e s
@@ -91,6 +89,7 @@ C-----------------------------------------------
       CALL HM_GET_FLOATV('MAT_C3', C3, IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('MAT_C4', C4, IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('MAT_C5', C5, IS_AVAILABLE,LSUBMODEL,UNITAB)
+      CALL HM_GET_FLOATV('MAT_C6', C6, IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('MAT_EA', E0, IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('MAT_PSH', PSH, IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('Refer_Rho', RHO0, IS_AVAILABLE_RHO0,LSUBMODEL,UNITAB)
@@ -111,7 +110,7 @@ C-----------------------------------------------
       PM(32)=C1+C4*E0    !BULK MODULUS = (1+µ)*dP/dmu (partial derivative at constant E)
       PM(88)=PSH
 
-      MAT_PARAM%EOS%NUPARAM = 6
+      MAT_PARAM%EOS%NUPARAM = 7
       MAT_PARAM%EOS%NIPARAM = 0
       MAT_PARAM%EOS%NFUNC = 0
       MAT_PARAM%EOS%NTABLE = 0
@@ -123,6 +122,7 @@ C-----------------------------------------------
       MAT_PARAM%EOS%UPARAM(4) = C3
       MAT_PARAM%EOS%UPARAM(5) = C4
       MAT_PARAM%EOS%UPARAM(6) = C5
+      MAT_PARAM%EOS%UPARAM(7) = C6
       MAT_PARAM%EOS%PSH = PSH
       MAT_PARAM%EOS%E0 = E0
       IF (MAT_PARAM%THERM%TINI == ZERO) THEN
@@ -140,32 +140,27 @@ C-----------------------------------------------
           MU0 = ZERO ! error 683 already displayed
         ENDIF
       ENDIF
+      MU02 = MU0*MAX(ZERO,MU0)
       
       IF(RHOI /= ZERO)THEN
         DF = RHOR/RHOI
       ELSE
         DF = ZERO 
       ENDIF
-      
-      IF(MU0 >= ZERO)THEN
-        PM(31) = C0-PSH+C1*MU0+C2*MU0**2+C3*MU0**3+(C4+C5*MU0)*E0
-        !PM(104) = PM(31)
-      ELSE
-        PM(31) = C0-PSH+C1*MU0          +C3*MU0**3+(C4+C5*MU0)*E0
-        !PM(104) = PM(31)
-      ENDIF
+
+      PM(31) = C0-PSH+C1*MU0+C2*MU02+C3*MU0**3+(C4+C5*MU0+C6*MU02)*E0
       PM(104) = C0-PSH
       
       !SSP0
       SSP0 = ZERO 
       G0 = PM(22)
       RHOI = PM(89)
-      DPDMU = C1 + TWO*C2 *MAX(ZERO,MU0)+THREE*C3 *MU0*MU0 + C5 *E0+(C4 +C5 *MU0)*DF*DF*(PM(31)+PSH)
+      DPDMU = C1 + TWO*C2*MAX(ZERO,MU0) + THREE*C3*MU0*MU0 + (C5+C6*MAX(ZERO,MU0))*E0 + (C4 +C5*MU0 +C6*MU02)*DF*DF*(PM(31)+PSH)
       DPDMU=MAX(ZERO,DPDMU)
       IF(RHOR > ZERO) SSP0 = SQRT((DPDMU + TWO_THIRD*G0)/RHOR) 
       PM(27)=SSP0
 
-      IF(C1 == ZERO .AND. C2 == ZERO .AND. C3 == ZERO .AND. C4 == C5 .AND. C4 > ONE)THEN
+      IF(C1 == ZERO .AND. C2 == ZERO .AND. C3 == ZERO .AND. C4 == C5 .AND. C4 > ONE .AND. C6 == ZERO)THEN
         ISFLUID = 1
       ENDIF
 
@@ -173,7 +168,7 @@ C-----------------------------------------------
       IF(IS_ENCRYPTED)THEN
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
       ELSE
-        WRITE(IOUT,1500)C0,C1,C2,C3,C4,C5,E0,PM(104),PSH
+        WRITE(IOUT,1500)C0,C1,C2,C3,C4,C5,C6,E0,PM(104),PSH
         IF(IS_AVAILABLE_RHO0)WRITE(IOUT,1501)PM(1)
       ENDIF
 
@@ -188,6 +183,7 @@ C-----------------------------------------------
      & 5X,'C3. . . . . . . . . . . . . . . . . . . .=',1PG20.13/,
      & 5X,'C4. . . . . . . . . . . . . . . . . . . .=',1PG20.13/,
      & 5X,'C5. . . . . . . . . . . . . . . . . . . .=',1PG20.13/,
+     & 5X,'C6. . . . . . . . . . . . . . . . . . . .=',1PG20.13/,
      & 5X,'INITIAL INTERNAL ENERGY PER UNIT VOLUME .=',1PG20.13/,
      & 5X,'INITIAL PRESSURE. . . . . . . . . . . . .=',1PG20.13/,
      & 5X,'PRESSURE SHIFT. . . . . . . . . . . . . .=',1PG20.13)
