@@ -87,7 +87,7 @@
           implicit none
 #include "spmd.inc"
           integer, intent(in) :: buf_count, source, tag
-          real, dimension(buf_count,1), intent(inout) :: buf
+          real, dimension(1,buf_count), intent(inout) :: buf
           integer, intent(in), optional :: comm
 #ifdef MPI
           integer :: ierr
@@ -175,7 +175,7 @@
           implicit none
 #include "spmd.inc"
           integer, intent(in) :: buf_count, source, tag
-          double precision, dimension(buf_count,1), intent(inout) :: buf
+          double precision, dimension(1,buf_count), intent(inout) :: buf
           integer, intent(in), optional :: comm
           integer :: ierr
 #ifdef MPI

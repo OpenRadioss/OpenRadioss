@@ -504,7 +504,7 @@
             used_comm = SPMD_COMM_WORLD
           end if
 
-          call MPI_Reduce(sendbuf, recvbuf, buf_count, MPI_INT, mpi_op, root, used_comm, ierr)
+          call MPI_Reduce(sendbuf, recvbuf, buf_count, MPI_INTEGER, mpi_op, root, used_comm, ierr)
           call spmd_out(TAG_REDUCE,ierr)
 #else
           recvbuf(1:buf_count) = sendbuf(1:buf_count)
@@ -540,7 +540,7 @@
             used_comm = SPMD_COMM_WORLD
           end if
 
-          call MPI_Reduce(sendbuf, recvbuf, buf_count, MPI_REAL, mpi_op, root, used_comm, ierr)
+          call MPI_Reduce(sendbuf, recvbuf, buf_count, MPI_DOUBLE_PRECISION, mpi_op, root, used_comm, ierr)
           call spmd_out(TAG_REDUCE,ierr)
 #else
           recvbuf(1:buf_count) = sendbuf(1:buf_count)
@@ -724,7 +724,7 @@
           if(buf_count .ne. 1) then
             ierr = -1
           else
-            call MPI_Reduce(sendbuf, recvbuf, buf_count, MPI_INT, mpi_op, root, used_comm, ierr)
+            call MPI_Reduce(sendbuf, recvbuf, buf_count, MPI_INTEGER, mpi_op, root, used_comm, ierr)
           endif
           call spmd_out(TAG_REDUCE,ierr)
 #else
@@ -761,7 +761,7 @@
             used_comm = SPMD_COMM_WORLD
           end if
 
-          call MPI_Reduce(sendbuf, recvbuf, buf_count, MPI_REAL, mpi_op, root, used_comm, ierr)
+          call MPI_Reduce(sendbuf, recvbuf, buf_count, MPI_DOUBLE_PRECISION, mpi_op, root, used_comm, ierr)
           call spmd_out(TAG_REDUCE,ierr)
 #else
           recvbuf = sendbuf  ! In case MPI is not defined, just copy the value

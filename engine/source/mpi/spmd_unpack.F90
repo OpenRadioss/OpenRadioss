@@ -116,8 +116,8 @@
           integer, intent(in), optional :: comm
           integer, dimension(insize), intent(in) :: inbuf
           double precision, dimension(outcount), intent(out) :: outbuf
-#ifdef MPI
           integer :: ierr, tag
+#ifdef MPI
           tag = 0  ! Default tag for unpack operations
           call spmd_in(tag)
           if( present(comm) ) then
