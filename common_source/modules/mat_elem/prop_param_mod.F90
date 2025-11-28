@@ -58,8 +58,8 @@
 !-----------------------------------------------------------------------
 
         integer ,parameter  :: n_var_iparg = 100    ! number of iparg variables = nparg
-        integer ,parameter  :: n_var_pm    = 250    ! number of pm variables    = mpropm
-        integer ,parameter  :: n_var_ipm   = 467    ! number of ipm variables   = mpropmi
+        integer ,parameter  :: n_var_pm    = 250    ! number of pm variables    = npropm
+        integer ,parameter  :: n_var_ipm   = 467    ! number of ipm variables   = npropmi
         integer ,parameter  :: n_var_igeo  = 917    ! number of igeo variables  = npropgi
         integer ,parameter  :: n_var_geo   = 1000   ! number of geo variables   = npropg
 !-----------------------------------------------------------------------

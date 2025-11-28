@@ -140,8 +140,7 @@ C-----------------------------------------------
      .        IPARG(*),IXFEM,INOD_CRK(*),IEL_CRK(*),IADC_CRK(4,*),
      .        ELCUTC(2,*),NODEDGE(2,*),INDX_DRAPE(SCDRAPE)
       INTEGER, INTENT(IN) :: IGRE, NCYCLE
-      integer, intent(in) :: LIPART1
-      !//TODO:no *
+      integer, intent(in) :: LIPART1      
       INTEGER, DIMENSION(LIPART1, NPART), INTENT(IN)     :: IPART
      
 C     REAL OR REAL*8

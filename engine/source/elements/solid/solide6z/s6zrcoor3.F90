@@ -65,6 +65,7 @@
 !-------------------------------------------------------------------------------
       use precision_mod, only : wp
       use constant_mod , only : zero, one, two, one_over_6, em20
+      use prop_param_mod
 !-------------------------------------------------------------------------------
 !    I m p l i c i t   t y p e s
 !-------------------------------------------------------------------------------
@@ -159,7 +160,7 @@
       real(kind=WP), dimension(nel),       intent(out)   :: xgxya    !< XY cross product term
       real(kind=WP), dimension(nel),       intent(out)   :: xgyza    !< YZ cross product term
       real(kind=WP), dimension(nel),       intent(out)   :: xgzxa    !< ZX cross product term
-      integer      , dimension(nel),       intent(in)    :: iparg    !< Integer parameters
+      integer,dimension(n_var_iparg),      intent(in)    :: iparg
       real(kind=WP), dimension(nel,6),     intent(out)   :: gama_r   !< Rotation matrix storage
 !-------------------------------------------------------------------------------
 !    L o c a l   v a r i a b l e s

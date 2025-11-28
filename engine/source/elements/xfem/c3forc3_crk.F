@@ -172,7 +172,6 @@ C-----------------------------------------------
       TYPE (DT_), INTENT(IN) :: DT
       type (glob_therm_) ,intent(inout)   :: glob_therm
       integer, intent(in) :: LIPART1
-      !//TODO:no *
       INTEGER, DIMENSION(LIPART1,NPART), INTENT(IN)     :: IPART
     
 C-----------------------------------------------
