@@ -161,7 +161,7 @@
           do i=1,4
              this%eos(i)%title = 'embedded EoS'
              this%eos(i)%eostype = 1
-             this%eos(i)%nuparam = 6
+             this%eos(i)%nuparam = 7
              this%eos(i)%niparam = 0
              this%eos(i)%nfunc = 0
              this%eos(i)%ntable = 0

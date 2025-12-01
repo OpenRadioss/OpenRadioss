@@ -842,6 +842,7 @@ C     !============================!
           MATPARAM%multimat%eos(I)%UPARAM(4) = C3(I)
           MATPARAM%multimat%eos(I)%UPARAM(5) = C4(I)
           MATPARAM%multimat%eos(I)%UPARAM(6) = C5(I)
+          MATPARAM%multimat%eos(I)%UPARAM(7) = ZERO
         ENDDO
         CALL mat51_associate_eos(MAT_PARAM,NUMMAT,MAT_IID)
       ENDIF
