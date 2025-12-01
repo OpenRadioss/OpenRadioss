@@ -475,7 +475,9 @@ C--------------------------
          ELSE
            SYIELD(I) = ABS(A+B*(ONE+C*GAMA(I)))
          ENDIF
-         IF(GAMA(I) > ZERO .AND. (GAMA(I)-UVAR(I,1)) < ZERO) SIGC_CUTOFF = ZERO
+         IF(GAMA(I) > ZERO) THEN
+           IF (GAMA(I)-UVAR(I,1) < ZERO) SIGC_CUTOFF = ZERO
+         ENDIF
          IF(IFUNC(2)/=0)THEN
             DAV = (EPSPXX(I)+EPSPYY(I)+EPSPZZ(I))*THIRD
             E1 = EPSPXX(I) - DAV
