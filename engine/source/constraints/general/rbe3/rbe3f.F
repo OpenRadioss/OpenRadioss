@@ -694,6 +694,7 @@ C  MS(NS) = ZERO
         IPEN =IRBE3(9,N)
         IF (NS==0.OR.IPEN<=0) CYCLE
         IF (WEIGHT(NS)==1) THEN !STIFNM(k),STIFN(NS),AM(1:3,k)
+            N_P = N_P +1 
             AMP = ZERO
             STIFNMP = ZERO
             IF (IROT>0) THEN
