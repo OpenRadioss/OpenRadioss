@@ -144,7 +144,7 @@ C-----------------------------------------------
       
       ! allocate EoS data structure
       MATPARAM%IEOS = 1
-      MATPARAM%EOS%NUPARAM = 6
+      MATPARAM%EOS%NUPARAM = 7
       MATPARAM%EOS%NIPARAM = 0
       MATPARAM%EOS%NFUNC = 0
       MATPARAM%EOS%NTABLE = 0
@@ -155,6 +155,7 @@ C-----------------------------------------------
       MATPARAM%EOS%UPARAM(4) = C3
       MATPARAM%EOS%UPARAM(5) = C4
       MATPARAM%EOS%UPARAM(6) = C5
+      MATPARAM%EOS%UPARAM(7) = ZERO
       MATPARAM%EOS%PSH = PSH
       MATPARAM%EOS%E0 = E0      
 

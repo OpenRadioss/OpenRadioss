@@ -163,7 +163,7 @@ C-----------------------------------------------
         CALL HM_GET_FLOATV('MAT_PSH'      ,PSH      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         ! allocate EoS data structure
         MAT_PARAM%IEOS = 1
-        MAT_PARAM%EOS%NUPARAM = 6
+        MAT_PARAM%EOS%NUPARAM = 7
         MAT_PARAM%EOS%NIPARAM = 0
         MAT_PARAM%EOS%NFUNC = 0
         MAT_PARAM%EOS%NTABLE = 0
@@ -174,6 +174,7 @@ C-----------------------------------------------
         MAT_PARAM%EOS%UPARAM(4) = C3
         MAT_PARAM%EOS%UPARAM(5) = C4
         MAT_PARAM%EOS%UPARAM(6) = C5
+        MAT_PARAM%EOS%UPARAM(7) = ZERO
         MAT_PARAM%EOS%PSH = PSH
         MAT_PARAM%EOS%E0 = E0
         BULK  = C1                                                                                  
