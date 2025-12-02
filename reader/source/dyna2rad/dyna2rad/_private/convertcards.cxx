@@ -217,24 +217,21 @@ void sdiD2R::ConvertCard::p_ConvertCtrlTimeStep()
 
 
         int IMSCLOptFlag = GetValue<int>(*selectCtrlTS, "IMSCLOptFlag");
-        if(IMSCLOptFlag == 3)
+        if(IMSCLOptFlag == 3 || IMSCLOptFlag == 2)
         {
             sdiValueEntity LSD_IMSCL = GetValue<sdiValueEntity>(*selectCtrlTS, "LSD_IMSCL");
             unsigned int grPartId=LSD_IMSCL.GetId();
 
-            if(grPartId > 0)
-            {
-                HandleEdit amsHandleEdit;
-                p_radiossModel->CreateEntity(amsHandleEdit, "/AMS");
-                amsHandleEdit.SetValue(p_radiossModel, sdiIdentifier("GRPART_ID"), sdiValue(sdiValueEntity(radSetType, 
-                    DynaToRad::GetRadiossSetIdFromLsdSet(grPartId, "*SET_PART" ))));          
+            HandleEdit amsHandleEdit;
+            p_radiossModel->CreateEntity(amsHandleEdit, "/AMS");
+            amsHandleEdit.SetValue(p_radiossModel, sdiIdentifier("GRPART_ID"), sdiValue(sdiValueEntity(radSetType, 
+                DynaToRad::GetRadiossSetIdFromLsdSet(grPartId, "*SET_PART" ))));          
 
-                HandleEdit dtAmsHandleEdit;
-                p_radiossModel->CreateEntity(dtAmsHandleEdit, "/DT/AMS");
+            HandleEdit dtAmsHandleEdit;
+            p_radiossModel->CreateEntity(dtAmsHandleEdit, "/DT/AMS");
 
-                dtAmsHandleEdit.SetValue(p_radiossModel, sdiIdentifier("SCALE"), sdiValue(0.67));
-                dtAmsHandleEdit.SetValue(p_radiossModel, sdiIdentifier("Tmin"), sdiValue(abs(lsdDT2MS)));
-            }
+            dtAmsHandleEdit.SetValue(p_radiossModel, sdiIdentifier("SCALE"), sdiValue(0.67));
+            dtAmsHandleEdit.SetValue(p_radiossModel, sdiIdentifier("Tmin"), sdiValue(abs(lsdDT2MS)));
         }
         
 
@@ -892,7 +889,7 @@ void sdiD2R::ConvertCard::p_ConvertDbBinaryD3Plot()
         
         int nobeam = GetValue<int>(*selDbBinD3Plot, "LSD_NOBEAM");
         SelectionEdit selAnimSpring(p_radiossModel, "/ANIM/SPRING/FORC");
-        if(nobeam > 0)
+        if(nobeam == 0 || nobeam == 2)
         {
             if (selAnimSpring.Count() == 0)
             {
