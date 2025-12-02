@@ -32,6 +32,7 @@
 !||    m46law                       ../engine/source/materials/mat/mat046/m46law.F
 !||    mat_elem_mod                 ../common_source/modules/mat_elem/mat_elem_mod.F90
 !||    mulaw                        ../engine/source/materials/mat_share/mulaw.F90
+!||    s6zrcoor3                    ../engine/source/elements/solid/solide6z/s6zrcoor3.F90
 !||    sboltlaw                     ../engine/source/elements/solid/solide/sboltlaw.F
 !||    sigeps51                     ../engine/source/materials/mat/mat051/sigeps51.F90
 !||    sigeps51_boundary_material   ../engine/source/materials/mat/mat051/sigeps51_boundary_material.F90
