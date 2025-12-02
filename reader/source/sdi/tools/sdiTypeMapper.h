@@ -82,9 +82,11 @@ protected:
         unsigned int myconfigType;
         unsigned int mysubType;
         unsigned int mysubkeywordcount = 0;
-        myKeywordInfo(const sdiString& keyword, unsigned int DBtype, int idpool=0,
-                      int configType=0, int subType=0) :
-            mykeyword(keyword), myDBtype(DBtype)
+        size_t myinitialorder = 0;
+        myKeywordInfo(const sdiString& keyword, unsigned int DBtype,
+                      size_t initialorder = 0,
+                      int idpool=0, int configType=0, int subType=0) :
+            mykeyword(keyword), myDBtype(DBtype), myinitialorder(initialorder)
         {
             myidpool = idpool > 0 ? idpool : 0;
             myconfigType = configType > 0 ? configType : 0;
@@ -612,12 +614,12 @@ public:
         if (nullptr == file) return;
 
         fprintf(file, "1 to 1 mapping\n");
-        std::vector<myKeywordInfo> p_tmpkeywordlist;
+        std::vector<myKeywordInfo> tmpkeywordlist;
         for(EntityType type = ENTITY_TYPE_NONE; type < p_maxDBtype; ++type)
         {
             if(!GetKeyword(type).empty())
             {
-                p_tmpkeywordlist.push_back(myKeywordInfo(GetKeyword(type), (unsigned int) type));
+                tmpkeywordlist.push_back(myKeywordInfo(GetKeyword(type), (unsigned int) type));
                 // sorted by type
                 fprintf(file, "%s   %s   (%u)\n",
                         GetKeyword(type).c_str(),
@@ -627,11 +629,11 @@ public:
             }
         }
         // sorted alphabetically
-        sort(p_tmpkeywordlist.begin(), p_tmpkeywordlist.end(), [](const myKeywordInfo& lhs, const myKeywordInfo& rhs)
+        sort(tmpkeywordlist.begin(), tmpkeywordlist.end(), [](const myKeywordInfo& lhs, const myKeywordInfo& rhs)
              {
                  return lhs.mykeyword < rhs.mykeyword;
              });
-        for(auto keyword : p_tmpkeywordlist)
+        for(auto keyword : tmpkeywordlist)
         {
             /*
             fprintf(file, "%s   %s   (%u)\n",

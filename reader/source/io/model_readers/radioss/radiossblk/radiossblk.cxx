@@ -72,7 +72,7 @@ class SDIModelViewRadiossblk: public ModelViewPO
 {
 public:
     SDIModelViewRadiossblk(std::vector<IMECPreObject*> (&preobjects)[HCDI_OBJ_TYPE_HC_MAX]) :
-        ModelViewPO(SDICFGTypeMapper(), preobjects, HCDI_OBJ_TYPE_HC_MAX)
+        ModelViewPO(SDICFGTypeMapper("/", true, '/'), preobjects, HCDI_OBJ_TYPE_HC_MAX)
     {
         p_pIdManager = new SDIIdManagerRadiossblk(*this);
 
