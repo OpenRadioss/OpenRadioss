@@ -1597,7 +1597,7 @@ C--------------------------------------------
       ELSE
         THKEC => THKE
       END IF
-      IF(STHKE > 0) THKE = 0
+      IF ((STHKE > 0).AND.(FLAG_GOTO==0)) THKE = 0
       IF(NUMELC > 0) SH4ANG = 0
       IF(NUMELTG > 0) SH3ANG = 0
 c
@@ -3957,8 +3957,8 @@ C--- First pass-> count
      5        STACK%PM ,IWORKSH  ,IGRBRIC ,IGRQUAD   ,IGRSH4N ,
      6        IGRSH3N  ,IGRTRUSS ,IGRBEAM ,IGRSPRING ,IGRNOD  ,
      7        IGRSURF  ,IGRSLIN, LSUBMODEL,ALE_EULER ,IGEO    ,
-     8        NLOC_DMG ,DETONATORS,SENSORS%NSENSOR,SEATBELT_SHELL_TO_SPRING,
-     9        NB_SEATBELT_SHELLS,MAT_ELEM%MAT_PARAM)
+     8        NLOC_DMG ,DETONATORS,SEATBELT_SHELL_TO_SPRING,
+     9        NB_SEATBELT_SHELLS,MAT_ELEM%MAT_PARAM,NEBCS)
 C---
          ALLOCATE(IBUFTMP(IDX2)%ptr(SIBUFSSG+INNOD)   ,STAT=stat)
          IF(STAT /= 0) THEN
@@ -3985,8 +3985,8 @@ C---  Second Pass -> interface creation
      5        STACK%PM ,IWORKSH  ,IGRBRIC ,IGRQUAD   ,IGRSH4N ,
      6        IGRSH3N  ,IGRTRUSS ,IGRBEAM ,IGRSPRING ,IGRNOD  ,
      7        IGRSURF  ,IGRSLIN, LSUBMODEL,ALE_EULER ,IGEO    ,
-     8        NLOC_DMG ,DETONATORS,SENSORS%NSENSOR,SEATBELT_SHELL_TO_SPRING,
-     9        NB_SEATBELT_SHELLS,MAT_ELEM%MAT_PARAM)
+     8        NLOC_DMG ,DETONATORS,SEATBELT_SHELL_TO_SPRING,
+     9        NB_SEATBELT_SHELLS,MAT_ELEM%MAT_PARAM,NEBCS)
 C--------------------------------------------
 C     MULTIDOMAINS - ARRAY SPLITTING
 C--------------------------------------------
