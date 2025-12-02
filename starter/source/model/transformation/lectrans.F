@@ -105,7 +105,7 @@ C-----------------------------------------------
      .    NSEG,NNO,SURFNOD,SUB_INDEX,ISK,ISK0,XYZFLAG0(3)
       my_real
      .   LX,LY,LZ,TX,TY,TZ,R,S,RX,RY,RZ,SX,SY,SZ,ANGLE,AT,FAC_L,
-     .   XP,YP,ZP,GAP,orig(3)
+     .   XP,YP,ZP,GAP
       my_real
      .   VR(3),X0(3),X1(3),X2(3),X3(3),X4(3),X5(3),X6(3),
      .   ROT(9),PP(3,3),QQ(3,3),P(3),NORM1, NORM2, NORM3, SCAL1, 
@@ -167,11 +167,6 @@ C--------------------------------------------------
           CALL HM_GET_FLOATV('translation_x',TX,IS_AVAILABLE,LSUBMODEL,UNITAB)
           CALL HM_GET_FLOATV('translation_y',TY,IS_AVAILABLE,LSUBMODEL,UNITAB)
           CALL HM_GET_FLOATV('translation_z',TZ,IS_AVAILABLE,LSUBMODEL,UNITAB)
-C--------------------------------------------------
-C APPLY //SUBMODEL TRANSFORMATIONs
-C--------------------------------------------------
-          IF(SUB_ID /= 0)
-     .          CALL SUBROTVECT(TX,TY,TZ,RTRANS,SUB_ID,LSUBMODEL)
 c---------------------
           IF (ITRANSSUB /= 0) CYCLE
 c---------------------
@@ -236,12 +231,7 @@ c---------------------
             TY = TY * FAC_L 
             TZ = TZ * FAC_L 
           ENDIF
-          !DO J=1,IGRNOD(IGS)%NENTITY
-          !  IS=IGRNOD(IGS)%ENTITY(J)
-          !  X(1,IS)=X(1,IS)+TX
-          !  X(2,IS)=X(2,IS)+TY
-          !  X(3,IS)=X(3,IS)+TZ
-          !ENDDO
+
           CALL transform_translate_in_local_skew(
      .                 IGRNOD(IGS)%ENTITY ,IGRNOD(IGS)%NENTITY ,X    ,NUMNOD   , ISK  ,
      .                 TX                 ,TY                  ,TZ   ,SKEW     , LSKEW,
