@@ -301,9 +301,9 @@ c-----------------------------------------------------------------------
 1200  FORMAT('      TARGET MAX INTERNAL ENERGY = ',1PE12.5,/
      .       '      CURRENT INTERNAL ENERGY AFTER TMIN and TDELAY = ',1PE12.5)
 1300  FORMAT('      TARGET MIN KINETIC ENERGY = ',1PE12.5,/
-     .       '      CURRENT INTERNAL ENERGY AFTER TMIN and TDELAY = ',1PE12.5)
+     .       '      CURRENT KINETIC ENERGY AFTER TMIN and TDELAY = ',1PE12.5)
 1400  FORMAT('      TARGET MAX KINETIC ENERGY = ',1PE12.5,/
-     .       '      CURRENT INTERNAL ENERGY AFTER TMIN and TDELAY = ',1PE12.5)
+     .       '      CURRENT KINETIC ENERGY AFTER TMIN and TDELAY = ',1PE12.5)
 2100  FORMAT('      CONSTANT INT ENERGY = ',1PE12.5,', MEAN = ',1PE12.5)           
 2200  FORMAT('      CONSTANT KIN ENERGY = ',1PE12.5,', MEAN = ',1PE12.5)           
 c----------------------------------------------------------
