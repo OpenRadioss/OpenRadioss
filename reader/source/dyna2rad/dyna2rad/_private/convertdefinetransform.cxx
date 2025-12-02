@@ -292,13 +292,6 @@ void sdiD2R::ConvertDefineTransform::ConvertSelectedEntity(int defineTransformId
              transformEdit.SetValue(sdiIdentifier("scalefactor_x"), sdiValue(a1));
              transformEdit.SetValue(sdiIdentifier("scalefactor_y"), sdiValue(a2));
              transformEdit.SetValue(sdiIdentifier("scalefactor_z"), sdiValue(a3));
-
-             HandleNodeEdit nodeHEdit;
-             sdiTriple centroid(0.0, 0.0, 0.0);
-             p_radiossModel->CreateNode(nodeHEdit, "/NODE", centroid);
-             if (nodeHEdit.IsValid())
-                 transformEdit.SetValue(sdiIdentifier("node1"), sdiValue(sdiValueEntity(1, nodeHEdit.GetId(p_radiossModel))));
-
          }
          else if (OPTION == "MIRROR" )
          {

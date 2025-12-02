@@ -12114,6 +12114,7 @@ void ConvertMat::p_ConvertEOS1(const EntityRead& lsdEosEntRead, sdiString& destC
     p_ConvertUtils.CopyValue(lsdEosEntRead, radEosEdit, "C3", "C3");
     p_ConvertUtils.CopyValue(lsdEosEntRead, radEosEdit, "C4", "C4");
     p_ConvertUtils.CopyValue(lsdEosEntRead, radEosEdit, "C5", "C5");
+    p_ConvertUtils.CopyValue(lsdEosEntRead, radEosEdit, "C6", "C6");
     p_ConvertUtils.CopyValue(lsdEosEntRead, radEosEdit, "E0", "MAT_EA");
 
     double lsdV0;

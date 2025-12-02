@@ -325,6 +325,11 @@ void ConvertProp::p_ConvertPropBasedOnCard(const EntityRead& dynaProp, const sdi
                     destCard = "/PROP/TYPE14";
                     isolid = 1;
                 }
+                else if (elform == 13 && (matCard.find("*MAT_OGDEN_RUBBER") != string::npos || matCard.find("*MAT_077_O") != string::npos))
+                {
+                    destCard = "/PROP/TYPE14";
+                    isolid = 24;
+                }
                 else if ((matCard.find("*MAT_SPOTWELD") != string::npos) || 
                          (matCard.find("*MAT_ARUP_ADHESIVE") != string::npos) ||
                          (matCard.find("*MAT_COHESIVE_MIXED_MODE_ELASTOPLASTIC_RATE") != string::npos) ||
@@ -454,6 +459,10 @@ void ConvertProp::p_ConvertPropBasedOnCard(const EntityRead& dynaProp, const sdi
                     {
                         radPropEdit.SetValue(sdiIdentifier("Ismstr"), sdiValue(10));
                     }
+                }
+                else if (elform == 13 && (matCard.find("*MAT_OGDEN_RUBBER") != string::npos || matCard.find("*MAT_077_O") != string::npos))
+                {
+                    radPropEdit.SetValue(sdiIdentifier("Itetra4"), sdiValue(3));
                 }
             }
             else if (keyword == "*SECTION_SEATBELT")
