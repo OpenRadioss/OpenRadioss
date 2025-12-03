@@ -100,9 +100,8 @@ C INITIALIZATION : CALL DT%INIT_IDEL_BRICK()
 !||    freform           ../engine/source/input/freform.F
 !||====================================================================
           SUBROUTINE INIT_IDEL_BRICK(THIS)
+            use constant_mod, only: ZERO
             IMPLICIT NONE
-#include    "constant.inc" 
-           
             TYPE (DT_), INTENT(INOUT) :: THIS
 
             THIS%IDEL_BRICK = 0
