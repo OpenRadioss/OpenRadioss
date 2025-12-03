@@ -27,8 +27,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- calls      -----------------------------------------------------
 !||    ancmsg                 ../starter/source/output/message/message.F
 !||    i7trivox1              ../starter/source/interfaces/inter3d1/i7trivox1.F
+!||    margin_reduction       ../starter/source/interfaces/inter3d1/margin.F90
 !||--- uses       -----------------------------------------------------
 !||    front_mod              ../starter/share/modules1/front_mod.F
+!||    margin_reduction_mod   ../starter/source/interfaces/inter3d1/margin.F90
 !||    message_mod            ../starter/share/message_module/message_mod.F
 !||    tri7box                ../starter/share/modules1/tri7box.F
 !||====================================================================

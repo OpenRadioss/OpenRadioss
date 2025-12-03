@@ -28,7 +28,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    ancmsg                 ../starter/source/output/message/message.F
 !||    i25trivox1             ../starter/source/interfaces/inter3d1/i25trivox1.F
 !||    insol25                ../starter/source/interfaces/inter3d1/i25buc_vox1.F
+!||    margin_reduction       ../starter/source/interfaces/inter3d1/margin.F90
 !||--- uses       -----------------------------------------------------
+!||    margin_reduction_mod   ../starter/source/interfaces/inter3d1/margin.F90
 !||    message_mod            ../starter/share/message_module/message_mod.F
 !||    tri7box                ../starter/share/modules1/tri7box.F
 !||====================================================================

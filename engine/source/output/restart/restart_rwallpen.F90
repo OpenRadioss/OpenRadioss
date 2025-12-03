@@ -1,9 +1,18 @@
 !||====================================================================
+!||    restart_rwallpen_mod   ../engine/source/output/restart/restart_rwallpen.F90
+!||--- called by ------------------------------------------------------
+!||    rdresb                 ../engine/source/output/restart/rdresb.F
+!||    wrrestp                ../engine/source/output/restart/wrrestp.F
+!||====================================================================
       module restart_rwallpen_mod
       implicit none
       contains
 ! ----------------------------------------------------------------------------------------------------------------------
         !! \brief get the number of penalty formulation of rwall
+!||====================================================================
+!||    get_nrwallpen_l   ../engine/source/output/restart/restart_rwallpen.F90
+!||--- called by ------------------------------------------------------
+!||    rdresb            ../engine/source/output/restart/rdresb.F
 !||====================================================================
         subroutine get_nrwallpen_l(nrwall,nrwalll,irwall,nrwallpen,nrwallpen_l)
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -43,6 +52,15 @@
 ! ----------------------------------------------------------------------------------------------------------------------
         !! \brief read internal arrays used for rwall penalty
 !||====================================================================
+!||    read_rrwallpen       ../engine/source/output/restart/restart_rwallpen.F90
+!||--- called by ------------------------------------------------------
+!||    rdresb               ../engine/source/output/restart/rdresb.F
+!||--- calls      -----------------------------------------------------
+!||    allocate_rwall_pen   ../common_source/modules/constraints/rwall_mod.F90
+!||    read_db              ../common_source/tools/input_output/read_db.F
+!||--- uses       -----------------------------------------------------
+!||    rwall_mod            ../common_source/modules/constraints/rwall_mod.F90
+!||====================================================================
         subroutine read_rrwallpen(nrwallpen,rwallpen,nrwallpen_l)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
@@ -76,6 +94,14 @@
         end subroutine read_rrwallpen
 ! ----------------------------------------------------------------------------------------------------------------------
         !! \brief write internal arrays used for rwall penalty
+!||====================================================================
+!||    write_rrwallpen   ../engine/source/output/restart/restart_rwallpen.F90
+!||--- called by ------------------------------------------------------
+!||    wrrestp           ../engine/source/output/restart/wrrestp.F
+!||--- calls      -----------------------------------------------------
+!||    write_db          ../common_source/tools/input_output/write_db.F
+!||--- uses       -----------------------------------------------------
+!||    rwall_mod         ../common_source/modules/constraints/rwall_mod.F90
 !||====================================================================
         subroutine write_rrwallpen(nrwallpen,rwallpen,nrwallpen_l)
 ! ----------------------------------------------------------------------------------------------------------------------

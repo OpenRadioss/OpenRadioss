@@ -20,12 +20,25 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+!||====================================================================
+!||    margin_reduction_mod   ../starter/source/interfaces/inter3d1/margin.F90
+!||--- called by ------------------------------------------------------
+!||    i25buc_vox1            ../starter/source/interfaces/inter3d1/i25buc_vox1.F
+!||    i7buc_vox1             ../starter/source/interfaces/inter3d1/i7buc_vox1.F
+!||====================================================================
             module margin_reduction_mod
         implicit none
       contains
 ! ======================================================================================================================
 !                                                   procedures
 ! ======================================================================================================================
+!||====================================================================
+!||    margin_reduction   ../starter/source/interfaces/inter3d1/margin.F90
+!||--- called by ------------------------------------------------------
+!||    i25buc_vox1        ../starter/source/interfaces/inter3d1/i25buc_vox1.F
+!||    i7buc_vox1         ../starter/source/interfaces/inter3d1/i7buc_vox1.F
+!||--- uses       -----------------------------------------------------
+!||====================================================================
         subroutine margin_reduction(X,NUMNOD,IRECT,NRTM,NSV,NSN,DRAD,GAP,DGAPLOAD,BUMULT,DD0)                                                                           
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules

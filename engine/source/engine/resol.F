@@ -298,6 +298,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    renum_siz                                    ../engine/source/interfaces/interf/renum_siz.F
 !||    resol_init                                   ../engine/source/engine/resol_init.F
 !||    rgwal0                                       ../engine/source/constraints/general/rwall/rgwal0.F
+!||    rgwal0_pen                                   ../engine/source/constraints/general/rwall/rgwall_pen.F90
 !||    rgwalf                                       ../engine/source/constraints/general/rwall/rgwal0.F
 !||    rivet1                                       ../engine/source/elements/rivet/rivet1.F
 !||    rlink10                                      ../engine/source/constraints/general/rlink/rlink10.F
@@ -527,6 +528,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    remesh_mod                                   ../engine/share/modules/remesh_mod.F
 !||    resolsav_mod                                 ../engine/share/modules/resol_mod.F
 !||    rigmat_mod                                   ../engine/share/modules/rigmat_mod.F
+!||    rwall_mod                                    ../common_source/modules/constraints/rwall_mod.F90
+!||    rwall_pen_mod                                ../engine/source/constraints/general/rwall/rgwall_pen.F90
 !||    seatbelt_mod                                 ../common_source/modules/seatbelt_mod.F
 !||    segvar_mod                                   ../engine/share/modules/segvar_mod.F
 !||    sensor_mod                                   ../common_source/modules/sensor_mod.F90

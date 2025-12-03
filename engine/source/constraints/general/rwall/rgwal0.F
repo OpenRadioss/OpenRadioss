@@ -432,6 +432,7 @@ C
 !||--- called by ------------------------------------------------------
 !||    rgwal0       ../engine/source/constraints/general/rwall/rgwal0.F
 !||    rgwal0_imp   ../engine/source/constraints/general/rwall/rgwal0.F
+!||    rgwal0_pen   ../engine/source/constraints/general/rwall/rgwall_pen.F90
 !||====================================================================
       SUBROUTINE RGWALT(MSR ,RWL,FRWL6,PMAIN,FSAV,
      2                  FOPT,FBSAV6,IPARSENS)

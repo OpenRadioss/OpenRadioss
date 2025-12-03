@@ -21,6 +21,10 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
+!||    init_rwall_penalty_mod   ../starter/source/constraints/general/rwall/init_rwall_penalty.F90
+!||--- called by ------------------------------------------------------
+!||    initia                   ../starter/source/elements/initia/initia.F
+!||====================================================================
       module init_rwall_penalty_mod
 
       implicit none
@@ -29,6 +33,12 @@
 !=======================================================================================================================
 !!\brief This subroutine do the initialization of stiffness for Rwall penalty
 !=======================================================================================================================
+!||====================================================================
+!||    init_rwall_penalty   ../starter/source/constraints/general/rwall/init_rwall_penalty.F90
+!||--- called by ------------------------------------------------------
+!||    initia               ../starter/source/elements/initia/initia.F
+!||--- uses       -----------------------------------------------------
+!||====================================================================
         subroutine init_rwall_penalty(elbuf_tab,                                 &
                    numnod,  nparg,  ngroup,  iparg,   nummat,                    &
                    nrwall,  nnprw,    nprw,   lprw,    slprw,                    &

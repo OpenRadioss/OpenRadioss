@@ -233,6 +233,7 @@
 !||    init_inivol                         ../starter/source/initial_conditions/inivol/init_inivol.F90
 !||    init_inivol_2d_polygons             ../starter/source/initial_conditions/inivol/init_inivol_2D_polygons.F90
 !||    init_mat_keyword                    ../starter/source/materials/mat/init_mat_keyword.F
+!||    init_rwall_penalty                  ../starter/source/constraints/general/rwall/init_rwall_penalty.F90
 !||    initia                              ../starter/source/elements/initia/initia.F
 !||    initwg                              ../starter/source/spmd/domain_decomposition/initwg.F
 !||    initwg_shell                        ../starter/source/spmd/domain_decomposition/initwg_shell.F

@@ -22,6 +22,23 @@
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !===================================================================================================
 
+!||====================================================================
+!||    rwall_mod         ../common_source/modules/constraints/rwall_mod.F90
+!||--- called by ------------------------------------------------------
+!||    radioss2          ../engine/source/engine/radioss2.F
+!||    rdcomi            ../engine/source/output/restart/rdcomm.F
+!||    rdresa            ../engine/source/output/restart/rdresa.F
+!||    rdresb            ../engine/source/output/restart/rdresb.F
+!||    read_rrwallpen    ../engine/source/output/restart/restart_rwallpen.F90
+!||    resol             ../engine/source/engine/resol.F
+!||    resol_head        ../engine/source/engine/resol_head.F
+!||    restalloc         ../engine/source/output/restart/arralloc.F
+!||    rgwal0_pen        ../engine/source/constraints/general/rwall/rgwall_pen.F90
+!||    write_rrwallpen   ../engine/source/output/restart/restart_rwallpen.F90
+!||    wrrestp           ../engine/source/output/restart/wrrestp.F
+!||--- uses       -----------------------------------------------------
+!||    precision_mod     ../common_source/modules/precision_mod.F90
+!||====================================================================
       module rwall_mod
         use precision_mod, only: WP
         implicit none
@@ -85,6 +102,14 @@
 
         !! \brief allocate rwall type
 !===================================================================================================
+!||====================================================================
+!||    allocate_rwall   ../common_source/modules/constraints/rwall_mod.F90
+!||--- called by ------------------------------------------------------
+!||    restalloc        ../engine/source/output/restart/arralloc.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||    my_alloc_mod     ../common_source/tools/memory/my_alloc.F90
+!||====================================================================
         subroutine allocate_rwall( rwall,nspmd )
           use my_alloc_mod
           implicit none
@@ -103,6 +128,13 @@
           rwall%fr_wall = 0
         end subroutine allocate_rwall
         !! \brief allocate rwall%pen type
+!||====================================================================
+!||    allocate_rwall_pen   ../common_source/modules/constraints/rwall_mod.F90
+!||--- called by ------------------------------------------------------
+!||    read_rrwallpen       ../engine/source/output/restart/restart_rwallpen.F90
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||    my_alloc_mod         ../common_source/tools/memory/my_alloc.F90
 !||====================================================================
         subroutine allocate_rwall_pen(rwallpen,npen)
           use my_alloc_mod

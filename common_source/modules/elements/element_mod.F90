@@ -637,6 +637,7 @@
 !||    init_link_spmd                      ../engine/source/coupling/rad2rad/r2r_init.F
 !||    init_monvol                         ../starter/source/airbag/init_monvol.F
 !||    init_nodal_state                    ../engine/source/interfaces/interf/init_nodal_state.F
+!||    init_rwall_penalty                  ../starter/source/constraints/general/rwall/init_rwall_penalty.F90
 !||    init_th                             ../engine/source/output/th/init_th.F
 !||    init_th0                            ../engine/source/output/th/init_th0.F
 !||    initia                              ../starter/source/elements/initia/initia.F

@@ -28,6 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    alefvm_init             ../engine/source/ale/alefvm/alefvm_init.F
 !||    allocate_nodal_arrays   ../common_source/modules/nodal_arrays.F90
 !||    allocate_rbe3           ../common_source/modules/constraints/rbe3_mod.F90
+!||    allocate_rwall          ../common_source/modules/constraints/rwall_mod.F90
 !||    ancmsg                  ../engine/source/output/message/message.F
 !||    arret                   ../engine/source/system/arret.F
 !||    intstamp_zero           ../engine/share/modules/intstamp_mod.F
@@ -60,6 +61,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    pinchtype_mod           ../common_source/modules/pinchtype_mod.F
 !||    rbe3_mod                ../common_source/modules/constraints/rbe3_mod.F90
 !||    restmod                 ../engine/share/modules/restart_mod.F
+!||    rwall_mod               ../common_source/modules/constraints/rwall_mod.F90
 !||    seatbelt_mod            ../common_source/modules/seatbelt_mod.F
 !||    segvar_mod              ../engine/share/modules/segvar_mod.F
 !||    skew_mod                ../common_source/modules/skew_mod.F90

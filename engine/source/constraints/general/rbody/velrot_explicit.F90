@@ -26,6 +26,7 @@
 !||    rbe2v1                ../engine/source/constraints/general/rbe2/rbe2v.F
 !||    rbe2vl1               ../engine/source/constraints/general/rbe2/rbe2v.F
 !||    rgbodv                ../engine/source/constraints/general/rbody/rgbodv.F
+!||    rwall_fpen            ../engine/source/constraints/general/rwall/rgwall_pen.F90
 !||====================================================================
       module velrot_explicit_mod
 
@@ -109,6 +110,7 @@
 !||====================================================================
 !||    cross_product     ../engine/source/constraints/general/rbody/velrot_explicit.F90
 !||--- called by ------------------------------------------------------
+!||    rwall_fpen        ../engine/source/constraints/general/rwall/rgwall_pen.F90
 !||    velrot_explicit   ../engine/source/constraints/general/rbody/velrot_explicit.F90
 !||--- uses       -----------------------------------------------------
 !||    precision_mod     ../common_source/modules/precision_mod.F90

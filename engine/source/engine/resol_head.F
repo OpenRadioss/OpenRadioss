@@ -58,6 +58,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    python_funct_mod       ../common_source/modules/python_mod.F90
 !||    rbe3_mod               ../common_source/modules/constraints/rbe3_mod.F90
 !||    restmod                ../engine/share/modules/restart_mod.F
+!||    rwall_mod              ../common_source/modules/constraints/rwall_mod.F90
 !||    segvar_mod             ../engine/share/modules/segvar_mod.F
 !||    sensor_mod             ../common_source/modules/sensor_mod.F90
 !||    skew_mod               ../common_source/modules/skew_mod.F90

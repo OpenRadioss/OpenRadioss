@@ -125,6 +125,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    rad2r_mod                    ../engine/share/modules/rad2r.F
 !||    rbe3_mod                     ../common_source/modules/constraints/rbe3_mod.F90
 !||    restmod                      ../engine/share/modules/restart_mod.F
+!||    rwall_mod                    ../common_source/modules/constraints/rwall_mod.F90
 !||    scratchfile_mod              ../engine/share/modules/scratchfiles_mod.F
 !||    segvar_mod                   ../engine/share/modules/segvar_mod.F
 !||    sensor_mod                   ../common_source/modules/sensor_mod.F90

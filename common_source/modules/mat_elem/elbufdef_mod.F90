@@ -338,6 +338,7 @@
 !||    inirig_mat                          ../starter/source/elements/initia/inirig_mat.F
 !||    init_inivol                         ../starter/source/initial_conditions/inivol/init_inivol.F90
 !||    init_inivol_2d_polygons             ../starter/source/initial_conditions/inivol/init_inivol_2D_polygons.F90
+!||    init_rwall_penalty                  ../starter/source/constraints/general/rwall/init_rwall_penalty.F90
 !||    init_th                             ../engine/source/output/th/init_th.F
 !||    init_th0                            ../engine/source/output/th/init_th0.F
 !||    initemp_shell                       ../starter/source/materials/therm/initemp_shell.F90

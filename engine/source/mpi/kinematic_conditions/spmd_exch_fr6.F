@@ -33,6 +33,7 @@ C
 !||    rbypid                ../engine/source/constraints/general/rbody/rbypid.F
 !||    rgwal0                ../engine/source/constraints/general/rwall/rgwal0.F
 !||    rgwal0_imp            ../engine/source/constraints/general/rwall/rgwal0.F
+!||    rgwal0_pen            ../engine/source/constraints/general/rwall/rgwall_pen.F90
 !||    rgwath                ../engine/source/interfaces/int09/rgwath.F
 !||    rlink0                ../engine/source/constraints/general/rlink/rlink0.F
 !||    rlink10               ../engine/source/constraints/general/rlink/rlink10.F

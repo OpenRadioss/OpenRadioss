@@ -1,9 +1,29 @@
+!||====================================================================
+!||    rwall_pen_mod   ../engine/source/constraints/general/rwall/rgwall_pen.F90
+!||--- called by ------------------------------------------------------
+!||    resol           ../engine/source/engine/resol.F
+!||====================================================================
       module rwall_pen_mod
       implicit none
       contains
 ! ======================================================================================================================
 ! \brief penalty formulation of rwall 
 ! ======================================================================================================================
+!||====================================================================
+!||    rgwal0_pen      ../engine/source/constraints/general/rwall/rgwall_pen.F90
+!||--- called by ------------------------------------------------------
+!||    resol           ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||    my_barrier      ../engine/source/system/machine.F
+!||    rgwalt          ../engine/source/constraints/general/rwall/rgwal0.F
+!||    rwall_fpen      ../engine/source/constraints/general/rwall/rgwall_pen.F90
+!||    spmd_exch_fr6   ../engine/source/mpi/kinematic_conditions/spmd_exch_fr6.F
+!||--- uses       -----------------------------------------------------
+!||    constant_mod    ../common_source/modules/constant_mod.F
+!||    my_alloc_mod    ../common_source/tools/memory/my_alloc.F90
+!||    precision_mod   ../common_source/modules/precision_mod.F90
+!||    rwall_mod       ../common_source/modules/constraints/rwall_mod.F90
+!||====================================================================
       subroutine rgwal0_pen(x          ,a           ,v        ,ms        ,numnod    ,    &
                             fsav       ,nfsav       ,frwl6    ,weight_md ,ncycle    ,    &
                             fopt       ,dimfb       ,fbsav6   ,stabsens  ,tablesensor,   &
@@ -160,6 +180,20 @@
 ! ======================================================================================================================
 ! \brief penalty forces of rwall 
 ! ======================================================================================================================
+!||====================================================================
+!||    rwall_fpen            ../engine/source/constraints/general/rwall/rgwall_pen.F90
+!||--- called by ------------------------------------------------------
+!||    rgwal0_pen            ../engine/source/constraints/general/rwall/rgwall_pen.F90
+!||--- calls      -----------------------------------------------------
+!||    cross_product         ../engine/source/constraints/general/rbody/velrot_explicit.F90
+!||    my_barrier            ../engine/source/system/machine.F
+!||    sum_6_float           ../engine/source/system/parit.F
+!||--- uses       -----------------------------------------------------
+!||    constant_mod          ../common_source/modules/constant_mod.F
+!||    my_alloc_mod          ../common_source/tools/memory/my_alloc.F90
+!||    precision_mod         ../common_source/modules/precision_mod.F90
+!||    velrot_explicit_mod   ../engine/source/constraints/general/rbody/velrot_explicit.F90
+!||====================================================================
       subroutine rwall_fpen(x       ,a      ,v      ,itype   ,              &
                             nsw     ,nsn    ,itied  ,msr     ,              &
                             ms      ,rwl    ,nrwl   ,rwsav   ,              &
