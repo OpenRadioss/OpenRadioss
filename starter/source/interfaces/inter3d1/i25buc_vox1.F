@@ -184,7 +184,7 @@ C     TAILLE ZINF = .1*TAILLE MOYENNE ELEMENT DE CHAQUE COTE
 C     TAILLE BUCKET MIN = TZINF  * BUMULT
       DD0=DD/NRTM/FOUR
       IF(NRTM > 0 .AND. NRTM <= 3) THEN
-        call margin_reduction(X,NUMNOD,IRECT,NRTM,NSV,NSN,DRAD,GAP,DGAPLOAD,BUMULT,DD0)
+        call margin_reduction(X,NUMNOD,IRECT,NRTM,NSV,NSN,DRAD,GAP,DGAPLOAD,BUMULT,STFN,DD0)
 ! special case for floor and wall with only one element
 ! the margin may be too large when a wall is modeled with only one element
       END IF

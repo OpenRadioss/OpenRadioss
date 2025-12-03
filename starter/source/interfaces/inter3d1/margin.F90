@@ -26,7 +26,7 @@
 !||    i25buc_vox1            ../starter/source/interfaces/inter3d1/i25buc_vox1.F
 !||    i7buc_vox1             ../starter/source/interfaces/inter3d1/i7buc_vox1.F
 !||====================================================================
-            module margin_reduction_mod
+      module margin_reduction_mod
         implicit none
       contains
 ! ======================================================================================================================
@@ -39,12 +39,12 @@
 !||    i7buc_vox1         ../starter/source/interfaces/inter3d1/i7buc_vox1.F
 !||--- uses       -----------------------------------------------------
 !||====================================================================
-        subroutine margin_reduction(X,NUMNOD,IRECT,NRTM,NSV,NSN,DRAD,GAP,DGAPLOAD,BUMULT,DD0)                                                                           
+        subroutine margin_reduction(X,NUMNOD,IRECT,NRTM,NSV,NSN,DRAD,GAP,DGAPLOAD,BUMULT,STIFN,DD0)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
-            use constant_mod, only : FOUR
-            use precision_mod, only : WP
+          use constant_mod, only : FOUR
+          use precision_mod, only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -54,9 +54,10 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           integer, intent(in) :: NRTM !< number of main segment
           integer, intent(in) :: nsn !< number of S nodes
-          integer, intent(in) :: numnod !< number of nodes  
+          integer, intent(in) :: numnod !< number of nodes
           integer, intent(in) :: NSV(nsn) !< S nodes
           real(kind=WP), intent(in) :: X(3,NUMNOD) !< coordinates of the nodes
+          real(kind=WP), intent(in) :: STIFN(nsn) !< stiffness of the interface
           integer, intent(in) :: IRECT(4,NRTM) !< nodes of the main segments
           real(kind=WP), intent(in) :: DRAD !< radiation length
           real(kind=WP), intent(in) :: DGAPLOAD !< gap load
@@ -113,11 +114,11 @@
           j = irect(2,k)
           xmin_basis = min(xmin_basis, x(1,j)); xmax_basis = max(xmax_basis, x(1,j))
           ymin_basis = min(ymin_basis, x(2,j)); ymax_basis = max(ymax_basis, x(2,j))
-          zmin_basis = min(zmin_basis, x(3,j)); zmax_basis = max(zmax_basis, x(3,j)) 
+          zmin_basis = min(zmin_basis, x(3,j)); zmax_basis = max(zmax_basis, x(3,j))
           j = irect(3,k)
           xmin_basis = min(xmin_basis, x(1,j)); xmax_basis = max(xmax_basis, x(1,j))
           ymin_basis = min(ymin_basis, x(2,j)); ymax_basis = max(ymax_basis, x(2,j))
-          zmin_basis = min(zmin_basis, x(3,j)); zmax_basis = max(zmax_basis, x(3,j)) 
+          zmin_basis = min(zmin_basis, x(3,j)); zmax_basis = max(zmax_basis, x(3,j))
           j = irect(4,k)
           xmin_basis = min(xmin_basis, x(1,j)); xmax_basis = max(xmax_basis, x(1,j))
           ymin_basis = min(ymin_basis, x(2,j)); ymax_basis = max(ymax_basis, x(2,j))
@@ -125,28 +126,29 @@
           xmax = xmax_basis + max(gap+dgapload,drad)
           ymax = ymax_basis + max(gap+dgapload,drad)
           zmax = zmax_basis + max(gap+dgapload,drad)
-          xmin = xmin_basis - max(gap+dgapload,drad)  
+          xmin = xmin_basis - max(gap+dgapload,drad)
           ymin = ymin_basis - max(gap+dgapload,drad)
           zmin = zmin_basis - max(gap+dgapload,drad)
           candidate_count = 0
           do  i=1,nsn
             j=nsv(i)
+            if(stifn(i) == 0.0_wp) cycle
             ! count the number of nsn within the box defined by xmin, xmax, ymin, ymax, zmin, zmax
             if( x(1,j) >= xmin .and. x(1,j) <= xmax&
-         .and. x(2,j) >= ymin .and. x(2,j) <= ymax& 
-         .and. x(3,j) >= zmin .and. x(3,j) <= zmax ) then
-               candidate_count = candidate_count + 1
+              .and. x(2,j) >= ymin .and. x(2,j) <= ymax&
+              .and. x(3,j) >= zmin .and. x(3,j) <= zmax ) then
+              candidate_count = candidate_count + 1
             end if
           enddo
           min_candidate_count = candidate_count
- 
+
 
           candidate_count = nsn
           do while(candidate_count > max(1000 + min_candidate_count, nsn/100))
             xmax = xmax_basis + bumult*dd0 + max(gap+dgapload,drad)
             ymax = ymax_basis + bumult*dd0 + max(gap+dgapload,drad)
             zmax = zmax_basis + bumult*dd0 + max(gap+dgapload,drad)
-            xmin = xmin_basis - bumult*dd0 - max(gap+dgapload,drad)  
+            xmin = xmin_basis - bumult*dd0 - max(gap+dgapload,drad)
             ymin = ymin_basis - bumult*dd0 - max(gap+dgapload,drad)
             zmin = zmin_basis - bumult*dd0 - max(gap+dgapload,drad)
             candidate_count = 0
@@ -154,18 +156,18 @@
               j=nsv(i)
               ! count the number of nsn within the box defined by xmin, xmax, ymin, ymax, zmin, zmax
               if( x(1,j) >= xmin .and. x(1,j) <= xmax&
-           .and. x(2,j) >= ymin .and. x(2,j) <= ymax& 
-           .and. x(3,j) >= zmin .and. x(3,j) <= zmax ) then
-                 candidate_count = candidate_count + 1
+                .and. x(2,j) >= ymin .and. x(2,j) <= ymax&
+                .and. x(3,j) >= zmin .and. x(3,j) <= zmax ) then
+                candidate_count = candidate_count + 1
               end if
             enddo
             if(candidate_count <= max(1000 + min_candidate_count, nsn/100)) exit
             dd0 = dd0 * 0.75
             write(6,*) "reduction of margin for single element interface, new margin size: ", bumult*dd0, candidate_count,nsn
-            if(dd0 < (dsav*0.001)) exit ! avoid too small margin 
+            if(dd0 < (dsav*0.001)) exit ! avoid too small margin
           enddo
           deallocate(volume)
 
 
         end subroutine margin_reduction
-        end module margin_reduction_mod
+      end module margin_reduction_mod
