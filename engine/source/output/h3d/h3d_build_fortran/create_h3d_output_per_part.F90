@@ -132,13 +132,7 @@
               if(index > 0) then
                 do i=1,igrpart(index)%nentity
                   k = igrpart(index)%entity(i)  ! get the part id from the group
-                  ! find the part with this id
-                  do m=1,npart
-                    if (ipart(4,m) == k) then
-                      h3d_data%output_list(h3d_data%n_outp_h3d)%part(m) = 1
-                      exit
-                    end if
-                  end do
+                  h3d_data%output_list(h3d_data%n_outp_h3d)%part(k) = 1
                 end do
               end if
             end if
