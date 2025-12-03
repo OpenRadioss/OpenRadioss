@@ -1181,9 +1181,8 @@ C
 !||====================================================================
       SUBROUTINE CHECKAXES(TRAN1,TRAN2,AMIN,AMAX,UNCHANGED,TOL)
 C----------------------------------------------------------------
+      use constant_mod, only : ZERO, ONE
       IMPLICIT NONE
-#include      "constant.inc"
-
       my_real
      . TRAN1(3,3),TRAN2(3,3),ANG(3),AMAX,TOL,AMIN
       INTEGER J,K

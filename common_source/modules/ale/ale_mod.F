@@ -260,8 +260,8 @@ C-----------------------------------------------
         subroutine init(this)
           !initialization is done : - during Starter before reading Starter input file
           !                         - during Engine before reading Restart file and Engine input file.
+          use constant_mod
           implicit none
-#include "constant.inc"
           class(ALE_), intent(inout) :: this
           !---ALE%GRID
           this%GRID%ALPHA = ZERO
