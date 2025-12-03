@@ -149,6 +149,7 @@ c     insolv=1 =>  (elast) Newton modified
 c     insolv=2,3 =>  BFGS
 c     insolv=4,5 =>  elastoplastic
 C------------------------------------------
+      FR = 0 ! was not always initialized before use
 C------------------------------------------
 C------------------------------------------
 C     [K]:stiffness matrix [M]:preconditioning matrix
