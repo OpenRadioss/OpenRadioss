@@ -299,8 +299,8 @@ void sdiD2R::ConvertRigid::ConvertConstrainedExtraNodes()
 
                     HandleRead dynaNODEIDHRead;
                     dynapartHread.GetEntityHandle(p_lsdynaModel, sdiIdentifier("NODEID"), dynaNODEIDHRead);
-                    EntityRead dynaNODEIDRead(p_lsdynaModel, dynaNODEIDHRead);
-
+                    EntityRead dynaNODEIDRead;
+                    if(dynaNODEIDHRead.IsValid()) dynaNODEIDRead = EntityRead(p_lsdynaModel, dynaNODEIDHRead);
                     if(slaveAttName == "NID")
                     {
                         if(slaveEntityId  == dynaNODEIDRead.GetId() &&
