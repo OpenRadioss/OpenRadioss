@@ -117,8 +117,8 @@ C-----------------------------------------------
 !||====================================================================
       SUBROUTINE SEGVAR_CREATE(this,NBMAT)
       USE ALE_MOD      
+      USE constant_mod, ONLY: ZERO
       IMPLICIT NONE
-#include "constant.inc"       
 #include "../includes/com04_c.inc" 
       CLASS(T_SEGVAR), INTENT(INOUT) :: this
        INTEGER,INTENT(IN) :: NBMAT
