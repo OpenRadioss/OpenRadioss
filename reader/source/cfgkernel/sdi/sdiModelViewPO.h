@@ -1672,7 +1672,14 @@ public:
             }
             pObj->SetIntValue(idIndex, elementIndex, aNodeId[i]);
         }
-
+        // Initialize remaining node IDs to 0 if element has fewer nodes than array size
+        for (int k = aNodeId.size(); k < 20; ++k) {
+            sdiString nodeId = "node_ID" + std::to_string(k + 1);
+            int nodeIndex = pObj->GetIndex(IMECPreObject::ATY_ARRAY, IMECPreObject::VTY_INT, nodeId);
+            if (nodeIndex >= 0) {
+                pObj->SetIntValue(nodeIndex, elementIndex, 0);
+            }
+        }
 
         handle = HandleElementEdit(type, (unsigned int) p_preobjects[HCDI_OBJ_TYPE_ELEMS].size()-1, elementIndex);
         
