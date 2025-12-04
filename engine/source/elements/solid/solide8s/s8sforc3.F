@@ -565,7 +565,7 @@ C
      4   AJP9(1,IP),AJI1(1,IP),AJI2(1,IP),AJI3(1,IP),
      5   AJI4(1,IP),AJI5(1,IP),AJI6(1,IP),AJI7(1,IP),
      6   AJI8(1,IP),AJI9(1,IP),NNEGA,     INDEX,
-     7   IP,        NEL)
+     7   IP    ,NEL       ,MSTOP )
         ENDDO  ! IT=1,NPTT
        ENDDO   ! IS=1,NPTS
       ENDDO    ! IR=1,NPTR
@@ -608,12 +608,12 @@ C
          ENDDO  ! IT=1,NPTT
         ENDDO   ! IS=1,NPTS
        ENDDO    ! IR=1,NPTR
-       IF (INEG_V ==0) THEN
-C---     /NEGAVOL/STOP       
-           CALL ANCMSG(MSGID=280,ANMODE=ANINFO)
-           MSTOP = 1
-       END IF !(INEG_V /=0) THEN
       END IF
+      IF (INEG_V ==2) THEN
+        DO I=LFT,LLT
+          IF (GBUF%OFF(I)==ZERO) OFFG(I)=ZERO
+        ENDDO
+      END IF 
 C --------------------------
 C  --- UPDATE REF CONFIGURATION (possible future change to small strain option)
 C  --- ! Total strain option doesn't change the Ref CONF.

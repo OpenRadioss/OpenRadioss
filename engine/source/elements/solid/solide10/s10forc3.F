@@ -199,7 +199,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,IP,NF1,NF2,IFLAG,IOFFS,IPTR,IPTS,IPTT,ILAY,IMAT
-      INTEGER IBID,IBIDON(1),ITET,ISM12_11
+      INTEGER IBID,IBIDON(1),ITET,ISM12_11,IOFFG
 C-----
       INTEGER MXT(MVSIZ),NGL(MVSIZ),NGEO(MVSIZ)
       my_real
@@ -497,6 +497,10 @@ C--- for /CST avoid multi-printout----
         ENDDO
        END IF 
       END IF 
+      IOFFG = 0
+      DO I=LFT,LLT
+       IF (GBUF%OFF(I)==ZERO) IOFFG=1
+      ENDDO
 C --------------------------
 C  --- UPDATE REF. CONFIGURATION 
 C --------------------------
@@ -548,6 +552,11 @@ C-----------------------------
          IF (OFFS(I)<=TWO) LBUF%OFF(I)=OFFS(I)
         ENDDO
        END IF
+       IF (IOFFG ==1) THEN
+         DO I=LFT,LLT
+           IF (GBUF%OFF(I)==ZERO) OFF(I)=ZERO
+         ENDDO
+       END IF 
 C
         CALL S10DEFO3(
      1   PX(1,1,IP),PY(1,1,IP),PZ(1,1,IP),VX,

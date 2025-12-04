@@ -471,7 +471,8 @@
         pz1      ,pz2      ,pz3      ,pz4      ,pz5      ,pz6      ,           &
         jac1     ,jac2     ,jac3     ,jac4     ,jac5     ,jac6     ,           &
         vzl      ,volg     ,gbuf%smstr,gbuf%off,nel      ,ismstr   ,           &
-        idel7nok ,ineg_v   ,mstop    ,volmin   ,idtmin   ,voldp             )  
+        idel7nok ,ineg_v   ,mstop    ,volmin   ,idtmin   ,voldp    ,           &
+        jlag )  
 !
 !-------------------------------------------------------------------------------
 !<  Compute element characteristic length and volume change
