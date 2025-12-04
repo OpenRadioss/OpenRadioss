@@ -4123,6 +4123,7 @@ C     .          "  vold=",brick_list(nin,ib)%vold_scell,"  vnew=",brick_list(ni
           Do J=1,6
             FACE                  = BRICK_LIST(NIN,IB)%POLY(9)%FACE(J)%Surf
             NP_(9)                = BRICK_LIST(NIN,IB)%POLY(9)%FACE(J)%NumPOINT
+            CENTER(:,:)           = ZERO
             IF(ABS(FACE)<=EM10 .OR. NP_(9)==0)THEN
               BRICK_LIST(NIN,IB)%POLY(9)%FACE(J)%Center(1:3) = ZERO
             ELSE
@@ -4151,7 +4152,7 @@ C     .          "  vold=",brick_list(nin,ib)%vold_scell,"  vnew=",brick_list(ni
               Point0(3)           = pPOINT(3) + TWO*CUT_point(3) 
      .                              - Np_(1)*Center(3,1)- Np_(2)*Center(3,2)- Np_(3)*Center(3,3)- Np_(4)*Center(3,4)
      .                              - Np_(5)*Center(3,5)- Np_(6)*Center(3,6)- Np_(7)*Center(3,7)- Np_(8)*Center(3,8)   
-              Point0(1:3)         = Point0(1:3) / NP_(9) 
+              Point0(1:3)         = Point0(1:3) / NP_(9)
               BRICK_LIST(NIN,IB)%POLY(9)%FACE(J)%Center(1:3) = Point0(1:3)
               !print *, "poly9 center, ixs(11,IE),  face J  ", ixs(11,IE), J
               !print *, BRICK_LIST(NIN,IB)%POLY(9)%FACE(J)%Center(1:3)     
