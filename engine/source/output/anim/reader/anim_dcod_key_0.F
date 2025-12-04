@@ -64,7 +64,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, IDX, N1, N2, N3, ITYP,IADG, J,NTITLE,IUS,ILAY,IPT
+      INTEGER I, IDX,IDX0,IDX1,IDX2, N1, N2, N3, ITYP,IADG, J,NTITLE,IUS,ILAY,IPT
       my_real X0,Y0,Z0,VNX,VNY,VNZ,V0
       LOGICAL :: LAW51_PHASE1, LAW51_PHASE2, LAW51_PHASE3, LAW51_PHASE4
 C-----------------------------------------------
@@ -2607,19 +2607,63 @@ C--------------------------
          ENDIF
        ELSEIF(KEY3(1:3) == 'VEL' .OR. KEY3(2:4) == 'VEL' )THEN
          IF(KEY3(1:5) == 'VEL  ')THEN
+           ! 3d
            ANIM_SE(4945) =1
            ANIM_SE(4946) =1
            ANIM_SE(4947) =1
            ANIM_SE(4948) =1
            ANIM_SE(4949) =1
            ANIM_SE(4950) =1 
-           ANIM_SE(4951) =1                         
+           ANIM_SE(4951) =1
+           ! 2d
+           IDX0 = 15921 + 4*MX_PLY_ANIM  ! VEL-Y 0:10
+           IDX1 = IDX0+10+1              ! VEL-Z 0:10
+           IDX2 = IDX1+10+1              ! VEL   0:10
+           ANIM_CE(IDX0) = 1
+           ANIM_CE(IDX1) = 1
+           ANIM_CE(IDX2) = 1
+           IF(KEY4(1:2) == '10')THEN
+             ANIM_CE(IDX2+10) = 1
+             ANIM_CE(IDX2+10) = 1
+             ANIM_CE(IDX2+10) = 1
+           ELSEIF(KEY4(1:1) >= '1' .AND. KEY4(1:1) <= '9') THEN
+             ILAY = ICHAR(KEY4(1:1)) - ICHAR('0')
+             ANIM_CE(IDX2+ILAY) = 1
+             ANIM_CE(IDX2+ILAY) = 1
+             ANIM_CE(IDX2+ILAY) = 1
+           ENDIF
          ELSEIF(KEY3(1:5) == 'VELX ')THEN
            ANIM_SE(4945) =1
          ELSEIF(KEY3(1:5) == 'VELY ')THEN
            ANIM_SE(4946) =1
+           IDX0 = 15921 + 4*MX_PLY_ANIM  ! VEL-Y 0:10
+           IDX1 = IDX0+10+1              ! VEL-Z 0:10
+           IDX2 = IDX1+10+1              ! VEL   0:10
+           IF(KEY4(1:2) == '10')THEN
+             ANIM_CE(IDX0+10) = 1
+             ANIM_CE(IDX0+10) = 1
+             ANIM_CE(IDX0+10) = 1
+           ELSEIF(KEY4(1:1) >= '1' .AND. KEY4(1:1) <= '9') THEN
+             ILAY = ICHAR(KEY4(1:1)) - ICHAR('0')
+             ANIM_CE(IDX0+ILAY) = 1
+             ANIM_CE(IDX0+ILAY) = 1
+             ANIM_CE(IDX0+ILAY) = 1
+           ENDIF
          ELSEIF(KEY3(1:5) == 'VELZ ')THEN
            ANIM_SE(4947) =1
+           IDX0 = 15921 + 4*MX_PLY_ANIM  ! VEL-Y 0:10
+           IDX1 = IDX0+10+1              ! VEL-Z 0:10
+           IDX2 = IDX1+10+1              ! VEL   0:10
+           IF(KEY4(1:2) == '10')THEN
+             ANIM_CE(IDX1+10) = 1
+             ANIM_CE(IDX1+10) = 1
+             ANIM_CE(IDX1+10) = 1
+           ELSEIF(KEY4(1:1) >= '1' .AND. KEY4(1:1) <= '9') THEN
+             ILAY = ICHAR(KEY4(1:1)) - ICHAR('0')
+             ANIM_CE(IDX1+ILAY) = 1
+             ANIM_CE(IDX1+ILAY) = 1
+             ANIM_CE(IDX1+ILAY) = 1
+           ENDIF
          ELSEIF(KEY3(1:5) == 'VELXY')THEN
            ANIM_SE(4948) =1
          ELSEIF(KEY3(1:5) == 'VELYZ')THEN
@@ -2722,7 +2766,9 @@ C--------------------------
            ANIM_SE(5173) = 1
          endif
         !ELSEIF()
-        !  IDX = 15899 + 4*MX_PLY_ANIM +22 + 1
+        ! last used index in ANIM_CE   : IDX =  4*MX_PLY_ANIM + 15943
+        ! next availability in ANIM_CE : IDX =  4*MX_PLY_ANIM + 15944
+        ! last introduction            : VEL,VELy and VELZ for ANIM_CE (2d)
        ELSE
          IXITKEY=IXITKEY+1
        ENDIF

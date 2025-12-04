@@ -151,6 +151,7 @@ C-----------------------------------------------
       my_real :: RHOi(21) !< submaterial  mass densities (max submat : 21)
       my_real :: RHO0g !< global initial mass density (mixture)
       LOGICAL detected
+      INTEGER :: IDX0,IDX1,IDX2
 C-----------------------------------------------
       CALL MY_ALLOC(WAL,NBF_L)
       NN1  = 1
@@ -160,6 +161,9 @@ C-----------------------------------------------
       NN6  = NN5 + NUMELTG
       NN9  = NN6 
       ISH_EINT = 13242 + 4*MX_PLY_ANIM + 2
+      IDX0 = 15921 + 4*MX_PLY_ANIM  ! VEL-Y 0:10
+      IDX1 = IDX0+10+1              ! VEL-Z 0:10
+      IDX2 = IDX1+10+1              ! VEL   0:10
       
       !-------------------------------------------------------!
       !     INITIALIZATION IF SCHLIEREN DEFINED               !
@@ -989,7 +993,7 @@ c------------------------------------ Tillotson Region id
                 ENDIF
               ENDIF
 
-c------------------------------------ Volumetric Strain (VSTRAIN)
+c------------------------------------ Volumetric Strain (GLOBAL VSTRAIN)
             elseif(IFUNC == 15899 + 4*MX_PLY_ANIM .and. N2D > 0) then
 !--------------------------------------------------
               DO I=LFT,LLT
@@ -1114,7 +1118,7 @@ c------------------------------------ Volumetric Strain (VSTRAIN)
                 end if
 
               enddo
-c------------------------------------ Volumetric Strain (VSTRAIN)
+c------------------------------------ Volumetric Strain (submaterial VSTRAIN)
             elseif(   IFUNC >= 15899 + 4*MX_PLY_ANIM +1
      .          .and. IFUNC <= 15899 + 4*MX_PLY_ANIM +10
      .          .and. N2D > 0) then
@@ -1192,12 +1196,51 @@ c------------------------------------ Volumetric Strain (VSTRAIN)
                       FUNC(EL2FA(NN3+NFT+I)) = ZERO
                     end if
                 enddo
-
-              end if
-
+            end if
 
 
-c------------------------------------ 
+c------------------------------------ 2D velocity VEL-GLOBAL
+          elseif( IFUNC >= IDX0 .AND. IFUNC <= IDX0+10) then
+            ILAY = IFUNC - IDX0
+            IF(MLW == 151 .AND. ILAY == 0)THEN
+              DO I=LFT,LLT
+                VEL(1) = MULTI_FVM%VEL(1, I + NFT)
+                VEL(2) = MULTI_FVM%VEL(2, I + NFT)
+                VEL(3) = MULTI_FVM%VEL(3, I + NFT)
+                FUNC(EL2FA(NN3+NFT+I)) = SQRT(VEL(1)*VEL(1)+VEL(2)*VEL(2)+VEL(3)*VEL(3))
+              ENDDO
+            ELSE
+              DO I=LFT,LLT
+                FUNC(EL2FA(NN3+NFT+I)) = ZERO
+              ENDDO
+            ENDIF
+c------------------------------------ 2D velocity VEL-Y
+          elseif( IFUNC >= IDX1 .AND. IFUNC <= IDX1+10) then
+            ILAY = IFUNC - IDX1
+            IF(MLW == 151 .AND. ILAY == 0)THEN
+              DO I=LFT,LLT
+                VEL(2) = MULTI_FVM%VEL(2, I + NFT)
+                FUNC(EL2FA(NN3+NFT+I)) = VEL(2)
+              ENDDO
+            ELSE
+              DO I=LFT,LLT
+                FUNC(EL2FA(NN3+NFT+I)) = ZERO
+              ENDDO
+            ENDIF
+c------------------------------------ 2D velocity VEL-Z
+          elseif( IFUNC >= IDX2 .AND. IFUNC <= IDX2+10) then
+            ILAY = IFUNC - IDX2
+            IF(MLW == 151 .AND. ILAY == 0)THEN
+              DO I=LFT,LLT
+                VEL(3) = MULTI_FVM%VEL(3, I + NFT)
+                FUNC(EL2FA(NN3+NFT+I)) = VEL(3)
+              ENDDO
+            ELSE
+              DO I=LFT,LLT
+                FUNC(EL2FA(NN3+NFT+I)) = ZERO
+              ENDDO
+            ENDIF
+c------------------------------------
             ELSE                                                      
               DO  I=LFT,LLT                                           
                 FUNC(EL2FA(NN3+NFT+I)) = ZERO                         
