@@ -55,7 +55,8 @@
         pz1      ,pz2      ,pz3      ,pz4      ,pz5      ,pz6      ,           &
         jacob5   ,jacob6   ,jacob4   ,jacob8   ,jacob9   ,jacob7   ,           &
         vzl      ,volg     ,sav      ,offg     ,nel      ,ismstr   ,           &
-        idel7nok ,ineg_v   ,mstop    ,volmin   ,idtmin   ,voldp)  
+        idel7nok ,ineg_v   ,mstop    ,volmin   ,idtmin   ,voldp    ,           &
+        jlag    )  
 !
 !-------------------------------------------------------------------------------
 !   M o d u l e s
@@ -74,6 +75,7 @@
 !-------------------------------------------------------------------------------
       integer,                       intent(in)    :: ismstr      !< Material strain option flag
       integer,                       intent(in)    :: nel         !< Number of elements
+      integer,                       intent(in)    :: jlag        !< Laglangian flag
       integer,       dimension(nel), intent(in)    :: ngl         !< Global element numbers
       real(kind=wp), dimension(nel), intent(inout) :: off         !< Element deactivation flag
       real(kind=wp), dimension(nel), intent(out)   :: det         !< Jacobian determinant
@@ -213,7 +215,69 @@
 !
       !< Check for minimum volume conditions and handle negative volumes
       nnega = 0
-      if (idtmin(1) == 1) then
+      if (jlag/=0) then
+!--- case total strain switched to small due to nega_v before      
+        if(ismstr==10.or.(ismstr==12.and.idtmin(1)/=3)) then
+         do i=1,nel
+          if(offg(i) > one)then
+           nnega=nnega+1
+           index(nnega)=i
+          end if
+         enddo
+        end if
+        icor = 0
+        do i=1,nel
+          if(off(i) ==zero)then
+            det(i)=one
+          elseif(offg(i) > one)then
+!
+          elseif(det(i)<=zero)then
+            icor = 1
+          endif
+        enddo
+        if (icor>0) then
+          if (ineg_v==0) then
+            do i=1,nel
+             if(det(i)<=zero.and.offg(i) <= one.and.offg(i) /= zero)then
+              det(i)=one
+              off(i)=zero
+              offg(i)=zero
+!$OMP CRITICAL 
+              call ancmsg(msgid=280,anmode=aninfo,i1=ngl(i))
+!$OMP END CRITICAL 
+             end if
+            end do
+           mstop = 1
+          else if (ineg_v==2) then  !deletion
+            do i=1,nel
+             if(det(i)<=zero.and.offg(i) <= one.and.offg(i) /= zero)then
+              det(i)=one
+              off(i)=zero
+              offg(i)=zero
+!$OMP CRITICAL 
+              call ancmsg(msgid=318,anmode=aninfo,i1=ngl(i))
+!$OMP END CRITICAL 
+              idel7nok = 1
+             end if
+            end do
+          else ! switch to small strain
+            do i=1,nel
+             if(det(i)<=zero.and.offg(i) <= one.and.offg(i) /= zero)then
+               nnega=nnega+1
+               index(nnega)=i
+!$OMP CRITICAL 
+              if(ismstr<10) then
+                 call ancmsg(msgid=259,anmode=aninfo,i1=ngl(i))
+              else
+                 call ancmsg(msgid=261,anmode=aninfo,i1=ngl(i))
+              end if
+!$OMP END CRITICAL 
+             end if
+            end do
+          end if
+        end if !(icor>0.and.imconv==1) then
+      else
+       if (idtmin(1) == 1) then
         icor = 0
         do i = 1, nel
           if (off(i) == zero) then
@@ -237,7 +301,7 @@
             endif
           enddo
         endif
-      elseif (idtmin(1) == 2) then
+       elseif (idtmin(1) == 2) then
         icor = 0
         do i = 1, nel
           if (off(i) == zero) then
@@ -257,7 +321,7 @@
             endif
           enddo
         endif
-      elseif (ismstr /= 4) then
+       elseif (ismstr /= 4) then
         icor = 0
         do i = 1, nel
           if (off(i) == zero) then
@@ -280,11 +344,12 @@
             endif
           enddo
           if (ineg_v == 0) then
-            call ancmsg(msgid=280, anmode=aninfo)
+            i = index(nnega)
+            call ancmsg(msgid=280, anmode=aninfo,i1=ngl(i))
             mstop = 1
           endif
         end if
-      else
+       else
         !< Handle case where ismstr == 4
         icor = 0
         do i = 1, nel
@@ -304,7 +369,8 @@
             endif
           enddo
         endif
-      endif
+       endif !idtmin(1) == 1
+      end if !jlag /=0
 !
       !< Process elements with negative volumes for coordinate recovery
       if (nnega > 0) then
