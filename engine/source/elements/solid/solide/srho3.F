@@ -91,6 +91,7 @@ C-----------------------------------------------
       
       my_real PM(NPROPM,NUMMAT),VOLO(*), RHON(*),EINT(*),FLUX(6,*), FLU1(*),
      .        VOLN(*), DVOL(*),DIVDE(*),OFF(*),TAG22(*),AMU(*) ,OFFG(*)
+C     ENSURE DOUBLE-PRECISION (64-BIT) FLOATING-POINT CALCULATIONS, EVEN WHEN COMPILING IN SINGLE-PRECISION MODE.
       DOUBLE PRECISION VOLDP(*),VOL0DP(*),DVDP
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s

@@ -59,6 +59,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER, INTENT(IN) :: JLAG
       INTEGER :: ISMSTR,NEL,NGL(*)
+C     ENSURE DOUBLE-PRECISION (64-BIT) FLOATING-POINT CALCULATIONS, EVEN WHEN COMPILING IN SINGLE-PRECISION MODE.
       DOUBLE PRECISION
      .   X1(*), X2(*), X3(*), X4(*), X5(*), X6(*), X7(*), X8(*),
      .   Y1(*), Y2(*), Y3(*), Y4(*), Y5(*), Y6(*), Y7(*), Y8(*),  
@@ -92,6 +93,8 @@ C
      .   Y_17_46 , Y_28_35 ,
      .   Z_17_46 , Z_28_35 ,
      .   HX,HY,HZ
+
+C     ENSURE DOUBLE-PRECISION (64-BIT) FLOATING-POINT CALCULATIONS, EVEN WHEN COMPILING IN SINGLE-PRECISION MODE.
       DOUBLE PRECISION
      .   X17 , X28 , X35 , X46,
      .   Y17 , Y28 , Y35 , Y46,

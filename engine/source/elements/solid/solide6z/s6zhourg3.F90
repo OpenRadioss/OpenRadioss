@@ -82,24 +82,25 @@
       real(kind=WP), dimension(nel), intent(in)    :: rho         !< Density
       real(kind=WP), dimension(mvsiz), intent(in)  :: vol         !< Current volume
       real(kind=WP), dimension(mvsiz), intent(in)  :: ssp         !< Sound speed
-      real(kind=WP), dimension(mvsiz), intent(in)  :: x1i         !< X-coordinate of node 1
-      real(kind=WP), dimension(mvsiz), intent(in)  :: x2i         !< X-coordinate of node 2
-      real(kind=WP), dimension(mvsiz), intent(in)  :: x3i         !< X-coordinate of node 3
-      real(kind=WP), dimension(mvsiz), intent(in)  :: x4i         !< X-coordinate of node 4
-      real(kind=WP), dimension(mvsiz), intent(in)  :: x5i         !< X-coordinate of node 5
-      real(kind=WP), dimension(mvsiz), intent(in)  :: x6i         !< X-coordinate of node 6
-      real(kind=WP), dimension(mvsiz), intent(in)  :: y1i         !< Y-coordinate of node 1
-      real(kind=WP), dimension(mvsiz), intent(in)  :: y2i         !< Y-coordinate of node 2
-      real(kind=WP), dimension(mvsiz), intent(in)  :: y3i         !< Y-coordinate of node 3
-      real(kind=WP), dimension(mvsiz), intent(in)  :: y4i         !< Y-coordinate of node 4
-      real(kind=WP), dimension(mvsiz), intent(in)  :: y5i         !< Y-coordinate of node 5
-      real(kind=WP), dimension(mvsiz), intent(in)  :: y6i         !< Y-coordinate of node 6
-      real(kind=WP), dimension(mvsiz), intent(in)  :: z1i         !< Z-coordinate of node 1
-      real(kind=WP), dimension(mvsiz), intent(in)  :: z2i         !< Z-coordinate of node 2
-      real(kind=WP), dimension(mvsiz), intent(in)  :: z3i         !< Z-coordinate of node 3
-      real(kind=WP), dimension(mvsiz), intent(in)  :: z4i         !< Z-coordinate of node 4
-      real(kind=WP), dimension(mvsiz), intent(in)  :: z5i         !< Z-coordinate of node 5
-      real(kind=WP), dimension(mvsiz), intent(in)  :: z6i         !< Z-coordinate of node 6
+!C    FORCE WP = 8 TO ENSURE DOUBLE-PRECISION (64-BIT) FLOATING-POINT CALCULATIONS, EVEN WHEN COMPILING IN SINGLE-PRECISION MODE.
+      real(kind=8), dimension(mvsiz), intent(in)  :: x1i         !< X-coordinate of node 1 
+      real(kind=8), dimension(mvsiz), intent(in)  :: x2i         !< X-coordinate of node 2
+      real(kind=8), dimension(mvsiz), intent(in)  :: x3i         !< X-coordinate of node 3
+      real(kind=8), dimension(mvsiz), intent(in)  :: x4i         !< X-coordinate of node 4
+      real(kind=8), dimension(mvsiz), intent(in)  :: x5i         !< X-coordinate of node 5
+      real(kind=8), dimension(mvsiz), intent(in)  :: x6i         !< X-coordinate of node 6
+      real(kind=8), dimension(mvsiz), intent(in)  :: y1i         !< Y-coordinate of node 1
+      real(kind=8), dimension(mvsiz), intent(in)  :: y2i         !< Y-coordinate of node 2
+      real(kind=8), dimension(mvsiz), intent(in)  :: y3i         !< Y-coordinate of node 3
+      real(kind=8), dimension(mvsiz), intent(in)  :: y4i         !< Y-coordinate of node 4
+      real(kind=8), dimension(mvsiz), intent(in)  :: y5i         !< Y-coordinate of node 5
+      real(kind=8), dimension(mvsiz), intent(in)  :: y6i         !< Y-coordinate of node 6
+      real(kind=8), dimension(mvsiz), intent(in)  :: z1i         !< Z-coordinate of node 1
+      real(kind=8), dimension(mvsiz), intent(in)  :: z2i         !< Z-coordinate of node 2
+      real(kind=8), dimension(mvsiz), intent(in)  :: z3i         !< Z-coordinate of node 3
+      real(kind=8), dimension(mvsiz), intent(in)  :: z4i         !< Z-coordinate of node 4
+      real(kind=8), dimension(mvsiz), intent(in)  :: z5i         !< Z-coordinate of node 5
+      real(kind=8), dimension(mvsiz), intent(in)  :: z6i         !< Z-coordinate of node 6
       real(kind=WP), dimension(mvsiz), intent(in)  :: vx1i        !< X-velocity of node 1
       real(kind=WP), dimension(mvsiz), intent(in)  :: vx2i        !< X-velocity of node 2
       real(kind=WP), dimension(mvsiz), intent(in)  :: vx3i        !< X-velocity of node 3
@@ -159,11 +160,6 @@
 !    L o c a l   v a r i a b l e s
 !-------------------------------------------------------------------------------
       integer :: i, j, mx, mt,iplast, iet
- 
- 
- 
- 
- 
       real(kind=WP) :: dett,fac,fac1,fac2,smo
       real(kind=WP) :: jaci1, jaci2, jaci3, jaci4, jaci5, jaci6, jaci7, jaci8, jaci9
       real(kind=WP) :: jaci12, jaci45, jaci78
@@ -178,15 +174,17 @@
       real(kind=WP) :: e_r, e_s, e_t
       real(kind=WP) :: hq13p, hq13n, hq24p, hq24n, ff
       real(kind=WP) :: dama_g(mvsiz,6)
-      real(kind=WP), dimension(nel) :: x1, x2, x3, x4, x5, x6, x7, x8
-      real(kind=WP), dimension(nel) :: y1, y2, y3, y4, y5, y6, y7, y8
-      real(kind=WP), dimension(nel) :: z1, z2, z3, z4, z5, z6, z7, z8
+!C    FORCE WP = 8 TO ENSURE DOUBLE-PRECISION (64-BIT) FLOATING-POINT CALCULATIONS, EVEN WHEN COMPILING IN SINGLE-PRECISION MODE.
+      real(kind=8), dimension(nel) :: x1, x2, x3, x4, x5, x6, x7, x8
+      real(kind=8), dimension(nel) :: y1, y2, y3, y4, y5, y6, y7, y8
+      real(kind=8), dimension(nel) :: z1, z2, z3, z4, z5, z6, z7, z8
       real(kind=WP), dimension(nel) :: vx1, vx2, vx3, vx4, vx5, vx6, vx7, vx8
       real(kind=WP), dimension(nel) :: vy1, vy2, vy3, vy4, vy5, vy6, vy7, vy8
       real(kind=WP), dimension(nel) :: vz1, vz2, vz3, vz4, vz5, vz6, vz7, vz8
-      real(kind=WP), dimension(nel) :: x17, x28, x35, x46
-      real(kind=WP), dimension(nel) :: y17, y28, y35, y46
-      real(kind=WP), dimension(nel) :: z17, z28, z35, z46
+!C    FORCE WP = 8 TO ENSURE DOUBLE-PRECISION (64-BIT) FLOATING-POINT CALCULATIONS, EVEN WHEN COMPILING IN SINGLE-PRECISION MODE.
+      real(kind=8), dimension(nel) :: x17, x28, x35, x46
+      real(kind=8), dimension(nel) :: y17, y28, y35, y46
+      real(kind=8), dimension(nel) :: z17, z28, z35, z46
       real(kind=WP), dimension(nel) :: jac_59_68, jac_67_49, jac_48_57, jac_19_37
       real(kind=WP), dimension(nel) :: px1, px2, px3, px4
       real(kind=WP), dimension(nel) :: py1, py2, py3, py4
@@ -195,7 +193,9 @@
       real(kind=WP), dimension(nel) :: px1h2, px2h2, px3h2, px4h2
       real(kind=WP), dimension(nel) :: px1h3, px2h3, px3h3, px4h3
       real(kind=WP), dimension(nel) :: px1h4, px2h4, px3h4, px4h4
-      real(kind=WP), dimension(nel) :: jac1, jac2, jac3, jac4, jac5, jac6, jac7, jac8, jac9, det
+      real(kind=WP), dimension(nel) :: jac1, jac2, jac3, jac4, jac5, jac6, jac7, jac8, jac9
+!C    FORCE WP = 8 TO ENSURE DOUBLE-PRECISION (64-BIT) FLOATING-POINT CALCULATIONS, EVEN WHEN COMPILING IN SINGLE-PRECISION MODE.      
+      real(kind=8), dimension(nel) :: det
       real(kind=WP), dimension(nel) :: fcl, hgz1, hgz2
       real(kind=WP), dimension(nel) :: gg
       real(kind=WP), dimension(nel) :: cxx, caq
