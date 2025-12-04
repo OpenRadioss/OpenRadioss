@@ -54,7 +54,6 @@ C-----------
 !||====================================================================
 !||    r2r_sys          ../starter/source/coupling/rad2rad/routines_r2r.F
 !||--- called by ------------------------------------------------------
-!||    hm_read_eref     ../starter/source/loads/reference_state/eref/hm_read_eref.F
 !||    hm_read_thgrne   ../starter/source/output/th/hm_read_thgrne.F
 !||    hm_read_xref     ../starter/source/loads/reference_state/xref/hm_read_xref.F
 !||    lecrefsta        ../starter/source/loads/reference_state/refsta/lecrefsta.F

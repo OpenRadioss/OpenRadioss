@@ -27,7 +27,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    lecint       ../starter/source/interfaces/interf1/lecint.F
 !||--- calls      -----------------------------------------------------
 !||    count3       ../starter/source/interfaces/interf1/count3.F
-!||    usr2sys      ../starter/source/system/sysfus.F
 !||--- uses       -----------------------------------------------------
 !||    format_mod   ../starter/share/modules1/format_mod.F90
 !||====================================================================

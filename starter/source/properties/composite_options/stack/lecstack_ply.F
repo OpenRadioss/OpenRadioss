@@ -34,7 +34,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_option_start        ../starter/source/devtools/hm_reader/hm_option_start.F
 !||    hm_read_stack          ../starter/source/stack/hm_read_stack.F
 !||    lcgeo19                ../starter/source/elements/shell/coque/lcgeo19.F
-!||    usr2sys                ../starter/source/system/sysfus.F
 !||    vdouble                ../starter/source/system/sysfus.F
 !||--- uses       -----------------------------------------------------
 !||    defaults_mod           ../starter/source/modules/defaults_mod.F90

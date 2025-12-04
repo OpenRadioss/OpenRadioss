@@ -31,7 +31,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_option_is_encrypted   ../starter/source/devtools/hm_reader/hm_option_is_encrypted.F
 !||    hm_option_read_key       ../starter/source/devtools/hm_reader/hm_option_read_key.F
 !||    hm_option_start          ../starter/source/devtools/hm_reader/hm_option_start.F
-!||    nintri                   ../starter/source/system/nintrr.F
 !||    nintrigr                 ../starter/source/system/nintrr.F
 !||    udouble                  ../starter/source/system/sysfus.F
 !||--- uses       -----------------------------------------------------

@@ -36,7 +36,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    ngr2usr                ../starter/source/system/nintrr.F
 !||    remove_nd              ../starter/source/elements/solid/solide10/dim_s10edg.F
 !||    subrotpoint            ../starter/source/model/submodel/subrot.F
-!||    usr2sys                ../starter/source/system/sysfus.F
 !||--- uses       -----------------------------------------------------
 !||    hm_option_read_mod     ../starter/share/modules1/hm_option_read_mod.F
 !||    message_mod            ../starter/share/message_module/message_mod.F

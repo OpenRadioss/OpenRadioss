@@ -65,6 +65,7 @@ C-----------------------------------------------------
 !||    dd_frx                      ../starter/source/spmd/domain_decomposition/domdec1.F
 !||    domain_decomposition_pcyl   ../starter/source/loads/general/load_pcyl/domain_decomposition_pcyl.F
 !||    domdec2                     ../starter/source/spmd/domdec2.F
+!||    hierarchy_rbody_ddm         ../starter/source/constraints/general/rbody/hierarchy_rbody.F90
 !||    hm_read_cyljoint            ../starter/source/constraints/general/cyl_joint/hm_read_cyljoint.F
 !||    hm_read_frm                 ../starter/source/tools/skew/hm_read_frm.F
 !||    hm_read_interfaces          ../starter/source/interfaces/reader/hm_read_interfaces.F

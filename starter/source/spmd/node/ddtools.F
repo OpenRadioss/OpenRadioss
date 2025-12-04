@@ -278,6 +278,7 @@ c list of procs for node N
 !||    fillcne                  ../starter/source/spmd/domdec2.F
 !||    flowdec                  ../starter/source/fluid/flowdec.F
 !||    globvars                 ../starter/source/spmd/globvars.F
+!||    hierarchy_rbody_ddm      ../starter/source/constraints/general/rbody/hierarchy_rbody.F90
 !||    hm_read_rbe2             ../starter/source/constraints/general/rbe2/hm_read_rbe2.F
 !||    hm_read_rivet            ../starter/source/elements/reader/hm_read_rivet.F
 !||    i24setnodes              ../starter/source/interfaces/inter3d1/i24setnodes.F

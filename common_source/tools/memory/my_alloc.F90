@@ -83,6 +83,8 @@
 !||    genh3d                             ../engine/source/output/h3d/h3d_results/genh3d.F
 !||    genstat                            ../engine/source/output/sta/genstat.F
 !||    gpsstrain_skin                     ../engine/source/output/anim/generate/tensgpstrain.F
+!||    hierarchy_rbody                    ../starter/source/constraints/general/rbody/hierarchy_rbody.F90
+!||    hierarchy_rbody_ddm                ../starter/source/constraints/general/rbody/hierarchy_rbody.F90
 !||    hireorbe3                          ../starter/source/constraints/general/rbe3/hm_read_rbe3.F
 !||    hm_grogro                          ../starter/source/groups/hm_grogro.F
 !||    hm_grogronod                       ../starter/source/groups/hm_grogronod.F

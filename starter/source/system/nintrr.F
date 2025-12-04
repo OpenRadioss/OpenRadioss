@@ -33,7 +33,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_read_part           ../starter/source/model/assembling/hm_read_part.F
 !||    hm_read_retractor      ../starter/source/tools/seatbelts/hm_read_retractor.F
 !||    hm_read_slipring       ../starter/source/tools/seatbelts/hm_read_slipring.F
-!||    hm_read_thpart         ../starter/source/output/thpart/hm_read_thpart.F
 !||    lecint                 ../starter/source/interfaces/interf1/lecint.F
 !||    nbadigemesh            ../starter/source/elements/ige3d/nbadigemesh.F
 !||    read_dfs_detcord       ../starter/source/initial_conditions/detonation/read_dfs_detcord.F
@@ -392,7 +391,6 @@ C
 !||    hm_preread_imptemp       ../starter/source/constraints/thermic/hm_preread_imptemp.F
 !||    hm_preread_impvel        ../starter/source/constraints/general/impvel/hm_preread_impvel.F
 !||    hm_preread_load_centri   ../starter/source/loads/general/load_centri/hm_preread_load_centri.F
-!||    hm_preread_pload         ../starter/source/loads/general/pload/hm_preread_pload.F
 !||    hm_preread_radiation     ../starter/source/loads/thermic/hm_preread_radiation.F
 !||    hm_preread_rbe2          ../starter/source/constraints/general/rbe2/hm_read_rbe2.F
 !||    hm_preread_xelem         ../starter/source/elements/reader/hm_preread_xelem.F

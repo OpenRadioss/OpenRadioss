@@ -21,11 +21,22 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
+!||    hierarchy_rbody_mod   ../starter/source/constraints/general/rbody/hierarchy_rbody.F90
+!||--- called by ------------------------------------------------------
+!||    lectur                ../starter/source/starter/lectur.F
+!||====================================================================
       module hierarchy_rbody_mod
       contains
 ! ======================================================================================================================
 ! \brief rbody hierarchy initialization
 ! ======================================================================================================================
+!||====================================================================
+!||    hierarchy_rbody   ../starter/source/constraints/general/rbody/hierarchy_rbody.F90
+!||--- called by ------------------------------------------------------
+!||    lectur            ../starter/source/starter/lectur.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||====================================================================
         subroutine hierarchy_rbody(nrbykin ,nnpby ,npby  ,slpby ,lpby  ,            &
                                    nrby    ,rby   ,numnod,iout )
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -166,6 +177,15 @@
 ! ======================================================================================================================
 ! \brief rbody hierarchy domain decomposition initialization
 ! ======================================================================================================================
+!||====================================================================
+!||    hierarchy_rbody_ddm   ../starter/source/constraints/general/rbody/hierarchy_rbody.F90
+!||--- called by ------------------------------------------------------
+!||    lectur                ../starter/source/starter/lectur.F
+!||--- calls      -----------------------------------------------------
+!||    ifrontplus            ../starter/source/spmd/node/frontplus.F
+!||    nlocal                ../starter/source/spmd/node/ddtools.F
+!||--- uses       -----------------------------------------------------
+!||====================================================================
         subroutine hierarchy_rbody_ddm(nrbykin ,nnpby ,npby  ,slpby ,lpby  ,numnod,nspmd)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                        Modules

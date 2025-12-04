@@ -110,6 +110,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    globmat                             ../starter/source/materials/globmat.F
 !||    globvars                            ../starter/source/spmd/globvars.F
 !||    group_ini                           ../starter/source/model/group/group_ini.F
+!||    hierarchy_rbody                     ../starter/source/constraints/general/rbody/hierarchy_rbody.F90
+!||    hierarchy_rbody_ddm                 ../starter/source/constraints/general/rbody/hierarchy_rbody.F90
 !||    hm_grogronod                        ../starter/source/groups/hm_grogronod.F
 !||    hm_lecgrn                           ../starter/source/groups/hm_lecgrn.F
 !||    hm_lines_of_lines                   ../starter/source/groups/hm_lines_of_lines.F
@@ -484,6 +486,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    func2d_mod                          ../starter/share/modules1/func2d_mod.F
 !||    fvbag_mod                           ../starter/share/modules1/fvbag_mod.F
 !||    group_mod                           ../starter/share/modules1/group_mod.F
+!||    hierarchy_rbody_mod                 ../starter/source/constraints/general/rbody/hierarchy_rbody.F90
 !||    hm_option_read_mod                  ../starter/share/modules1/hm_option_read_mod.F
 !||    hm_preread_inivel_mod               ../starter/source/initial_conditions/general/inivel/hm_preread_inivel.F90
 !||    hm_preread_skw_mod                  ../starter/source/tools/skew/hm_preread_skw.F90

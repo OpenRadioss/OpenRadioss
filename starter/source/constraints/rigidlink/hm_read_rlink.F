@@ -34,7 +34,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    ngr2usr                ../starter/source/system/nintrr.F
 !||    sz_r2r                 ../starter/source/coupling/rad2rad/routines_r2r.F
 !||    udouble                ../starter/source/system/sysfus.F
-!||    usr2sys                ../starter/source/system/sysfus.F
 !||--- uses       -----------------------------------------------------
 !||    format_mod             ../starter/share/modules1/format_mod.F90
 !||    hm_option_read_mod     ../starter/share/modules1/hm_option_read_mod.F
