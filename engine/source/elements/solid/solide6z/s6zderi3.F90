@@ -47,15 +47,15 @@
 !||====================================================================
       subroutine s6zderi3(                                                     &
         off      ,det      ,ngl      ,                                         &
-        x1       ,x2       ,x3       ,x4       ,x5       ,x6       ,           &
-        y1       ,y2       ,y3       ,y4       ,y5       ,y6       ,           &
-        z1       ,z2       ,z3       ,z4       ,z5       ,z6       ,           &
+        xd1      ,xd2      ,xd3      ,xd4      ,xd5      ,xd6      ,           &
+        yd1      ,yd2      ,yd3      ,yd4      ,yd5      ,yd6      ,           &
+        zd1      ,zd2      ,zd3      ,zd4      ,zd5      ,zd6      ,           &
         px1      ,px2      ,px3      ,px4      ,px5      ,px6      ,           &
         py1      ,py2      ,py3      ,py4      ,py5      ,py6      ,           &
         pz1      ,pz2      ,pz3      ,pz4      ,pz5      ,pz6      ,           &
         jacob5   ,jacob6   ,jacob4   ,jacob8   ,jacob9   ,jacob7   ,           &
         vzl      ,volg     ,sav      ,offg     ,nel      ,ismstr   ,           &
-        idel7nok ,ineg_v   ,mstop    ,volmin   ,idtmin   )  
+        idel7nok ,ineg_v   ,mstop    ,volmin   ,idtmin   ,voldp)  
 !
 !-------------------------------------------------------------------------------
 !   M o d u l e s
@@ -77,24 +77,6 @@
       integer,       dimension(nel), intent(in)    :: ngl         !< Global element numbers
       real(kind=wp), dimension(nel), intent(inout) :: off         !< Element deactivation flag
       real(kind=wp), dimension(nel), intent(out)   :: det         !< Jacobian determinant
-      real(kind=wp), dimension(nel), intent(inout) :: x1          !< X coordinate of node 1
-      real(kind=wp), dimension(nel), intent(inout) :: x2          !< X coordinate of node 2
-      real(kind=wp), dimension(nel), intent(inout) :: x3          !< X coordinate of node 3
-      real(kind=wp), dimension(nel), intent(inout) :: x4          !< X coordinate of node 4
-      real(kind=wp), dimension(nel), intent(inout) :: x5          !< X coordinate of node 5
-      real(kind=wp), dimension(nel), intent(inout) :: x6          !< X coordinate of node 6
-      real(kind=wp), dimension(nel), intent(inout) :: y1          !< Y coordinate of node 1
-      real(kind=wp), dimension(nel), intent(inout) :: y2          !< Y coordinate of node 2
-      real(kind=wp), dimension(nel), intent(inout) :: y3          !< Y coordinate of node 3
-      real(kind=wp), dimension(nel), intent(inout) :: y4          !< Y coordinate of node 4
-      real(kind=wp), dimension(nel), intent(inout) :: y5          !< Y coordinate of node 5
-      real(kind=wp), dimension(nel), intent(inout) :: y6          !< Y coordinate of node 6
-      real(kind=wp), dimension(nel), intent(inout) :: z1          !< Z coordinate of node 1
-      real(kind=wp), dimension(nel), intent(inout) :: z2          !< Z coordinate of node 2
-      real(kind=wp), dimension(nel), intent(inout) :: z3          !< Z coordinate of node 3
-      real(kind=wp), dimension(nel), intent(inout) :: z4          !< Z coordinate of node 4
-      real(kind=wp), dimension(nel), intent(inout) :: z5          !< Z coordinate of node 5
-      real(kind=wp), dimension(nel), intent(inout) :: z6          !< Z coordinate of node 6
       real(kind=wp), dimension(nel), intent(out)   :: px1         !< Shape function derivative dN1/dxi
       real(kind=wp), dimension(nel), intent(out)   :: px2         !< Shape function derivative dN2/dxi
       real(kind=wp), dimension(nel), intent(out)   :: px3         !< Shape function derivative dN3/dxi
@@ -122,6 +104,26 @@
       real(kind=wp), dimension(nel), intent(out)   :: vzl         !< Local volume change rate
       real(kind=wp), dimension(nel), intent(out)   :: volg        !< Global element volume
       real(kind=wp), dimension(nel), intent(inout) :: offg        !< Global element deactivation flag
+!C     ENSURE DOUBLE-PRECISION (64-BIT) FLOATING-POINT CALCULATIONS, EVEN WHEN COMPILING IN SINGLE-PRECISION MODE.  
+      real(kind=8), dimension(nel), intent(inout) :: xd1          !< X coordinate of node 1
+      real(kind=8), dimension(nel), intent(inout) :: xd2          !< X coordinate of node 2
+      real(kind=8), dimension(nel), intent(inout) :: xd3          !< X coordinate of node 3
+      real(kind=8), dimension(nel), intent(inout) :: xd4          !< X coordinate of node 4
+      real(kind=8), dimension(nel), intent(inout) :: xd5          !< X coordinate of node 5
+      real(kind=8), dimension(nel), intent(inout) :: xd6          !< X coordinate of node 6
+      real(kind=8), dimension(nel), intent(inout) :: yd1          !< Y coordinate of node 1
+      real(kind=8), dimension(nel), intent(inout) :: yd2          !< Y coordinate of node 2
+      real(kind=8), dimension(nel), intent(inout) :: yd3          !< Y coordinate of node 3
+      real(kind=8), dimension(nel), intent(inout) :: yd4          !< Y coordinate of node 4
+      real(kind=8), dimension(nel), intent(inout) :: yd5          !< Y coordinate of node 5
+      real(kind=8), dimension(nel), intent(inout) :: yd6          !< Y coordinate of node 6
+      real(kind=8), dimension(nel), intent(inout) :: zd1          !< Z coordinate of node 1
+      real(kind=8), dimension(nel), intent(inout) :: zd2          !< Z coordinate of node 2
+      real(kind=8), dimension(nel), intent(inout) :: zd3          !< Z coordinate of node 3
+      real(kind=8), dimension(nel), intent(inout) :: zd4          !< Z coordinate of node 4
+      real(kind=8), dimension(nel), intent(inout) :: zd5          !< Z coordinate of node 5
+      real(kind=8), dimension(nel), intent(inout) :: zd6          !< Z coordinate of node 6
+      real(kind=8), dimension(nel),  intent(out)   :: voldp        !< Global element volume
       real(kind=8), intent(in)                     :: sav(nel,15) !< Saved nodal coordinates for negative volume recovery sav must be in double precision, so kind = 8
       integer, intent(inout)                       :: idel7nok  
       integer, intent(inout)                       :: ineg_v
@@ -133,40 +135,41 @@
 !-------------------------------------------------------------------------------
       integer :: i, j, icor, nnega                            !< Loop counters and flags
       integer :: index(nel)                                   !< Index array for negative volume elements  
-      real(kind=wp) :: dett(nel)                              !< Inverse determinant
-      real(kind=wp) :: jac1(nel), jac2(nel), jac3(nel)        !< Jacobian matrix components
-      real(kind=wp) :: jac4(nel), jac5(nel), jac6(nel)        !< Jacobian matrix components
-      real(kind=wp) :: jac7(nel), jac8(nel), jac9(nel)        !< Jacobian matrix components    
-      real(kind=wp) :: jaci1, jaci2, jaci3                    !< Jacobian inverse components
-      real(kind=wp) :: jaci4, jaci5, jaci6                    !< Jacobian inverse components
-      real(kind=wp) :: jaci7, jaci8, jaci9                    !< Jacobian inverse components
-      real(kind=wp) :: jaci12, jaci45, jaci78                 !< Combined inverse components 
-      real(kind=wp) :: x21(nel), x31(nel), x54(nel), x64(nel) !< Coordinate differences
-      real(kind=wp) :: y21(nel), y31(nel), y54(nel), y64(nel) !< Coordinate differences
-      real(kind=wp) :: z21(nel), z31(nel), z54(nel), z64(nel) !< Coordinate differences
-      real(kind=wp) :: x41(nel), y41(nel), z41(nel)           !< Coordinate differences
-      real(kind=wp) :: jac_59_68(nel), jac_67_49(nel), jac_48_57(nel) !< Cross products
+!C     ENSURE DOUBLE-PRECISION (64-BIT) FLOATING-POINT CALCULATIONS, EVEN WHEN COMPILING IN SINGLE-PRECISION MODE.        
+      real(kind=8) :: dett(nel)                              !< Inverse determinant
+      real(kind=8) :: jac1(nel), jac2(nel), jac3(nel)        !< Jacobian matrix components
+      real(kind=8) :: jac4(nel), jac5(nel), jac6(nel)        !< Jacobian matrix components
+      real(kind=8) :: jac7(nel), jac8(nel), jac9(nel)        !< Jacobian matrix components    
+      real(kind=8) :: jaci1, jaci2, jaci3                    !< Jacobian inverse components
+      real(kind=8) :: jaci4, jaci5, jaci6                    !< Jacobian inverse components
+      real(kind=8) :: jaci7, jaci8, jaci9                    !< Jacobian inverse components
+      real(kind=8) :: jaci12, jaci45, jaci78                 !< Combined inverse components 
+      real(kind=8) :: x21(nel), x31(nel), x54(nel), x64(nel) !< Coordinate differences
+      real(kind=8) :: y21(nel), y31(nel), y54(nel), y64(nel) !< Coordinate differences
+      real(kind=8) :: z21(nel), z31(nel), z54(nel), z64(nel) !< Coordinate differences
+      real(kind=8) :: x41(nel), y41(nel), z41(nel)           !< Coordinate differences
+      real(kind=8) :: jac_59_68(nel), jac_67_49(nel), jac_48_57(nel) !< Cross products
 !-------------------------------------------------------------------------------
 !
       !< Coordinate differences
       do i = 1, nel
-        x21(i) = x2(i) - x1(i)
-        x31(i) = x3(i) - x1(i)
-        x41(i) = x4(i) - x1(i)
-        x54(i) = x5(i) - x4(i)
-        x64(i) = x6(i) - x4(i)
+        x21(i) = xd2(i) - xd1(i)
+        x31(i) = xd3(i) - xd1(i)
+        x41(i) = xd4(i) - xd1(i)
+        x54(i) = xd5(i) - xd4(i)
+        x64(i) = xd6(i) - xd4(i)
 !
-        y21(i) = y2(i) - y1(i)
-        y31(i) = y3(i) - y1(i)
-        y41(i) = y4(i) - y1(i)
-        y54(i) = y5(i) - y4(i)
-        y64(i) = y6(i) - y4(i)
+        y21(i) = yd2(i) - yd1(i)
+        y31(i) = yd3(i) - yd1(i)
+        y41(i) = yd4(i) - yd1(i)
+        y54(i) = yd5(i) - yd4(i)
+        y64(i) = yd6(i) - yd4(i)
 !  
-        z21(i) = z2(i) - z1(i)
-        z31(i) = z3(i) - z1(i)
-        z41(i) = z4(i) - z1(i)
-        z54(i) = z5(i) - z4(i)
-        z64(i) = z6(i) - z4(i)
+        z21(i) = zd2(i) - zd1(i)
+        z31(i) = zd3(i) - zd1(i)
+        z41(i) = zd4(i) - zd1(i)
+        z54(i) = zd5(i) - zd4(i)
+        z64(i) = zd6(i) - zd4(i)
       enddo
 !
       !< Jacobian matrix components
@@ -180,9 +183,9 @@
         jac5(i) = y31(i) + y64(i)
         jac6(i) = z31(i) + z64(i)
 !  -------ti.xi----zeta-------
-        jac7(i) = third*(x41(i) + x5(i) - x2(i) + x6(i) - x3(i))
-        jac8(i) = third*(y41(i) + y5(i) - y2(i) + y6(i) - y3(i))
-        jac9(i) = third*(z41(i) + z5(i) - z2(i) + z6(i) - z3(i))
+        jac7(i) = third*(x41(i) + xd5(i) - xd2(i) + xd6(i) - xd3(i))
+        jac8(i) = third*(y41(i) + yd5(i) - yd2(i) + yd6(i) - yd3(i))
+        jac9(i) = third*(z41(i) + zd5(i) - zd2(i) + zd6(i) - zd3(i))
       enddo
 !
       !< Store Jacobian components for output
@@ -204,7 +207,8 @@
 !
       !< Determinant
       do i = 1, nel
-        det(i) = one_over_8*(jac1(i) * jac_59_68(i) + jac2(i) * jac_67_49(i) + jac3(i) * jac_48_57(i))
+        voldp(i) = one_over_8*(jac1(i) * jac_59_68(i) + jac2(i) * jac_67_49(i) + jac3(i) * jac_48_57(i))
+        det(i) = voldp(i)
       end do
 !
       !< Check for minimum volume conditions and handle negative volumes
@@ -306,40 +310,40 @@
       if (nnega > 0) then
         do j = 1, nnega
           i = index(j)
-          x1(i) = sav(i,1)
-          y1(i) = sav(i,2)
-          z1(i) = sav(i,3)
-          x2(i) = sav(i,4)
-          y2(i) = sav(i,5)
-          z2(i) = sav(i,6)
-          x3(i) = sav(i,7)
-          y3(i) = sav(i,8)
-          z3(i) = sav(i,9)
-          x4(i) = sav(i,10)
-          y4(i) = sav(i,11)
-          z4(i) = sav(i,12)
-          x5(i) = sav(i,13)
-          y5(i) = sav(i,14)
-          z5(i) = sav(i,15)
-          x6(i) = zero
-          y6(i) = zero
-          z6(i) = zero
+          xd1(i) = sav(i,1)
+          yd1(i) = sav(i,2)
+          zd1(i) = sav(i,3)
+          xd2(i) = sav(i,4)
+          yd2(i) = sav(i,5)
+          zd2(i) = sav(i,6)
+          xd3(i) = sav(i,7)
+          yd3(i) = sav(i,8)
+          zd3(i) = sav(i,9)
+          xd4(i) = sav(i,10)
+          yd4(i) = sav(i,11)
+          zd4(i) = sav(i,12)
+          xd5(i) = sav(i,13)
+          yd5(i) = sav(i,14)
+          zd5(i) = sav(i,15)
+          xd6(i) = zero
+          yd6(i) = zero
+          zd6(i) = zero
 !
-          x21(i) = x2(i) - x1(i)
-          x31(i) = x3(i) - x1(i)
-          x41(i) = x4(i) - x1(i)
-          x54(i) = x5(i) - x4(i)
-          x64(i) = x6(i) - x4(i)
-          y21(i) = y2(i) - y1(i)
-          y31(i) = y3(i) - y1(i)
-          y41(i) = y4(i) - y1(i)
-          y54(i) = y5(i) - y4(i)
-          y64(i) = y6(i) - y4(i)
-          z21(i) = z2(i) - z1(i)
-          z31(i) = z3(i) - z1(i)
-          z41(i) = z4(i) - z1(i)
-          z54(i) = z5(i) - z4(i)
-          z64(i) = z6(i) - z4(i)
+          x21(i) = xd2(i) - xd1(i)
+          x31(i) = xd3(i) - xd1(i)
+          x41(i) = xd4(i) - xd1(i)
+          x54(i) = xd5(i) - xd4(i)
+          x64(i) = xd6(i) - xd4(i)
+          y21(i) = yd2(i) - yd1(i)
+          y31(i) = yd3(i) - yd1(i)
+          y41(i) = yd4(i) - yd1(i)
+          y54(i) = yd5(i) - yd4(i)
+          y64(i) = yd6(i) - yd4(i)
+          z21(i) = zd2(i) - zd1(i)
+          z31(i) = zd3(i) - zd1(i)
+          z41(i) = zd4(i) - zd1(i)
+          z54(i) = zd5(i) - zd4(i)
+          z64(i) = zd6(i) - zd4(i)
 !
           jac1(i) = x21(i) + x54(i)
           jac2(i) = y21(i) + y54(i)
@@ -348,9 +352,9 @@
           jac4(i) = x31(i) + x64(i)
           jac5(i) = y31(i) + y64(i)
           jac6(i) = z31(i) + z64(i)
-          jac7(i) = third * (x41(i) + x5(i) - x2(i) + x6(i) - x3(i))
-          jac8(i) = third * (y41(i) + y5(i) - y2(i) + y6(i) - y3(i))
-          jac9(i) = third * (z41(i) + z5(i) - z2(i) + z6(i) - z3(i))
+          jac7(i) = third * (x41(i) + xd5(i) - xd2(i) + xd6(i) - xd3(i))
+          jac8(i) = third * (y41(i) + yd5(i) - yd2(i) + yd6(i) - yd3(i))
+          jac9(i) = third * (z41(i) + zd5(i) - zd2(i) + zd6(i) - zd3(i))
 !
           jacob4(i) = jac4(i)
           jacob5(i) = jac5(i)
