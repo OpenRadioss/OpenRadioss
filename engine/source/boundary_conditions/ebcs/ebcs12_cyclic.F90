@@ -54,7 +54,7 @@
           la,ms,stifn,ebcs,iparg,elbuf_tab,ixq,ixs,ixtg, &
           fsavsurf,iparit,dt1, &
           numels, numelq, numeltg, numnod, nparg, ngroup, nixs, nixq, nixtg, nsurf, n2d, &
-          ncycle,iale,elem_adress,lsky,fsky)
+          ncycle,mcheck,iale,elem_adress,lsky,fsky)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -96,6 +96,7 @@
           integer, dimension(4,nseg), intent(in) :: elem_adress ! adress for fsky array (only used with parith/on)
           integer,intent(in) :: lsky
           real(kind=WP), dimension(8,lsky), intent(inout) :: fsky ! acceleration array for parith/on option
+          integer,intent(in) :: mcheck ! flag for CHKPT option (1:CHKPT)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   local variables
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -127,13 +128,15 @@
 
           data icf_2d  /1,2,2,3,3,4,4,1/
           data icf_3d  /1,4,3,2,3,4,8,7,5,6,7,8,1,2,6,5,2,3,7,6,1,5,8,4/
-
-
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   body
 ! ----------------------------------------------------------------------------------------------------------------------
 
-          IF(NCYCLE == 0) CALL EBCS_GET_GROUP_INFO(NSEG, EBCS%IELEM, EBCS%NG, EBCS%ILOC,  NGROUP, NPARG, IPARG, N2D)
+          IF(NCYCLE == 0 .OR. MCHECK == 1)THEN
+            ! not need to transmit this to restart file.
+            ! compute it only in case of first cycle with RESTART or CHKPT options
+            CALL EBCS_GET_GROUP_INFO(NSEG, EBCS%IELEM, EBCS%NG, EBCS%ILOC, NGROUP, NPARG, IPARG, N2D)
+          END IF
           rho_ = zero
           wf = zero
           vf = zero

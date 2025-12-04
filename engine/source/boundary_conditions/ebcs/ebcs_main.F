@@ -64,7 +64,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                     FSKY,FSAVSURF,TIME,DT1,
      .                     NSENSOR,SENSOR_TAB,PYTHON,
      .                     NPC, TF ,SNPC, STF, OUTPUT, MATPARAM, PM,
-     .                     BUFMAT)
+     .                     BUFMAT,MCHECK)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -126,6 +126,7 @@ C-----------------------------------------------
       TYPE(MATPARAM_STRUCT_),DIMENSION(NUMMAT),INTENT(IN) :: MATPARAM !< material buffer
       my_real,INTENT(IN) :: PM(NPROPM, NUMMAT)
       my_real,INTENT(IN) :: BUFMAT(*)
+      INTEGER,INTENT(IN) :: MCHECK ! flag for CHKPT option
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -247,7 +248,7 @@ C-----------------------------------------------
      .                    twf%la,ms,stifn,twf,iparg,elbuf_tab,ixq,ixs,ixtg,
      .                    fsavsurf,iparit,dt1,
      .                    numels, numelq, numeltg,numnod, nparg, ngroup, nixs, nixq, nixtg, nsurf, n2d,
-     .                     ncycle, iale,ebcs_parithon(i)%elem_adress,lsky,fsky)
+     .                     ncycle,mcheck, iale,ebcs_parithon(i)%elem_adress,lsky,fsky)
             end select
          ELSE IF (TYP == 100) THEN
             SELECT TYPE(EBCS)
