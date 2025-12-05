@@ -29,7 +29,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    element_mod            ../common_source/modules/elements/element_mod.F90
 !||    i22bufbric_mod         ../common_source/modules/interfaces/cut-cell-search_mod.F
 !||====================================================================
-      SUBROUTINE AFLUX3(PM,IXS,V,W,X,FLUX,FLU1,ALE_CONNECT,NSG, TAG22)
+      SUBROUTINE AFLUX3(PM,IXS,V,W,X,FLUX,FLU1,ALE_CONNECT,NSG, TAG22,s_flux)
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
@@ -56,8 +56,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      integer, intent(in) :: s_flux !<first dimension of FLUX array
       INTEGER IXS(NIXS,NUMELS), NSG
-      my_real PM(NPROPM,NUMMAT), V(3,NUMNOD), W(3,NUMNOD), X(3,NUMNOD), FLUX(6,*), FLU1(*)
+      my_real PM(NPROPM,NUMMAT), V(3,NUMNOD), W(3,NUMNOD), X(3,NUMNOD), FLUX(s_flux,6), FLU1(*)
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -94,7 +95,7 @@ C-----------------------------------------------
      .   VDY5(MVSIZ), VDY6(MVSIZ), VDY7(MVSIZ), VDY8(MVSIZ),
      .   VDZ1(MVSIZ), VDZ2(MVSIZ), VDZ3(MVSIZ), VDZ4(MVSIZ),
      .   VDZ5(MVSIZ), VDZ6(MVSIZ), VDZ7(MVSIZ), VDZ8(MVSIZ),
-     .   REDUC,UPWL(6,MVSIZ),
+     .   REDUC,UPWL(MVSIZ,6),
      .   XC(MVSIZ),YC(MVSIZ),ZC(MVSIZ),
      .   XF1(MVSIZ),YF1(MVSIZ),ZF1(MVSIZ),
      .   XF2(MVSIZ),YF2(MVSIZ),ZF2(MVSIZ),
@@ -426,12 +427,12 @@ C-----------------------------------------------
       !======================================================!
       IF(NINT(PM(19,MAT(1))) == 51)THEN
         DO I=LFT,LLT
-          FLUX(1,I)=FLUX1(I)
-          FLUX(2,I)=FLUX2(I)
-          FLUX(3,I)=FLUX3(I)
-          FLUX(4,I)=FLUX4(I)
-          FLUX(5,I)=FLUX5(I)
-          FLUX(6,I)=FLUX6(I)
+          FLUX(NFT+I,1)=FLUX1(I)
+          FLUX(NFT+I,2)=FLUX2(I)
+          FLUX(NFT+I,3)=FLUX3(I)
+          FLUX(NFT+I,4)=FLUX4(I)
+          FLUX(NFT+I,5)=FLUX5(I)
+          FLUX(NFT+I,6)=FLUX6(I)
         ENDDO
         RETURN
       ENDIF
@@ -443,22 +444,22 @@ C-----------------------------------------------
       IF (NSG == 1) THEN
          MA = MAT(1)
          DO I=LFT,LLT
-           UPWL(1,I)=PM(16,MA)
-           UPWL(2,I)=PM(16,MA)
-           UPWL(3,I)=PM(16,MA)
-           UPWL(4,I)=PM(16,MA)
-           UPWL(5,I)=PM(16,MA)
-           UPWL(6,I)=PM(16,MA)
+           UPWL(I,1)=PM(16,MA)
+           UPWL(I,2)=PM(16,MA)
+           UPWL(I,3)=PM(16,MA)
+           UPWL(I,4)=PM(16,MA)
+           UPWL(I,5)=PM(16,MA)
+           UPWL(I,6)=PM(16,MA)
          ENDDO
       ELSE
          IF (IVECTOR == 0) THEN
            DO I=LFT,LLT
-             UPWL(1,I)=PM(16,MAT(I))
-             UPWL(2,I)=PM(16,MAT(I))
-             UPWL(3,I)=PM(16,MAT(I))
-             UPWL(4,I)=PM(16,MAT(I))
-             UPWL(5,I)=PM(16,MAT(I))
-             UPWL(6,I)=PM(16,MAT(I))
+             UPWL(I,1)=PM(16,MAT(I))
+             UPWL(I,2)=PM(16,MAT(I))
+             UPWL(I,3)=PM(16,MAT(I))
+             UPWL(I,4)=PM(16,MAT(I))
+             UPWL(I,5)=PM(16,MAT(I))
+             UPWL(I,6)=PM(16,MAT(I))
            ENDDO
          ELSE
            IC=1
@@ -473,12 +474,12 @@ C-----------------------------------------------
            DO II=1,IC
              MA = MAT(II)
              DO I=JST(II),JST(II+1)-1
-               UPWL(1,I)=PM(16,MA)
-               UPWL(2,I)=PM(16,MA)
-               UPWL(3,I)=PM(16,MA)
-               UPWL(4,I)=PM(16,MA)
-               UPWL(5,I)=PM(16,MA)
-               UPWL(6,I)=PM(16,MA)
+               UPWL(I,1)=PM(16,MA)
+               UPWL(I,2)=PM(16,MA)
+               UPWL(I,3)=PM(16,MA)
+               UPWL(I,4)=PM(16,MA)
+               UPWL(I,5)=PM(16,MA)
+               UPWL(I,6)=PM(16,MA)
              ENDDO
            ENDDO
          ENDIF
@@ -533,19 +534,19 @@ C-----------------------------------------------
       !==========================================================!
       DO I=LFT,LLT
         ! 6 flows we faces
-        FLUX(1,I)=FLUX1(I)-UPWL(1,I)*ABS(FLUX1(I))
-        FLUX(2,I)=FLUX2(I)-UPWL(2,I)*ABS(FLUX2(I))
-        FLUX(3,I)=FLUX3(I)-UPWL(3,I)*ABS(FLUX3(I))
-        FLUX(4,I)=FLUX4(I)-UPWL(4,I)*ABS(FLUX4(I))
-        FLUX(5,I)=FLUX5(I)-UPWL(5,I)*ABS(FLUX5(I))
-        FLUX(6,I)=FLUX6(I)-UPWL(6,I)*ABS(FLUX6(I))
+        FLUX(NFT+I,1)=FLUX1(I)-UPWL(I,1)*ABS(FLUX1(I))
+        FLUX(NFT+I,2)=FLUX2(I)-UPWL(I,2)*ABS(FLUX2(I))
+        FLUX(NFT+I,3)=FLUX3(I)-UPWL(I,3)*ABS(FLUX3(I))
+        FLUX(NFT+I,4)=FLUX4(I)-UPWL(I,4)*ABS(FLUX4(I))
+        FLUX(NFT+I,5)=FLUX5(I)-UPWL(I,5)*ABS(FLUX5(I))
+        FLUX(NFT+I,6)=FLUX6(I)-UPWL(I,6)*ABS(FLUX6(I))
         ! One global flux
-        FLU1(I)  =FLUX1(I)+UPWL(1,I)*ABS(FLUX1(I))
-     .           +FLUX2(I)+UPWL(2,I)*ABS(FLUX2(I))
-     .           +FLUX3(I)+UPWL(3,I)*ABS(FLUX3(I))
-     .           +FLUX4(I)+UPWL(4,I)*ABS(FLUX4(I))
-     .           +FLUX5(I)+UPWL(5,I)*ABS(FLUX5(I))
-     .           +FLUX6(I)+UPWL(6,I)*ABS(FLUX6(I))
+        FLU1(I)  =FLUX1(I)+UPWL(I,1)*ABS(FLUX1(I))
+     .           +FLUX2(I)+UPWL(I,2)*ABS(FLUX2(I))
+     .           +FLUX3(I)+UPWL(I,3)*ABS(FLUX3(I))
+     .           +FLUX4(I)+UPWL(I,4)*ABS(FLUX4(I))
+     .           +FLUX5(I)+UPWL(I,5)*ABS(FLUX5(I))
+     .           +FLUX6(I)+UPWL(I,6)*ABS(FLUX6(I))
       END DO
 C-----------------------------------------------
       RETURN

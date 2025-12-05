@@ -29,7 +29,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    element_mod            ../common_source/modules/elements/element_mod.F90
 !||    i22tri_mod             ../common_source/modules/interfaces/cut-cell-search_mod.F
 !||====================================================================
-      SUBROUTINE EFLUX3(PM,IXS,V,FLUX,FLU1,VEUL,ALE_CONNECT,TAG22)
+      SUBROUTINE EFLUX3(PM,IXS,V,FLUX,FLU1,VEUL,ALE_CONNECT,TAG22,s_flux)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -60,8 +60,9 @@ C-----------------------------------------------
 ! IXQ(1:NIXS, 1:NUMELS) local elems
 !    (1:NIXS, NUMELS+1:) additional elems (also on adjacent domains but connected to the boundary of the current domain)
 !
+      integer, intent(in) :: s_flux !< first dimension of FLUX array
       INTEGER IXS(NIXS,SIXS/NIXS)
-      my_real PM(NPROPM,NUMMAT), V(3,NUMNOD), FLUX(6,*), FLU1(*), VEUL(LVEUL,*), TAG22(*)
+      my_real PM(NPROPM,NUMMAT), V(3,NUMNOD), FLUX(s_flux,6), FLU1(*), VEUL(LVEUL,*), TAG22(*)
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -78,7 +79,7 @@ C-----------------------------------------------
      .         VDX4(MVSIZ), VDX5(MVSIZ), VDX6(MVSIZ), VDX7(MVSIZ), VDX8(MVSIZ), VDY1(MVSIZ), VDY2(MVSIZ),
      .         VDY3(MVSIZ), VDY4(MVSIZ), VDY5(MVSIZ), VDY6(MVSIZ), VDY7(MVSIZ), VDY8(MVSIZ), VDZ1(MVSIZ),
      .         VDZ2(MVSIZ), VDZ3(MVSIZ), VDZ4(MVSIZ), VDZ5(MVSIZ), VDZ6(MVSIZ), VDZ7(MVSIZ), VDZ8(MVSIZ),
-     .         REDUC,UPWL(6,MVSIZ)
+     .         REDUC,UPWL(MVSIZ,6)
       LOGICAL debug_outp
 C-----------------------------------------------
 C   S o u r c e   L i n e s
@@ -234,7 +235,7 @@ C-----------------------------------------------
             if(ibug22_flux/=ixs(11,I+NFT).and.ibug22_flux/=-1)cycle        
             if (tag22(i)==zero)print *,"       UNCUT"!cycle
             print *,                    "      brique=", ixs(11,nft+i)
-            write (*,FMT='(A,6E26.14)') "       Flux(1:6)=", FLUX(1:6,I)
+            write (*,FMT='(A,6E26.14)') "       Flux(1:6)=", FLUX(NFT+I,1:6)
             write (*,FMT='(A,1E26.14)') "       Flu1=", FLU1(I)
             print *, "      ------------------------"          
           enddo
@@ -250,12 +251,12 @@ C-----------------------------------------------
       !======================================================!
       IF(NINT(PM(19,MAT(1))) == 51)THEN
         DO I=LFT,LLT
-          FLUX(1,I)=FLUX1(I)
-          FLUX(2,I)=FLUX2(I)
-          FLUX(3,I)=FLUX3(I)
-          FLUX(4,I)=FLUX4(I)
-          FLUX(5,I)=FLUX5(I)
-          FLUX(6,I)=FLUX6(I)
+          FLUX(NFT+I,1)=FLUX1(I)
+          FLUX(NFT+I,2)=FLUX2(I)
+          FLUX(NFT+I,3)=FLUX3(I)
+          FLUX(NFT+I,4)=FLUX4(I)
+          FLUX(NFT+I,5)=FLUX5(I)
+          FLUX(NFT+I,6)=FLUX6(I)
         ENDDO !next I
         RETURN
       ENDIF
@@ -266,7 +267,7 @@ C-----------------------------------------------
       !======================================================!
       DO J=1,6
         DO I=LFT,LLT
-          UPWL(J,I)=PM(16,MAT(I))
+          UPWL(I,J)=PM(16,MAT(I))
         ENDDO !next I
       ENDDO !next J
 
@@ -306,19 +307,19 @@ C-----------------------------------------------
       ENDDO !next I
 
       DO I=LFT,LLT
-        FLUX(1,I)=FLUX1(I)-UPWL(1,I)*ABS(FLUX1(I))
-        FLUX(2,I)=FLUX2(I)-UPWL(2,I)*ABS(FLUX2(I))
-        FLUX(3,I)=FLUX3(I)-UPWL(3,I)*ABS(FLUX3(I))
-        FLUX(4,I)=FLUX4(I)-UPWL(4,I)*ABS(FLUX4(I))
-        FLUX(5,I)=FLUX5(I)-UPWL(5,I)*ABS(FLUX5(I))
-        FLUX(6,I)=FLUX6(I)-UPWL(6,I)*ABS(FLUX6(I))
+        FLUX(NFT+I,1)=FLUX1(I)-UPWL(I,1)*ABS(FLUX1(I))
+        FLUX(NFT+I,2)=FLUX2(I)-UPWL(I,2)*ABS(FLUX2(I))
+        FLUX(NFT+I,3)=FLUX3(I)-UPWL(I,3)*ABS(FLUX3(I))
+        FLUX(NFT+I,4)=FLUX4(I)-UPWL(I,4)*ABS(FLUX4(I))
+        FLUX(NFT+I,5)=FLUX5(I)-UPWL(I,5)*ABS(FLUX5(I))
+        FLUX(NFT+I,6)=FLUX6(I)-UPWL(I,6)*ABS(FLUX6(I))
 
-        FLU1(I)  =FLUX1(I)+UPWL(1,I)*ABS(FLUX1(I))
-     .           +FLUX2(I)+UPWL(2,I)*ABS(FLUX2(I))
-     .           +FLUX3(I)+UPWL(3,I)*ABS(FLUX3(I))
-     .           +FLUX4(I)+UPWL(4,I)*ABS(FLUX4(I))
-     .           +FLUX5(I)+UPWL(5,I)*ABS(FLUX5(I))
-     .           +FLUX6(I)+UPWL(6,I)*ABS(FLUX6(I))
+        FLU1(I)  =FLUX1(I)+UPWL(I,1)*ABS(FLUX1(I))
+     .           +FLUX2(I)+UPWL(I,2)*ABS(FLUX2(I))
+     .           +FLUX3(I)+UPWL(I,3)*ABS(FLUX3(I))
+     .           +FLUX4(I)+UPWL(I,4)*ABS(FLUX4(I))
+     .           +FLUX5(I)+UPWL(I,5)*ABS(FLUX5(I))
+     .           +FLUX6(I)+UPWL(I,6)*ABS(FLUX6(I))
       ENDDO !next I
 C-----------------------------------------------
       RETURN

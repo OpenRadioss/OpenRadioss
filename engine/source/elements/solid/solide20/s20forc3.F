@@ -62,7 +62,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE S20FORC3(TIMERS,OUTPUT,
      1   ELBUF_TAB,  NG,         PM,         GEO,
      2   IXS,        X,          A,          V,
-     3   MS,         W,          FLUX,       FLU1,
+     3   MS,         W,          FLU1,
      4   VEUL,       FV,         ALE_CONNECT,IPARG,
      5   TF,         NPF,        BUFMAT,     PARTSAV,
      6   NLOC_DMG,   DT2T,       NELTST,     ITYPTST,
@@ -150,7 +150,7 @@ C-----------------------------------------------
       my_real
      .   DT2T
       my_real
-     .   PM(*), GEO(NPROPG,*), X(*), A(*), V(*), MS(*), W(*), FLUX(6,*),FLU1(*), 
+     .   PM(*), GEO(NPROPG,*), X(*), A(*), V(*), MS(*), W(*),FLU1(*), 
      .   VEUL(*), FV(*), TF(*),TEMP(*), FTHE(*),FTHESKY(*),GRESAV(*), 
      .   BUFMAT(*),PARTSAV(*),STIFN(*), FSKY(*),EANI(*),VOLN(MVSIZ)
       my_real
@@ -218,6 +218,8 @@ C-----------------------------------------------
       my_real VARNL(NEL)
       DOUBLE PRECISION
      .  VOLDP(MVSIZ,NIPMAX)
+      integer :: fake_size = 0
+      my_real, dimension(1) :: fake_array         
 C-----------------------------------------------
       TYPE(L_BUFEL_) ,POINTER :: LBUF     
       TYPE(G_BUFEL_) ,POINTER :: GBUF     
@@ -402,11 +404,12 @@ C
          DIVDE(1:NEL) = DT1*(DXX(1:NEL)+ DYY(1:NEL)+ DZZ(1:NEL))   
          CALL SRHO3(
      1   PM,         LBUF%VOL,   LBUF%RHO,   LBUF%EINT,
-     2   DIVDE,      FLUX(1,NF1),FLU1(NF1),  VOLN,
+     2   DIVDE,      fake_array ,FLU1(NF1),  VOLN,
      3   DVOL,       NGL,        MXT,        OFF,
      4   0,          GBUF%TAG22, VOLDP(1,IP),LBUF%VOL0DP,
      5   AMU,        GBUF%OFF,   NEL,        MTN,
-     6   JALE,       ISMSTR,     JEUL,       JLAG)
+     6   JALE,       ISMSTR,     JEUL,       JLAG,
+     .   fake_size,fake_size,0)
      
          CALL SROTA3(
      1   LBUF%SIG,S1,      S2,      S3,

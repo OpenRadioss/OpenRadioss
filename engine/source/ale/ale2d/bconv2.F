@@ -28,7 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
 !||====================================================================
       SUBROUTINE BCONV2(VTOT  ,PHI   ,FLUX ,FLU1 , ALE_CONNECT ,
-     .                  BHOLE ,NM   )
+     .                  BHOLE ,NM    ,s_flux,offset,nv46)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -46,18 +46,23 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      integer, intent(in) :: s_flux !< first dimension of FLUX array
+      integer, intent(in) :: offset !< offset for FLUX & QMV arrays      
+      integer, intent(in) :: nv46 !< secondimension of FLUX array
       INTEGER BHOLE(NMULT,*) ,NM
-      my_real VTOT(*), PHI(*), FLUX(4,*), FLU1(*)
+      my_real VTOT(*), PHI(*), FLUX(s_flux,nv46), FLU1(*)
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, IE, IV1, IV2, IV3, IV4, IAD2
+      integer :: ie_2
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
         DO I=LFT,LLT
           IE =NFT+I
+          ie_2 = ie + offset
           IAD2 = ALE_CONNECT%ee_connect%iad_connect(IE)
           IV1=ALE_CONNECT%ee_connect%connected(IAD2 + 1 - 1)
           IV2=ALE_CONNECT%ee_connect%connected(IAD2 + 2 - 1)
@@ -85,7 +90,8 @@ C-----------------------------------------------
           ENDIF
           VTOT(I) = VTOT(I) + HALF * DT1 *(
      .                                     - PHI(IE)*FLU1(I)
-     .                                     - PHI(IV1)*FLUX(1,I)-PHI(IV2)*FLUX(2,I)-PHI(IV3)*FLUX(3,I)-PHI(IV4)*FLUX(4,I)
+     .                                     - PHI(IV1)*FLUX(ie_2,1)-PHI(IV2)*FLUX(ie_2,2)
+     .                                     - PHI(IV3)*FLUX(ie_2,3)-PHI(IV4)*FLUX(ie_2,4)
      .                                    )
       ENDDO
 C-----------------------------------------------

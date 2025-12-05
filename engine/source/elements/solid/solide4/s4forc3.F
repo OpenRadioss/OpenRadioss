@@ -106,7 +106,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      I   MAT_ELEM,   H3D_STRAIN,       DT,         IDEL7NOK,NSVOIS,SZ_BUFVOIS,
      *   SNPC,       STF,              SBUFMAT,    SVIS,IDTMINS,IRESP,
      *   IDEL7NG,    MAXFUNC,          USERL_AVAIL, GLOB_THERM,
-     V   impl_s,     idyna,            S_SFEM_NODVAR)
+     V   impl_s,     idyna,            S_SFEM_NODVAR,s_flux,nv46)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -164,6 +164,8 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: IMPL_S
       INTEGER, INTENT(IN) :: IDYNA
       INTEGER, INTENT(IN) :: USERL_AVAIL
+      integer, intent(in) :: s_flux !< first dimension of flux array
+      integer, intent(in) :: nv46 !< second dimension of flux array
       INTEGER IXS(NIXS,*), IPARG(NPARG,NGROUP), NPF(*),IADS(8,*),
      .        IPARTS(*),IPM(NPROPMI,*),IGEO(NPROPGI,*),ITASK,
      .        GRTH(*),IGRTH(*),IOUTPRT
@@ -177,7 +179,7 @@ C
       my_real
      .   DT2T
       my_real
-     .   PM(NPROPM,*), GEO(NPROPG,*), X(3,*), A(*), V(*), MS(*), W(*), FLUX(6,*),
+     .   PM(NPROPM,*), GEO(NPROPG,*), X(3,*), A(*), V(*), MS(*), W(*), FLUX(s_flux,nv46),
      .   FLU1(*), VEUL(*), FV(*), TF(*), BUFMAT(*),
      .   PARTSAV(*),STIFN(*), FSKY(*),EANI(*), FSKYM(*),
      .   F11(MVSIZ),F21(MVSIZ),F31(MVSIZ),
@@ -490,9 +492,10 @@ C
          ENDIF
 C
       CALL S11FX3(
-     1   PM,         FLUX(1,NF1),ALE_CONNECT,IXS,
+     1   PM,         FLUX,ALE_CONNECT,IXS,
      2   IPM,        BUFMAT,     NEL,        NFT,
-     3   JALE,       JEUL  ,     NUMMAT,     NUMELS+NSVOIS)
+     3   JALE,       JEUL  ,     NUMMAT,     NUMELS+NSVOIS,
+     4   s_flux,nv46)
 C-----------------------------------------------------
 C     SFEM
 C-----------------------------------------------------
@@ -523,11 +526,12 @@ C-------------------------------------------------------------
        DIVDE(1:NEL) = DT1*(DXX(1:NEL)+ DYY(1:NEL)+ DZZ(1:NEL))   
       CALL SRHO3(
      1   PM,          GBUF%VOL,    GBUF%RHO,    GBUF%EINT,
-     2   DIVDE,       FLUX(1,NF1), FLU1(NF1),   VOLN,
+     2   DIVDE,       FLUX, FLU1(NF1),   VOLN,
      3   DVOL,        NGL,         MXT,         OFF,
      4   IPARG(64,NG),GBUF%TAG22,  VOLDP,       LBUF%VOL0DP,
      5   AMU,         GBUF%OFF,    NEL,         MTN,
-     6   JALE,        ISMSTR,      JEUL,        JLAG)
+     6   JALE,        ISMSTR,      JEUL,        JLAG,     
+     7   s_flux,nv46,nft)
 C----for Eint compute----     
       IF (ISMSTR == 12.AND.IDTMIN(1)==3.AND.ISM12_11==0) THEN
           CALL SROTO12_SIG(LFT,LLT,LBUF%SIG,NEL,

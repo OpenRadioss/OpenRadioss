@@ -153,7 +153,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      S   MAT_ELEM,   H3D_STRAIN, DT,         IDEL7NOK,NSVOIS,
      T   SZ_BUFVOIS, SNPC,STF,SBUFMAT,SVIS,IDTMINS,IRESP,
      U   IDEL7NG,    MAXFUNC,    USERL_AVAIL, GLOB_THERM, 
-     V   impl_s,     idyna,      WFEXT)
+     V   impl_s,     idyna,      WFEXT,s_flux,s_qmv)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -212,13 +212,16 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: IMPL_S
       INTEGER, INTENT(IN) :: IDYNA
       INTEGER, INTENT(IN) :: USERL_AVAIL
+      integer, intent(in) :: s_flux !< first dimension of flux array
+      integer, intent(in) :: s_qmv !< first dimension of qmv array      
+      integer, intent(in) :: nv46 !< second dimension of flux & qmv array      
       INTEGER, DIMENSION(*), INTENT(IN) :: IPARG,IPARTS,NPF,NALE
       INTEGER,INTENT(IN) :: NG,NEL
       INTEGER IXS(NIXS,NUMELS), IADS(8,*),IPM(NPROPMI,NUMMAT),
      .        IGEO(NPROPGI,*),GRTH(*),IGRTH(*),IPARG1(*),IFOAM(*),
      .        ICONTACT(*),ISKY(*),ITAB(*)
       INTEGER NELTST,ITYPTST,OFFSET,NVC,ITASK,
-     .        ISTRAIN, IEXPAN, NV46,IOUTPRT,H3D_STRAIN
+     .        ISTRAIN, IEXPAN, IOUTPRT,H3D_STRAIN
 
       DOUBLE PRECISION :: XDP(3,*)
 
@@ -226,7 +229,7 @@ C-----------------------------------------------
       my_real :: DT2T
       my_real
      .   PM(NPROPM,NUMMAT), GEO(NPROPG,NUMGEO), X(*), A(*), V(3,*), MS(*), W(*),
-     .   FLUX(6,*), FSKYM(*),
+     .   FLUX(s_flux,nv46), FSKYM(*),
      .   FLU1(*), VEUL(*), FV(*), TF(*), BUFMAT(*),
      .   PARTSAV(*),STIFN(*), FSKY(*),EANI(*),
      .   F11(MVSIZ),F21(MVSIZ),F31(MVSIZ),
@@ -243,7 +246,7 @@ C-----------------------------------------------
      .   POR(*),VOLN(MVSIZ), CONDN(*),CONDNSKY(*)
 
       my_real :: BUFVOIS(6,*) ! Neighbour element numbers (ALE/CFD)
-      my_real :: MSNF(*),AR(*),VR(3,*),IN(*),FR_WAVE(*),DR(3,*),QMV(12,*)
+      my_real :: MSNF(*),AR(*),VR(3,*),IN(*),FR_WAVE(*),DR(3,*),QMV(s_qmv,2*nv46)
       TYPE (TTABLE) TABLE(*)
       TYPE (ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB
       TYPE (NLOCAL_STR_)  , TARGET :: NLOC_DMG
@@ -771,19 +774,21 @@ C
       ENDIF 
 C
       CALL S11FX3(
-     1   PM,         FLUX(1,NF1),ALE_CONNECT,IXS,
+     1   PM,         FLUX,ALE_CONNECT,IXS,
      2   IPM,        BUFMAT,     NEL,        NFT,
-     3   JALE,       JEUL  ,     NUMMAT,     NUMELS+NSVOIS)
+     3   JALE,       JEUL  ,     NUMMAT,     NUMELS+NSVOIS,
+     4   s_flux,nv46)
 C
       DIVDE(1:NEL) = DT1*(DXX(1:NEL)+ DYY(1:NEL)+ DZZ(1:NEL))  
 C Compute new density
       CALL SRHO3(
      1   PM,         GBUF%VOL,   GBUF%RHO,   GBUF%EINT,
-     2   DIVDE,      FLUX(1,NF1),FLU1(NF1),  VOLN,
+     2   DIVDE,      FLUX,FLU1(NF1),  VOLN,
      3   DVOL,       NGL,        MXT,        OFF,
      4   IPARG1(64), GBUF%TAG22, VOLDP,      LBUF%VOL0DP,
      5   AMU,        GBUF%OFF,   NEL,        MTN,
-     6   JALE,       ISMSTR,     JEUL,       JLAG)
+     6   JALE,       ISMSTR,     JEUL,       JLAG,     
+     7   s_flux,nv46,nft)
 C
       IF (ISMSTR == 12.AND.IDTMIN(1)==3.AND.ISM12_11==0.AND.JCVT==0) THEN
          CALL SROTO12_SIG(LFT,LLT,LBUF%SIG,NEL,
@@ -1321,7 +1326,8 @@ C ALE & Euler momentum transport forces
      X   IPARG1,    IXS,       GBUF%TAG22,NC1,
      Y   NC2,       NC3,       NC4,       NC5,
      Z   NC6,       NC7,       NC8,       NALE,
-     1   NEL,       NFT,       MTN,       IPM)
+     1   NEL,       NFT,       MTN,       IPM,
+     2   s_qmv,nv46)
 C
        ELSEIF (JEUL == 1 .AND. INTEG8 == 1) THEN
 C SUPG and TG UPWIND not included 
@@ -1349,7 +1355,7 @@ C SUPG and TG UPWIND not included
      L   VY7,               VY8,               VZ1,               VZ2,
      M   VZ3,               VZ4,               VZ5,               VZ6,
      N   VZ7,               VZ8,               IPARG1,            NEL,
-     O   MTN,               IPM)
+     O   MTN,               IPM,s_qmv,nv46,nft)
        ENDIF
 C
         IF(JEUL+JALE/=0) CALL CHECK_OFF_ALE(F11,F21,F31,F12,F22,
@@ -1396,7 +1402,8 @@ C
      X   IPARG1,    IXS,       GBUF%TAG22,NC1,
      Y   NC2,       NC3,       NC4,       NC5,
      Z   NC6,       NC7,       NC8,       NALE,
-     1   NEL,       NFT,       MTN,       IPM)
+     1   NEL,       NFT,       MTN,       IPM,
+     2   s_qmv,nv46)
        ENDIF     
       ENDIF !  IALEFVM_MAT <= 1
 C

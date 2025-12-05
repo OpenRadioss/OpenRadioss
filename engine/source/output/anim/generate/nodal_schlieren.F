@@ -94,7 +94,7 @@ C-----------------------------------------------
       my_real, ALLOCATABLE, DIMENSION(:) :: COUNT_VOL    
       my_real D,V, DPHI(MVSIZ)
  
-      my_real :: GRAD(6,MVSIZ)     
+      my_real :: GRAD(MVSIZ,6)     
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -146,7 +146,7 @@ C-----------------------------------------------
                 LFT = 1
                 LLT = NEL
                 CALL AGRAD3(
-     1   IXS,             X,               ALE_CONNECTIVITY,GRAD)
+     1   IXS,             X,               ALE_CONNECTIVITY,GRAD,MVSIZ,0)
                 IE =NFT+I
                 IAD2 = ALE_CONNECTIVITY%ee_connect%iad_connect(IE)
                 IV(1)=ALE_CONNECTIVITY%ee_connect%connected(IAD2 + 1 - 1)
@@ -162,12 +162,6 @@ C-----------------------------------------------
                 IF(IV(5)<=0)IV(5)=IE
                 IF(IV(6)<=0)IV(6)=IE
                 DPHI(I) = ZERO
-!     .           (PHI(IV(1))-PHI(IE))*GRAD(1,I) 
-!     .          +(PHI(IV(2))-PHI(IE))*GRAD(2,I) 
-!     .          +(PHI(IV(3))-PHI(IE))*GRAD(3,I) 
-!     .          +(PHI(IV(4))-PHI(IE))*GRAD(4,I) 
-!     .          +(PHI(IV(5))-PHI(IE))*GRAD(5,I) 
-!     .          +(PHI(IV(6))-PHI(IE))*GRAD(6,I)  
                   DO J=2,NNOD+1
                     JJ=IXS(J,NFT+I)
                     K = J-1

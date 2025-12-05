@@ -102,7 +102,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
       SUBROUTINE SZFORC3(TIMERS,  ELBUF_TAB,NG      ,
      1                   PM       ,GEO     ,IXS     ,X      ,
-     2                   A        ,V       ,MS      ,W      ,FLUX   ,
+     2                   A        ,V       ,MS      ,W      ,
      3                   FLU1     ,VEUL      ,FV      ,ALE_CONNECT    ,IPARG    ,
      4                   TF       ,NPF     ,BUFMAT  ,PARTSAV,
      5                   DT2T     ,NELTST  ,ITYPTST ,STIFN  ,FSKY   ,
@@ -191,7 +191,7 @@ C-----------------------------------------------
      .   DT2T
       my_real
      .   PM(NPROPM,NUMMAT), GEO(NPROPG,*), X(*), A(*), V(3,*), MS(*), W(*), 
-     .   FLUX(6,*), FSKYM(*),
+     .   FSKYM(*),
      .   FLU1(*), VEUL(*), FV(*), TF(*), BUFMAT(*),
      .   PARTSAV(*),STIFN(*), FSKY(*),EANI(*),MSNF(*),
      .   F11(MVSIZ),F21(MVSIZ),F31(MVSIZ),
@@ -325,6 +325,8 @@ C     IBOLTP : flag bolt preloading
       my_real, DIMENSION(:), POINTER :: BPRELD,DNL
       my_real :: P(MVSIZ)
       INTEGER SZ_IX
+      integer :: fake_size = 0
+      my_real, dimension(1) :: fake_array          
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C=======================================================================
@@ -637,11 +639,12 @@ C
       DIVDE(1:NEL) = DT1*(DXX(1:NEL)+ DYY(1:NEL)+ DZZ(1:NEL))  
       CALL SRHO3(
      1   PM,         GBUF%VOL,   GBUF%RHO,   GBUF%EINT,
-     2   DIVDE,      FLUX(1,NF1),FLU1(NF1),  VOLN,
+     2   DIVDE,      fake_array,FLU1(NF1),  VOLN,
      3   DVOL,       NGL,        MXT,        OFF,
      4   IBID,       GBUF%TAG22, VOLDP,      LBUF%VOL0DP,
      5   AMU,        GBUF%OFF,   NEL,        MTN,
-     6   JALE,       ISMSTR,     JEUL,       JLAG)
+     6   JALE,       ISMSTR,     JEUL,       JLAG,
+     .   fake_size,fake_size,0)
 C
 C Extract stresses + small strain
        CALL SRMALLA3(GBUF%SIG,S1,S2,S3,S4,S5,S6,
@@ -1005,7 +1008,8 @@ C ALE or EULER : update momentum transport forces
      X   IPARG(1,NG),IXS,        GBUF%TAG22, NC1,
      Y   NC2,        NC3,        NC4,        NC5,
      Z   NC6,        NC7,        NC8,        NALE,
-     1   NEL,        NFT,        MTN,        IPM)
+     1   NEL,        NFT,        MTN,        IPM,
+     .  fake_size, fake_size)
       ELSEIF(JEUL == 1 .AND. INTEG8 == 1)THEN
 C
 C Does not include upwind SUPG or TG
@@ -1033,7 +1037,7 @@ C Does not include upwind SUPG or TG
      L   VY7,               VY8,               VZ1,               VZ2,
      M   VZ3,               VZ4,               VZ5,               VZ6,
      N   VZ7,               VZ8,               IPARG(1,NG),       NEL,
-     O   MTN,               IPM)
+     O   MTN,               IPM,fake_size, fake_size,nft)
       ENDIF
 
         IF(JEUL+JALE/=0) CALL CHECK_OFF_ALE(F11,F21,F31,F12,F22,

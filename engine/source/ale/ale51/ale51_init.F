@@ -41,7 +41,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE ALE51_INIT(IPARG      ,PM      ,IXS     ,IXQ      ,
      2                      X          ,FLUX    ,FLU2    ,
      3                      ALE_CONNECT,ITASK   ,
-     4                      FLUX_SAV   ,QMV     ,NV46    ,ELBUF_TAB)
+     4                      FLUX_SAV   ,QMV     ,NV46    ,ELBUF_TAB,
+     5                      s_flux,s_qmv)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -51,6 +52,12 @@ C-----------------------------------------------
       USE I22TRI_MOD           
       USE ALE_CONNECTIVITY_MOD
       use element_mod , only : nixs
+
+
+
+
+
+      USE DEBUG_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -67,10 +74,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+       integer, intent(in) :: s_flux !< first dimension of flux array
+      integer, intent(in) :: s_qmv  !< first dimension of QMV array
       TYPE(ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB      
       my_real PM(NPROPM,NUMMAT), X(3,NUMNOD),
-     .        FLUX(NV46,*), FLU2(*),
-     .        FLUX_SAV(NV46,*), QMV(*)
+     .        FLUX(s_flux,nv46), FLU2(*),
+     .        FLUX_SAV(s_flux,nv46), QMV(s_qmv,2*nv46)
       INTEGER IPARG(NPARG,NGROUP), IXS(NIXS,NUMELS), IXQ(7,NUMELQ), ITASK, NV46, J
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
 C-----------------------------------------------
@@ -108,7 +117,7 @@ C     ALE ON / OFF
         LFT=1                   
         DO K=1,NV46
             DO II=NFT+LFT,NFT+LLT
-              FLUX_SAV(K,II)=FLUX(K,II)
+              FLUX_SAV(ii,k)=FLUX(ii,k)
             ENDDO
         ENDDO        
       END DO !next NG
@@ -139,12 +148,13 @@ C     ALE ON / OFF
         ! UPWIND, QMV, DDVOL           !
         !------------------------------!
         IF(N2D == 0)THEN
-          CALL ALE51_UPWIND3(PM,IXS,FLUX(1,NF1),FLU2(NF1),ALE_CONNECT,
-     +                       0 ,BID,QMV(12*NFT+1),1,
-     +                       NV46 )
+          CALL ALE51_UPWIND3(PM,IXS,FLUX,FLU2(NF1),ALE_CONNECT,
+     +                       0 ,BID,QMV,1,
+     +                       nv46,s_flux,s_qmv)
         ELSE
-          CALL ALE51_UPWIND2(PM,X,IXQ,FLUX(1,NF1),FLU2(NF1),ALE_CONNECT,
-     +                       0,BID,QMV(8*NFT+1),1)
+          CALL ALE51_UPWIND2(PM,X,IXQ,FLUX,FLU2(NF1),ALE_CONNECT,
+     +                       0,BID,QMV,1,
+     +                       nv46,s_flux,s_qmv)
         ENDIF
       END DO !next NG
 

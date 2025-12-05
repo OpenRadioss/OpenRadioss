@@ -33,7 +33,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE ALERO2(OFF,VOLO,RHON,FLUX,FLU1,W,
      .                  VY1,VY2,VY3,VY4,VZ1,VZ2,VZ3,VZ4,
      .                  VOLN,DVOL,VD2,
-     .                  NC1,NC2,NC3,NC4,NGL)
+     .                  NC1,NC2,NC3,NC4,NGL,s_flux,nv46,offset)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -46,8 +46,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      integer, intent(in) :: s_flux !< first dimension of flux array
+      integer, intent(in) :: nv46 !< second dimension of flux array
+      integer, intent(in) :: offset !< offset for flux array     
       my_real
-     .   OFF(*), VOLO(*), RHON(*), FLUX(4,*), FLU1(*), W(3,*),
+     .   OFF(*), VOLO(*), RHON(*), FLUX(s_flux,nv46), FLU1(*), W(3,*),
      .   VY1(*),VY2(*),VY3(*),VY4(*),VZ1(*),VZ2(*),VZ3(*),VZ4(*),VOLN(*), DVOL(*), VD2(*)
       INTEGER NC1(*), NC2(*), NC3(*), NC4(*), NGL(*)
 C-----------------------------------------------
@@ -58,15 +61,16 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER  I
+      INTEGER  I,ii
       my_real VY, VZ
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
 
       DO I=LFT,LLT
+        ii = i+offset
         RHON(I)=RHON(I)/VOLN(I)
-        DVOL(I)=VOLN(I)-VOLO(I)+DT1*HALF*(FLU1(I)+FLUX(1,I)+FLUX(2,I)+FLUX(3,I)+FLUX(4,I))
+        DVOL(I)=VOLN(I)-VOLO(I)+DT1*HALF*(FLU1(I)+FLUX(ii,1)+FLUX(ii,2)+FLUX(ii,3)+FLUX(ii,4))
         VOLO(I)=VOLN(I)
       ENDDO
 C

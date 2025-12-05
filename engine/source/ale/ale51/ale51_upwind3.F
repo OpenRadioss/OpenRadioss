@@ -33,7 +33,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
       SUBROUTINE ALE51_UPWIND3(PM     ,IXS  ,FLUX ,FLU1 ,ALE_CONNECT,
      .                         ITRIMAT,DDVOL,QMV  ,IFLG ,
-     .                         NV46)
+     .                         NV46,s_flux,s_qmv)
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -66,31 +66,33 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      integer, intent(in) :: s_flux !< first dimension of flux array
+      integer, intent(in) :: s_qmv  !< first dimension of QMV array
       INTEGER IXS(NIXS,NUMELS), ITRIMAT,IFLG,NV46
-      my_real PM(NPROPM,NUMMAT), FLUX(NV46,*), FLU1(*),DDVOL(*)
-      my_real,TARGET :: QMV(12,*)
+      my_real PM(NPROPM,NUMMAT), FLUX(s_flux,NV46), FLU1(*),DDVOL(*)
+      my_real,TARGET :: QMV(s_qmv,2*NV46)
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,II,MAT(MVSIZ),IAD2
-      my_real REDUC, UPWL(NV46,MVSIZ),FLUX1(MVSIZ), FLUX2(MVSIZ), FLUX3(MVSIZ), FLUX4(MVSIZ),FLUX5(MVSIZ), FLUX6(MVSIZ)
-      my_real, TARGET :: QMVL(7:12,MVSIZ)
+      my_real REDUC, UPWL(mvsiz,NV46),FLUX1(MVSIZ), FLUX2(MVSIZ), FLUX3(MVSIZ), FLUX4(MVSIZ),FLUX5(MVSIZ), FLUX6(MVSIZ)
+      my_real, TARGET :: QMVL(MVSIZ,7:12)
       my_real, DIMENSION(:) ,POINTER :: pQMV7,pQMV8,pQMV9,pQMV10,pQMV11,pQMV12
       LOGICAL :: debug_outp
 C-----------------------------------------------
 C   S o u r c e   L i n e s 
 C-----------------------------------------------
       DO I=LFT,LLT
-        FLUX1(I) = FLUX(1,I)
-        FLUX2(I) = FLUX(2,I)
-        FLUX3(I) = FLUX(3,I)
-        FLUX4(I) = FLUX(4,I)
+        FLUX1(I) = FLUX(NFT+I,1)
+        FLUX2(I) = FLUX(NFT+I,2)
+        FLUX3(I) = FLUX(NFT+I,3)
+        FLUX4(I) = FLUX(NFT+I,4)
       ENDDO
       IF(NV46==6)THEN
       DO I=LFT,LLT
-        FLUX5(I) = FLUX(5,I)
-        FLUX6(I) = FLUX(6,I)
+        FLUX5(I) = FLUX(NFT+I,5)
+        FLUX6(I) = FLUX(NFT+I,6)
       ENDDO      
       ENDIF
 C-----------------------------------------------
@@ -103,7 +105,7 @@ C     UPWIND
 C-----------------------------------------------
       DO J=1,NV46
         DO I=LFT,LLT
-          UPWL(J,I)=PM(16,MAT(I))
+          UPWL(i,j)=PM(16,MAT(I))
         ENDDO
       ENDDO
       !======================================================!
@@ -149,61 +151,61 @@ C-----------------------------------------------
       ENDDO
       
       DO I=LFT,LLT
-        FLUX(1,I) = FLUX1(I)-UPWL(1,I)*ABS(FLUX1(I))
-        FLUX(2,I) = FLUX2(I)-UPWL(2,I)*ABS(FLUX2(I))
-        FLUX(3,I) = FLUX3(I)-UPWL(3,I)*ABS(FLUX3(I))
-        FLUX(4,I) = FLUX4(I)-UPWL(4,I)*ABS(FLUX4(I))
+        FLUX(NFT+I,1) = FLUX1(I)-UPWL(I,1)*ABS(FLUX1(I))
+        FLUX(NFT+I,2) = FLUX2(I)-UPWL(I,2)*ABS(FLUX2(I))
+        FLUX(NFT+I,3) = FLUX3(I)-UPWL(I,3)*ABS(FLUX3(I))
+        FLUX(NFT+I,4) = FLUX4(I)-UPWL(I,4)*ABS(FLUX4(I))
       ENDDO  
       IF(NV46==6)THEN
       DO I=LFT,LLT
-        FLUX(5,I) = FLUX5(I)-UPWL(5,I)*ABS(FLUX5(I))
-        FLUX(6,I) = FLUX6(I)-UPWL(6,I)*ABS(FLUX6(I))
+        FLUX(NFT+I,5) = FLUX5(I)-UPWL(I,5)*ABS(FLUX5(I))
+        FLUX(NFT+I,6) = FLUX6(I)-UPWL(I,6)*ABS(FLUX6(I))
       ENDDO            
       ENDIF    
       
       IF(IFLG == 1)THEN
-        pQMV7  => QMV(07,LFT:LLT)
-        pQMV8  => QMV(08,LFT:LLT)
-        pQMV9  => QMV(09,LFT:LLT)
-        pQMV10 => QMV(10,LFT:LLT)
-        pQMV11 => QMV(11,LFT:LLT)
-        pQMV12 => QMV(12,LFT:LLT)                                        
+        pQMV7  => QMV(NFT+LFT:NFT+LLT,7)
+        pQMV8  => QMV(NFT+LFT:NFT+LLT,8)
+        pQMV9  => QMV(NFT+LFT:NFT+LLT,9)
+        pQMV10 => QMV(NFT+LFT:NFT+LLT,10)
+        pQMV11 => QMV(NFT+LFT:NFT+LLT,11)
+        pQMV12 => QMV(NFT+LFT:NFT+LLT,12)                                        
       ELSE
-        pQMV7  => QMVL(07,LFT:LLT)
-        pQMV8  => QMVL(08,LFT:LLT)
-        pQMV9  => QMVL(09,LFT:LLT)
-        pQMV10 => QMVL(10,LFT:LLT)
-        pQMV11 => QMVL(11,LFT:LLT)
-        pQMV12 => QMVL(12,LFT:LLT)      
+        pQMV7  => QMVL(LFT:LLT,7)
+        pQMV8  => QMVL(LFT:LLT,8)
+        pQMV9  => QMVL(LFT:LLT,9)
+        pQMV10 => QMVL(LFT:LLT,10)
+        pQMV11 => QMVL(LFT:LLT,11)
+        pQMV12 => QMVL(LFT:LLT,12)      
       ENDIF           
       !MOMENTUM ADVECTION NEEDED FOR AMOMT3.F
 
       IF(NV46==6)THEN
         DO I=LFT,LLT
-          pQMV7(I)  = FLUX1(I)+UPWL(1,I)*ABS(FLUX1(I))
-          pQMV8(I)  = FLUX2(I)+UPWL(2,I)*ABS(FLUX2(I))
-          pQMV9(I)  = FLUX3(I)+UPWL(3,I)*ABS(FLUX3(I))
-          pQMV10(I) = FLUX4(I)+UPWL(4,I)*ABS(FLUX4(I))
-          pQMV11(I) = FLUX5(I)+UPWL(5,I)*ABS(FLUX5(I))
-          pQMV12(I) = FLUX6(I)+UPWL(6,I)*ABS(FLUX6(I))                    
+          pQMV7(I)  = FLUX1(I)+UPWL(I,1)*ABS(FLUX1(I))
+          pQMV8(I)  = FLUX2(I)+UPWL(I,2)*ABS(FLUX2(I))
+          pQMV9(I)  = FLUX3(I)+UPWL(I,3)*ABS(FLUX3(I))
+          pQMV10(I) = FLUX4(I)+UPWL(I,4)*ABS(FLUX4(I))
+          pQMV11(I) = FLUX5(I)+UPWL(I,5)*ABS(FLUX5(I))
+          pQMV12(I) = FLUX6(I)+UPWL(I,6)*ABS(FLUX6(I))                    
           FLU1(I) = pQMV7(I) + pQMV8(I) + pQMV9(I) + pQMV10(I) +pQMV11(I) + pQMV12(I)
         ENDDO           
         IF(ITRIMAT  > 0)THEN
           DO I=LFT,LLT
-            DDVOL(I)=HALF*( FLU1(I)+ FLUX(1,I)+FLUX(2,I)+FLUX(3,I)+FLUX(4,I)+FLUX(5,I)+FLUX(6,I) )
+            DDVOL(I)=HALF*( FLU1(I)+ FLUX(NFT+I,1)+FLUX(NFT+I,2)+FLUX(NFT+I,3)+FLUX(NFT+I,4)+FLUX(NFT+I,5)+FLUX(NFT+I,6) )
           ENDDO
         ENDIF                
       ELSE
         DO I=LFT,LLT
-          pQMV7(I)  = FLUX1(I)+UPWL(1,I)*ABS(FLUX1(I))
-          pQMV8(I)  = FLUX2(I)+UPWL(2,I)*ABS(FLUX2(I))
-          pQMV9(I)  = FLUX3(I)+UPWL(3,I)*ABS(FLUX3(I))
-          pQMV10(I) = FLUX4(I)+UPWL(4,I)*ABS(FLUX4(I))                
+          pQMV7(I)  = FLUX1(I)+UPWL(I,1)*ABS(FLUX1(I))
+          pQMV8(I)  = FLUX2(I)+UPWL(I,2)*ABS(FLUX2(I))
+          pQMV9(I)  = FLUX3(I)+UPWL(I,3)*ABS(FLUX3(I))
+          pQMV10(I) = FLUX4(I)+UPWL(I,4)*ABS(FLUX4(I))                
           FLU1(I) = pQMV7(I) + pQMV8(I) + pQMV9(I) + pQMV10(I)
         ENDDO        
         IF(ITRIMAT  > 0)THEN
           DO I=LFT,LLT
-            DDVOL(I)=HALF*( FLU1(I)+ FLUX(1,I)+FLUX(2,I)+FLUX(3,I)+FLUX(4,I) )
+            DDVOL(I)=HALF*( FLU1(I)+ FLUX(NFT+I,1)+FLUX(NFT+I,2)+FLUX(NFT+I,3)+FLUX(NFT+I,4) )
           ENDDO
         ENDIF        
       ENDIF
@@ -231,7 +233,7 @@ C-----------------------------------------------
           !if (tag22(i)==zero)print *,"       UNCUT"!cycle
           print *,                    "      brique    =", ixs(11,nft+i)
           print *,                    "      itrimat   =", itrimat
-          write (*,FMT='(A,6E26.14)')"       Flux(1:6) =", FLUX(1:6,I)
+          write (*,FMT='(A,6E26.14)')"       Flux(1:6) =", FLUX(NFT+I,1:6)
           write (*,FMT='(A,1E26.14)')"       Flu1      =", FLU1(I)
           print *, "      ------------------------"          
         enddo

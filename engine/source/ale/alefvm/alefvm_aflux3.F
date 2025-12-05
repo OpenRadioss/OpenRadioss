@@ -33,7 +33,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE ALEFVM_AFLUX3(PM   ,IXS  ,W            ,FLUX ,
      2                         FLU1 ,ALE_CONNECT  ,
      3                         IPM  ,NV46 ,X            ,
-     4                         NEL  )
+     4                         NEL  ,s_flux)
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -68,8 +68,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      integer, intent(in) :: s_flux !< first dimension of FLUX array
       INTEGER :: IXS(NIXS,*), NV46, IPM(NPROPMI,*),NEL
-      my_real :: PM(NPROPM,*), FLUX(6,*), FLU1(*), X(3,*),W(3,*)
+      my_real :: PM(NPROPM,*), FLUX(s_flux,6), FLU1(*), X(3,*),W(3,*)
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -87,7 +88,7 @@ C-----------------------------------------------
      .   FLUX6(MVSIZ), VX1(MVSIZ), VX2(MVSIZ), VX3(MVSIZ), VX4(MVSIZ), VX5(MVSIZ), VX6(MVSIZ),
      .   VY1(MVSIZ), VY2(MVSIZ), VY3(MVSIZ), VY4(MVSIZ), VY5(MVSIZ), VY6(MVSIZ), VZ1(MVSIZ), VZ2(MVSIZ),
      .   VZ3(MVSIZ), VZ4(MVSIZ), VZ5(MVSIZ), VZ6(MVSIZ),
-     .   REDUC,UPWL(6,MVSIZ),VALVOIS(6,NV46,MVSIZ), VALEL(6,MVSIZ),VEC(3,6),Cf(3,MVSIZ),
+     .   REDUC,UPWL(MVSIZ,6),VALVOIS(6,NV46,MVSIZ), VALEL(6,MVSIZ),VEC(3,6),Cf(3,MVSIZ),
      .   Z(3),Zadj(3),ZCf(3),ZZadj(3),Zcf_,ZZadj_,cos, PS, denom, denom1,denom2,lambda,Xsi,Wface(3,6,MVSIZ),SR1,SR2,
      .   SURF(6), TERM2, N(3,6,MVSIZ)
       LOGICAL debug_outp
@@ -718,12 +719,12 @@ C-----------------------------------------------
       !======================================================!
       IF(NINT(PM(19,MAT(1)))==51)THEN
         DO I=1,NEL
-          FLUX(1,I)=FLUX1(I)
-          FLUX(2,I)=FLUX2(I)
-          FLUX(3,I)=FLUX3(I)
-          FLUX(4,I)=FLUX4(I)
-          FLUX(5,I)=FLUX5(I)
-          FLUX(6,I)=FLUX6(I)
+          FLUX(NFT+I,1)=FLUX1(I)
+          FLUX(NFT+I,2)=FLUX2(I)
+          FLUX(NFT+I,3)=FLUX3(I)
+          FLUX(NFT+I,4)=FLUX4(I)
+          FLUX(NFT+I,5)=FLUX5(I)
+          FLUX(NFT+I,6)=FLUX6(I)
         ENDDO !next I
         RETURN
       ENDIF
@@ -734,7 +735,7 @@ C-----------------------------------------------
       !======================================================!
       DO J=1,6
         DO I=1,NEL
-          UPWL(J,I)=PM(16,MAT(I))
+          UPWL(I,J)=PM(16,MAT(I))
         ENDDO !next I
       ENDDO !next J
 
@@ -774,19 +775,19 @@ C-----------------------------------------------
       ENDDO !next I
 
       DO I=1,NEL
-        FLUX(1,I)=FLUX1(I)-UPWL(1,I)*ABS(FLUX1(I))
-        FLUX(2,I)=FLUX2(I)-UPWL(2,I)*ABS(FLUX2(I))
-        FLUX(3,I)=FLUX3(I)-UPWL(3,I)*ABS(FLUX3(I))
-        FLUX(4,I)=FLUX4(I)-UPWL(4,I)*ABS(FLUX4(I))
-        FLUX(5,I)=FLUX5(I)-UPWL(5,I)*ABS(FLUX5(I))
-        FLUX(6,I)=FLUX6(I)-UPWL(6,I)*ABS(FLUX6(I))
+        FLUX(NFT+I,1)=FLUX1(I)-UPWL(I,1)*ABS(FLUX1(I))
+        FLUX(NFT+I,2)=FLUX2(I)-UPWL(I,2)*ABS(FLUX2(I))
+        FLUX(NFT+I,3)=FLUX3(I)-UPWL(I,3)*ABS(FLUX3(I))
+        FLUX(NFT+I,4)=FLUX4(I)-UPWL(I,4)*ABS(FLUX4(I))
+        FLUX(NFT+I,5)=FLUX5(I)-UPWL(I,5)*ABS(FLUX5(I))
+        FLUX(NFT+I,6)=FLUX6(I)-UPWL(I,6)*ABS(FLUX6(I))
 
-        FLU1(I)  =FLUX1(I)+UPWL(1,I)*ABS(FLUX1(I))
-     .           +FLUX2(I)+UPWL(2,I)*ABS(FLUX2(I))
-     .           +FLUX3(I)+UPWL(3,I)*ABS(FLUX3(I))
-     .           +FLUX4(I)+UPWL(4,I)*ABS(FLUX4(I))
-     .           +FLUX5(I)+UPWL(5,I)*ABS(FLUX5(I))
-     .           +FLUX6(I)+UPWL(6,I)*ABS(FLUX6(I))
+        FLU1(I)  =FLUX1(I)+UPWL(I,1)*ABS(FLUX1(I))
+     .           +FLUX2(I)+UPWL(I,2)*ABS(FLUX2(I))
+     .           +FLUX3(I)+UPWL(I,3)*ABS(FLUX3(I))
+     .           +FLUX4(I)+UPWL(I,4)*ABS(FLUX4(I))
+     .           +FLUX5(I)+UPWL(I,5)*ABS(FLUX5(I))
+     .           +FLUX6(I)+UPWL(I,6)*ABS(FLUX6(I))
       ENDDO !next I
 
 

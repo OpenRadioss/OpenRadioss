@@ -35,7 +35,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
       SUBROUTINE AFLUX3_INT22_FVM( PM         , IXS      , FLUX     , FLU1    ,
      .                             IPARG      , ELBUF_TAB, ITASK    ,
-     .                             NV46       , IPM      , X        , W)
+     .                             NV46       , IPM      , X        , W       ,
+     .                             s_flux)
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C----------------------------------------------- 
@@ -87,8 +88,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      integer, intent(in) :: s_flux !< first dimension of flux array
       INTEGER :: IXS(NIXS,*), IPARG(NPARG,*),ISILENT, NV46,IPM(NPROPMI,*)
-      my_real :: PM(NPROPM,*),FLUX(6,*), FLU1(*),X(3,*)
+      my_real :: PM(NPROPM,*),FLUX(s_flux,6), FLU1(*),X(3,*)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP),TARGET :: ELBUF_TAB
       my_real, INTENT(IN) :: W(3,NUMNOD)
 C-----------------------------------------------
@@ -165,7 +167,7 @@ C-----------------------------------------------
         !======================================================!
         ! RESET FLUXES                                         !
         !======================================================!
-        FLUX(1:6,IE) = ZERO
+        FLUX(IE,1:6) = ZERO
         FLU1(IE)     = ZERO
         
         !======================================================!

@@ -77,7 +77,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
       SUBROUTINE SCFORC3(TIMERS, OUTPUT, ELBUF_TAB,NG      ,
      1                   PM       ,GEO     ,IXS      ,X       ,
-     2                   A        ,V       ,MS       ,W       ,FLUX     ,
+     2                   A        ,V       ,MS       ,W       ,
      3                   FLU1     ,VEUL    ,FV       ,ALE_CONNECT   ,IPARG    ,
      4                   TF       ,NPF     ,BUFMAT   ,PARTSAV ,NLOC_DMG ,
      5                   DT2T     ,NELTST  ,ITYPTST  ,STIFN   ,FSKY     ,
@@ -158,7 +158,7 @@ C-----------------------------------------------
      .   DT2T
       my_real
      .   PM(NPROPM,*),  X(*), A(*), V(3,*), MS(*), W(*),
-     .   FLUX(6,*),GEO(NPROPG,*),
+     .   GEO(NPROPG,*),
      .   FLU1(*), VEUL(*), FV(*), TF(*), BUFMAT(*),
      .   PARTSAV(*),STIFN(*), FSKY(*),EANI(*),
      .   F11(MVSIZ),F21(MVSIZ),F31(MVSIZ),
@@ -306,6 +306,8 @@ C-----
       my_real, DIMENSION(:), POINTER :: DNL
       my_real :: STI_C(MVSIZ),LL(MVSIZ),FLD(MVSIZ),
      .           CNS2,FQMAX,DN
+      integer :: fake_size = 0
+      my_real, dimension(1) :: fake_array           
 C-----
       my_real
      .  W_GAUSS(9,9),A_GAUSS(9,9),W_NEWTON(9,9),A_NEWTON(9,9)
@@ -745,11 +747,12 @@ C
         DIVDE(1:NEL) = DT1*(DXX(1:NEL)+ DYY(1:NEL)+ DZZ(1:NEL))+DSV(1:NEL)   
         CALL SRHO3(
      1   PM,         LBUF%VOL,   LBUF%RHO,   LBUF%EINT,
-     2   DIVDE,      FLUX(1,NF1),FLU1(NF1),  VOLN,
+     2   DIVDE,      fake_array,FLU1(NF1),  VOLN,
      3   DVOL,       NGL,        MXT,        OFF,
      4   0,          GBUF%TAG22, VOLDP,      LBUF%VOL0DP,
      5   AMU,        GBUF%OFF,   NEL,        MTN,
-     6   JALE,       ISMSTR,     JEUL,       JLAG)
+     6   JALE,       ISMSTR,     JEUL,       JLAG,
+     .   fake_size,fake_size,0)
      
 C-----------------------------
 C Gather stresses
