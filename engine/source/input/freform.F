@@ -856,13 +856,17 @@ C--------------------------
       WRITE(CHRUN,'(I4.4)')IRUNN
       
 C-----------------------
-C   /NEGVOL  (SMSTR: INEG_V=1;STOP: INEG_V=0)
+C   /NEGVOL  (SMSTR: INEG_V=1;STOP: INEG_V=0, DEL: INEG_V=2)
 C--------------------------------------------------------
       IKEY   = KNEGVOL
       INEG_V = 1
       IF(IKAD(IKEY)/=IKAD(IKEY+1))THEN
         READ(IUSC1,REC=IKAD(IKEY),FMT='(7X,A)',ERR=9990)KEY2
-        IF(KEY2(1:4)=='STOP') INEG_V = 0
+        IF(KEY2(1:4)=='STOP') THEN
+          INEG_V = 0
+        ELSEIF(KEY2(1:3)=='DEL') THEN 
+          INEG_V = 2
+        END IF
       END IF
 
 C-----------------------

@@ -173,107 +173,52 @@ C
       DET(I)=ONE_OVER_8*(JAC1(I)*JAC_59_68(I)+JAC2(I)*JAC_67_49(I)+JAC3(I)*JAC_48_57(I))
       END DO
 C
-      IF(IDTMIN(1)==1)THEN
-        ICOR = 0
-        DO I=1,NEL
-           IF(OFF(I) ==ZERO)THEN
-            DET(I)=ONE
-          ELSEIF((DET(I)<=VOLMIN).OR.(DET(I)<=ZERO))THEN
-            ICOR = 1
-          ENDIF
-        ENDDO
-        IF (ICOR>0) THEN
-          DO I=1,NEL
-           IF(OFF(I)/=ZERO)THEN
-             IF(DET(I)<=VOLMIN)THEN
-              DET(I)=ONE
-              OFF(I)=ZERO
-#include "lockon.inc"
-                WRITE(ISTDO,2000) NGL(I)
-                WRITE(IOUT ,2000) NGL(I)
-#include "lockoff.inc"
-             ELSEIF(DET(I)<=ZERO)THEN
-               CALL ANCMSG(MSGID=166,ANMODE=ANINFO,
-     .                     I1=NGL(I))
-               MSTOP = 1
-             ENDIF
-           ENDIF
-          ENDDO
-        ENDIF
-      ELSEIF(IDTMIN(1)==2)THEN
-        ICOR = 0
-        DO I=1,NEL
-          IF(OFF(I) ==ZERO)THEN
-            DET(I)=ONE
-           ELSEIF((DET(I)<=VOLMIN).OR.(DET(I)<=ZERO))THEN
-            ICOR=1
-          ENDIF
-        ENDDO
-        IF (ICOR>0) THEN
-          DO I=1,NEL
-            IF((OFF(I)/=ZERO).AND.
-     .         (DET(I)<=VOLMIN.OR.DET(I)<=ZERO))THEN
-              DET(I)=ONE
-              OFF(I)=ZERO
-#include "lockon.inc"
-                WRITE(ISTDO,2000) NGL(I)
-                WRITE(IOUT ,2000) NGL(I)
-#include "lockoff.inc"
-              IDEL7NOK = 1
-            ENDIF
-          ENDDO
-        ENDIF
-      ELSEIF (ISMSTR /=4 ) THEN
-        ICOR = 0
-        DO I=1,NEL
-          IF(OFF(I) ==ZERO)THEN
-            DET(I)=ONE
-          ELSEIF((DET(I)<=VOLMIN).OR.(DET(I)<=ZERO))THEN
-            ICOR = 1
-          ENDIF
-        ENDDO
-        IF (ICOR>0) THEN
-        DO I=1,NEL
-          IF(OFF(I) == ZERO)THEN
-            DET(I)=ONE
-          ELSEIF(OFFG(I) > ONE)THEN
-            
-          ELSEIF((DET(I)<=VOLMIN).OR.(DET(I)<=ZERO))THEN
-            NNEGA=NNEGA+1
-              INDEX(NNEGA)=I
-#include "lockon.inc"
-            WRITE(ISTDO,3000) NGL(I)
-            WRITE(IOUT ,3000) NGL(I)
-#include "lockoff.inc"
-          ENDIF
-        ENDDO
-          IF (INEG_V==0) THEN
-           CALL ANCMSG(MSGID=280,ANMODE=ANINFO)
-           MSTOP = 1
-          ENDIF
-        END IF !(ICOR>0) THEN
-      ELSE
-C
+!  /NEGVOL/
         ICOR = 0
         DO I=1,NEL
           IF(OFF(I) ==ZERO)THEN
             DET(I)=ONE
           ELSEIF(DET(I)<=ZERO)THEN
-            ICOR=1
+            ICOR = 1
           ENDIF
         ENDDO
-        IF (ICOR>0) THEN
-          DO I=1,NEL
-           IF(OFF(I)/=ZERO)THEN
-            IF(DET(I)<=ZERO)THEN
-              CALL ANCMSG(MSGID=166,ANMODE=ANINFO,
-     .                    I1=NGL(I))
-              MSTOP = 1
-            ENDIF
-           ENDIF
-          ENDDO
-        ENDIF
-      ENDIF
+        IF (ICOR>0.AND.ISMSTR<10) THEN
+          IF (INEG_V==0) THEN
+            DO I=1,NEL
+             IF(DET(I)<=ZERO.AND.OFFG(I) <= ONE.AND.OFFG(I) /= ZERO)THEN
+              DET(I)=ONE
+              OFF(I)=ZERO
+              OFFG(I)=ZERO
+#include "lockon.inc"
+              CALL ANCMSG(MSGID=280,ANMODE=ANINFO,I1=NGL(I))
+#include "lockoff.inc"
+             END IF
+            END DO
+           MSTOP = 1
+          ELSE IF (INEG_V==2) THEN  !deletion
+            DO I=1,NEL
+             IF(DET(I)<=ZERO.AND.OFFG(I) <= ONE.AND.OFFG(I) /= ZERO)THEN
+              DET(I)=ONE
+              OFF(I)=ZERO
+              OFFG(I)=ZERO
+#include "lockon.inc"
+              CALL ANCMSG(MSGID=318,ANMODE=ANINFO,I1=NGL(I))
+#include "lockoff.inc"
+              IDEL7NOK = 1
+             END IF
+            END DO
+          ELSE ! switch to small strain
+            DO I=1,NEL
+             IF(DET(I)<=ZERO.AND.OFFG(I) <= ONE.AND.OFFG(I) /= ZERO)THEN
+               NNEGA=NNEGA+1
+               INDEX(NNEGA)=I
+#include "lockon.inc"
+               CALL ANCMSG(MSGID=259,ANMODE=ANINFO,I1=NGL(I))
+#include "lockoff.inc"
+             END IF
+            END DO
+          END IF
+      END IF !(ICOR>0) THEN
 C
 C Projection is not changed---
       IF (NNEGA>0) THEN
@@ -459,7 +404,4 @@ C                                                                     12
        ENDDO
       RETURN
 C
- 2000 FORMAT(/' ZERO OR NEGATIVE VOLUME : DELETE 3D-ELEMENT NB',I10/)
- 3000 FORMAT(/' ZERO OR NEGATIVE VOLUME : 3D-ELEMENT NB:',I10/,
-     +    ' SOLID-SHELL ELEMENT IS SWITCHED TO SMALL STRAIN OPTION'/) 
       END

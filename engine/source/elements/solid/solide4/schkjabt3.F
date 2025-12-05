@@ -87,30 +87,52 @@ C--- case total strain switched to small due to nega_v before
             DET(I)=ONE
           ELSEIF(OFFG(I) > ONE)THEN
 C
-          ELSEIF((DET(I)<=VOLMIN).OR.(DET(I)<=ZERO))THEN
+          ELSEIF(DET(I)<=ZERO)THEN
             ICOR = 1
           ENDIF
         ENDDO
         IF (ICOR>0.AND.INCONV==1) THEN
-         DO I=1,NEL
-          IF(DET(I)<=ZERO.AND.OFFG(I) <= ONE.AND.OFFG(I) /= ZERO)THEN
-            NNEGA=NNEGA+1
-            INDEX(NNEGA)=I
-#include "lockon.inc"
-           IF(ISMSTR<10) THEN
-              CALL ANCMSG(MSGID=259,ANMODE=ANINFO,
-     .                    I1=NGL(I))
-             ELSE
-              CALL ANCMSG(MSGID=261,ANMODE=ANINFO,
-     .                    I1=NGL(I))
-             END IF
-#include "lockoff.inc"
-          ENDIF
           IF (INEG_V==0) THEN
-           CALL ANCMSG(MSGID=280,ANMODE=ANINFO)
+            DO I=1,NEL
+             IF(DET(I)<=ZERO.AND.OFFG(I) <= ONE.AND.OFFG(I) /= ZERO)THEN
+              DET(I)=ONE
+              OFF(I)=ZERO
+              OFFG(I)=ZERO
+#include "lockon.inc"
+              CALL ANCMSG(MSGID=280,ANMODE=ANINFO,I1=NGL(I))
+#include "lockoff.inc"
+             END IF
+            END DO
            MSTOP = 1
-          ENDIF
-         ENDDO
+          ELSE IF (INEG_V==2) THEN  !deletion
+            DO I=1,NEL
+             IF(DET(I)<=ZERO.AND.OFFG(I) <= ONE.AND.OFFG(I) /= ZERO)THEN
+              DET(I)=ONE
+              OFF(I)=ZERO
+              OFFG(I)=ZERO
+#include "lockon.inc"
+              CALL ANCMSG(MSGID=318,ANMODE=ANINFO,I1=NGL(I))
+#include "lockoff.inc"
+              IDEL7NOK = 1
+             END IF
+            END DO
+          ELSE ! switch to small strain
+            DO I=1,NEL
+             IF(DET(I)<=ZERO.AND.OFFG(I) <= ONE.AND.OFFG(I) /= ZERO)THEN
+               NNEGA=NNEGA+1
+               INDEX(NNEGA)=I
+#include "lockon.inc"
+              IF(ISMSTR<10) THEN
+                 CALL ANCMSG(MSGID=259,ANMODE=ANINFO,
+     .                       I1=NGL(I))
+              ELSE
+                 CALL ANCMSG(MSGID=261,ANMODE=ANINFO,
+     .                       I1=NGL(I))
+              END IF
+#include "lockoff.inc"
+             END IF
+            END DO
+          END IF
         END IF !(ICOR>0.AND.IMCONV==1) THEN
       ELSE
       IF(IDTMIN(1)==1)THEN

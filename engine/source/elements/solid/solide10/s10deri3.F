@@ -226,28 +226,56 @@ C
           ENDIF
         ENDDO
       ENDDO
-C-------------note: /STOP /DEL are not implemented
+C-------------
       IF(JLAG/=0)THEN
        IF(ICOR/=0.AND.INCONV==1)THEN
-       DO IP=1,NPT
-        DO I=1,NEL
-          IF(OFF(I) == ZERO.OR.OFFG(I) > ONE)THEN
-          ELSEIF(VOL(I,IP)<=ZERO)THEN
-            NNEGA=NNEGA+1
-              INDEX(NNEGA)=I
+          IF (INEG_V==0) THEN   ! /NEGVOL/STOP
+            DO IP=1,NPT ! avoid useless warnings
+              DO I=1,NEL
+                IF(VOL(I,IP)<=ZERO.AND.OFFG(I) <= ONE.AND.OFFG(I) /= ZERO)THEN
+                  VOL(I,IP)=ONE
+                  OFFG(I)=ZERO
 #include "lockon.inc"
-           IF(ISMSTR<10) THEN
-              CALL ANCMSG(MSGID=260,ANMODE=ANINFO,
-     .                    I1=NGL(I))
-             ELSE
-              CALL ANCMSG(MSGID=262,ANMODE=ANINFO,
-     .                    I1=NGL(I))
-             END IF
+                  CALL ANCMSG(MSGID=320,ANMODE=ANINFO,I1=NGL(I))
 #include "lockoff.inc"
-            OFFG(I) = TWO
-          ENDIF
-        ENDDO
-       ENDDO
+                END IF
+              END DO
+            END DO
+           MSTOP = 1
+          ELSE IF (INEG_V==2) THEN  !deletion
+            DO IP=1,NPT
+              DO I=1,NEL
+                IF(VOL(I,IP)<=ZERO.AND.OFFG(I) <= ONE.AND.OFFG(I) /= ZERO)THEN
+                  VOL(I,IP)=ONE
+                  OFFG(I)=ZERO
+#include "lockon.inc"
+                  CALL ANCMSG(MSGID=319,ANMODE=ANINFO,I1=NGL(I))
+#include "lockoff.inc"
+                  IDEL7NOK = 1
+                END IF
+              END DO
+            END DO
+          ELSE 
+            DO IP=1,NPT
+             DO I=1,NEL
+               IF(OFF(I) == ZERO.OR.OFFG(I) > ONE)THEN
+               ELSEIF(VOL(I,IP)<=ZERO)THEN
+                 NNEGA=NNEGA+1
+                   INDEX(NNEGA)=I
+#include "lockon.inc"
+                 IF(ISMSTR<10) THEN
+                    CALL ANCMSG(MSGID=260,ANMODE=ANINFO,
+     .                          I1=NGL(I))
+                 ELSE
+                    CALL ANCMSG(MSGID=262,ANMODE=ANINFO,
+     .                          I1=NGL(I))
+                 END IF
+#include "lockoff.inc"
+                OFFG(I) = TWO
+              ENDIF
+             ENDDO
+            ENDDO
+          END IF !(INEG_V==0) THEN   
        END IF!(ICOR/=0.AND.INCONV==1)THEN
       ENDIF !(JLAG/=0)
 C     
