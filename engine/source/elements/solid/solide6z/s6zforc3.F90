@@ -147,6 +147,7 @@
       use s6for_distor_mod,only : s6for_distor
       use s6chour_ctl_mod ,only : s6chour_ctl
       use output_mod      ,only : output_     
+      use s6zsav3_mod
 !-------------------------------------------------------------------------------
 !    I m p l i c i t   t y p e s
 !-------------------------------------------------------------------------------
@@ -354,7 +355,13 @@
       real(kind=wp), dimension(mvsiz) :: e0, n1x, n2x, n3x, n1y, n2y, n3y
       real(kind=wp), dimension(mvsiz) :: n1z,n2z,n3z,n4x,n5x,n6x,n4y,n5y,n6y
       real(kind=wp), dimension(mvsiz) :: n4z, n5z, n6z, amu, sti_c, ll, fld
-      real(kind=wp), dimension(mvsiz) :: tempel,die,conden,voldp,fheat
+      real(kind=wp), dimension(mvsiz) :: tempel,die,conden,fheat
+!C    FORCE WP = 8 TO ENSURE DOUBLE-PRECISION (64-BIT) FLOATING-POINT CALCULATIONS, EVEN WHEN COMPILING IN SINGLE-PRECISION MODE.
+      real(kind=8), dimension(mvsiz) :: xd1,xd2,xd3,xd4,xd5,xd6
+      real(kind=8), dimension(mvsiz) :: yd1,yd2,yd3,yd4,yd5,yd6
+      real(kind=8), dimension(mvsiz) :: zd1,zd2,zd3,zd4,zd5,zd6
+      real(kind=8), dimension(mvsiz) :: voldp
+
       integer :: inloc,l_nloc,sz_r1_free,sz_ix
       integer, dimension(6) :: ipos, inod
       real(kind=wp), dimension(:) ,allocatable :: var_reg
@@ -422,8 +429,11 @@
         r32      ,r33       ,nc1      ,nc2      ,nc3      ,nc4      ,nc5      ,&
         nc6      ,ngl       ,mxt      ,ngeo     ,ioutprt  ,vgxa     ,vgya     ,&
         vgza     ,vga2      ,nel      ,xgxa     ,xgya     ,xgza     ,xgxa2    ,&
-        xgya2    ,xgza2     ,xgxya    ,xgyza    ,xgzxa    ,iparg(1,ng),        &
-        gbuf%gama_r,nixs    ,irep     ,ismstr   ,isorth   ,jlag     )    
+        xgya2    ,xgza2     ,xgxya    ,xgyza    ,xgzxa    ,iparg(1,ng)        ,&
+        gbuf%gama_r,nixs    ,irep     ,ismstr   ,isorth   ,jlag               ,&        
+        xd1      ,xd2       ,xd3      ,xd4      ,xd5      ,xd6                ,&
+        yd1      ,yd2       ,yd3      ,yd4      ,yd5      ,yd6                ,&
+        zd1      ,zd2       ,zd3      ,zd4      ,zd5      ,zd6                )    
 !
       !< 
       nn_del = 0
@@ -450,15 +460,15 @@
 !-------------------------------------------------------------------------------  
       call s6zderi3(&
         offg     ,voln     ,ngl      ,                                         &
-        x1       ,x2       ,x3       ,x4       ,x5       ,x6       ,           &
-        y1       ,y2       ,y3       ,y4       ,y5       ,y6       ,           &
-        z1       ,z2       ,z3       ,z4       ,z5       ,z6       ,           &
+        xd1      ,xd2      ,xd3      ,xd4      ,xd5      ,xd6      ,           &
+        yd1      ,yd2      ,yd3      ,yd4      ,yd5      ,yd6      ,           &
+        zd1      ,zd2      ,zd3      ,zd4      ,zd5      ,zd6      ,           &
         px1      ,px2      ,px3      ,px4      ,px5      ,px6      ,           &
         py1      ,py2      ,py3      ,py4      ,py5      ,py6      ,           &
         pz1      ,pz2      ,pz3      ,pz4      ,pz5      ,pz6      ,           &
         jac1     ,jac2     ,jac3     ,jac4     ,jac5     ,jac6     ,           &
         vzl      ,volg     ,gbuf%smstr,gbuf%off,nel      ,ismstr   ,           &
-        idel7nok ,ineg_v   ,mstop    ,volmin   ,idtmin   )  
+        idel7nok ,ineg_v   ,mstop    ,volmin   ,idtmin   ,voldp             )  
 !
 !-------------------------------------------------------------------------------
 !<  Compute element characteristic length and volume change
@@ -502,11 +512,11 @@
 !<  Update reference configuration (possible future change to small strain option)
 !-------------------------------------------------------------------------------
       if (ismstr <= 3.or.(ismstr==4.and.jlag>0)) then
-        call s6sav3(                                                           &
+        call s6zsav3(                                                          &  
           gbuf%off ,gbuf%smstr,                                                &
-          x1       ,x2       ,x3       ,x4       ,x5       ,x6       ,         &
-          y1       ,y2       ,y3       ,y4       ,y5       ,y6       ,         &
-          z1       ,z2       ,z3       ,z4       ,z5       ,z6       ,         &
+          xd1      ,xd2      ,xd3      ,xd4      ,xd5      ,xd6      ,         &
+          yd1      ,yd2      ,yd3      ,yd4      ,yd5      ,yd6      ,         &
+          zd1      ,zd2      ,zd3      ,zd4      ,zd5      ,zd6      ,         &
           nel      )
       endif
 !
@@ -708,9 +718,9 @@
         else
           call s6zhour3(&
             npropm   ,nummat   ,pm       ,gbuf%rho ,volg     ,cxx      ,       &
-            x1       ,x2       ,x3       ,x4       ,x5       ,x6       ,       &
-            y1       ,y2       ,y3       ,y4       ,y5       ,y6       ,       &
-            z1       ,z2       ,z3       ,z4       ,z5       ,z6       ,       &
+            xd1      ,xd2      ,xd3      ,xd4      ,xd5      ,xd6      ,       &
+            yd1      ,yd2      ,yd3      ,yd4      ,yd5      ,yd6      ,       &
+            zd1      ,zd2      ,zd3      ,zd4      ,zd5      ,zd6      ,       &
             vx1      ,vx2      ,vx3      ,vx4      ,vx5      ,vx6      ,       &
             vy1      ,vy2      ,vy3      ,vy4      ,vy5      ,vy6      ,       &
             vz1      ,vz2      ,vz3      ,vz4      ,vz5      ,vz6      ,       &

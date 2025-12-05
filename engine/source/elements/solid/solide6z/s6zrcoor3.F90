@@ -59,7 +59,10 @@
         mxt     , ngeo    , ioutprt , vgax    , vgay    , vgaz    , vga2    , &
         nel     , xgax    , xgay    , xgaz    , xgxa2   , xgya2   , xgza2   , &
         xgxya   , xgyza   , xgzxa   , iparg   , gama_r  , nixs    ,           &
-        irep    , ismstr  , isorth  , jlag    )
+        irep    , ismstr  , isorth  , jlag    ,                               & 
+        xd1     , xd2     , xd3     , xd4     , xd5     , xd6     ,           &
+        yd1     , yd2     , yd3     , yd4     , yd5     , yd6     ,           &
+        zd1     , zd2     , zd3     , zd4     , zd5     , zd6     )
 !
 !-------------------------------------------------------------------------------
 !   M o d u l e s
@@ -126,7 +129,6 @@
       real(kind=WP), dimension(nel),       intent(inout) :: vis      !< Viscosity
       real(kind=WP), dimension(nel),       intent(in)    :: offg     !< Global offset flag
       real(kind=WP), dimension(nel),       intent(out)   :: off      !< Local offset flag
-      real(kind=8),  dimension(nel,15),    intent(in)    :: sav      !< Saved variables array sav must be in double precision, so kind = 8
       real(kind=WP), dimension(nel),       intent(in)    :: rho      !< Density
       real(kind=WP), dimension(nel),       intent(out)   :: rhoo     !< Initial density
       real(kind=WP), dimension(nel),       intent(out)   :: r11      !< Rotation matrix component (1,1)
@@ -163,25 +165,48 @@
       real(kind=WP), dimension(nel),       intent(out)   :: xgzxa    !< ZX cross product term
       integer,dimension(n_var_iparg),      intent(in)    :: iparg
       real(kind=WP), dimension(nel,6),     intent(out)   :: gama_r   !< Rotation matrix storage
+!C    FORCE WP = 8 TO ENSURE DOUBLE-PRECISION (64-BIT) FLOATING-POINT CALCULATIONS, EVEN WHEN COMPILING IN SINGLE-PRECISION MODE.      
+      real(kind=8),  dimension(nel,15),    intent(in)    :: sav      !< Saved variables array sav must be in double precision, so kind = 8
+      real(kind=8), dimension(nel),       intent(out)   :: xd1       !< Local x-coordinates node 1 in double precision
+      real(kind=8), dimension(nel),       intent(out)   :: xd2       !< Local x-coordinates node 2 in double precision
+      real(kind=8), dimension(nel),       intent(out)   :: xd3       !< Local x-coordinates node 3 in double precision
+      real(kind=8), dimension(nel),       intent(out)   :: xd4       !< Local x-coordinates node 4 in double precision
+      real(kind=8), dimension(nel),       intent(out)   :: xd5       !< Local x-coordinates node 5 in double precision
+      real(kind=8), dimension(nel),       intent(out)   :: xd6       !< Local x-coordinates node 6 in double precision
+      real(kind=8), dimension(nel),       intent(out)   :: yd1       !< Local y-coordinates node 1 in double precision
+      real(kind=8), dimension(nel),       intent(out)   :: yd2       !< Local y-coordinates node 2 in double precision
+      real(kind=8), dimension(nel),       intent(out)   :: yd3       !< Local y-coordinates node 3 in double precision
+      real(kind=8), dimension(nel),       intent(out)   :: yd4       !< Local y-coordinates node 4 in double precision
+      real(kind=8), dimension(nel),       intent(out)   :: yd5       !< Local y-coordinates node 5 in double precision
+      real(kind=8), dimension(nel),       intent(out)   :: yd6       !< Local y-coordinates node 6 in double precision
+      real(kind=8), dimension(nel),       intent(out)   :: zd1       !< Local z-coordinates node 1 in double precision
+      real(kind=8), dimension(nel),       intent(out)   :: zd2       !< Local z-coordinates node 2 in double precision
+      real(kind=8), dimension(nel),       intent(out)   :: zd3       !< Local z-coordinates node 3 in double precision
+      real(kind=8), dimension(nel),       intent(out)   :: zd4       !< Local z-coordinates node 4 in double precision
+      real(kind=8), dimension(nel),       intent(out)   :: zd5       !< Local z-coordinates node 5 in double precision
+      real(kind=8), dimension(nel),       intent(out)   :: zd6       !< Local z-coordinates node 6 in double precision
+
 !-------------------------------------------------------------------------------
 !    L o c a l   v a r i a b l e s
 !-------------------------------------------------------------------------------
       integer :: i                                                   !< Loop counter
-      real(kind=WP) :: xl, yl, zl                                    !< Local centroid coordinates
+
       real(kind=WP) :: off_l                                         !< Local offset flag
-      real(kind=WP), dimension(nel) :: xd1, xd2, xd3, xd4            !< Degenerated x-coordinates 1-4
-      real(kind=WP), dimension(nel) :: xd5, xd6, xd7, xd8            !< Degenerated x-coordinates 5-8
-      real(kind=WP), dimension(nel) :: yd1, yd2, yd3, yd4            !< Degenerated y-coordinates 1-4
-      real(kind=WP), dimension(nel) :: yd5, yd6, yd7, yd8            !< Degenerated y-coordinates 5-8
-      real(kind=WP), dimension(nel) :: zd1, zd2, zd3, zd4            !< Degenerated z-coordinates 1-4
-      real(kind=WP), dimension(nel) :: zd5, zd6, zd7, zd8            !< Degenerated z-coordinates 5-8
+!C    FORCE WP = 8 TO ENSURE DOUBLE-PRECISION (64-BIT) FLOATING-POINT CALCULATIONS, EVEN WHEN COMPILING IN SINGLE-PRECISION MODE.
+      real(kind=8) :: xl, yl, zl                                    !< Local centroid coordinates
+      real(kind=8), dimension(nel) :: xdl1, xdl2, xdl3, xdl4         !< Local Degenerated x-coordinates 1-4 double precision
+      real(kind=8), dimension(nel) :: xdl5, xdl6, xdl7, xdl8         !< Local Degenerated x-coordinates 5-8 double precision
+      real(kind=8), dimension(nel) :: ydl1, ydl2, ydl3, ydl4         !< Local Degenerated y-coordinates 1-4 double precision
+      real(kind=8), dimension(nel) :: ydl5, ydl6, ydl7, ydl8         !< Local Degenerated y-coordinates 5-8 double precision
+      real(kind=8), dimension(nel) :: zdl1, zdl2, zdl3, zdl4         !< Local Degenerated z-coordinates 1-4 double precision
+      real(kind=8), dimension(nel) :: zdl5, zdl6, zdl7, zdl8         !< Local Degenerated z-coordinates 5-8 double precision
+      real(kind=8) :: xdl_a, ydl_a, zdl_a                            !< Local degenerated coordinates in double precison   
       real(kind=WP), dimension(nel) :: vxd1, vxd2, vxd3, vxd4        !< Degenerated x-velocities 1-4
       real(kind=WP), dimension(nel) :: vxd5, vxd6, vxd7, vxd8        !< Degenerated x-velocities 5-8
       real(kind=WP), dimension(nel) :: vyd1, vyd2, vyd3, vyd4        !< Degenerated y-velocities 1-4
       real(kind=WP), dimension(nel) :: vyd5, vyd6, vyd7, vyd8        !< Degenerated y-velocities 5-8
       real(kind=WP), dimension(nel) :: vzd1, vzd2, vzd3, vzd4        !< Degenerated z-velocities 1-4
       real(kind=WP), dimension(nel) :: vzd5, vzd6, vzd7, vzd8        !< Degenerated z-velocities 5-8
-      real(kind=WP) :: xdl, ydl, zdl                                 !< Local degenerated coordinates
       real(kind=WP), dimension(nel) :: rx, ry, rz                    !< Rotation matrix row 1
       real(kind=WP), dimension(nel) :: sx, sy, sz                    !< Rotation matrix row 2
       real(kind=WP), dimension(nel) :: tx, ty, tz                    !< Rotation matrix row 3
@@ -205,60 +230,62 @@
         rhoo(i) = rho(i)
       enddo
 !
-      !< Nodal coordinates
+!C----------------------------
+!C     NODAL COORDINATES     |
+!C----------------------------
       do i = 1,nel
-        x1(i)=x(1,nc1(i))
-        y1(i)=x(2,nc1(i))
-        z1(i)=x(3,nc1(i))
-        x2(i)=x(1,nc2(i))
-        y2(i)=x(2,nc2(i))
-        z2(i)=x(3,nc2(i))
-        x3(i)=x(1,nc3(i))
-        y3(i)=x(2,nc3(i))
-        z3(i)=x(3,nc3(i))
-        x4(i)=x(1,nc4(i))
-        y4(i)=x(2,nc4(i))
-        z4(i)=x(3,nc4(i))
-        x5(i)=x(1,nc5(i))
-        y5(i)=x(2,nc5(i))
-        z5(i)=x(3,nc5(i))
-        x6(i)=x(1,nc6(i))
-        y6(i)=x(2,nc6(i))
-        z6(i)=x(3,nc6(i))
+        xd1(i)=x(1,nc1(i))
+        yd1(i)=x(2,nc1(i))
+        zd1(i)=x(3,nc1(i))
+        xd2(i)=x(1,nc2(i))
+        yd2(i)=x(2,nc2(i))
+        zd2(i)=x(3,nc2(i))
+        xd3(i)=x(1,nc3(i))
+        yd3(i)=x(2,nc3(i))
+        zd3(i)=x(3,nc3(i))
+        xd4(i)=x(1,nc4(i))
+        yd4(i)=x(2,nc4(i))
+        zd4(i)=x(3,nc4(i))
+        xd5(i)=x(1,nc5(i))
+        yd5(i)=x(2,nc5(i))
+        zd5(i)=x(3,nc5(i))
+        xd6(i)=x(1,nc6(i))
+        yd6(i)=x(2,nc6(i))
+        zd6(i)=x(3,nc6(i))
         off(i) = min(one,abs(offg(i)))
         off_l  = min(off_l,offg(i))
 !
-        xd1(i)=x1(i)
-        yd1(i)=y1(i)
-        zd1(i)=z1(i)
+        xdl1(i)=xd1(i)
+        ydl1(i)=yd1(i)
+        zdl1(i)=zd1(i)
 !
-        xd2(i)=x2(i)
-        yd2(i)=y2(i)
-        zd2(i)=z2(i)
+        xdl2(i)=xd2(i)
+        ydl2(i)=yd2(i)
+        zdl2(i)=zd2(i)
 !
-        xd3(i)=x3(i)
-        yd3(i)=y3(i)
-        zd3(i)=z3(i)
+        xdl3(i)=xd3(i)
+        ydl3(i)=yd3(i)
+        zdl3(i)=zd3(i)
 !
-        xd4(i)=x3(i)  
-        yd4(i)=y3(i)  
-        zd4(i)=z3(i)  
+        xdl4(i)=xd3(i)  
+        ydl4(i)=yd3(i)  
+        zdl4(i)=zd3(i)  
 !
-        xd5(i)=x4(i)  
-        yd5(i)=y4(i)  
-        zd5(i)=z4(i)  
+        xdl5(i)=xd4(i)  
+        ydl5(i)=yd4(i)  
+        zdl5(i)=zd4(i)  
 !
-        xd6(i)=x5(i)  
-        yd6(i)=y5(i)  
-        zd6(i)=z5(i)  
+        xdl6(i)=xd5(i)  
+        ydl6(i)=yd5(i)  
+        zdl6(i)=zd5(i)  
 !
-        xd7(i)=x6(i)
-        yd7(i)=y6(i)
-        zd7(i)=z6(i)
+        xdl7(i)=xd6(i)
+        ydl7(i)=yd6(i)
+        zdl7(i)=zd6(i)
 !
-        xd8(i)=x6(i)  
-        yd8(i)=y6(i)  
-        zd8(i)=z6(i)
+        xdl8(i)=xd6(i)  
+        ydl8(i)=yd6(i)  
+        zdl8(i)=zd6(i)
       enddo
 !
       !< Nodal velocities
@@ -348,33 +375,33 @@
         enddo
         if(iparg(80)==1) then
           do i = 1,nel
-           xgax(i)=x1(i)+x2(i)+x3(i)+x4(i)+x5(i)+x6(i)
-           xgay(i)=y1(i)+y2(i)+y3(i)+y4(i)+y5(i)+y6(i)
-           xgaz(i)=z1(i)+z2(i)+z3(i)+z4(i)+z5(i)+z6(i)
-           xgxa2(i)=x1(i)**2+x2(i)**2+x3(i)**2+x4(i)**2 &
-                   +x5(i)**2+x6(i)**2
-           xgya2(i)=y1(i)**2+y2(i)**2+y3(i)**2+y4(i)**2 &
-                   +y5(i)**2+y6(i)**2
-           xgza2(i)=z1(i)**2+z2(i)**2+z3(i)**2+z4(i)**2 &
-                   +z5(i)**2+z6(i)**2
-           xgxya(i)=x1(i)*y1(i)+x2(i)*y2(i)+x3(i)*y3(i)+x4(i)*y4(i) &
-                   +x5(i)*y5(i)+x6(i)*y6(i)
-           xgyza(i)=y1(i)*z1(i)+y2(i)*z2(i)+y3(i)*z3(i)+y4(i)*z4(i) &
-                   +y5(i)*z5(i)+y6(i)*z6(i)
-           xgzxa(i)=z1(i)*x1(i)+z2(i)*x2(i)+z3(i)*x3(i)+z4(i)*x4(i) &
-                   +z5(i)*x5(i)+z6(i)*x6(i)
+           xgax(i)=xd1(i)+xd2(i)+xd3(i)+xd4(i)+xd5(i)+xd6(i)
+           xgay(i)=yd1(i)+yd2(i)+yd3(i)+yd4(i)+yd5(i)+yd6(i)
+           xgaz(i)=zd1(i)+zd2(i)+zd3(i)+zd4(i)+zd5(i)+zd6(i)
+           xgxa2(i)=xd1(i)**2+xd2(i)**2+xd3(i)**2+xd4(i)**2 &
+                   +xd5(i)**2+xd6(i)**2
+           xgya2(i)=yd1(i)**2+yd2(i)**2+yd3(i)**2+yd4(i)**2 &
+                   +yd5(i)**2+yd6(i)**2
+           xgza2(i)=zd1(i)**2+zd2(i)**2+zd3(i)**2+zd4(i)**2 &
+                   +zd5(i)**2+zd6(i)**2
+           xgxya(i)=xd1(i)*yd1(i)+xd2(i)*yd2(i)+xd3(i)*yd3(i)+xd4(i)*yd4(i) &
+                   +xd5(i)*yd5(i)+xd6(i)*yd6(i)
+           xgyza(i)=yd1(i)*zd1(i)+yd2(i)*zd2(i)+yd3(i)*zd3(i)+yd4(i)*zd4(i) &
+                   +yd5(i)*zd5(i)+yd6(i)*zd6(i)
+           xgzxa(i)=zd1(i)*xd1(i)+zd2(i)*xd2(i)+zd3(i)*xd3(i)+zd4(i)*xd4(i) &
+                   +zd5(i)*xd5(i)+zd6(i)*xd6(i)
           enddo
         endif
       endif
 !
       !< Rotation matrix in the element frame
       call srepiso3( &
-          xd1,     xd2,     xd3,     xd4, &
-          xd5,     xd6,     xd7,     xd8, &
-          yd1,     yd2,     yd3,     yd4, &
-          yd5,     yd6,     yd7,     yd8, &
-          zd1,     zd2,     zd3,     zd4, &
-          zd5,     zd6,     zd7,     zd8, &
+          xdl1,     xdl2,     xdl3,     xdl4, &
+          xdl5,     xdl6,     xdl7,     xdl8, &
+          ydl1,     ydl2,     ydl3,     ydl4, &
+          ydl5,     ydl6,     ydl7,     ydl8, &
+          zdl1,     zdl2,     zdl3,     zdl4, &
+          zdl5,     zdl6,     zdl7,     zdl8, &
           rx,      ry,      rz,      sx, &
           sy,      sz,      tx,      ty, &
           tz,      nel)
@@ -418,95 +445,95 @@
       if (ismstr<=4.and.jlag>0) then
         do i = 1,nel
           if (offg(i)>one) then
-            x1(i) = sav(i,1)
-            y1(i) = sav(i,2)
-            z1(i) = sav(i,3)
-            x2(i) = sav(i,4)
-            y2(i) = sav(i,5)
-            z2(i) = sav(i,6)
-            x3(i) = sav(i,7)
-            y3(i) = sav(i,8)
-            z3(i) = sav(i,9)
-            x4(i) = sav(i,10)
-            y4(i) = sav(i,11)
-            z4(i) = sav(i,12)
-            x5(i) = sav(i,13)
-            y5(i) = sav(i,14)
-            z5(i) = sav(i,15)
-            x6(i) = zero
-            y6(i) = zero
-            z6(i) = zero
+            xd1(i) = sav(i,1)
+            yd1(i) = sav(i,2)
+            zd1(i) = sav(i,3)
+            xd2(i) = sav(i,4)
+            yd2(i) = sav(i,5)
+            zd2(i) = sav(i,6)
+            xd3(i) = sav(i,7)
+            yd3(i) = sav(i,8)
+            zd3(i) = sav(i,9)
+            xd4(i) = sav(i,10)
+            yd4(i) = sav(i,11)
+            zd4(i) = sav(i,12)
+            xd5(i) = sav(i,13)
+            yd5(i) = sav(i,14)
+            zd5(i) = sav(i,15)
+            xd6(i) = zero
+            yd6(i) = zero
+            zd6(i) = zero
             off(i) = offg(i) -one
-            xl    = one_over_6*(x1(i)+x2(i)+x3(i)+x4(i)+x5(i)+x6(i))
-            yl    = one_over_6*(y1(i)+y2(i)+y3(i)+y4(i)+y5(i)+y6(i))
-            zl    = one_over_6*(z1(i)+z2(i)+z3(i)+z4(i)+z5(i)+z6(i))
-            x1(i) = x1(i)-xl
-            y1(i) = y1(i)-yl
-            z1(i) = z1(i)-zl
-            x2(i) = x2(i)-xl
-            y2(i) = y2(i)-yl
-            z2(i) = z2(i)-zl
-            x3(i) = x3(i)-xl
-            y3(i) = y3(i)-yl
-            z3(i) = z3(i)-zl
-            x4(i) = x4(i)-xl
-            y4(i) = y4(i)-yl
-            z4(i) = z4(i)-zl
-            x5(i) = x5(i)-xl
-            y5(i) = y5(i)-yl
-            z5(i) = z5(i)-zl
-            x6(i) = x6(i)-xl
-            y6(i) = y6(i)-yl
-            z6(i) = z6(i)-zl
+            xl     = one_over_6*(xd1(i)+xd2(i)+xd3(i)+xd4(i)+xd5(i)+xd6(i))
+            yl     = one_over_6*(yd1(i)+yd2(i)+yd3(i)+yd4(i)+yd5(i)+yd6(i))
+            zl     = one_over_6*(zd1(i)+zd2(i)+zd3(i)+zd4(i)+zd5(i)+zd6(i))
+            xd1(i) = xd1(i)-xl
+            yd1(i) = yd1(i)-yl
+            zd1(i) = zd1(i)-zl
+            xd2(i) = xd2(i)-xl
+            yd2(i) = yd2(i)-yl
+            zd2(i) = zd2(i)-zl
+            xd3(i) = xd3(i)-xl
+            yd3(i) = yd3(i)-yl
+            zd3(i) = zd3(i)-zl
+            xd4(i) = xd4(i)-xl
+            yd4(i) = yd4(i)-yl
+            zd4(i) = zd4(i)-zl
+            xd5(i) = xd5(i)-xl
+            yd5(i) = yd5(i)-yl
+            zd5(i) = zd5(i)-zl
+            xd6(i) = xd6(i)-xl
+            yd6(i) = yd6(i)-yl
+            zd6(i) = zd6(i)-zl
           else
-            xdl = r11(i)*xd1(i)+r21(i)*yd1(i)+r31(i)*zd1(i)
-            ydl = r12(i)*xd1(i)+r22(i)*yd1(i)+r32(i)*zd1(i)
-            zdl = r13(i)*xd1(i)+r23(i)*yd1(i)+r33(i)*zd1(i)
-            xd1(i) = xdl
-            yd1(i) = ydl
-            zd1(i) = zdl
-            xdl = r11(i)*xd2(i)+r21(i)*yd2(i)+r31(i)*zd2(i)
-            ydl = r12(i)*xd2(i)+r22(i)*yd2(i)+r32(i)*zd2(i)
-            zdl = r13(i)*xd2(i)+r23(i)*yd2(i)+r33(i)*zd2(i)
-            xd2(i) = xdl
-            yd2(i) = ydl
-            zd2(i) = zdl
-            xdl = r11(i)*xd3(i)+r21(i)*yd3(i)+r31(i)*zd3(i)
-            ydl = r12(i)*xd3(i)+r22(i)*yd3(i)+r32(i)*zd3(i)
-            zdl = r13(i)*xd3(i)+r23(i)*yd3(i)+r33(i)*zd3(i)
-            xd3(i) = xdl
-            yd3(i) = ydl
-            zd3(i) = zdl
-            xdl = r11(i)*xd4(i)+r21(i)*yd4(i)+r31(i)*zd4(i)
-            ydl = r12(i)*xd4(i)+r22(i)*yd4(i)+r32(i)*zd4(i)
-            zdl = r13(i)*xd4(i)+r23(i)*yd4(i)+r33(i)*zd4(i)
-            xd4(i) = xdl
-            yd4(i) = ydl
-            zd4(i) = zdl
-            xdl = r11(i)*xd5(i)+r21(i)*yd5(i)+r31(i)*zd5(i)
-            ydl = r12(i)*xd5(i)+r22(i)*yd5(i)+r32(i)*zd5(i)
-            zdl = r13(i)*xd5(i)+r23(i)*yd5(i)+r33(i)*zd5(i)
-            xd5(i) = xdl
-            yd5(i) = ydl
-            zd5(i) = zdl
-            xdl = r11(i)*xd6(i)+r21(i)*yd6(i)+r31(i)*zd6(i)
-            ydl = r12(i)*xd6(i)+r22(i)*yd6(i)+r32(i)*zd6(i)
-            zdl = r13(i)*xd6(i)+r23(i)*yd6(i)+r33(i)*zd6(i)
-            xd6(i) = xdl
-            yd6(i) = ydl
-            zd6(i) = zdl
-            xdl = r11(i)*xd7(i)+r21(i)*yd7(i)+r31(i)*zd7(i)
-            ydl = r12(i)*xd7(i)+r22(i)*yd7(i)+r32(i)*zd7(i)
-            zdl = r13(i)*xd7(i)+r23(i)*yd7(i)+r33(i)*zd7(i)
-            xd7(i) = xdl
-            yd7(i) = ydl
-            zd7(i) = zdl
-            xdl = r11(i)*xd8(i)+r21(i)*yd8(i)+r31(i)*zd8(i)
-            ydl = r12(i)*xd8(i)+r22(i)*yd8(i)+r32(i)*zd8(i)
-            zdl = r13(i)*xd8(i)+r23(i)*yd8(i)+r33(i)*zd8(i)
-            xd8(i) = xdl
-            yd8(i) = ydl
-            zd8(i) = zdl              
+            xdl_a = r11(i)*xdl1(i)+r21(i)*ydl1(i)+r31(i)*zdl1(i)
+            ydl_a = r12(i)*xdl1(i)+r22(i)*ydl1(i)+r32(i)*zdl1(i)
+            zdl_a = r13(i)*xdl1(i)+r23(i)*ydl1(i)+r33(i)*zdl1(i)
+            xdl1(i) = xdl_a
+            ydl1(i) = ydl_a
+            zdl1(i) = zdl_a
+            xdl_a = r11(i)*xdl2(i)+r21(i)*ydl2(i)+r31(i)*zdl2(i)
+            ydl_a = r12(i)*xdl2(i)+r22(i)*ydl2(i)+r32(i)*zdl2(i)
+            zdl_a = r13(i)*xdl2(i)+r23(i)*ydl2(i)+r33(i)*zdl2(i)
+            xdl2(i) = xdl_a
+            ydl2(i) = ydl_a
+            zdl2(i) = zdl_a
+            xdl_a = r11(i)*xdl3(i)+r21(i)*ydl3(i)+r31(i)*zdl3(i)
+            ydl_a = r12(i)*xdl3(i)+r22(i)*ydl3(i)+r32(i)*zdl3(i)
+            zdl_a = r13(i)*xdl3(i)+r23(i)*ydl3(i)+r33(i)*zdl3(i)
+            xdl3(i) = xdl_a
+            ydl3(i) = ydl_a
+            zdl3(i) = zdl_a
+            xdl_a = r11(i)*xdl4(i)+r21(i)*ydl4(i)+r31(i)*zdl4(i)
+            ydl_a = r12(i)*xdl4(i)+r22(i)*ydl4(i)+r32(i)*zdl4(i)
+            zdl_a = r13(i)*xdl4(i)+r23(i)*ydl4(i)+r33(i)*zdl4(i)
+            xdl4(i) = xdl_a
+            ydl4(i) = ydl_a
+            zdl4(i) = zdl_a
+            xdl_a = r11(i)*xdl5(i)+r21(i)*ydl5(i)+r31(i)*zdl5(i)
+            ydl_a = r12(i)*xdl5(i)+r22(i)*ydl5(i)+r32(i)*zdl5(i)
+            zdl_a = r13(i)*xdl5(i)+r23(i)*ydl5(i)+r33(i)*zdl5(i)
+            xdl5(i) = xdl_a
+            ydl5(i) = ydl_a
+            zdl5(i) = zdl_a
+            xdl_a = r11(i)*xdl6(i)+r21(i)*ydl6(i)+r31(i)*zdl6(i)
+            ydl_a = r12(i)*xdl6(i)+r22(i)*ydl6(i)+r32(i)*zdl6(i)
+            zdl_a = r13(i)*xdl6(i)+r23(i)*ydl6(i)+r33(i)*zdl6(i)
+            xdl6(i) = xdl_a
+            ydl6(i) = ydl_a
+            zdl6(i) = zdl_a
+            xdl_a = r11(i)*xdl7(i)+r21(i)*ydl7(i)+r31(i)*zdl7(i)
+            ydl_a = r12(i)*xdl7(i)+r22(i)*ydl7(i)+r32(i)*zdl7(i)
+            zdl_a = r13(i)*xdl7(i)+r23(i)*ydl7(i)+r33(i)*zdl7(i)
+            xdl7(i) = xdl_a
+            ydl7(i) = ydl_a
+            zdl7(i) = zdl_a
+            xdl_a = r11(i)*xdl8(i)+r21(i)*ydl8(i)+r31(i)*zdl8(i)
+            ydl_a = r12(i)*xdl8(i)+r22(i)*ydl8(i)+r32(i)*zdl8(i)
+            zdl_a = r13(i)*xdl8(i)+r23(i)*ydl8(i)+r33(i)*zdl8(i)
+            xdl8(i) = xdl_a
+            ydl8(i) = ydl_a
+            zdl8(i) = zdl_a              
             off(i) = offg(i)
           endif
         enddo
@@ -529,6 +556,30 @@
         vzd8    , nel     )
 !
       do i = 1,nel
+        xd1(i) = xdl1(i) 
+        yd1(i) = ydl1(i) 
+        zd1(i) = zdl1(i)
+!
+        xd2(i) = xdl2(i)  
+        yd2(i) = ydl2(i)  
+        zd2(i) = zdl2(i) 
+!
+        xd3(i) = xdl3(i) 
+        yd3(i) = ydl3(i) 
+        zd3(i) = zdl3(i) 
+!
+        xd4(i) = xdl5(i) 
+        yd4(i) = ydl5(i) 
+        zd4(i) = zdl5(i) 
+!
+        xd5(i) = xdl6(i) 
+        yd5(i) = ydl6(i)
+        zd5(i) = zdl6(i) 
+!
+        xd6(i) = xdl7(i) 
+        yd6(i) = ydl7(i) 
+        zd6(i) = zdl7(i) 
+ 
         x1(i) = xd1(i) 
         y1(i) = yd1(i) 
         z1(i) = zd1(i)
@@ -541,17 +592,17 @@
         y3(i) = yd3(i) 
         z3(i) = zd3(i) 
 !
-        x4(i) = xd5(i) 
-        y4(i) = yd5(i) 
-        z4(i) = zd5(i) 
+        x4(i) = xd4(i) 
+        y4(i) = yd4(i) 
+        z4(i) = zd4(i) 
 !
-        x5(i) = xd6(i) 
-        y5(i) = yd6(i)
-        z5(i) = zd6(i) 
+        x5(i) = xd5(i) 
+        y5(i) = yd5(i)
+        z5(i) = zd5(i) 
 !
-        x6(i) = xd7(i) 
-        y6(i) = yd7(i) 
-        z6(i) = zd7(i) 
+        x6(i) = xd6(i) 
+        y6(i) = yd6(i) 
+        z6(i) = zd6(i) 
 !
         vx1(i) = vxd1(i) 
         vy1(i) = vyd1(i) 

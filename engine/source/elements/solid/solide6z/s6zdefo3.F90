@@ -90,7 +90,8 @@
        real(kind=wp), dimension(nel), intent(inout) :: off       !< Element flag
        real(kind=wp), dimension(nel), intent(in)    :: offg      !< Global element flag
        real(kind=wp), dimension(nel), intent(in)    :: offs      !< Shell element flag
-       real(kind=wp), dimension(nel), intent(out)   :: voldp     !< Double precision volume
+!C     ENSURE DOUBLE-PRECISION (64-BIT) FLOATING-POINT CALCULATIONS, EVEN WHEN COMPILING IN SINGLE-PRECISION MODE.  
+       real(kind=8), dimension(nel), intent(inout)   :: voldp     !< Double precision volume
 !-------------------------------------------------------------------------------
 !    L o c a l   v a r i a b l e s
 !-------------------------------------------------------------------------------
@@ -101,7 +102,7 @@
 !===============================================================================
        tol = one - em20
        do i = 1, nel
-         voldp(i) = half * wi * (volg(i) + vzl(i) * zi)
+         vol(i) = half * wi * (volg(i) + vzl(i) * zi)
          vol(i) = voldp(i)
          off(i) = offg(i)
          if (vol(i) <= zero) then

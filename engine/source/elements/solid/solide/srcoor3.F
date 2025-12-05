@@ -94,6 +94,7 @@ C     REAL
      .        NC1(*),NC2(*),NC3(*),NC4(*),NC5(*),NC6(*),NC7(*),NC8(*)
       INTEGER IOUTPRT
       
+C     ENSURE DOUBLE-PRECISION (64-BIT) FLOATING-POINT CALCULATIONS, EVEN WHEN COMPILING IN SINGLE-PRECISION MODE.
       DOUBLE PRECISION 
      .   XDP(3,*),X0(MVSIZ,8),Y0(MVSIZ,8),Z0(MVSIZ,8),SAV(NEL,21),
      .   XD1(*), XD2(*), XD3(*), XD4(*), XD5(*), XD6(*), XD7(*), XD8(*), 
@@ -103,7 +104,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
-      
+C     ENSURE DOUBLE-PRECISION (64-BIT) FLOATING-POINT CALCULATIONS, EVEN WHEN COMPILING IN SINGLE-PRECISION MODE.
       DOUBLE PRECISION
      .   XDL, YDL, ZDL
     
