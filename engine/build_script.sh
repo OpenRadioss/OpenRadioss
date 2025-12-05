@@ -90,6 +90,7 @@ ADF=""
 MPI="-DMPI=smp"
 pmpi="SMP Only"
 clean=0
+mpi=0
 mpi_os=0
 mpi_root=""
 mpi_libdir=""
@@ -135,6 +136,7 @@ else
          then
             dmpi=_${pmpi}
             MPI=-DMPI=${pmpi}
+            mpi=1
          else 
             pmpi="SMP Only"
          fi
@@ -284,6 +286,16 @@ else
        fi
 
    done
+
+   if [[ $mpi == 0 && ($mpi_os == 1 || -n $mpi_root || -n $mpi_libdir || -n $mpi_incdir) ]]
+   then
+     echo " "
+     echo "Warning:"
+     echo "--------"
+     echo "You have provided MPI options, but not enabled MPI."
+     echo "Set the MPI implementation with -mpi=[mpi]."
+     echo " "
+   fi
 
    if [ $got_arch == 0 ] 
    then
