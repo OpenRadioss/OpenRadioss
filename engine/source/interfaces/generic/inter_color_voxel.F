@@ -85,6 +85,8 @@ C-----------------------------------------------
         LOGICAL :: TYPE18
         INTEGER :: NTY,INACTI
         INTEGER :: VALUE
+        INTEGER :: GAP_M_OFFSET
+        INTEGER :: STFM_OFFSET
         my_real :: DGAPLOAD
 
         my_real :: TZINF,GAPMIN,GAPMAX,GAP,DRAD
@@ -143,9 +145,11 @@ C-----------------------------------------------
             CALL MY_BARRIER()
             ! --------------------  
             ! cell coloration by omp threads  
-            CALL INTER_CELL_COLOR( X,IPARI(21,NIN)   ,NRTM_T  ,INTBUF_TAB(NIN)%STFM(1+ESHIFT)   ,
+            GAP_M_OFFSET = MIN(1+ESHIFT, SIZE(INTBUF_TAB(NIN)%GAP_M))
+            STFM_OFFSET = MIN(1+ESHIFT, SIZE(INTBUF_TAB(NIN)%STFM))
+            CALL INTER_CELL_COLOR( X,IPARI(21,NIN)   ,NRTM_T  ,INTBUF_TAB(NIN)%STFM(STFM_OFFSET)   ,
      2                 TZINF,INTER_STRUCT(NIN)%CURV_MAX(ADRESS),
-     3                 GAPMIN ,GAPMAX,INTBUF_TAB(NIN)%GAP_M(1+ESHIFT) ,
+     3                 GAPMIN ,GAPMAX,INTBUF_TAB(NIN)%GAP_M(GAP_M_OFFSET) ,
      4                 INTBUF_TAB(NIN)%IRECTM(1+4*ESHIFT),GAP,INTBUF_TAB(NIN)%VARIABLES(bgapsmx_index),DRAD,
      5                 NB_LOCAL_CELL(ITASK+1),SIZE_INDEX_CELL,INDEX_CELL,
      6                 COARSE_GRID,SORT_COMM(NIN)%MAIN_COARSE_GRID,DGAPLOAD)

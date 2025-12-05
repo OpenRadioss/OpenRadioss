@@ -77,7 +77,7 @@ C-----------------------------------------------
      .        IDEB, NBINDEX, INDEX, REQ(NSPMD-1)
       DATA MSGOFF/162/
       INTEGER STATUS(MPI_STATUS_SIZE),IERROR
-      DOUBLE PRECISION FTMP(LEN*(NSPMD-1))
+      DOUBLE PRECISION FTMP(MAX(1,LEN*(NSPMD-1)))
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
