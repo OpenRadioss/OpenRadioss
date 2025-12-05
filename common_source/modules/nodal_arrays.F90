@@ -289,10 +289,10 @@
 
           if(iparith == 0) then
             call my_alloc(arrays%A,3,max(numnod,1)*nthreads)
-            call my_alloc(arrays%AR,3,numnod*nthreads)
+            call my_alloc(arrays%AR,3,max(1,numnod)*nthreads)
             call my_alloc(arrays%STIFR,max(numnod*iroddl*nthreads,1))
-            call my_alloc(arrays%VISCN,numnod*nthreads)
-            call my_alloc(arrays%STIFN,numnod*nthreads)
+            call my_alloc(arrays%VISCN,max(1,numnod)*nthreads)
+            call my_alloc(arrays%STIFN,max(1,numnod)*nthreads)
           else
             call my_alloc(arrays%A,3,max(1,numnod))
             call my_alloc(arrays%AR,3,max(1,numnod))
