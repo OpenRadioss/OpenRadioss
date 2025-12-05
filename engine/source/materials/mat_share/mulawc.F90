@@ -2018,7 +2018,7 @@
                 elseif (ixlay > 0) then ! xfem phantom element
                   uelr  => elbuf_str%bufly(ixlay)%uelr
                 endif
-                dadv => gbuf%dmg(1:nel)  ! used outside this routine for frontwave propagation
+                dadv => gbuf%dmg  ! used outside this routine for frontwave propagation
 !---
                 offl => lbuf%off
                 offly=> bufly%off
