@@ -30,7 +30,6 @@
       module shrink_array_mod
         implicit none
         integer, parameter :: len_error_message = 100
-        private :: build_error_message
         private :: shrink_array_integer_1d
         private :: shrink_array_real_1d
         private :: shrink_array_double_1d
@@ -46,30 +45,6 @@
 
       contains
 
-! ======================================================================================================================
-!                                                     TOOLS
-! ======================================================================================================================
-!||====================================================================
-!||    build_error_message   ../common_source/tools/memory/shrink_array.F90
-!||--- called by ------------------------------------------------------
-!||    extend_array_mod      ../common_source/tools/memory/extend_array.F90
-!||    shrink_array_mod      ../common_source/tools/memory/shrink_array.F90
-!||====================================================================
-        function build_error_message(str) result(error_message)
-! ----------------------------------------------------------------------------------------------------------------------
-!                                                     Arguments
-! ----------------------------------------------------------------------------------------------------------------------
-          character(len=*), intent(in) :: str
-          character(len=len_error_message) :: error_message
-! ----------------------------------------------------------------------------------------------------------------------
-!                                                      Body
-! ----------------------------------------------------------------------------------------------------------------------
-          if(len_trim(str) > len_error_message) then
-            error_message = str(1:len_error_message)
-          else
-            error_message = adjustl(str) // repeat(" ", len_error_message - len_trim(str))
-          end if
-        end function build_error_message
 
 !||====================================================================
 !||    check_error_and_write         ../common_source/tools/memory/shrink_array.F90
