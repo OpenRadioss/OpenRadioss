@@ -23,4 +23,5 @@
 #ifndef my_real
 #define my_real REAL
 #define MY_REAL REAL
+#define MY_MPI_REAL MPI_REAL
 #endif
