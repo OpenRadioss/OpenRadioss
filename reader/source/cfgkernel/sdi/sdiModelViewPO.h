@@ -1076,6 +1076,170 @@ public:
         for(size_t i=0; i < HCDI_OBJ_TYPE_HC_MAX; ++i) p_isSorted[i] = SortNone;
     }
 
+    // Helper function to sort node and element arrays within PreObjects
+    void SortNodeArraysById() const
+    {
+        for(unsigned int i = 0; i < p_preobjects[HCDI_OBJ_TYPE_NODES].size(); ++i)
+        {
+            IMECPreObject* pObj = p_preobjects[HCDI_OBJ_TYPE_NODES][i];
+            if(nullptr == pObj) continue;
+            
+            int idIndex = pObj->GetIndex(IMECPreObject::ATY_ARRAY, IMECPreObject::VTY_INT, "id");
+            if(idIndex < 0) continue;
+            
+            unsigned int count = (unsigned int) pObj->GetNbValues(IMECPreObject::VTY_INT, idIndex);
+            if(count <= 1) continue; // No need to sort if 0 or 1 element
+            
+            // Get all attribute indices for nodes
+            int xIndex = pObj->GetIndex(IMECPreObject::ATY_ARRAY, IMECPreObject::VTY_FLOAT, "globalx");
+            int yIndex = pObj->GetIndex(IMECPreObject::ATY_ARRAY, IMECPreObject::VTY_FLOAT, "globaly");
+            int zIndex = pObj->GetIndex(IMECPreObject::ATY_ARRAY, IMECPreObject::VTY_FLOAT, "globalz");
+            
+            // Create index vector and sort it
+            std::vector<std::pair<unsigned int, unsigned int>> idxPairs(count);
+            for(unsigned int j = 0; j < count; ++j)
+            {
+                unsigned int nodeId = (unsigned int) pObj->GetIntValue(idIndex, j);
+                idxPairs[j] = std::make_pair(nodeId, j);
+            }
+            
+            std::stable_sort(idxPairs.begin(), idxPairs.end(),
+                [](const std::pair<unsigned int, unsigned int>& a,
+                   const std::pair<unsigned int, unsigned int>& b) {
+                    return a.first < b.first;
+                });
+            
+            // Check if already sorted
+            bool alreadySorted = true;
+            for(unsigned int j = 0; j < count; ++j)
+            {
+                if(idxPairs[j].second != j)
+                {
+                    alreadySorted = false;
+                    break;
+                }
+            }
+            if(alreadySorted) continue;
+            
+            // Reorder arrays according to sorted indices
+            std::vector<int> tempIds(count);
+            std::vector<double> tempX(count), tempY(count), tempZ(count);
+            
+            for(unsigned int j = 0; j < count; ++j)
+            {
+                unsigned int oldIdx = idxPairs[j].second;
+                tempIds[j] = pObj->GetIntValue(idIndex, oldIdx);
+                if(xIndex >= 0) tempX[j] = pObj->GetFloatValue(xIndex, oldIdx);
+                if(yIndex >= 0) tempY[j] = pObj->GetFloatValue(yIndex, oldIdx);
+                if(zIndex >= 0) tempZ[j] = pObj->GetFloatValue(zIndex, oldIdx);
+            }
+            
+            // Write back sorted data
+            for(unsigned int j = 0; j < count; ++j)
+            {
+                pObj->SetIntValue(idIndex, j, tempIds[j]);
+                if(xIndex >= 0) pObj->SetFloatValue(xIndex, j, tempX[j]);
+                if(yIndex >= 0) pObj->SetFloatValue(yIndex, j, tempY[j]);
+                if(zIndex >= 0) pObj->SetFloatValue(zIndex, j, tempZ[j]);
+            }
+        }
+    }
+    
+    void SortElementArraysById() const
+    {
+        for(unsigned int i = 0; i < p_preobjects[HCDI_OBJ_TYPE_ELEMS].size(); ++i)
+        {
+            IMECPreObject* pObj = p_preobjects[HCDI_OBJ_TYPE_ELEMS][i];
+            if(nullptr == pObj) continue;
+            
+            int idIndex = pObj->GetIndex(IMECPreObject::ATY_ARRAY, IMECPreObject::VTY_INT, "id");
+            if(idIndex < 0) continue;
+            
+            unsigned int count = (unsigned int) pObj->GetNbValues(IMECPreObject::VTY_INT, idIndex);
+            if(count <= 1) continue; // No need to sort if 0 or 1 element
+            
+            // Get indices for collector and node attributes
+            int collectorIndex = pObj->GetIndex(IMECPreObject::ATY_ARRAY, IMECPreObject::VTY_INT, "collector");
+            
+            // Get node attribute indices (up to 20 nodes)
+            std::vector<int> nodeIndices(20, -1);
+            for(unsigned int k = 0; k < 20; ++k)
+            {
+                std::string nodeName = "node" + std::to_string(k + 1);
+                nodeIndices[k] = pObj->GetIndex(IMECPreObject::ATY_ARRAY, IMECPreObject::VTY_INT, nodeName);
+                if(nodeIndices[k] < 0)
+                {
+                    nodeName = "node_ID" + std::to_string(k + 1);
+                    nodeIndices[k] = pObj->GetIndex(IMECPreObject::ATY_ARRAY, IMECPreObject::VTY_INT, nodeName);
+                }
+            }
+            
+            // Create index vector and sort it
+            std::vector<std::pair<unsigned int, unsigned int>> idxPairs(count);
+            for(unsigned int j = 0; j < count; ++j)
+            {
+                unsigned int elemId = (unsigned int) pObj->GetIntValue(idIndex, j);
+                idxPairs[j] = std::make_pair(elemId, j);
+            }
+            
+            std::stable_sort(idxPairs.begin(), idxPairs.end(),
+                [](const std::pair<unsigned int, unsigned int>& a,
+                   const std::pair<unsigned int, unsigned int>& b) {
+                    return a.first < b.first;
+                });
+            
+            // Check if already sorted
+            bool alreadySorted = true;
+            for(unsigned int j = 0; j < count; ++j)
+            {
+                if(idxPairs[j].second != j)
+                {
+                    alreadySorted = false;
+                    break;
+                }
+            }
+            if(alreadySorted) continue;
+            
+            // Reorder arrays according to sorted indices
+            std::vector<int> tempIds(count);
+            std::vector<int> tempCollector;
+            if(collectorIndex >= 0) tempCollector.resize(count);
+            
+            std::vector<std::vector<int>> tempNodes(20);
+            for(unsigned int k = 0; k < 20; ++k)
+            {
+                if(nodeIndices[k] >= 0) tempNodes[k].resize(count);
+            }
+            
+            // Read values in sorted order
+            for(unsigned int j = 0; j < count; ++j)
+            {
+                unsigned int oldIdx = idxPairs[j].second;
+                tempIds[j] = pObj->GetIntValue(idIndex, oldIdx);
+                if(collectorIndex >= 0)
+                    tempCollector[j] = pObj->GetIntValue(collectorIndex, oldIdx);
+                for(unsigned int k = 0; k < 20; ++k)
+                {
+                    if(nodeIndices[k] >= 0)
+                        tempNodes[k][j] = pObj->GetIntValue(nodeIndices[k], oldIdx);
+                }
+            }
+            
+            // Write back sorted data
+            for(unsigned int j = 0; j < count; ++j)
+            {
+                pObj->SetIntValue(idIndex, j, tempIds[j]);
+                if(collectorIndex >= 0)
+                    pObj->SetIntValue(collectorIndex, j, tempCollector[j]);
+                for(unsigned int k = 0; k < 20; ++k)
+                {
+                    if(nodeIndices[k] >= 0)
+                        pObj->SetIntValue(nodeIndices[k], j, tempNodes[k][j]);
+                }
+            }
+        }
+    }
+
     void ApplyIdOffsets(const char* submodelsolkey, bool doUnOffset = false)
     {
         UpdateEntityIDOffsetCFG(p_preobjects, submodelsolkey, doUnOffset);
@@ -1131,6 +1295,20 @@ public:
                             POCompareById);
             }
             p_isSorted[CFGType] = SortById;
+        }
+        
+        // Sort node and element arrays within PreObjects by ID
+        if((SortById == p_selectionSortMethod || SortByFileAndId == p_selectionSortMethod) &&
+           (HCDI_OBJ_TYPE_NODES == CFGType || HCDI_OBJ_TYPE_ELEMS == CFGType))
+        {
+            if(HCDI_OBJ_TYPE_NODES == CFGType)
+            {
+                SortNodeArraysById();
+            }
+            else if(HCDI_OBJ_TYPE_ELEMS == CFGType)
+            {
+                SortElementArraysById();
+            }
         }
 
         // create selection data
