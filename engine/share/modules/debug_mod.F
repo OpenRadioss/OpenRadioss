@@ -219,11 +219,11 @@ C     (s2 << 16) | s1
 
 
 !||====================================================================
-!||    prepare_debug   ../engine/share/modules/debug_mod.F
+!||    prepare_debug        ../engine/share/modules/debug_mod.F
 !||--- called by ------------------------------------------------------
-!||    resol           ../engine/source/engine/resol.F
+!||    resol_alloc_phase1   ../engine/source/engine/resol_alloc.F90
 !||--- uses       -----------------------------------------------------
-!||    debug_mod       ../engine/share/modules/debug_mod.F
+!||    debug_mod            ../engine/share/modules/debug_mod.F
 !||====================================================================
       SUBROUTINE PREPARE_DEBUG(ITAB,NUMNOD,ispmd)
         USE DEBUG_MOD

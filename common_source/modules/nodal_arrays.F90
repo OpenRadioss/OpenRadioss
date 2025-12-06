@@ -60,6 +60,8 @@
 !||    rbe3v                                    ../engine/source/constraints/general/rbe3/rbe3v.F
 !||    rdresb                                   ../engine/source/output/restart/rdresb.F
 !||    resol                                    ../engine/source/engine/resol.F
+!||    resol_alloc_phase1                       ../engine/source/engine/resol_alloc.F90
+!||    resol_alloc_phase2                       ../engine/source/engine/resol_alloc.F90
 !||    resol_head                               ../engine/source/engine/resol_head.F
 !||    restalloc                                ../engine/source/output/restart/arralloc.F
 !||    set_new_node_values                      ../engine/source/engine/node_spliting/detach_node.F90

@@ -424,9 +424,9 @@ C
       END
 C 
 !||====================================================================
-!||    assinit   ../engine/source/assembly/assadd2.F
+!||    assinit              ../engine/source/assembly/assadd2.F
 !||--- called by ------------------------------------------------------
-!||    resol     ../engine/source/engine/resol.F
+!||    resol_alloc_phase2   ../engine/source/engine/resol_alloc.F90
 !||====================================================================
       SUBROUTINE ASSINIT(
      1    ADDCNE, IAD_ELEM, FR_ELEM, PROCNE, LISENDP, LIRECVP)
@@ -481,9 +481,9 @@ C
       RETURN
       END
 !||====================================================================
-!||    assinit_pxfem   ../engine/source/assembly/assadd2.F
+!||    assinit_pxfem        ../engine/source/assembly/assadd2.F
 !||--- called by ------------------------------------------------------
-!||    resol           ../engine/source/engine/resol.F
+!||    resol_alloc_phase2   ../engine/source/engine/resol_alloc.F90
 !||====================================================================
       SUBROUTINE ASSINIT_PXFEM(
      1    ADDCNE,INOD, IAD_ELEM, FR_ELEM, PROCNE, LISENDP, LIRECVP)
@@ -541,9 +541,9 @@ C
       RETURN
       END
 !||====================================================================
-!||    assinit_crkxfem   ../engine/source/assembly/assadd2.F
+!||    assinit_crkxfem      ../engine/source/assembly/assadd2.F
 !||--- called by ------------------------------------------------------
-!||    resol             ../engine/source/engine/resol.F
+!||    resol_alloc_phase2   ../engine/source/engine/resol_alloc.F90
 !||====================================================================
       SUBROUTINE ASSINIT_CRKXFEM(
      1    ADDCNE_CRKXFEM,INOD_CRKXFEM, IAD_ELEM, FR_ELEM, PROCNE, LISENDP, LIRECVP)

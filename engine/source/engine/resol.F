@@ -50,9 +50,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    ancmsg                                       ../engine/source/output/message/message.F
 !||    arret                                        ../engine/source/system/arret.F
 !||    assign_ptrx                                  ../common_source/modules/nodal_arrays.F90
-!||    assinit                                      ../engine/source/assembly/assadd2.F
-!||    assinit_crkxfem                              ../engine/source/assembly/assadd2.F
-!||    assinit_pxfem                                ../engine/source/assembly/assadd2.F
 !||    asspar                                       ../engine/source/assembly/asspar.F
 !||    asspar3                                      ../engine/source/assembly/asspar3.F
 !||    asspar4                                      ../engine/source/assembly/asspar4.F
@@ -253,7 +250,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    ply_bcs                                      ../engine/source/constraints/general/bcs/ply_bcs.F
 !||    ply_velocity                                 ../engine/source/assembly/ply_velocity.F
 !||    poro                                         ../engine/source/ale/porous/poro.F
-!||    prepare_debug                                ../engine/share/modules/debug_mod.F
 !||    prerbe3p0                                    ../engine/source/constraints/general/rbe3/rbe3f.F
 !||    pressure_cyl                                 ../engine/source/loads/general/load_pcyl/pressure_cyl.F
 !||    printime                                     ../engine/source/system/timer.F
@@ -296,6 +292,16 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    reaction_forces_th                           ../engine/source/output/reaction_forces_th.F
 !||    reallocate_i_skyline                         ../engine/source/system/reallocate_skyline.F
 !||    renum_siz                                    ../engine/source/interfaces/interf/renum_siz.F
+!||    resol_alloc_phase1                           ../engine/source/engine/resol_alloc.F90
+!||    resol_alloc_phase10                          ../engine/source/engine/resol_alloc.F90
+!||    resol_alloc_phase2                           ../engine/source/engine/resol_alloc.F90
+!||    resol_alloc_phase3                           ../engine/source/engine/resol_alloc.F90
+!||    resol_alloc_phase4                           ../engine/source/engine/resol_alloc.F90
+!||    resol_alloc_phase5                           ../engine/source/engine/resol_alloc.F90
+!||    resol_alloc_phase6                           ../engine/source/engine/resol_alloc.F90
+!||    resol_alloc_phase7                           ../engine/source/engine/resol_alloc.F90
+!||    resol_alloc_phase8                           ../engine/source/engine/resol_alloc.F90
+!||    resol_alloc_phase9                           ../engine/source/engine/resol_alloc.F90
 !||    resol_init                                   ../engine/source/engine/resol_init.F
 !||    rgwal0                                       ../engine/source/constraints/general/rwall/rgwal0.F
 !||    rgwal0_pen                                   ../engine/source/constraints/general/rwall/rgwall_pen.F90
@@ -526,6 +532,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    rad2r_mod                                    ../engine/share/modules/rad2r.F
 !||    rbe3_mod                                     ../common_source/modules/constraints/rbe3_mod.F90
 !||    remesh_mod                                   ../engine/share/modules/remesh_mod.F
+!||    resol_alloc_mod                              ../engine/source/engine/resol_alloc.F90
 !||    resolsav_mod                                 ../engine/share/modules/resol_mod.F
 !||    rigmat_mod                                   ../engine/share/modules/rigmat_mod.F
 !||    rwall_mod                                    ../common_source/modules/constraints/rwall_mod.F90

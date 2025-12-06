@@ -258,6 +258,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    reaction_forces_check_for_requested_output   ../engine/source/output/reactions.F
 !||    reallocate_fi2                               ../engine/source/mpi/interfaces/spmd_i25slide.F
 !||    resol                                        ../engine/source/engine/resol.F
+!||    resol_alloc_phase8                           ../engine/source/engine/resol_alloc.F90
+!||    resol_alloc_phase9                           ../engine/source/engine/resol_alloc.F90
 !||    resol_head                                   ../engine/source/engine/resol_head.F
 !||    resol_init                                   ../engine/source/engine/resol_init.F
 !||    restalloc                                    ../engine/source/output/restart/arralloc.F

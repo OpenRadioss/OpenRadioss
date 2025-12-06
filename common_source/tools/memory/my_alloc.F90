@@ -167,6 +167,9 @@
 !||    remn_i2op_edg25                    ../starter/source/interfaces/int25/i25remlin.F
 !||    remn_self24                        ../starter/source/interfaces/inter3d1/remn_self24.F
 !||    resol                              ../engine/source/engine/resol.F
+!||    resol_alloc_phase1                 ../engine/source/engine/resol_alloc.F90
+!||    resol_alloc_phase3                 ../engine/source/engine/resol_alloc.F90
+!||    resol_alloc_phase9                 ../engine/source/engine/resol_alloc.F90
 !||    restalloc                          ../engine/source/output/restart/arralloc.F
 !||    retrirby                           ../starter/source/constraints/general/merge/hm_read_merge.F
 !||    rgbodfp                            ../engine/source/constraints/general/rbody/rgbodfp.F

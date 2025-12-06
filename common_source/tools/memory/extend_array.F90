@@ -36,7 +36,7 @@
 !||    test_jc_shell_detach          ../engine/source/engine/node_spliting/detach_node.F90
 !||    update_pon_shells             ../engine/source/engine/node_spliting/update_pon.F90
 !||--- calls      -----------------------------------------------------
-!||    build_error_message           ../common_source/tools/memory/shrink_array.F90
+!||    build_error_message           ../common_source/tools/memory/extend_array.F90
 !||====================================================================
       module extend_array_mod
         implicit none
@@ -78,10 +78,9 @@
 !                                                     TOOLS
 ! ======================================================================================================================
 !||====================================================================
-!||    build_error_message   ../common_source/tools/memory/shrink_array.F90
+!||    build_error_message   ../common_source/tools/memory/extend_array.F90
 !||--- called by ------------------------------------------------------
 !||    extend_array_mod      ../common_source/tools/memory/extend_array.F90
-!||    shrink_array_mod      ../common_source/tools/memory/shrink_array.F90
 !||====================================================================
         function build_error_message(str) result(error_message)
 ! ----------------------------------------------------------------------------------------------------------------------

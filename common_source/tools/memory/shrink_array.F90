@@ -21,11 +21,9 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    shrink_array_mod      ../common_source/tools/memory/shrink_array.F90
+!||    shrink_array_mod   ../common_source/tools/memory/shrink_array.F90
 !||--- called by ------------------------------------------------------
-!||    inint3                ../starter/source/interfaces/inter3d1/inint3.F
-!||--- calls      -----------------------------------------------------
-!||    build_error_message   ../common_source/tools/memory/shrink_array.F90
+!||    inint3             ../starter/source/interfaces/inter3d1/inint3.F
 !||====================================================================
       module shrink_array_mod
         implicit none

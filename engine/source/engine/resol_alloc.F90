@@ -20,6 +20,11 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+!||====================================================================
+!||    resol_alloc_mod   ../engine/source/engine/resol_alloc.F90
+!||--- called by ------------------------------------------------------
+!||    resol             ../engine/source/engine/resol.F
+!||====================================================================
       module resol_alloc_mod
         implicit none
       contains
@@ -31,6 +36,19 @@
 !! \brief Allocation Phase extracted from resol.F lines 1360-2049
 !! \details This routine encapsulates the allocation and initialization
 !!          logic originally located in resol.F (fixed-form).
+!||====================================================================
+!||    resol_alloc_phase1   ../engine/source/engine/resol_alloc.F90
+!||--- called by ------------------------------------------------------
+!||    resol                ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||    prepare_debug        ../engine/share/modules/debug_mod.F
+!||--- uses       -----------------------------------------------------
+!||    connectivity_mod     ../common_source/modules/connectivity.F90
+!||    interfaces_mod       ../common_source/modules/interfaces/interfaces_mod.F90
+!||    my_alloc_mod         ../common_source/tools/memory/my_alloc.F90
+!||    nodal_arrays_mod     ../common_source/modules/nodal_arrays.F90
+!||    precision_mod        ../common_source/modules/precision_mod.F90
+!||====================================================================
         subroutine resol_alloc_phase1(rby6,dxancg,nb25_candt,nb25_impct,nb25_dst1,nb25_dst2,igrouc,igrounc, &
           interfaces,int18add,idamp_rdof_tab,icontact_old, &
           nrbykin,numnod,parasiz,ngroup,ninter,sicontact,nodes,&
@@ -123,6 +141,19 @@
           allocate(ibrkin_l(nrbykin))
           allocate(fr_nbcc1(2,nspmd+1))
         end subroutine resol_alloc_phase1
+!||====================================================================
+!||    resol_alloc_phase2   ../engine/source/engine/resol_alloc.F90
+!||--- called by ------------------------------------------------------
+!||    resol                ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||    assinit              ../engine/source/assembly/assadd2.F
+!||    assinit_crkxfem      ../engine/source/assembly/assadd2.F
+!||    assinit_pxfem        ../engine/source/assembly/assadd2.F
+!||--- uses       -----------------------------------------------------
+!||    connectivity_mod     ../common_source/modules/connectivity.F90
+!||    nodal_arrays_mod     ../common_source/modules/nodal_arrays.F90
+!||    precision_mod        ../common_source/modules/precision_mod.F90
+!||====================================================================
         subroutine resol_alloc_phase2(element,nodes,iplyxfem,icrack3d,nspmd,lisendp, lirecvp, &
           lisendp_pxfem, lirecvp_pxfem, lisendp_crk, lirecvp_crk,&
           isendp_pxfem, irecvp_pxfem, isendp_crk, irecvp_crk, adsky_crk, inod_crk,&
@@ -181,6 +212,14 @@
         end subroutine resol_alloc_phase2
 
 
+!||====================================================================
+!||    resol_alloc_phase3   ../engine/source/engine/resol_alloc.F90
+!||--- called by ------------------------------------------------------
+!||    resol                ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||    my_alloc_mod         ../common_source/tools/memory/my_alloc.F90
+!||====================================================================
         subroutine resol_alloc_phase3(nloadp_hyd_inter,nintloadp,nloadp_hyd,iloadp,sizloadp,numnod, &
           loadp_hyd_inter,tagncont, ninter,&
           s_loadpinter,npresload,loadp_tagdel)
@@ -235,6 +274,17 @@
 
         end subroutine resol_alloc_phase3
 
+!||====================================================================
+!||    resol_alloc_phase4   ../engine/source/engine/resol_alloc.F90
+!||--- called by ------------------------------------------------------
+!||    resol                ../engine/source/engine/resol.F
+!||--- uses       -----------------------------------------------------
+!||    alemuscl_mod         ../common_source/modules/ale/alemuscl_mod.F
+!||    constant_mod         ../common_source/modules/constant_mod.F
+!||    output_mod           ../common_source/modules/output/output_mod.F90
+!||    pblast_mod           ../common_source/modules/loads/pblast_mod.F90
+!||    precision_mod        ../common_source/modules/precision_mod.F90
+!||====================================================================
         subroutine resol_alloc_phase4(nsurf,output,th_surf_num_channel,nloadp, &
           nloadp_f,pblast,iloadp,sizloadp, cnel, addcnel,size_cnel,size_addcnel, &
           idel7ng,irad2r,alemuscl_param,alemuscl_buffer,pdel, addtmpl,tagel,&
@@ -338,6 +388,15 @@
         end subroutine resol_alloc_phase4
 
 
+!||====================================================================
+!||    resol_alloc_phase5   ../engine/source/engine/resol_alloc.F90
+!||--- called by ------------------------------------------------------
+!||    resol                ../engine/source/engine/resol.F
+!||--- uses       -----------------------------------------------------
+!||    constant_mod         ../common_source/modules/constant_mod.F
+!||    glob_therm_mod       ../common_source/modules/mat_elem/glob_therm_mod.F90
+!||    precision_mod        ../common_source/modules/precision_mod.F90
+!||====================================================================
         subroutine resol_alloc_phase5(glob_therm,numnod,ninter,nodadt,nthread,iparit,lsky,lskyi,&
           icodt0,icodr0,mcp_off,fthe,fthesky,qfricint,condn,condnsky, &
           ftheskyi,condnskyi,icondn,ifthe)
@@ -441,6 +500,15 @@
 
         end subroutine resol_alloc_phase5
 
+!||====================================================================
+!||    resol_alloc_phase6   ../engine/source/engine/resol_alloc.F90
+!||--- called by ------------------------------------------------------
+!||    resol                ../engine/source/engine/resol.F
+!||--- uses       -----------------------------------------------------
+!||    constant_mod         ../common_source/modules/constant_mod.F
+!||    plyxfem_mod          ../engine/share/modules/plyxfem_mod.F
+!||    precision_mod        ../common_source/modules/precision_mod.F90
+!||====================================================================
         subroutine resol_alloc_phase6(intplyxfem,iplyxfem,nplymax,ply,plysky,iparit,nthread, &
           nplyxfe,anim_ply,vn_nod,irigid_mat,nrbym, &
           vrbym,vrrbym,arbym,arrbym,plyskyi,lskyi,lskypxfem)
@@ -525,6 +593,14 @@
           endif
         end subroutine resol_alloc_phase6
 
+!||====================================================================
+!||    resol_alloc_phase7   ../engine/source/engine/resol_alloc.F90
+!||--- called by ------------------------------------------------------
+!||    resol                ../engine/source/engine/resol.F
+!||--- uses       -----------------------------------------------------
+!||    constant_mod         ../common_source/modules/constant_mod.F
+!||    precision_mod        ../common_source/modules/precision_mod.F90
+!||====================================================================
         subroutine resol_alloc_phase7(ialelag,numnod,nthread,iparit,lsky,msnf,msf, &
           aflow,vflow,dflow,wflow,ffsky,ifoam,ifoam_cont)
           use constant_mod, only : zero
@@ -570,6 +646,14 @@
             allocate(aflow(0),vflow(0),dflow(0),wflow(0),ffsky(0),ifoam(0),ifoam_cont(0))
           endif
         end subroutine resol_alloc_phase7
+!||====================================================================
+!||    resol_alloc_phase8   ../engine/source/engine/resol_alloc.F90
+!||--- called by ------------------------------------------------------
+!||    resol                ../engine/source/engine/resol.F
+!||--- uses       -----------------------------------------------------
+!||    h3d_mod              ../engine/share/modules/h3d_mod.F
+!||    precision_mod        ../common_source/modules/precision_mod.F90
+!||====================================================================
         subroutine resol_alloc_phase8(nadmesh,numelc,numeltg,numnod,levelmax,iparit,istatcnd,anim_n, &
           h3d_data,iroddl,lsh4act,lsh4kin,psh4act,psh4kin,lsh3act,lsh3kin, &
           psh3act,psh3kin,msh4sky,msh3sky,ilevnod,lsh4upl,lsh3upl,psh4upl,psh3upl,&
@@ -645,6 +729,17 @@
 
         end subroutine resol_alloc_phase8
 
+!||====================================================================
+!||    resol_alloc_phase9   ../engine/source/engine/resol_alloc.F90
+!||--- called by ------------------------------------------------------
+!||    resol                ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||    constant_mod         ../common_source/modules/constant_mod.F
+!||    h3d_mod              ../engine/share/modules/h3d_mod.F
+!||    my_alloc_mod         ../common_source/tools/memory/my_alloc.F90
+!||    precision_mod        ../common_source/modules/precision_mod.F90
+!||====================================================================
         subroutine resol_alloc_phase9(ANIM_CE,NUMELC,NUMELTG,NUMNOD,IADMERRT,H3D_DATA, &
           INTER_ITHKNOD,ERR_THK_SH4,ERR_THK_SH3,THKSH4,THKSH3,THKNOD, &
           AREA_SH4,AREA_SH3,AREA_NOD,THICK_SH4,THICK_SH3,THICK_NOD, &
@@ -717,6 +812,14 @@
           ENDIF
         end subroutine resol_alloc_phase9
 
+!||====================================================================
+!||    resol_alloc_phase10   ../engine/source/engine/resol_alloc.F90
+!||--- called by ------------------------------------------------------
+!||    resol                 ../engine/source/engine/resol.F
+!||--- uses       -----------------------------------------------------
+!||    constant_mod          ../common_source/modules/constant_mod.F
+!||    precision_mod         ../common_source/modules/precision_mod.F90
+!||====================================================================
         subroutine resol_alloc_phase10(ngroup,idtmins, idtmins_int,tagnod_sms,nativ_sms,tagprt_sms,tagrel_sms,indx1_sms,indx2_sms, &
           tagslv_rby_sms,tagmsr_rby_sms,kad_sms,jad_sms,iad_sms,lad_sms, &
           jadc_sms,jads_sms,jads10_sms,jadt_sms,jadp_sms,jadr_sms,jadtg_sms, &

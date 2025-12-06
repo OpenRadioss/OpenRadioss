@@ -51,6 +51,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    plyxfem_wrestanim      ../engine/source/output/restart/wrrest.F
 !||    reallocate_i_skyline   ../engine/source/system/reallocate_skyline.F
 !||    resol                  ../engine/source/engine/resol.F
+!||    resol_alloc_phase6     ../engine/source/engine/resol_alloc.F90
 !||    resol_init             ../engine/source/engine/resol_init.F
 !||    spmd_anim_ply_init     ../engine/source/mpi/anim/spmd_anim_ply_init.F
 !||    spmd_anim_ply_velvec   ../engine/source/mpi/anim/spmd_anim_ply_velvec.F

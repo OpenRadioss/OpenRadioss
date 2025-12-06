@@ -301,6 +301,15 @@
 !||    real_insertion_sort_with_index           ../common_source/tools/sort/insertion_sort.F90
 !||    redef3                                   ../engine/source/elements/spring/redef3.F90
 !||    redef_seatbelt                           ../engine/source/tools/seatbelts/redef_seatbelt.F90
+!||    resol_alloc_phase1                       ../engine/source/engine/resol_alloc.F90
+!||    resol_alloc_phase10                      ../engine/source/engine/resol_alloc.F90
+!||    resol_alloc_phase2                       ../engine/source/engine/resol_alloc.F90
+!||    resol_alloc_phase4                       ../engine/source/engine/resol_alloc.F90
+!||    resol_alloc_phase5                       ../engine/source/engine/resol_alloc.F90
+!||    resol_alloc_phase6                       ../engine/source/engine/resol_alloc.F90
+!||    resol_alloc_phase7                       ../engine/source/engine/resol_alloc.F90
+!||    resol_alloc_phase8                       ../engine/source/engine/resol_alloc.F90
+!||    resol_alloc_phase9                       ../engine/source/engine/resol_alloc.F90
 !||    retractor_table_inv                      ../engine/source/tools/seatbelts/retractor_table_inv.F90
 !||    retractor_table_inv2                     ../engine/source/tools/seatbelts/retractor_table_inv2.F90
 !||    rgwal0_pen                               ../engine/source/constraints/general/rwall/rgwall_pen.F90

@@ -50,6 +50,7 @@
 !||    rdresa                    ../engine/source/output/restart/rdresa.F
 !||    rdresb                    ../engine/source/output/restart/rdresb.F
 !||    resol                     ../engine/source/engine/resol.F
+!||    resol_alloc_phase4        ../engine/source/engine/resol_alloc.F90
 !||    resol_head                ../engine/source/engine/resol_head.F
 !||    resol_init                ../engine/source/engine/resol_init.F
 !||    sortie_main               ../engine/source/output/sortie_main.F

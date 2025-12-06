@@ -44,6 +44,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    radioss2                         ../engine/source/engine/radioss2.F
 !||    rdcomi                           ../engine/source/output/restart/rdcomm.F
 !||    resol                            ../engine/source/engine/resol.F
+!||    resol_alloc_phase4               ../engine/source/engine/resol_alloc.F90
 !||    resol_init                       ../engine/source/engine/resol_init.F
 !||    restalloc                        ../engine/source/output/restart/arralloc.F
 !||    st_qaprint_ale_options_driver    ../starter/source/output/qaprint/st_qaprint_ale_options_driver.F
