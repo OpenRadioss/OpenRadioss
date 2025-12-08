@@ -274,10 +274,10 @@ C Orthotropy wrt reference geometry
 !      
       IF (JTHE == 0 .and. GLOB_THERM%NINTEMP > 0) THEN
         DO I=1,NEL
-          TEMPEL(I) = ONE_OVER_8 *(TEMP(IXS(2,I)) + TEMP(IXS(3,I))
-     .                           + TEMP(IXS(4,I)) + TEMP(IXS(5,I))        
-     .                           + TEMP(IXS(6,I)) + TEMP(IXS(7,I))        
-     .                           + TEMP(IXS(8,I)) + TEMP(IXS(9,I))) 
+          TEMPEL(I) = ONE_OVER_8 *(TEMP(IXS(2,NFT+I)) + TEMP(IXS(3,NFT+I))
+     .                           + TEMP(IXS(4,NFT+I)) + TEMP(IXS(5,NFT+I))        
+     .                           + TEMP(IXS(6,NFT+I)) + TEMP(IXS(7,NFT+I))        
+     .                           + TEMP(IXS(8,NFT+I)) + TEMP(IXS(9,NFT+I))) 
         ENDDO
       ELSE
         TEMPEL(1:NEL) = TEMP0(1:NEL)
