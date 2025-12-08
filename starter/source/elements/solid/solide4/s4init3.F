@@ -208,10 +208,10 @@ C
 !      
       IF (JTHE == 0 .and. NINTEMP > 0) THEN
         DO I=1,NEL
-          TEMPEL(I) = ONE_OVER_8 *(TEMP(IXS(2,I)) + TEMP(IXS(3,I))
-     .                           + TEMP(IXS(4,I)) + TEMP(IXS(5,I))        
-     .                           + TEMP(IXS(6,I)) + TEMP(IXS(7,I))        
-     .                           + TEMP(IXS(8,I)) + TEMP(IXS(9,I))) 
+          TEMPEL(I) = ONE_OVER_8 *(TEMP(IXS(2,I+NFT)) + TEMP(IXS(3,I+NFT))
+     .                           + TEMP(IXS(4,I+NFT)) + TEMP(IXS(5,I+NFT))        
+     .                           + TEMP(IXS(6,I+NFT)) + TEMP(IXS(7,I+NFT))        
+     .                           + TEMP(IXS(8,I+NFT)) + TEMP(IXS(9,I+NFT))) 
         ENDDO
       ELSE
         TEMPEL(1:NEL) = TEMP0(1:NEL)
