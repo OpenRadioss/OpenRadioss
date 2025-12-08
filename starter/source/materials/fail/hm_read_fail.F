@@ -188,6 +188,8 @@ c
      .                          KEYWORD2  = KEY    )
 c
         !< Save failure ID to check duplication later
+        CALL HM_GET_BOOLV ('ID_CARD_EXIST',IS_ID_LINE,IS_AVAILABLE)
+        IF ( .NOT.  (IS_ID_LINE)) FAIL_ID = 0
         FAIL_ID_ARRAY(IFAIL) = FAIL_ID
         DO J = 1,IFAIL-1
           IF (FAIL_ID_ARRAY(J) == FAIL_ID .AND. FAIL_ID /= 0) THEN
