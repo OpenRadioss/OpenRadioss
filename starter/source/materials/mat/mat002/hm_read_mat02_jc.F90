@@ -150,7 +150,7 @@
         ag  = log(one+cn)
         cn0 = cn
         cn  = rm*ag / (rm-ca)
-        cb  = rm/(cn*ag**(cn-one))
+        cb  = rm/max((cn*ag**(cn-one)),em20)
         if (cn > one) then
           cn = one
           cb = (cb0*(one+cn0)-ca)/(log(1+cn0)-cb0*(1+cn0)/young-ca/young)
