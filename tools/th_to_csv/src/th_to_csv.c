@@ -1,3 +1,4 @@
+
 //Copyright>
 //Copyright> Copyright (C) 1986-2024 Altair Engineering Inc.
 //Copyright>
@@ -1186,7 +1187,6 @@ void csvFileWrite(char* csvFilename,char* titleFilename,int *nbglobVar,int *nbPa
     tmpImpulse = (float *) malloc(sizeof(float)* *nbTimeStep);
     isImpulse = (int *)    malloc(sizeof(int)*nbData);
 
-
     fprintf(csvFile,"\"time\",");
     fprintf(csvFile,"\"INTERNAL ENERGY\",");
     fprintf(csvFile,"\"KINETIC ENERGY\",");
@@ -1200,17 +1200,28 @@ void csvFileWrite(char* csvFilename,char* titleFilename,int *nbglobVar,int *nbPa
     fprintf(csvFile,"\"SPRING ENERGY\",");
     fprintf(csvFile,"\"CONTACT ENERGY\",");
     fprintf(csvFile,"\"HOURGLASS ENERGY\",");
-
-    if (*nbglobVar >= 15)
-    {
-        fprintf(csvFile,"\"ELASTIC CONTACT ENERGY\",");
-        fprintf(csvFile,"\"FRICTIONAL CONTACT ENERGY\",");
-        fprintf(csvFile,"\"DAMPING CONTACT ENERGY \",");
-    }
+    fprintf(csvFile,"\"ELASTIC CONTACT ENERGY\",");
+    fprintf(csvFile,"\"FRICTIONAL CONTACT ENERGY\",");
+    fprintf(csvFile,"\"DAMPING CONTACT ENERGY \",");
     
-    if (*nbglobVar >= 16)
-    {
+    if(*nbglobVar >= 16)
         fprintf(csvFile,"\"PLASTIC WORK\",");
+    if(*nbglobVar >= 17)
+        fprintf(csvFile,"\"ADDED MASS\",");
+    if(*nbglobVar >= 18)
+        fprintf(csvFile,"\"PERCENTAGE ADDED MASS\",");
+    if(*nbglobVar >= 19)
+        fprintf(csvFile,"\"INLET MASS\",");
+    if(*nbglobVar >= 20)
+        fprintf(csvFile,"\"OUTLET MASS\",");
+    if(*nbglobVar >= 21)
+        fprintf(csvFile,"\"INLET ENERGY\",");
+    if(*nbglobVar >= 22)
+        fprintf(csvFile,"\"OUTLET ENERGY\",");
+    if(*nbglobVar >= 23)
+    {
+        for(i=23;i<=*nbglobVar;i++)
+        fprintf(csvFile,"\"NO NAME\",");
     }
 
     if (!titlesFile)
