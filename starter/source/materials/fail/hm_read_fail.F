@@ -134,7 +134,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,N,IMAT,IFAIL,IFL,ILAW,MAT_ID,FAIL_ID,
      .   ILOC,IRUPT,IFAILWAVE,UNIT_ID,IXFEM,HM_NBFAIL,IUNIT,IFLAGUNIT
-      INTEGER ,DIMENSION(:) ,ALLOCATABLE :: FAIL_MAT_NUM
+      INTEGER ,DIMENSION(:) ,ALLOCATABLE :: FAIL_MAT_NUM,FAIL_ID_ARRAY
       CHARACTER MESS*40
       CHARACTER(LEN = NCHARKEY) :: KEY
       CHARACTER(LEN=NCHARTITLE) :: TITR
@@ -176,12 +176,27 @@ C--------------------------------------------------
 c
       CALL HM_OPTION_START('FAILURE')      
 c
+      !< Check if optional failure ID is not duplicated
+      ALLOCATE (FAIL_ID_ARRAY(HM_NBFAIL))
+      FAIL_ID_ARRAY(:) = 0
+c
       DO IFAIL = 1,HM_NBFAIL
 c
         CALL HM_OPTION_READ_KEY(LSUBMODEL,
      .                          OPTION_ID = FAIL_ID, ! read in optional line if added
      .                          UNIT_ID   = UNIT_ID    ,
      .                          KEYWORD2  = KEY    )
+c
+        !< Save failure ID to check duplication later
+        FAIL_ID_ARRAY(IFAIL) = FAIL_ID
+        DO J = 1,IFAIL-1
+          IF (FAIL_ID_ARRAY(J) == FAIL_ID .AND. FAIL_ID /= 0) THEN
+            CALL ANCMSG(MSGID=3118,
+     .                  ANMODE=ANINFO,
+     .                  MSGTYPE=MSGERROR,
+     .                  I1=FAIL_ID)
+          ENDIF
+        ENDDO
 c
         CALL HM_GET_INTV('mat_id' ,MAT_ID ,IS_AVAILABLE,LSUBMODEL)
 c
@@ -576,6 +591,7 @@ c
       END DO  ! IFAIL        
 c------------------------------
       DEALLOCATE (FAIL_MAT_NUM)
+      DEALLOCATE (FAIL_ID_ARRAY)
 C-----------       
       RETURN
 C-----------       
