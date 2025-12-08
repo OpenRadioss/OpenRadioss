@@ -1276,17 +1276,15 @@ c
                       IF (NFAIL > 0) THEN 
                         DO J = 1,NFAIL
                           NMOD = MAT_PARAM(IMAT)%FAIL(J)%NMOD
-                          IF (MAT_PARAM(IMAT)%FAIL(J)%FAIL_ID > 0) THEN
+                          IF ((MAT_PARAM(IMAT)%FAIL(J)%FAIL_ID > 0) .AND. (NMOD > 0)) THEN
                             CPT_IRUP = CPT_IRUP + 1
-                            IF (NMOD > 0) THEN 
-                              FAIL_NAME(CPT_IRUP) = MAT_PARAM(IMAT)%FAIL(J)%KEYWORD
-                              IRUP_ID_ALL(CPT_IRUP) = MAT_PARAM(IMAT)%FAIL(J)%FAIL_ID
-                              MODNAME(CPT_IRUP,1:NMOD) = MAT_PARAM(IMAT)%FAIL(J)%MODE(1:NMOD)
-                              IF (IS_MODE_ALL > 0) THEN
-                                CPT_MOD = MAX(CPT_MOD,NMOD)
-                              ELSEIF (IS_MODE > 0) THEN 
-                                CPT_MOD = 1
-                              ENDIF
+                            FAIL_NAME(CPT_IRUP) = MAT_PARAM(IMAT)%FAIL(J)%KEYWORD
+                            IRUP_ID_ALL(CPT_IRUP) = MAT_PARAM(IMAT)%FAIL(J)%FAIL_ID
+                            MODNAME(CPT_IRUP,1:NMOD) = MAT_PARAM(IMAT)%FAIL(J)%MODE(1:NMOD)
+                            IF (IS_MODE_ALL > 0) THEN
+                              CPT_MOD = MAX(CPT_MOD,NMOD)
+                            ELSEIF (IS_MODE > 0) THEN 
+                              CPT_MOD = 1
                             ENDIF
                           ENDIF
                         ENDDO   
