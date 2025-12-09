@@ -128,9 +128,10 @@ C     REAL
 c provisional
       INTEGER  IX,IY,IZ,IEDG,
      .         M1, M2, M3, M4, MM1,MM2,MM3,MM4,SS1,SS2,
-     .         IMS1,IMS2,ISS1,ISS2,
      .         AM1,AM2,AS1,AS2,
      .         IX1,IY1,IZ1,IX2,IY2,IZ2,REMOVE_REMOTE
+      logical  IMS1,IMS2,ISS1,ISS2
+
       INTEGER, DIMENSION(3) :: TMIN,TMAX
       my_real
      .   XMINB,YMINB,ZMINB,XMAXB,YMAXB,ZMAXB,AAA,
@@ -145,9 +146,6 @@ c provisional
       INTEGER :: EDGE_TYPE
       INTEGER :: EID
       INTEGER FIRST_ADD, PREV_ADD, CHAIN_ADD, CURRENT_ADD, MAX_ADD
-      INTEGER BITGET
-      EXTERNAL BITGET
-
 C-----------------------------------------------
       INTEGER IDS(4), PROV_IDS(2,MVSIZ)
 
@@ -437,8 +435,8 @@ C=======================================================================
         AM2 = MAX(MM1,MM2)
 
         IF(ILEV==2)THEN
-          IMS1 = BITGET(EBINFLG(IEDG),0)
-          IMS2 = BITGET(EBINFLG(IEDG),1)
+          IMS1 = BTEST(EBINFLG(IEDG),0)
+          IMS2 = BTEST(EBINFLG(IEDG),1)
         END IF
 
         !-------------------------------------------!
@@ -518,16 +516,16 @@ C--- IREMGAP - tag of deactivated lines
 
                 IF(ILEV==2)THEN
                   IF(JJ <= NEDGE) THEN
-                    ISS1=BITGET(EBINFLG(JJ),0)
-                    ISS2=BITGET(EBINFLG(JJ),1)
+                    ISS1=BTEST(EBINFLG(JJ),0)
+                    ISS2=BTEST(EBINFLG(JJ),1)
                   ELSE
 C                 double-check
-                    ISS1 = BITGET(IREM_EDGE(E_EBINFLG,JJ-NEDGE),0)
-                    ISS2 = BITGET(IREM_EDGE(E_EBINFLG,JJ-NEDGE),1)
+                    ISS1 = BTEST(IREM_EDGE(E_EBINFLG,JJ-NEDGE),0)
+                    ISS2 = BTEST(IREM_EDGE(E_EBINFLG,JJ-NEDGE),1)
                   ENDIF
 
-                  IF(.NOT.((IMS1 == 1 .and. ISS2==1).or.
-     .                     (IMS2 == 1 .and. ISS1==1)))THEN
+                  IF(.NOT.((IMS1 .and. ISS2).or.
+     .                     (IMS2 .and. ISS1)))THEN
                     CHAIN_ADD = LCHAIN_NEXT(CHAIN_ADD)
                     CYCLE
                   ENDIF
@@ -745,8 +743,8 @@ C=======================================================================
         IZ2=MAX(1,2+MIN(NBZ,IZ2))
 
         IF(ILEV==2)THEN
-          IMS1 = BITGET(MBINFLG(NE),0)
-          IMS2 = BITGET(MBINFLG(NE),1)
+          IMS1 = BTEST(MBINFLG(NE),0)
+          IMS2 = BTEST(MBINFLG(NE),1)
         END IF
 
 #ifdef WITH_ASSERT
@@ -810,14 +808,14 @@ C--- IREMGAP - tag of deactivated lines
 
                 IF(ILEV==2)THEN
                   IF(JJ <= NEDGE) THEN
-                    ISS1=BITGET(EBINFLG(JJ),0)
-                    ISS2=BITGET(EBINFLG(JJ),1)
+                    ISS1=BTEST(EBINFLG(JJ),0)
+                    ISS2=BTEST(EBINFLG(JJ),1)
                   ELSE
-                    ISS1 = BITGET(IREM_EDGE(E_EBINFLG,JJ-NEDGE),0)
-                    ISS2 = BITGET(IREM_EDGE(E_EBINFLG,JJ-NEDGE),1)
+                    ISS1 = BTEST(IREM_EDGE(E_EBINFLG,JJ-NEDGE),0)
+                    ISS2 = BTEST(IREM_EDGE(E_EBINFLG,JJ-NEDGE),1)
                   ENDIF
-                  IF(.NOT.((IMS1 == 1 .and. ISS2==1).or.
-     .                     (IMS2 == 1 .and. ISS1==1)))THEN
+                  IF(.NOT.((IMS1 .and. ISS2).or.
+     .                     (IMS2 .and. ISS1)))THEN
                     CHAIN_ADD = LCHAIN_NEXT(CHAIN_ADD)
                     CYCLE
                   ENDIF
