@@ -129,7 +129,8 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, K0, NBINTER, K1S, K, NI, IL, IE, PP, PPL
  
-      INTEGER JSUB,KSUB,NSUB,JJ,KK,ISS1,ISS2,IMS1,IMS2,ITYPSUB
+      INTEGER JSUB,KSUB,NSUB,JJ,KK,ITYPSUB
+      LOGICAL :: ISS1,ISS2,IMS1,IMS2
       INTEGER TAGIP(MVSIZ)
       my_real
      .   VX(MVSIZ), VY(MVSIZ), VZ(MVSIZ), VN(MVSIZ),
@@ -157,8 +158,6 @@ C-----------------------------------------------
      .   C1(MVSIZ),C2(MVSIZ),C3(MVSIZ),C4(MVSIZ),
      . CX,CY,CFI,AUX,GAPP
 C
-      INTEGER BITGET
-      EXTERNAL BITGET
 C-----------------------------------------------
       IF (IRESP == 1) THEN
         PREC = FIVEEM4
@@ -427,14 +426,14 @@ C---------------------------------
         DO I=1,JLT
           IF(PENE(I)==ZERO) CYCLE
           IE=CM_LOC(I)
-          IMS2 = BITGET(EBINFLG(IE),1)
+          IMS2 = BTEST(EBINFLG(IE),1)
           FXI(I)=NX(I)*FNI(I)
           FYI(I)=NY(I)*FNI(I)
           FZI(I)=NZ(I)*FNI(I)
           IMPX=FXI(I)*DT12
           IMPY=FYI(I)*DT12
           IMPZ=FZI(I)*DT12
-          IF (IMS2 > 0 ) THEN
+          IF (IMS2 ) THEN
             FSAV1 =FSAV1 -IMPX
             FSAV2 =FSAV2 -IMPY
             FSAV3 =FSAV3 -IMPZ
@@ -449,7 +448,7 @@ C---------------------------------
           FSAV9 =FSAV9 +ABS(IMPY)
           FSAV10=FSAV10+ABS(IMPZ)
           IF(ISENSINT(1)/=0) THEN
-            IF (IMS2 >0 ) THEN
+            IF (IMS2  ) THEN
               FSAVPARIT(1,1,I) =  -FXI(I)
               FSAVPARIT(1,2,I) =  -FYI(I)
               FSAVPARIT(1,3,I) =  -FZI(I)
@@ -518,16 +517,16 @@ C---------------------------------
               JSUB=LISUBE(JJ)
               ITYPSUB = TYPSUB(JSUB)
               IF(ITYPSUB == 1 ) THEN  ! Defining specific inter
-                ISS1 = BITGET(INFLG_SUBE(JJ),0)
-                ISS2 = BITGET(INFLG_SUBE(JJ),1)
+                ISS1 = BTEST(INFLG_SUBE(JJ),0)
+                ISS2 = BTEST(INFLG_SUBE(JJ),1)
                 IF(KK<ADDSUBE(IE+1)) THEN
                   KSUB=LISUBE(KK)
                   DO WHILE((KSUB<=JSUB).AND.(KK<ADDSUBE(IE+1)))
-                    IMS1 = BITGET(INFLG_SUBE(KK),0)
-                    IMS2 = BITGET(INFLG_SUBE(KK),1)
+                    IMS1 = BTEST(INFLG_SUBE(KK),0)
+                    IMS2 = BTEST(INFLG_SUBE(KK),1)
                     IF(KSUB==JSUB)THEN
-                      IF(.NOT.((IMS1 == 1 .AND. ISS2 == 1).OR.
-     .                       (IMS2 == 1 .AND. ISS1 == 1)))  THEN
+                      IF(.NOT.((IMS1 .AND. ISS2).OR.
+     .                       (IMS2 .AND. ISS1)))  THEN
                         KK=KK+1
                         IF(KK<ADDSUBE(IE+1)) KSUB=LISUBE(KK)
                         CYCLE
@@ -536,7 +535,7 @@ C---------------------------------
                       IMPY=FYI(I)*DT12
                       IMPZ=FZI(I)*DT12
 C
-                      IF(IMS2 > 0)THEN
+                      IF(IMS2 )THEN
                         FSAVSUB1(1,JSUB)=FSAVSUB1(1,JSUB)-IMPX
                         FSAVSUB1(2,JSUB)=FSAVSUB1(2,JSUB)-IMPY
                         FSAVSUB1(3,JSUB)=FSAVSUB1(3,JSUB)-IMPZ
@@ -549,7 +548,7 @@ C
                       END IF
 C
                       IF(ISENSINT(JSUB+1)/=0) THEN
-                        IF(IMS2 > 0)THEN
+                        IF(IMS2 )THEN
                           FSAVPARIT(JSUB+1,1,I) =  -FXI(I)
                           FSAVPARIT(JSUB+1,2,I) =  -FYI(I)
                           FSAVPARIT(JSUB+1,3,I) =  -FZI(I)
@@ -598,22 +597,22 @@ C
 
               ELSEIF(ITYPSUB == 3 ) THEN   ! Inter =0 : collecting forces from all inter with 2Surfs
 
-                ISS2 = BITGET(INFLG_SUBE(JJ),0)
-                ISS1 = BITGET(INFLG_SUBE(JJ),1)
+                ISS2 = BTEST(INFLG_SUBE(JJ),0)
+                ISS1 = BTEST(INFLG_SUBE(JJ),1)
                 IF(KK<ADDSUBE(IE+1)) THEN
                   KSUB=LISUBE(KK)
                   DO WHILE((KSUB<=JSUB).AND.(KK<ADDSUBE(IE+1)))
-                    IMS2 = BITGET(INFLG_SUBE(KK),0)
-                    IMS1 = BITGET(INFLG_SUBE(KK),1)
+                    IMS2 = BTEST(INFLG_SUBE(KK),0)
+                    IMS1 = BTEST(INFLG_SUBE(KK),1)
                     IF(KSUB==JSUB)THEN
-                      IF(.NOT.((IMS1 == 1 .AND. ISS2 == 1).OR.
-     .                      (IMS2 == 1 .AND. ISS1 == 1)))  THEN
+                      IF(.NOT.((IMS1 .AND. ISS2).OR.
+     .                      (IMS2 .AND. ISS1)))  THEN
                         KK=KK+1
                         IF(KK<ADDSUBE(IE+1)) KSUB=LISUBE(KK)
                         CYCLE
                       END IF
 
-                      IF(IMS2 > 0)THEN
+                      IF(IMS2 )THEN
                          FSAVSUB1(1,JSUB)=FSAVSUB1(1,JSUB)-IMPX
                          FSAVSUB1(2,JSUB)=FSAVSUB1(2,JSUB)-IMPY
                          FSAVSUB1(3,JSUB)=FSAVSUB1(3,JSUB)-IMPZ
@@ -630,7 +629,7 @@ C
                       FSAVSUB1(10,JSUB)=FSAVSUB1(10,JSUB)+ABS(IMPZ)
 
                       IF(ISENSINT(JSUB+1)/=0) THEN
-                        IF(IMS2 > 0)THEN
+                        IF(IMS2 )THEN
                           FSAVPARIT(JSUB+1,1,I) =  -FXI(I)
                           FSAVPARIT(JSUB+1,2,I) =  -FYI(I)
                           FSAVPARIT(JSUB+1,3,I) =  -FZI(I)
@@ -721,17 +720,17 @@ C            WRITE(6,*) "JJ=",JJ
                 ITYPSUB = TYPSUB(JSUB)
                 IF(ITYPSUB == 1 ) THEN  ! Defining specific inter
                   ASSERT(JSUB <= NISUB)
-                  ISS1 = BITGET(INFLG_SUBSFIE(NIN)%P(JJ),0)
-                  ISS2 = BITGET(INFLG_SUBSFIE(NIN)%P(JJ),1)
+                  ISS1 = BTEST(INFLG_SUBSFIE(NIN)%P(JJ),0)
+                  ISS2 = BTEST(INFLG_SUBSFIE(NIN)%P(JJ),1)
                   IF(KK<ADDSUBE(IE+1)) THEN
                     KSUB=LISUBE(KK)
                     DO WHILE((KSUB<=JSUB).AND.(KK<ADDSUBE(IE+1)))
                       ASSERT(KSUB <= NISUB)
-                      IMS1 = BITGET(INFLG_SUBE(KK),0)
-                      IMS2 = BITGET(INFLG_SUBE(KK),1)
+                      IMS1 = BTEST(INFLG_SUBE(KK),0)
+                      IMS2 = BTEST(INFLG_SUBE(KK),1)
                       IF(KSUB==JSUB)THEN
-                        IF(.NOT.((IMS1 == 1 .AND. ISS2 == 1).OR.
-     .                        (IMS2 == 1 .AND. ISS1 == 1)))  THEN
+                        IF(.NOT.((IMS1 .AND. ISS2).OR.
+     .                        (IMS2 .AND. ISS1)))  THEN
                           KK=KK+1
                           IF(KK<ADDSUBE(IE+1)) KSUB=LISUBE(KK)
                           CYCLE
@@ -740,7 +739,7 @@ C            WRITE(6,*) "JJ=",JJ
                         IMPY=FYI(I)*DT12
                         IMPZ=FZI(I)*DT12
 C
-                        IF(IMS2 > 0)THEN
+                        IF(IMS2 )THEN
                           FSAVSUB1(1,JSUB)=FSAVSUB1(1,JSUB)-IMPX
                           FSAVSUB1(2,JSUB)=FSAVSUB1(2,JSUB)-IMPY
                           FSAVSUB1(3,JSUB)=FSAVSUB1(3,JSUB)-IMPZ
@@ -753,7 +752,7 @@ C
                         END IF
 C
                         IF(ISENSINT(JSUB+1)/=0) THEN
-                          IF(IMS2 > 0)THEN
+                          IF(IMS2 )THEN
                             FSAVPARIT(JSUB+1,1,I) =  -FXI(I)
                             FSAVPARIT(JSUB+1,2,I) =  -FYI(I)
                             FSAVPARIT(JSUB+1,3,I) =  -FZI(I)
@@ -802,16 +801,16 @@ C
 
                 ELSEIF(ITYPSUB == 3 ) THEN   ! Inter =0 : collecting forces from all inter with 2Surfs
 
-                  ISS2 = BITGET(INFLG_SUBSFIE(NIN)%P(JJ),0)
-                  ISS1 = BITGET(INFLG_SUBSFIE(NIN)%P(JJ),1)
+                  ISS2 = BTEST(INFLG_SUBSFIE(NIN)%P(JJ),0)
+                  ISS1 = BTEST(INFLG_SUBSFIE(NIN)%P(JJ),1)
                   IF(KK<ADDSUBE(IE+1)) THEN
                     KSUB=LISUBE(KK)
                     DO WHILE((KSUB<=JSUB).AND.(KK<ADDSUBE(IE+1)))
-                      IMS2 = BITGET(INFLG_SUBE(KK),0)
-                      IMS1 = BITGET(INFLG_SUBE(KK),1)
+                      IMS2 = BTEST(INFLG_SUBE(KK),0)
+                      IMS1 = BTEST(INFLG_SUBE(KK),1)
                       IF(KSUB==JSUB)THEN
-                        IF(.NOT.((IMS1 == 1 .AND. ISS2 == 1).OR.
-     .                         (IMS2 == 1 .AND. ISS1 == 1)))  THEN
+                        IF(.NOT.((IMS1 .AND. ISS2).OR.
+     .                         (IMS2 .AND. ISS1)))  THEN
                           KK=KK+1
                           IF(KK<ADDSUBE(IE+1)) KSUB=LISUBE(KK)
                           CYCLE
@@ -821,7 +820,7 @@ C
                         IMPY=FYI(I)*DT12
                         IMPZ=FZI(I)*DT12
 
-                        IF(IMS2 > 0)THEN
+                        IF(IMS2)THEN
                           FSAVSUB1(1,JSUB)=FSAVSUB1(1,JSUB)-IMPX
                           FSAVSUB1(2,JSUB)=FSAVSUB1(2,JSUB)-IMPY
                           FSAVSUB1(3,JSUB)=FSAVSUB1(3,JSUB)-IMPZ
@@ -952,16 +951,16 @@ C---------------------------------
               ITYPSUB = TYPSUB(JSUB)
 
               IF(ITYPSUB == 1 ) THEN  ! Defining specific inter
-                ISS1 = BITGET(INFLG_SUBE(JJ),0)
-                ISS2 = BITGET(INFLG_SUBE(JJ),1)
+                ISS1 = BTEST(INFLG_SUBE(JJ),0)
+                ISS2 = BTEST(INFLG_SUBE(JJ),1)
                 IF(KK<ADDSUBE(IE+1)) THEN
                   KSUB=LISUBE(KK)
                   DO WHILE((KSUB<=JSUB).AND.(KK<ADDSUBE(IE+1)))
-                    IMS1 = BITGET(INFLG_SUBE(KK),0)
-                    IMS2 = BITGET(INFLG_SUBE(KK),1)
+                    IMS1 = BTEST(INFLG_SUBE(KK),0)
+                    IMS2 = BTEST(INFLG_SUBE(KK),1)
                     IF(KSUB==JSUB)THEN
-                      IF(.NOT.((IMS1 == 1 .AND. ISS2 == 1).OR.
-     .                       (IMS2 == 1 .AND. ISS1 == 1)))  THEN
+                      IF(.NOT.((IMS1 .AND. ISS2).OR.
+     .                       (IMS2 .AND. ISS1)))  THEN
                         KK=KK+1
                         IF(KK<ADDSUBE(IE+1)) KSUB=LISUBE(KK)
                         CYCLE
@@ -1030,16 +1029,16 @@ c     .                              +XP(I)*IMPY-YP(I)*IMPX
 
               ELSEIF(ITYPSUB == 3 ) THEN   ! Inter =0 : collecting forces from all inter with 2Surfs
 
-                ISS2 = BITGET(INFLG_SUBE(JJ),0)
-                ISS1 = BITGET(INFLG_SUBE(JJ),1)
+                ISS2 = BTEST(INFLG_SUBE(JJ),0)
+                ISS1 = BTEST(INFLG_SUBE(JJ),1)
                 IF(KK<ADDSUBE(IE+1)) THEN
                   KSUB=LISUBE(KK)
                   DO WHILE((KSUB<=JSUB).AND.(KK<ADDSUBE(IE+1)))
-                    IMS2 = BITGET(INFLG_SUBE(KK),0)
-                    IMS1 = BITGET(INFLG_SUBE(KK),1)
+                    IMS2 = BTEST(INFLG_SUBE(KK),0)
+                    IMS1 = BTEST(INFLG_SUBE(KK),1)
                     IF(KSUB==JSUB)THEN
-                      IF(.NOT.((IMS1 == 1 .AND. ISS2 == 1).OR.
-     .                       (IMS2 == 1 .AND. ISS1 == 1)))  THEN
+                      IF(.NOT.((IMS1  .AND. ISS2).OR.
+     .                       (IMS2  .AND. ISS1 )))  THEN
                         KK=KK+1
                         IF(KK<ADDSUBE(IE+1)) KSUB=LISUBE(KK)
                         CYCLE
@@ -1049,7 +1048,7 @@ c     .                              +XP(I)*IMPY-YP(I)*IMPX
                       IMPY=FYT(I)*DT12
                       IMPZ=FZT(I)*DT12
 
-                      IF(IMS2 > 0) THEN
+                      IF(IMS2) THEN
                         FSAVSUB1(4,JSUB)=FSAVSUB1(4,JSUB)-IMPX
                         FSAVSUB1(5,JSUB)=FSAVSUB1(5,JSUB)-IMPY
                         FSAVSUB1(6,JSUB)=FSAVSUB1(6,JSUB)-IMPZ
@@ -1068,7 +1067,7 @@ C
                       FSAVSUB1(14,JSUB)=FSAVSUB1(14,JSUB)+ABS(IMPZ)
 C
                       IF(ISENSINT(JSUB+1)/=0) THEN
-                        IF(IMS2 > 0) THEN
+                        IF(IMS2) THEN
                           FSAVPARIT(JSUB+1,4,I) =  -FXT(I)
                           FSAVPARIT(JSUB+1,5,I) =  -FYT(I)
                           FSAVPARIT(JSUB+1,6,I) =  -FZT(I)
@@ -1147,16 +1146,16 @@ c     .                              +XP(I)*IMPY-YP(I)*IMPX
                 ITYPSUB = TYPSUB(JSUB)
 
                 IF(ITYPSUB == 1 ) THEN  ! Defining specific inter
-                  ISS1 = BITGET(INFLG_SUBSFIE(NIN)%P(JJ),0)
-                  ISS2 = BITGET(INFLG_SUBSFIE(NIN)%P(JJ),1)
+                  ISS1 = BTEST(INFLG_SUBSFIE(NIN)%P(JJ),0)
+                  ISS2 = BTEST(INFLG_SUBSFIE(NIN)%P(JJ),1)
                   IF(KK<ADDSUBE(IE+1)) THEN  
                      KSUB=LISUBE(KK)
                     DO WHILE((KSUB<=JSUB).AND.(KK<ADDSUBE(IE+1)))
-                      IMS1 = BITGET(INFLG_SUBE(KK),0)
-                      IMS2 = BITGET(INFLG_SUBE(KK),1)
+                      IMS1 = BTEST(INFLG_SUBE(KK),0)
+                      IMS2 = BTEST(INFLG_SUBE(KK),1)
                       IF(KSUB==JSUB)THEN
-                        IF(.NOT.((IMS1 == 1 .AND. ISS2 == 1).OR.
-     .                         (IMS2 == 1 .AND. ISS1 == 1)))  THEN
+                        IF(.NOT.((IMS1  .AND. ISS2 ).OR.
+     .                         (IMS2 .AND. ISS1 )))  THEN
                           KK=KK+1
                           IF(KK<ADDSUBE(IE+1)) KSUB=LISUBE(KK)
                           CYCLE
@@ -1226,16 +1225,16 @@ c     .                              +XP(I)*IMPY-YP(I)*IMPX
 
                 ELSEIF(ITYPSUB == 3 ) THEN   ! Inter =0 : collecting forces from all inter with 2Surfs
 
-                  ISS2 = BITGET(INFLG_SUBSFIE(NIN)%P(JJ),0)
-                  ISS1 = BITGET(INFLG_SUBSFIE(NIN)%P(JJ),1)
+                  ISS2 = BTEST(INFLG_SUBSFIE(NIN)%P(JJ),0)
+                  ISS1 = BTEST(INFLG_SUBSFIE(NIN)%P(JJ),1)
                   IF(KK<ADDSUBE(IE+1)) THEN
                     KSUB=LISUBE(KK)
                     DO WHILE((KSUB<=JSUB).AND.(KK<ADDSUBE(IE+1)))
-                      IMS2 = BITGET(INFLG_SUBE(KK),0)
-                      IMS1 = BITGET(INFLG_SUBE(KK),1)
+                      IMS2 = BTEST(INFLG_SUBE(KK),0)
+                      IMS1 = BTEST(INFLG_SUBE(KK),1)
                       IF(KSUB==JSUB)THEN
-                        IF(.NOT.((IMS1 == 1 .AND. ISS2 == 1).OR.
-     .                       (IMS2 == 1 .AND. ISS1 == 1)))  THEN
+                        IF(.NOT.((IMS1  .AND. ISS2 ).OR.
+     .                       (IMS2  .AND. ISS1 )))  THEN
                           KK=KK+1
                           IF(KK<ADDSUBE(IE+1)) KSUB=LISUBE(KK)
                           CYCLE
@@ -1244,7 +1243,7 @@ c     .                              +XP(I)*IMPY-YP(I)*IMPX
                         IMPX=FXT(I)*DT12
                         IMPY=FYT(I)*DT12
                         IMPZ=FZT(I)*DT12
-                        IF(IMS2 > 0 ) THEN
+                        IF(IMS2 ) THEN
 C                 main side :
                           FSAVSUB1(4,JSUB)=FSAVSUB1(4,JSUB)-IMPX
                           FSAVSUB1(5,JSUB)=FSAVSUB1(5,JSUB)-IMPY
@@ -1264,7 +1263,7 @@ C
                         FSAVSUB1(14,JSUB)=FSAVSUB1(14,JSUB)+ABS(IMPZ)
 C 
                         IF(ISENSINT(JSUB+1)/=0) THEN
-                          IF(IMS2 > 0 ) THEN
+                          IF(IMS2  ) THEN
                             FSAVPARIT(JSUB+1,4,I) =  -FXT(I)
                             FSAVPARIT(JSUB+1,5,I) =  -FYT(I)
                             FSAVPARIT(JSUB+1,6,I) =  -FZT(I)
