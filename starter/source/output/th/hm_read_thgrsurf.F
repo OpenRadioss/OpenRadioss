@@ -57,6 +57,7 @@ C-----------------------------------------------
       USE SUBMODEL_MOD , only : SUBMODEL_DATA, NSUBMOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
       USE FORMAT_MOD , ONLY : FMW_I_A
+      USE R2R_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -116,12 +117,26 @@ C-----------------------------------------------
         IGS = IGS - 1
         ITHGRP(1:NITHGR)=0
       ELSE
-        CALL HM_GET_INTV('idsmax',IDSMAX,IS_AVAILABLE,LSUBMODEL)  
+        CALL HM_GET_INTV('idsmax',IDSMAX,IS_AVAILABLE,LSUBMODEL)
+        NNE =  IDSMAX
+        IF (NSUBDOM>0) THEN
+          ! Multidomain : skip surface if not initially on the domain-----
+          NNE = 0  
+          DO K = 1,IDSMAX
+            CALL HM_GET_INT_ARRAY_INDEX('ids',IDS,K,IS_AVAILABLE,LSUBMODEL)   
+            N = 0
+            DO J=1,NUM
+              IF(IDS == IGRSURF(J)%ID) N=J
+            ENDDO
+            IF (N > 0) THEN
+              IF (ISURF_R2R(3,N)>0) NNE = NNE + 1
+            ENDIF
+          ENDDO 
+        ENDIF
         ITHGRP(6)=NVAR
         ITHGRP(7)=IAD
         IAD=IAD+NVAR
         IFI=IFI+NVAR
-        NNE=IDSMAX
         ITHGRP(4)=NNE
         ITHGRP(5)=IAD
         IAD2=IAD+3*NNE
@@ -133,11 +148,15 @@ C
         DO K = 1,IDSMAX
           CALL HM_GET_INT_ARRAY_INDEX('ids',IDS,K,IS_AVAILABLE,LSUBMODEL) 
           N=0
-          IF(IDS/=0)THEN
+          IF(IDS/=0)THEN   
             IF (NSUBDOM>0) THEN
-              ! Multidomain : skip if entity does not exist---------------
-              IF(R2R_EXIST(ITYP,IDS)==0) CYCLE !next K
-              ENDIF      
+              ! Multidomain : skip surface if not initially on the domain-----
+               N = 0
+               DO J=1,NUM
+                 IF(IDS == IGRSURF(J)%ID) N=J
+               ENDDO
+               IF (ISURF_R2R(3,N)==0) CYCLE
+            ENDIF 
             DO J=1,NUM
               IF(IDS == IGRSURF(J)%ID)THEN
                  N=J
@@ -145,7 +164,7 @@ C
                  NUM_FOUND=NUM_FOUND+1
                  EXIT
               ENDIF
-            ENDDO
+            ENDDO  
             NSNE=NSNE+1
             ITHBUF(IAD)=N
             IAD=IAD+1
@@ -202,9 +221,9 @@ C=======================================================================
           WRITE(IOUT,'(10A10)')(VARE(ITHBUF(J)),J=IAD0,IAD0+NVAR-1)
           WRITE(IOUT,'(3A)')'    ',KEY,'        NAME '
           DO K=IAD1,IAD1+N-1
-             CALL FRETITL2(TITR,ITHBUF(IAD2),40)
-             IAD2=IAD2+40
-             WRITE(IOUT,FMT=FMW_I_A)IGRSURF(ITHBUF(K))%ID,TITR(1:40)
+              CALL FRETITL2(TITR,ITHBUF(IAD2),40)
+              IAD2=IAD2+40
+              WRITE(IOUT,FMT=FMW_I_A)IGRSURF(ITHBUF(K))%ID,TITR(1:40)
           ENDDO
 C
         ENDIF
