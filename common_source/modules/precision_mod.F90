@@ -330,6 +330,7 @@
 !||    s6zinit3                                 ../starter/source/elements/solid/solide6z/s6zinit3.F90
 !||    s6zrcoor3                                ../engine/source/elements/solid/solide6z/s6zrcoor3.F90
 !||    s6zrrota3                                ../engine/source/elements/solid/solide6z/s6zrrota3.F90
+!||    s6zsav3                                  ../engine/source/elements/solid/solide6z/s6zsav3.F90
 !||    sdistor_ini                              ../engine/source/elements/solid/solide/sdistror_ini.F90
 !||    select_s2s                               ../starter/source/interfaces/inter3d1/select_s2s.F90
 !||    sensor_mod                               ../common_source/modules/sensor_mod.F90

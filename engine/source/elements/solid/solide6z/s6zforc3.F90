@@ -47,7 +47,6 @@
 !||    s6fint_reg              ../engine/source/elements/solid/solide6z/s6fint_reg.F90
 !||    s6for_distor            ../engine/source/elements/thickshell/solide6c/s6for_distor.F90
 !||    s6get_xv                ../engine/source/elements/thickshell/solide6c/s6get_xv.F90
-!||    s6sav3                  ../engine/source/elements/thickshell/solide6c/s6sav3.F
 !||    s6zdefc3                ../engine/source/elements/solid/solide6z/s6zdefc3.F90
 !||    s6zdefo3                ../engine/source/elements/solid/solide6z/s6zdefo3.F90
 !||    s6zderi3                ../engine/source/elements/solid/solide6z/s6zderi3.F90
@@ -55,6 +54,7 @@
 !||    s6zhour3                ../engine/source/elements/solid/solide6z/s6zhourg3.F90
 !||    s6zrcoor3               ../engine/source/elements/solid/solide6z/s6zrcoor3.F90
 !||    s6zrrota3               ../engine/source/elements/solid/solide6z/s6zrrota3.F90
+!||    s6zsav3                 ../engine/source/elements/solid/solide6z/s6zsav3.F90
 !||    sdistor_ini             ../engine/source/elements/solid/solide/sdistror_ini.F90
 !||    sdlen3                  ../engine/source/elements/solid/solide/sdlen3.F
 !||    smallb3                 ../engine/source/elements/solid/solide/smallb3.F
@@ -86,6 +86,7 @@
 !||    s6zhour3_mod            ../engine/source/elements/solid/solide6z/s6zhourg3.F90
 !||    s6zrcoor3_mod           ../engine/source/elements/solid/solide6z/s6zrcoor3.F90
 !||    s6zrrota3_mod           ../engine/source/elements/solid/solide6z/s6zrrota3.F90
+!||    s6zsav3_mod             ../engine/source/elements/solid/solide6z/s6zsav3.F90
 !||    sdistor_ini_mod         ../engine/source/elements/solid/solide/sdistror_ini.F90
 !||    sensor_mod              ../common_source/modules/sensor_mod.F90
 !||    table_mat_vinterp_mod   ../engine/source/materials/tools/table_mat_vinterp.F

@@ -21,13 +21,20 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    s6sav3     ../engine/source/elements/thickshell/solide6c/s6sav3.F
+!||    s6zsav3_mod   ../engine/source/elements/solid/solide6z/s6zsav3.F90
 !||--- called by ------------------------------------------------------
-!||    s6cforc3   ../engine/source/elements/thickshell/solide6c/s6cforc3.F
-!||    s6zforc3   ../engine/source/elements/solid/solide6z/s6zforc3.F90
+!||    s6zforc3      ../engine/source/elements/solid/solide6z/s6zforc3.F90
 !||====================================================================
       module s6zsav3_mod
       contains
+!||====================================================================
+!||    s6zsav3         ../engine/source/elements/solid/solide6z/s6zsav3.F90
+!||--- called by ------------------------------------------------------
+!||    s6zforc3        ../engine/source/elements/solid/solide6z/s6zforc3.F90
+!||--- uses       -----------------------------------------------------
+!||    constant_mod    ../common_source/modules/constant_mod.F
+!||    precision_mod   ../common_source/modules/precision_mod.F90
+!||====================================================================
       subroutine s6zsav3(                    &
         offg,    sav,     xd1,     xd2,      &
         xd3,     xd4,     xd5,     xd6,      &
