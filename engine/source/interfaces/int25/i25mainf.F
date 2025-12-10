@@ -578,7 +578,7 @@ C-----------------------------------------------------------------------
         ENDIF
         FSAVPARIT(1:NISUB+1,1:11,1:I_STOK) = ZERO
       ELSE
-        ALLOCATE(FSAVPARIT(1,1,1),STAT=IERROR)
+        ALLOCATE(FSAVPARIT(0,0,0),STAT=IERROR)
         IF(IERROR/=0) THEN
           CALL ANCMSG(MSGID=19,ANMODE=ANINFO,
      .         C1='(/INTER/TYPE25)')
