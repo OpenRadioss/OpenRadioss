@@ -620,7 +620,7 @@ C=======================================================================
           ENDIF
 
           SIZ = INTBUF_TAB(NI)%S_IRECTM
-          ALLOCATE(INTBUF_TAB(NI)%IRECTM(MAX(1,SIZ)))
+          ALLOCATE(INTBUF_TAB(NI)%IRECTM(SIZ))
           IF(SIZ>0)THEN
             CALL READ_I_C(INTBUF_TAB(NI)%IRECTM,SIZ)
           ENDIF
@@ -775,7 +775,7 @@ C=======================================================================
 !fin type20
 
           SIZ = INTBUF_TAB(NI)%S_I_STOK_E
-          ALLOCATE(INTBUF_TAB(NI)%I_STOK_E(MAX(2,SIZ)))
+          ALLOCATE(INTBUF_TAB(NI)%I_STOK_E(SIZ))
           IF(SIZ>0)THEN
             CALL READ_I_C(INTBUF_TAB(NI)%I_STOK_E,SIZ)
           ENDIF
@@ -811,7 +811,7 @@ C=======================================================================
           ENDIF
 
           SIZ = INTBUF_TAB(NI)%S_KREMNODE
-          ALLOCATE(INTBUF_TAB(NI)%KREMNODE(MAX(1,SIZ)))
+          ALLOCATE(INTBUF_TAB(NI)%KREMNODE(SIZ))
           IF(SIZ>0)THEN
             CALL READ_I_C(INTBUF_TAB(NI)%KREMNODE,SIZ)
           ENDIF
@@ -1432,7 +1432,7 @@ C=======================================================================
           ENDIF
 
           SIZ = INTBUF_TAB(NI)%S_STFM
-          ALLOCATE(INTBUF_TAB(NI)%STFM(MAX(1,SIZ)))
+          ALLOCATE(INTBUF_TAB(NI)%STFM(SIZ))
           IF(SIZ>0)THEN
             CALL READ_DB(INTBUF_TAB(NI)%STFM,SIZ)
           ENDIF
@@ -1468,7 +1468,7 @@ C=======================================================================
           ENDIF
 
           SIZ = INTBUF_TAB(NI)%S_GAP_M
-          ALLOCATE(INTBUF_TAB(NI)%GAP_M(MAX(1,SIZ)))
+          ALLOCATE(INTBUF_TAB(NI)%GAP_M(SIZ))
           IF(SIZ>0)THEN
             CALL READ_DB(INTBUF_TAB(NI)%GAP_M,SIZ)
           ENDIF
@@ -1516,7 +1516,7 @@ C=======================================================================
           ENDIF
 
           SIZ = INTBUF_TAB(NI)%S_GAP_ML
-          ALLOCATE(INTBUF_TAB(NI)%GAP_ML(MAX(1,SIZ)))
+          ALLOCATE(INTBUF_TAB(NI)%GAP_ML(SIZ))
           IF(SIZ>0)THEN
             CALL READ_DB(INTBUF_TAB(NI)%GAP_ML,SIZ)
           ENDIF

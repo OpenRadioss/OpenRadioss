@@ -84,7 +84,6 @@ C-----------------------------------------------
         INTEGER :: ICURV
         INTEGER :: NMN_L 
         INTEGER :: NOINT
-        INTEGER :: IRECTM_OFFSET
         my_real :: CURV_MAX_LOCAL,CURV_MAX_MAX,TZINF
         my_real :: DX,DY,DZ
         my_real :: MX,MY,MZ
@@ -104,7 +103,7 @@ C-----------------------------------------------
             INTER_STRUCT(NIN)%BOX_LIMIT_MAIN(4:6) = EP30
             INTER_STRUCT(NIN)%BOX_LIMIT_MAIN(7:12) = ZERO
             NRTM = IPARI(4,NIN)
-            IF(.NOT.ALLOCATED(INTER_STRUCT(NIN)%CURV_MAX)) ALLOCATE(INTER_STRUCT(NIN)%CURV_MAX(MAX(1,NRTM)))
+            IF(.NOT.ALLOCATED(INTER_STRUCT(NIN)%CURV_MAX)) ALLOCATE(INTER_STRUCT(NIN)%CURV_MAX(NRTM))
         ENDIF
 
         CALL MY_BARRIER()
@@ -184,12 +183,11 @@ C-----------------------------------------------
         NRTM = IPARI(4,NIN)
         NRTM_T = NRTM/NTHREAD
         ESHIFT = ITASK*NRTM_T
-        ADRESS = MIN(1 + ITASK*(IPARI(4,NIN)/NTHREAD),SIZE(INTER_STRUCT(NIN)%CURV_MAX))
+        ADRESS = 1 + ITASK*(IPARI(4,NIN)/NTHREAD)
         IF(ITASK==NTHREAD-1) NRTM_T= NRTM - ADRESS + 1
         CURV_MAX_LOCAL = ZERO
-        IRECTM_OFFSET = MIN(size(INTBUF_TAB(NIN)%IRECTM),1+4*ESHIFT)
         CALL INTER_CURV_COMPUTATION(ICURV,NRTM_T,
-     .            INTBUF_TAB(NIN)%IRECTM(IRECTM_OFFSET),CURV_MAX_LOCAL,
+     .            INTBUF_TAB(NIN)%IRECTM(1+4*ESHIFT),CURV_MAX_LOCAL,
      .            INTER_STRUCT(NIN)%CURV_MAX(ADRESS),X)
 
 
