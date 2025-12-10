@@ -73,8 +73,9 @@ C-----------------------------------------------
       INTEGER I,J,K,JGRN,ISU,ISU1,ISU2,
      .   JSUB, KSUB, NNE, IS, ISV, CUR, ID1,
      .   NEXT, IM, KM, JAD, IN, II, N,STAT,K1,K2,NT19,INOD,IFNRT,
-     .   IS1,IS2,IS3,IS4,IE,IE1,IE2,NS,ISS1_1,ISS1_2,ISS2_1,ISS2_2,
-     .   IGRN_1,IGRN_2,NS1,NS2
+     .   IS1,IS2,IS3,IS4,IE,IE1,IE2,NS,
+     .   NS1,NS2
+      LOGICAL ISS1_1,ISS2_1,ISS1_2,ISS2_2,IGRN_1,IGRN_2
       CHARACTER MESS*40
       CHARACTER(LEN=NCHARTITLE) :: TITR,TITR1
 C-----------------------------------------------
@@ -85,16 +86,7 @@ C-----------------------------------------------
 C   D a t a
 C-----------------------------------------------
       DATA MESS/'SUB-INTERFACES FOR TH INITIALIZATIONS   '/
-C-----------------------------------------------
-C   E x t e r n a l   F u n c t i o n s
-C-----------------------------------------------
-      INTEGER BITSET
-      EXTERNAL BITSET
-C
-      INTEGER BITGET
-      EXTERNAL BITGET
 C=======================================================================
-
 C
         INTBUF_TAB(NI)%ADDSUBS(1:NSN+1)  = 0   ! address of different subinter related to secondary node
         INTBUF_TAB(NI)%ADDSUBM(1:NRTM+1) = 0   ! address of different subinter related to main segment
@@ -312,12 +304,12 @@ C
                     IF(IS/=0)THEN
                       IF(TAGNOD(IN)==0) THEN ! beware to GRNOD NODENS
                         INTBUF_TAB(NI)%INFLG_SUBS(KAD(IS))=
-     .                    BITSET(INTBUF_TAB(NI)%INFLG_SUBS(KAD(IS)),2)
+     .                    IBSET(INTBUF_TAB(NI)%INFLG_SUBS(KAD(IS)),2)
                         INTBUF_TAB(NI)%LISUBS(KAD(IS))=KSUB
                         KAD(IS)=KAD(IS)+1
                       ELSE                   
                         INTBUF_TAB(NI)%INFLG_SUBS(KAD(IS)-1)=
-     .                    BITSET(INTBUF_TAB(NI)%INFLG_SUBS(KAD(IS)-1),2)
+     .                    IBSET(INTBUF_TAB(NI)%INFLG_SUBS(KAD(IS)-1),2)
                       END IF
                       TAGNOD(IN) = 1                     
                     END IF
@@ -335,13 +327,13 @@ C
                       IF (IS/=0)THEN
                         IF(TAGNOD(IN)==0) THEN
                           INTBUF_TAB(NI)%INFLG_SUBS(KAD(IS))=
-     .                      BITSET(INTBUF_TAB(NI)%INFLG_SUBS(KAD(IS)),0)
+     .                      IBSET(INTBUF_TAB(NI)%INFLG_SUBS(KAD(IS)),0)
                           INTBUF_TAB(NI)%LISUBS(KAD(IS))=KSUB
                           KAD(IS)=KAD(IS)+1
                           TAGNOD(IN) = 1  
                         ELSE                   
                           INTBUF_TAB(NI)%INFLG_SUBS(KAD(IS)-1)=
-     .                      BITSET(INTBUF_TAB(NI)%INFLG_SUBS(KAD(IS)-1),0)
+     .                      IBSET(INTBUF_TAB(NI)%INFLG_SUBS(KAD(IS)-1),0)
                         ENDIF
                       ENDIF
                     END DO
@@ -354,14 +346,12 @@ C
                       IS = NOD2NSV(IN)
                       IF (IS/=0)THEN
                         IF(TAGNOD(IN)==0) THEN
-                          INTBUF_TAB(NI)%INFLG_SUBS(KAD(IS))=
-     .                      BITSET(INTBUF_TAB(NI)%INFLG_SUBS(KAD(IS)),1)
+                          INTBUF_TAB(NI)%INFLG_SUBS(KAD(IS))=  IBSET(INTBUF_TAB(NI)%INFLG_SUBS(KAD(IS)),1)
                           INTBUF_TAB(NI)%LISUBS(KAD(IS))=KSUB
                           KAD(IS)=KAD(IS)+1
                           TAGNOD(IN) = 1                     
                         ELSE                   
-                          INTBUF_TAB(NI)%INFLG_SUBS(KAD(IS)-1)=
-     .                      BITSET(INTBUF_TAB(NI)%INFLG_SUBS(KAD(IS)-1),1)
+                          INTBUF_TAB(NI)%INFLG_SUBS(KAD(IS)-1)=  IBSET(INTBUF_TAB(NI)%INFLG_SUBS(KAD(IS)-1),1)
                         ENDIF
                       ENDIF
                     END DO
@@ -391,14 +381,12 @@ C
                      IS =NOD2NSV(IN)
                      IF (IS/=0)THEN
                         IF(TAGNOD(IN)==0) THEN
-                          INTBUF_TAB(NI)%INFLG_SUBS(KAD(IS))=
-     .                      BITSET(INTBUF_TAB(NI)%INFLG_SUBS(KAD(IS)),0)
+                          INTBUF_TAB(NI)%INFLG_SUBS(KAD(IS))= IBSET(INTBUF_TAB(NI)%INFLG_SUBS(KAD(IS)),0)
                           INTBUF_TAB(NI)%LISUBS(KAD(IS))=KSUB
                           KAD(IS)=KAD(IS)+1
                           TAGNOD(IN) = 1                     
                         ELSE                   
-                          INTBUF_TAB(NI)%INFLG_SUBS(KAD(IS)-1)=
-     .                      BITSET(INTBUF_TAB(NI)%INFLG_SUBS(KAD(IS)-1),0)
+                          INTBUF_TAB(NI)%INFLG_SUBS(KAD(IS)-1)= IBSET(INTBUF_TAB(NI)%INFLG_SUBS(KAD(IS)-1),0)
                         ENDIF
                      ENDIF
 
@@ -416,13 +404,12 @@ C
                      IF (IS/=0)THEN
                        IF(TAGNOD(IN)==0) THEN
                           INTBUF_TAB(NI)%INFLG_SUBS(KAD(IS))=
-     .                      BITSET(INTBUF_TAB(NI)%INFLG_SUBS(KAD(IS)),1)
+     .                      IBSET(INTBUF_TAB(NI)%INFLG_SUBS(KAD(IS)),1)
                           INTBUF_TAB(NI)%LISUBS(KAD(IS))=KSUB
                           KAD(IS)=KAD(IS)+1
                           TAGNOD(IN) = 1                     
                        ELSE                   
-                          INTBUF_TAB(NI)%INFLG_SUBS(KAD(IS)-1)=
-     .                      BITSET(INTBUF_TAB(NI)%INFLG_SUBS(KAD(IS)-1),1)
+                          INTBUF_TAB(NI)%INFLG_SUBS(KAD(IS)-1)= IBSET(INTBUF_TAB(NI)%INFLG_SUBS(KAD(IS)-1),1)
                        ENDIF
                      ENDIF
                    ENDDO
@@ -443,18 +430,18 @@ C
                    NS1 = NOD2NSV(IS1)
                    NS2 = NOD2NSV(IS2)
 
-                   ISS1_1 = BITGET(INTBUF_TAB(NI)%INFLG_SUBS(KAD(NS1)-1),0)
-                   ISS2_1 = BITGET(INTBUF_TAB(NI)%INFLG_SUBS(KAD(NS1)-1),1)
-                   IGRN_1 = BITGET(INTBUF_TAB(NI)%INFLG_SUBS(KAD(NS1)-1),2)
+                   ISS1_1 = BTEST(INTBUF_TAB(NI)%INFLG_SUBS(KAD(NS1)-1),0)
+                   ISS2_1 = BTEST(INTBUF_TAB(NI)%INFLG_SUBS(KAD(NS1)-1),1)
+                   IGRN_1 = BTEST(INTBUF_TAB(NI)%INFLG_SUBS(KAD(NS1)-1),2)
 
-                   ISS1_2 = BITGET(INTBUF_TAB(NI)%INFLG_SUBS(KAD(NS2)-1),0)
-                   ISS2_2 = BITGET(INTBUF_TAB(NI)%INFLG_SUBS(KAD(NS2)-1),1)
-                   IGRN_2 = BITGET(INTBUF_TAB(NI)%INFLG_SUBS(KAD(NS2)-1),2)
+                   ISS1_2 = BTEST(INTBUF_TAB(NI)%INFLG_SUBS(KAD(NS2)-1),0)
+                   ISS2_2 = BTEST(INTBUF_TAB(NI)%INFLG_SUBS(KAD(NS2)-1),1)
+                   IGRN_2 = BTEST(INTBUF_TAB(NI)%INFLG_SUBS(KAD(NS2)-1),2)
 
 
-                   IF(ISS1_1 == 1.AND.ISS1_2== 1) INTBUF_TAB(NI)%INFLG_SUBS(KAD(IS)) = BITSET(INTBUF_TAB(NI)%INFLG_SUBS(KAD(IS)),0)
-                   IF(ISS2_1 == 1.AND.ISS2_2== 1) INTBUF_TAB(NI)%INFLG_SUBS(KAD(IS)) = BITSET(INTBUF_TAB(NI)%INFLG_SUBS(KAD(IS)),1)
-                   IF(IGRN_1 == 1.AND.IGRN_2== 1) INTBUF_TAB(NI)%INFLG_SUBS(KAD(IS)) = BITSET(INTBUF_TAB(NI)%INFLG_SUBS(KAD(IS)),2)
+                   IF(ISS1_1 .AND.ISS1_2) INTBUF_TAB(NI)%INFLG_SUBS(KAD(IS)) = IBSET(INTBUF_TAB(NI)%INFLG_SUBS(KAD(IS)),0)
+                   IF(ISS2_1 .AND.ISS2_2) INTBUF_TAB(NI)%INFLG_SUBS(KAD(IS)) = IBSET(INTBUF_TAB(NI)%INFLG_SUBS(KAD(IS)),1)
+                   IF(IGRN_1 .AND.IGRN_2) INTBUF_TAB(NI)%INFLG_SUBS(KAD(IS)) = IBSET(INTBUF_TAB(NI)%INFLG_SUBS(KAD(IS)),2)
                    INTBUF_TAB(NI)%LISUBS(KAD(IS))=KSUB
                    KAD(IS)=KAD(IS)+1
 
@@ -749,13 +736,13 @@ C
                   IF(KM/=0)THEN
                     IF(TAGRTM(IM)==0)THEN
                       INTBUF_TAB(NI)%INFLG_SUBM(KAD(IM))=
-     .                  BITSET(INTBUF_TAB(NI)%INFLG_SUBM(KAD(IM)),0)
+     .                  IBSET(INTBUF_TAB(NI)%INFLG_SUBM(KAD(IM)),0)
                       INTBUF_TAB(NI)%LISUBM(KAD(IM))=KSUB
                       KAD(IM)=KAD(IM)+1
                       TAGRTM(IM)=1
 C                   ELSE
 C                     INTBUF_TAB(NI)%INFLG_SUBM(KAD(IM)-1)=
-C    .                  BITSET(INTBUF_TAB(NI)%INFLG_SUBM(KAD(IM)-1),0)
+C    .                  IBSET(INTBUF_TAB(NI)%INFLG_SUBM(KAD(IM)-1),0)
                     END IF
                   END IF
                 END DO
@@ -786,13 +773,13 @@ C    .                  BITSET(INTBUF_TAB(NI)%INFLG_SUBM(KAD(IM)-1),0)
                     IF(KM/=0)THEN
                       IF(TAGRTM(IM)==0)THEN
                         INTBUF_TAB(NI)%INFLG_SUBM(KAD(IM))=
-     .                    BITSET(INTBUF_TAB(NI)%INFLG_SUBM(KAD(IM)),1)
+     .                    IBSET(INTBUF_TAB(NI)%INFLG_SUBM(KAD(IM)),1)
                         INTBUF_TAB(NI)%LISUBM(KAD(IM))=KSUB
                         KAD(IM)=KAD(IM)+1
                         TAGRTM(IM)=1
                       ELSE
                         INTBUF_TAB(NI)%INFLG_SUBM(KAD(IM)-1)=
-     .                    BITSET(INTBUF_TAB(NI)%INFLG_SUBM(KAD(IM)-1),1)
+     .                    IBSET(INTBUF_TAB(NI)%INFLG_SUBM(KAD(IM)-1),1)
                       END IF
                     END IF
                   END DO
@@ -839,7 +826,7 @@ C
                     IF(KM/=0)THEN
                       IF(TAGRTM(IM)==0)THEN
                         INTBUF_TAB(NI)%INFLG_SUBM(KAD(IM))=
-     .                    BITSET(INTBUF_TAB(NI)%INFLG_SUBM(KAD(IM)),1)
+     .                    IBSET(INTBUF_TAB(NI)%INFLG_SUBM(KAD(IM)),1)
                         INTBUF_TAB(NI)%LISUBM(KAD(IM))=KSUB
                         KAD(IM)=KAD(IM)+1
                         TAGRTM(IM)=1
@@ -878,13 +865,13 @@ C
                     IF(KM/=0)THEN
                       IF(TAGRTM(IM)==0)THEN
                         INTBUF_TAB(NI)%INFLG_SUBM(KAD(IM))=
-     .                    BITSET(INTBUF_TAB(NI)%INFLG_SUBM(KAD(IM)),0)
+     .                    IBSET(INTBUF_TAB(NI)%INFLG_SUBM(KAD(IM)),0)
                         INTBUF_TAB(NI)%LISUBM(KAD(IM))=KSUB
                         KAD(IM)=KAD(IM)+1
                         TAGRTM(IM)=1
                       ELSE
                         INTBUF_TAB(NI)%INFLG_SUBM(KAD(IM)-1)=
-     .                    BITSET(INTBUF_TAB(NI)%INFLG_SUBM(KAD(IM)-1),0)
+     .                    IBSET(INTBUF_TAB(NI)%INFLG_SUBM(KAD(IM)-1),0)
                       END IF
                     END IF
 

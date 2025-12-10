@@ -177,7 +177,8 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J1, IG, J, JG , K0,NBINTER,K1S,K,IL,IE, NN, NI, II,
-     .        NA1,NA2,IPROJ,IDTM,PP,PPL,ITYPSUB,ISS1,ISS2,IMS1,IMS2
+     .        NA1,NA2,IPROJ,IDTM,PP,PPL,ITYPSUB
+      LOGICAL :: ISS1,ISS2,IMS1,IMS2
       INTEGER JSUB,KSUB,JJ,KK,IN,NSUB
       my_real
      .   FXR(MVSIZ), FYR(MVSIZ), FZR(MVSIZ)
@@ -222,9 +223,6 @@ C-----------------------------------------------
       my_real
      .   TOTAL
       my_real  DISTP(MVSIZ)
-      INTEGER BITGET
-      EXTERNAL BITGET
-C
 C-----------------------------------------------
 C      1 .. JLT : all impacts
 C          1 .. JLT-JLT_TIED     : Standard TYPE7 formulation
@@ -1618,15 +1616,15 @@ C
 
               ELSEIF(ITYPSUB == 3 ) THEN   ! Inter =0 : collecting forces from all inter with 2 surfs
 
-                ISS2 = BITGET(INFLG_SUBS(JJ),0)
-                ISS1 = BITGET(INFLG_SUBS(JJ),1)
+                ISS2 = BTEST(INFLG_SUBS(JJ),0)
+                ISS1 = BTEST(INFLG_SUBS(JJ),1)
                 KSUB=LISUBM(KK)
                 DO WHILE((KSUB<=JSUB).AND.(KK<ADDSUBM(IE+1)))
-                  IMS2 = BITGET(INFLG_SUBM(KK),0)
-                  IMS1 = BITGET(INFLG_SUBM(KK),1)
+                  IMS2 = BTEST(INFLG_SUBM(KK),0)
+                  IMS1 = BTEST(INFLG_SUBM(KK),1)
                   IF(KSUB==JSUB)THEN
-                    IF(.NOT.((IMS1 == 1 .AND. ISS2 == 1).OR.
-     .                        (IMS2 == 1 .AND. ISS1 == 1)))  THEN
+                    IF(.NOT.((IMS1 .AND. ISS2 ).OR.
+     .                       (IMS2 .AND. ISS1 )))  THEN
                       KK=KK+1
                       KSUB=LISUBM(KK)
                       CYCLE
@@ -1637,7 +1635,7 @@ C
                     IMPZ=FORC_SIGN*FZI(I)*DT12
 
 
-                    IF(IMS2 > 0)THEN
+                    IF(IMS2)THEN
                       FSAVSUB1(1,JSUB)=FSAVSUB1(1,JSUB)-IMPX
                       FSAVSUB1(2,JSUB)=FSAVSUB1(2,JSUB)-IMPY
                       FSAVSUB1(3,JSUB)=FSAVSUB1(3,JSUB)-IMPZ
@@ -1655,7 +1653,7 @@ C
 
 
                     IF(ISENSINT(JSUB+1)/=0) THEN
-                      IF(IMS2 > 0)THEN
+                      IF(IMS2)THEN
                         FSAVPARIT(JSUB+1,1,I+NFT) =  -FORC_SIGN*FXI(I)
                         FSAVPARIT(JSUB+1,2,I+NFT) =  -FORC_SIGN*FYI(I)
                         FSAVPARIT(JSUB+1,3,I+NFT) =  -FORC_SIGN*FZI(I)
@@ -1782,15 +1780,15 @@ C
 
                 ELSEIF(ITYPSUB == 3 ) THEN   ! Inter =0 : collecting forces from all inter with 2 surfaces
 
-                  ISS2 = BITGET(INFLG_SUBSFI(NIN)%P(JJ),0)
-                  ISS1 = BITGET(INFLG_SUBSFI(NIN)%P(JJ),1)
+                  ISS2 = BTEST(INFLG_SUBSFI(NIN)%P(JJ),0)
+                  ISS1 = BTEST(INFLG_SUBSFI(NIN)%P(JJ),1)
                   KSUB=LISUBM(KK)
                   DO WHILE((KSUB<=JSUB).AND.(KK<ADDSUBM(IE+1)))
-                    IMS2 = BITGET(INFLG_SUBM(KK),0)
-                    IMS1 = BITGET(INFLG_SUBM(KK),1)
+                    IMS2 = BTEST(INFLG_SUBM(KK),0)
+                    IMS1 = BTEST(INFLG_SUBM(KK),1)
                     IF(KSUB==JSUB)THEN
-                      IF(.NOT.((IMS1 == 1 .AND. ISS2 == 1).OR.
-     .                         (IMS2 == 1 .AND. ISS1 == 1)))  THEN
+                      IF(.NOT.((IMS1 .AND. ISS2 ).OR.
+     .                         (IMS2 .AND. ISS1 )))  THEN
                         KK=KK+1
                         KSUB=LISUBM(KK)
                         CYCLE
@@ -1800,7 +1798,7 @@ C
                       IMPY=FORC_SIGN*FYI(I)*DT12
                       IMPZ=FORC_SIGN*FZI(I)*DT12
 
-                      IF(IMS2 > 0)THEN
+                      IF(IMS2)THEN
                         FSAVSUB1(1,JSUB)=FSAVSUB1(1,JSUB)-IMPX
                         FSAVSUB1(2,JSUB)=FSAVSUB1(2,JSUB)-IMPY
                         FSAVSUB1(3,JSUB)=FSAVSUB1(3,JSUB)-IMPZ
@@ -1813,7 +1811,7 @@ C
                       END IF
 C
                       IF(ISENSINT(JSUB+1)/=0) THEN
-                        IF(IMS2 > 0)THEN
+                        IF(IMS2)THEN
                           FSAVPARIT(JSUB+1,1,I+NFT) =  -FORC_SIGN*FXI(I)
                           FSAVPARIT(JSUB+1,2,I+NFT) =  -FORC_SIGN*FYI(I)
                           FSAVPARIT(JSUB+1,3,I+NFT) =  -FORC_SIGN*FZI(I)
@@ -3207,16 +3205,16 @@ C
               ELSEIF(ITYPSUB == 3 ) THEN   ! Inter =0 : collecting forces from all inter with 2 surfaces
 C
 C            Find if node is on Surface S1 -> S2  or S2 ->S1
-                ISS2 = BITGET(INFLG_SUBS(JJ),0)
-                ISS1 = BITGET(INFLG_SUBS(JJ),1)
+                ISS2 = BTEST(INFLG_SUBS(JJ),0)
+                ISS1 = BTEST(INFLG_SUBS(JJ),1)
                 KSUB=LISUBM(KK)
                 DO WHILE((KSUB<=JSUB).AND.(KK<ADDSUBM(IE+1)))
-                  IMS2 = BITGET(INFLG_SUBM(KK),0)
-                  IMS1 = BITGET(INFLG_SUBM(KK),1)
+                  IMS2 = BTEST(INFLG_SUBM(KK),0)
+                  IMS1 = BTEST(INFLG_SUBM(KK),1)
                   IF(KSUB==JSUB)THEN
 !                S and M candidates on the same sub_interface
-                    IF(.NOT.((IMS1 == 1 .AND. ISS2 == 1).OR.
-     .                       (IMS2 == 1 .AND. ISS1 == 1)))  THEN
+                    IF(.NOT.((IMS1 .AND. ISS2 ).OR.
+     .                       (IMS2 .AND. ISS1 )))  THEN
                       KK=KK+1
                       KSUB=LISUBM(KK)
                       CYCLE
@@ -3225,7 +3223,7 @@ C            Find if node is on Surface S1 -> S2  or S2 ->S1
                     IMPX=FORC_SIGN*FXT(I)*DT12
                     IMPY=FORC_SIGN*FYT(I)*DT12
                     IMPZ=FORC_SIGN*FZT(I)*DT12
-                    IF(IMS2 > 0) THEN
+                    IF(IMS2) THEN
 C                main side :
                       FSAVSUB1(4,JSUB)=FSAVSUB1(4,JSUB)-IMPX
                       FSAVSUB1(5,JSUB)=FSAVSUB1(5,JSUB)-IMPY
@@ -3244,7 +3242,7 @@ C
                     FSAVSUB1(14,JSUB)=FSAVSUB1(14,JSUB)+ABS(IMPZ)
 C
                     IF(ISENSINT(JSUB+1)/=0) THEN
-                      IF(IMS2 > 0) THEN
+                      IF(IMS2) THEN
                         FSAVPARIT(JSUB+1,4,I+NFT) =  -FORC_SIGN*FXT(I)
                         FSAVPARIT(JSUB+1,5,I+NFT) =  -FORC_SIGN*FYT(I)
                         FSAVPARIT(JSUB+1,6,I+NFT) =  -FORC_SIGN*FZT(I)
@@ -3411,15 +3409,15 @@ C
                   JJ=JJ+1
                 ELSEIF(ITYPSUB == 3 ) THEN   ! Inter =0 : collecting forces from all inter with 2 surfaces
 
-                  ISS2 = BITGET(INFLG_SUBSFI(NIN)%P(JJ),0)
-                  ISS1 = BITGET(INFLG_SUBSFI(NIN)%P(JJ),1)
+                  ISS2 = BTEST(INFLG_SUBSFI(NIN)%P(JJ),0)
+                  ISS1 = BTEST(INFLG_SUBSFI(NIN)%P(JJ),1)
                   KSUB=LISUBM(KK)
                   DO WHILE((KSUB<=JSUB).AND.(KK<ADDSUBM(IE+1)))
-                    IMS2 = BITGET(INFLG_SUBM(KK),0)
-                    IMS1 = BITGET(INFLG_SUBM(KK),1)
+                    IMS2 = BTEST(INFLG_SUBM(KK),0)
+                    IMS1 = BTEST(INFLG_SUBM(KK),1)
                     IF(KSUB==JSUB)THEN
-                      IF(.NOT.((IMS1 == 1 .AND. ISS2 == 1).OR.
-     .                         (IMS2 == 1 .AND. ISS1 == 1)))  THEN
+                      IF(.NOT.((IMS1  .AND. ISS2 ).OR.
+     .                         (IMS2  .AND. ISS1 )))  THEN
                         KK=KK+1
                         KSUB=LISUBM(KK)
                         CYCLE
@@ -3428,7 +3426,7 @@ C
                       IMPX=FORC_SIGN*FXT(I)*DT12
                       IMPY=FORC_SIGN*FYT(I)*DT12
                       IMPZ=FORC_SIGN*FZT(I)*DT12
-                      IF(IMS2 > 0) THEN
+                      IF(IMS2) THEN
 C                main side :
                         FSAVSUB1(4,JSUB)=FSAVSUB1(4,JSUB)-IMPX
                         FSAVSUB1(5,JSUB)=FSAVSUB1(5,JSUB)-IMPY
@@ -3447,7 +3445,7 @@ C
                       FSAVSUB1(14,JSUB)=FSAVSUB1(14,JSUB)+ABS(IMPZ)
 C
                       IF(ISENSINT(JSUB+1)/=0) THEN
-                        IF(IMS2 > 0) THEN
+                        IF(IMS2) THEN
                           FSAVPARIT(JSUB+1,4,I) =  FORC_SIGN*FXT(I)
                           FSAVPARIT(JSUB+1,5,I) =  FORC_SIGN*FYT(I)
                           FSAVPARIT(JSUB+1,6,I) =  FORC_SIGN*FZT(I)
