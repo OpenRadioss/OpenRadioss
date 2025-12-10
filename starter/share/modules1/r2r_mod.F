@@ -67,6 +67,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_read_rwall_therm             ../starter/source/constraints/general/rwall/hm_read_rwall_therm.F
 !||    hm_read_spcnd                   ../starter/source/constraints/sph/hm_read_spcnd.F
 !||    hm_read_sphio                   ../starter/source/loads/sph/hm_read_sphio.F
+!||    hm_read_thgrsurf                ../starter/source/output/th/hm_read_thgrsurf.F
 !||    hm_tagpart                      ../starter/source/groups/hm_tagpart.F
 !||    hm_tagpart2                     ../starter/source/groups/hm_tagpart2.F
 !||    i11sti3                         ../starter/source/interfaces/inter3d1/i11sti3.F
