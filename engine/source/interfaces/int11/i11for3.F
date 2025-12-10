@@ -119,14 +119,13 @@ C-----------------------------------------------
      .   FSAVPARIT(NISUB+1,11,*),FSAVSUB(NTHVKI,*),FRICC(MVSIZ),
      .   VISCFFRIC(MVSIZ)
       my_real  , INTENT(IN) :: DGAPLOADINT(S_LOADPINTER)
-      INTEGER BITGET
-      EXTERNAL BITGET
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I ,K, NI
       INTEGER IDTM,IM,IS,JSUB,KSUB,JJ,KK,NSUB,PP,PPL,
-     .   ITYPSUB,ISS1,ISS2,IMS1,IMS2
+     .   ITYPSUB
+      LOGICAL :: ISS1,ISS2,IMS1,IMS2
       my_real
      .   VX(MVSIZ), VY(MVSIZ), VZ(MVSIZ), VN(MVSIZ),
      .   FXI(MVSIZ), FYI(MVSIZ), FZI(MVSIZ),
@@ -638,15 +637,15 @@ C
                 JJ=JJ+1
               ELSEIF(ITYPSUB == 3 ) THEN  ! Inter =0 : collecting forces from all inter with 2 surfacec
 
-                ISS2 = BITGET(INFLG_SUBS(JJ),0)
-                ISS1 = BITGET(INFLG_SUBS(JJ),1)
+                ISS2 = BTEST(INFLG_SUBS(JJ),0)
+                ISS1 = BTEST(INFLG_SUBS(JJ),1)
                 KSUB=LISUBM(KK)
                 DO WHILE((KSUB<=JSUB).AND.(KK<ADDSUBM(IM+1)))
-                  IMS2 = BITGET(INFLG_SUBM(KK),0)
-                  IMS1 = BITGET(INFLG_SUBM(KK),1)
+                  IMS2 = BTEST(INFLG_SUBM(KK),0)
+                  IMS1 = BTEST(INFLG_SUBM(KK),1)
                   IF(KSUB==JSUB)THEN
-                    IF(.NOT.((IMS1 == 1 .AND. ISS2 == 1).OR.
-     .                        (IMS2 == 1 .AND. ISS1 == 1)))  THEN
+                    IF(.NOT.((IMS1  .AND. ISS2 ).OR.
+     .                       (IMS2  .AND. ISS1 )))  THEN
                       KK=KK+1
                       KSUB=LISUBM(KK)
                       CYCLE
@@ -661,7 +660,7 @@ C
                     FSAV11=ABS(FNI(I))*DT12
 C
                     NSUB=LISUB(JSUB)
-                    IF(IMS2 > 0)THEN
+                    IF(IMS2)THEN
                       FSAVSUB(1,NSUB)=FSAVSUB(1,NSUB)-FSAV1
                       FSAVSUB(2,NSUB)=FSAVSUB(2,NSUB)-FSAV2
                       FSAVSUB(3,NSUB)=FSAVSUB(3,NSUB)-FSAV3
@@ -677,7 +676,7 @@ C
                     FSAVSUB(11,NSUB)=FSAVSUB(11,NSUB)+FSAV11
 C
                     IF(ISENSINT(JSUB+1)/=0) THEN
-                      IF(IMS2 > 0)THEN
+                      IF(IMS2)THEN
                         FSAVPARIT(JSUB+1,1,I+NFT) =  -FXI(I)
                         FSAVPARIT(JSUB+1,2,I+NFT) =  -FYI(I)
                         FSAVPARIT(JSUB+1,3,I+NFT) =  -FZI(I)
@@ -810,15 +809,15 @@ C
 
               ELSEIF(ITYPSUB == 3 ) THEN  ! Inter =0 : collecting forces from all inter with 2 surfacec
 
-                ISS2 = BITGET(INFLG_SUBSFI(NIN)%P(JJ),0)
-                ISS1 = BITGET(INFLG_SUBSFI(NIN)%P(JJ),1)
+                ISS2 = BTEST(INFLG_SUBSFI(NIN)%P(JJ),0)
+                ISS1 = BTEST(INFLG_SUBSFI(NIN)%P(JJ),1)
                 KSUB=LISUBM(KK)
                 DO WHILE((KSUB<=JSUB).AND.(KK<ADDSUBM(IM+1)))
-                  IMS2 = BITGET(INFLG_SUBM(KK),0)
-                  IMS1 = BITGET(INFLG_SUBM(KK),1)
+                  IMS2 = BTEST(INFLG_SUBM(KK),0)
+                  IMS1 = BTEST(INFLG_SUBM(KK),1)
                   IF(KSUB==JSUB)THEN
-                    IF(.NOT.((IMS1 == 1 .AND. ISS2 == 1).OR.
-     .                        (IMS2 == 1 .AND. ISS1 == 1)))  THEN
+                    IF(.NOT.((IMS1  .AND. ISS2 ).OR.
+     .                       (IMS2  .AND. ISS1 )))  THEN
                       KK=KK+1
                       KSUB=LISUBM(KK)
                       CYCLE
@@ -833,7 +832,7 @@ C
                     FSAV11=ABS(FNI(I))*DT12
 C
                     NSUB=LISUB(JSUB)
-                    IF(IMS2 > 0)THEN
+                    IF(IMS2)THEN
                       FSAVSUB(1,NSUB)=FSAVSUB(1,NSUB)-FSAV1
                       FSAVSUB(2,NSUB)=FSAVSUB(2,NSUB)-FSAV2
                       FSAVSUB(3,NSUB)=FSAVSUB(3,NSUB)-FSAV3
@@ -849,7 +848,7 @@ C
                     FSAVSUB(11,NSUB)=FSAVSUB(11,NSUB)+FSAV11
 C
                     IF(ISENSINT(JSUB+1)/=0) THEN
-                      IF(IMS2 > 0)THEN
+                      IF(IMS2)THEN
                         FSAVPARIT(JSUB+1,1,I+NFT) =  -FXI(I)
                         FSAVPARIT(JSUB+1,2,I+NFT) =  -FYI(I)
                         FSAVPARIT(JSUB+1,3,I+NFT) =  -FZI(I)
@@ -1097,15 +1096,15 @@ C
                 JJ = JJ + 1
               ELSEIF(ITYPSUB == 3) THEN
 
-                ISS2 = BITGET(INFLG_SUBS(JJ),0)
-                ISS1 = BITGET(INFLG_SUBS(JJ),1)
+                ISS2 = BTEST(INFLG_SUBS(JJ),0)
+                ISS1 = BTEST(INFLG_SUBS(JJ),1)
                 KSUB=LISUBM(KK)
                 DO WHILE((KSUB<=JSUB).AND.(KK<ADDSUBM(IM+1)))
-                  IMS2 = BITGET(INFLG_SUBM(KK),0)
-                  IMS1 = BITGET(INFLG_SUBM(KK),1)
+                  IMS2 = BTEST(INFLG_SUBM(KK),0)
+                  IMS1 = BTEST(INFLG_SUBM(KK),1)
                   IF(KSUB==JSUB)THEN
-                    IF(.NOT.((IMS1 == 1 .AND. ISS2 == 1).OR.
-     .                        (IMS2 == 1 .AND. ISS1 == 1)))  THEN
+                    IF(.NOT.((IMS1 .AND. ISS2 ).OR.
+     .                       (IMS2 .AND. ISS1 )))  THEN
                       KK=KK+1
                       KSUB=LISUBM(KK)
                       CYCLE
@@ -1120,7 +1119,7 @@ C
                     FSAV15 = SQRT(FXI(I)*FXI(I)+FYI(I)*FYI(I)+FZI(I)*FZI(I))*DT12
 C
                     NSUB=LISUB(JSUB)
-                    IF(IMS2 > 0 ) THEN
+                    IF(IMS2) THEN
                       FSAVSUB(4,NSUB)=FSAVSUB(4,NSUB)-FSAV4
                       FSAVSUB(5,NSUB)=FSAVSUB(5,NSUB)-FSAV5
                       FSAVSUB(6,NSUB)=FSAVSUB(6,NSUB)-FSAV6
@@ -1135,7 +1134,7 @@ C
                     FSAVSUB(15,NSUB)=FSAVSUB(15,NSUB)+FSAV15
 C
                     IF(ISENSINT(JSUB+1)/=0) THEN
-                      IF(IMS2 > 0 ) THEN
+                      IF(IMS2 ) THEN
                         FSAVPARIT(JSUB+1,4,I+NFT) =  FXT(I)
                         FSAVPARIT(JSUB+1,5,I+NFT) =  FYT(I)
                         FSAVPARIT(JSUB+1,6,I+NFT) =  FZT(I)
@@ -1261,15 +1260,15 @@ C
 
               ELSEIF(ITYPSUB == 3 ) THEN  ! Inter =0 : collecting forces from all inter with 2 Surfs
 
-                ISS2 = BITGET(INFLG_SUBSFI(NIN)%P(JJ),0)
-                ISS1 = BITGET(INFLG_SUBSFI(NIN)%P(JJ),1)
+                ISS2 = BTEST(INFLG_SUBSFI(NIN)%P(JJ),0)
+                ISS1 = BTEST(INFLG_SUBSFI(NIN)%P(JJ),1)
                 KSUB=LISUBM(KK)
                 DO WHILE((KSUB<=JSUB).AND.(KK<ADDSUBM(IM+1)))
-                  IMS2 = BITGET(INFLG_SUBM(KK),0)
-                  IMS1 = BITGET(INFLG_SUBM(KK),1)
+                  IMS2 = BTEST(INFLG_SUBM(KK),0)
+                  IMS1 = BTEST(INFLG_SUBM(KK),1)
                   IF(KSUB==JSUB)THEN
-                    IF(.NOT.((IMS1 == 1 .AND. ISS2 == 1).OR.
-     .                        (IMS2 == 1 .AND. ISS1 == 1)))  THEN
+                    IF(.NOT.((IMS1  .AND. ISS2 ).OR.
+     .                       (IMS2  .AND. ISS1 )))  THEN
                       KK=KK+1
                       KSUB=LISUBM(KK)
                       CYCLE
@@ -1284,7 +1283,7 @@ C
                     FSAV15 = SQRT(FXI(I)*FXI(I)+FYI(I)*FYI(I)+FZI(I)*FZI(I))*DT12
 C
                     NSUB=LISUB(JSUB)
-                    IF(IMS2 > 0) THEN
+                    IF(IMS2) THEN
                       FSAVSUB(4,NSUB)=FSAVSUB(4,NSUB)-FSAV4
                       FSAVSUB(5,NSUB)=FSAVSUB(5,NSUB)-FSAV5
                       FSAVSUB(6,NSUB)=FSAVSUB(6,NSUB)-FSAV6
@@ -1299,7 +1298,7 @@ C
                     FSAVSUB(15,NSUB)=FSAVSUB(15,NSUB)+FSAV15
 C
                     IF(ISENSINT(JSUB+1)/=0) THEN
-                      IF(IMS2 > 0) THEN
+                      IF(IMS2) THEN
                         FSAVPARIT(JSUB+1,4,I+NFT) =  -FXT(I)
                         FSAVPARIT(JSUB+1,5,I+NFT) =  -FYT(I)
                         FSAVPARIT(JSUB+1,6,I+NFT) =  -FZT(I)
