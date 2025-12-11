@@ -98,6 +98,8 @@ C INITIALIZATION : CALL DT%INIT_IDEL_BRICK()
 !||    init_idel_brick   ../engine/source/modules/dt_mod.F
 !||--- called by ------------------------------------------------------
 !||    freform           ../engine/source/input/freform.F
+!||--- uses       -----------------------------------------------------
+!||    constant_mod      ../common_source/modules/constant_mod.F
 !||====================================================================
           SUBROUTINE INIT_IDEL_BRICK(THIS)
             use constant_mod, only: ZERO

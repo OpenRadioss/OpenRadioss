@@ -114,6 +114,7 @@ C-----------------------------------------------
 !||    segvar_create   ../engine/share/modules/segvar_mod.F
 !||--- uses       -----------------------------------------------------
 !||    ale_mod         ../common_source/modules/ale/ale_mod.F
+!||    constant_mod    ../common_source/modules/constant_mod.F
 !||====================================================================
       SUBROUTINE SEGVAR_CREATE(this,NBMAT)
       USE ALE_MOD      

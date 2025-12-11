@@ -728,10 +728,12 @@ C-----------------------------------------------
       RETURN
       END
 !||====================================================================
-!||    i16rstn   ../engine/source/interfaces/int16/i16lagm.F
+!||    i16rstn        ../engine/source/interfaces/int16/i16lagm.F
 !||--- called by ------------------------------------------------------
-!||    i16rst    ../engine/source/interfaces/int16/i16lagm.F
-!||    i17rst    ../engine/source/interfaces/int17/i17lagm.F
+!||    i16rst         ../engine/source/interfaces/int16/i16lagm.F
+!||    i17rst         ../engine/source/interfaces/int17/i17lagm.F
+!||--- uses       -----------------------------------------------------
+!||    constant_mod   ../common_source/modules/constant_mod.F
 !||====================================================================
       SUBROUTINE I16RSTN(LLT,RR,SS    ,TT    ,NI    ,CONV  ,
      2            DRDX  ,DRDY  ,DRDZ  ,DSDX  ,DSDY  ,DSDZ  ,

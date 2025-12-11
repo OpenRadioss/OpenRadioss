@@ -701,9 +701,11 @@ C-----------------------------------------------
       RETURN
       END
 !||====================================================================
-!||    i10rstn   ../engine/source/interfaces/int16/i10lagm.F
+!||    i10rstn        ../engine/source/interfaces/int16/i10lagm.F
 !||--- called by ------------------------------------------------------
-!||    i10rst    ../engine/source/interfaces/int16/i10lagm.F
+!||    i10rst         ../engine/source/interfaces/int16/i10lagm.F
+!||--- uses       -----------------------------------------------------
+!||    constant_mod   ../common_source/modules/constant_mod.F
 !||====================================================================
       SUBROUTINE I10RSTN(LLT,RR,SS    ,TT    ,NI    ,CONV  ,
      2            DRDX  ,DRDY  ,DRDZ  ,DSDX  ,DSDY  ,DSDZ  ,

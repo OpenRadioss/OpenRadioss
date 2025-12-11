@@ -1175,9 +1175,11 @@ C
       END
 
 !||====================================================================
-!||    checkaxes   ../engine/source/materials/mat/mat038/sigeps38.F
+!||    checkaxes      ../engine/source/materials/mat/mat038/sigeps38.F
 !||--- called by ------------------------------------------------------
-!||    sigeps38    ../engine/source/materials/mat/mat038/sigeps38.F
+!||    sigeps38       ../engine/source/materials/mat/mat038/sigeps38.F
+!||--- uses       -----------------------------------------------------
+!||    constant_mod   ../common_source/modules/constant_mod.F
 !||====================================================================
       SUBROUTINE CHECKAXES(TRAN1,TRAN2,AMIN,AMAX,UNCHANGED,TOL)
 C----------------------------------------------------------------

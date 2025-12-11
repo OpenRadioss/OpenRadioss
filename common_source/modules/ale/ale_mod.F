@@ -255,7 +255,9 @@ C-----------------------------------------------
 
       CONTAINS
 !||====================================================================
-!||    init   ../common_source/modules/ale/ale_mod.F
+!||    init           ../common_source/modules/ale/ale_mod.F
+!||--- uses       -----------------------------------------------------
+!||    constant_mod   ../common_source/modules/constant_mod.F
 !||====================================================================
         subroutine init(this)
           !initialization is done : - during Starter before reading Starter input file

@@ -689,9 +689,11 @@ C-----------------------------------------------
       RETURN
       END
 !||====================================================================
-!||    i8rstn   ../engine/source/interfaces/int16/i8lagm.F
+!||    i8rstn         ../engine/source/interfaces/int16/i8lagm.F
 !||--- called by ------------------------------------------------------
-!||    i8rst    ../engine/source/interfaces/int16/i8lagm.F
+!||    i8rst          ../engine/source/interfaces/int16/i8lagm.F
+!||--- uses       -----------------------------------------------------
+!||    constant_mod   ../common_source/modules/constant_mod.F
 !||====================================================================
       SUBROUTINE I8RSTN(LLT,RR ,SS    ,TT    ,NI    ,CONV  ,
      2            DRDX  ,DRDY  ,DRDZ  ,DSDX  ,DSDY  ,DSDZ  ,
