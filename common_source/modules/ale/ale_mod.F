@@ -239,7 +239,9 @@ C-----------------------------------------------
         END TYPE ALE_SUB_
 
         type phi_data_
-          integer, dimension(:), allocatable :: address !< address of the rezoning variable in the material model
+          integer :: nvar_list_nb !< number of convective variables
+          integer, dimension(:), allocatable :: address !< address of the rezoning/convecting variable in the material model
+          integer, dimension(:), allocatable :: nvar_list !< list of convective variables
         end type phi_data_
         !ALE REZONING (variable to rezone)
         TYPE ALE_REZON_
@@ -256,6 +258,13 @@ C-----------------------------------------------
           type(phi_data_), dimension(:,:,:), allocatable :: phi_51_data !< rezoning variable data for mtn=51
         END TYPE ALE_REZON_
 
+        type conv_
+          integer :: phi_dim1 !< 1rst dimension of convective variable array phi
+          integer, dimension(3) :: phi_dim2 !< 2nd dimension of convective variable array phi
+          type(phi_data_), dimension(:), allocatable :: phi_data !< convection variable data
+          type(phi_data_), dimension(:), allocatable :: phi_51_data !< convection variable data for mtn=51
+        end type conv_
+
         ! GENERAL DATA STRUCTURE USED IN SOURCE CODE
         TYPE ALE_
           TYPE(ALE_GRID_)   :: GRID
@@ -263,6 +272,7 @@ C-----------------------------------------------
           TYPE(ALE_GLOBAL_) :: GLOBAL
           TYPE(ALE_SUB_)    :: SUB
           TYPE(ALE_REZON_)  :: REZON
+          type(conv_) :: conv !< convective data structure
         contains
           procedure, pass :: init
         END TYPE ALE_

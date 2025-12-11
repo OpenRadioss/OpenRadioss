@@ -34,7 +34,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
       SUBROUTINE ACONV3(VTOT ,PHI,FLUX,FLU1,IXS,
      .                  ALE_CONNECT,IOFF,QMV,IFLG,
-     .                  TAG22,NVAR,ITASK,s_flux,s_qmv,offset,nv46)
+     .                  TAG22,NVAR,ITASK,s_flux,s_qmv,offset,nv46,
+     .                  nel,nft)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -56,6 +57,8 @@ C-----------------------------------------------
       integer, intent(in) :: s_qmv  !< first dimension of QMV array
       integer, intent(in) :: offset !< offset for FLUX and QMV arrays
       integer, intent(in) :: nv46  !< second dimension of FLUX and QMV arrays
+      integer, intent(in) :: nel   !< number of elements of the group
+      integer, intent(in) :: nft   !< first element index of the group
       INTEGER IOFF, IFLG,IXS(NIXS,NUMELS),NVAR,ITASK
       my_real VTOT(*), PHI(*), FLUX(s_flux,nv46), FLU1(*), QMV(s_qmv,2*nv46), TAG22(MVSIZ)
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
@@ -65,7 +68,6 @@ C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "com08_c.inc"
-#include      "vect01_c.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -79,11 +81,11 @@ C-----------------------------------------------
       !---------------------------------------------------------!
       ! CONVECTION                                              !
       !---------------------------------------------------------!
-      DO I=LFT,LLT
+      DO I=1,nel
         IE               = NFT+I
         VALEL(I)         = PHI(IE)
       ENDDO
-      DO I=LFT,LLT
+      DO I=1,nel
          IE             = NFT+I
          IAD2 = ALE_CONNECT%ee_connect%iad_connect(IE)
          LGTH = ALE_CONNECT%ee_connect%iad_connect(IE+1) - IAD2
@@ -102,7 +104,7 @@ C-----------------------------------------------
          ENDDO
       ENDDO
 
-      DO I=LFT,LLT
+      DO I=1,nel
         IE               = NFT+I+offset
         VL(I,1)          = VALVOIS(I,1)*FLUX(IE,1)
         VL(I,2)          = VALVOIS(I,2)*FLUX(IE,2)
@@ -115,24 +117,24 @@ C-----------------------------------------------
 
       IF(ALEFVM_Param%IEnabled/=0)THEN
         IF(NVAR==2)THEN
-          DO I=LFT,LLT
+          DO I=1,nel
             DELTA(I) = DELTA(I) + (ALEFVM_Param%IWFEXT)*DT1*ALEFVM_Buffer%WFEXT_CELL(I+NFT)
           ENDDO
         ENDIF
       ENDIF
 
       IF(INT22==0)THEN
-        DO I=LFT,LLT
+        DO I=1,nel
           VTOT(I) = VTOT(I) + DELTA(I)        
         ENDDO
       ELSE
-        DO I=LFT,LLT
+        DO I=1,nel
           IF(TAG22(I)==ZERO) VTOT(I) = VTOT(I) + DELTA(I)  !can be optimized later (conditional test is currently within the loop)
         ENDDO     
       ENDIF
 
       IF(TRIMAT > 0.AND.IFLG == 1)THEN
-        DO I=LFT,LLT
+        DO I=1,nel
           ie = nft+i+offset
           QMV(ie,1) = QMV(ie,1) - VL(I,1) - VALEL(I)*QMV(ie,07) 
           QMV(ie,2) = QMV(ie,2) - VL(I,2) - VALEL(I)*QMV(ie,08) 
@@ -163,7 +165,7 @@ C-----------
           
           if(itask==0)then
             if(IBUG22_NVAR==NVAR)then
-              do i=lft,llt
+              do i=1,nel
                 if(int22>0)then;if (tag22(i)/=zero)then;cycle                 ;endif;endif
                 if(ibug22_convec == ixs(11,i+nft) .OR. ibug22_convec == -1)then                
                   if((ibug22_convec==ixs(11,nft+i).OR.ibug22_convec==-1) .AND. nvar==1)then 
@@ -185,7 +187,7 @@ C-----------
 
           if(itask==1)then       
             if(IBUG22_NVAR==NVAR)then
-              do i=lft,llt
+              do i=1,nel
                 if(int22>0)then;if (tag22(i)/=zero)then;cycle                 ;endif;endif
                 if(ibug22_convec == ixs(11,i+nft) .OR. ibug22_convec == -1)then                
                   if((ibug22_convec==ixs(11,nft+i).OR.ibug22_convec==-1) .AND. nvar==1)then 
@@ -207,7 +209,7 @@ C-----------
 
           if(itask==2)then       
             if(IBUG22_NVAR==NVAR)then
-              do i=lft,llt
+              do i=1,nel
                 if(int22>0)then;if (tag22(i)/=zero)then;cycle                 ;endif;endif
                 if(ibug22_convec == ixs(11,i+nft) .OR. ibug22_convec == -1)then                
                   if((ibug22_convec==ixs(11,nft+i).OR.ibug22_convec==-1) .AND. nvar==1)then 
@@ -229,7 +231,7 @@ C-----------
 
           if(itask==3)then       
             if(IBUG22_NVAR==NVAR)then
-              do i=lft,llt
+              do i=1,nel
                 if(int22>0)then;if (tag22(i)/=zero)then;cycle                 ;endif;endif
                 if(ibug22_convec == ixs(11,i+nft) .OR. ibug22_convec == -1)then                
                   if((ibug22_convec==ixs(11,nft+i).OR.ibug22_convec==-1) .AND. nvar==1)then 

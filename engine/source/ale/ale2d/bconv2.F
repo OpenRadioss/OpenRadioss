@@ -28,7 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
 !||====================================================================
       SUBROUTINE BCONV2(VTOT  ,PHI   ,FLUX ,FLU1 , ALE_CONNECT ,
-     .                  BHOLE ,NM    ,s_flux,offset,nv46)
+     .                  BHOLE ,NM    ,s_flux,offset,nv46,nel,nft)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -42,13 +42,14 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com08_c.inc"
-#include      "vect01_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       integer, intent(in) :: s_flux !< first dimension of FLUX array
       integer, intent(in) :: offset !< offset for FLUX & QMV arrays      
       integer, intent(in) :: nv46 !< secondimension of FLUX array
+      integer, intent(in) :: nel   !< number of elements of the group
+      integer, intent(in) :: nft   !< first element index of the group       
       INTEGER BHOLE(NMULT,*) ,NM
       my_real VTOT(*), PHI(*), FLUX(s_flux,nv46), FLU1(*)
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
@@ -60,7 +61,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
-        DO I=LFT,LLT
+        DO I=1,nel
           IE =NFT+I
           ie_2 = ie + offset
           IAD2 = ALE_CONNECT%ee_connect%iad_connect(IE)

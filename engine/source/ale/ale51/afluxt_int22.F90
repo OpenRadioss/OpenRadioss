@@ -25,7 +25,7 @@
 !||--- called by ------------------------------------------------------
 !||    alethe            ../engine/source/ale/alethe.F
 !||====================================================================
-      module aflut_int22_mod
+      module afluxt_int22_mod
         implicit none
       contains
 ! ======================================================================================================================
@@ -50,16 +50,16 @@
 !||    multimat_param_mod      ../common_source/modules/multimat_param_mod.F90
 !||    precision_mod           ../common_source/modules/precision_mod.F90
 !||====================================================================
-        subroutine aflut_int22(itask,nthread,numels,nparg,ngroup,s_flux,s_alpha_mat,nv46, &
-                               itrimat,trimat,npropm,nummat,iparg,ixs,pm,alpha_mat,flux_mat,elbuf_tab)
+        subroutine afluxt_int22(itask,nthread,numels,nparg,ngroup,s_flux,s_alpha_mat,nv46, &
+                               itrimat,trimat,npropm,nummat,iparg,ixs,pm,alpha_mat,flux_mat,elbuf_tab, &
+                               nb_int22,int22,i22len,brick_list)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
           use precision_mod , only : WP
           use element_mod , only : nixs
           use constant_mod         
-          use i22tri_mod
-          use i22bufbric_mod
+          use i22tri_mod , only : brick_entity
           use elbufdef_mod
           use multimat_param_mod , only : m51_n0phas,m51_nvphas
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -85,12 +85,16 @@
           integer, intent(in) :: trimat !< number of materials
           integer, intent(in) :: npropm !< first dimension of pm array
           integer, intent(in) :: nummat !< total number of material
+          integer, intent(in) :: nb_int22 !< number of candidates for the interface 22
+          integer, intent(in) :: int22 !< number of /TYPE22 interfaces
+          integer, intent(in) :: i22len !< buffer size for intersected bricks          
           integer, dimension(nparg,ngroup), intent(in) :: iparg !< element group data
           integer, dimension(nixs,numels), intent(in) :: ixs !< element to node connectivity array
           real(kind=WP), dimension(npropm,nummat), intent(inout) :: pm !< flux array
           real(kind=WP), dimension(s_alpha_mat,trimat), intent(inout) :: alpha_mat !< alpha array      
           real(kind=WP), dimension(s_flux,nv46,trimat), intent(inout) :: flux_mat !< flux array
           type(elbuf_struct_), dimension(ngroup), target :: elbuf_tab !< element buffer
+          type(brick_entity), dimension(int22,i22len), intent(inout) :: brick_list !< interface 22 data structure          
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -107,9 +111,9 @@
 ! ----------------------------------------------------------------------------------------------------------------------
       !idem for cut cells (inter22) (obsolete)
       nin = 1
-      nbf = 1+itask*nb/nthread
-      nbl = (itask+1)*nb/nthread
-      nbl = min(nbl,nb)
+      nbf = 1+itask*nb_int22/nthread
+      nbl = (itask+1)*nb_int22/nthread
+      nbl = min(nbl,nb_int22)
       tnb = nbl-nbf+1
       do ib=nbf,nbl
         ncell =  brick_list(nin,ib)%nbcut 
@@ -141,11 +145,16 @@
             mbuf  => elbuf_tab(ng)%bufly(1)%mat(1,1,1)           
             llt_  = iparg(2,ng)
             !===restore direct fluxes====!
-            brick_list(nin,ib)%poly(icell)%face(1:6)%adjacent_upwflux(1)=brick_list(nin,ib)%poly(icell)%face(1:6)%adjacent_flux(1)   
-            brick_list(nin,ib)%poly(icell)%face(1:6)%adjacent_upwflux(2)=brick_list(nin,ib)%poly(icell)%face(1:6)%adjacent_flux(2)   
-            brick_list(nin,ib)%poly(icell)%face(1:6)%adjacent_upwflux(3)=brick_list(nin,ib)%poly(icell)%face(1:6)%adjacent_flux(3)   
-            brick_list(nin,ib)%poly(icell)%face(1:6)%adjacent_upwflux(4)=brick_list(nin,ib)%poly(icell)%face(1:6)%adjacent_flux(4)   
-            brick_list(nin,ib)%poly(icell)%face(1:6)%adjacent_upwflux(5)=brick_list(nin,ib)%poly(icell)%face(1:6)%adjacent_flux(5)                          
+            brick_list(nin,ib)%poly(icell)%face(1:6)%adjacent_upwflux_mat(1,itrimat)= &
+                        brick_list(nin,ib)%poly(icell)%face(1:6)%adjacent_flux(1)   
+            brick_list(nin,ib)%poly(icell)%face(1:6)%adjacent_upwflux_mat(2,itrimat)= &
+                        brick_list(nin,ib)%poly(icell)%face(1:6)%adjacent_flux(2)   
+            brick_list(nin,ib)%poly(icell)%face(1:6)%adjacent_upwflux_mat(3,itrimat)= &
+                        brick_list(nin,ib)%poly(icell)%face(1:6)%adjacent_flux(3)   
+            brick_list(nin,ib)%poly(icell)%face(1:6)%adjacent_upwflux_mat(4,itrimat)= &
+                        brick_list(nin,ib)%poly(icell)%face(1:6)%adjacent_flux(4)   
+            brick_list(nin,ib)%poly(icell)%face(1:6)%adjacent_upwflux_mat(5,itrimat)= &
+                        brick_list(nin,ib)%poly(icell)%face(1:6)%adjacent_flux(5)                          
             !===get vfrac================!
             ipos = 1                                                                                               
             k0 = ((m51_n0phas + (itrimat-1)*m51_nvphas )+ipos-1)             ! example : ipos=1 => vfrac  {uvar(i,add)=uvar(k+i)}  
@@ -163,17 +172,17 @@
       ! submatrial volume fluxes update : law51
       ! --------------------------------
       call ale51_antidiff3_int22(flux_mat(:,:,itrimat),itrimat,ixs, &
-                                 nv46,elbuf_tab,itask,alpha_mat(:,itrimat),s_flux)
+                                 nv46,elbuf_tab,itask,alpha_mat(:,itrimat),s_flux,nb_int22,int22,i22len,brick_list)
 
       call my_barrier
 
       ! --------------------------------
       ! updating volume fluxes & upwind
       ! --------------------------------        
-      call ale51_upwind3_int22(pm,ixs,itrimat,1,iparg,elbuf_tab,itask )      
+      call ale51_upwind3_int22(pm,ixs,itrimat,1,iparg,elbuf_tab,itask,nb_int22,int22,i22len,brick_list)
 
       call my_barrier
       return
 ! ----------------------------------------------------------------------------------------------------------------------
-        end subroutine aflut_int22
-      end module aflut_int22_mod
+        end subroutine afluxt_int22
+      end module afluxt_int22_mod

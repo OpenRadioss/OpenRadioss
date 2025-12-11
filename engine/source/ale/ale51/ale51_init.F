@@ -68,7 +68,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-       integer, intent(in) :: s_flux !< first dimension of flux array
+      integer, intent(in) :: s_flux !< first dimension of flux array
       integer, intent(in) :: s_qmv  !< first dimension of QMV array
       TYPE(ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB      
       my_real PM(NPROPM,NUMMAT), X(3,NUMNOD),
@@ -79,7 +79,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: NG, K, II, NF1
+      INTEGER :: NG, K, II, NF1,itrimat
       my_real :: BID(1)
       INTEGER :: NIN, IB, NBF, NBL, IE, MLW
 C-----------------------------------------------
@@ -169,18 +169,26 @@ C--------------------
           MLW = BRICK_LIST(NIN,IB)%MLW 
           IF(MLW /= 51)CYCLE
           DO J=1,6
-          BRICK_LIST(NIN,IB)%POLY(1:9)%FACE(J)%Adjacent_UpwFLUX(1) = BRICK_LIST(NIN,IB)%POLY(1:9)%FACE(J)%Adjacent_FLUX(1)
-          BRICK_LIST(NIN,IB)%POLY(1:9)%FACE(J)%Adjacent_UpwFLUX(2) = BRICK_LIST(NIN,IB)%POLY(1:9)%FACE(J)%Adjacent_FLUX(2)
-          BRICK_LIST(NIN,IB)%POLY(1:9)%FACE(J)%Adjacent_UpwFLUX(3) = BRICK_LIST(NIN,IB)%POLY(1:9)%FACE(J)%Adjacent_FLUX(3)
-          BRICK_LIST(NIN,IB)%POLY(1:9)%FACE(J)%Adjacent_UpwFLUX(4) = BRICK_LIST(NIN,IB)%POLY(1:9)%FACE(J)%Adjacent_FLUX(4)
-          BRICK_LIST(NIN,IB)%POLY(1:9)%FACE(J)%Adjacent_UpwFLUX(5) = BRICK_LIST(NIN,IB)%POLY(1:9)%FACE(J)%Adjacent_FLUX(5)
+            do itrimat=1,trimat
+          BRICK_LIST(NIN,IB)%POLY(1:9)%FACE(J)%Adjacent_UpwFLUX_mat(1,itrimat) = 
+     .           BRICK_LIST(NIN,IB)%POLY(1:9)%FACE(J)%Adjacent_FLUX(1)
+          BRICK_LIST(NIN,IB)%POLY(1:9)%FACE(J)%Adjacent_UpwFLUX_mat(2,itrimat) = 
+     .           BRICK_LIST(NIN,IB)%POLY(1:9)%FACE(J)%Adjacent_FLUX(2)
+          BRICK_LIST(NIN,IB)%POLY(1:9)%FACE(J)%Adjacent_UpwFLUX_mat(3,itrimat) = 
+     .           BRICK_LIST(NIN,IB)%POLY(1:9)%FACE(J)%Adjacent_FLUX(3)
+          BRICK_LIST(NIN,IB)%POLY(1:9)%FACE(J)%Adjacent_UpwFLUX_mat(4,itrimat) = 
+     .           BRICK_LIST(NIN,IB)%POLY(1:9)%FACE(J)%Adjacent_FLUX(4)
+          BRICK_LIST(NIN,IB)%POLY(1:9)%FACE(J)%Adjacent_UpwFLUX_mat(5,itrimat) = 
+     .           BRICK_LIST(NIN,IB)%POLY(1:9)%FACE(J)%Adjacent_FLUX(5)
+            enddo
           ENDDO
         ENDDO   
         
         !Computing Upwind fluxes
         CALL ALE51_UPWIND3_INT22
      +                      (PM   , IXS        ,0     ,  1,
-     +                       IPARG, ELBUF_TAB  ,ITASK     )
+     +                       IPARG, ELBUF_TAB  ,ITASK ,
+     +                       nb,int22,i22len,brick_list)
       ENDIF
 
 C-----------------------------------------------

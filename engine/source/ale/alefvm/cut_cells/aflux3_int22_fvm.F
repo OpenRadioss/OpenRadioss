@@ -543,9 +543,11 @@ C                 endif
           BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(J)%Adjacent_upwFLUX (3)  = ZERO
           BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(J)%Adjacent_upwFLUX (4)  = ZERO
           BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(J)%Adjacent_upwFLUX (5)  = ZERO
+          BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(J)%Adjacent_upwFLUX_mat(1:5,0:4) = ZERO
           ENDDO!next J
           
           BRICK_LIST(NIN,IB)%POLY(ICELL)%Adjacent_FLU1         = ZERO
+          BRICK_LIST(NIN,IB)%POLY(ICELL)%Adjacent_FLU1_mat(0:4)  = ZERO
           !======================================================!
           !  MONOMATERIAL UPWIND TREATMENT                       !          
           !======================================================!          
@@ -575,8 +577,11 @@ C                 endif
               ENDIF 
               BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(J)%Adjacent_upwFLUX(IADJ) = 
      .         cellFLUX(J,ICELL,IB,IADJ)-UPWL(J)*ABS(cellFLUX(J,ICELL,IB,IADJ))
+              BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(J)%Adjacent_upwFLUX_mat(IADJ,0) = 
+     .         BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(J)%Adjacent_upwFLUX(IADJ)     
               BRICK_LIST(NIN,IB)%POLY(ICELL)%Adjacent_FLU1 = 
      .        BRICK_LIST(NIN,IB)%POLY(ICELL)%Adjacent_FLU1 + cellFLUX(J,ICELL,IB,IADJ)+UPWL(J)*ABS(cellFLUX(J,ICELL,IB,IADJ))
+              BRICK_LIST(NIN,IB)%POLY(ICELL)%Adjacent_FLU1_mat(0)  = BRICK_LIST(NIN,IB)%POLY(ICELL)%Adjacent_FLU1
               !-----DDVOL
               DDVOL = DDVOL + cellFLUX(J,ICELL,IB,IADJ) 
               !-----DDVOL*DT IS SUM FOR INCOMING AND OUTCOMING VOLUMES             
