@@ -143,6 +143,7 @@ C-----------------------------------------------
           IPRT=IPARTSP(1 + NFT)
           MT1 =IPART(1,IPRT)
 
+          IOK_PART(1:NEL) = 0
           DO  I=1,NEL 
             ID_ELEM(NFT+I) = KXSP(NISP,NFT+I)
             IF( H3D_PART(IPARTSP(NFT+I)) == 1) IOK_PART(I) = 1

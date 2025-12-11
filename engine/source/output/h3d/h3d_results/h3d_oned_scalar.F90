@@ -171,6 +171,7 @@
             if (ity == 5) offset = numelt
             if (ity == 6) offset = numelt+numelp
 !
+            iok_part(1:nel) = 0
             do  i=1,nel
               if (ity == 4) then
                 id_elem(offset+nft+i) = ixt(nixt,nft+i)

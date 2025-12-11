@@ -126,6 +126,7 @@ c
         IF (ITY == 5) OFFSET = NUMELT
         IF (ITY == 6) OFFSET = NUMELT+NUMELP
 c
+        IOK_PART(1:NEL) = 0
         DO  I=1,NEL 
           IF (ITY == 4) THEN
             ID_ELEM(OFFSET+NFT+I) = IXT(NIXT,NFT+I)
