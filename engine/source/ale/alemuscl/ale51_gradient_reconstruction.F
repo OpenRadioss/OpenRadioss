@@ -128,8 +128,8 @@ C-----------------------------------------------
       integer, dimension(nspmd) :: s_index_1,r_index_1,s_index_2,r_index_2,s_index_3,r_index_3
       integer, dimension(nspmd) :: s_req_1,r_req_1,s_req_2,r_req_2,s_req_3,r_req_3
       real(kind=WP), dimension(:), allocatable :: s_buffer,r_buffer
-      type(array_type), dimension(nspmd) :: s_elcenter,r_elcenter
-      type(array_type), dimension(:), allocatable :: s_volfrac,r_volfrac
+      type(array_type_my_real_2d), dimension(:), allocatable :: s_elcenter,r_elcenter
+      type(array_type_my_real_2d), dimension(:), allocatable :: s_volfrac,r_volfrac
 C-----------------------------------------------
 C   S o u r c e   L i n e s 
 C-----------------------------------------------
@@ -232,8 +232,8 @@ C     ALE ON / OFF
           flag = 0
           s_proc_nb_1 = 0
           r_proc_nb_1 = 0
-!         allocate(s_elcenter(nspmd))
-!         allocate(r_elcenter(nspmd))
+         allocate(s_elcenter(nspmd))
+         allocate(r_elcenter(nspmd))
           call spmd_exch_n_neighbor(flag,nspmd,n_entity,3,s_lesdvois,s_lercvois, 
      .                              s_proc_nb_1,r_proc_nb_1,s_index_1,r_index_1,s_req_1,r_req_1, 
      .                              nesdvois,nercvois,lesdvois,lercvois, 
@@ -286,8 +286,8 @@ C     ALE ON / OFF
      .                              s_proc_nb_1,r_proc_nb_1,s_index_1,r_index_1,s_req_1,r_req_1, 
      .                              nesdvois,nercvois,lesdvois,lercvois, 
      .                              alemuscl_buffer%elcenter,s_elcenter,r_elcenter)
-!         deallocate(s_elcenter)
-!         deallocate(r_elcenter)
+         deallocate(s_elcenter)
+         deallocate(r_elcenter)
 
           ! iSend & iRecv fraction of volume
           flag = 0
