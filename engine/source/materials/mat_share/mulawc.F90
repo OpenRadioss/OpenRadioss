@@ -2454,9 +2454,11 @@
                     &jlt      ,nupar    ,nvarf    ,nfunc_fail   ,ifunc_fail   ,&
                     &npf      ,table    ,tf       ,tt       ,uparamf  ,&
                     &ngl      ,el_len   ,dpla     ,epsd     ,uvarf    ,&
-                    &signxx   ,signyy   ,signxy   ,signyz   ,signzx   ,&
+                    &signxx   ,signyy   ,signxy   ,&
                     &el_temp  ,foff     ,dfmax    ,tdel     ,ipt      ,&
-                    &ipg      ,dmg_flag ,dmg_loc_scale,ntabl_fail,itabl_fail)
+                    &ipg      ,dmg_flag ,dmg_loc_scale,ntabl_fail,itabl_fail,&
+                    &nipar    ,iparamf  ,gbuf%noff,off      ,nptt     ,&
+                    &gbuf%var )
 !
                    case (42)     !    inievo
 !

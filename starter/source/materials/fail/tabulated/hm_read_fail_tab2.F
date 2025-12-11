@@ -37,7 +37,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
       SUBROUTINE HM_READ_FAIL_TAB2(FAIL ,
      .           MAT_ID   ,FAIL_ID  ,IRUPT    ,TITR     ,
-     .           LSUBMODEL,UNITAB   )
+     .           LSUBMODEL,UNITAB   ,MTAG     )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -46,6 +46,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD 
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
+      USE ELBUFTAG_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -66,16 +67,18 @@ C-----------------------------------------------
       TYPE(UNIT_TYPE_)   ,INTENT(IN)       :: UNITAB        ! table of input units
       TYPE(SUBMODEL_DATA),INTENT(IN)       :: LSUBMODEL(*)
       TYPE (FAIL_PARAM_) ,INTENT(INOUT)    :: FAIL
+      TYPE (MLAW_TAG_)   ,INTENT(INOUT)    :: MTAG
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER  :: ITAB_EPSF,FAILIP,ITAB_INST,
+      INTEGER  :: ITAB_EPSF,FAILIP,ITAB_INST,MIDFAIL,
      .            IFUN_EXP,ITAB_SIZE,IREG,IFUN_RATE,IFUN_DLIM,IFUN_TEMP  
       my_real  :: FCRIT,PTHKFAIL,DN,DCRIT,ECRIT,EXP_REF,EXPO,EL_REF,SR_REF1,
      .            FSCALE_EL,SHRF,BIAXF,SR_REF2,FSCALE_SR,CJC,FSCALE_DLIM,
-     .            LENGTH_UNIT,RATE_UNIT,TEMP_REF,FSCALE_TEMP,TEMP_UNIT,VOLFRAC
+     .            LENGTH_UNIT,RATE_UNIT,TEMP_REF,FSCALE_TEMP,TEMP_UNIT,VOLFRAC,
+     .            RGTR1,RGTR2
 C-----------------------------------------------
-      LOGICAL    ::     IS_AVAILABLE,IS_ENCRYPTED
+      LOGICAL  :: IS_AVAILABLE,IS_ENCRYPTED
 C=======================================================================
       IS_ENCRYPTED = .FALSE.
       IS_AVAILABLE = .FALSE.
@@ -92,6 +95,7 @@ Card1
       CALL HM_GET_INTV   ('FAILIP'      ,FAILIP      ,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_FLOATV ('PTHK'        ,PTHKFAIL    ,IS_AVAILABLE,LSUBMODEL,UNITAB) 
       CALL HM_GET_FLOATV ('VOLFRAC'     ,VOLFRAC     ,IS_AVAILABLE,LSUBMODEL,UNITAB) 
+      CALL HM_GET_INTV   ('MIDFAIL'     ,MIDFAIL     ,IS_AVAILABLE,LSUBMODEL)   
 Card2 
       CALL HM_GET_FLOATV ('N'           ,DN          ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV ('DCRIT'       ,DCRIT       ,IS_AVAILABLE,LSUBMODEL,UNITAB)
@@ -113,6 +117,8 @@ Card4
 Card5
       CALL HM_GET_FLOATV ('SHRF'        ,SHRF        ,IS_AVAILABLE,LSUBMODEL,UNITAB) 
       CALL HM_GET_FLOATV ('BIAXF'       ,BIAXF       ,IS_AVAILABLE,LSUBMODEL,UNITAB) 
+      CALL HM_GET_FLOATV ('RGTR1'       ,RGTR1       ,IS_AVAILABLE,LSUBMODEL,UNITAB)
+      CALL HM_GET_FLOATV ('RGTR2'       ,RGTR2       ,IS_AVAILABLE,LSUBMODEL,UNITAB)
 Card6
       CALL HM_GET_INTV   ('FCT_SR'      ,IFUN_RATE   ,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_FLOATV ('SR_REF2'     ,SR_REF2     ,IS_AVAILABLE,LSUBMODEL,UNITAB) 
@@ -155,8 +161,12 @@ C-------------------------------------------------------------------------------
         SR_REF1 = ONE*RATE_UNIT
       ENDIF
       IF (FSCALE_EL == ZERO) FSCALE_EL = ONE
-      IF (SHRF  == ZERO)     SHRF      = -ONE
-      IF (BIAXF == ZERO)     BIAXF     = ONE
+      SHRF  = MAX(MIN(SHRF,ONE),ZERO)
+      BIAXF = MAX(MIN(BIAXF,ONE),ZERO)
+      IF (RGTR1 == ZERO) RGTR1 = THIRD
+      IF (RGTR2 == ZERO) RGTR2 = THIRD
+      RGTR1 = MIN(MAX(RGTR1,ZERO),THIRD)
+      RGTR2 = MIN(MAX(RGTR2,THIRD),TWO_THIRD)
       IF (((IFUN_RATE > 0).OR.(CJC > ZERO)).AND.(SR_REF2 == ZERO)) THEN
         CALL HM_GET_FLOATV_DIM('SR_REF2' ,RATE_UNIT,IS_AVAILABLE, LSUBMODEL, UNITAB)
         SR_REF2 = ONE*RATE_UNIT
@@ -182,8 +192,8 @@ C-------------------------------------------------------------------------------
       FAIL%KEYWORD = 'TAB2' 
       FAIL%IRUPT   = IRUPT 
       FAIL%FAIL_ID = FAIL_ID 
-      FAIL%NUPARAM = 23
-      FAIL%NIPARAM = 0
+      FAIL%NUPARAM = 25
+      FAIL%NIPARAM = 1
       FAIL%NUVAR   = 3
       FAIL%NFUNC   = 4
       FAIL%NTABLE  = 3
@@ -194,6 +204,8 @@ c
       ALLOCATE (FAIL%IPARAM(FAIL%NIPARAM))
       ALLOCATE (FAIL%IFUNC (FAIL%NFUNC))
       ALLOCATE (FAIL%TABLE (FAIL%NTABLE))
+c
+      FAIL%IPARAM(1)  = MIDFAIL
 c
       FAIL%UPARAM(1)  = FCRIT
       FAIL%UPARAM(2)  = FAILIP
@@ -218,6 +230,8 @@ c
       FAIL%UPARAM(21) = 0             ! Flag 1 for logarithmic scale in strain rate dependency
       FAIL%UPARAM(22) = 0             ! Flag 2 for logarithmic scale in strain rate dependency
       FAIL%UPARAM(23) = VOLFRAC     
+      FAIL%UPARAM(24) = RGTR1
+      FAIL%UPARAM(25) = RGTR2
 c
       FAIL%IFUNC(1) = IFUN_EXP
       FAIL%IFUNC(2) = IFUN_RATE
@@ -227,6 +241,8 @@ c
       FAIL%TABLE(1) = ITAB_EPSF
       FAIL%TABLE(2) = ITAB_INST
       FAIL%TABLE(3) = ITAB_SIZE
+c
+      MTAG%G_NUVAR = 1
 c-----------------------------------------------------------------------
       IF (IS_ENCRYPTED)THEN
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
@@ -265,7 +281,8 @@ c-----------------------------------------------------------------------
         IF (ITAB_SIZE > 0) THEN 
           WRITE(IOUT,1011) IREG
           IF (IREG == 1) THEN 
-            WRITE(IOUT,1012) ITAB_SIZE,EL_REF,SR_REF1,FSCALE_EL,SHRF,BIAXF
+            WRITE(IOUT,1012) ITAB_SIZE,EL_REF,SR_REF1,FSCALE_EL,SHRF,BIAXF,
+     .        RGTR1,RGTR2
           ELSEIF(IREG == 2) THEN 
             WRITE(IOUT,1013) ITAB_SIZE,EL_REF,FSCALE_EL
           ENDIF
@@ -284,7 +301,7 @@ c-----------------------------------------------------------------------
           WRITE(IOUT,1018) IFUN_DLIM,FSCALE_DLIM
         ENDIF 
         ! element deletion control parameters
-        WRITE(IOUT,1019) FAILIP,PTHKFAIL,VOLFRAC
+        WRITE(IOUT,1019) FAILIP,PTHKFAIL,VOLFRAC,MIDFAIL
         WRITE(IOUT,1022)
       ENDIF  ! IS_ENCRYPTED             
 c-----------------------------------------------------------------------
@@ -336,7 +353,9 @@ c-----------------------------------------------------------------------
      & 5X,'    REFERENCE STRAIN RATE . . . . . . . . . . . . . . . =',1PG20.13/,
      & 5X,'    SCALE FACTOR FOR SIZE SCALING . . . . . . . . . . . =',1PG20.13/,
      & 5X,'TRIAXIALITY LOWER BOUNDARY FOR SIZE SCALING . . . . . . =',1PG20.13/,
-     & 5X,'TRIAXIALITY UPPER BOUNDARY FOR SIZE SCALING . . . . . . =',1PG20.13/)
+     & 5X,'TRIAXIALITY UPPER BOUNDARY FOR SIZE SCALING . . . . . . =',1PG20.13/,
+     & 5X,'1ST TRIAXIALITY VALUE FOR TUBSHAPE REGULARIZATION . . . =',1PG20.13/,
+     & 5X,'2ND TRIAXIALITY VALUE FOR TUBSHAPE REGULARIZATION . . . =',1PG20.13/)
  1013 FORMAT(
      & 5X,'ELEMENT SIZE SCALING TABLE ID . . . . . . . . . . . . . =',I10/,
      & 5X,'    SCALE FACTOR FOR SIZE SCALING . . . . . . . . . . . =',1PG20.13/,
@@ -368,7 +387,13 @@ c-----------------------------------------------------------------------
      & 5X,'SHELL ELEMENT DELETION PARAMETER PTHICKFAIL  . . . . . .=',1PG20.13,/,
      & 5X,'  > 0.0 : FRACTION OF FAILED THICKNESS                   ',/,
      & 5X,'  < 0.0 : FRACTION OF FAILED INTG. POINTS OR LAYERS      ',/,
-     & 5X,'FAILED VOLUME FRACTION PRIOR TO SOLID DELETION . . . .  =',1PG20.13/) 
+     & 5X,'FAILED VOLUME FRACTION PRIOR TO SOLID DELETION . . . . .=',1PG20.13/,
+     & 5X,'MID-POINT FAILURE PARAMETER FOR SHELLS. . . . . . . . . =',I10/,
+     & 5X,'   = 0: INACTIVE                                 ',/,
+     & 5X,'   = 1: MID-POINT SOFTENING SYNCHRONIZE THE BROKEN INTEGRATION POINTS SOFTENING',/,
+     & 5X,'   = 2: MID-POINT SOFTENING SYNCHRONIZE ALL INTEGRATION POINTS SOFTENING',/,
+     & 5X,'   = 3: SAME AS 2 + ELEMENT DELETION WHEN MID-POINT DAMAGE REACHES 1',/,
+     & 5X,'   = 4: MID-POINT DAMAGE, SOFTENING AND FAILURE ONLY',/) 
  1020 FORMAT(
      & 5X,'                                                         ',/,
      & 5X,'TEMPERATURE SCALING DEFINITION:                          ',/,
