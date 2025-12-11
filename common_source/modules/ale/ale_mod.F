@@ -236,10 +236,22 @@ C-----------------------------------------------
           my_real :: DTMSUB
         END TYPE ALE_SUB_
 
+        type phi_data_
+          integer, dimension(:), allocatable :: address !< address of the rezoning variable in the material model
+        end type phi_data_
         !ALE REZONING (variable to rezone)
         TYPE ALE_REZON_
           INTEGER :: NUM_NUVAR_MAT
           INTEGER :: NUM_NUVAR_EOS
+          integer :: rezone_size !< number of varibles to rezone
+          integer :: rezone_51_size !< number of varibles to rezone for mtn=51
+          integer :: phi_dim1 !< 1rst dimension of phi array          
+          integer, dimension(3) :: phi_dim2 !< 2nd dimension of phi array
+          integer, dimension(5) :: nvar_list = (/2,10,11,11,12/) !< list of rezoning variable types
+          integer, dimension(:,:,:), allocatable :: nvar_idx_list !< list of index for each rezoning variable and each material (0 if no rezoning)
+          integer, dimension(:,:,:), allocatable :: nvar_idx_list_51 !< list of index for each rezoning variable and each material (0 if no rezoning)
+          type(phi_data_), dimension(:,:,:), allocatable :: phi_data !< rezoning variable data
+          type(phi_data_), dimension(:,:,:), allocatable :: phi_51_data !< rezoning variable data for mtn=51
         END TYPE ALE_REZON_
 
         ! GENERAL DATA STRUCTURE USED IN SOURCE CODE

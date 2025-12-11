@@ -263,7 +263,7 @@
           integer, dimension(nspmd+1) :: r_address
           integer :: s_size,r_size
           integer :: proc_id
-          integer :: msgtyp,IERROR
+          integer :: msgtyp
           integer, parameter :: msgoff = 3006
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   External functions
@@ -313,7 +313,7 @@
                 ! send the data
                 s_proc_nb = s_proc_nb + 1
                 s_index(s_proc_nb) = p   
-                call spmd_isend(s_buffer(p)%my_real_array_3d(1,1,1),dim2*dim1*s_size,p-1,msgtyp,s_req(s_proc_nb))          
+                call spmd_isend(s_buffer(p)%my_real_array_3d(1,1,1),dim2*dim1*s_size,p-1,msgtyp,s_req(s_proc_nb))  
               end if
             end do
           else

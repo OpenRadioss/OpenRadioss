@@ -93,7 +93,6 @@
                 if(kk/=0) then
                   do itrimat=1,trimat
                     if(flux_vois_mat(iv,kk,itrimat)/=-ep20) then
-                      !write(*,*) ispmd_debug,ii,k," VeRiF 1",iv,kk,i,flux_mat(ii,k,itrimat),-flux_vois_mat(iv,kk,itrimat)
                       flux_mat(ii,k,itrimat) = -flux_vois_mat(iv,kk,itrimat) ! apply the flux
                     endif
                   enddo
