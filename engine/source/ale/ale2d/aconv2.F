@@ -29,7 +29,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    element_mod            ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE ACONV2(VTOT,PHI,FLUX,FLU1,ALE_CONNECT,QMV,IFLG, IXQ, X, IOFF,
-     .                  s_flux,s_qmv,offset,nv46)
+     .                  s_flux,s_qmv,offset,nv46,nel,nft)
       USE ALE_CONNECTIVITY_MOD
       use element_mod , only : nixq
 C-----------------------------------------------
@@ -43,7 +43,6 @@ C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "com08_c.inc"
-#include      "vect01_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -51,6 +50,8 @@ C-----------------------------------------------
       integer, intent(in) :: s_qmv !< first dimension of QMV array
       integer, intent(in) :: offset !< offset for FLUX & QMV arrays
       integer, intent(in) :: nv46 !< second dimension of FLUX & QMV arrays
+      integer, intent(in) :: nel   !< number of elements of the group
+      integer, intent(in) :: nft   !< first element index of the group      
       INTEGER IFLG, IXQ(NIXQ, NUMELQ)
       INTEGER,INTENT(IN) :: IOFF
       my_real VTOT(*), PHI(*), FLUX(s_flux,nv46), FLU1(*), QMV(s_qmv,2*nv46), X(3,NUMNOD)
@@ -64,7 +65,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
-      DO I=LFT,LLT
+      DO I=1,nel
          IE =NFT+I
          IE_2 = IE + offset
          IAD2 = ALE_CONNECT%ee_connect%iad_connect(IE)
@@ -84,7 +85,7 @@ C-----------------------------------------------
          ENDDO
       ENDDO
       
-      DO I=LFT,LLT
+      DO I=1,nel
         IE =NFT+I
         delta = HALF * DT1 * (- PHI(IE)*FLU1(I) - VL(I,1)-VL(I,2)-VL(I,3)-VL(I,4) )
         VTOT(I) = VTOT(I) + delta
@@ -93,7 +94,7 @@ C-----------------------------------------------
 C
       IF(TRIMAT > 0 .AND. IFLG == 1)THEN
          IF (N2D  ==  1) THEN
-            DO I=LFT,LLT
+            DO I=1,nel
                IE =NFT+I
                IE_2 = IE + offset
                R1 = HALF * (X(2, IXQ(2, IE)) + X(2, IXQ(3, IE)))
@@ -112,7 +113,7 @@ C
                QMV(IE_2,4) = QMV(IE_2,4) - VL(I,4) / R4 - PHI(IE)*QMV(IE_2,8) 
             ENDDO
          ELSE
-            DO I=LFT,LLT
+            DO I=1,nel
                IE =NFT+I
                IE_2 = IE + offset
                QMV(IE_2,1) = QMV(IE_2,1) - VL(I,1) - PHI(IE)*QMV(IE_2,5) 

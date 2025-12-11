@@ -148,6 +148,7 @@ C-----------------------------------------------
       use glob_therm_mod
       use element_mod , only : nixs,nixq,nixtg,nixt
       use sfem_mod
+      use i22tri_mod , only : nb
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -767,7 +768,7 @@ C     -------------------------
      A   IPM,             QMV,
      B   ale%global%s_flux,ale%global%s_qmv,ale%global%nv46,
      C   IAD_ELEM,        GLOB_THERM,
-     D   FR_ELEM,         MATPARAM  ,timers,nthread,int22)
+     D   FR_ELEM,         MATPARAM  ,timers,nthread,nb,int22,i22len)
          ENDIF
       ELSE
         ALE%SUB%IFSUBM=0

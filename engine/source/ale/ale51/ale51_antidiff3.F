@@ -265,8 +265,8 @@ C-----------------------------------------------
                     NIN = 1
                     iFV = KV(K)               
                     !(icellv,iadjv) = (1,1) since it is supposed to be an uncut cell from cut cell buffer (TZINF ensures this)
-                    debug_tmp = BRICK_LIST(NIN,IIAD22(NIN,JV(K)))%POLY(1)%FACE(IFv)%Adjacent_UpwFLUX(1)
-                    BRICK_LIST(NIN,IIAD22(NIN,JV(K)))%POLY(1)%FACE(IFv)%Adjacent_UpwFLUX(1) = -FLUX(II,K,itrimat)
+                    debug_tmp = BRICK_LIST(NIN,IIAD22(NIN,JV(K)))%POLY(1)%FACE(IFv)%Adjacent_UpwFLUX_mat(1,itrimat)
+                    BRICK_LIST(NIN,IIAD22(NIN,JV(K)))%POLY(1)%FACE(IFv)%Adjacent_UpwFLUX_mat(1,itrimat) = -FLUX(II,K,itrimat)
                   ENDIF
                 ENDIF
               ELSE

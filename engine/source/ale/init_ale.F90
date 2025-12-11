@@ -52,18 +52,19 @@
 !||====================================================================
         subroutine init_ale(global_active_ale_element,n2d,numels,numelq,numeltg,nmult, &
                             iale,ieuler,trimat,itherm,numnod, &
-                            nspmd,nsvois,nqvois,ntgvois,nparg,ngroup,s_lesdvois,s_lercvois, &
+                            nspmd,nsvois,nqvois,ntgvois,nparg,ngroup,s_lesdvois,s_lercvois,nsegflu, &
                             nesdvois,nercvois,lesdvois,lercvois,itab, &
-                            itabm1,ixs,ixq,iparg,ale,ale_connect,elbuf_tab)
+                            itabm1,ixs,ixq,ixtg,iparg,ale,ale_connect,elbuf_tab)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
           use ale_mod , only : ale_
           use ale_connectivity_mod , only : t_ale_connectivity
-          use element_mod , only : nixs, nixq
+          use element_mod , only : nixs,nixq,nixtg
           use init_ale_spmd_mod , only : init_ale_spmd
           use init_ale_boundary_condition_mod , only : init_ale_boundary_condition
-          use init_ale_arezon_spmd_mod , only : init_ale_arezon_spmd
+          use init_ale_arezon_mod , only : init_ale_arezon
+          use init_ale_aconve_mod , only : init_ale_aconve
           use elbufdef_mod
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
@@ -75,7 +76,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
-          logical, intent(in) :: global_active_ale_element !< global flag for ALE element activation
+          logical, intent(inout) :: global_active_ale_element !< global flag for ALE element activation
           integer, intent(in) :: n2d !< 0: 3D, 1: 2D
           integer, intent(in) :: numels !< number of solid elements
           integer, intent(in) :: numelq !< number of quad elements
@@ -93,7 +94,8 @@
           integer, intent(in) :: nparg !< first dimension of iparg array
           integer, intent(in) :: ngroup !< number of element group
           integer, intent(in) :: s_lesdvois !< size of lesdvois array
-          integer, intent(in) :: s_lercvois !< size of lercvois array  
+          integer, intent(in) :: s_lercvois !< size of lercvois array
+          integer, intent(in) :: nsegflu !< number of segments of EBCS          
           integer, dimension(nspmd+1), intent(in) :: nesdvois !< number of frontier elements (send)          
           integer, dimension(nspmd+1), intent(in) :: nercvois !< number of frontier elements (rcv)
           integer, dimension(s_lesdvois), intent(in) :: lesdvois !< frontier element ids (send)
@@ -102,6 +104,7 @@
           integer, dimension(2*numnod), intent(in) :: itabm1 !< local node ID to user node ID mapping
           integer, dimension(nixs,numels), intent(in) :: ixs !< Solid element connectivity
           integer, dimension(nixq,numelq), intent(in) :: ixq !< Quad element connectivity
+          integer, dimension(nixtg,numeltg), intent(in) :: ixtg !< Triangle element connectivity
           integer, dimension(nparg,ngroup), intent(in) :: iparg !< group element data    
           type(ale_), intent(inout) :: ale !< ALE data structure                  
           type(t_ale_connectivity), intent(inout) :: ale_connect !< ALE data structure for connectivity
@@ -116,6 +119,13 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
+
+
+          ! Check if ALE elements are deactivated to avoid some mpi comm. in the ALE solver
+          global_active_ale_element = .false.
+          call check_ale_comm(iparg,elbuf_tab,global_active_ale_element,itherm)
+              
+              
           if(n2d==0) then
             ale%global%nv46 = 6
           else
@@ -133,15 +143,15 @@
             ale%global%s_qmv = 1
             if(trimat>0) ale%global%s_qmv = min(1,trimat)*(numels+numelq)
 
-            if(numels+numelq>0) then
-              call init_ale_spmd(ale%global%nv46,n2d,numels,numelq,numnod, &
-                                 nspmd,nsvois,nqvois,s_lesdvois,s_lercvois,nesdvois,nercvois, &
-                                 lesdvois,lercvois,itab,itabm1,ixs,ixq,ale_connect )
-            end if
+            call init_ale_spmd(ale%global%nv46,n2d,numels,numelq,numeltg,numnod, &
+                               nspmd,nsvois,nqvois,ntgvois,s_lesdvois,s_lercvois,nesdvois,nercvois, &
+                               lesdvois,lercvois,itab,itabm1,ixs,ixq,ixtg,ale_connect )
 
             call init_ale_boundary_condition(ale%global%nv46,nparg,ngroup,iparg,ale_connect)
-            call init_ale_arezon_spmd(n2d,numels,numelq,numeltg,nsvois,nqvois,ntgvois,trimat,nmult,ngroup,nparg, &
+            call init_ale_arezon(n2d,numels,numelq,numeltg,nsvois,nqvois,ntgvois,trimat,nmult,ngroup,nparg, &
                                       nspmd,iparg,elbuf_tab)
+            call init_ale_aconve(numels,numelq,numeltg,nsvois,nqvois,ntgvois, &
+                                 trimat,nmult,ngroup,nparg,nsegflu,nspmd,iparg)                
           end if
 
 

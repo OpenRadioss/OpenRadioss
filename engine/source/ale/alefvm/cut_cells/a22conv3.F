@@ -37,7 +37,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE A22CONV3(PHI  ,
      .                    IFLG      ,
      .                    ITRIMAT   , NVAR ,  ITASK,
-     .                    ELBUF_TAB , IXS  ,  IPARG)
+     .                    ELBUF_TAB , IXS  ,  IPARG,brick_add)
 C-----------------------------------------------
 C   D e s c r i p  t i o n
 C-----------------------------------------------
@@ -74,6 +74,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      integer, intent(in) :: brick_add !< address offset for cut-cell brick data
       INTEGER IFLG,ITASK,NVAR, IXS(NIXS,*),IPARG(NPARG,*)
       my_real PHI(*)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB     
@@ -144,7 +145,6 @@ C-----------------------------------------------
        endif
 
 
-
       !---------------------------------------------------------!
       ! CELL TRANSPORTATION (CUT CELL BUFFER)                   !
       !---------------------------------------------------------!
@@ -173,7 +173,7 @@ C-----------------------------------------------
                   VALVOIS      = PHI(IV)
                 ELSE 
                   !IBv>0                                                                           
-                  VALVOIS = BRICK_LIST(NIN,IBv)%POLY(ICELLv)%PHI                                    
+                  VALVOIS = BRICK_LIST(NIN,IBv)%POLY(ICELLv)%PHI_(brick_add)                                  
                 ENDIF                                                                           
               ELSEIF(IV==0)THEN                                                               
                 VALVOIS = PHI(IE)                                                               
@@ -181,11 +181,11 @@ C-----------------------------------------------
               !  VALVOIS = PHI(-IV+IOFF)                                                        
               ENDIF  
 !              dPHI = dPHI + (VALVOIS * BRICK_LIST(NIN,IB)%upwFLUX(J,ICELL))       
-              dPHI = dPHI + (VALVOIS * BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(J)%Adjacent_upwFLUX(IADJ))
+              dPHI = dPHI + (VALVOIS * BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(J)%Adjacent_UpwFLUX_mat(IADJ,itrimat))
             ENDDO!next IADJ 
           ENDDO!next J      
-          VALEL = BRICK_LIST(NIN,IB)%POLY(ICELL)%PHI
-          dPHI = dPHI + VALEL* BRICK_LIST(NIN,IB)%POLY(ICELL)%Adjacent_FLU1
+          VALEL = BRICK_LIST(NIN,IB)%POLY(ICELL)%PHI_(brick_add)
+          dPHI = dPHI + VALEL* BRICK_LIST(NIN,IB)%POLY(ICELL)%Adjacent_FLU1_mat(itrimat)
           dPHI = -HALF * DT1 * dPHI
           BRICK_LIST(NIN,IB)%POLY(ICELL)%dPHI = dPHI 
           dPHI = ZERO             
@@ -214,9 +214,9 @@ C-----------------------------------------------
             dPHI   = dPHI + BRICK_LIST(NIN,IBv)%POLY(ICELLv)%dPHI != PHI(J)                        
           ENDDO                                                             
           dPHI = dPHI + BRICK_LIST(NIN,IB)%POLY(MCELL)%dPHI
-          BRICK_LIST(NIN,IB)%POLY(MCELL)%dPHI = dPHI                        
+          BRICK_LIST(NIN,IB)%POLY(MCELL)%dPHI = dPHI                                 
         ENDDO!next IB                                                        
-      ENDIF                                                                 
+      ENDIF                                                         
 
       !---------------------------------------------------------!
       ! MAIN CELL CONVECTION                                  !
@@ -233,7 +233,6 @@ C-----------------------------------------------
         LLT_  =  IPARG(2,NG)
         MLW   = BRICK_LIST(NIN,IB)%MLW
         IF(ITRIMAT/=0 .AND. MLW/=51)CYCLE
-
         !----------------------------!
         !        N V A R = 1         !
         !----------------------------!
@@ -310,13 +309,10 @@ C-----------------------------------------------
          IF(MLW/=51.AND.ITRIMAT>0)THEN !si law51 dans jdd TRIMAT=4 
            CYCLE
          ELSE
-           VAR(IDLOC) = VAR(IDLOC) + dPHI   !Convective transport of additions
-
-             
+           VAR(IDLOC) = VAR(IDLOC) + dPHI   !Convective transport of additions             
          ENDIF         
       
       ENDDO!next IB
-
 
 
            !INTERFACE 22 ONLY------------------------!
@@ -380,5 +376,5 @@ C-----------------------------------------------
       ENDIF
 C-----------
       RETURN
-      END
+      END      
 C

@@ -72,7 +72,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      A   IPM,        QMV,
      B   s_flux,     s_qmv,      NV46,
      C   IAD_ELEM,   GLOB_THERM,
-     D   FR_ELEM,    MATPARAM  ,timers,nthread,int22)
+     D   FR_ELEM,    MATPARAM  ,timers,nthread,nb_int22,int22,i22len)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -88,9 +88,13 @@ C-----------------------------------------------
       use element_mod , only : nixs,nixq
       use timer_mod
       use precision_mod , only : WP
-      use aflut_int22_mod , only : aflut_int22
+      use afluxt_int22_mod , only : afluxt_int22
       use ale51_finish_int22_mod , only : ale51_finish_int22
       use arezon_mod , only : arezon
+      use aconve_mod , only : aconve
+      use i22bufbric_mod
+
+
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -109,7 +113,9 @@ C-----------------------------------------------
       integer, intent(in) :: s_flux !< first dimension of flux array
       integer, intent(in) :: s_qmv  !< first dimension of QMV array
       integer, intent(in) :: nthread !< number of omp threads
-      integer, intent(in) :: int22 !< interface 22 flag 
+      integer, intent(in) :: nb_int22 !< number of candidates for the interface 22      
+      integer, intent(in) :: int22 !< number of /TYPE22 interfaces
+      integer, intent(in) :: i22len !< buffer size for intersected bricks
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP) :: ELBUF_TAB
 
       INTEGER IPARG(NPARG,NGROUP), IXS(NIXS,NUMELS), IXQ(NIXQ,NUMELQ),NPF(*),
@@ -134,10 +140,11 @@ C-----------------------------------------------
       INTEGER ITRIMAT,NVAR,I, LENCOMN,LENCOM
       integer :: n_entity,n_neighbor,s_alpha_mat
       integer :: s_lesdvois,s_lercvois,s_bhole
+      integer :: phi_data_s
       real(kind=WP), dimension(:,:),allocatable ,save:: flux_sav
       real(kind=WP), dimension(:,:),allocatable ,save:: alpha_mat,val2_mat            
       real(kind=WP), dimension(:,:,:), allocatable, save :: flux_mat,qmv_mat
-      real(kind=WP), dimension(:,:),allocatable, save :: phi_arezon
+      real(kind=WP), dimension(:,:),allocatable, save :: phi_arezon,phi_conv
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
@@ -275,23 +282,21 @@ C-----------------------
 C-----------------------------
 C       MASS & ENERGY CONVECTION
 C-----------------------------
-        DO NVAR=ALE%GLOBAL%LCONV,1,-1
-          !1     : Mass
-          !2     : Energy
-          !3,4   : Turbulency
-          !5     : law37 massic fraction
-          !6,7,8 : MomX, MomY, MomZ (ALE with Full FVM)
-          IF((NVAR /= 9.AND.ALE%GLOBAL%CODV(NVAR) /= 0))THEN
-            CALL ACONVE(
-     1                    IPARG       ,ELBUF_TAB ,FLUX    , VAL2     ,PHI     ,
-     2                    ALE_CONNECT ,NVAR      ,ITASK   , NERCVOIS ,NESDVOIS,
-     3                    LERCVOIS    ,LESDVOIS  ,LENCOM  , SEGVAR   ,BHOLE   ,
-     4                    ITRIMAT     ,QMV       ,0       , IXS      ,IXQ     ,
-     5                    PM          ,X         ,timers,s_flux   ,s_qmv   ,
-     6                    nv46)
-          ENDIF
+        phi_data_s = max(1,nmult)
+        if(itask==0) allocate(phi_conv(ale%conv%phi_dim1,ale%conv%phi_dim2(1)))
+        call my_barrier()
 
-        ENDDO  
+        call aconve(n2d,nv46,npropm,nummat,numels,numelq,numeltg, 
+     .              numnod, 
+     .              1,trimat,nmult,max(1,nmult), 
+     .              ngroup,nparg,0,itask,nspmd, 
+     .              s_lesdvois,s_lercvois,s_flux,s_qmv,s_bhole, 
+     .              int22,i22len,nsvois,nqvois,ntgvois,nsegflu,phi_data_s, 
+     .              nesdvois,nercvois,lesdvois,lercvois, 
+     .              iparg,bhole,ixs,ixq, 
+     .              phi_conv,flux,qmv,val2,pm,x, 
+     .              elbuf_tab,ale_connect,ale%conv%phi_data,brick_list,segvar,timers)
+        call my_barrier()
 C----------------------       
         !-----------------------------!
         !     LAW51 :                 !
@@ -341,34 +346,33 @@ C----------------------
 
         if(itask==0) deallocate(phi_arezon)
 
-        DO ITRIMAT = 1,TRIMAT
+        if(trimat>0) then
           if(int22/=0) then
-            call aflut_int22(itask,nthread,numels,nparg,ngroup,s_flux,s_alpha_mat,nv46, 
-     .                       itrimat,trimat,npropm,nummat,iparg,ixs,pm,alpha_mat,flux_mat,elbuf_tab)
+            do itrimat=1,trimat
+              call afluxt_int22(itask,nthread,numels,nparg,ngroup,s_flux,s_alpha_mat,nv46, 
+     .                         itrimat,trimat,npropm,nummat,iparg,ixs,pm,alpha_mat,flux_mat,elbuf_tab,nb,int22,i22len,brick_list)
+            enddo
           endif
 
-          CALL ACONVE(IPARG       ,ELBUF_TAB,flux_mat(:,:,itrimat)  ,val2_mat(:,itrimat),PHI     ,
-     2                ALE_CONNECT ,2        ,ITASK ,NERCVOIS,NESDVOIS,
-     3                LERCVOIS    ,LESDVOIS ,LENCOM,SEGVAR  ,BHOLE   ,
-     4                ITRIMAT     ,qmv_mat(:,:,itrimat)      ,0     ,IXS     ,IXQ     ,
-     5                PM          ,X        ,timers,s_flux  ,s_qmv   ,
-     6                nv46)
-        !-----------------------------!
-        !     LAW51 :                 !
-        !       MASS CONVECTION       !
-        !-----------------------------!
-          CALL ACONVE(IPARG       ,ELBUF_TAB,flux_mat(:,:,itrimat)  ,val2_mat(:,itrimat)    ,PHI     ,
-     2                ALE_CONNECT ,1        ,ITASK ,NERCVOIS,NESDVOIS,
-     3                LERCVOIS    ,LESDVOIS ,LENCOM,SEGVAR  ,BHOLE   ,
-     4                ITRIMAT     ,qmv_mat(:,:,itrimat)      ,1     ,IXS     ,IXQ     ,
-     5                PM          ,X        ,timers,s_flux  ,s_qmv   ,
-     6                nv46)
-        ENDDO!next ITRIMAT
-        !-----------------------------!
-        if (trimat>0.and.int22>0) THEN
-          call ale51_finish_int22(itask,nthread,numels,nparg,ngroup, 
-     .                            npropm,nummat,iparg,ixs,pm,elbuf_tab)
-        endif
+          call my_barrier()
+
+          call aconve(n2d,nv46,npropm,nummat,numels,numelq,numeltg, 
+     .                numnod, 
+     .                trimat,trimat,nmult,max(1,nmult), 
+     .                ngroup,nparg,1,itask,nspmd, 
+     .                s_lesdvois,s_lercvois,s_flux,s_qmv,s_bhole, 
+     .                int22,i22len,nsvois,nqvois,ntgvois,nsegflu,phi_data_s, 
+     .                nesdvois,nercvois,lesdvois,lercvois, 
+     .                iparg,bhole,ixs,ixq, 
+     .                phi_conv,flux_mat,qmv_mat,val2_mat,pm,x, 
+     .                elbuf_tab,ale_connect,ale%conv%phi_51_data,brick_list,segvar,timers)!
+          call my_barrier()
+          if (int22>0) THEN
+            call ale51_finish_int22(itask,nthread,numels,nparg,ngroup, 
+     .                              npropm,nummat,iparg,ixs,pm,elbuf_tab, 
+     .                              trimat,nb_int22,int22,i22len,brick_list)
+          endif
+         endif
 C----------------------
       ENDIF
 
@@ -381,6 +385,7 @@ C----------------------
             deallocate(val2_mat)
         endif
         deallocate(flux_sav)
+        deallocate(phi_conv)
       endif
 
       RETURN

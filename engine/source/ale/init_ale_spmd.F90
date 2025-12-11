@@ -45,14 +45,14 @@
 !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
 !||    element_mod            ../common_source/modules/elements/element_mod.F90
 !||====================================================================
-        subroutine init_ale_spmd(nv46,n2d,numels,numelq,numnod, &
-                                 nspmd,nsvois,nqvois,s_lesdvois,s_lercvois,nesdvois,nercvois, &
-                                 lesdvois,lercvois,itab,itabm1,ixs,ixq,ale_connect )
+        subroutine init_ale_spmd(nv46,n2d,numels,numelq,numeltg,numnod, &
+                                 nspmd,nsvois,nqvois,ntgvois,s_lesdvois,s_lercvois,nesdvois,nercvois, &
+                                 lesdvois,lercvois,itab,itabm1,ixs,ixq,ixtg,ale_connect )
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
           use ale_connectivity_mod , only : t_ale_connectivity
-          use element_mod , only : nixs, nixq
+          use element_mod , only : nixs,nixq,nixtg
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -67,10 +67,12 @@
           integer, intent(in) :: n2d !< Flag for 2D/3D ALE (0 for 3D, 1 for 2D)
           integer, intent(in) :: numels !< Number of solid elements
           integer, intent(in) :: numelq !< Number of fluid elements
+          integer, intent(in) :: numeltg !< Number of triangle elements
           integer, intent(in) :: numnod !< Number of nodes
           integer, intent(in) :: nspmd !< Number of processors
           integer, intent(in) :: nsvois !< number of frontier solid elements
           integer, intent(in) :: nqvois !< number of frontier quad elements
+          integer, intent(in) :: ntgvois !< number of frontier triangle elements          
           integer, intent(in) :: s_lesdvois !< size of lesdvois array
           integer, intent(in) :: s_lercvois !< size of lercvois array             
           integer, dimension(nspmd+1), intent(in) :: nesdvois !< number of frontier elements (send)          
@@ -80,12 +82,13 @@
           integer, dimension(numnod), intent(in) :: itab !< local node ID to global node ID mapping
           integer, dimension(2*numnod), intent(in) :: itabm1 !< local node ID to user node ID mapping
           integer, dimension(nixs,numels), intent(in) :: ixs !< Solid element connectivity
-          integer, dimension(nixq,numelq), intent(in) :: ixq !< Quad element connectivity          
+          integer, dimension(nixq,numelq), intent(in) :: ixq !< Quad element connectivity
+          integer, dimension(nixtg,numeltg), intent(in) :: ixtg !< Triangle element connectivity                  
           type(t_ale_connectivity), intent(inout) :: ale_connect !< ALE data structure for connectivity
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer :: n_entity,remote_elm,nb_node,nb_node_facet
+          integer :: n_entity,remote_elm,nb_node,nb_node_triangle,nb_node_facet
           integer :: i,k,ijk,kk,l,lencom
           integer :: my_address,remote_elem_id,find_it,remote_neighb_elem
           integer :: nb_connected_elm
@@ -119,9 +122,10 @@
             nb_node = 8
             nb_node_facet = 4
           else
-            n_entity = numelq
-            remote_elm = nqvois
+            n_entity = numelq + numeltg
+            remote_elm = nqvois + ntgvois
             nb_node = 4
+            nb_node_triangle = 3
             nb_node_facet = 2
           end if
           allocate(neighbor_node(n_entity+remote_elm,nb_node))
@@ -156,6 +160,9 @@
                   ale_connect%ee_connect%index_elem_w_neigh(remote_neighb_elem) = i
                   if(n2d==0) then
                     neighbor_node(i,1:nb_node) = itab(ixs(2:nb_node+1,i))
+                  elseif(i>numelq) then
+                    neighbor_node(i,1:nb_node_triangle) = itab(ixtg(2:nb_node_triangle+1,i)) ! get the triangle nodes 1-->3
+                    neighbor_node(i,nb_node) = itab(ixtg(nb_node_triangle+1,i)) ! duplicate the last node to have 4 nodes per element
                   else
                     neighbor_node(i,1:nb_node) = itab(ixq(2:nb_node+1,i))
                   endif           
@@ -172,8 +179,8 @@
           allocate(tag(0:numnod))
           tag(0:numnod) = 0
 
-          allocate(ni(nv46))
-          ni(1:nv46) = 0
+          allocate(ni(0:nv46))
+          ni(0:nv46) = 0
 
           do ijk=1,remote_neighb_elem
             i = ale_connect%ee_connect%index_elem_w_neigh(ijk)
@@ -199,7 +206,9 @@
                       do l=1,nb_node_facet                                     
                         if(n2d==0) then
                           find_it = find_it + tag(ixs(1+permutation_3d(l,k),i))
-                        else                 
+                        elseif(i>numelq) then
+                          if(k/=3) find_it = find_it + tag(ixtg(1+permutation_2d(l,k),i)) ! skip the 3rd face for triangle elements because node_id(3) = node_id(4)
+                        else
                           find_it = find_it + tag(ixq(1+permutation_2d(l,k),i))
                         end if
                       enddo

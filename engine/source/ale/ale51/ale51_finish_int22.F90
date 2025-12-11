@@ -50,15 +50,15 @@
 !||    precision_mod         ../common_source/modules/precision_mod.F90
 !||====================================================================
         subroutine ale51_finish_int22(itask,nthread,numels,nparg,ngroup, &
-                               npropm,nummat,iparg,ixs,pm,elbuf_tab)
+                               npropm,nummat,iparg,ixs,pm,elbuf_tab,     &
+                               trimat,nb_int22,int22,i22len,brick_list)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
           use precision_mod , only : WP
           use element_mod , only : nixs
           use constant_mod         
-          use i22tri_mod
-          use i22bufbric_mod
+          use i22tri_mod , only : brick_entity
           use elbufdef_mod
           use multimat_param_mod , only : m51_n0phas,m51_nvphas
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -79,14 +79,19 @@
           integer, intent(in) :: ngroup !< number of element group
           integer, intent(in) :: npropm !< first dimension of pm array
           integer, intent(in) :: nummat !< total number of material
+          integer, intent(in) :: trimat !< number of sub-materials
+          integer, intent(in) :: nb_int22 !< number of candidates for the interface 22
+          integer, intent(in) :: int22 !< number of /TYPE22 interfaces
+          integer, intent(in) :: i22len !< buffer size for intersected bricks           
           integer, dimension(nparg,ngroup), intent(in) :: iparg !< element group data
           integer, dimension(nixs,numels), intent(in) :: ixs !< element to node connectivity array
           real(kind=WP), dimension(npropm,nummat), intent(inout) :: pm !< flux array
           type(elbuf_struct_), dimension(ngroup), target :: elbuf_tab !< element buffer
+          type(brick_entity), dimension(int22,i22len), intent(inout) :: brick_list !< interface 22 data structure             
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer :: nin,j,ib
+          integer :: nin,j,ib,itrimat
           integer :: nbf,nbl
           integer :: mlw
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -97,25 +102,32 @@
 ! ----------------------------------------------------------------------------------------------------------------------
         !Restore Volume Fluxes
         nin = 1
-        nbf = 1+itask*nb/nthread
-        nbl = (itask+1)*nb/nthread
-        nbl = MIN(nbl,nb)
+        nbf = 1+itask*nb_int22/nthread
+        nbl = (itask+1)*nb_int22/nthread
+        nbl = MIN(nbl,nb_int22)
         do ib=nbf,nbl
           mlw = brick_list(nin,ib)%mlw 
           if(mlw /= 51)cycle
           do j=1,6
-            brick_list(nin,ib)%POLY(1:9)%FACE(j)%Adjacent_UpwFLUX(1) = brick_list(nin,ib)%POLY(1:9)%FACE(j)%Adjacent_FLUX(1)
-            brick_list(nin,ib)%POLY(1:9)%FACE(j)%Adjacent_UpwFLUX(2) = brick_list(nin,ib)%POLY(1:9)%FACE(j)%Adjacent_FLUX(2)
-            brick_list(nin,ib)%POLY(1:9)%FACE(j)%Adjacent_UpwFLUX(3) = brick_list(nin,ib)%POLY(1:9)%FACE(j)%Adjacent_FLUX(3)          
-            brick_list(nin,ib)%POLY(1:9)%FACE(j)%Adjacent_UpwFLUX(4) = brick_list(nin,ib)%POLY(1:9)%FACE(j)%Adjacent_FLUX(4)
-            brick_list(nin,ib)%POLY(1:9)%FACE(j)%Adjacent_UpwFLUX(5) = brick_list(nin,ib)%POLY(1:9)%FACE(j)%Adjacent_FLUX(5)
+            do itrimat = 1,trimat
+              brick_list(nin,ib)%POLY(1:9)%FACE(j)%Adjacent_UpwFLUX_mat(1,itrimat) = &
+                        brick_list(nin,ib)%POLY(1:9)%FACE(j)%Adjacent_FLUX(1)
+              brick_list(nin,ib)%POLY(1:9)%FACE(j)%Adjacent_UpwFLUX_mat(2,itrimat) = &
+                        brick_list(nin,ib)%POLY(1:9)%FACE(j)%Adjacent_FLUX(2)
+              brick_list(nin,ib)%POLY(1:9)%FACE(j)%Adjacent_UpwFLUX_mat(3,itrimat) = &
+                        brick_list(nin,ib)%POLY(1:9)%FACE(j)%Adjacent_FLUX(3)          
+              brick_list(nin,ib)%POLY(1:9)%FACE(j)%Adjacent_UpwFLUX_mat(4,itrimat) = &
+                        brick_list(nin,ib)%POLY(1:9)%FACE(j)%Adjacent_FLUX(4)
+              brick_list(nin,ib)%POLY(1:9)%FACE(j)%Adjacent_UpwFLUX_mat(5,itrimat) = &
+                        brick_list(nin,ib)%POLY(1:9)%FACE(j)%Adjacent_FLUX(5)
+            enddo
           enddo !next J
         enddo 
 
       ! --------------------------------
       ! restore fluxes
       ! --------------------------------        
-      call ale51_upwind3_int22(pm,ixs,0,0,iparg,elbuf_tab,itask )      
+      call ale51_upwind3_int22(pm,ixs,0,0,iparg,elbuf_tab,itask,nb_int22,int22,i22len,brick_list)      
 
       call my_barrier
       return

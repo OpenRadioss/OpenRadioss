@@ -28,7 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
 !||====================================================================
       SUBROUTINE A4CONV3(VTOT ,PHI,FLUX,FLU1,
-     .                   ALE_CONNECT,IOFF,s_flux,offset,nv46)
+     .                   ALE_CONNECT,IOFF,s_flux,offset,nv46,nel,nft)
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
@@ -44,6 +44,8 @@ C-----------------------------------------------
       integer, intent(in) :: s_flux !< first dimension of FLUX array
       integer, intent(in) :: offset !< offset for FLUX array
       integer, intent(in) :: nv46  !< second dimension of FLUX array
+      integer, intent(in) :: nel   !< number of elements of the group
+      integer, intent(in) :: nft   !< first element index of the group      
       INTEGER IOFF
       my_real VTOT(*), PHI(*), FLUX(s_flux,nv46), FLU1(*)
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
@@ -51,7 +53,6 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com08_c.inc"
-#include      "vect01_c.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -60,12 +61,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
-      DO I=LFT,LLT
+      DO I=1,nel
         IE =NFT+I
         VALEL(I)=PHI(IE)
       ENDDO
       
-      DO I=LFT,LLT
+      DO I=1,nel
          IE =NFT+I
          IAD2 = ALE_CONNECT%ee_connect%iad_connect(IE)
 !
@@ -110,7 +111,7 @@ C-----------------------------------------------
          ENDIF
       ENDDO
 C
-      DO I=LFT,LLT
+      DO I=1,nel
         ie = nft+i+offset
         VTOT(I) = VTOT(I) + HALF * DT1 *(
      1                                   -VALEL(I)*FLU1(I)

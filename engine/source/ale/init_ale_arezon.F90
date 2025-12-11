@@ -25,7 +25,7 @@
 !||--- called by ------------------------------------------------------
 !||    init_ale                   ../engine/source/ale/init_ale.F90
 !||====================================================================
-      module init_ale_arezon_spmd_mod
+      module init_ale_arezon_mod
         implicit none
       contains
 ! ======================================================================================================================
@@ -46,7 +46,9 @@
 !||    initbuf_mod            ../engine/share/resol/initbuf.F
 !||    spmd_mod               ../engine/source/mpi/spmd_mod.F90
 !||====================================================================
-        subroutine init_ale_arezon_spmd(n2d,numels,numelq,numeltg,nsvois,nqvois,ntgvois,trimat,nmult,ngroup,nparg, &
+!! \brief
+!! \details
+        subroutine init_ale_arezon(n2d,numels,numelq,numeltg,nsvois,nqvois,ntgvois,trimat,nmult,ngroup,nparg, &
                                         nspmd,iparg,elbuf_tab)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
@@ -93,7 +95,7 @@
           integer, dimension(5), parameter :: nvar_list = (/2,10,11,11,12/)
           integer, dimension(5,trimat+1,1:max(1,nmult)) :: need_to_compute_l  ! local array to know if we need to compute the rezoning variable
           integer, dimension(5,trimat+1,1:max(1,nmult)) :: need_to_compute ! global array to know if we need to compute the rezoning variable
-          integer, dimension(5,trimat+1) :: idx_list ! list of index for each rezoning variable         
+          integer, dimension(5,trimat+1) :: idx_list ! list of index for each rezoning variable
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   External functions
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -299,5 +301,5 @@
 
           return
 ! ----------------------------------------------------------------------------------------------------------------------
-        end subroutine init_ale_arezon_spmd
-      end module init_ale_arezon_spmd_mod
+        end subroutine init_ale_arezon
+      end module init_ale_arezon_mod
