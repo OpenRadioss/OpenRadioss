@@ -180,7 +180,7 @@ c     /FAIL : Failure Models
 c-------------------------------------------------------------------     
       CALL HM_READ_FAIL(MAT_ELEM%MAT_PARAM,NUMMAT,MAXFAIL  ,FAIL_TAG,
      .                  NTABLE  ,TABLE    ,FAILWAVE ,NLOC_DMG,
-     .                  UNITAB  ,LSUBMODEL)
+     .                  UNITAB  ,LSUBMODEL,MLAW_TAG )
      
 c-------------------------------------------------------------------
 c     /VISC : Visco elastic  Models

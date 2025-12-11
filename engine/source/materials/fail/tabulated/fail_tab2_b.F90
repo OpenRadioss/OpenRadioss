@@ -141,9 +141,9 @@
           integer, dimension(nel, 3) :: ipos
           real(kind=WP) :: fcrit, dn, dcrit, ecrit, exp_ref, expo, el_ref, &
             sr_ref1, fscale_el, shrf, biaxf, sr_ref2, &
-            fscale_sr, cjc, fscale_dlim, temp_ref, fscale_temp
+            fscale_sr, cjc, fscale_dlim, temp_ref, fscale_temp,rgtr1,rgtr2
           real(kind=WP) :: lambda, df, dpl_def, cos3theta, det, p, svm, &
-            sxx, syy, szz
+            sxx, syy, szz, reta
           real(kind=WP), dimension(nel) :: inst, dc, l0, triax, xi, epsf, epsl, &
             depsf, depsl, sizefac, ratefac, dsize, &
             softexp, dlim, tempfac, tempfac2, dft, var
@@ -181,6 +181,10 @@
           fscale_temp   = uparam(20)               !> scale factor for temperature scaling function.
           log_scale1    = nint(uparam(21))
           log_scale2    = nint(uparam(22))
+          rgtr1         = uparam(24)
+          rgtr1         = max(rgtr1,em06)
+          rgtr2         = uparam(25)
+          rgtr2         = min(rgtr2,two_third - em06)
 !c
           itab_epsf = itablf(1)                   !> plastic strain at failure table or function identifier
           itab_inst = itablf(2)                   !> instability (necking) plastic strain table or function identifier.
@@ -191,13 +195,15 @@
           ! checking element failure and recovering user variable
           do i=1,nel
             ! if necking control is activated
-            if ((itab_inst > 0).or.(ecrit > zero)) then
-              ! instability damage
-              inst(i) = uvar(i,1)
-              ! necking critical damage
+            if ((itab_inst > 0).or.(ecrit > zero)) then 
               if (uvar(i,2) == zero) uvar(i,2) = one
-              dc(i)   = uvar(i,2)
-            end if
+            else
+              if (uvar(i,2) == zero) uvar(i,2) = dcrit
+            endif
+            ! instability damage
+            inst(i) = uvar(i,1)
+            ! necking critical damage
+            dc(i)   = uvar(i,2)
           end do
 !c
           !c
@@ -307,11 +313,13 @@
             sizefac(1:nel) = sizefac(1:nel)*fscale_el
             if (ireg == 1) then
               do i = 1,nel
-                if (triax(i) < shrf) then
-                  sizefac(i) = one
-                else if (triax(i) > biaxf) then
-                  sizefac(i) = one
-                end if
+                if (triax(i) < third) then 
+                  reta =  shrf*(one - min(max(triax(i),zero),rgtr1)/rgtr1)
+                elseif (triax(i) >= third) then 
+                  reta = (three*biaxf/(three*rgtr2 - two))*                    &
+                         (rgtr2 - min(max(triax(i),rgtr2),two_third))
+                endif
+                sizefac(i) = sizefac(i) + reta*(one - sizefac(i))
               end do
             end if
           else
@@ -467,29 +475,21 @@
           ! - update uvar and the stress tensor
           !====================================================================
           do i = 1,nel
-            if ((itab_inst > 0).or.(ecrit > zero)) then
-              uvar(i,1) = inst(i)
-              uvar(i,2) = dc(i)
-              if (dfmax(i) >= dc(i)) then
-                if (dc(i) < one) then
-                  dmgscl(i) = one - ((dfmax(i)-dc(i))/max(one-dc(i),em20))**softexp(i)
-                else
-                  dmgscl(i) = zero
-                end if
+            !< Save necking instability damage
+            uvar(i,1) = inst(i)
+            !< Damage criterion for stress softening
+            if (dfmax(i) >= dc(i)) then
+              !< Damage softening scale computation
+              if (dc(i) < one) then
+                dmgscl(i) = one - ((dfmax(i)-dc(i))/max(one-dc(i),em20))**softexp(i)
               else
-                dmgscl(i) = one
+                dmgscl(i) = zero
               end if
             else
-              if (dfmax(i) >= dcrit) then
-                if (dcrit < one) then
-                  dmgscl(i) = one - ((dfmax(i)-dcrit)/max(one-dcrit,em20))**softexp(i)
-                else
-                  dmgscl(i) = zero
-                end if
-              else
-                dmgscl(i) = one
-              end if
-            end if
+              dmgscl(i) = one
+            endif
+            !< Update necking critical damage  
+            uvar(i,2) = dc(i)
           end do
 !c
           !====================================================================
