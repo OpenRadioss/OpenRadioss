@@ -37,6 +37,11 @@ C   M o d u l e s
 C-----------------------------------------------
        USE ALE_CONNECTIVITY_MOD
        use element_mod , only : nixq
+
+
+
+
+       use debug_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -92,13 +97,18 @@ C-----------------------------------------------
                     TAG(NI(L)) = 1
                   ENDDO
                   DO L=1,2
-                    NN=NN+TAG(IXQ(1+IPERM(L,K),II))
+                    NN=NN+TAG(IXQ(1+IPERM(L,K),II))                  
                   ENDDO
                   DO L=1,2
                     TAG(NI(L)) = 0                    
                   ENDDO
-                  IF(NN == 2)THEN
-                    FLUX(II,K)=-FLUX_VOIS(IV,KK)
+                  IF(NN == 2.and. FLUX_VOIS(IV,KK) /= -EP20)THEN
+                    if(FLUX(II,K)/=-FLUX_VOIS(IV,KK)) then
+                      print*,ispmd_debug,ii,k," bug 222 1",iv,kk,i
+                      print*,ispmd_debug," bug 222 1",FLUX(II,K),-FLUX_VOIS(IV,KK)        
+                      stop
+                    endif
+                    !FLUX(II,K)=-FLUX_VOIS(IV,KK)
                     EXIT !KK
                   ENDIF
                  ENDIF

@@ -238,7 +238,15 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !     Extended type : + iface
         TYPE, PUBLIC, EXTENDS(T_CONNECTIVITY) :: T_CONNECTIVITY_EXT1
           INTEGER, DIMENSION(:), ALLOCATABLE :: IFACE2
-        END TYPET_CONNECTIVITY_EXT1
+          integer :: remote_neighb_elem !< number of remote elements
+          integer, dimension(:), allocatable :: index_elem_w_neigh !< for each element, index to access its neighbors
+          integer, dimension(:), allocatable :: id_facet_neighbor_elem !< for each element, id of the facet of the neighbor element
+        END TYPE T_CONNECTIVITY_EXT1
+
+        type group_connectivity_
+          integer :: nb_element_with_bc !< number of elements with boudary
+          integer, dimension(:), allocatable :: list_element_with_bc !< list of elements with boudary
+        end type group_connectivity_
 
 
 !     ******************    !
@@ -256,6 +264,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !     node-node, node-element, element-element
           TYPE(T_CONNECTIVITY) :: NN_CONNECT, NE_CONNECT
           TYPE(T_CONNECTIVITY_EXT1) :: EE_CONNECT
+          type(group_connectivity_), dimension(:), allocatable :: group
           LOGICAL :: HAS_NN_CONNECT = .FALSE.
           LOGICAL :: HAS_NE_CONNECT = .FALSE.
           LOGICAL :: HAS_EE_CONNECT = .FALSE.
