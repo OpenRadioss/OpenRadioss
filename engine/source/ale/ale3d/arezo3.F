@@ -34,7 +34,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- uses       -----------------------------------------------------
 !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
 !||====================================================================
-      SUBROUTINE AREZO3(ALE_CONNECT,VAR,PHI,FLUX,VOL,IAD22,s_flux)
+      SUBROUTINE AREZO3(ALE_CONNECT,VAR,PHI,FLUX,VOL,IAD22,s_flux,nft,llt)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -48,17 +48,18 @@ C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
 #include      "mvsiz_p.inc"
 #include      "com04_c.inc"
+#include      "com08_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       integer, intent(in) :: s_flux !< first dimension of FLUX array
+      integer, intent(in) :: nft !< address of the first element of the group
+      integer, intent(in) :: llt !< number of element in the group
       my_real :: VAR(*), PHI(*), FLUX(s_flux,6), VOL(MVSIZ), IAD22(MVSIZ)
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "com08_c.inc"
-#include      "vect01_c.inc"
 #include      "inter22.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -71,7 +72,7 @@ C-----------------------------------------------
 C NOT YET TREATED WITH INTER22(OBSOLETE), MUST STACK REZONED VALUE WITH SUPERCELLS
 
       IF(INT22 == 0)THEN
-        DO I=LFT,LLT
+        DO I=1,LLT
           IE =NFT+I
           IAD2 = ALE_CONNECT%ee_connect%iad_connect(IE)
           IV1=ALE_CONNECT%ee_connect%connected(IAD2 + 1 - 1)
@@ -93,7 +94,7 @@ C NOT YET TREATED WITH INTER22(OBSOLETE), MUST STACK REZONED VALUE WITH SUPERCEL
      5      VOL(I)
         ENDDO
       ELSE
-        DO I=LFT,LLT
+        DO I=1,LLT
           IE =NFT+I
           IAD2 = ALE_CONNECT%ee_connect%iad_connect(IE)
           IF(IAD22(I) == ZERO)CYCLE

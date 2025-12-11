@@ -31,7 +31,7 @@
 ! ======================================================================================================================
 !                                                   procedures
 ! ======================================================================================================================
-!! \brief
+!! \brief Initialization of some ALE data
 !! \details
 !||====================================================================
 !||    init_ale                          ../engine/source/ale/init_ale.F90
@@ -47,11 +47,11 @@
 !||    init_ale_boundary_condition_mod   ../engine/source/ale/init_ale_boundary_condition.F90
 !||    init_ale_spmd_mod                 ../engine/source/ale/init_ale_spmd.F90
 !||====================================================================
-        subroutine init_ale(global_active_ale_element,n2d,numels,numelq,nmult, &
+        subroutine init_ale(global_active_ale_element,n2d,numels,numelq,numeltg,nmult, &
                             iale,ieuler,trimat,itherm,numnod, &
-                            nspmd,nsvois,nqvois,nparg,ngroup,s_lesdvois,s_lercvois, &
+                            nspmd,nsvois,nqvois,ntgvois,nparg,ngroup,s_lesdvois,s_lercvois, &
                             nesdvois,nercvois,lesdvois,lercvois,itab, &
-                            itabm1,ixs,ixq,iparg,ale,ale_connect)
+                            itabm1,ixs,ixq,iparg,ale,ale_connect,elbuf_tab)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -60,6 +60,8 @@
           use element_mod , only : nixs, nixq
           use init_ale_spmd_mod , only : init_ale_spmd
           use init_ale_boundary_condition_mod , only : init_ale_boundary_condition
+          use init_ale_arezon_spmd_mod , only : init_ale_arezon_spmd
+          use elbufdef_mod
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -74,6 +76,7 @@
           integer, intent(in) :: n2d !< 0: 3D, 1: 2D
           integer, intent(in) :: numels !< number of solid elements
           integer, intent(in) :: numelq !< number of quad elements
+          integer, intent(in) :: numeltg !< number of triangle elements
           integer, intent(in) :: nmult !< number of ALE materials (2d case)
           integer, intent(in) :: iale !< ALE activated flag
           integer, intent(in) :: ieuler !< Eulerian activated flag
@@ -83,6 +86,7 @@
           integer, intent(in) :: nspmd !< Number of processors
           integer, intent(in) :: nsvois !< number of frontier solid elements
           integer, intent(in) :: nqvois !< number of frontier quad elements
+          integer, intent(in) :: ntgvois !< number of frontier triangle elements
           integer, intent(in) :: nparg !< first dimension of iparg array
           integer, intent(in) :: ngroup !< number of element group
           integer, intent(in) :: s_lesdvois !< size of lesdvois array
@@ -97,10 +101,11 @@
           integer, dimension(nixq,numelq), intent(in) :: ixq !< Quad element connectivity
           integer, dimension(nparg,ngroup), intent(in) :: iparg !< group element data    
           type(ale_), intent(inout) :: ale !< ALE data structure                  
-          type(t_ale_connectivity), intent(inout) :: ale_connect !< ALE data structure for connectivity  
+          type(t_ale_connectivity), intent(inout) :: ale_connect !< ALE data structure for connectivity
+          type(elbuf_struct_), dimension(ngroup), intent(in) :: elbuf_tab !< element buffer structure
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
-! ----------------------------------------------------------------------------------------------------------------------
+! ----------------------------------------------------------------------------------------------------------------------        
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   External functions
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -132,7 +137,10 @@
             end if
 
             call init_ale_boundary_condition(ale%global%nv46,nparg,ngroup,iparg,ale_connect)
+            call init_ale_arezon_spmd(n2d,numels,numelq,numeltg,nsvois,nqvois,ntgvois,trimat,nmult,ngroup,nparg, &
+                                      nspmd,iparg,elbuf_tab)
           end if
+
 
           return
 ! ----------------------------------------------------------------------------------------------------------------------

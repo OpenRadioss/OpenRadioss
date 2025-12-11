@@ -27,7 +27,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- uses       -----------------------------------------------------
 !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
 !||====================================================================
-      SUBROUTINE BREZO2(ALE_CONNECT,VAR,PHI,FLUX,VOL,BHOLE,NM,s_flux,offset)
+      SUBROUTINE BREZO2(ALE_CONNECT,VAR,PHI,FLUX,VOL,BHOLE,NM,s_flux,offset,nft,llt,jmult,nmult)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -39,14 +39,16 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "com01_c.inc"
 #include      "com08_c.inc"
-#include      "vect01_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       integer, intent(in) :: s_flux !< first dimension of FLUX array
       integer, intent(in) :: offset !< offset for FLUX array
+      integer, intent(in) :: nft !< address of the first element of the group
+      integer, intent(in) :: llt !< number of element in the group
+      integer, intent(in) :: jmult !< multimaterial flag
+      integer, intent(in) :: nmult !< number of multimaterial
       INTEGER BHOLE(NMULT,*),NM
       my_real VAR(*), PHI(*), FLUX(s_flux,4), VOL(*)
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
@@ -60,7 +62,7 @@ C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
       IF(JMULT == 0)THEN
-        DO I=LFT,LLT
+        DO I=1,LLT
           IE =NFT+I
           IE_2 = offset + nft + i
           IAD2 = ALE_CONNECT%ee_connect%iad_connect(IE)
@@ -94,7 +96,7 @@ C-----------------------------------------------
      4    -PHI(IV4)*FLUX(IE_2,4)) / VOL(I)
         ENDDO !nexi i
       ELSE
-        DO I=LFT,LLT
+        DO I=1,LLT
           IE =NFT+I
           IE_2 = offset + nft + i          
           IAD2 = ALE_CONNECT%ee_connect%iad_connect(IE)
