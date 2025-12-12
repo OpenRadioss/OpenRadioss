@@ -163,10 +163,10 @@ C     SPECIFIC CASE LAW51
 C-----------------------------------------------
       IF(NINT(PM(19,MAT(1))) == 51)THEN
         DO I=LFT,LLT
-          FLUX(I+NFT,1)=FLUX1(I)
-          FLUX(I+NFT,2)=FLUX2(I)
-          FLUX(I+NFT,3)=FLUX3(I)
-          FLUX(I+NFT,4)=FLUX4(I)
+          FLUX(I,1)=FLUX1(I)
+          FLUX(I,2)=FLUX2(I)
+          FLUX(I,3)=FLUX3(I)
+          FLUX(I,4)=FLUX4(I)
         ENDDO
         RETURN
       ENDIF
@@ -220,10 +220,10 @@ C-----------------------------------------------
      .     NC1, NC2, NC3, NC4,s_flux)
       ELSE
        DO I=LFT,LLT
-         FLUX(I+NFT,1)= FLUX1(I) - UPWL(I,1) * ABS(FLUX1(I))
-         FLUX(I+NFT,2)= FLUX2(I) - UPWL(I,2) * ABS(FLUX2(I))
-         FLUX(I+NFT,3)= FLUX3(I) - UPWL(I,3) * ABS(FLUX3(I))
-         FLUX(I+NFT,4)= FLUX4(I) - UPWL(I,4) * ABS(FLUX4(I))
+         FLUX(I,1)= FLUX1(I) - UPWL(I,1) * ABS(FLUX1(I))
+         FLUX(I,2)= FLUX2(I) - UPWL(I,2) * ABS(FLUX2(I))
+         FLUX(I,3)= FLUX3(I) - UPWL(I,3) * ABS(FLUX3(I))
+         FLUX(I,4)= FLUX4(I) - UPWL(I,4) * ABS(FLUX4(I))
          FLU1(I)  = FLUX1(I) + UPWL(I,1) * ABS(FLUX1(I))
      .            + FLUX2(I) + UPWL(I,2) * ABS(FLUX2(I))
      .            + FLUX3(I) + UPWL(I,3) * ABS(FLUX3(I))
