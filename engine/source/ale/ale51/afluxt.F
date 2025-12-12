@@ -58,25 +58,28 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    trimat_mod              ../engine/share/modules/trimat.F
 !||====================================================================
       SUBROUTINE AFLUXT(IPARG   ,ELBUF_TAB   ,PM       ,IXS     ,IXQ     ,
-     2                  X       ,FLUX        ,FLU2     ,
-     3                  ALPHA   ,ALE_CONNECT ,ITASK    ,
-     4                  ITRIMAT ,FLUX_SAV    ,NERCVOIS ,NESDVOIS,
-     5                  LERCVOIS,LESDVOIS    ,LENCOM   ,QMV     ,ITAB    ,
-     6                  ITABM1  ,NV46        ,SEGVAR   ,timers  ,s_flux,s_qmv)
+     2                  X       ,flux_mat    ,val2_mat     ,s_alpha_mat,
+     3                  alpha_mat,ALE_CONNECT ,ITASK    ,
+     4                  trimat  ,FLUX_SAV    ,NERCVOIS ,NESDVOIS,
+     5                  LERCVOIS,LESDVOIS    ,qmv_mat ,
+     6                  NV46        ,SEGVAR   ,timers  ,s_flux,s_qmv,
+     7                  ngroup,n2d,nspmd)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE INITBUF_MOD
       USE TRIMAT_MOD
       USE ELBUFDEF_MOD            
-      USE I22TRI_MOD 
-      USE I22BUFBRIC_MOD  
       USE SEGVAR_MOD   
       USE ALE_CONNECTIVITY_MOD
       USE ALEMUSCL_MOD , only:ALEMUSCL_Param
       USE MULTIMAT_PARAM_MOD , ONLY : M51_N0PHAS, M51_NVPHAS
       use element_mod , only : nixs
       use timer_mod
+      use ale51_apply_remote_flux_mod , only : ale51_apply_remote_flux
+      use precision_mod , only : WP
+      use array_mod
+      use spmd_exch_n_neighbor_mod , only : spmd_exch_n_neighbor
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -85,7 +88,6 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "spmd_c.inc"
-#include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "vect01_c.inc"
 #include      "param_c.inc"
@@ -94,15 +96,22 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      integer, intent(in) :: ngroup !< number of element group
+      integer, intent(in) :: n2d !< 2d or 3d case
+      integer, intent(in) :: nspmd !< number of mpi processors
       integer, intent(in) :: s_flux !< first dimension of flux array
       integer, intent(in) :: s_qmv !< first dimension of flux array
-      integer, intent(in) :: nv46 !< second dimension of flux & qmv array            
-      my_real PM(NPROPM,NUMMAT), X(3,NUMNOD),
-     .         FLUX(s_flux,NV46), FLU2(*),
-     .         ALPHA(*), FLUX_SAV(s_flux,nv46), QMV(s_qmv,2*NV46)
+      integer, intent(in) :: s_alpha_mat !< first dimension of alpha array
+      integer, intent(in) :: nv46 !< second dimension of flux & qmv array
+      integer, intent(in) :: trimat !< number of materials
+      real(kind=WP), dimension(s_alpha_mat,trimat), intent(inout) :: alpha_mat !< alpha array      
+      real(kind=WP), dimension(s_flux,nv46,trimat), intent(inout) :: flux_mat !< flux array  
+      real(kind=WP), dimension(s_qmv,2*nv46,trimat), intent(inout) :: qmv_mat !< qmv array
+      real(kind=WP), dimension(s_flux,trimat), intent(inout) :: val2_mat !< global flux???
+      my_real PM(NPROPM,NUMMAT), X(3,NUMNOD),FLUX_SAV(s_flux,nv46)
 
       INTEGER IPARG(NPARG,NGROUP), IXS(NIXS,NUMELS), IXQ(7,NUMELQ)
-      INTEGER ITASK,ITRIMAT,LENCOM,ADD,NERCVOIS(*),NESDVOIS(*),LERCVOIS(*),LESDVOIS(*), ITAB(NUMNOD),ITABM1(*)
+      INTEGER ITASK,ADD,NERCVOIS(*),NESDVOIS(*),LERCVOIS(*),LESDVOIS(*)
 
       TYPE(ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB
       TYPE(t_segvar), INTENT(IN) :: SEGVAR
@@ -111,24 +120,37 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
+      integer :: itrimat,ijk
       my_real, DIMENSION(:), POINTER :: UVAR,VOLG,VOLP,pDDVOL
       INTEGER NG, I, K, II, NF1, NFIRST, NLAST, LLT_
       INTEGER :: IB, IE, NIN, NBF, NBL, K0, K1, IBM, J, IE_M, IDLOC, IPOS, ICELL, NCELL, MCELL, tNB, J1, J2, IBV
+      integer :: s_flux_vois,n_entity0,n_entity,n_neighbor,n_node_per_elm
       my_real :: VFRAC
-      TYPE(BUF_MAT_)  ,POINTER :: MBUF      
+      TYPE(BUF_MAT_)  ,POINTER :: MBUF
+      real(kind=WP), dimension(:,:,:), allocatable, save :: flux_vois_mat
+      type(array_type_my_real_2d), dimension(:), allocatable :: s_alpha,r_alpha
+      type(array_type_my_real_3d), dimension(:), allocatable :: s_flux_neigh,r_flux_neigh
+      integer :: flag
+      integer :: s_proc_nb,r_proc_nb
+      integer :: s_lesdvois,s_lercvois
+      integer, dimension(nspmd) :: s_index,r_index
+      integer, dimension(nspmd) :: s_req,r_req
 C-----------------------------------------------
 C   S o u r c e   L i n e s 
 C-----------------------------------------------
-      IF(ITASK == 0)THEN
-        IF (N2D  ==  0) THEN
-           ALLOCATE(N4_VOIS(NUMELS+NSVOIS,8))
-           ALLOCATE(FLUX_VOIS(NUMELS+NSVOIS,NV46))
-        ELSE
-           ALLOCATE(N4_VOIS(NUMELQ+NQVOIS,4))
-           ALLOCATE(FLUX_VOIS(NUMELQ+NQVOIS,NV46))           
-        ENDIF
-      END IF
-
+      if(n2d==0) then
+        n_entity0 = numels
+        n_neighbor = nsvois
+        n_node_per_elm = 8
+      else
+        n_entity0 = numelq
+        n_neighbor = nqvois
+        n_node_per_elm = 4
+      end if
+      s_flux_vois = n_entity0 + n_neighbor
+      if(itask==0) then
+        allocate(flux_vois_mat(s_flux_vois,nv46,trimat))
+      end if
 C--------------------
       CALL MY_BARRIER
 C--------------------
@@ -152,92 +174,55 @@ C     ALE ON / OFF
         VOLG => ELBUF_TAB(NG)%GBUF%VOL
         UVAR => ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR
         LFT=1
-        ADD = M51_N0PHAS + (ITRIMAT-1)*M51_NVPHAS                ! ADD => SIG(1)
-        ADD = ADD + 11                                   ! ADD + 11 => VOLUME_Phase
-        K = LLT*(ADD-1)                                ! VAR(I,ADD) = VAR(K+I) 
-        VOLP => UVAR(K+1:K+LLT)
-        DO I=LFT,LLT 
-          II  = I+NFT    
-          ALPHA(II) = VOLP(I)/VOLG(I)
-          ALPHA(II) = MAX(ZERO,MIN(ONE,ALPHA(II))) 
-        ENDDO   
-        DO K=1,NV46
-            DO II=NFT+LFT,NFT+LLT
-              FLUX(II,k)=FLUX_SAV(II,K)
-            ENDDO
-        ENDDO
-        IF(ITRIMAT == 1)THEN
+        do itrimat=1,trimat
+          ADD = M51_N0PHAS + (ITRIMAT-1)*M51_NVPHAS                ! ADD => SIG(1)
+          ADD = ADD + 11                                   ! ADD + 11 => VOLUME_Phase
+          K = LLT*(ADD-1)                                ! VAR(I,ADD) = VAR(K+I) 
+          VOLP => UVAR(K+1:K+LLT)
+          DO I=LFT,LLT 
+            II  = I+NFT    
+            alpha_mat(II,itrimat) = VOLP(I)/VOLG(I)
+            alpha_mat(II,itrimat) = MAX(ZERO,MIN(ONE,alpha_mat(II,itrimat))) 
+          ENDDO
+        enddo
+        do itrimat=1,trimat
           DO K=1,NV46
             DO II=NFT+LFT,NFT+LLT
-              QMV(II,K) = ZERO
+              flux_mat(II,k,itrimat)=FLUX_SAV(II,K)
             ENDDO
           ENDDO
-        ENDIF
+        enddo
+        do itrimat=1,trimat
+          DO K=1,NV46
+            DO II=NFT+LFT,NFT+LLT
+              qmv_mat(II,K,itrimat) = ZERO
+            ENDDO
+          ENDDO
+        enddo
       ENDDO
-
-      !IDEM FOR CUT CELLS (INTER22) (OBSOLETE)
-      IF(INT22 /= 0)THEN
-        NIN = 1
-        NBF = 1+ITASK*NB/NTHREAD
-        NBL = (ITASK+1)*NB/NTHREAD
-        NBL = MIN(NBL,NB)
-        tNB = NBL-NBF+1
-        DO IB=NBF,NBL
-          NCELL             =  BRICK_LIST(NIN,IB)%NBCUT 
-          MCELL             =  BRICK_LIST(NIN,IB)%MainID       
-          ICELL             =  0  
-          IE                =  BRICK_LIST(NIN,IB)%ID
-          DO WHILE (ICELL <= NCELL) ! loop on polyhedron {1:NCELL} U {9}
-            ICELL = ICELL +1
-            IF (ICELL>NCELL .AND. NCELL /= 0)ICELL=9 
-            !get_main_data
-            J     = BRICK_LIST(NIN,IB)%POLY(ICELL)%WhereIsMain(1)
-            IF(J==0)THEN
-              IE_M = IE
-              IBM  = IB
-            ELSEIF(J <= NV46)THEN
-              IE_M = BRICK_LIST(NIN,IB)%Adjacent_Brick(J,1)
-              IBM  = BRICK_LIST(NIN,IB)%Adjacent_Brick(J,4)
-            ELSE
-              J1   = J/10
-              J2   = MOD(J,10)
-              IBV  = BRICK_LIST(NIN,IB )%Adjacent_Brick(J1,4)
-              IBM  = BRICK_LIST(NIN,IBv)%Adjacent_Brick(J2,4)
-              IE_M = BRICK_LIST(NIN,IBv)%Adjacent_Brick(J2,1)
-            ENDIF
-            NG    = BRICK_LIST(NIN,IBM)%NG
-            IDLOC = BRICK_LIST(NIN,IBM)%IDLOC
-            MTN = IPARG(1,NG)
-            IF(MTN == 51)THEN
-              MBUF  => ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)           
-              LLT_  = IPARG(2,NG)
-              !===restore direct fluxes====!
-            BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(1:6)%Adjacent_UpwFLUX(1)=BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(1:6)%Adjacent_FLUX(1)   
-            BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(1:6)%Adjacent_UpwFLUX(2)=BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(1:6)%Adjacent_FLUX(2)   
-            BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(1:6)%Adjacent_UpwFLUX(3)=BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(1:6)%Adjacent_FLUX(3)   
-            BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(1:6)%Adjacent_UpwFLUX(4)=BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(1:6)%Adjacent_FLUX(4)   
-            BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(1:6)%Adjacent_UpwFLUX(5)=BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(1:6)%Adjacent_FLUX(5)                          
-              !===get Vfrac================!
-              IPOS                                          = 1                                                                                               
-              K0                                            = ((M51_N0PHAS + (ITRIMAT-1)*M51_NVPHAS )+IPOS-1)             ! example : IPOS=1 => VFRAC  {UVAR(I,ADD)=UVAR(K+I)}  
-              K1                                            = K0 * LLT_                                                                                       
-              Vfrac                                         = MBUF%VAR(K1+IDLOC)                                                                              
-              Vfrac                                         = MAX(ZERO,MIN(ONE,Vfrac))                                                                         
-              BRICK_LIST(NIN,IB)%POLY(ICELL)%VFRACm(ITRIMAT)= VFRAC
-            ENDIF
-          ENDDO!next ICELL
-        ENDDO!next IB
-      ENDIF!IF(INT22 /= 0)
 C--------------------
       CALL MY_BARRIER
 C--------------------
 
-      IF(NSPMD > 1)THEN
-        if(itask==0) call startime(timers,timer_spmdcfd)       
-!$OMP SINGLE
-        CALL SPMD_E1VOIS(ALPHA,NERCVOIS,NESDVOIS,LERCVOIS,LESDVOIS,LENCOM  )
-!$OMP END SINGLE
-        if(itask==0) call stoptime(timers,timer_spmdcfd)       
+      s_lesdvois = nesdvois(nspmd+1)
+      s_lercvois = nercvois(nspmd+1)
+      n_entity = s_alpha_mat
+      IF(NSPMD > 1)THEN     
+        if(itask==0) then
+          call startime(timers,timer_spmdcfd)  
+          flag = 0
+          s_proc_nb = 0
+          r_proc_nb = 0      
+
+          allocate(s_alpha(nspmd))
+          allocate(r_alpha(nspmd))
+
+          call spmd_exch_n_neighbor(flag,nspmd,n_entity,trimat,s_lesdvois,s_lercvois, 
+     .                               s_proc_nb,r_proc_nb,s_index,r_index,s_req,r_req, 
+     .                               nesdvois,nercvois,lesdvois,lercvois, 
+     .                               alpha_mat,s_alpha,r_alpha)
+          call stoptime(timers,timer_spmdcfd)       
+        endif
       ENDIF
 C
 C-----------------------------------------------
@@ -251,11 +236,25 @@ C-----------------------------------------------
             NFIRST = 1+ITASK*(NUMELQ)/NTHREAD
             NLAST = (ITASK+1)*(NUMELQ)/NTHREAD
          ENDIF
-         N4_VOIS(NFIRST:NLAST,1) = 0
-         DO I=1,NV46
-            FLUX_VOIS(NFIRST:NLAST,I) = -EP20
-         ENDDO
+         do itrimat=1,trimat
+          DO I=1,NV46
+            flux_vois_mat(NFIRST:NLAST,I,itrimat) = -EP20
+          ENDDO
+        enddo
 C----------------------
+        if(itask==0) then
+          call startime(timers,timer_spmdcfd)
+          flag = 1
+          n_entity = s_alpha_mat          
+          call spmd_exch_n_neighbor(flag,nspmd,n_entity,trimat,s_lesdvois,s_lercvois, 
+     .                               s_proc_nb,r_proc_nb,s_index,r_index,s_req,r_req, 
+     .                               nesdvois,nercvois,lesdvois,lercvois, 
+     .                               alpha_mat,s_alpha,r_alpha)
+          deallocate(s_alpha)
+          deallocate(r_alpha)
+          call stoptime(timers,timer_spmdcfd)
+        endif
+
         CALL MY_BARRIER
 C----------------------
       ENDIF
@@ -287,45 +286,58 @@ C     ALE ON / OFF
         VOLG => ELBUF_TAB(NG)%GBUF%VOL
         IF(N2D == 0)THEN
            IF (ALEMUSCL_Param%IALEMUSCL  >  0) THEN
-              CALL ALEMUSCL_UPWIND(FLUX, ALE_CONNECT, X, IXS, FLUX_VOIS, N4_VOIS,
-     .                             ITAB, NV46       , ITRIMAT,SEGVAR,s_flux)
+              CALL ALEMUSCL_UPWIND(flux_mat,flux_sav, ALE_CONNECT, X, IXS, flux_vois_mat,
+     .                             nv46,trimat,SEGVAR,s_flux,s_flux_vois)
            ELSE
-              CALL ALE51_ANTIDIFF3(FLUX, ALE_CONNECT, ALPHA  , VOLG, IXS, FLUX_VOIS, N4_VOIS, 
-     .                             ITAB, NV46       , ITRIMAT, SEGVAR,s_flux)
+              CALL ALE51_ANTIDIFF3(flux_mat,flux_sav, ALE_CONNECT, alpha_mat,s_alpha_mat,VOLG, IXS,   
+     .                             flux_vois_mat,nv46,trimat, SEGVAR,s_flux,s_flux_vois)
            ENDIF
         ELSE
            IF (ALEMUSCL_Param%IALEMUSCL  >  0) THEN
-              CALL ALEMUSCL_UPWIND2(FLUX, ALE_CONNECT, X    , IXQ, FLUX_VOIS, N4_VOIS,
-     .                              ITAB, NV46       , ITRIMAT,SEGVAR,s_flux)
+              CALL ALEMUSCL_UPWIND2(flux_mat,flux_sav, ALE_CONNECT, X    , IXQ, flux_vois_mat, 
+     .                              NV46,trimat,SEGVAR,s_flux,s_flux_vois)
            ELSE
-              CALL ALE51_ANTIDIFF2(FLUX   ,ALE_CONNECT,ALPHA  ,VOLG  ,IXQ,FLUX_VOIS,
-     .                             N4_VOIS,ITAB       ,ITRIMAT,SEGVAR,s_flux)
+              CALL ALE51_ANTIDIFF2(flux_mat,flux_sav,ALE_CONNECT,alpha_mat,s_alpha_mat,VOLG  ,flux_vois_mat,
+     .                             trimat,SEGVAR,s_flux,nv46,s_flux_vois)
            ENDIF
         ENDIF
       ENDDO !next NG
-
-      IF(INT22 /= 0)THEN
-        CALL ALE51_ANTIDIFF3_INT22(FLUX   , ITRIMAT,IXS ,
-     .                            NV46,  ELBUF_TAB,ITASK,ALPHA,s_flux)
-      ENDIF
-
 C--------------------
       CALL MY_BARRIER
 C--------------------
 
-      IF(NSPMD > 1)THEN
-        if(itask==0) call startime(timers,timer_spmdcfd)       
-!$OMP SINGLE
-         IF (N2D  ==  0) THEN
-            CALL SPMD_E6VOIS(FLUX_VOIS,NERCVOIS,NESDVOIS,LERCVOIS,LESDVOIS,LENCOM)
-            CALL SPMD_I8VOIS(N4_VOIS ,NERCVOIS,NESDVOIS,LERCVOIS,LESDVOIS,LENCOM)
-         ELSE
-            CALL SPMD_E4VOIS(FLUX_VOIS,NERCVOIS,NESDVOIS,LERCVOIS,LESDVOIS,LENCOM)
-            CALL SPMD_I4VOIS(N4_VOIS ,NERCVOIS,NESDVOIS,LERCVOIS,LESDVOIS,LENCOM)
-         ENDIF
-!$OMP END SINGLE
-         if(itask==0) call stoptime(timers,timer_spmdcfd)       
-      ENDIF
+      if(nspmd > 1)THEN
+
+        if(itask==0) then
+          call startime(timers,timer_spmdcfd)
+          flag = 0
+          s_proc_nb = 0
+          r_proc_nb = 0      
+          n_entity = s_flux_vois
+          allocate(s_flux_neigh(nspmd))
+          allocate(r_flux_neigh(nspmd))
+
+          call spmd_exch_n_neighbor(flag,nspmd,n_entity,nv46,trimat,s_lesdvois,s_lercvois, 
+     .                               s_proc_nb,r_proc_nb,s_index,r_index,s_req,r_req, 
+     .                               nesdvois,nercvois,lesdvois,lercvois, 
+     .                               flux_vois_mat,s_flux_neigh,r_flux_neigh)
+          flag = 1
+          call spmd_exch_n_neighbor(flag,nspmd,n_entity,nv46,trimat,s_lesdvois,s_lercvois, 
+     .                               s_proc_nb,r_proc_nb,s_index,r_index,s_req,r_req, 
+     .                               nesdvois,nercvois,lesdvois,lercvois, 
+     .                               flux_vois_mat,s_flux_neigh,r_flux_neigh)
+          deallocate(s_flux_neigh)
+          deallocate(r_flux_neigh)
+          call stoptime(timers,timer_spmdcfd)
+        endif
+        call my_barrier        
+      endif
+
+      if(nspmd>1) then
+        call ale51_apply_remote_flux(n_entity0,nv46,trimat,s_flux,s_flux_vois,flux_mat,flux_vois_mat,ale_connect)
+        call my_barrier ! wait for all tasks to finish the operations flux_voix --> flux
+      end if
+
 
 C-----------------------------------------------
 C     UPDATING VOLUME FLUXES & UPWIND
@@ -345,47 +357,40 @@ C     ALE ON / OFF
         !------------------------------!
         IF(JALE+JEUL == 0)    CYCLE
         IF(IPARG(8,NG) == 1)  CYCLE
-        IF(IPARG(1,NG) /= 51) CYCLE
-!        IF(IPARG(64,NG) == 1) CYCLE        
+        IF(IPARG(1,NG) /= 51) CYCLE    
         LFT    =  1
         NF1    =  NFT+1
         UVAR   => ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR
-        ADD    = (M51_N0PHAS + (ITRIMAT-1)*M51_NVPHAS+12)*LLT
-        pDDVOL => UVAR(ADD+1:ADD+LLT)
         !DDVOL*DT IS SUM OF INCOMING AND OUTGOING VOLUMES
         !------------------------------!
         ! UPWIND, QMV, DDVOL           !
         !------------------------------!
         IF(N2D == 0)THEN
-          IF(NSPMD > 1)THEN
-            CALL ALE51_SPMD3(IXS,FLUX,ALE_CONNECT,
-     .                       FLUX_VOIS,N4_VOIS,ITABM1 ,NV46,s_flux)
-          ENDIF
-          CALL ALE51_UPWIND3(PM,IXS,FLUX,FLU2(NF1),ALE_CONNECT,
-     .                       ITRIMAT,pDDVOL,QMV,1,
-     .                       NV46,s_flux,s_qmv)
+          do itrimat=1,trimat
+            ADD    = (M51_N0PHAS + (ITRIMAT-1)*M51_NVPHAS+12)*LLT
+            pDDVOL => UVAR(ADD+1:ADD+LLT)
+            CALL ALE51_UPWIND3(PM,IXS,flux_mat(:,:,itrimat),val2_mat(:,itrimat),ALE_CONNECT,
+     .                         ITRIMAT,pDDVOL,qmv_mat(:,:,itrimat),1,
+     .                         NV46,s_flux,s_qmv,
+     .                         ALE_CONNECT%group(ng)%nb_element_with_bc,ALE_CONNECT%group(ng)%list_element_with_bc)
+          enddo
         ELSE
-          IF(NSPMD > 1)THEN
-            CALL ALE51_SPMD2(IXQ,FLUX,ALE_CONNECT,
-     .                       FLUX_VOIS,N4_VOIS, ITABM1,NV46,s_flux)
-          ENDIF
-          CALL ALE51_UPWIND2(PM,X,IXQ,FLUX,FLU2(NF1),ALE_CONNECT,
-     .                       ITRIMAT,pDDVOL,QMV,1,nv46,s_flux,s_qmv)
+          do itrimat=1,trimat
+            ADD    = (M51_N0PHAS + (ITRIMAT-1)*M51_NVPHAS+12)*LLT
+            pDDVOL => UVAR(ADD+1:ADD+LLT)            
+            CALL ALE51_UPWIND2(PM,X,IXQ,flux_mat(:,:,itrimat),val2_mat(:,itrimat),ALE_CONNECT,
+     .                         ITRIMAT,pDDVOL,qmv_mat(:,:,itrimat),1,nv46,s_flux,s_qmv,
+     .                         ALE_CONNECT%group(ng)%nb_element_with_bc,ALE_CONNECT%group(ng)%list_element_with_bc)     
+          enddo
         ENDIF
       ENDDO
-      
-      IF(INT22 /= 0)THEN
-          CALL ALE51_UPWIND3_INT22(PM  , IXS      , ITRIMAT, 1,
-     .                             IPARG, ELBUF_TAB, ITASK )
-      ENDIF
 
 C--------------------
       CALL MY_BARRIER
 C--------------------
 
       IF(ITASK == 0)THEN
-        DEALLOCATE(N4_VOIS)
-        DEALLOCATE(FLUX_VOIS)
+        DEALLOCATE(flux_vois_mat)
       END IF
 C-----------------------------------------------
       RETURN

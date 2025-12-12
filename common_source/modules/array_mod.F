@@ -94,6 +94,15 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
           INTEGER, DIMENSION(:), ALLOCATABLE :: INT_ARRAY_1D
         END TYPE array_type_int_1d
 
+        TYPE array_type_my_real_2d
+          INTEGER, DIMENSION(2) :: SIZE_MY_REAL_ARRAY_2D
+          my_real, DIMENSION(:,:), ALLOCATABLE :: MY_REAL_ARRAY_2D
+        END TYPE array_type_my_real_2d        
+        TYPE array_type_my_real_3d
+          INTEGER, DIMENSION(3) :: SIZE_MY_REAL_ARRAY_3D
+          my_real, DIMENSION(:,:,:), ALLOCATABLE :: MY_REAL_ARRAY_3D
+        END TYPE array_type_my_real_3d                
+
         interface alloc_1d_array
           MODULE PROCEDURE alloc_1d_array_full
           MODULE PROCEDURE alloc_int_1d_array
@@ -102,6 +111,23 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
           MODULE PROCEDURE dealloc_1d_array_full
           MODULE PROCEDURE dealloc_int_1d_array
         end interface
+
+        interface alloc_my_real_2d_array
+          MODULE PROCEDURE alloc_my_real_2d_array_full
+          MODULE PROCEDURE alloc_my_real_2d_array
+        end interface alloc_my_real_2d_array    
+        interface dealloc_my_real_2d_array
+          MODULE PROCEDURE dealloc_my_real_2d_array_full
+          MODULE PROCEDURE dealloc_my_real_2d_array
+        end interface dealloc_my_real_2d_array      
+        interface alloc_my_real_3d_array
+          MODULE PROCEDURE alloc_my_real_3d_array_full
+          MODULE PROCEDURE alloc_my_real_3d_array
+        end interface alloc_my_real_3d_array    
+        interface dealloc_my_real_3d_array
+          MODULE PROCEDURE dealloc_my_real_3d_array_full
+          MODULE PROCEDURE dealloc_my_real_3d_array
+        end interface dealloc_my_real_3d_array                     
 
 
       CONTAINS
@@ -268,7 +294,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    spmd_exch_n_neighbor     ../engine/source/mpi/ale/spmd_exch_n_neighbor.F90
 !||    spmd_xv_inter_type1      ../engine/source/mpi/nodes/spmd_sd_xv_inter1.F90
 !||====================================================================
-        SUBROUTINE ALLOC_MY_REAL_2D_ARRAY(THIS)
+        SUBROUTINE ALLOC_MY_REAL_2D_ARRAY_full(THIS)
 #include "implicit_f.inc"
 
           TYPE(array_type), INTENT(inout) :: THIS
@@ -276,8 +302,18 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
           ALLOCATE( THIS%MY_REAL_ARRAY_2D( THIS%SIZE_MY_REAL_ARRAY_2D(1),THIS%SIZE_MY_REAL_ARRAY_2D(2) ) )
 
           RETURN
-        END SUBROUTINE ALLOC_MY_REAL_2D_ARRAY
+        END SUBROUTINE ALLOC_MY_REAL_2D_ARRAY_full
         ! ----------------------------
+        SUBROUTINE ALLOC_MY_REAL_2D_ARRAY(THIS)
+#include "implicit_f.inc"
+
+          TYPE(array_type_my_real_2d), INTENT(inout) :: THIS
+
+          ALLOCATE( THIS%MY_REAL_ARRAY_2D( THIS%SIZE_MY_REAL_ARRAY_2D(1),THIS%SIZE_MY_REAL_ARRAY_2D(2) ) )
+
+          RETURN
+        END SUBROUTINE ALLOC_MY_REAL_2D_ARRAY
+        ! ----------------------------        
         ! ----------------------------
 !||====================================================================
 !||    dealloc_my_real_2d_array   ../common_source/modules/array_mod.F
@@ -285,7 +321,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    spmd_exch_n_neighbor       ../engine/source/mpi/ale/spmd_exch_n_neighbor.F90
 !||    spmd_xv_inter_type1        ../engine/source/mpi/nodes/spmd_sd_xv_inter1.F90
 !||====================================================================
-        SUBROUTINE DEALLOC_MY_REAL_2D_ARRAY(THIS)
+        SUBROUTINE DEALLOC_MY_REAL_2D_ARRAY_full(THIS)
 #include "implicit_f.inc"
 
           TYPE(array_type), INTENT(inout) :: THIS
@@ -293,8 +329,61 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
           DEALLOCATE( THIS%MY_REAL_ARRAY_2D )
 
           RETURN
-        END SUBROUTINE DEALLOC_MY_REAL_2D_ARRAY
+        END SUBROUTINE DEALLOC_MY_REAL_2D_ARRAY_full
         ! ----------------------------
+        SUBROUTINE DEALLOC_MY_REAL_2D_ARRAY(THIS)
+#include "implicit_f.inc"
+
+          TYPE(array_type_my_real_2d), INTENT(inout) :: THIS
+
+          DEALLOCATE( THIS%MY_REAL_ARRAY_2D )
+
+          RETURN
+        END SUBROUTINE DEALLOC_MY_REAL_2D_ARRAY
+        ! ---------------------------- 
+
+        SUBROUTINE ALLOC_MY_REAL_3D_ARRAY_full(THIS)
+#include "implicit_f.inc"
+
+          TYPE(array_type), INTENT(inout) :: THIS
+
+          ALLOCATE( THIS%MY_REAL_ARRAY_3D( THIS%SIZE_MY_REAL_ARRAY_3D(1),THIS%SIZE_MY_REAL_ARRAY_3D(2),
+     .                                     THIS%SIZE_MY_REAL_ARRAY_3D(3) ) )
+
+          RETURN
+        END SUBROUTINE ALLOC_MY_REAL_3D_ARRAY_full
+        ! ----------------------------
+        SUBROUTINE ALLOC_MY_REAL_3D_ARRAY(THIS)
+#include "implicit_f.inc"
+
+          TYPE(array_type_my_real_3d), INTENT(inout) :: THIS
+          ALLOCATE( THIS%MY_REAL_ARRAY_3D( THIS%SIZE_MY_REAL_ARRAY_3D(1),THIS%SIZE_MY_REAL_ARRAY_3D(2),
+     .                                     THIS%SIZE_MY_REAL_ARRAY_3D(3) ) )
+
+          RETURN
+        END SUBROUTINE ALLOC_MY_REAL_3D_ARRAY
+        ! ----------------------------        
+        ! ----------------------------
+        SUBROUTINE DEALLOC_MY_REAL_3D_ARRAY_full(THIS)
+#include "implicit_f.inc"
+
+          TYPE(array_type), INTENT(inout) :: THIS
+
+          DEALLOCATE( THIS%MY_REAL_ARRAY_3D )
+
+          RETURN
+        END SUBROUTINE DEALLOC_MY_REAL_3D_ARRAY_full
+        ! ----------------------------
+        SUBROUTINE DEALLOC_MY_REAL_3D_ARRAY(THIS)
+#include "implicit_f.inc"
+
+          TYPE(array_type_my_real_3d), INTENT(inout) :: THIS
+
+          DEALLOCATE( THIS%MY_REAL_ARRAY_3D )
+
+          RETURN
+        END SUBROUTINE DEALLOC_MY_REAL_3D_ARRAY
+        ! ----------------------------             
 
 
       END MODULE ARRAY_MOD

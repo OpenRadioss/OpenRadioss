@@ -37,6 +37,9 @@ C   M o d u l e s
 C-----------------------------------------------
       USE ALE_CONNECTIVITY_MOD
       use element_mod , only : nixs
+
+
+      use debug_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -100,6 +103,11 @@ C-----------------------------------------------
                 TAG(NI(L)) = 0                    
               ENDDO
               IF(NN==4)THEN
+                    if(FLUX(II,K)/=-FLUX_VOIS(IV,KK)) then
+                      print*,ispmd_debug,ii,k," bug 444 1",iv,kk,i
+                      print*,ispmd_debug," bug 444 1",FLUX(II,K),-FLUX_VOIS(IV,KK)        
+                      stop
+                    endif                
                 FLUX(II,K)=-FLUX_VOIS(IV,KK)
                 EXIT !KK
               ENDIF
