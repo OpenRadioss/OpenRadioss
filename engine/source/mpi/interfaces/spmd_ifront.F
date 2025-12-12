@@ -318,12 +318,7 @@ C ENVOI
         LEN = ISCOM(P)
         IF(LEN/=0) THEN
 C allocate communication structure
-          ALLOCATE(MSGBUF_S(P)%P(LEN),STAT=IERROR)
-
-          IF(IERROR/=0) THEN
-            CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
-            CALL ARRET(2)
-          ENDIF
+          ALLOCATE(MSGBUF_S(P)%P(LEN))
           IDEB = 0
           DO II = 1, NBINTC
             NIN = INTLIST(II)
@@ -402,11 +397,7 @@ C RECEPTION OF sizes
         ENDDO ! NBINTC
         LEN = IRCOM(P)
         IF(LEN>0) THEN
-          ALLOCATE(MSGBUF_R(P)%P(LEN),STAT=IERROR)
-          IF(IERROR/=0) THEN
-            CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
-            CALL ARRET(2)
-          ENDIF
+          ALLOCATE(MSGBUF_R(P)%P(LEN))
           MSGTYP = MSGOFF2
           CALL MPI_IRECV(MSGBUF_R(P)%P(1),LEN,MPI_INTEGER,IT_SPMD(P),
      .                MSGTYP,SPMD_COMM_WORLD,REQ_RECV_MSG(I),IERROR)
@@ -446,11 +437,7 @@ C interface retriee ?
             LEN = LEN + NSNSI(NIN)%P(P)
           ENDDO
           IERROR = 0
-          IF(LEN>0)ALLOCATE(NSVSI(NIN)%P(LEN),STAT=IERROR)
-          IF(IERROR/=0) THEN
-            CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
-            CALL ARRET(2)
-          ENDIF
+          IF(LEN>0)ALLOCATE(NSVSI(NIN)%P(LEN))
           DO P = 1, NSPMD
             LEN = NSNSI(NIN)%P(P)
 C test if proc has sent something
@@ -472,11 +459,7 @@ C
               LEN = LEN + NSNSIE(NIN)%P(P)
             ENDDO
             IERROR = 0
-            IF(LEN>0)ALLOCATE(NSVSIE(NIN)%P(LEN),STAT=IERROR)
-            IF(IERROR/=0) THEN
-              CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
-              CALL ARRET(2)
-            ENDIF
+            IF(LEN>0)ALLOCATE(NSVSIE(NIN)%P(LEN))
             DO P = 1, NSPMD
               LEN = NSNSIE(NIN)%P(P)
 C test if proc has sent something
@@ -585,11 +568,7 @@ C Comm Save length in IRCOM
             IRCOM(P) = LENOUT           
             IF(LENOUT>0) THEN
 C allocate communication structure
-              ALLOCATE(MSGBUF_S(P)%P(LENOUT),STAT=IERROR)
-              IF(IERROR/=0) THEN
-                CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
-                CALL ARRET(2)
-              END IF
+              ALLOCATE(MSGBUF_S(P)%P(LENOUT))
               MSGTYP = MSGOFF3
               SIZ = NINTER * 2
               CALL MPI_ISEND(
@@ -634,11 +613,7 @@ C                   WRITE(6,*) "NISUBSFIE(NIN)%P(",P-1,")=",NIN,NISUBSFIE(NIN)%P
 C Comm Save length in Iscom
             ISCOM(P) = LENOUT
             IF(LENOUT>0) THEN          
-              ALLOCATE(MSGBUF_R(P)%P(LENOUT),STAT=IERROR)
-              IF(IERROR/=0) THEN
-                CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
-                CALL ARRET(2)
-              ENDIF
+              ALLOCATE(MSGBUF_R(P)%P(LENOUT))
             END IF
           ELSE
              ISCOM(P) = 0
@@ -770,19 +745,11 @@ C interface stripped with sub-interfaces ?
               LEN = LEN + NISUBSFI(NIN)%P(P)
             END DO
             IERROR = 0
-            IF(LEN>0) THEN
-              ALLOCATE(LISUBSFI(NIN)%P(LEN),STAT=IERROR)
-              IF(IERROR/=0) THEN
-                CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
-                CALL ARRET(2)
-              END IF
+            IF(.TRUE.) THEN
+              ALLOCATE(LISUBSFI(NIN)%P(LEN))
               IF(IPARI(7,NIN) == 7.OR.IPARI(7,NIN) == 11.OR.IPARI(7,NIN) == 24.OR.IPARI(7,NIN) == 25) THEN
                 IF(ASSOCIATED(INFLG_SUBSFI(NIN)%P))DEALLOCATE(INFLG_SUBSFI(NIN)%P)
-                ALLOCATE(INFLG_SUBSFI(NIN)%P(LEN),STAT=IERROR)
-                IF(IERROR/=0) THEN
-                  CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
-                  CALL ARRET(2)
-                END IF
+                ALLOCATE(INFLG_SUBSFI(NIN)%P(LEN))
               END IF
               LEN = 1
               IF(ASSOCIATED(ADDSUBSFI(NIN)%P))
@@ -790,16 +757,12 @@ C interface stripped with sub-interfaces ?
               DO P = 1, NSPMD
                 LEN = LEN + NSNFI(NIN)%P(P)
               END DO
-              ALLOCATE(ADDSUBSFI(NIN)%P(LEN),STAT=IERROR)
-              IF(IERROR/=0) THEN
-                CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
-                CALL ARRET(2)
-              END IF
+              ALLOCATE(ADDSUBSFI(NIN)%P(LEN))
               IDEB  = 0
               IDEB3 = 0
-              ADDSUBSFI(NIN)%P(1) = 1
+              ADDSUBSFI(NIN)%P(1:LEN) = 1
               DO P = 1, NSPMD
-               IF(ISCOM(P)>0) THEN 
+               IF(ISCOM(P)>0 .AND. LEN > 0) THEN 
                 DO I = 1, NSNFI(NIN)%P(P)
                   IDEB2 = IDEBUT(P)
                   IDEB2 = IDEB2 + 1
@@ -823,26 +786,7 @@ C interface stripped with sub-interfaces ?
                ENDIF
               END DO
             ELSE
-              LEN = 1
-              IF(ASSOCIATED(ADDSUBSFI(NIN)%P))
-     .          DEALLOCATE(ADDSUBSFI(NIN)%P)
-              DO P = 1, NSPMD
-                LEN = LEN + NSNFI(NIN)%P(P)
-              END DO
-              ALLOCATE(ADDSUBSFI(NIN)%P(LEN),STAT=IERROR)
-              IF(IERROR/=0) THEN
-                CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
-                CALL ARRET(2)
-              END IF
-              IDEB3 = 0
-              ADDSUBSFI(NIN)%P(1) = 1
-              DO P = 1, NSPMD
-                DO I = 1, NSNFI(NIN)%P(P)
-                  ADDSUBSFI(NIN)%P(IDEB3+I+1) = 
-     +              ADDSUBSFI(NIN)%P(IDEB3+I)
-                END DO
-                IDEB3 = IDEB3 + NSNFI(NIN)%P(P)
-              END DO
+
             END IF
             IF(IPARI(7,NIN) == 25 .AND. IPARI(58,NIN) > 0) THEN
               !type 25 edge part
@@ -853,35 +797,22 @@ C interface stripped with sub-interfaces ?
               END DO
               IERROR = 0
 C             WRITE(6,*) NIN,"SIZE LISUBSFIE=",LEN
-              IF(LEN>0) THEN
-                ALLOCATE(LISUBSFIE(NIN)%P(LEN),STAT=IERROR)
-                IF(IERROR/=0) THEN
-                  CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
-                  CALL ARRET(2)
-                END IF
+              IF(.TRUE.) THEN
+                ALLOCATE(LISUBSFIE(NIN)%P(LEN))
                 IF(IPARI(7,NIN)==25)THEN
                   IF(ASSOCIATED(INFLG_SUBSFIE(NIN)%P))DEALLOCATE(INFLG_SUBSFIE(NIN)%P)
-                  ALLOCATE(INFLG_SUBSFIE(NIN)%P(LEN),STAT=IERROR)
-                  IF(IERROR/=0) THEN
-                    CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
-                    CALL ARRET(2)
-                  END IF
+                  ALLOCATE(INFLG_SUBSFIE(NIN)%P(LEN))
                 END IF
                 LEN = 1
-                IF(ASSOCIATED(ADDSUBSFIE(NIN)%P))
-     .            DEALLOCATE(ADDSUBSFIE(NIN)%P)
+                IF(ASSOCIATED(ADDSUBSFIE(NIN)%P))  DEALLOCATE(ADDSUBSFIE(NIN)%P)
                 DO P = 1, NSPMD
                   LEN = LEN + NSNFIE(NIN)%P(P)
                 END DO
-                ALLOCATE(ADDSUBSFIE(NIN)%P(LEN),STAT=IERROR)
+                ALLOCATE(ADDSUBSFIE(NIN)%P(LEN))
 C               WRITE(6,*) NIN,"ADDSUBSFIE size:",LEN
-                IF(IERROR/=0) THEN
-                  CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
-                  CALL ARRET(2)
-                END IF
                 IDEB  = 0
                 IDEB3 = 0
-                ADDSUBSFIE(NIN)%P(1) = 1
+                ADDSUBSFIE(NIN)%P(1:LEN) = 1
                 DO P = 1, NSPMD
                  IF(ISCOM(P)>0) THEN 
                   DO I = 1, NSNFIE(NIN)%P(P)
@@ -889,8 +820,7 @@ C               WRITE(6,*) NIN,"ADDSUBSFIE size:",LEN
                     IDEB2 = IDEB2 + 1
                     LEN = MSGBUF_R(P)%P(IDEB2)
 C                   WRITE(6,*) P-1,"MSGBUF_R(",IDEB2,")=",LEN
-                    ADDSUBSFIE(NIN)%P(IDEB3+I+1) = 
-     +                ADDSUBSFIE(NIN)%P(IDEB3+I) + LEN
+                    ADDSUBSFIE(NIN)%P(IDEB3+I+1) = ADDSUBSFIE(NIN)%P(IDEB3+I) + LEN
 C                   WRITE(6,*) "ADDSUBSFIE(NIN)%P(",IDEB3+I+1,") =", ADDSUBSFIE(NIN)%P(IDEB3+I+1)
                     DO J = 1, LEN
                       LISUBSFIE(NIN)%P(IDEB+J) = MSGBUF_R(P)%P(IDEB2+J)
@@ -909,26 +839,7 @@ C                     WRITE(6,*) P-1,"INFLG --- MSGBUF_R(",IDEB2+J,")=", MSGBUF_
                  ENDIF
                 END DO
               ELSE
-                LEN = 1
-                IF(ASSOCIATED(ADDSUBSFIE(NIN)%P))
-     .            DEALLOCATE(ADDSUBSFIE(NIN)%P)
-                DO P = 1, NSPMD
-                  LEN = LEN + NSNFIE(NIN)%P(P)
-                END DO
-                ALLOCATE(ADDSUBSFIE(NIN)%P(LEN),STAT=IERROR)
-                IF(IERROR/=0) THEN
-                  CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
-                  CALL ARRET(2)
-                END IF
-                IDEB3 = 0
-                ADDSUBSFIE(NIN)%P(1) = 1
-                DO P = 1, NSPMD
-                  DO I = 1, NSNFIE(NIN)%P(P)
-                    ADDSUBSFIE(NIN)%P(IDEB3+I+1) = 
-     +                ADDSUBSFIE(NIN)%P(IDEB3+I)
-                  END DO
-                  IDEB3 = IDEB3 + NSNFIE(NIN)%P(P)
-                END DO
+
               END IF
             ENDIF ! TYPE25 EDGE PART
           END IF
