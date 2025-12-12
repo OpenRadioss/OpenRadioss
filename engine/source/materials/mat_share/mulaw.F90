@@ -95,6 +95,7 @@
 !||    sigeps120              ../engine/source/materials/mat/mat120/sigeps120.F
 !||    sigeps121              ../engine/source/materials/mat/mat121/sigeps121.F
 !||    sigeps122              ../engine/source/materials/mat/mat122/sigeps122.F
+!||    sigeps123              ../engine/source/materials/mat/mat123/sigeps123.F90
 !||    sigeps124              ../engine/source/materials/mat/mat124/sigeps124.F
 !||    sigeps125              ../engine/source/materials/mat/mat125/sigeps125.F90
 !||    sigeps126              ../engine/source/materials/mat/mat126/sigeps126.F90
@@ -174,6 +175,7 @@
 !||    sensor_mod             ../common_source/modules/sensor_mod.F90
 !||    sigeps100_mod          ../engine/source/materials/mat/mat100/sigeps100.F90
 !||    sigeps106_mod          ../engine/source/materials/mat/mat106/sigeps106.F90
+!||    sigeps123_mod          ../engine/source/materials/mat/mat123/sigeps123.F90
 !||    sigeps125_mod          ../engine/source/materials/mat/mat125/sigeps125.F90
 !||    sigeps126_mod          ../engine/source/materials/mat/mat126/sigeps126.F90
 !||    sigeps127_mod          ../engine/source/materials/mat/mat127/sigeps127.F90
@@ -253,6 +255,7 @@
           use sigeps88_mod
           use sigeps100_mod
           use sigeps106_mod
+          use sigeps123_mod
           use sigeps125_mod
           use sigeps126_mod
           use sigeps127_mod
@@ -2010,6 +2013,18 @@
             &ssp    ,nfunc  ,ifunc  ,npf    ,tf     ,nvartmp,&
             &vartmp )
 !
+          else if (mtn == 123) then
+            idev = 0
+            call mstrain_rate(nel    ,israte ,asrate ,epsd   ,idev   ,&
+            &ep1    ,ep2    ,ep3    ,ep4    ,ep5    ,ep6)
+            call sigeps123(&
+            &nel      ,nuvar    ,uvar     ,nvartmp, vartmp  , matparam ,&
+            &rho0     ,vol      , tt      , epsd                       , &
+            &de1      ,de2      ,de3      ,de4      ,de5      ,de6      ,&
+            &es1      ,es2      ,es3      ,es4      ,es5      ,es6      ,&
+            &so1      ,so2      ,so3      ,so4      ,so5      ,so6      ,&
+            &s1       ,s2       ,s3       ,s4       ,s5       ,s6       ,&
+            &off      ,ssp      ,lbuf%dmg  )
           else if (mtn == 124) then
 !
             idev = 0
