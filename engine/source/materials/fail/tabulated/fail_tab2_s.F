@@ -92,14 +92,16 @@ C-----------------------------------------------
       my_real 
      .        FCRIT  ,DN,DCRIT,ECRIT,EXP_REF,EXPO,EL_REF,
      .        SR_REF1,FSCALE_EL,SHRF,BIAXF  ,SR_REF2,
-     .        FSCALE_SR,CJC,FSCALE_DLIM,TEMP_REF, FSCALE_TEMP, VOLFRAC
+     .        FSCALE_SR,CJC,FSCALE_DLIM,TEMP_REF, FSCALE_TEMP, VOLFRAC,
+     .        RGTR1  ,RGTR2
       my_real
      .        LAMBDA,DF,INST(NEL)  ,DC(NEL)     ,L0(NEL)     ,
      .        TRIAX(NEL)  ,XI(NEL)     ,EPSF(NEL)   ,EPSL(NEL)   ,
      .        DEPSF(NEL)  ,DEPSL(NEL)  ,XVEC(NEL,3) ,DPL_DEF     ,
      .        COS3THETA   ,DET,P,SVM   ,SXX,SYY,SZZ ,SIZEFAC(NEL),
      .        RATEFAC(NEL),DSIZE(NEL)  ,SOFTEXP(NEL),DLIM(NEL)   ,
-     .        TEMPFAC(NEL),TEMPFAC2(NEL),DFT(NEL)   ,VAR(NEL)
+     .        TEMPFAC(NEL),TEMPFAC2(NEL),DFT(NEL)   ,VAR(NEL)    ,
+     .        RETA
 C!--------------------------------------------------------------
       !=======================================================================
       ! - INITIALISATION OF COMPUTATION ON TIME STEP
@@ -127,6 +129,10 @@ C!--------------------------------------------------------------
       LOG_SCALE1    = NINT(UPARAM(21))
       LOG_SCALE2    = NINT(UPARAM(22))
       VOLFRAC       = UPARAM(23)
+      RGTR1         = UPARAM(24)
+      RGTR1         = MAX(RGTR1,EM06)
+      RGTR2         = UPARAM(25)
+      RGTR2         = MIN(RGTR2,TWO_THIRD - EM06)
 c
       ITAB_EPSF = ITABLF(1)
       ITAB_INST = ITABLF(2)
@@ -136,12 +142,14 @@ c
       DO I=1,NEL
         ! If necking control is activated
         IF ((ITAB_INST > 0).OR.(ECRIT > ZERO)) THEN 
-          ! Instability damage
-          INST(I) = UVAR(I,1)
-          ! Necking critical damage 
           IF (UVAR(I,2) == ZERO) UVAR(I,2) = ONE
-          DC(I)   = UVAR(I,2)
+        ELSE
+          IF (UVAR(I,2) == ZERO) UVAR(I,2) = DCRIT
         ENDIF
+        ! Instability damage
+        INST(I) = UVAR(I,1)
+        ! Necking critical damage 
+        DC(I)   = UVAR(I,2)
       END DO
 c      
       !====================================================================
@@ -252,11 +260,13 @@ c
         SIZEFAC(1:NEL) = SIZEFAC(1:NEL)*FSCALE_EL
         IF (IREG == 1) THEN 
           DO I = 1,NEL
-            IF (TRIAX(I) < SHRF) THEN 
-              SIZEFAC(I) = ONE
-            ELSEIF (TRIAX(I) > BIAXF) THEN 
-              SIZEFAC(I) = ONE
+            IF (TRIAX(I) < THIRD) THEN 
+              RETA =  SHRF*(ONE - MIN(MAX(TRIAX(I),ZERO),RGTR1)/RGTR1)
+            ELSEIF (TRIAX(I) >= THIRD) THEN 
+              RETA = (THREE*BIAXF/(THREE*RGTR2 - TWO))*
+     .               (RGTR2 - MIN(MAX(TRIAX(I),RGTR2),TWO_THIRD))
             ENDIF
+            SIZEFAC(I) = SIZEFAC(I) + RETA*(ONE - SIZEFAC(I))
           ENDDO
         ENDIF
       ELSE
@@ -423,29 +433,21 @@ c
       ! - UPDATE UVAR AND THE STRESS TENSOR
       !====================================================================
       DO I = 1,NEL 
-        IF ((ITAB_INST > 0).OR.(ECRIT > ZERO)) THEN 
-          UVAR(I,1) = INST(I)
-          UVAR(I,2) = DC(I)
-          IF (DFMAX(I) >= DC(I)) THEN 
-            IF (DC(I) < ONE) THEN 
-              DMG_SCALE(I) = ONE - ((DFMAX(I)-DC(I))/MAX(ONE-DC(I),EM20))**SOFTEXP(I)
-            ELSE
-              DMG_SCALE(I) = ZERO
-            ENDIF
+        !< Save necking instability damage
+        UVAR(I,1) = INST(I)
+        !< Damage criterion for stress softening
+        IF (DFMAX(I) >= DC(I)) THEN 
+          !< Damage softening scale computation
+          IF (DC(I) < ONE) THEN 
+            DMG_SCALE(I) = ONE - ((DFMAX(I)-DC(I))/MAX(ONE-DC(I),EM20))**SOFTEXP(I)
           ELSE
-            DMG_SCALE(I) = ONE
+            DMG_SCALE(I) = ZERO
           ENDIF
         ELSE
-          IF (DFMAX(I) >= DCRIT) THEN 
-            IF (DCRIT < ONE) THEN 
-              DMG_SCALE(I) = ONE - ((DFMAX(I)-DCRIT)/MAX(ONE-DCRIT,EM20))**SOFTEXP(I)
-            ELSE
-              DMG_SCALE(I) = ZERO
-            ENDIF
-          ELSE
-            DMG_SCALE(I) = ONE
-          ENDIF
+          DMG_SCALE(I) = ONE
         ENDIF
+        !< Update necking critical damage
+        UVAR(I,2) = DC(I)
       ENDDO
 c
       !====================================================================

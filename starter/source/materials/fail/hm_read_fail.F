@@ -88,7 +88,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
       SUBROUTINE HM_READ_FAIL(MAT_PARAM,NUMMAT ,MAXFAIL ,FAIL_TAG ,
      .                        NTABLE   ,TABLE  ,FAILWAVE,NLOC_DMG ,
-     .                        UNITAB  ,LSUBMODEL)
+     .                        UNITAB  ,LSUBMODEL,MLAW_TAG)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -105,6 +105,7 @@ C-----------------------------------------------
       USE HM_READ_FRACTAL_DMG_MOD
       USE HM_READ_FAIL_LEMAITRE_MOD
       USE HM_READ_FAIL_COMPOSITE_MOD
+      USE ELBUFTAG_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARLINE, NCHARKEY
 C============================================================================
 C   I m p l i c i t   T y p e s
@@ -129,6 +130,7 @@ C-----------------------------------------------
       TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(INOUT) :: MAT_PARAM
       TYPE (SUBMODEL_DATA),INTENT(IN) ::LSUBMODEL(*)
       TYPE (UNIT_TYPE_),INTENT(IN) :: UNITAB 
+      TYPE (MLAW_TAG_), DIMENSION(NUMMAT),INTENT(INOUT)  :: MLAW_TAG
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -425,7 +427,7 @@ c
               IRUPT = 41
               CALL HM_READ_FAIL_TAB2(MAT_PARAM(IMAT)%FAIL(IFL),
      .             MAT_ID   ,FAIL_ID  ,IRUPT    ,MAT_PARAM(IMAT)%TITLE,
-     .             LSUBMODEL,UNITAB   )
+     .             LSUBMODEL,UNITAB   ,MLAW_TAG(IMAT))
 c     
             ELSEIF (KEY(1:3) == 'TAB') THEN
               IRUPT = 37
