@@ -2737,9 +2737,9 @@ C
               IF (ViperCoupling) THEN
                  call viper_coupling_initialize(VIPER, NODES, ELEMENT, NUMNOD,
      .                                          NIXS, NUMELS, IXS, NIXC, NUMELC,NIXTG, NUMELTG,IXTG,
-     .                                          ISTDO, NELEML, NUMELQ, NUMELT, NUMELP, NUMELR,
-     .                                          DTMIN, TSTOP, OUTPUT%DTANIM, TT, NPARG, NGROUP, IPARG, ELBUF_TAB,
-     .                                          TT_DOUBLE, OUTPUT%TANIM)
+     .                                          ISTDO, NUMELQ, NUMELT, NUMELP, NUMELR,
+     .                                          TSTOP, OUTPUT%DTANIM, TT, NPARG, NGROUP, IPARG, ELBUF_TAB,
+     .                                          TT_DOUBLE, OUTPUT%TANIM, DTMIN)
               ENDIF
 
 C===========================================================================
@@ -2748,6 +2748,9 @@ C===========================================================================
  100          CONTINUE
 
               NCYCLE_DEBUG = NCYCLE
+              IF (ViperCoupling) THEN
+                print*, "Radioss: start of loop with time ",TT
+              ENDIF
 
 C========================================================================================
 C                                     NON PARALLEL SECTION (SMP)
@@ -6400,7 +6403,7 @@ C Exchange Time Step
 C-----------------------------------------------------
               IF (ViperCoupling) THEN
 C                Compare timesteps from Viper and Radioss & select the smallest
-                 CALL RadiossViper_ReceiveSendDT(VIPER%id,TT,DT2)
+                 CALL RadiossViper_ReceiveSendDT(VIPER%io_dt,TT,VIPER%DT_MIN,DT2,MSTOP,MREST)
               ENDIF
 C-----------------------------------------------------
 ! reducing dt2 due to /INIVEL
@@ -8994,7 +8997,7 @@ C===============================================================================
 
               IF (ViperCoupling) THEN
 C                Send positions to Viper
-                 CALL RadiossViper_SendXVE(NUMNOD,NELEML,VIPER%NUMELE,NPARG,NGROUP,viper%NUMON,VIPER%ivout,
+                 CALL RadiossViper_SendXVE(NUMNOD,VIPER%NUMELEr,VIPER%NUMELEv,NPARG,NGROUP,viper%NUMON,
      .                 NODES%X,NODES%V,VIPER%ITABM1,VIPER%IXEM1,IPARG,ELBUF_TAB)
                  CALL RadiossViper_SendKill(MSTOP,TSTOP,VIPER%TSTOP)
               ENDIF
@@ -9433,7 +9436,8 @@ C--- //0 ----------------
                 ELSE
                   STATE_H3D = 2
                 ENDIF
-                IF( STATE_ANIM == 1 .OR. STATE_H3D == 1 ) THEN
+                ! Warning: an extra loop will cause hanging if coupled to Viper
+                IF( (STATE_ANIM == 1 .OR. STATE_H3D == 1) .and. .not.ViperCoupling ) THEN
                   CALL TRACE_OUT(3)
                   GOTO 100
                 ELSEIF( STATE_ANIM == 2 .OR. STATE_H3D == 2 ) THEN
@@ -9806,7 +9810,7 @@ c-----------
 C                Deallocate indexing arrays
                  IF(ALLOCATED(VIPER%ITABM1))DEALLOCATE(VIPER%ITABM1)
                  IF(ALLOCATED(VIPER%IXEM1))DEALLOCATE(VIPER%IXEM1)
-                 CLOSE(VIPER%id)
+                 CLOSE(VIPER%io_dt)
               ENDIF
 c-----------
               RETURN
