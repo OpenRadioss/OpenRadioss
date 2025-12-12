@@ -185,6 +185,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    imp_restarcp                                 ../engine/source/implicit/imp_sol_init.F
 !||    imp_sol_init                                 ../engine/source/implicit/imp_sol_init.F
 !||    imp_solv                                     ../engine/source/implicit/imp_solv.F
+!||    init_ale                                     ../engine/source/ale/init_ale.F90
 !||    init_ghost_shells                            ../engine/source/engine/node_spliting/ghost_shells.F90
 !||    init_global_frontier_monvol                  ../engine/source/airbag/init_global_monvol_frontier.F90
 !||    init_i25_edge                                ../engine/source/interfaces/int25/init_i25_edge.F
@@ -494,6 +495,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    icontact_mod                                 ../engine/share/modules/icontact_mod.F
 !||    imp_intbuf                                   ../engine/share/modules/imp_mod_def.F90
 !||    impbufdef_mod                                ../engine/share/modules/impbufdef_mod.F
+!||    init_ale_mod                                 ../engine/source/ale/init_ale.F90
 !||    init_global_frontier_monvol_mod              ../engine/source/airbag/init_global_monvol_frontier.F90
 !||    init_monvol_omp_structure_mod                ../engine/source/airbag/init_monvol_omp_structure.F90
 !||    inivel_dt2_mod                               ../engine/source/loads/general/inivel/inivel_dt2.F90

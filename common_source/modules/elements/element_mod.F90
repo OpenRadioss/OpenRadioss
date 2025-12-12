@@ -410,8 +410,8 @@
 !||    gpstra_solid                        ../engine/source/output/outmaxsubr.F
 !||    gradient_limitation                 ../engine/source/ale/alemuscl/gradient_limitation.F
 !||    gradient_limitation2                ../engine/source/ale/alemuscl/gradient_limitation2.F
-!||    gradient_reconstruction             ../engine/source/ale/alemuscl/gradient_reconstruction.F
 !||    gradient_reconstruction2            ../engine/source/ale/alemuscl/gradient_reconstruction2.F
+!||    gradient_reconstruction_new         ../engine/source/ale/alemuscl/gradient_reconstruction.F90
 !||    grpsplit                            ../engine/source/engine/resol_init.F
 !||    h3d_fld_strain                      ../engine/source/output/h3d/h3d_results/h3d_fld_strain.F
 !||    h3d_nodal_scalar                    ../engine/source/output/h3d/h3d_results/h3d_nodal_scalar.F

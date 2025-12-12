@@ -159,7 +159,6 @@
 !||    spmd_exch_idel_seglo            ../engine/source/mpi/interfaces/spmd_exch_idel_seglo.F
 !||    spmd_exch_iedge                 ../engine/source/mpi/elements/spmd_xfem.F
 !||    spmd_exch_inter_18              ../engine/source/mpi/interfaces/spmd_exch_inter_18.F
-!||    spmd_exch_min_max               ../engine/source/mpi/ale/spmd_exch_min_max.F
 !||    spmd_exch_mult                  ../engine/source/mpi/lag_multipliers/spmd_lag.F
 !||    spmd_exch_n                     ../engine/source/mpi/generic/spmd_exch_n.F
 !||    spmd_exch_nodarea               ../engine/source/mpi/anim/spmd_exch_nodarea.F

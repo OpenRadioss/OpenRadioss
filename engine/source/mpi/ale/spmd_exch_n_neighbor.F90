@@ -20,6 +20,11 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+!||====================================================================
+!||    spmd_exch_n_neighbor_mod        ../engine/source/mpi/ale/spmd_exch_n_neighbor.F90
+!||--- called by ------------------------------------------------------
+!||    ale51_gradient_reconstruction   ../engine/source/ale/alemuscl/ale51_gradient_reconstruction.F
+!||====================================================================
       module spmd_exch_n_neighbor_mod
         implicit none
       contains
@@ -28,6 +33,21 @@
 ! ======================================================================================================================
 !! \brief
 !! \details
+!||====================================================================
+!||    spmd_exch_n_neighbor            ../engine/source/mpi/ale/spmd_exch_n_neighbor.F90
+!||--- called by ------------------------------------------------------
+!||    ale51_gradient_reconstruction   ../engine/source/ale/alemuscl/ale51_gradient_reconstruction.F
+!||--- calls      -----------------------------------------------------
+!||    alloc_my_real_2d_array          ../common_source/modules/array_mod.F
+!||    dealloc_my_real_2d_array        ../common_source/modules/array_mod.F
+!||    spmd_waitall                    ../engine/source/mpi/spmd_wait.F90
+!||    spmd_waitany                    ../engine/source/mpi/spmd_wait.F90
+!||--- uses       -----------------------------------------------------
+!||    array_mod                       ../common_source/modules/array_mod.F
+!||    debug_mod                       ../engine/share/modules/debug_mod.F
+!||    precision_mod                   ../common_source/modules/precision_mod.F90
+!||    spmd_mod                        ../engine/source/mpi/spmd_mod.F90
+!||====================================================================
         subroutine spmd_exch_n_neighbor(flag,nspmd,n_entity,dim1,s_lesdvois,s_lercvois, &
                                         s_proc_nb,r_proc_nb,s_index,r_index,s_req,r_req, &
                                         nesdvois,nercvois,lesdvois,lercvois, &

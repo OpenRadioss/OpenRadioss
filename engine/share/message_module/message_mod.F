@@ -410,7 +410,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    spmd_exch_fa                       ../engine/source/mpi/elements/spmd_exch_dttsh.F
 !||    spmd_exch_i24                      ../engine/source/mpi/interfaces/spmd_exch_i24.F
 !||    spmd_exch_i25                      ../engine/source/mpi/interfaces/spmd_exch_i25.F
-!||    spmd_exch_min_max                  ../engine/source/mpi/ale/spmd_exch_min_max.F
 !||    spmd_exch_press                    ../engine/source/mpi/interfaces/spmd_exch_press.F
 !||    spmd_exch_smst2                    ../engine/source/mpi/ams/spmd_exch_smst2.F
 !||    spmd_exch_sorting_efric            ../engine/source/mpi/interfaces/spmd_exch_sorting_efric.F

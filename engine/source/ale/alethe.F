@@ -40,6 +40,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    bhol2                            ../engine/source/ale/ale2d/bhol2.F
 !||    my_barrier                       ../engine/source/system/machine.F
 !||    spmd_xvois                       ../engine/source/mpi/fluid/spmd_cfd.F
+!||    startime                         ../engine/source/system/timer_mod.F90
+!||    stoptime                         ../engine/source/system/timer_mod.F90
 !||--- uses       -----------------------------------------------------
 !||    ale_connectivity_mod             ../common_source/modules/ale/ale_connectivity_mod.F
 !||    ale_mod                          ../common_source/modules/ale/ale_mod.F
@@ -51,6 +53,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    i22tri_mod                       ../common_source/modules/interfaces/cut-cell-search_mod.F
 !||    matparam_def_mod                 ../common_source/modules/mat_elem/matparam_def_mod.F90
 !||    segvar_mod                       ../engine/share/modules/segvar_mod.F
+!||    timer_mod                        ../engine/source/system/timer_mod.F90
 !||====================================================================
       SUBROUTINE ALETHE(
      1   IPARG,      ELBUF_TAB,  FLUX,       VAL2,

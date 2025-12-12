@@ -20,6 +20,11 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+!||====================================================================
+!||    gradient_reconstruction_mod     ../engine/source/ale/alemuscl/gradient_reconstruction.F90
+!||--- called by ------------------------------------------------------
+!||    ale51_gradient_reconstruction   ../engine/source/ale/alemuscl/ale51_gradient_reconstruction.F
+!||====================================================================
       module gradient_reconstruction_mod
         implicit none
       contains
@@ -28,6 +33,21 @@
 ! ======================================================================================================================
 !! \brief here is a small description of the routine, [after the header]
 !! \details if needed, more details can be added here
+!||====================================================================
+!||    gradient_reconstruction_new     ../engine/source/ale/alemuscl/gradient_reconstruction.F90
+!||--- called by ------------------------------------------------------
+!||    ale51_gradient_reconstruction   ../engine/source/ale/alemuscl/ale51_gradient_reconstruction.F
+!||--- calls      -----------------------------------------------------
+!||    conjugate_gradient_vec          ../engine/source/ale/alemuscl/conjugate_gradient_vec.F90
+!||--- uses       -----------------------------------------------------
+!||    ale_connectivity_mod            ../common_source/modules/ale/ale_connectivity_mod.F
+!||    alemuscl_mod                    ../common_source/modules/ale/alemuscl_mod.F
+!||    conjugate_gradient_vec_mod      ../engine/source/ale/alemuscl/conjugate_gradient_vec.F90
+!||    constant_mod                    ../common_source/modules/constant_mod.F
+!||    element_mod                     ../common_source/modules/elements/element_mod.F90
+!||    precision_mod                   ../common_source/modules/precision_mod.F90
+!||    segvar_mod                      ../engine/share/modules/segvar_mod.F
+!||====================================================================
         subroutine gradient_reconstruction_new(numels,numnod,nel,nft,trimat,facet_nb,ixs,x,ale_connect,segvar)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   modules

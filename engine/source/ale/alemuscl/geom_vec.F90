@@ -20,6 +20,11 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+!||====================================================================
+!||    geom_vec_mod                    ../engine/source/ale/alemuscl/geom_vec.F90
+!||--- called by ------------------------------------------------------
+!||    ale51_gradient_reconstruction   ../engine/source/ale/alemuscl/ale51_gradient_reconstruction.F
+!||====================================================================
       module geom_vec_mod
         implicit none
       contains
@@ -28,6 +33,16 @@
 ! ======================================================================================================================
 !! \brief 
 !! \details
+!||====================================================================
+!||    geom_vec                        ../engine/source/ale/alemuscl/geom_vec.F90
+!||--- called by ------------------------------------------------------
+!||    ale51_gradient_reconstruction   ../engine/source/ale/alemuscl/ale51_gradient_reconstruction.F
+!||--- uses       -----------------------------------------------------
+!||    constant_mod                    ../common_source/modules/constant_mod.F
+!||    debug_mod                       ../engine/share/modules/debug_mod.F
+!||    mvsiz_mod                       ../engine/share/spe_inc/mvsiz_mod.F90
+!||    precision_mod                   ../common_source/modules/precision_mod.F90
+!||====================================================================
         subroutine geom_vec(nel,nft,n_entity,a,b,c,elcenter)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules

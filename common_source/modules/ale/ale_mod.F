@@ -86,6 +86,7 @@ C-----------------------------------------------
 !||    ig3dmass3                       ../starter/source/elements/ige3d/ig3dmass3.F
 !||    ingrbric_nodes                  ../starter/source/interfaces/interf1/ingrbric_nodes.F
 !||    iniresa                         ../engine/source/output/restart/rdresa.F
+!||    init_ale                        ../engine/source/ale/init_ale.F90
 !||    intti12a                        ../engine/source/interfaces/interf/intti12.F
 !||    lecint                          ../starter/source/interfaces/interf1/lecint.F
 !||    lectur                          ../engine/source/input/lectur.F

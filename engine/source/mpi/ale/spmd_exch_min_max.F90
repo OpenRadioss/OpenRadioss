@@ -20,6 +20,12 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+!||====================================================================
+!||    spmd_exch_min_max_mod            ../engine/source/mpi/ale/spmd_exch_min_max.F90
+!||--- called by ------------------------------------------------------
+!||    ale51_gradient_reconstruction    ../engine/source/ale/alemuscl/ale51_gradient_reconstruction.F
+!||    ale51_gradient_reconstruction2   ../engine/source/ale/alemuscl/ale51_gradient_reconstruction2.F
+!||====================================================================
       module spmd_exch_min_max_mod
         implicit none
       contains
@@ -28,6 +34,19 @@
 ! ======================================================================================================================
 !! \brief 
 !! \details
+!||====================================================================
+!||    spmd_exch_min_max                ../engine/source/mpi/ale/spmd_exch_min_max.F90
+!||--- called by ------------------------------------------------------
+!||    ale51_gradient_reconstruction    ../engine/source/ale/alemuscl/ale51_gradient_reconstruction.F
+!||    ale51_gradient_reconstruction2   ../engine/source/ale/alemuscl/ale51_gradient_reconstruction2.F
+!||--- calls      -----------------------------------------------------
+!||    spmd_waitall                     ../engine/source/mpi/spmd_wait.F90
+!||    spmd_waitany                     ../engine/source/mpi/spmd_wait.F90
+!||--- uses       -----------------------------------------------------
+!||    debug_mod                        ../engine/share/modules/debug_mod.F
+!||    precision_mod                    ../common_source/modules/precision_mod.F90
+!||    spmd_mod                         ../engine/source/mpi/spmd_mod.F90
+!||====================================================================
         subroutine spmd_exch_min_max(flag,nspmd,numnod,lencom,s_proc_nb,r_proc_nb,            & 
                                      s_fr_elem,s_index,r_index,s_req,r_req,fr_elem,iad_elem,            &
                                      min_value,max_value,s_buffer,r_buffer)

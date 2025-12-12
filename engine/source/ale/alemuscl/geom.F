@@ -21,10 +21,9 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    geom                            ../engine/source/ale/alemuscl/geom.F
+!||    geom         ../engine/source/ale/alemuscl/geom.F
 !||--- called by ------------------------------------------------------
-!||    ale51_gradient_reconstruction   ../engine/source/ale/alemuscl/ale51_gradient_reconstruction.F
-!||    centroid3t                      ../engine/source/multifluid/centroid.F
+!||    centroid3t   ../engine/source/multifluid/centroid.F
 !||====================================================================
       SUBROUTINE GEOM(A, B, C, CENTER_X,CENTER_Y,CENTER_Z, VOL)
 C-----------------------------------------------

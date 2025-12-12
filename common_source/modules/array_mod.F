@@ -23,6 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
 !||    array_mod                                ../common_source/modules/array_mod.F
 !||--- called by ------------------------------------------------------
+!||    ale51_gradient_reconstruction            ../engine/source/ale/alemuscl/ale51_gradient_reconstruction.F
 !||    ale_box_coloration                       ../starter/source/initial_conditions/inivol/ale_box_coloration.F
 !||    check_remote_surface_state               ../engine/source/interfaces/interf/check_remote_surface_state.F
 !||    domain_decomposition_pcyl                ../starter/source/loads/general/load_pcyl/domain_decomposition_pcyl.F
@@ -44,6 +45,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    resol                                    ../engine/source/engine/resol.F
 !||    spmd_exch_deleted_surf_edge              ../engine/source/mpi/interfaces/spmd_exch_deleted_surf_edge.F
 !||    spmd_exch_inter_18                       ../engine/source/mpi/interfaces/spmd_exch_inter_18.F
+!||    spmd_exch_n_neighbor                     ../engine/source/mpi/ale/spmd_exch_n_neighbor.F90
 !||    spmd_exch_neighbour_segment              ../engine/source/mpi/interfaces/spmd_exch_neighbour_segment.F90
 !||    spmd_xv_inter_type1                      ../engine/source/mpi/nodes/spmd_sd_xv_inter1.F90
 !||    update_neighbour_segment                 ../engine/source/interfaces/interf/update_neighbour_segment.F90
@@ -263,6 +265,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
 !||    alloc_my_real_2d_array   ../common_source/modules/array_mod.F
 !||--- called by ------------------------------------------------------
+!||    spmd_exch_n_neighbor     ../engine/source/mpi/ale/spmd_exch_n_neighbor.F90
 !||    spmd_xv_inter_type1      ../engine/source/mpi/nodes/spmd_sd_xv_inter1.F90
 !||====================================================================
         SUBROUTINE ALLOC_MY_REAL_2D_ARRAY(THIS)
@@ -279,6 +282,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
 !||    dealloc_my_real_2d_array   ../common_source/modules/array_mod.F
 !||--- called by ------------------------------------------------------
+!||    spmd_exch_n_neighbor       ../engine/source/mpi/ale/spmd_exch_n_neighbor.F90
 !||    spmd_xv_inter_type1        ../engine/source/mpi/nodes/spmd_sd_xv_inter1.F90
 !||====================================================================
         SUBROUTINE DEALLOC_MY_REAL_2D_ARRAY(THIS)

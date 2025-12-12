@@ -50,6 +50,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    compaction_tab                           ../common_source/eos/compaction_tab.F90
 !||    compaction_tab_init                      ../common_source/eos/compaction_tab.F90
 !||    compute_voxel_dimensions                 ../engine/source/interfaces/intsort/voxel_dimensions.F90
+!||    conjugate_gradient_vec                   ../engine/source/ale/alemuscl/conjugate_gradient_vec.F90
 !||    construct_multimat_eos                   ../common_source/modules/multimat_param_mod.F90
 !||    crack_depth_init                         ../starter/source/materials/fail/windshield_alter/crack_depth_init.F90
 !||    create_plane_clause                      ../starter/source/model/sets/create_plane_clause.F90
@@ -114,6 +115,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    fractal_elem_renum                       ../starter/source/materials/fail/fractal/fractal_elem_spmd_renum.F90
 !||    fractal_element_neighbor                 ../starter/source/materials/fail/fractal/fractal_element_neighbor.F90
 !||    func_table_copy                          ../starter/source/materials/tools/func_table_copy.F90
+!||    geom_vec                                 ../engine/source/ale/alemuscl/geom_vec.F90
 !||    get_convexity_normals                    ../engine/source/interfaces/interf/get_convexity_normals.F90
 !||    get_list_remnode                         ../starter/source/interfaces/inter3d1/get_list_remnode.F90
 !||    get_neighbour_surface                    ../engine/source/interfaces/interf/get_neighbour_surface.F90
@@ -124,6 +126,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    get_segment_orientation                  ../engine/source/interfaces/interf/get_segment_orientation.F90
 !||    get_volume_area                          ../engine/source/airbag/get_volume_area.F90
 !||    glob_therm_init                          ../starter/source/constraints/thermic/glob_therm_init.F90
+!||    gradient_reconstruction_new              ../engine/source/ale/alemuscl/gradient_reconstruction.F90
 !||    granular51                               ../engine/source/materials/mat/mat051/granular51.F90
 !||    h3d_oned_scalar                          ../engine/source/output/h3d/h3d_results/h3d_oned_scalar.F90
 !||    h3d_quad_scalar_1                        ../engine/source/output/h3d/h3d_results/h3d_quad_scalar_1.F90

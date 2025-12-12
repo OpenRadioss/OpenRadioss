@@ -42,6 +42,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    spmd_e6vois             ../engine/source/mpi/fluid/spmd_cfd.F
 !||    spmd_i4vois             ../engine/source/mpi/fluid/spmd_cfd.F
 !||    spmd_i8vois             ../engine/source/mpi/fluid/spmd_cfd.F
+!||    startime                ../engine/source/system/timer_mod.F90
+!||    stoptime                ../engine/source/system/timer_mod.F90
 !||--- uses       -----------------------------------------------------
 !||    ale_connectivity_mod    ../common_source/modules/ale/ale_connectivity_mod.F
 !||    alemuscl_mod            ../common_source/modules/ale/alemuscl_mod.F
@@ -52,6 +54,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    initbuf_mod             ../engine/share/resol/initbuf.F
 !||    multimat_param_mod      ../common_source/modules/multimat_param_mod.F90
 !||    segvar_mod              ../engine/share/modules/segvar_mod.F
+!||    timer_mod               ../engine/source/system/timer_mod.F90
 !||    trimat_mod              ../engine/share/modules/trimat.F
 !||====================================================================
       SUBROUTINE AFLUXT(IPARG   ,ELBUF_TAB   ,PM       ,IXS     ,IXQ     ,

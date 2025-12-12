@@ -30,8 +30,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    initbuf                          ../engine/share/resol/initbuf.F
 !||    my_barrier                       ../engine/source/system/machine.F
 !||    spmd_e1vois                      ../engine/source/mpi/fluid/spmd_cfd.F
-!||    spmd_exch_min_max                ../engine/source/mpi/ale/spmd_exch_min_max.F
+!||    spmd_exch_min_max                ../engine/source/mpi/ale/spmd_exch_min_max.F90
 !||    spmd_exchange_grad               ../engine/source/mpi/fluid/spmd_exchange_grad.F
+!||    startime                         ../engine/source/system/timer_mod.F90
+!||    stoptime                         ../engine/source/system/timer_mod.F90
 !||--- uses       -----------------------------------------------------
 !||    ale_connectivity_mod             ../common_source/modules/ale/ale_connectivity_mod.F
 !||    alemuscl_mod                     ../common_source/modules/ale/alemuscl_mod.F
@@ -39,7 +41,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    element_mod                      ../common_source/modules/elements/element_mod.F90
 !||    initbuf_mod                      ../engine/share/resol/initbuf.F
 !||    multimat_param_mod               ../common_source/modules/multimat_param_mod.F90
+!||    precision_mod                    ../common_source/modules/precision_mod.F90
 !||    segvar_mod                       ../engine/share/modules/segvar_mod.F
+!||    spmd_exch_min_max_mod            ../engine/source/mpi/ale/spmd_exch_min_max.F90
+!||    timer_mod                        ../engine/source/system/timer_mod.F90
 !||    trimat_mod                       ../engine/share/modules/trimat.F
 !||====================================================================
       SUBROUTINE ALE51_GRADIENT_RECONSTRUCTION2(IPARG   ,ELBUF_TAB,IXQ     ,X       ,ALE_CONNECT,

@@ -20,6 +20,11 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+!||====================================================================
+!||    init_ale_mod   ../engine/source/ale/init_ale.F90
+!||--- called by ------------------------------------------------------
+!||    resol          ../engine/source/engine/resol.F
+!||====================================================================
       module init_ale_mod
         implicit none
       contains
@@ -28,6 +33,13 @@
 ! ======================================================================================================================
 !! \brief
 !! \details
+!||====================================================================
+!||    init_ale   ../engine/source/ale/init_ale.F90
+!||--- called by ------------------------------------------------------
+!||    resol      ../engine/source/engine/resol.F
+!||--- uses       -----------------------------------------------------
+!||    ale_mod    ../common_source/modules/ale/ale_mod.F
+!||====================================================================
         subroutine init_ale(global_active_ale_element,n2d,numels,numelq,nmult,iale,ieuler,trimat,itherm,ale)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules

@@ -25,22 +25,33 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- called by ------------------------------------------------------
 !||    alethe                          ../engine/source/ale/alethe.F
 !||--- calls      -----------------------------------------------------
-!||    geom                            ../engine/source/ale/alemuscl/geom.F
+!||    geom_vec                        ../engine/source/ale/alemuscl/geom_vec.F90
 !||    gradient_limitation             ../engine/source/ale/alemuscl/gradient_limitation.F
-!||    gradient_reconstruction         ../engine/source/ale/alemuscl/gradient_reconstruction.F
+!||    gradient_reconstruction_new     ../engine/source/ale/alemuscl/gradient_reconstruction.F90
 !||    initbuf                         ../engine/share/resol/initbuf.F
 !||    my_barrier                      ../engine/source/system/machine.F
-!||    spmd_e1vois                     ../engine/source/mpi/fluid/spmd_cfd.F
-!||    spmd_exch_min_max               ../engine/source/mpi/ale/spmd_exch_min_max.F
+!||    spmd_exch_min_max               ../engine/source/mpi/ale/spmd_exch_min_max.F90
+!||    spmd_exch_n_neighbor            ../engine/source/mpi/ale/spmd_exch_n_neighbor.F90
 !||    spmd_exchange_grad              ../engine/source/mpi/fluid/spmd_exchange_grad.F
+!||    startime                        ../engine/source/system/timer_mod.F90
+!||    stoptime                        ../engine/source/system/timer_mod.F90
 !||--- uses       -----------------------------------------------------
 !||    ale_connectivity_mod            ../common_source/modules/ale/ale_connectivity_mod.F
 !||    alemuscl_mod                    ../common_source/modules/ale/alemuscl_mod.F
+!||    array_mod                       ../common_source/modules/array_mod.F
+!||    debug_mod                       ../engine/share/modules/debug_mod.F
 !||    elbufdef_mod                    ../common_source/modules/mat_elem/elbufdef_mod.F90
 !||    element_mod                     ../common_source/modules/elements/element_mod.F90
+!||    geom_vec_mod                    ../engine/source/ale/alemuscl/geom_vec.F90
+!||    gradient_reconstruction_mod     ../engine/source/ale/alemuscl/gradient_reconstruction.F90
 !||    initbuf_mod                     ../engine/share/resol/initbuf.F
 !||    multimat_param_mod              ../common_source/modules/multimat_param_mod.F90
+!||    mvsiz_mod                       ../engine/share/spe_inc/mvsiz_mod.F90
+!||    precision_mod                   ../common_source/modules/precision_mod.F90
 !||    segvar_mod                      ../engine/share/modules/segvar_mod.F
+!||    spmd_exch_min_max_mod           ../engine/source/mpi/ale/spmd_exch_min_max.F90
+!||    spmd_exch_n_neighbor_mod        ../engine/source/mpi/ale/spmd_exch_n_neighbor.F90
+!||    timer_mod                       ../engine/source/system/timer_mod.F90
 !||    trimat_mod                      ../engine/share/modules/trimat.F
 !||====================================================================
       SUBROUTINE ALE51_GRADIENT_RECONSTRUCTION(IPARG   , ELBUF_TAB, IXS    ,  X       , ALE_CONNECT,

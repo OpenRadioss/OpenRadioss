@@ -59,13 +59,16 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    spmd_segcom                  ../engine/source/mpi/fluid/spmd_cfd.F
 !||    spmd_xvois                   ../engine/source/mpi/fluid/spmd_cfd.F
 !||    startime                     ../engine/source/system/timer_mod.F90
+!||    startimeg                    ../engine/source/system/timer.F
 !||    stoptime                     ../engine/source/system/timer_mod.F90
+!||    stoptimeg                    ../engine/source/system/timer.F
 !||--- uses       -----------------------------------------------------
 !||    ale_connectivity_mod         ../common_source/modules/ale/ale_connectivity_mod.F
 !||    ale_mod                      ../common_source/modules/ale/ale_mod.F
 !||    alefvm_mod                   ../common_source/modules/ale/alefvm_mod.F
 !||    bcs_mod                      ../common_source/modules/boundary_conditions/bcs_mod.F90
 !||    bcs_wall_trigger_mod         ../engine/source/boundary_conditions/bcs_wall_trigger.F90
+!||    debug_mod                    ../engine/share/modules/debug_mod.F
 !||    diffusion_mod                ../engine/share/modules/diffusion_mod.F
 !||    dt_mod                       ../engine/source/modules/dt_mod.F
 !||    ebcs_mod                     ../common_source/modules/boundary_conditions/ebcs_mod.F90

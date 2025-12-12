@@ -20,12 +20,25 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+!||====================================================================
+!||    conjugate_gradient_vec_mod    ../engine/source/ale/alemuscl/conjugate_gradient_vec.F90
+!||--- called by ------------------------------------------------------
+!||    gradient_reconstruction_new   ../engine/source/ale/alemuscl/gradient_reconstruction.F90
+!||====================================================================
       module conjugate_gradient_vec_mod
         implicit none
       contains
 ! ======================================================================================================================
 !                                                   procedures
 ! ======================================================================================================================
+!||====================================================================
+!||    conjugate_gradient_vec        ../engine/source/ale/alemuscl/conjugate_gradient_vec.F90
+!||--- called by ------------------------------------------------------
+!||    gradient_reconstruction_new   ../engine/source/ale/alemuscl/gradient_reconstruction.F90
+!||--- uses       -----------------------------------------------------
+!||    constant_mod                  ../common_source/modules/constant_mod.F
+!||    precision_mod                 ../common_source/modules/precision_mod.F90
+!||====================================================================
         subroutine conjugate_gradient_vec(nel,dim,max_iter,mat,rhs,sol,tol)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules

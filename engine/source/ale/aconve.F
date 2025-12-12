@@ -33,6 +33,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    initbuf                ../engine/share/resol/initbuf.F
 !||    my_barrier             ../engine/source/system/machine.F
 !||    spmd_e1vois            ../engine/source/mpi/fluid/spmd_cfd.F
+!||    startime               ../engine/source/system/timer_mod.F90
+!||    stoptime               ../engine/source/system/timer_mod.F90
 !||    varcondec              ../engine/source/interfaces/interf/varcondec.F
 !||--- uses       -----------------------------------------------------
 !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
@@ -45,6 +47,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    initbuf_mod            ../engine/share/resol/initbuf.F
 !||    multimat_param_mod     ../common_source/modules/multimat_param_mod.F90
 !||    segvar_mod             ../engine/share/modules/segvar_mod.F
+!||    timer_mod              ../engine/source/system/timer_mod.F90
 !||====================================================================
       SUBROUTINE ACONVE(
      1  IPARG       ,ELBUF_TAB ,FLUX    ,FLU1     ,PHI     ,

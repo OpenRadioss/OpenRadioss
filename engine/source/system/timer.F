@@ -26,6 +26,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    printime        ../engine/source/system/timer.F
 !||--- calls      -----------------------------------------------------
 !||    print_block     ../engine/source/system/timer.F
+!||--- uses       -----------------------------------------------------
+!||    timer_mod       ../engine/source/system/timer_mod.F90
 !||====================================================================
       SUBROUTINE PRINT_SUMMARY(FLAG,NTIMAX,TABTIME,TITLES,OUT_ID,ITHERM)
         use timer_mod , only : timer_ale_elm
@@ -1344,6 +1346,7 @@ C
 !||====================================================================
 !||    startimeg       ../engine/source/system/timer.F
 !||--- called by ------------------------------------------------------
+!||    alemain         ../engine/source/ale/alemain.F
 !||    err_thk         ../engine/source/elements/shell/err_thk.F
 !||    forint          ../engine/source/elements/forint.F
 !||    forintc         ../engine/source/elements/forintc.F
@@ -1394,6 +1397,7 @@ C
 !||====================================================================
 !||    stoptimeg       ../engine/source/system/timer.F
 !||--- called by ------------------------------------------------------
+!||    alemain         ../engine/source/ale/alemain.F
 !||    err_thk         ../engine/source/elements/shell/err_thk.F
 !||    forint          ../engine/source/elements/forint.F
 !||    forintc         ../engine/source/elements/forintc.F
