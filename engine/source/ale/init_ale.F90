@@ -88,7 +88,7 @@
             if(n2d==0) then
               ale%global%s_flux = numels+numelq
             else
-              ale%global%s_flux = max(1,nmult)*4*numelq
+              ale%global%s_flux = max(1,nmult)*numelq
             end if
 
             ale%global%s_qmv = 1
