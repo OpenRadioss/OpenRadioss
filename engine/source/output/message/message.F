@@ -239,13 +239,12 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    s8ederic3                    ../engine/source/elements/solid/solide8e/s8ederic3.F
 !||    s8edericm3                   ../engine/source/elements/solid/solide8e/s8edericm3.F
 !||    s8ederict3                   ../engine/source/elements/solid/solide8e/s8ederict3.F
-!||    s8eforc3                     ../engine/source/elements/solid/solide8e/s8eforc3.F
-!||    s8sforc3                     ../engine/source/elements/solid/solide8s/s8sforc3.F
+!||    s8ederipr3                   ../engine/source/elements/solid/solide8e/s8ederipr3.F
 !||    s8zderic3                    ../engine/source/elements/solid/solide8z/s8zderic3.F
 !||    s8zdericm3                   ../engine/source/elements/solid/solide8z/s8zdericm3.F
 !||    s8zderict3                   ../engine/source/elements/solid/solide8z/s8zderict3.F
 !||    s8zdericto3                  ../engine/source/elements/solid/solide8z/s8zdericto3.F
-!||    s8zforc3                     ../engine/source/elements/solid/solide8z/s8zforc3.F
+!||    s8zderipr3                   ../engine/source/elements/solid/solide8z/s8zderipr3.F
 !||    scderi3                      ../engine/source/elements/thickshell/solidec/scderi3.F
 !||    schkjab3                     ../engine/source/elements/solid/solide/schkjab3.F
 !||    schkjabt3                    ../engine/source/elements/solid/solide4/schkjabt3.F
