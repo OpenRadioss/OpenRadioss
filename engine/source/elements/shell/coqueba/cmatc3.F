@@ -203,7 +203,7 @@ C----this will do only for QEPH and change also in CNCOEF!!!look at starter firs
             A12(I)=SFAC(I)*A12(I)
           ENDDO
       ENDIF
-      IF (MTN==19.OR.MTN==15.OR.MTN==25 .OR. MTN == 123 .OR. MTN == 125 .OR. MTN == 127) THEN
+      IF (MTN==19.OR.MTN==15.OR.MTN==25 .OR. MTN == 123 .OR. MTN == 125 .OR. MTN == 127 .OR. MTN == 132) THEN
        IORTH=1
       ELSE
        IORTH=0
@@ -229,7 +229,7 @@ C----this will do only for QEPH and change also in CNCOEF!!!look at starter firs
          HFOR(I,2)=ONE_OVER_12*HMOR(I,2)
          HZ(I)= MAX(HF(I,1),HF(I,2),HF(I,4))*KZ_TOL
         ENDDO
-       ELSEIF (MTN==15.OR.MTN==25 .OR. MTN == 123 .OR.  MTN == 125 .OR. MTN == 127) THEN
+       ELSEIF (MTN==15.OR.MTN==25 .OR. MTN == 123 .OR.  MTN == 125 .OR. MTN == 127 .OR. MTN == 132) THEN
         IF (IGTYP==9) THEN
          CALL GEPM_LC(JFT,JLT,MAT,PM,SHF,HM,HC)
          CALL CCTOGLOB(JFT,JLT,HM,HC,HMOR,DIR,NEL)

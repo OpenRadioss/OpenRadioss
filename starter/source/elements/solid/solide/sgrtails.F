@@ -615,7 +615,7 @@ c
      .         MLN /= 53 .AND. MLN /= 93 .AND. MLN /= 107 .AND.
      .         MLN /= 112.AND. MLN /= 122 .AND. MTN /= 123 .AND. 
      .         MLN /= 125 .AND. MLN /= 127 .AND. MLN /= 128 .AND.
-     .         MLN /= 130) THEN
+     .         MLN /= 130 .AND. MLN /= 132) THEN
 
             CALL ANCMSG(MSGID=1225,
      .                  MSGTYPE=MSGWARNING,
@@ -1140,7 +1140,7 @@ C--------elasto-plastic (not large plasticity)
              CASE(21,22,23,24,27,52,79,81,84)                                             
               ICPRE = 2
 C--------orhtotropic,composite (P isn't calculated independently)           
-             CASE(12,14,15,25,28,50,53,68,76,93,107,112,123,125,127)                                             
+             CASE(12,14,15,25,28,50,53,68,76,93,107,112,123,125,127, 132)                                             
               ICPRE = 0
             END SELECT 
            IF (ICP0 ==3) THEN
