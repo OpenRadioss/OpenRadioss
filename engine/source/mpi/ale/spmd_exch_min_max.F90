@@ -131,10 +131,6 @@
               if (s_size > 0) then
                 do j=iad_elem(1,p),iad_elem(1,p+1)-1
                   node_id = fr_elem(j)
-                  if(s_address_2>2*lencom*3) then
-                    print*," aaaarf !",s_address_2,lencom,iad_elem(1,nspmd+1)
-                    stop
-                  endif
                   s_buffer(s_address_2) = min_value(node_id,1)
                   s_buffer(s_address_2+1) = max_value(node_id,1)
                   s_buffer(s_address_2+2) = min_value(node_id,2)

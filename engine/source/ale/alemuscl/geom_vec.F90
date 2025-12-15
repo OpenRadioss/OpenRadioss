@@ -39,7 +39,6 @@
 !||    ale51_gradient_reconstruction   ../engine/source/ale/alemuscl/ale51_gradient_reconstruction.F
 !||--- uses       -----------------------------------------------------
 !||    constant_mod                    ../common_source/modules/constant_mod.F
-!||    debug_mod                       ../engine/share/modules/debug_mod.F
 !||    mvsiz_mod                       ../engine/share/spe_inc/mvsiz_mod.F90
 !||    precision_mod                   ../common_source/modules/precision_mod.F90
 !||====================================================================
@@ -50,10 +49,6 @@
           use constant_mod, only : half,zero
           use precision_mod, only : WP
           use mvsiz_mod, only : MVSIZ
-
-
-
-          USE DEBUG_MOD
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
