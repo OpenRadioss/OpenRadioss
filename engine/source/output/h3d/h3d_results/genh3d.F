@@ -2121,6 +2121,14 @@ C  UPDATE RESULTS VALUES
 C-----------------------------------------------
 c
         DO I = 1,H3D_DATA%N_OUTP_H3D
+c
+          IS_WRITEN_NODE(1:NUMNOD) = 0
+          IS_WRITEN_SOLID(1:NUMELS) = 0
+          IS_WRITEN_SHELL(1:NUMELC+NUMELTG) = 0
+          IS_WRITEN_ONED(1:NUMELR+NUMELP+NUMELT) = 0
+          IS_WRITEN_QUAD(1:NUMELQ) = 0
+          IS_WRITEN_SPH(1:NUMSPH) = 0
+          IS_WRITEN_SKIN(1:NUMSKIN) = 0
 c-----
 c nodal scalar
 c-----
