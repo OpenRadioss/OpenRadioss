@@ -145,7 +145,7 @@ C-----------------------------------------------
       INTEGER I,N,NG,JFT,JLT,K,NELEM,NEL,OFFSET,
      .   ISORTSP,INOD,JNOD,J,NVOIS,M,IREDUCE,NS,
      .   KVNORM,IPRT,NSP2SORTF,NSP2SORTL,
-     .   ISORTSPG,IERROR,NBK,VOXSIZ
+     .   ISORTSPG,IERROR,NBK,VOXSIZ,IRUNN_BISG
       my_real
      .       DX,DY,DZ,
      .       DXMIN,DXMAX,DYMIN,DYMAX,DZMIN,DZMAX,MAJORD,
@@ -241,7 +241,7 @@ C
       NSP2SORTF = 1 + ITASK*NSP2SORT / NTHREAD
       NSP2SORTL = (ITASK+1)*NSP2SORT / NTHREAD
 C
-      ISORTSP=ISPHBUC
+      ISORTSP=ISPHBUC 
 C
       IF(ISORTSP==0)THEN
 C       Exchange of real/symmetrical particles if crossed.
@@ -437,7 +437,7 @@ C    /---------------/
 C    /---------------/
       CALL MY_BARRIER
 C    /---------------/
-      IF(ITASK==0)CALL STARTIME(TIMERS,90)
+      IF(ITASK==0)CALL STARTIME(TIMERS,90) 
       IF(ISORTSP==1)THEN
           IF(ISPMD==0.and.ITASK == 0)THEN
             WRITE(ISTDO,*)
@@ -656,17 +656,25 @@ C
 C  Alloc SPSYM arrays in case of RESTART or /RERUN 
         IF ((NCYCLE==0).OR.(IRUNN_BIS>1).OR.(MCHECK/=0)) THEN
           IF (ITASK==0) THEN
-            ALLOCATE(XSPSYM%BUF(3*NSPHSYM),STAT=IERROR)
-            IF(IERROR==0) XSPSYM%BUF = 0
-            ALLOCATE(VSPSYM%BUF(3*NSPHSYM),STAT=IERROR)
-            IF(IERROR==0) VSPSYM%BUF = 0
-            ALLOCATE(WSMCOMP%BUF(6*NSPHSYM),STAT=IERROR)
-            IF(IERROR==0) WSMCOMP%BUF = 0
-            IRUNN_BIS = 0
+            IF(.NOT. ASSOCIATED(XSPSYM%BUF)) THEN
+              ALLOCATE(XSPSYM%BUF(3*NSPHSYM),STAT=IERROR)
+              IF(IERROR==0) XSPSYM%BUF = 0
+            ENDIF 
+            IF(.NOT. ASSOCIATED(VSPSYM%BUF)) THEN
+              ALLOCATE(VSPSYM%BUF(3*NSPHSYM),STAT=IERROR)
+              IF(IERROR==0) VSPSYM%BUF = 0
+            ENDIF
+            IF(.NOT. ASSOCIATED(WSMCOMP%BUF)) THEN
+              ALLOCATE(WSMCOMP%BUF(6*NSPHSYM),STAT=IERROR)
+              IF(IERROR==0) WSMCOMP%BUF = 0
+            ENDIF
+            IRUNN_BISG = 0
           ENDIF
 C        /---------------/
           CALL MY_BARRIER
 C        /---------------/    
+          IRUNN_BIS = IRUNN_BISG
+C
         ENDIF
 C
 C MAJ XSPSYM BEFORE SPCLASV but after SPMD_SPHGETX
@@ -762,11 +770,11 @@ C      /---------------/
         CALL MY_BARRIER
 C      /---------------/
 C       Wake up particles from solids (wake up groups)
-        NSPHACT=0
+        NSPHACT=0 
         CALL SOLTOSPH_ON2(
      . X      ,SPBUF    ,KXSP   ,IPARTSP ,ELBUF_TAB,
      . IPARG  ,NGROUNC ,IGROUNC ,ITASK   ,IXSP     ,
-     . NOD2SP ,SOL2SPH ,WASPACT )
+     . NOD2SP ,SOL2SPH ,WASPACT )  
 C
       ELSE
         NSPHACT=NSP2SORT
