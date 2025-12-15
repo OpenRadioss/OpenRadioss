@@ -38,7 +38,8 @@
 !||--- uses       -----------------------------------------------------
 !||====================================================================
         subroutine hierarchy_rbody(nrbykin ,nnpby ,npby  ,slpby ,lpby  ,            &
-                                   nrby    ,rby   ,numnod,iout )
+                                   nrby    ,rby   ,numnod,iout  ,lnopt1,            &
+                                   nom_opt )
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                        Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -53,12 +54,14 @@
 !                                                   arguments
 ! ----------------------------------------------------------------------------------------------------------------------
           integer, intent(in)                                      :: numnod          !< number of nodes
+          integer, intent(in)                                      :: lnopt1          !< 1er dimension of nom_opt
           integer, intent(in)                                      :: iout            !< out file unit
           integer, intent(in)                                      :: nrbykin         !< number of rbody
           integer, intent(in)                                      :: nnpby           !< 1er dimension of npby
           integer, intent(in)                                      :: nrby            !< 1er dimension of rby
           integer, intent(in)                                      :: slpby           !< dimesion of lpby
           integer, dimension(nnpby,nrbykin),    intent(inout)      :: npby            !< rbody data
+          integer, dimension(lnopt1,*),         intent(inout)      :: nom_opt         !< rbody id
           integer, dimension(slpby),            intent(inout)      :: lpby            !< rbodysecondary node data
           real(kind=WP),dimension(nrby,nrbykin),intent(inout)      :: rby             !< rbody data
 !
@@ -162,6 +165,7 @@
            npby(11,j) = iad_n
            npby(20,j) =nlev(i)  ! store level in npby(20,:)
            iad_n = iad_n + nsn
+           nom_opt(1,j) = npby(6,j)
         end do
         write(iout,1000) nhier
         deallocate(npby_copy)

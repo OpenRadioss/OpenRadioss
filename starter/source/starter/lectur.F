@@ -7966,7 +7966,8 @@ C     rigid body hierarchy
 C--------------------------------------------
       IF(NRBYKIN > 0) THEN
         call hierarchy_rbody(NRBYKIN ,NNPBY ,NPBY  ,SLRBODY ,LPBY  ,
-     .                       NRBY    ,RBY   ,NUMNOD,IOUT )
+     .                       NRBY    ,RBY   ,NUMNOD,IOUT    ,LNOPT1,
+     .                       NOM_OPT )
       ENDIF
 C--------------------------------------------
 C     Checking rigid structures
