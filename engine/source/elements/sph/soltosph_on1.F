@@ -509,36 +509,38 @@ C-----
                   NP=SOL2SPH(1,N)+KP
                   INOD=KXSP(3,NP)
                   NVOIS=KXSP(4,NP)
-                  DO J=1,NVOIS
-                    JNOD=IXSP(J,NP)
-                    IF(JNOD>0)THEN
-                      M=NOD2SP(JNOD)
-                      IF(IPARTSP(M)/=IPARTSP(NP))THEN
+                  IF (KXSP(2,NP) /= 0) THEN
+                    DO J=1,NVOIS
+                      JNOD=IXSP(J,NP)
+                      IF(JNOD>0)THEN
+                        M=NOD2SP(JNOD)
+                        IF(IPARTSP(M)/=IPARTSP(NP))THEN
 C
 C Solid will be deleted at next cycle
-                          GBUF%OFF(I)=FOUR_OVER_5
-                          IDEL7NOK=1
+                            GBUF%OFF(I)=FOUR_OVER_5
+                            IDEL7NOK=1
 #include "lockon.inc"
-                          WRITE(IOUT,5000) IXS(NIXS,N)
-                          WRITE(ISTDO,5000) IXS(NIXS,N)
+                            WRITE(IOUT,5000) IXS(NIXS,N)
+                            WRITE(ISTDO,5000) IXS(NIXS,N)
 #include "lockoff.inc"
-                          GOTO 100
-                      END IF
-                    ELSE
-                      NN = -JNOD
-                      IF(NINT(XSPHR(14,NN))/=IPARTSP(NP))THEN
-C
-C Solid will be deleted at next cycle
-                          GBUF%OFF(I)=FOUR_OVER_5
-                          IDEL7NOK=1
-#include "lockon.inc"
-                          WRITE(IOUT,5000) IXS(NIXS,N)
-                          WRITE(ISTDO,5000) IXS(NIXS,N)
-#include "lockoff.inc"
-                          GOTO 100
+                            GOTO 100
                         END IF
-                    END IF
-                  END DO
+                      ELSE
+                        NN = -JNOD
+                        IF(NINT(XSPHR(14,NN))/=IPARTSP(NP))THEN
+C
+C Solid will be deleted at next cycle
+                            GBUF%OFF(I)=FOUR_OVER_5
+                            IDEL7NOK=1
+#include "lockon.inc"
+                            WRITE(IOUT,5000) IXS(NIXS,N)
+                            WRITE(ISTDO,5000) IXS(NIXS,N)
+#include "lockoff.inc"
+                            GOTO 100
+                        END IF
+                      END IF
+                    END DO
+                  ENDIF
                 END DO
               END IF
  100          CONTINUE
@@ -554,40 +556,42 @@ C-----
                   NP=SOL2SPH(1,N)+KP
                   INOD=KXSP(3,NP)
                   NVOIS=KXSP(4,NP)
-                  DO J=1,NVOIS
-                    JNOD=IXSP(J,NP)
-                    IF(JNOD>0)THEN
-                      M=NOD2SP(JNOD)    
-                      IF((IPART(3,IPARTSP(M))/=IPART(3,IPARTSP(NP))).OR.
-     .                  (((IPART(3,IPARTSP(M))+IPART(3,IPARTSP(NP)))==2*NSUBS).
-     .                  AND.(IPARTSP(M)/=IPARTSP(NP)))) THEN
+                  IF (KXSP(2,NP) /= 0) THEN
+                    DO J=1,NVOIS
+                      JNOD=IXSP(J,NP)
+                      IF(JNOD>0)THEN
+                        M=NOD2SP(JNOD)    
+                        IF((IPART(3,IPARTSP(M))/=IPART(3,IPARTSP(NP))).OR.
+     .                    (((IPART(3,IPARTSP(M))+IPART(3,IPARTSP(NP)))==2*NSUBS).
+     .                    AND.(IPARTSP(M)/=IPARTSP(NP)))) THEN
 C
 C Solid will be deleted at next cycle
-                          GBUF%OFF(I)=FOUR_OVER_5
-                          IDEL7NOK=1
+                            GBUF%OFF(I)=FOUR_OVER_5
+                            IDEL7NOK=1
 #include "lockon.inc"
-                          WRITE(IOUT,6000) IXS(NIXS,N)
-                          WRITE(ISTDO,6000) IXS(NIXS,N)
+                            WRITE(IOUT,6000) IXS(NIXS,N)
+                            WRITE(ISTDO,6000) IXS(NIXS,N)
 #include "lockoff.inc"
-                          GOTO 200
-                      END IF
-                    ELSE
-                      NN = -JNOD
-                      IF((IPART(3,NINT(XSPHR(14,NN)))/=IPART(3,IPARTSP(NP))).OR.
-     .                  (((IPART(3,IPARTSP(NP))+IPART(3,NINT(XSPHR(14,NN)))==2*NSUBS).
-     .                  AND.(NINT(XSPHR(14,NN))/=IPARTSP(NP))))) THEN
-C
-C Solid will be deleted at next cycle
-                          GBUF%OFF(I)=FOUR_OVER_5
-                          IDEL7NOK=1
-#include "lockon.inc"
-                          WRITE(IOUT,6000) IXS(NIXS,N)
-                          WRITE(ISTDO,6000) IXS(NIXS,N)
-#include "lockoff.inc"
-                          GOTO 200
+                            GOTO 200
                         END IF
-                    END IF
-                  END DO
+                      ELSE
+                        NN = -JNOD
+                        IF((IPART(3,NINT(XSPHR(14,NN)))/=IPART(3,IPARTSP(NP))).OR.
+     .                    (((IPART(3,IPARTSP(NP))+IPART(3,NINT(XSPHR(14,NN)))==2*NSUBS).
+     .                    AND.(NINT(XSPHR(14,NN))/=IPARTSP(NP))))) THEN
+C
+C Solid will be deleted at next cycle
+                            GBUF%OFF(I)=FOUR_OVER_5
+                            IDEL7NOK=1
+#include "lockon.inc"
+                            WRITE(IOUT,6000) IXS(NIXS,N)
+                            WRITE(ISTDO,6000) IXS(NIXS,N)
+#include "lockoff.inc"
+                            GOTO 200
+                        END IF
+                      END IF
+                    END DO
+                  ENDIF
                 END DO
               END IF
  200          CONTINUE
