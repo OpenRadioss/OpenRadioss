@@ -69,10 +69,10 @@ C  L O C A L  V A R I B L E S
 C----------------------------------------------------------------
       INTEGER :: I,II,NPRONY,NORDER,ITER,JNV,NITER
       my_real :: SUM,FAC,FSCAL,TENSCUT,SUMDWDL,PARTP,AMAX
-      my_real :: EMAX,GMAX,GVMAX,NU,RBULK,A11
+      my_real :: EMAX,GMAX,GVMAX,NU,RBULK,A11,GTV
       my_real ,DIMENSION(3)       :: LAM_AL
       my_real ,DIMENSION(10)      :: MU,AL    
-      my_real ,DIMENSION(NEL)     :: RVT,GTMAX,DLAM3
+      my_real ,DIMENSION(NEL)     :: RVT,GTMAX,DLAM3,T3_OLD
       my_real ,DIMENSION(NEL)     :: INVRV,DEZZ,RV,TRAV,ROOTV
       my_real ,DIMENSION(NEL)     :: KT3,RHO,KIR3
       my_real ,DIMENSION(NEL,3)   :: T,SV,EVV,EV,EVM,CII,S_LDWDL      
@@ -107,12 +107,15 @@ C SET INITIAL MATERIAL CONSTANTS
 !     ------------------      
       GMAX  = ZERO
       GVMAX = ZERO
+      GTV = ZERO
       DO I=1,NPRONY                       
         GI(I)   = UPARAM(24 + I)          
         TAUX    = UPARAM(24 + NPRONY + I) 
         GVMAX = GVMAX +  GI(I)
         BETA(I) = ONE/TAUX
+        GTV = GTV + GI(I)*BETA(I)
       ENDDO                               
+      GVMAX = MAX(GVMAX,GTV)
       DO I=1,NORDER
         GMAX = GMAX + MU(I)*AL(I)
       ENDDO                               
@@ -185,6 +188,7 @@ C     Strain definition
 !       Newton method =>  Find EV(3) : Kirchoff J*T3(EV(3)) = 0
 !--------------------------------------
       DLAM3(1:NEL) =ZERO
+      T3_OLD(1:NEL) =EP20
       DO ITER = 1,NITER
         EV(1:NEL,3) = UVAR(1:NEL,3)+DLAM3(1:NEL) ! initial value takes lamda3(t)
         DO I=1,NEL 
@@ -208,13 +212,17 @@ C     Strain definition
         ENDDO
         DO I=1,NEL 
           IF (OFF(I)==ZERO.OR.OFF(I)==FOUR_OVER_5) CYCLE
-          PARTP = RBULK*(RV(I)- ONE)                                           
-          T(I,3)= KIR3(I)  + PARTP*RV(I)    !Kirchoff                     
-          KT3(I)= TWO_THIRD*KT3(I)/EV(I,3)+ RBULK*(TWO*RV(I)-ONE)*EV(I,1)*EV(I,2)          
+          PARTP = RBULK*(RV(I)- ONE)
+          T(I,3)= KIR3(I)*INVRV(I)  + PARTP    !Cauchy 
+          KT3(I)= (TWO_THIRD*KT3(I)-KIR3(I))*INVRV(I)/EV(I,3)+ RBULK*EV(I,1)*EV(I,2) 
+          IF (ABS(T(I,3)) > T3_OLD(I)) CYCLE
+          T3_OLD(I) = ABS(T(I,3))
           IF (KT3(I)>EM20) DLAM3(I) = DLAM3(I) -T(I,3)/KT3(I)
         ENDDO
       END DO ! ITER = 1,NITER
-      EV(1:NEL,3) = UVAR(1:NEL,3)+DLAM3(1:NEL) ! initial value takes lamda3(t): looking for (t+dt)
+      DLAM3(1:NEL) = MAX(-ZEP015*UVAR(1:NEL,3),DLAM3(1:NEL)) ! avoid negative lamda3
+      DLAM3(1:NEL) = MIN(ZEP02*UVAR(1:NEL,3),DLAM3(1:NEL)) 
+      EV(1:NEL,3) = UVAR(1:NEL,3)+DLAM3(1:NEL) 
       DEZZ(1:NEL) = LOG(ONE+DLAM3(1:NEL)/UVAR(1:NEL,3))
       UVAR(1:NEL,3) =  EV(1:NEL,3) 
 ! compute T1,T2 Cauchy stress
