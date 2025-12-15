@@ -167,12 +167,13 @@ C
        ENDDO !next I
 
        DO I=LFT,LLT
-         II=I+(JM-1)*NUMELQ
+         II=I+nft+(JM-1)*NUMELQ
          FLUX(II,1)=FLUB1(I)-UPW(I)*ABS(FLUB1(I))
          FLUX(II,2)=FLUB2(I)-UPW(I)*ABS(FLUB2(I))
          FLUX(II,3)=FLUB3(I)-UPW(I)*ABS(FLUB3(I))
          FLUX(II,4)=FLUB4(I)-UPW(I)*ABS(FLUB4(I))
 
+         II=I+(JM-1)*NUMELQ
          FLU1(II) =FLUB1(I)+UPW(I)*ABS(FLUB1(I))
      .            +FLUB2(I)+UPW(I)*ABS(FLUB2(I))
      .            +FLUB3(I)+UPW(I)*ABS(FLUB3(I))

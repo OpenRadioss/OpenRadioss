@@ -80,10 +80,6 @@ C-----------------------------------------------
       use geom_vec_mod , only : geom_vec
       use spmd_exch_n_neighbor_mod , only : spmd_exch_n_neighbor
       use array_mod
-
-
-
-      use debug_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
