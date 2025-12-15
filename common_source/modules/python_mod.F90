@@ -439,6 +439,9 @@
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
           integer :: i,pos,len_name,len_code, ierr,elsize
+          integer :: name_ints, code_ints
+          character(kind=c_char), allocatable :: padded(:)
+          integer :: padded_len
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                      Body
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -446,7 +449,9 @@
 ! compute the size of the buffer
           do i = 1, python%nb_functs
             buffer_size = buffer_size + 6! 5 integers: len_name, len_code, num_lines, num_args, num_return
-            buffer_size = buffer_size + python%functs(i)%len_name + python%functs(i)%len_code
+          ! buffer_size = buffer_size + python%functs(i)%len_name + python%functs(i)%len_code
+            buffer_size = buffer_size + (python%functs(i)%len_name + 3) / 4  ! integers needed
+            buffer_size = buffer_size + (python%functs(i)%len_code + 3) / 4
           end do
           elsize = 0
           !elsize = element_get_size(python%elements%global)
@@ -470,14 +475,28 @@
               buffer(pos+3) = python%functs(i)%num_args
               buffer(pos+4) = python%functs(i)%num_return
               buffer(pos+5) = python%functs(i)%user_id
+              name_ints = (python%functs(i)%len_name + 3) / 4
+              code_ints = (python%functs(i)%len_code + 3) / 4
               pos = pos + 6
 ! transfer the name to the buffer, using the transfer function
               len_name=python%functs(i)%len_name
+              padded_len = ((len_name + 3) / 4) * 4  ! Round up to multiple of 4
+              if(allocated(padded)) deallocate(padded)
+              allocate(padded(padded_len))
+              padded = c_null_char  ! Initialize padding to zeros
+              padded(1:len_name) = python%functs(i)%name(1:len_name)
+              buffer(pos:pos+name_ints-1) = transfer(padded, buffer(pos:pos+name_ints-1))
+              pos = pos + name_ints                         
+
               len_code = python%functs(i)%len_code
-              buffer(pos:pos+len_name-1) = transfer(python%functs(i)%name, buffer(pos:pos+len_name-1))
-              pos = pos + python%functs(i)%len_name
-              buffer(pos:pos+len_code-1) = transfer(python%functs(i)%code, buffer(pos:pos+len_code-1))
-              pos = pos + python%functs(i)%len_code
+              if(allocated(padded)) deallocate(padded)
+              padded_len = ((len_code + 3) / 4) * 4
+              allocate(padded(padded_len))
+              padded = c_null_char
+              padded(1:len_code) = python%functs(i)%code(1:len_code)
+! transfer the code to the buffer, using the transfer function
+              buffer(pos:pos+code_ints-1) = transfer(padded, buffer(pos:pos+code_ints-1))
+              pos = pos + code_ints
             end do
           end if
 !         call element_serialize(python%elements%global,buffer(pos:pos+elsize-1),elsize)
@@ -505,6 +524,7 @@
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
           integer :: i,pos,ierr
+          integer :: name_ints, code_ints
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                      Body
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -523,15 +543,17 @@
               python%functs(i)%num_return = buffer(pos+4)
               python%functs(i)%user_id = buffer(pos+5)
               pos = pos + 6
+              name_ints = (python%functs(i)%len_name + 3) / 4
+              code_ints = (python%functs(i)%len_code + 3) / 4
               allocate(python%functs(i)%name(python%functs(i)%len_name),stat = ierr)
               if(ierr == 0) then
-                python%functs(i)%name=transfer(buffer(pos:pos+python%functs(i)%len_name-1), python%functs(i)%name)
-                pos = pos + python%functs(i)%len_name
+                python%functs(i)%name=transfer(buffer(pos:pos+name_ints-1), python%functs(i)%name)
+                pos = pos + name_ints
               end if
               allocate(python%functs(i)%code(python%functs(i)%len_code),stat = ierr)
               if(ierr == 0) then
-                python%functs(i)%code = transfer(buffer(pos:pos+python%functs(i)%len_code-1), python%functs(i)%code)
-                pos = pos + python%functs(i)%len_code
+                python%functs(i)%code = transfer(buffer(pos:pos+code_ints-1), python%functs(i)%code)
+                pos = pos + code_ints
               end if
             end do
 !           call element_deserialize(python%elements%global,buffer(pos:))

@@ -475,7 +475,7 @@ c----------------------------------------------------------------------
         SENSORS%LOGICAL_SENSOR_COUNT=0
       ENDIF
 
-      IF(PYTHON%NB_FUNCTS > 0) THEN
+      IF(PYTHON%NB_FUNCTS > 0 .AND. NSENSOR > 0) THEN
         ALLOCATE(UIDS(NSENSOR))
         ALLOCATE(RESULTS(SENSOR_RESULT_SIZE,NSENSOR))
         ALLOCATE(STATUSES(NSENSOR))
