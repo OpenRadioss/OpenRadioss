@@ -103,10 +103,6 @@ C--                 loop inisde retractor : bifurcation is not allowded inside r
 C--                 start of the secondary branch is saved
                     NB_BRANCH = NB_BRANCH + 1
                     BRANCH_CPT = BRANCH_CPT + 1
-                    CALL ANCMSG(MSGID=2098,
-     .                          MSGTYPE=MSGWARNING,
-     .                          ANMODE=ANINFO,
-     .                          I1=ITAB(NODE_NEXT))
                     BRANCH_TAB(2*(BRANCH_CPT-1)+1) = NODE_NEXT
                     BRANCH_TAB(2*(BRANCH_CPT-1)+2) = ELEM_TEST
                   ENDIF
