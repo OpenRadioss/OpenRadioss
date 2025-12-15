@@ -651,6 +651,7 @@ C     solids
       SOLMAT(124)= 1
       SOLMAT(125)= 1
       SOLMAT(127)= 1
+      SOLMAT(132)= 1
       SOLMAT(134)= 1
       SOLMAT(151)= 1
       SOLMAT(187)= 1
@@ -719,6 +720,7 @@ C     shells
       COQMAT(122) = 1
       COQMAT(123) = 1
       COQMAT(125) = 1
+      COQMAT(132) = 1
       COQMAT(151) = 1
       COQMAT(158) = 1
       COQMAT(200) = 1
