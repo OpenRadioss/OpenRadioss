@@ -38,8 +38,8 @@
 !||    finter          ../starter/source/tools/curve/finter.F
 !||--- uses       -----------------------------------------------------
 !||====================================================================
-      subroutine m36init(nel    ,nuparam,nuvar  ,nfunc  ,ifunc  ,yldfac ,          &
-                         snpc   ,stf    ,npf    ,tf     ,uparam ,uvar   ) 
+        subroutine m36init(nel    ,nuparam,nuvar  ,nfunc  ,ifunc  ,yldfac ,          &
+          snpc   ,stf    ,npf    ,tf     ,uparam ,uvar   )
 ! ------------------------------------------------------------------------------
 !           Modules
 ! ------------------------------------------------------------------------------
@@ -78,14 +78,14 @@
 !         calculate initial yield and save in state variable if vp==1
 !------------------------------------------
           if (vp == 1) then
-            if (pfun > 0) then                                    
-              pfac = finter(ipfun ,zero,npf,tf,dydx) 
-            else                   
+            if (pfun > 0) then
+              pfac = finter(ipfun ,zero,npf,tf,dydx)
+            else
               pfac = one
-            endif                                                 
-            yld = yfac*finter(ifunc(1),zero,npf,tf,dydx) 
+            endif
+            yld = yfac*finter(ifunc(1),zero,npf,tf,dydx)
             uvar(1:nel,3) = yld*pfac*yldfac(1:nel)
-          endif                                                   
+          endif
 !-------------
           return
         end subroutine m36init

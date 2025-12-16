@@ -25,7 +25,7 @@
 !||--- called by ------------------------------------------------------
 !||    i2buc1         ../starter/source/interfaces/inter3d1/i2buc1.F
 !||====================================================================
-      module i2trivox_mod       
+      module i2trivox_mod
       contains
 ! ======================================================================================================================
 !                                                   procedures
@@ -44,14 +44,14 @@
 !||    stack_mod       ../starter/share/modules1/stack_mod.F
 !||====================================================================
         subroutine i2trivox(nvsiz,numnod,numels,numels10, &
-                            numels16,numels20,numelc,numeltg, &
-                            nint,noint, &
-                            ixs,ixs10,ixs16,ixs20,ixc,ixtg, &
-                            iworksh,nsn,nrtm, &
-                            ilev,npropgi,npropg,numgeo,npropm,nummat,npart,ignore,cell_nb,nsv,irtl,ipartc,iparttg,& 
-                            knod2els,knod2elc,knod2eltg,nod2els,nod2elc,nod2eltg,irect, &
-                            igeo,dsearch,bound,tzinf,segment_data, &
-                            dmin,thk,thk_part,x,geo,st,pm,stack,gapmin,gapmax)
+          numels16,numels20,numelc,numeltg, &
+          nint,noint, &
+          ixs,ixs10,ixs16,ixs20,ixc,ixtg, &
+          iworksh,nsn,nrtm, &
+          ilev,npropgi,npropg,numgeo,npropm,nummat,npart,ignore,cell_nb,nsv,irtl,ipartc,iparttg,&
+          knod2els,knod2elc,knod2eltg,nod2els,nod2elc,nod2eltg,irect, &
+          igeo,dsearch,bound,tzinf,segment_data, &
+          dmin,thk,thk_part,x,geo,st,pm,stack,gapmin,gapmax)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -90,7 +90,7 @@
           integer, intent(in) :: ignore !< interface type2 option
           integer, intent(in) :: nint !< local interface id
           integer, intent(in) :: noint !< global interface id
-                 
+
 
           integer, dimension(3), intent(in) :: cell_nb !< number of cells in each direction
           integer, dimension(nsn), intent(in) :: nsv !< secondary node ids
@@ -99,7 +99,7 @@
           integer, dimension(numeltg), intent(in) :: iparttg !< part id of each triangle (shell3n) element
 
 
-          INTEGER KNOD2ELS(*), KNOD2ELC(*), KNOD2ELTG(*), NOD2ELS(*), NOD2ELC(*), NOD2ELTG(*)
+          INTEGER :: KNOD2ELS(*), KNOD2ELC(*), KNOD2ELTG(*), NOD2ELS(*), NOD2ELC(*), NOD2ELTG(*)
 
 
           integer, dimension(4,nrtm), intent(in) :: irect !< node ids of the main segments
@@ -114,14 +114,14 @@
 
           real(kind=WP), intent(in) :: dsearch !< search distance for the projection
           real(kind=WP), intent(inout) :: gapmin !< minimum gap
-          real(kind=WP), intent(inout) :: gapmax !< maximum gap          
+          real(kind=WP), intent(inout) :: gapmax !< maximum gap
           real(kind=WP), dimension(6), intent(in) :: bound !< bounding box of the
           real(kind=WP), intent(in) :: tzinf !< influence zone thickness
-          real(kind=WP), dimension(nrtm,2), intent(in) :: segment_data !< length & gap of each main segment 
+          real(kind=WP), dimension(nrtm,2), intent(in) :: segment_data !< length & gap of each main segment
           real(kind=WP), dimension(nsn), intent(in) :: dmin !< minimum distance to the main segments
           real(kind=WP), dimension(numelc+numeltg), intent(in) :: thk !< thickness of each element
           real(kind=WP), dimension(npart), intent(in) :: thk_part !< thickness of each part
-          real(kind=WP), dimension(3,numnod), intent(in) :: x !< coordinates of all the nodes   
+          real(kind=WP), dimension(3,numnod), intent(in) :: x !< coordinates of all the nodes
           real(kind=WP), dimension(npropg,numgeo), intent(in) :: geo
           real(kind=WP), dimension(2,nsn), intent(inout) :: st !< curvilinear abscissa and distance to the segment for each secondary node
           real(kind=WP), dimension(npropm,nummat), intent(in) :: pm !< property / material data
@@ -179,7 +179,7 @@
               ix(1:3) = max(1,ix(1:3)) ! ensure the index is at least 1
               ix(1:3) = min(cell_nb(1:3),ix(1:3)) ! ensure the index is at most the number of cells
               cell_id(i) = ix(1) + (ix(2)-1)*cell_nb(1) + (ix(3)-1)*cell_nb(1)*cell_nb(2) ! compute a unique cell id
-              s_node_nb(cell_id(i)) = s_node_nb(cell_id(i)) + 1 ! count the number of S nodes in this cell             
+              s_node_nb(cell_id(i)) = s_node_nb(cell_id(i)) + 1 ! count the number of S nodes in this cell
             endif
           enddo
 
@@ -214,7 +214,7 @@
             x_max(1:3) = x_max(1:3) + segment_data(i,2)
             ix_min(1:3) = int(cell_nb(1:3)*(x_min(1:3)-bound(1:3))/(bound(4:6)-bound(1:3)))+1
             ix_max(1:3) = int(cell_nb(1:3)*(x_max(1:3)-bound(1:3))/(bound(4:6)-bound(1:3)))+1
-   
+
             ix_min(1:3) = max(1,ix_min(1:3))
             ix_min(1:3) = min(cell_nb(1:3),ix_min(1:3))
             ix_max(1:3) = max(1,ix_max(1:3))
@@ -227,7 +227,7 @@
 
                   if(s_node_nb(my_cell_id)>0) then
                     my_address = cell_pointer(my_cell_id)
-                    do k=1,s_node_nb(my_cell_id)                    
+                    do k=1,s_node_nb(my_cell_id)
                       node_index = s_bucket(k+my_address)
                       node_id = nsv(node_index)
                       ! skip if the S node is one of the 4 nodes of the segment
@@ -239,51 +239,51 @@
                       ! here the S node is in the bounding box of the segment + influence zone
                       j_stok = j_stok + 1
                       prov_n(j_stok) = node_index
-                      prov_e(j_stok) = i                        
+                      prov_e(j_stok) = i
                       if(j_stok==nvsiz) then
-                        first = 1                        
+                        first = 1
                         last = nvsiz
                         j_stok = 0
-                      call i2cor3(x     ,irect ,nsv   ,prov_e  ,prov_n, &
-                             gapv  ,0       ,tzinf,first,last, &
-                             nint    ,ixc   ,  &
-                             ixtg  ,thk_part,ipartc,geo   , noint, &
-                             ixs   ,ixs10 ,pm    ,thk     ,knod2els, &
-                             knod2elc,knod2eltg,nod2els,nod2elc,nod2eltg, &
-                             ignore,ixs16 ,ixs20 ,iparttg,igeo,dsearch , &
-                             stack%pm , iworksh ,ix1     ,ix2   , &
-                             ix3    ,ix4    ,nsvg,x1      ,x2    , &
-                             x3     ,x4     ,y1  ,y2      ,y3    , &
-                             y4     ,z1     ,z2  ,z3      ,z4    , &
-                             xi     ,yi     ,zi   ,gapmin,gapmax)
+                        call i2cor3(x     ,irect ,nsv   ,prov_e  ,prov_n, &
+                          gapv  ,0       ,tzinf,first,last, &
+                          nint    ,ixc   ,  &
+                          ixtg  ,thk_part,ipartc,geo   , noint, &
+                          ixs   ,ixs10 ,pm    ,thk     ,knod2els, &
+                          knod2elc,knod2eltg,nod2els,nod2elc,nod2eltg, &
+                          ignore,ixs16 ,ixs20 ,iparttg,igeo,dsearch , &
+                          stack%pm , iworksh ,ix1     ,ix2   , &
+                          ix3    ,ix4    ,nsvg,x1      ,x2    , &
+                          x3     ,x4     ,y1  ,y2      ,y3    , &
+                          y4     ,z1     ,z2  ,z3      ,z4    , &
+                          xi     ,yi     ,zi   ,gapmin,gapmax)
                         if (ilev == 27) then
                           call i2dst3_27(first,last, &
-                              gapv,prov_e ,prov_n,tzinf,irtl,st,dmin, &
-                              ignore,irect, &
-                              ix3, &
-                              ix4,x1 ,x2 ,x3 ,x4 , &
-                              y1 ,y2 ,y3 ,y4 ,z1 , &
-                              z2 ,z3 ,z4 ,xi ,yi , &
-                              zi ,x0 ,y0 ,z0 ,nx1, &
-                              ny1,nz1,nx2,ny2,nz2, &
-                              nx3,ny3,nz3,nx4,ny4, &
-                              nz4,p1 ,p2 ,p3 ,p4 , &
-                              lb1,lb2,lb3,lb4,lc1, &
-                              lc2,lc3,lc4,s  ,t  )
+                            gapv,prov_e ,prov_n,tzinf,irtl,st,dmin, &
+                            ignore,irect, &
+                            ix3, &
+                            ix4,x1 ,x2 ,x3 ,x4 , &
+                            y1 ,y2 ,y3 ,y4 ,z1 , &
+                            z2 ,z3 ,z4 ,xi ,yi , &
+                            zi ,x0 ,y0 ,z0 ,nx1, &
+                            ny1,nz1,nx2,ny2,nz2, &
+                            nx3,ny3,nz3,nx4,ny4, &
+                            nz4,p1 ,p2 ,p3 ,p4 , &
+                            lb1,lb2,lb3,lb4,lc1, &
+                            lc2,lc3,lc4,s  ,t  )
                         else
-                        call i2dst3(first,last, &
-                             gapv,prov_e ,prov_n,tzinf,irtl,st,dmin, &
-                             ignore, &
-                             ix3, &
-                             ix4,x1 ,x2 ,x3 ,x4 , &
-                             y1 ,y2 ,y3 ,y4 ,z1 , &
-                             z2 ,z3 ,z4 ,xi ,yi , &
-                             zi ,x0 ,y0 ,z0 ,nx1, &
-                             ny1,nz1,nx2,ny2,nz2, &
-                             nx3,ny3,nz3,nx4,ny4, &
-                             nz4,p1 ,p2 ,p3 ,p4 , &
-                             lb1,lb2,lb3,lb4,lc1, &
-                             lc2,lc3,lc4,s,t)
+                          call i2dst3(first,last, &
+                            gapv,prov_e ,prov_n,tzinf,irtl,st,dmin, &
+                            ignore, &
+                            ix3, &
+                            ix4,x1 ,x2 ,x3 ,x4 , &
+                            y1 ,y2 ,y3 ,y4 ,z1 , &
+                            z2 ,z3 ,z4 ,xi ,yi , &
+                            zi ,x0 ,y0 ,z0 ,nx1, &
+                            ny1,nz1,nx2,ny2,nz2, &
+                            nx3,ny3,nz3,nx4,ny4, &
+                            nz4,p1 ,p2 ,p3 ,p4 , &
+                            lb1,lb2,lb3,lb4,lc1, &
+                            lc2,lc3,lc4,s,t)
                         endif
                       endif
                     enddo
@@ -297,45 +297,45 @@
             last = j_stok
             j_stok = 0
             call i2cor3(x     ,irect ,nsv   ,prov_e  ,prov_n, &
-                        gapv  ,0       ,tzinf,first,last, &
-                        nint    ,ixc   ,  &
-                        ixtg  ,thk_part,ipartc,geo   , noint, &
-                        ixs   ,ixs10 ,pm    ,thk     ,knod2els, &
-                        knod2elc,knod2eltg,nod2els,nod2elc,nod2eltg, &
-                        ignore,ixs16 ,ixs20 ,iparttg,igeo,dsearch , &
-                        stack%pm , iworksh ,ix1     ,ix2   , &
-                        ix3    ,ix4    ,nsvg,x1      ,x2    , &
-                        x3     ,x4     ,y1  ,y2      ,y3    , &
-                        y4     ,z1     ,z2  ,z3      ,z4    , &
-                        xi     ,yi     ,zi   ,gapmin,gapmax)
+              gapv  ,0       ,tzinf,first,last, &
+              nint    ,ixc   ,  &
+              ixtg  ,thk_part,ipartc,geo   , noint, &
+              ixs   ,ixs10 ,pm    ,thk     ,knod2els, &
+              knod2elc,knod2eltg,nod2els,nod2elc,nod2eltg, &
+              ignore,ixs16 ,ixs20 ,iparttg,igeo,dsearch , &
+              stack%pm , iworksh ,ix1     ,ix2   , &
+              ix3    ,ix4    ,nsvg,x1      ,x2    , &
+              x3     ,x4     ,y1  ,y2      ,y3    , &
+              y4     ,z1     ,z2  ,z3      ,z4    , &
+              xi     ,yi     ,zi   ,gapmin,gapmax)
             if (ilev == 27) then
               call i2dst3_27(first,last, &
-                             gapv,prov_e ,prov_n,tzinf,irtl,st,dmin, &
-                             ignore,irect, &
-                             ix3, &
-                             ix4,x1 ,x2 ,x3 ,x4 , &
-                             y1 ,y2 ,y3 ,y4 ,z1 , &
-                             z2 ,z3 ,z4 ,xi ,yi , &
-                             zi ,x0 ,y0 ,z0 ,nx1, &
-                             ny1,nz1,nx2,ny2,nz2, &
-                             nx3,ny3,nz3,nx4,ny4, &
-                             nz4,p1 ,p2 ,p3 ,p4 , &
-                             lb1,lb2,lb3,lb4,lc1, &
-                             lc2,lc3,lc4,s  ,t  )
+                gapv,prov_e ,prov_n,tzinf,irtl,st,dmin, &
+                ignore,irect, &
+                ix3, &
+                ix4,x1 ,x2 ,x3 ,x4 , &
+                y1 ,y2 ,y3 ,y4 ,z1 , &
+                z2 ,z3 ,z4 ,xi ,yi , &
+                zi ,x0 ,y0 ,z0 ,nx1, &
+                ny1,nz1,nx2,ny2,nz2, &
+                nx3,ny3,nz3,nx4,ny4, &
+                nz4,p1 ,p2 ,p3 ,p4 , &
+                lb1,lb2,lb3,lb4,lc1, &
+                lc2,lc3,lc4,s  ,t  )
             else
               call i2dst3(first,last, &
-                          gapv,prov_e ,prov_n,tzinf,irtl,st,dmin, &
-                          ignore, &
-                          ix3, &
-                          ix4,x1 ,x2 ,x3 ,x4 , &
-                          y1 ,y2 ,y3 ,y4 ,z1 , &
-                          z2 ,z3 ,z4 ,xi ,yi , &
-                          zi ,x0 ,y0 ,z0 ,nx1, &
-                          ny1,nz1,nx2,ny2,nz2, &
-                          nx3,ny3,nz3,nx4,ny4, &
-                          nz4,p1 ,p2 ,p3 ,p4 , &
-                          lb1,lb2,lb3,lb4,lc1, &
-                          lc2,lc3,lc4,s,t)
+                gapv,prov_e ,prov_n,tzinf,irtl,st,dmin, &
+                ignore, &
+                ix3, &
+                ix4,x1 ,x2 ,x3 ,x4 , &
+                y1 ,y2 ,y3 ,y4 ,z1 , &
+                z2 ,z3 ,z4 ,xi ,yi , &
+                zi ,x0 ,y0 ,z0 ,nx1, &
+                ny1,nz1,nx2,ny2,nz2, &
+                nx3,ny3,nz3,nx4,ny4, &
+                nz4,p1 ,p2 ,p3 ,p4 , &
+                lb1,lb2,lb3,lb4,lc1, &
+                lc2,lc3,lc4,s,t)
             endif
           endif
           deallocate( cell_pointer )

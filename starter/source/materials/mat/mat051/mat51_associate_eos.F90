@@ -45,7 +45,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
-              use mat_elem_mod , only : matparam_struct_
+          use mat_elem_mod , only : matparam_struct_
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -75,12 +75,12 @@
                 end if
               end do
             end if
-          ! OLD FORMAT (EMBEDDED EOS PARAMETERS)
+            ! OLD FORMAT (EMBEDDED EOS PARAMETERS)
           else
-              allocate(mat_param(parent_mid)%multimat%pEOS(4))
-              do i=1,4
-                mat_param(parent_mid)%multimat%pEOS(i)%eos => mat_param(parent_mid)%multimat%EOS(i)
-              end do
+            allocate(mat_param(parent_mid)%multimat%pEOS(4))
+            do i=1,4
+              mat_param(parent_mid)%multimat%pEOS(i)%eos => mat_param(parent_mid)%multimat%EOS(i)
+            end do
           end if
         end subroutine mat51_associate_eos
       end module mat51_associate_eos_mod

@@ -244,7 +244,7 @@
         use precision_mod, only : WP
         use ALEANIM_MOD, only : FANI_CELL_
 
-      implicit none
+        implicit none
 
         type bcs_inout_hist
           real(kind=WP) :: de_in = 0.
@@ -273,9 +273,9 @@
           real(kind=WP), dimension(:), allocatable :: EFRICG
           real(kind=WP), dimension(:), allocatable :: EFRICG_STAMP
           TYPE(FANI_CELL_) :: FANI_CELL
-          integer :: S_VECT_CONT 
-          integer :: S_VECT_FINT 
-          integer :: S_VECT_FEXT 
+          integer :: S_VECT_CONT
+          integer :: S_VECT_FINT
+          integer :: S_VECT_FEXT
           integer :: S_VECT_PCONT
           integer :: S_VECT_PCONT_2
           integer :: S_VECT_CONT2
@@ -283,9 +283,9 @@
           integer :: S_VECT_PCONT2_2
           integer :: S_FOPT
 
-          real(kind=wp), dimension(:,:), allocatable :: VECT_CONT 
-          real(kind=wp), dimension(:,:), allocatable :: VECT_FINT 
-          real(kind=wp), dimension(:,:), allocatable :: VECT_FEXT 
+          real(kind=wp), dimension(:,:), allocatable :: VECT_CONT
+          real(kind=wp), dimension(:,:), allocatable :: VECT_FINT
+          real(kind=wp), dimension(:,:), allocatable :: VECT_FEXT
           real(kind=wp), dimension(:,:), allocatable :: VECT_PCONT
           real(kind=wp), dimension(:,:), allocatable :: VECT_PCONT_2
           real(kind=wp), dimension(:,:), allocatable :: VECT_CONT2
@@ -293,20 +293,20 @@
           real(kind=wp), dimension(:,:), allocatable :: VECT_PCONT2_2
           real(kind=wp), dimension(:,:), allocatable :: FOPT
 
-          integer :: S_SCAL_DT                                                  
-          integer :: S_SCAL_DMAS                                                    
-          integer :: S_SCAL_DINER                                                      
-          integer :: S_SCAL_DAMA2                                                         
+          integer :: S_SCAL_DT
+          integer :: S_SCAL_DMAS
+          integer :: S_SCAL_DINER
+          integer :: S_SCAL_DAMA2
           integer :: S_SCAL_SPRING !
 
-          real(kind=wp), dimension(:), allocatable :: SCAL_DT                                                  
-          real(kind=wp), dimension(:), allocatable :: SCAL_DMAS                                                    
-          real(kind=wp), dimension(:), allocatable :: SCAL_DINER                                                      
-          real(kind=wp), dimension(:), allocatable :: SCAL_DAMA2                                                         
+          real(kind=wp), dimension(:), allocatable :: SCAL_DT
+          real(kind=wp), dimension(:), allocatable :: SCAL_DMAS
+          real(kind=wp), dimension(:), allocatable :: SCAL_DINER
+          real(kind=wp), dimension(:), allocatable :: SCAL_DAMA2
           real(kind=wp), dimension(:), allocatable :: SCAL_SPRING !
 
           type(bcs_inout_hist) :: INOUT ! history of inlet/outlet (mass, energy, for printout ecrit.F)
- 
+
         end type working_arrays_
 
         type output_
@@ -314,7 +314,7 @@
           type (state_) :: state
           type (checksum_option_) :: checksum !< checksum option from Starter
           type(working_arrays_) :: data !< working arrays for output
-          character(len=2048) :: out_filename !< *.out file name  
+          character(len=2048) :: out_filename !< *.out file name
           integer :: nb_anim_frame
           integer :: DTANIM_FCT_ID
 
@@ -341,43 +341,43 @@
 !||    constant_mod                ../common_source/modules/constant_mod.F
 !||    th_mod                      ../engine/share/modules/th_mod.F
 !||====================================================================
-          SUBROUTINE OUTPUT_ALLOCATE_NODA_PEXT(OUTPUT,NUMNOD, NUMNODG)
-              use th_mod , only : th_has_noda_pext
-              use constant_mod , only : zero
-              !use output_mod , only : anim_has_noda_pext, h3d_has_noda_pext
-              !use output_mod , only : NODA_SURF,NODA_PEXT
-              !use output_mod , only : NODA_SURF_G,NODA_PEXT_G
-              implicit none
-              TYPE(working_arrays_) :: OUTPUT
-              INTEGER,INTENT(IN) :: NUMNOD  ! number of nodes per domain
-              INTEGER,INTENT(IN) :: NUMNODG ! number of nodes (proc 0 only)
-              IF(TH_HAS_NODA_PEXT > 0 .OR. OUTPUT%ANIM_HAS_NODA_PEXT > 0 .OR. OUTPUT%H3D_HAS_NODA_PEXT > 0) THEN
-                ALLOCATE(OUTPUT%NODA_SURF(NUMNOD))
-                ALLOCATE(OUTPUT%NODA_PEXT(NUMNOD))
-                OUTPUT%NODA_SURF(1:NUMNOD)=ZERO
-                OUTPUT%NODA_PEXT(1:NUMNOD)=ZERO
-             END IF
-              IF(OUTPUT%ANIM_HAS_NODA_PEXT > 0) THEN
-                ALLOCATE(OUTPUT%NODA_SURF_G(NUMNODG))
-                ALLOCATE(OUTPUT%NODA_PEXT_G(NUMNODG))
-                OUTPUT%NODA_SURF_G(1:NUMNODG)=ZERO
-                OUTPUT%NODA_PEXT_G(1:NUMNODG)=ZERO
-             END IF
-          END SUBROUTINE OUTPUT_ALLOCATE_NODA_PEXT
+        SUBROUTINE OUTPUT_ALLOCATE_NODA_PEXT(OUTPUT,NUMNOD, NUMNODG)
+          use th_mod , only : th_has_noda_pext
+          use constant_mod , only : zero
+          !use output_mod , only : anim_has_noda_pext, h3d_has_noda_pext
+          !use output_mod , only : NODA_SURF,NODA_PEXT
+          !use output_mod , only : NODA_SURF_G,NODA_PEXT_G
+          implicit none
+          TYPE(working_arrays_) :: OUTPUT
+          INTEGER,INTENT(IN) :: NUMNOD  ! number of nodes per domain
+          INTEGER,INTENT(IN) :: NUMNODG ! number of nodes (proc 0 only)
+          IF(TH_HAS_NODA_PEXT > 0 .OR. OUTPUT%ANIM_HAS_NODA_PEXT > 0 .OR. OUTPUT%H3D_HAS_NODA_PEXT > 0) THEN
+            ALLOCATE(OUTPUT%NODA_SURF(NUMNOD))
+            ALLOCATE(OUTPUT%NODA_PEXT(NUMNOD))
+            OUTPUT%NODA_SURF(1:NUMNOD)=ZERO
+            OUTPUT%NODA_PEXT(1:NUMNOD)=ZERO
+          END IF
+          IF(OUTPUT%ANIM_HAS_NODA_PEXT > 0) THEN
+            ALLOCATE(OUTPUT%NODA_SURF_G(NUMNODG))
+            ALLOCATE(OUTPUT%NODA_PEXT_G(NUMNODG))
+            OUTPUT%NODA_SURF_G(1:NUMNODG)=ZERO
+            OUTPUT%NODA_PEXT_G(1:NUMNODG)=ZERO
+          END IF
+        END SUBROUTINE OUTPUT_ALLOCATE_NODA_PEXT
 
 !||====================================================================
 !||    output_deallocate_noda_pext   ../common_source/modules/output/output_mod.F90
 !||--- called by ------------------------------------------------------
 !||    resol                         ../engine/source/engine/resol.F
 !||====================================================================
-          SUBROUTINE OUTPUT_DEALLOCATE_NODA_PEXT(OUTPUT)
-            implicit none
-            TYPE(working_arrays_), intent(inout) :: OUTPUT
-            IF(ALLOCATED(OUTPUT%NODA_SURF_G)) DEALLOCATE(OUTPUT%NODA_SURF_G)
-            IF(ALLOCATED(OUTPUT%NODA_PEXT_G)) DEALLOCATE(OUTPUT%NODA_PEXT_G)
-            IF(ALLOCATED(OUTPUT%NODA_SURF))   DEALLOCATE(OUTPUT%NODA_SURF)
-            IF(ALLOCATED(OUTPUT%NODA_PEXT))   DEALLOCATE(OUTPUT%NODA_PEXT)
-          END SUBROUTINE OUTPUT_DEALLOCATE_NODA_PEXT
+        SUBROUTINE OUTPUT_DEALLOCATE_NODA_PEXT(OUTPUT)
+          implicit none
+          TYPE(working_arrays_), intent(inout) :: OUTPUT
+          IF(ALLOCATED(OUTPUT%NODA_SURF_G)) DEALLOCATE(OUTPUT%NODA_SURF_G)
+          IF(ALLOCATED(OUTPUT%NODA_PEXT_G)) DEALLOCATE(OUTPUT%NODA_PEXT_G)
+          IF(ALLOCATED(OUTPUT%NODA_SURF))   DEALLOCATE(OUTPUT%NODA_SURF)
+          IF(ALLOCATED(OUTPUT%NODA_PEXT))   DEALLOCATE(OUTPUT%NODA_PEXT)
+        END SUBROUTINE OUTPUT_DEALLOCATE_NODA_PEXT
 
 !||====================================================================
 !||    allocate_output_data   ../common_source/modules/output/output_mod.F90
@@ -387,13 +387,13 @@
 !||--- uses       -----------------------------------------------------
 !||    extend_array_mod       ../common_source/tools/memory/extend_array.F90
 !||====================================================================
-          SUBROUTINE ALLOCATE_OUTPUT_DATA(OUTPUT,NUMNOD)
+        SUBROUTINE ALLOCATE_OUTPUT_DATA(OUTPUT,NUMNOD)
           use extend_array_mod
           implicit none
           TYPE(output_) :: OUTPUT
           INTEGER,INTENT(IN) :: NUMNOD
           INTEGER :: current_size1, current_size2, new_size2, new_size1
-          
+
           ! Handle VECT_CONT
           if (allocated(OUTPUT%DATA%VECT_CONT)) then
             current_size1 = size(OUTPUT%DATA%VECT_CONT, 1)
@@ -405,7 +405,7 @@
           new_size2 = NUMNOD * OUTPUT%DATA%S_VECT_CONT
           call extend_array(OUTPUT%DATA%VECT_CONT, current_size1, current_size2,3, new_size2)
           !initialize extension to 0
-          if(current_size2 .lt. new_size2) then
+          if(current_size2 < new_size2) then
             OUTPUT%DATA%VECT_CONT(:,current_size2+1:new_size2)=0.0_wp
           end if
 
@@ -419,10 +419,10 @@
           end if
           new_size2 = NUMNOD * OUTPUT%DATA%S_VECT_FINT
           call extend_array(OUTPUT%DATA%VECT_FINT, current_size1, current_size2, 3, new_size2)
-          if(current_size2 .lt. new_size2) then
+          if(current_size2 < new_size2) then
             OUTPUT%DATA%VECT_FINT(:,current_size2+1:new_size2)=0.0_wp
           end if
-          
+
           ! Handle VECT_FEXT
           if (allocated(OUTPUT%DATA%VECT_FEXT)) then
             current_size1 = size(OUTPUT%DATA%VECT_FEXT, 1)
@@ -433,10 +433,10 @@
           end if
           new_size2 = NUMNOD * OUTPUT%DATA%S_VECT_FEXT
           call extend_array(OUTPUT%DATA%VECT_FEXT, current_size1, current_size2, 3, new_size2)
-          if(current_size2 .lt. new_size2) then
+          if(current_size2 < new_size2) then
             OUTPUT%DATA%VECT_FEXT(:,current_size2+1:new_size2)=0.0_wp
           end if
-          
+
           ! Handle VECT_PCONT
           if (allocated(OUTPUT%DATA%VECT_PCONT)) then
             current_size1 = size(OUTPUT%DATA%VECT_PCONT, 1)
@@ -447,7 +447,7 @@
           end if
           new_size2 = NUMNOD * OUTPUT%DATA%S_VECT_PCONT
           call extend_array(OUTPUT%DATA%VECT_PCONT, current_size1, current_size2, 3, new_size2)
-          if(current_size2 .lt. new_size2) then
+          if(current_size2 < new_size2) then
             OUTPUT%DATA%VECT_PCONT(:,current_size2+1:new_size2)=0.0_wp
           end if
           ! Handle VECT_PCONT_2
@@ -460,11 +460,11 @@
           end if
           new_size2 = NUMNOD * OUTPUT%DATA%S_VECT_PCONT_2
           call extend_array(OUTPUT%DATA%VECT_PCONT_2, current_size1, current_size2, 3, new_size2)
-          if(current_size2 .lt. new_size2) then
+          if(current_size2 < new_size2) then
             OUTPUT%DATA%VECT_PCONT_2(:,current_size2+1:new_size2)=0.0_wp
           end if
- 
-          
+
+
           ! Handle VECT_CONT2
           if (allocated(OUTPUT%DATA%VECT_CONT2)) then
             current_size1 = size(OUTPUT%DATA%VECT_CONT2, 1)
@@ -475,10 +475,10 @@
           end if
           new_size2 = NUMNOD * OUTPUT%DATA%S_VECT_CONT2
           call extend_array(OUTPUT%DATA%VECT_CONT2, current_size1, current_size2, 3, new_size2)
-          if(current_size2 .lt. new_size2) then
+          if(current_size2 < new_size2) then
             OUTPUT%DATA%VECT_CONT2(:,current_size2+1:new_size2)=0.0_wp
           end if
-          
+
           ! Handle VECT_PCONT2
           if (allocated(OUTPUT%DATA%VECT_PCONT2)) then
             current_size1 = size(OUTPUT%DATA%VECT_PCONT2, 1)
@@ -489,7 +489,7 @@
           end if
           new_size2 = NUMNOD * OUTPUT%DATA%S_VECT_PCONT2
           call extend_array(OUTPUT%DATA%VECT_PCONT2, current_size1, current_size2,3, new_size2)
-          if(current_size2 .lt. new_size2) then
+          if(current_size2 < new_size2) then
             OUTPUT%DATA%VECT_PCONT2(:,current_size2+1:new_size2)=0.0_wp
           end if
 
@@ -503,66 +503,66 @@
           end if
           new_size2 = NUMNOD * OUTPUT%DATA%S_VECT_PCONT2_2
           call extend_array(OUTPUT%DATA%VECT_PCONT2_2, current_size1, current_size2,3, new_size2)
-          if(current_size2 .lt. new_size2) then
+          if(current_size2 < new_size2) then
             OUTPUT%DATA%VECT_PCONT2_2(:,current_size2+1:new_size2)=0.0_wp
-          end if  
+          end if
 
-           ! Handle OUTPUT%DATA%S_SCAL_DT                                                  
+          ! Handle OUTPUT%DATA%S_SCAL_DT
           if(allocated(OUTPUT%DATA%SCAL_DT)) then
             current_size1 = size(OUTPUT%DATA%SCAL_DT, 1)
           else
             current_size1 = 0
-          end if  
+          end if
           new_size1 = NUMNOD * OUTPUT%DATA%S_SCAL_DT
           call extend_array(OUTPUT%DATA%SCAL_DT, current_size1,  new_size1)
-          if(current_size1 .lt. new_size1) then
+          if(current_size1 < new_size1) then
             OUTPUT%DATA%SCAL_DT(current_size1+1:new_size1)=0.0_wp
           end if
 
-         ! Handle OUTPUT%DATA%S_SCAL_DMAS                                                    
+          ! Handle OUTPUT%DATA%S_SCAL_DMAS
           if(allocated(OUTPUT%DATA%SCAL_DMAS)) then
             current_size1 = size(OUTPUT%DATA%SCAL_DMAS, 1)
           else
             current_size1 = 0
           end if
           new_size1 = NUMNOD * OUTPUT%DATA%S_SCAL_DMAS
-          call extend_array(OUTPUT%DATA%SCAL_DMAS, current_size1, new_size1)  
-          if(current_size1 .lt. new_size1) then
+          call extend_array(OUTPUT%DATA%SCAL_DMAS, current_size1, new_size1)
+          if(current_size1 < new_size1) then
             OUTPUT%DATA%SCAL_DMAS(current_size1+1:new_size1)=0.0_wp
           end if
 
-          ! Handle OUTPUT%DATA%S_SCAL_DINER                                                      
+          ! Handle OUTPUT%DATA%S_SCAL_DINER
           if(allocated(OUTPUT%DATA%SCAL_DINER)) then
             current_size1 = size(OUTPUT%DATA%SCAL_DINER, 1)
           else
             current_size1 = 0
           end if
           new_size1 = NUMNOD * OUTPUT%DATA%S_SCAL_DINER
-          call extend_array(OUTPUT%DATA%SCAL_DINER, current_size1, new_size1) 
-          if(current_size1 .lt. new_size1) then
+          call extend_array(OUTPUT%DATA%SCAL_DINER, current_size1, new_size1)
+          if(current_size1 < new_size1) then
             OUTPUT%DATA%SCAL_DINER(current_size1+1:new_size1)=0.0_wp
-          end if  
+          end if
 
-           !Handle OUTPUT%DATA%S_SCAL_DAMA2                                                         
+          !Handle OUTPUT%DATA%S_SCAL_DAMA2
           if(allocated(OUTPUT%DATA%SCAL_DAMA2)) then
             current_size1 = size(OUTPUT%DATA%SCAL_DAMA2, 1)
           else
             current_size1 = 0
           end if
           new_size1 = NUMNOD * OUTPUT%DATA%S_SCAL_DAMA2
-          call extend_array(OUTPUT%DATA%SCAL_DAMA2, current_size1, new_size1) 
-          if(current_size1 .lt. new_size1) then
+          call extend_array(OUTPUT%DATA%SCAL_DAMA2, current_size1, new_size1)
+          if(current_size1 < new_size1) then
             OUTPUT%DATA%SCAL_DAMA2(current_size1+1:new_size1)=0.0_wp
           end if
-           !Handle OUTPUT%DATA%S_SCAL_SPRING                                                         
+          !Handle OUTPUT%DATA%S_SCAL_SPRING
           if(allocated(OUTPUT%DATA%SCAL_SPRING)) then
             current_size1 = size(OUTPUT%DATA%SCAL_SPRING, 1)
           else
             current_size1 = 0
           end if
           new_size1 = NUMNOD * OUTPUT%DATA%S_SCAL_SPRING
-          call extend_array(OUTPUT%DATA%SCAL_SPRING, current_size1, new_size1) 
-          if(current_size1 .lt. new_size1) then
+          call extend_array(OUTPUT%DATA%SCAL_SPRING, current_size1, new_size1)
+          if(current_size1 < new_size1) then
             OUTPUT%DATA%SCAL_SPRING(current_size1+1:new_size1)=0.0_wp
           end if
         END SUBROUTINE ALLOCATE_OUTPUT_DATA

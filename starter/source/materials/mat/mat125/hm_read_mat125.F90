@@ -336,7 +336,7 @@
           if(e2 > zero) then
             if(yt > zero )then
               ef22t  = yt/e2
-              em22t = max(em22t, ONEP1*ef22t) 
+              em22t = max(em22t, ONEP1*ef22t)
               m2t = -one/log(ef22t/em22t)
               al2t = m2t*(em22t/ef22t)**m2t
             end if
@@ -381,7 +381,7 @@
           als23 = -HUGE(als23)
           efs23 = -HUGE(efs23)
           if(tau == zero) tau = sc
-          if(gamma == zero) gamma = ems 
+          if(gamma == zero) gamma = ems
           if(fs == -1) then
             ! plane shear
             if(g12 > zero ) then

@@ -34,7 +34,7 @@
 !||    hm_read_mat87        ../starter/source/materials/mat/mat087/hm_read_mat87.F90
 !||====================================================================
       module mat_table_copy_mod
-      implicit none
+        implicit none
       contains
 
 !! \brief  copy tabulated function input to local table storage in mat_param
@@ -101,16 +101,16 @@
           allocate (ifunc(nfunc))
           do itab = 1,nfunc
             ifunc(itab) = mat_param%table(itab)%notable
-            if (ifunc(itab) > 0) then 
+            if (ifunc(itab) > 0) then
               call mattab_usr2sys(mat_param%title,mat_param%mat_id,ntable,table,1,ifunc(itab))
               if (ifunc(itab) == 0) then
                 call ancmsg(msgid=3114,                                        &
-                            msgtype=msgerror,                                  &
-                            anmode=aninfo,                                     &
-                            i1=ilaw,                                           &
-                            i2=mat_param%mat_id,                               &
-                            c1=mat_param%title,                                &
-                            i3=mat_param%table(itab)%notable)
+                  msgtype=msgerror,                                  &
+                  anmode=aninfo,                                     &
+                  i1=ilaw,                                           &
+                  i2=mat_param%mat_id,                               &
+                  c1=mat_param%title,                                &
+                  i3=mat_param%table(itab)%notable)
               endif
             endif
           enddo

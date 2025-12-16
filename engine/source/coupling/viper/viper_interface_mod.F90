@@ -48,7 +48,7 @@
           integer, dimension(:), allocatable :: ITABM1,IXEM1  ! nodal & elemental arrays for coupling re-indexing
           integer :: NUMELEv                                  ! total number of elements Viper will use
           integer :: NUMELEr                                  ! total number of elements Radioss has;
-                                                              ! total has since been removed from main code, so storing here
+          ! total has since been removed from main code, so storing here
           real(kind=wp):: TSTOP
           real(kind=wp):: DT_MIN
         end type viper_coupling_
@@ -128,7 +128,7 @@
           iNUMEL_SCG     = iNUMEL_SC+NUMELTG                          ! The total number of solids + 4-shells + 3-shells
           iNUMELEv_TOTAL = iNUMEL_SCG                                 ! The total number of elements used by Viper
           ioffset_4shell = NUMELS+NUMELQ                              ! The (assumed) index offset for 4-shells
-                                                                      ! (confirmed that NUMELS8,NUMELS10,NUMELS16,NUMELS20 are not in the array)
+          ! (confirmed that NUMELS8,NUMELS10,NUMELS16,NUMELS20 are not in the array)
           ioffset_3shell = ioffset_4shell+NUMELC+NUMELT+NUMELP+NUMELR ! The (assumed) index offset for 3-shells
           WRITE(ISTDO,"(a,I18)") "Radioss2Viper: the total number of elements used by Viper: ",iNUMELEv_TOTAL
           ALLOCATE(VIPER%ITABM1(NUMNOD))
@@ -213,7 +213,7 @@
           ! allocate array & initialise to illegal index
           allocate(itabtmp(idmax))
           do i = 1,idmax
-             itabtmp(i) = -1
+            itabtmp(i) = -1
           end do
 
           ! place the shuffled index in the array entry corresponding to the user id

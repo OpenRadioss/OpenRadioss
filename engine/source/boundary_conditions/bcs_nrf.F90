@@ -27,7 +27,7 @@
 !||    resol         ../engine/source/engine/resol.F
 !||====================================================================
       module bcs_nrf_mod
-      implicit none
+        implicit none
       contains
 ! ======================================================================================================================
 !                                                   PROCEDURES
@@ -49,14 +49,14 @@
 !||    message_mod     ../engine/share/message_module/message_mod.F
 !||    precision_mod   ../common_source/modules/precision_mod.F90
 !||====================================================================
-          subroutine bcs_nrf(n2d      , numnod  , &
-                             x        , v       , a     , &
-                             nixs     , nixtg   , nixq  ,&
-                             numels   , numeltg , numelq,&
-                             ixs      , ixtg    , ixq   ,   &
-                             iparit   , lsky    , fsky  , &
-                             wfext    , fext    , dt1, &
-                             anim_v   , outp_v  , h3d_data)
+        subroutine bcs_nrf(n2d      , numnod  , &
+          x        , v       , a     , &
+          nixs     , nixtg   , nixq  ,&
+          numels   , numeltg , numelq,&
+          ixs      , ixtg    , ixq   ,   &
+          iparit   , lsky    , fsky  , &
+          wfext    , fext    , dt1, &
+          anim_v   , outp_v  , h3d_data)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -149,7 +149,7 @@
           if(iparit == 1)then
             CALL ANCMSG(MSGID=3,ANMODE=ANINFO) ! /BCS/NRF not yet compatible with PARITH/ON
             CALL ARRET(2)
-           end if
+          end if
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -158,7 +158,7 @@
           eps = em14
 
           do ii=1,bcs%num_nrf
-           
+
             bcs_uid = bcs%nrf(ii)%user_id
             nface = bcs%nrf(ii)%list%size
             do jj=1,nface
@@ -166,7 +166,7 @@
               iface = bcs%nrf(ii)%list%face(jj)
               rCpN = bcs%nrf(ii)%list%rCp(jj)
               rCsN = bcs%nrf(ii)%list%rCs(jj)
-              
+
               if(n2d == 0)then
 
                 !2d-solid (tria & quad)
@@ -204,7 +204,7 @@
                 NZ = NZ / L   ! normale unitaire
 
                 AREA = HALF*L
-                
+
                 NOD(1:4) = (/NOD1,NOD2,NOD3,NOD4/)
                 fx(4) = zero
                 fy(4) = zero
@@ -258,29 +258,29 @@
                     FSKY(3,IAD) = FZ(4)
                   END IF
                 END IF
-                  IF(IOUTPUT > 0)THEN
-                    FEXT(1,NOD1) = FEXT(1,NOD1) + fx(1)
-                    FEXT(2,NOD1) = FEXT(2,NOD1) + fy(1)
-                    FEXT(3,NOD1) = FEXT(3,NOD1) + fz(1)
-                    FEXT(1,NOD2) = FEXT(1,NOD2) + fx(2)
-                    FEXT(2,NOD2) = FEXT(2,NOD2) + fy(2)
-                    FEXT(3,NOD2) = FEXT(3,NOD2) + fz(2)
-                    FEXT(1,NOD3) = FEXT(1,NOD3) + fx(3)
-                    FEXT(2,NOD3) = FEXT(2,NOD3) + fy(3)
-                    FEXT(3,NOD3) = FEXT(3,NOD3) + fz(3)
-                    IF(NOD4 /= 0)THEN
-                      FEXT(1,NOD4) = FEXT(1,NOD4) + fx(4)
-                      FEXT(2,NOD4) = FEXT(2,NOD4) + fy(4)
-                      FEXT(3,NOD4) = FEXT(3,NOD4) + fz(4)
-                    END IF
+                IF(IOUTPUT > 0)THEN
+                  FEXT(1,NOD1) = FEXT(1,NOD1) + fx(1)
+                  FEXT(2,NOD1) = FEXT(2,NOD1) + fy(1)
+                  FEXT(3,NOD1) = FEXT(3,NOD1) + fz(1)
+                  FEXT(1,NOD2) = FEXT(1,NOD2) + fx(2)
+                  FEXT(2,NOD2) = FEXT(2,NOD2) + fy(2)
+                  FEXT(3,NOD2) = FEXT(3,NOD2) + fz(2)
+                  FEXT(1,NOD3) = FEXT(1,NOD3) + fx(3)
+                  FEXT(2,NOD3) = FEXT(2,NOD3) + fy(3)
+                  FEXT(3,NOD3) = FEXT(3,NOD3) + fz(3)
+                  IF(NOD4 /= 0)THEN
+                    FEXT(1,NOD4) = FEXT(1,NOD4) + fx(4)
+                    FEXT(2,NOD4) = FEXT(2,NOD4) + fy(4)
+                    FEXT(3,NOD4) = FEXT(3,NOD4) + fz(4)
                   END IF
+                END IF
 !omp end critical
 
-                  ! External Force Work increment
-                  WFEXTT = WFEXTT + DT1 * (  FX(1)*V(1,NOD1) + FY(1)*V(2,NOD1) + FZ(1)*V(3,NOD1)  &
-                                           + FX(2)*V(1,NOD2) + FY(2)*V(2,NOD2) + FZ(2)*V(3,NOD2)  &
-                                           + FX(3)*V(1,NOD3) + FY(3)*V(2,NOD3) + FZ(3)*V(3,NOD3)  &
-                                           + FX(4)*V(1,NOD4) + FY(4)*V(2,NOD4) + FZ(4)*V(3,NOD4) )
+                ! External Force Work increment
+                WFEXTT = WFEXTT + DT1 * (  FX(1)*V(1,NOD1) + FY(1)*V(2,NOD1) + FZ(1)*V(3,NOD1)  &
+                  + FX(2)*V(1,NOD2) + FY(2)*V(2,NOD2) + FZ(2)*V(3,NOD2)  &
+                  + FX(3)*V(1,NOD3) + FY(3)*V(2,NOD3) + FZ(3)*V(3,NOD3)  &
+                  + FX(4)*V(1,NOD4) + FY(4)*V(2,NOD4) + FZ(4)*V(3,NOD4) )
 
               else
 
@@ -346,7 +346,7 @@
 
                 !External Force Work
                 WFEXTT = WFEXTT + DT1 * (  FY(1)*V(2,NOD1) + FZ(1)*V(3,NOD1)  &
-                                         + FY(2)*V(2,NOD2) + FZ(2)*V(3,NOD2) )
+                  + FY(2)*V(2,NOD2) + FZ(2)*V(3,NOD2) )
 
 
               end if

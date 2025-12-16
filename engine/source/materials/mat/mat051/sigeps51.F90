@@ -26,7 +26,7 @@
 !||    mulaw          ../engine/source/materials/mat_share/mulaw.F90
 !||====================================================================
       module sigeps51_mod
-      implicit none
+        implicit none
       contains
 ! ======================================================================================================================
 !                                                   procedures
@@ -448,10 +448,10 @@
           PM3    = UPARAM(41)
           PM4    = UPARAM(56)
 
-                 ! UPARAM(57) !no longer used
-                 ! UPARAM(58) !no longer used
-                 ! UPARAM(59) !no longer used
-                 ! UPARAM(60) !no longer used
+          ! UPARAM(57) !no longer used
+          ! UPARAM(58) !no longer used
+          ! UPARAM(59) !no longer used
+          ! UPARAM(60) !no longer used
 
           SPH1   = UPARAM(112)
           SPH2   = UPARAM(162)
@@ -1090,8 +1090,8 @@
 
                 ISUBMAT = 1
                 call eosmain51(pm1, off(i), eint1, mu1, espe1, dvol, df1, v1, pext, p1, dpdmu1, dpde1, rho10, &
-                               temp1, v10, sbufmat, bufmat, matparam(imid)%multimat%peos(isubmat)%eos, vareos1, &
-                               time, timestep, npf   ,tf   ,snpf ,stf )
+                  temp1, v10, sbufmat, bufmat, matparam(imid)%multimat%peos(isubmat)%eos, vareos1, &
+                  time, timestep, npf   ,tf   ,snpf ,stf )
 
                 SSP1 = SQRT((ABS(DPDMU1) + TWO_THIRD*GG1(I))/RHO10)
                 VISCMAX(I) = RHO(I)*(QAL*MAX(ZERO,DD) + QBL*SSP1)
@@ -1118,8 +1118,8 @@
 
                 ISUBMAT = 2
                 call eosmain51(pm2, off(i), eint2, mu2, espe2, dvol, df2, v2, pext, p2, dpdmu2, dpde2, rho20, &
-                               temp2, v20, sbufmat, bufmat, matparam(imid)%multimat%peos(isubmat)%eos, vareos2, &
-                               time, timestep, npf   ,tf   ,snpf ,stf )
+                  temp2, v20, sbufmat, bufmat, matparam(imid)%multimat%peos(isubmat)%eos, vareos2, &
+                  time, timestep, npf   ,tf   ,snpf ,stf )
 
                 SSP2 = SQRT((ABS(DPDMU2) + TWO_THIRD*GG2(I))/RHO20)
                 VISCMAX(I) = RHO(I)*(QAL*MAX(ZERO,DD) + QBL*SSP2)
@@ -1146,8 +1146,8 @@
 
                 ISUBMAT = 3
                 call eosmain51(pm3, off(i), eint3, mu3, espe3, dvol, df3, v3, pext, p3, dpdmu3, dpde3, rho30, &
-                               temp3, v30, sbufmat, bufmat, matparam(imid)%multimat%peos(isubmat)%eos, vareos3 ,&
-                               time, timestep, npf   ,tf   ,snpf ,stf )
+                  temp3, v30, sbufmat, bufmat, matparam(imid)%multimat%peos(isubmat)%eos, vareos3 ,&
+                  time, timestep, npf   ,tf   ,snpf ,stf )
 
                 SSP3 = SQRT((ABS(DPDMU3) + TWO_THIRD*GG3(I))/RHO30)
                 VISCMAX(I) = RHO(I)*(QAL*MAX(ZERO,DD) + QBL*SSP3)
@@ -1263,10 +1263,10 @@
                 ISUBMAT = 1
                 VAREOS1_TMP(1:6) = VAREOS1(1:6)
                 call eosmain51(pm1, off(i), eint1, mu1, espe1, dvol, df1, v1, pext, p1, dpdmu1, dpde1, rho10, &
-                               temp1, v10, sbufmat, bufmat, matparam(imid)%multimat%peos(isubmat)%eos, vareos1, &
-                               time, timestep, npf   ,tf   ,snpf ,stf )
+                  temp1, v10, sbufmat, bufmat, matparam(imid)%multimat%peos(isubmat)%eos, vareos1, &
+                  time, timestep, npf   ,tf   ,snpf ,stf )
 
-                  SSP1 = SQRT((DPDMU1 + TWO_THIRD*GG1(I))/RHO10)
+                SSP1 = SQRT((DPDMU1 + TWO_THIRD*GG1(I))/RHO10)
               ENDIF
 
               ! MAT2
@@ -1278,10 +1278,10 @@
                 ISUBMAT = 2
                 VAREOS2_TMP(1:6) = VAREOS2(1:6)
                 call eosmain51(pm2, off(i), eint2, mu2, espe2, dvol, df2, v2, pext, p2, dpdmu2, dpde2, rho20, &
-                               temp2, v20, sbufmat, bufmat, matparam(imid)%multimat%peos(isubmat)%eos, vareos2, &
-                               time, timestep, npf   ,tf   ,snpf ,stf )
+                  temp2, v20, sbufmat, bufmat, matparam(imid)%multimat%peos(isubmat)%eos, vareos2, &
+                  time, timestep, npf   ,tf   ,snpf ,stf )
 
-                  SSP2 = SQRT((DPDMU2 + TWO_THIRD*GG2(I))/RHO20)
+                SSP2 = SQRT((DPDMU2 + TWO_THIRD*GG2(I))/RHO20)
               ENDIF
 
               ! MAT3
@@ -1293,10 +1293,10 @@
                 ISUBMAT = 3
                 VAREOS3_TMP(1:6) = VAREOS3(1:6)
                 call eosmain51(pm3, off(i), eint3, mu3, espe3, dvol, df3, v3, pext, p3, dpdmu3, dpde3, rho30, &
-                               temp3, v30, sbufmat, bufmat, matparam(imid)%multimat%peos(isubmat)%eos, vareos3, &
-                               time, timestep, npf   ,tf   ,snpf ,stf )
+                  temp3, v30, sbufmat, bufmat, matparam(imid)%multimat%peos(isubmat)%eos, vareos3, &
+                  time, timestep, npf   ,tf   ,snpf ,stf )
 
-                  SSP3 = SQRT((DPDMU3 + TWO_THIRD*GG3(I))/RHO30)
+                SSP3 = SQRT((DPDMU3 + TWO_THIRD*GG3(I))/RHO30)
               ENDIF
 
               ! MAT4 : High Explosive
@@ -1451,9 +1451,9 @@
                   ISUBMAT = 1
                   VAREOS1(1:6) = VAREOS1_TMP(1:6)
                   call eosmain51(pm5, off(i), eint1, mu1, espe1, dvol, df1, v1, pext, p1, dpdmu1, dpde1, rho10, &
-                                 temp1, v10, sbufmat, bufmat, matparam(imid)%multimat%peos(isubmat)%eos, vareos1 ,&
-                                 time, timestep, npf   ,tf   ,snpf ,stf )
-                                 SSP1 = SQRT((DPDMU1 + TWO_THIRD*GG1(I))/RHO10)
+                    temp1, v10, sbufmat, bufmat, matparam(imid)%multimat%peos(isubmat)%eos, vareos1 ,&
+                    time, timestep, npf   ,tf   ,snpf ,stf )
+                  SSP1 = SQRT((DPDMU1 + TWO_THIRD*GG1(I))/RHO10)
                 ENDIF
                 !===========================================
                 !       material 2 - Polynomial EOS
@@ -1466,9 +1466,9 @@
                   ISUBMAT = 2
                   VAREOS2(1:6) = VAREOS2_TMP(1:6)
                   call eosmain51(pm5, off(i), eint2, mu2, espe2, dvol, df2, v2, pext, p2, dpdmu2, dpde2, rho20, &
-                                 temp2, v20, sbufmat, bufmat, matparam(imid)%multimat%peos(isubmat)%eos, vareos2, &
-                                 time, timestep, npf   ,tf   ,snpf ,stf )
-                                 SSP2 = SQRT((DPDMU2 + TWO_THIRD*GG2(I))/RHO20)
+                    temp2, v20, sbufmat, bufmat, matparam(imid)%multimat%peos(isubmat)%eos, vareos2, &
+                    time, timestep, npf   ,tf   ,snpf ,stf )
+                  SSP2 = SQRT((DPDMU2 + TWO_THIRD*GG2(I))/RHO20)
                 ENDIF
                 !===========================================
                 !       material 3 - Polynomial EOS
@@ -1481,9 +1481,9 @@
                   ISUBMAT = 3
                   VAREOS3(1:6) = VAREOS3_TMP(1:6)
                   call eosmain51(pm5, off(i), eint3, mu3, espe3, dvol, df3, v3, pext, p3, dpdmu3, dpde3, rho30, &
-                                 temp3, v30, sbufmat, bufmat, matparam(imid)%multimat%peos(isubmat)%eos, vareos3, &
-                                 time, timestep, npf   ,tf   ,snpf ,stf )
-                                 SSP3 = SQRT((DPDMU3 + TWO_THIRD*GG3(I))/RHO30)
+                    temp3, v30, sbufmat, bufmat, matparam(imid)%multimat%peos(isubmat)%eos, vareos3, &
+                    time, timestep, npf   ,tf   ,snpf ,stf )
+                  SSP3 = SQRT((DPDMU3 + TWO_THIRD*GG3(I))/RHO30)
                 ENDIF
                 !===========================================
                 !       material 4 - Polynomial EOS
@@ -1503,7 +1503,7 @@
                 IF (V3  >  ZERO) ERROR = ERROR + ABS(DV3) / V3
                 IF (V4  >  ZERO) ERROR = ERROR + ABS(DV4) / V4
 
-                              !print *, "  ------------->  iter, p1,p2= ", ITER,P1,P2
+                !print *, "  ------------->  iter, p1,p2= ", ITER,P1,P2
 
                 IF (ERROR  <  TOL) THEN
                   CONT = 0

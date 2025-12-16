@@ -27,7 +27,7 @@
 !||====================================================================
       module sh_offset_jonct_chk_mod
 
-      implicit none
+        implicit none
 
       contains
 ! ======================================================================================================================
@@ -260,7 +260,7 @@
                     end do
                   end if
                 elseif (ichange(ie)*ichange(iem)<0) then ! commun edge between T-junction seg. and the neighbor
-                  if (ichange(ie)>0.and.icmore(ie)==0) then ! the one possible to remove 
+                  if (ichange(ie)>0.and.icmore(ie)==0) then ! the one possible to remove
                     if (thk_g(ie)*thk_g(ie)>fourth*l2_e) icmore(ie) = 1 ! if thickness >0.5*l
                   elseif (ichange(iem)>0.and.icmore(iem)==0) then
                     if (thk_g(iem)*thk_g(iem)>fourth*l2_m) icmore(iem) = 1

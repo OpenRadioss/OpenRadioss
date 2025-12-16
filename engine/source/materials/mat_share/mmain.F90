@@ -43,7 +43,7 @@
 !||    szforc3      ../engine/source/elements/solid/solidez/szforc3.F
 !||====================================================================
       module mmain_mod
-      implicit none
+        implicit none
       contains
 ! ======================================================================================================================
 !                                                   mmain
@@ -781,8 +781,8 @@
           end if
 !
 !-----tstar computation for jonhson cook failure : t* = (t-tref)/(tmelt-tref) => move to JC routine
-          tref  = mat_elem%mat_param(imat)%therm%tref 
-          tmelt = mat_elem%mat_param(imat)%therm%tmelt 
+          tref  = mat_elem%mat_param(imat)%therm%tref
+          tmelt = mat_elem%mat_param(imat)%therm%tmelt
           if (jthe /= 0 .or. elbuf_tab(ng)%bufly(ilay)%l_temp > 0) then
             tstar(1:nel) = max(zero,(el_temp(1:nel)-tref) / max((tmelt-tref),em20) )
           else
@@ -829,7 +829,7 @@
             &off,        ipm,        rhoref,     rhosp,&
             &lbuf%vol0dp,ismstr,     jsph,       jtur,&
             &ity,        jthe,       jsms,       npg ,&
-             glob_therm, numgeo,     igeo)
+              glob_therm, numgeo,     igeo)
           else if (mtn == 1) then
 !
             if (jhbe==17.and.iint==3.and.ismstr == 1) then
@@ -849,7 +849,7 @@
               &ipm,      rhoref,   rhosp,    ity,&
               &jtur,     jthe,     jsph,     ismstr,&
               &jsms,     npg ,     glob_therm,&
-               numgeo,   igeo)
+                numgeo,   igeo)
             else if(ismstr >= 10.and.ismstr <= 12)then
               call m1lawtot(&
               &pm,         off,        lbuf%sig,   lbuf%eint,&
@@ -893,26 +893,26 @@
 !
           elseif (mtn == 2) then
             call m2law(mat_elem%mat_param(imat),&
-                 pm,       off,      lbuf%sig, lbuf%eint,  &
-                 lbuf%rho, lbuf%qvis,lbuf%pla, lbuf%epsd,  &
-                 lbuf%vol, stifn,    dt2t,     neltst,     &
-                 ityptst,  lbuf%off, geo,      pid,        &
-                 amu,      vol_avg,  mumax,    mat,        &
-                 ngl,      cxx,      dvol,     aire,       &
-                 voln,     vd2,      deltax,   vis,        &
-                 dxx,      dyy,      dzz,      d4,         &
-                 d5,       d6,       pnew,     psh,        &
-                 qvis,     ssp_eq,   s1,       s2,         &
-                 s3,       s4,       s5,       s6,         &
-                 sigy,     defp,     dpla,     jlag    ,   &
-                 epsp,     tstar,    et,       mssa,       &
-                 dmels,    el_temp,  lbuf%sigb,al_imp,     &
-                 signor,   conde,    gbuf%dt,  gbuf%g_dt,  &
-                 nel,      ipm,      rhoref,   rhosp,      &
-                 ipg,      lbuf%dmg, ity,      jtur,       &
-                 jthe,     jsph,     ismstr,   jsms,       &
-                 npg ,     dpdm  ,   fheat ,   glob_therm,&
-                 numgeo,   igeo)
+              pm,       off,      lbuf%sig, lbuf%eint,  &
+              lbuf%rho, lbuf%qvis,lbuf%pla, lbuf%epsd,  &
+              lbuf%vol, stifn,    dt2t,     neltst,     &
+              ityptst,  lbuf%off, geo,      pid,        &
+              amu,      vol_avg,  mumax,    mat,        &
+              ngl,      cxx,      dvol,     aire,       &
+              voln,     vd2,      deltax,   vis,        &
+              dxx,      dyy,      dzz,      d4,         &
+              d5,       d6,       pnew,     psh,        &
+              qvis,     ssp_eq,   s1,       s2,         &
+              s3,       s4,       s5,       s6,         &
+              sigy,     defp,     dpla,     jlag    ,   &
+              epsp,     tstar,    et,       mssa,       &
+              dmels,    el_temp,  lbuf%sigb,al_imp,     &
+              signor,   conde,    gbuf%dt,  gbuf%g_dt,  &
+              nel,      ipm,      rhoref,   rhosp,      &
+              ipg,      lbuf%dmg, ity,      jtur,       &
+              jthe,     jsph,     ismstr,   jsms,       &
+              npg ,     dpdm  ,   fheat ,   glob_therm,&
+              numgeo,   igeo)
 !----------------
             if (istrain > 0 .and.&
             &(h3d_strain == 1 .or. th_strain == 1 )) then
@@ -1646,7 +1646,7 @@
             &rhoref,   rhosp,    nft,      jsph,&
             &ity,      jtur,     jthe,     ismstr,&
             &jsms,     npg ,     glob_therm,&
-            numgeo,    igeo)
+              numgeo,    igeo)
           else if (mtn == 23) then
             call m22law(&
             &pm,       off,      lbuf%sig, lbuf%eint,&
@@ -1666,7 +1666,7 @@
             &rhoref,   rhosp,    nft,      jsph,&
             &ity,      jtur,     jthe,     ismstr,&
             &jsms,     npg ,     glob_therm,&
-             numgeo,   igeo)
+              numgeo,   igeo)
           else if (mtn == 24) then
             call m24law(&
             &lbuf,     pm,       off,      lbuf%sig,&
@@ -1687,7 +1687,7 @@
             &lbuf%epsd,ity,      jtur,     jthe,&
             &jhbe,     jcvt,     jsph,     ismstr,&
             &jsms,     npg,      svis ,    glob_therm,&
-             numgeo,   igeo)
+              numgeo,   igeo)
 !     like law25 for shell + s33 = eps33*e33
           else if (mtn == 25) then
             call m25law(mat_elem%mat_param(imat),&
@@ -1792,7 +1792,7 @@
             &d4,       d5,       d6,       rhoref,&
             &rhosp,    ismstr,   ity,      jsms,&
             &jtur,     jthe,     npg,svis ,glob_therm,&
-             igeo)
+              igeo)
 !
           else if (mtn == 49) then
             call m49law (mat      ,pm       ,off     ,lbuf%sig,lbuf%pla, &

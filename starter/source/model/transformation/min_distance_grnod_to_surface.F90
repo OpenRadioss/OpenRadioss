@@ -45,9 +45,9 @@
 !||    message_mod                 ../starter/share/message_module/message_mod.F
 !||====================================================================
         subroutine min_dist_grnod_to_surface(nodes , n_nodes, surf_nodes, n_surf_nodes,x    , &
-                                         &   numnod, pflag  , idir      , gap         ,isk  , &
-                                         &   skew  , lskew  , sskew     ,id           ,titr , &
-                                         &   nchartitle)
+        &   numnod, pflag  , idir      , gap         ,isk  , &
+        &   skew  , lskew  , sskew     ,id           ,titr , &
+        &   nchartitle)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -128,20 +128,20 @@
             do i=1, n_nodes
               igrnod = nodes(i)
               xn(1,i) = skew(1,isk)*(x(1,igrnod) - orig(1)) + skew(2,isk)*(x(2,igrnod) - orig(2)) + &
-                     &  skew(3,isk)*(x(3,igrnod) - orig(3))
+              &  skew(3,isk)*(x(3,igrnod) - orig(3))
               xn(2,i) = skew(4,isk)*(x(1,igrnod) - orig(1)) + skew(5,isk)*(x(2,igrnod) - orig(2)) + &
-                     &  skew(6,isk)*(x(3,igrnod) - orig(3))
+              &  skew(6,isk)*(x(3,igrnod) - orig(3))
               xn(3,i) = skew(7,isk)*(x(1,igrnod) - orig(1)) + skew(8,isk)*(x(2,igrnod) - orig(2)) + &
-                     &  skew(9,isk)*(x(3,igrnod) - orig(3))
+              &  skew(9,isk)*(x(3,igrnod) - orig(3))
             end do
             do i=1, n_surf_nodes
               isurfnod = surf_nodes(i)
               xsn(1,i) = skew(1,isk)*(x(1,isurfnod) - orig(1)) + skew(2,isk)*(x(2,isurfnod) - orig(2)) + &
-                     &   skew(3,isk)*(x(3,isurfnod) - orig(3))
+              &   skew(3,isk)*(x(3,isurfnod) - orig(3))
               xsn(2,i) = skew(4,isk)*(x(1,isurfnod) - orig(1)) + skew(5,isk)*(x(2,isurfnod) - orig(2)) + &
-                     &   skew(6,isk)*(x(3,isurfnod) - orig(3))
+              &   skew(6,isk)*(x(3,isurfnod) - orig(3))
               xsn(3,i) = skew(7,isk)*(x(1,isurfnod) - orig(1)) + skew(8,isk)*(x(2,isurfnod) - orig(2)) + &
-                     &   skew(9,isk)*(x(3,isurfnod) - orig(3))
+              &   skew(9,isk)*(x(3,isurfnod) - orig(3))
             end do
           else
             do i=1, n_nodes
@@ -157,7 +157,7 @@
               xsn(3,i) = x(3,isurfnod)
             end do
           endif
-          
+
           do i=1, n_surf_nodes
             isurfnod = surf_nodes(i)
             minx_isurfnod = min(minx_isurfnod, xsn(1,i))
@@ -177,7 +177,7 @@
             minz_igrnod = min(minz_igrnod, xn(3,i))
             maxz_igrnod = max(maxz_igrnod, xn(3,i))
           end do
-          
+
           if (pflag == 1) then
             if (idir == 1) then
               max_pos = minx_isurfnod
@@ -192,10 +192,10 @@
 
             if (max_pos - min_pos - gap < 0.0_WP) then
               call ancmsg(msgid=3111,       &
-                    &     msgtype=msgerror, &
-                    &     anmode=aninfo,    &
-                    &     i1=id,            &
-                    &     c1=titr)
+              &     msgtype=msgerror, &
+              &     anmode=aninfo,    &
+              &     i1=id,            &
+              &     c1=titr)
             end if
           else if (pflag == 2) then
             if (idir == 1) then
@@ -211,10 +211,10 @@
 
             if (max_pos - min_pos - gap < 0.0_WP) then
               call ancmsg(msgid=3111,       &
-                    &     msgtype=msgerror, &
-                    &     anmode=aninfo,    &
-                    &     i1=id,            &
-                    &     c1=titr)
+              &     msgtype=msgerror, &
+              &     anmode=aninfo,    &
+              &     i1=id,            &
+              &     c1=titr)
             end if
           end if
 
@@ -230,9 +230,9 @@
 
           if (isk > 0) then
             detskew = (skew(1,isk)*skew(5,isk)*skew(9,isk)) + (skew(4,isk)*skew(8,isk)*skew(3,isk))&
-                  & + (skew(7,isk)*skew(2,isk)*skew(6,isk)) &
-                  & - (skew(7,isk)*skew(5,isk)*skew(3,isk)) - (skew(8,isk)*skew(6,isk)*skew(1,isk))&
-                  & - (skew(9,isk)*skew(2,isk)*skew(4,isk))
+            & + (skew(7,isk)*skew(2,isk)*skew(6,isk)) &
+            & - (skew(7,isk)*skew(5,isk)*skew(3,isk)) - (skew(8,isk)*skew(6,isk)*skew(1,isk))&
+            & - (skew(9,isk)*skew(2,isk)*skew(4,isk))
 
             detskew = max(detskew, 1e-20)
 
@@ -255,7 +255,7 @@
             norm(1) = sqrt(invertskew_x(1)**2 + invertskew_x(2)**2 + invertskew_x(3)**2)
             norm(2) = sqrt(invertskew_Y(1)**2 + invertskew_Y(2)**2 + invertskew_Y(3)**2)
             norm(3) = sqrt(invertskew_Z(1)**2 + invertskew_Z(2)**2 + invertskew_Z(3)**2)
-          
+
             invertskew_x(1) = invertskew_x(1)/norm(1)
             invertskew_x(2) = invertskew_x(2)/norm(1)
             invertskew_x(3) = invertskew_x(3)/norm(1)
@@ -308,11 +308,11 @@
               ! local to global transformation after translation in local system
 
               x(1,igrnod) = invertskew_x(1) * (xn(1,i)) + invertskew_x(2) * (xn(2,i)) &
-                        & + invertskew_x(3) * (xn(3,i)) + orig(1)
+              & + invertskew_x(3) * (xn(3,i)) + orig(1)
               x(2,igrnod) = invertskew_Y(1) * (xn(1,i)) + invertskew_Y(2) * (xn(2,i)) &
-                        & + invertskew_Y(3) * (xn(3,i)) + orig(2)
+              & + invertskew_Y(3) * (xn(3,i)) + orig(2)
               x(3,igrnod) = invertskew_Z(1) * (xn(1,i)) + invertskew_Z(2) * (xn(2,i)) &
-                        & + invertskew_Z(3) * (xn(3,i)) + orig(3)
+              & + invertskew_Z(3) * (xn(3,i)) + orig(3)
             end do
           end if
 

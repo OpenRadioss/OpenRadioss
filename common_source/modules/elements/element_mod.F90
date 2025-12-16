@@ -1157,12 +1157,12 @@
         integer, parameter :: nixs10 = 6 !< first dimension of ixs10 array (tetrahedral element)
         integer, parameter :: nixs16 = 8 !< first dimension of ixs16 array (solid 16-node element)
         integer, parameter :: nixs20 = 12 !< first dimension of ixs20 array (solid 20-node element)
-        integer, parameter :: nixc = 7 !< first dimension of ixc array (shell element)        
+        integer, parameter :: nixc = 7 !< first dimension of ixc array (shell element)
         integer, parameter :: nixt = 5 !< first dimension of ixt array (truss element)
         integer, parameter :: nixq = 7 !< first dimension of ixq array (quad element)
         integer, parameter :: nixp = 6 !< first dimension of ixp array (beam element)
         integer, parameter :: nixr = 6 !< first dimension of ixr array (spring element)
         integer, parameter :: nixtg = 6 !< first dimension of ixtg array (shell 3n / triangle element)
-        integer, parameter :: nixur = 6 !< first dimension of ixur array (user element)     
-! ----------------------------------------------------------------------------------------------------------------------        
+        integer, parameter :: nixur = 6 !< first dimension of ixur array (user element)
+! ----------------------------------------------------------------------------------------------------------------------
       end module element_mod

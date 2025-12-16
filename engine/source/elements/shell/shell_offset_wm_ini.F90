@@ -38,12 +38,12 @@
 !||    constant_mod          ../common_source/modules/constant_mod.F
 !||    precision_mod         ../common_source/modules/precision_mod.F90
 !||====================================================================
-        subroutine shell_offset_wm_ini(ipt  ,npt   ,zoffset  ,wmi)     
+        subroutine shell_offset_wm_ini(ipt  ,npt   ,zoffset  ,wmi)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                        Modules
 ! ----------------------------------------------------------------------------------------------------------------------
           use constant_mod, only : zero,one,half,third,one_over_6,fourth,one_over_8,zep1,zep2,zep3,zep4,zep0555555,    &
-                                   zep0714286,zep1666667,zep2142857,zep2777778,zep3571429,zep3888889,zep375
+            zep0714286,zep1666667,zep2142857,zep2777778,zep3571429,zep3888889,zep375
           use precision_mod, only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
           implicit none
@@ -60,49 +60,49 @@
           real(kind=WP) :: fac,lobatto,pos
 ! ======================================================================================================================
 !
-      real(kind=WP), parameter :: z01(11,11) = reshape((/                         &
-       zero       ,zero       ,zero       ,zero       ,zero       ,               &  !1
-       zero       ,zero       ,zero       ,zero       ,zero       ,zero       ,   &  !1
-       -half      ,half       ,zero       ,zero       ,zero       ,               &  !2
-       zero       ,zero       ,zero       ,zero       ,zero       ,zero       ,   &  !2
-       -half      ,zero       ,half       ,zero       ,zero       ,               &  !3
-       zero       ,zero       ,zero       ,zero       ,zero       ,zero       ,   &  !3
-       -half      ,-one_over_6,one_over_6 ,half       ,zero       ,               &  !4
-       zero       ,zero       ,zero       ,zero       ,zero       ,zero       ,   &  !4
-       -half      ,-fourth    ,zero       ,fourth     ,half       ,               &  !5
-       zero       ,zero       ,zero       ,zero       ,zero       ,zero       ,   &  !5
-       -half      ,-zep3      ,-zep1      ,zep1      ,zep3        ,               &  !6
-       half       ,zero       ,zero       ,zero      ,zero        ,zero       ,   &  !6
-       -half      ,-third     ,-one_over_6,zero      ,one_over_6  ,               &  !7
-       third      ,half       ,zero       ,zero      ,zero        ,zero       ,   &  !7
-       -half      ,-zep3571429,-zep2142857,-zep0714286,zep0714286 ,               &  !8
-       zep2142857 ,zep3571429 ,half       ,zero      ,zero        ,zero       ,   &  !8
-       -half      ,-zep375    ,-fourth    ,-one_over_8,zero       ,               &  !9
-       one_over_8 ,fourth     ,zep375     ,half      ,zero       ,zero        ,   &  !9
-       -half      ,-zep3888889,-zep2777778,-zep1666667,-zep0555555,               &  !A
-       zep0555555 ,zep1666667 ,zep2777778 ,zep3888889 ,half      ,zero        ,   &  !A
-       -half      ,-zep4      ,-zep3      ,-zep2     ,-zep1      ,                &  !B
-       zero       ,zep1       ,zep2       ,zep3      ,zep4       ,half        /), &  !B
-       (/11,11/))    
+          real(kind=WP), parameter :: z01(11,11) = reshape((/                         &
+            zero       ,zero       ,zero       ,zero       ,zero       ,               &  !1
+            zero       ,zero       ,zero       ,zero       ,zero       ,zero       ,   &  !1
+            -half      ,half       ,zero       ,zero       ,zero       ,               &  !2
+            zero       ,zero       ,zero       ,zero       ,zero       ,zero       ,   &  !2
+            -half      ,zero       ,half       ,zero       ,zero       ,               &  !3
+            zero       ,zero       ,zero       ,zero       ,zero       ,zero       ,   &  !3
+            -half      ,-one_over_6,one_over_6 ,half       ,zero       ,               &  !4
+            zero       ,zero       ,zero       ,zero       ,zero       ,zero       ,   &  !4
+            -half      ,-fourth    ,zero       ,fourth     ,half       ,               &  !5
+            zero       ,zero       ,zero       ,zero       ,zero       ,zero       ,   &  !5
+            -half      ,-zep3      ,-zep1      ,zep1      ,zep3        ,               &  !6
+            half       ,zero       ,zero       ,zero      ,zero        ,zero       ,   &  !6
+            -half      ,-third     ,-one_over_6,zero      ,one_over_6  ,               &  !7
+            third      ,half       ,zero       ,zero      ,zero        ,zero       ,   &  !7
+            -half      ,-zep3571429,-zep2142857,-zep0714286,zep0714286 ,               &  !8
+            zep2142857 ,zep3571429 ,half       ,zero      ,zero        ,zero       ,   &  !8
+            -half      ,-zep375    ,-fourth    ,-one_over_8,zero       ,               &  !9
+            one_over_8 ,fourth     ,zep375     ,half      ,zero       ,zero        ,   &  !9
+            -half      ,-zep3888889,-zep2777778,-zep1666667,-zep0555555,               &  !A
+            zep0555555 ,zep1666667 ,zep2777778 ,zep3888889 ,half      ,zero        ,   &  !A
+            -half      ,-zep4      ,-zep3      ,-zep2     ,-zep1      ,                &  !B
+            zero       ,zep1       ,zep2       ,zep3      ,zep4       ,half        /), &  !B
+            (/11,11/))
 !
-!                 
+!
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
 !    WM1i = Z01i / (n-1)    if |Z01i| /= 0.5
 !    WM1i =  1/2(n-1) [1/2 - 1/3(n-1)]    if  Z01i =  0.5
-        wmi = zero
-        if (npt>1) then
-          fac =one/(npt-1)
-          if (abs(z01(ipt,npt))==half) then
-            lobatto = (half-third*fac)*fac
-          else
-            lobatto = fac
+          wmi = zero
+          if (npt>1) then
+            fac =one/(npt-1)
+            if (abs(z01(ipt,npt))==half) then
+              lobatto = (half-third*fac)*fac
+            else
+              lobatto = fac
+            end if
+            pos = z01(ipt,npt) + zoffset
+            wmi = pos*lobatto
           end if
-          pos = z01(ipt,npt) + zoffset
-          wmi = pos*lobatto
-        end if
-!        
+!
         end subroutine shell_offset_wm_ini
 ! ----------------------------------------------------------------------------------------------------------------------
       end module shell_offset_wm_ini_mod

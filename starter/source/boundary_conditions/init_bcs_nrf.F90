@@ -310,51 +310,51 @@
 
             bcs%nrf(ii)%list%size = nseg
 
-              !effective size & printout
-              if(nseg > 0)then
-                write(iout, 2011)bcs%nrf(ii)%user_id
-                write(iout, 2019)nseg
-                write(iout, 2020)
-                if(n2d == 0)then
-                  write(iout, 2023)
-                else
-                  write(iout, 2021)
-                end if
-                do jj=1,nseg
-                  iie = bcs%nrf(ii)%list%elem(jj)
-                  kk = bcs%nrf(ii)%list%face(jj)
-                  ! convert internal ids into user ids
-                  if(n2d == 0)then
-                    ie = ixs(nixs,iie)
-                    imat = ixs(1,iie)
-                    fac = fourth
-                    n3= ixs(1+icf3d(3,kk),iie)
-                    n4= ixs(1+icf3d(4,kk),iie)
-                    if(n3==n4 .or. n4==0)fac=third
-                    if(ipri >= 3)write(iout, fmt="(5X,I10,4X,4I10)")ie, ITAB(ixs(1+ICF3D(1:4,kk),iie))
-                  else
-                    if(is_tria)then
-                      ie = ixtg(nixtg,iie)
-                      imat = ixtg(1,iie)
-                      fac = half
-                      if(ipri >= 3)write(iout, fmt="(5X,I10,2X,2I10)")ie, ITAB(ixtg(1+ICF2D(1:2,kk),iie))
-                    else
-                      ie = ixq(nixq,iie)
-                      imat = ixq(1,iie)
-                      fac = half
-                      if(ipri >= 3)write(iout, fmt="(5X,I10,2X,2I10)")ie, ITAB(ixq(1+ICF2D(1:2,kk),iie))
-                    end if
-                  end if
-                  rho0 = mat_param(imat)%rho0
-                  shear = mat_param(imat)%shear
-                  bulk = mat_param(imat)%bulk
-                  bcs%nrf(ii)%list%rCp(jj) = sqrt((bulk + FOUR_OVER_3*shear)/rho0)
-                  bcs%nrf(ii)%list%rCs(jj) = sqrt(shear/rho0)
-                  bcs%nrf(ii)%list%rCp(jj) = fac * rho0 * bcs%nrf(ii)%list%rCp(jj) !rho.Cp/N
-                  bcs%nrf(ii)%list%rCs(jj) = fac * rho0 * bcs%nrf(ii)%list%rCs(jj) !rho*Cs/N
-                end do
-                if(ipri >= 3)write(iout, 2022)
+            !effective size & printout
+            if(nseg > 0)then
+              write(iout, 2011)bcs%nrf(ii)%user_id
+              write(iout, 2019)nseg
+              write(iout, 2020)
+              if(n2d == 0)then
+                write(iout, 2023)
+              else
+                write(iout, 2021)
               end if
+              do jj=1,nseg
+                iie = bcs%nrf(ii)%list%elem(jj)
+                kk = bcs%nrf(ii)%list%face(jj)
+                ! convert internal ids into user ids
+                if(n2d == 0)then
+                  ie = ixs(nixs,iie)
+                  imat = ixs(1,iie)
+                  fac = fourth
+                  n3= ixs(1+icf3d(3,kk),iie)
+                  n4= ixs(1+icf3d(4,kk),iie)
+                  if(n3==n4 .or. n4==0)fac=third
+                  if(ipri >= 3)write(iout, fmt="(5X,I10,4X,4I10)")ie, ITAB(ixs(1+ICF3D(1:4,kk),iie))
+                else
+                  if(is_tria)then
+                    ie = ixtg(nixtg,iie)
+                    imat = ixtg(1,iie)
+                    fac = half
+                    if(ipri >= 3)write(iout, fmt="(5X,I10,2X,2I10)")ie, ITAB(ixtg(1+ICF2D(1:2,kk),iie))
+                  else
+                    ie = ixq(nixq,iie)
+                    imat = ixq(1,iie)
+                    fac = half
+                    if(ipri >= 3)write(iout, fmt="(5X,I10,2X,2I10)")ie, ITAB(ixq(1+ICF2D(1:2,kk),iie))
+                  end if
+                end if
+                rho0 = mat_param(imat)%rho0
+                shear = mat_param(imat)%shear
+                bulk = mat_param(imat)%bulk
+                bcs%nrf(ii)%list%rCp(jj) = sqrt((bulk + FOUR_OVER_3*shear)/rho0)
+                bcs%nrf(ii)%list%rCs(jj) = sqrt(shear/rho0)
+                bcs%nrf(ii)%list%rCp(jj) = fac * rho0 * bcs%nrf(ii)%list%rCp(jj) !rho.Cp/N
+                bcs%nrf(ii)%list%rCs(jj) = fac * rho0 * bcs%nrf(ii)%list%rCs(jj) !rho*Cs/N
+              end do
+              if(ipri >= 3)write(iout, 2022)
+            end if
 
             deallocate(bcs%iworking_array)
 

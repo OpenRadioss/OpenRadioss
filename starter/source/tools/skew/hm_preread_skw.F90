@@ -55,8 +55,8 @@
 !||    submodel_mod           ../starter/share/modules1/submodel_mod.F
 !||====================================================================
         subroutine hm_preread_skw(skew      ,iskn   ,x      ,itab   ,itabm1    , &
-                               &  lsubmodel ,unitab ,numnod ,numskw ,check_used, &
-                               &  liskn     ,lskew  ,n2d    ,siskwn ,sskew     )
+        &  lsubmodel ,unitab ,numnod ,numskw ,check_used, &
+        &  liskn     ,lskew  ,n2d    ,siskwn ,sskew     )
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! -------------------------------------------------------------------, ---------------------------------------------------
@@ -88,14 +88,14 @@
           !integer,                                   intent(in) :: nsubmod                             !< Number of submodels
           integer,                                   intent(in) :: n2d                                 !< 2D model flag
           type (submodel_data),                      intent(in) :: lsubmodel(nsubmod)                  !< Submodel data
-          integer,                                   intent(inout) :: iskn(liskn,siskwn/liskn)         !< skew system connectivity  
+          integer,                                   intent(inout) :: iskn(liskn,siskwn/liskn)         !< skew system connectivity
           real(kind=WP),                             intent(inout) :: skew(lskew,sskew/lskew)          !< skew system definition
           real(kind=WP),                             intent(inout) :: x(3, numnod)                     !< Coordinates of all nodes
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
           integer :: i,n,imov,j,n1,n2,n3,k,sub_id, &                                               !< local entities id's
-                  &  idir,iflagunit,id,uid,cpt
+          &  idir,iflagunit,id,uid,cpt
           real(kind=WP) :: p(12), pnor1, pnor2, pnorm1, det1, det2, det3, det, pp                      !< local real variables
           character(len=nchartitle) :: titr                                                            !< Title string
           character(len=ncharfield) :: key                                                             !< key string
@@ -133,11 +133,11 @@
 ! EXTRACT DATA OF /skew/... LINE
 !--------------------------------------------------
             call hm_option_read_key(lsubmodel, &
-                               &    option_id = id, &
-                               &    unit_id = uid, &
-                               &    submodel_id = sub_id, &
-                               &    option_titr = titr, &
-                               &    keyword2 = key)
+            &    option_id = id, &
+            &    unit_id = uid, &
+            &    submodel_id = sub_id, &
+            &    option_titr = titr, &
+            &    keyword2 = key)
 
             imov  = 0
 !
@@ -150,13 +150,13 @@
             enddo
             if (uid/=0 .and. iflagunit==0) then
               call ancmsg(msgid=659, &
-               &          anmode=aninfo, &
-               &          msgtype=msgerror, &
-               &          i2=uid, &
-               &          i1=id, &
-               &          c1='SKEW SYSTEM', &
-               &          c2='SKEW SYSTEM', &
-               &          c3=titr)
+              &          anmode=aninfo, &
+              &          msgtype=msgerror, &
+              &          i2=uid, &
+              &          i1=id, &
+              &          c1='SKEW SYSTEM', &
+              &          c2='SKEW SYSTEM', &
+              &          c3=titr)
             endif
 !
             if (key(1:3)=='FIX') then
@@ -201,7 +201,7 @@
                 if (dir(k:k) == 'Z'.OR.dir(k:k) == 'z') idir = 3
               enddo
               iskn(6,i+1)=idir
-  !
+              !
             endif
             iskn(4,i+1)=id
 !----------------
@@ -248,11 +248,11 @@
               pnor1=sqrt(p(7)*p(7)+p(8)*p(8)+p(9)*p(9))
               if (pnor1 < em20) then
                 call ancmsg(msgid=162, &
-                     &      msgtype=msgerror, &
-                     &      anmode=aninfo_blind_1, &
-                     &      i2=itab(n1), &
-                     &      i1=n,c1=titr, &
-                     &      i3=itab(n2))
+                &      msgtype=msgerror, &
+                &      anmode=aninfo_blind_1, &
+                &      i2=itab(n1), &
+                &      i1=n,c1=titr, &
+                &      i3=itab(n2))
               endif
 !       calculation of collinearity of vectors n1n2 and n1n3
               pnor2=sqrt(p(1)*p(1)+p(2)*p(2)+p(3)*p(3))
@@ -267,9 +267,9 @@
               endif
               if (det < em5) then
                 call ancmsg(msgid=163, &
-                     &      msgtype=msgwarning, &
-                     &      anmode=aninfo_blind_1, &
-                     &      i1=id,c1=titr)
+                &      msgtype=msgwarning, &
+                &      anmode=aninfo_blind_1, &
+                &      i1=id,c1=titr)
                 if(abs(p(2)) < em5) then
                   p(4)=abs(p(1))+ten
                 else
@@ -344,11 +344,11 @@
               if (idir == 3) pnor1=sqrt(p(7)*p(7)+p(8)*p(8)+p(9)*p(9))
               if (pnor1<em20) then
                 call ancmsg(msgid=162, &
-                  &         msgtype=msgerror, &
-                  &         anmode=aninfo_blind_1, &
-                  &         i2=itab(n1), &
-                  &         i1=id,c1=titr, &
-                  &         i3=itab(n2))
+                &         msgtype=msgerror, &
+                &         anmode=aninfo_blind_1, &
+                &         i2=itab(n1), &
+                &         i1=id,c1=titr, &
+                &         i3=itab(n2))
               endif
 !     calculation of collinearity of vectors n1n2 and n1n3
               if (idir == 1) pnor2=sqrt(p(4)*p(4)+p(5)*p(5)+p(6)*p(6))
@@ -375,10 +375,10 @@
               endif
               if (det<em5) then
                 call ancmsg(msgid=163, &
-                      &     msgtype=msgwarning, &
-                      &     anmode=aninfo_blind_1, &
-                      &     i1=id, &
-                      &     c1=titr)
+                &     msgtype=msgwarning, &
+                &     anmode=aninfo_blind_1, &
+                &     i1=id, &
+                &     c1=titr)
                 if (idir == 1) then
                   if(abs(p(2))>em5) then
                     p(4)=abs(p(1))+ten
@@ -416,7 +416,7 @@
                 p(6)=p(7)*p(2)-p(8)*p(1)
               endif
 !-----------------
-!     calculation of: Y'(idir=1) Z'(idir=2) X'(idir=3) 
+!     calculation of: Y'(idir=1) Z'(idir=2) X'(idir=3)
 !-----------------
               if (idir == 1) then
                 p(4)=p(8)*p(3)-p(9)*p(2)

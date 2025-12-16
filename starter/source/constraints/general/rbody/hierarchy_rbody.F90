@@ -38,8 +38,8 @@
 !||--- uses       -----------------------------------------------------
 !||====================================================================
         subroutine hierarchy_rbody(nrbykin ,nnpby ,npby  ,slpby ,lpby  ,            &
-                                   nrby    ,rby   ,numnod,iout  ,lnopt1,            &
-                                   nom_opt )
+          nrby    ,rby   ,numnod,iout  ,lnopt1,            &
+          nom_opt )
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                        Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -74,108 +74,108 @@
           integer, dimension(:,:), allocatable :: npby_copy
           integer, dimension(:), allocatable :: itag,lpby_copy
           integer, dimension(nrbykin) :: parent_of    !< parent index for each rbody (0 = no parent)
-          real(kind=WP),dimension(:,:),allocatable   :: rby_copy             
+          real(kind=WP),dimension(:,:),allocatable   :: rby_copy
 ! ======================================================================================================================
-      call my_alloc(itag,numnod)
+          call my_alloc(itag,numnod)
 !--------supposing after merging : no m in multi rbody---------------------------------------
-      itag = 0
-      do i=1,nrbykin
-        m = npby(1,i)
-        if (m >= 1 .and. m <= numnod) then
-          if (itag(m)==0) itag(m) = i
-        end if
-      enddo
+          itag = 0
+          do i=1,nrbykin
+            m = npby(1,i)
+            if (m >= 1 .and. m <= numnod) then
+              if (itag(m)==0) itag(m) = i
+            end if
+          enddo
 
 !--------finding parent rbody---------------------------------------
-      parent_of = 0
-      do i=1,nrbykin
-        iad = npby(11,i)
-        nsn = npby(2,i)
-        do j = 1,nsn
-          ns = lpby(iad+j)
-          parent_idx = itag(ns)
-          if (parent_idx > 0 .and. parent_idx /= i) then
-            if (parent_of(i) == 0) then
-              parent_of(i) = parent_idx       ! assign first found parent
-            end if
-          end if
-        end do
-      end do
+          parent_of = 0
+          do i=1,nrbykin
+            iad = npby(11,i)
+            nsn = npby(2,i)
+            do j = 1,nsn
+              ns = lpby(iad+j)
+              parent_idx = itag(ns)
+              if (parent_idx > 0 .and. parent_idx /= i) then
+                if (parent_of(i) == 0) then
+                  parent_of(i) = parent_idx       ! assign first found parent
+                end if
+              end if
+            end do
+          end do
 
 !------ initialize levels: roots (no parent) -> level 0, others unknown (-1) ------
-      nlev = -1
-      is_hier = .false.
-      do i=1,nrbykin
-        if (parent_of(i) == 0) then
-          nlev(i) = 0
-        else 
-          is_hier = .true.
-        end if
-      end do
-      if (is_hier) then
+          nlev = -1
+          is_hier = .false.
+          do i=1,nrbykin
+            if (parent_of(i) == 0) then
+              nlev(i) = 0
+            else
+              is_hier = .true.
+            end if
+          end do
+          if (is_hier) then
 !------ propagate levels up the parent chain until stable -------------------------
-        changed = .true.
-        iter = 0
-        nh_max = nrbykin -1
-        do while (changed .and. iter < nh_max)
-          changed = .false.
-          iter = iter + 1
-          do i = 1, nrbykin
-            if (nlev(i) == -1) then
-              parent_idx = parent_of(i)
-            ! normally parent_idx > 0 here
-              if (nlev(parent_idx) /= -1) then
-                nlev(i) = nlev(parent_idx) + 1
-                changed = .true.
-              end if
-            end if
-          end do
-        end do
+            changed = .true.
+            iter = 0
+            nh_max = nrbykin -1
+            do while (changed .and. iter < nh_max)
+              changed = .false.
+              iter = iter + 1
+              do i = 1, nrbykin
+                if (nlev(i) == -1) then
+                  parent_idx = parent_of(i)
+                  ! normally parent_idx > 0 here
+                  if (nlev(parent_idx) /= -1) then
+                    nlev(i) = nlev(parent_idx) + 1
+                    changed = .true.
+                  end if
+                end if
+              end do
+            end do
 !------ break cycles / unresolved entries by setting level 0 (safe fallback) -----
-        nhier = 0
-        do i=1,nrbykin
-          if (nlev(i) == -1) nlev(i) = 0
-          nhier = max(nhier,nlev(i))
-        end do
+            nhier = 0
+            do i=1,nrbykin
+              if (nlev(i) == -1) nlev(i) = 0
+              nhier = max(nhier,nlev(i))
+            end do
 !------ build index array ordered by increasing hierarchy level -------------------
-        k = 0
-        do ih = 0 ,nhier
-          do i = 1, nrbykin
-            if (nlev(i) == ih) then
-              k = k + 1
-              index(k) = i
-            end if
-          end do
-        end do 
+            k = 0
+            do ih = 0 ,nhier
+              do i = 1, nrbykin
+                if (nlev(i) == ih) then
+                  k = k + 1
+                  index(k) = i
+                end if
+              end do
+            end do
 !------ reorder npby and lpby according to hierarchy -------------------------------
-        call my_alloc(npby_copy,nnpby,nrbykin)
-        call my_alloc(lpby_copy,slpby)
-        call my_alloc(rby_copy,nrby,nrbykin)
-        npby_copy = npby
-        lpby_copy = lpby
-        rby_copy = rby
-        iad_n = 0
-        do j=1,nrbykin
-           i = index(j)
-           npby(1:nnpby,j) = npby_copy(1:nnpby,i)
-           rby(1:nrby,j)  = rby_copy(1:nrby,i)
-           nsn = npby_copy(2,i)
-           iad = npby_copy(11,i)
-           lpby(iad_n+1:iad_n+nsn) = lpby_copy(iad+1:iad+nsn)
-           npby(11,j) = iad_n
-           npby(20,j) =nlev(i)  ! store level in npby(20,:)
-           iad_n = iad_n + nsn
-           nom_opt(1,j) = npby(6,j)
-        end do
-        write(iout,1000) nhier
-        deallocate(npby_copy)
-        deallocate(lpby_copy)
-        deallocate(rby_copy)
-      end if !(is_hier) then
+            call my_alloc(npby_copy,nnpby,nrbykin)
+            call my_alloc(lpby_copy,slpby)
+            call my_alloc(rby_copy,nrby,nrbykin)
+            npby_copy = npby
+            lpby_copy = lpby
+            rby_copy = rby
+            iad_n = 0
+            do j=1,nrbykin
+              i = index(j)
+              npby(1:nnpby,j) = npby_copy(1:nnpby,i)
+              rby(1:nrby,j)  = rby_copy(1:nrby,i)
+              nsn = npby_copy(2,i)
+              iad = npby_copy(11,i)
+              lpby(iad_n+1:iad_n+nsn) = lpby_copy(iad+1:iad+nsn)
+              npby(11,j) = iad_n
+              npby(20,j) =nlev(i)  ! store level in npby(20,:)
+              iad_n = iad_n + nsn
+              nom_opt(1,j) = npby(6,j)
+            end do
+            write(iout,1000) nhier
+            deallocate(npby_copy)
+            deallocate(lpby_copy)
+            deallocate(rby_copy)
+          end if !(is_hier) then
 
-      deallocate(itag)
-1000  FORMAT(/10X,'RIGID BODY HIERARCHY LEVEL. . . . . . . . . . . :',I10        & 
-             /10X,'RIGID BODY IS REORDERED  ')
+          deallocate(itag)
+1000      FORMAT(/10X,'RIGID BODY HIERARCHY LEVEL. . . . . . . . . . . :',I10        &
+            /10X,'RIGID BODY IS REORDERED  ')
 
         end subroutine hierarchy_rbody
 ! ======================================================================================================================
@@ -215,8 +215,8 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   External functions
 ! ----------------------------------------------------------------------------------------------------------------------
-         integer ::  nlocal
-         external nlocal    
+          integer ::  nlocal
+          external nlocal
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   local variables
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -226,35 +226,35 @@
           integer, dimension(:,:), allocatable :: npby_copy
           integer, dimension(:), allocatable :: itag,lpby_copy
           integer, dimension(nrbykin) :: parent_of    !< parent index for each rbody (0 = no parent)
-          real(kind=WP),dimension(:,:),allocatable   :: rby_copy             
+          real(kind=WP),dimension(:,:),allocatable   :: rby_copy
 ! ======================================================================================================================
-      nhier = 0
-      do i=1,nrbykin
-        nhier = max(nhier,npby(20,i))
-      enddo
-      if (nhier > 0) then
-        call my_alloc(itag,numnod)
-        itag = 0
-        do i=1,nrbykin
-          m = npby(1,i)
-          if (itag(m)==0) itag(m) = i
-        enddo        
+          nhier = 0
+          do i=1,nrbykin
+            nhier = max(nhier,npby(20,i))
+          enddo
+          if (nhier > 0) then
+            call my_alloc(itag,numnod)
+            itag = 0
+            do i=1,nrbykin
+              m = npby(1,i)
+              if (itag(m)==0) itag(m) = i
+            enddo
 !-----  --m of high level should be in the same p than his son---------------------------------------
-        do i=1,nrbykin
-          m = npby(1,i)
-          iad = npby(11,i)
-          nsn = npby(2,i)
-          do j = 1,nsn
-            ns = lpby(iad+j)
-            if (itag(ns) > 0 ) then
-               do p = 1,nspmd
-                 if(nlocal(ns,p)/=0.and.nlocal(m,p)==0) call ifrontplus(m,p)
-               end do
-            end if
-          end do
-        end do
-        deallocate(itag)
-      end if
+            do i=1,nrbykin
+              m = npby(1,i)
+              iad = npby(11,i)
+              nsn = npby(2,i)
+              do j = 1,nsn
+                ns = lpby(iad+j)
+                if (itag(ns) > 0 ) then
+                  do p = 1,nspmd
+                    if(nlocal(ns,p)/=0.and.nlocal(m,p)==0) call ifrontplus(m,p)
+                  end do
+                end if
+              end do
+            end do
+            deallocate(itag)
+          end if
 !
         end subroutine hierarchy_rbody_ddm
       end module hierarchy_rbody_mod
