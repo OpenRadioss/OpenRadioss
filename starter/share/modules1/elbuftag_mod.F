@@ -50,6 +50,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_read_fail_orthstrain      ../starter/source/materials/fail/orthstrain/hm_read_fail_orthstrain.F
 !||    hm_read_fail_puck            ../starter/source/materials/fail/puck/hm_read_fail_puck.F
 !||    hm_read_fail_spalling        ../starter/source/materials/fail/spalling/hm_read_fail_spalling.F90
+!||    hm_read_fail_tab2            ../starter/source/materials/fail/tabulated/hm_read_fail_tab2.F
 !||    hm_read_fail_tsaihill        ../starter/source/materials/fail/tsaihill/hm_read_fail_tsaihill.F
 !||    hm_read_fail_tsaiwu          ../starter/source/materials/fail/tsaiwu/hm_read_fail_tsaiwu.F
 !||    hm_read_inject1              ../starter/source/properties/injector/hm_read_inject1.F

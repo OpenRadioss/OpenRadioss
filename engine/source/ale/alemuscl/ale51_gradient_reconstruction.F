@@ -39,7 +39,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    ale_connectivity_mod            ../common_source/modules/ale/ale_connectivity_mod.F
 !||    alemuscl_mod                    ../common_source/modules/ale/alemuscl_mod.F
 !||    array_mod                       ../common_source/modules/array_mod.F
-!||    debug_mod                       ../engine/share/modules/debug_mod.F
 !||    elbufdef_mod                    ../common_source/modules/mat_elem/elbufdef_mod.F90
 !||    element_mod                     ../common_source/modules/elements/element_mod.F90
 !||    geom_vec_mod                    ../engine/source/ale/alemuscl/geom_vec.F90

@@ -413,7 +413,7 @@
 
 !! \brief Check if the allocation was successful and print an error message if it was noti
 !||====================================================================
-!||    check_error_and_write         ../common_source/tools/memory/shrink_array.F90
+!||    check_error_and_write         ../common_source/tools/memory/my_alloc.F90
 !||--- called by ------------------------------------------------------
 !||    extend_array_double_1d        ../common_source/tools/memory/extend_array.F90
 !||    extend_array_double_2d        ../common_source/tools/memory/extend_array.F90
@@ -507,7 +507,7 @@
 !||====================================================================
 !||    my_alloc_real_1d        ../common_source/tools/memory/my_alloc.F90
 !||--- calls      -----------------------------------------------------
-!||    check_error_and_write   ../common_source/tools/memory/shrink_array.F90
+!||    check_error_and_write   ../common_source/tools/memory/my_alloc.F90
 !||====================================================================
         subroutine my_alloc_real_1d(a, n, msg, stat)
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -540,7 +540,7 @@
 !||====================================================================
 !||    my_alloc_real_2d        ../common_source/tools/memory/my_alloc.F90
 !||--- calls      -----------------------------------------------------
-!||    check_error_and_write   ../common_source/tools/memory/shrink_array.F90
+!||    check_error_and_write   ../common_source/tools/memory/my_alloc.F90
 !||====================================================================
         subroutine my_alloc_real_2d(a, n,m, msg, stat)
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -573,7 +573,7 @@
 !||====================================================================
 !||    my_alloc_real_3d        ../common_source/tools/memory/my_alloc.F90
 !||--- calls      -----------------------------------------------------
-!||    check_error_and_write   ../common_source/tools/memory/shrink_array.F90
+!||    check_error_and_write   ../common_source/tools/memory/my_alloc.F90
 !||====================================================================
         subroutine my_alloc_real_3d(a,l,m,n, msg, stat)
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -612,7 +612,7 @@
 !||====================================================================
 !||    my_alloc_double_1d      ../common_source/tools/memory/my_alloc.F90
 !||--- calls      -----------------------------------------------------
-!||    check_error_and_write   ../common_source/tools/memory/shrink_array.F90
+!||    check_error_and_write   ../common_source/tools/memory/my_alloc.F90
 !||====================================================================
         subroutine my_alloc_double_1d(a, n, msg, stat)
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -645,7 +645,7 @@
 !||====================================================================
 !||    my_alloc_double_2d      ../common_source/tools/memory/my_alloc.F90
 !||--- calls      -----------------------------------------------------
-!||    check_error_and_write   ../common_source/tools/memory/shrink_array.F90
+!||    check_error_and_write   ../common_source/tools/memory/my_alloc.F90
 !||====================================================================
         subroutine my_alloc_double_2d(a, n,m, msg, stat)
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -678,7 +678,7 @@
 !||====================================================================
 !||    my_alloc_double_3d      ../common_source/tools/memory/my_alloc.F90
 !||--- calls      -----------------------------------------------------
-!||    check_error_and_write   ../common_source/tools/memory/shrink_array.F90
+!||    check_error_and_write   ../common_source/tools/memory/my_alloc.F90
 !||====================================================================
         subroutine my_alloc_double_3d(a,l,m,n, msg, stat)
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -718,7 +718,7 @@
 !||====================================================================
 !||    my_alloc_integer_1d     ../common_source/tools/memory/my_alloc.F90
 !||--- calls      -----------------------------------------------------
-!||    check_error_and_write   ../common_source/tools/memory/shrink_array.F90
+!||    check_error_and_write   ../common_source/tools/memory/my_alloc.F90
 !||====================================================================
         subroutine my_alloc_integer_1d(a, n, msg, stat)
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -751,7 +751,7 @@
 !||====================================================================
 !||    my_alloc_integer_2d     ../common_source/tools/memory/my_alloc.F90
 !||--- calls      -----------------------------------------------------
-!||    check_error_and_write   ../common_source/tools/memory/shrink_array.F90
+!||    check_error_and_write   ../common_source/tools/memory/my_alloc.F90
 !||====================================================================
         subroutine my_alloc_integer_2d(a, n,m, msg, stat)
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -785,7 +785,7 @@
 !||====================================================================
 !||    my_alloc_integer_3d     ../common_source/tools/memory/my_alloc.F90
 !||--- calls      -----------------------------------------------------
-!||    check_error_and_write   ../common_source/tools/memory/shrink_array.F90
+!||    check_error_and_write   ../common_source/tools/memory/my_alloc.F90
 !||====================================================================
         subroutine my_alloc_integer_3d(a,l,m,n, msg, stat)
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -824,7 +824,7 @@
 !||====================================================================
 !||    my_alloc_preal_1d       ../common_source/tools/memory/my_alloc.F90
 !||--- calls      -----------------------------------------------------
-!||    check_error_and_write   ../common_source/tools/memory/shrink_array.F90
+!||    check_error_and_write   ../common_source/tools/memory/my_alloc.F90
 !||====================================================================
         subroutine my_alloc_preal_1d(a, n, msg, stat)
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -857,7 +857,7 @@
 !||====================================================================
 !||    my_alloc_preal_2d       ../common_source/tools/memory/my_alloc.F90
 !||--- calls      -----------------------------------------------------
-!||    check_error_and_write   ../common_source/tools/memory/shrink_array.F90
+!||    check_error_and_write   ../common_source/tools/memory/my_alloc.F90
 !||====================================================================
         subroutine my_alloc_preal_2d(a, n,m, msg, stat)
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -890,7 +890,7 @@
 !||====================================================================
 !||    my_alloc_preal_3d       ../common_source/tools/memory/my_alloc.F90
 !||--- calls      -----------------------------------------------------
-!||    check_error_and_write   ../common_source/tools/memory/shrink_array.F90
+!||    check_error_and_write   ../common_source/tools/memory/my_alloc.F90
 !||====================================================================
         subroutine my_alloc_preal_3d(a,l,m,n, msg, stat)
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -929,7 +929,7 @@
 !||====================================================================
 !||    my_alloc_pdouble_1d     ../common_source/tools/memory/my_alloc.F90
 !||--- calls      -----------------------------------------------------
-!||    check_error_and_write   ../common_source/tools/memory/shrink_array.F90
+!||    check_error_and_write   ../common_source/tools/memory/my_alloc.F90
 !||====================================================================
         subroutine my_alloc_pdouble_1d(a, n, msg, stat)
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -962,7 +962,7 @@
 !||====================================================================
 !||    my_alloc_pdouble_2d     ../common_source/tools/memory/my_alloc.F90
 !||--- calls      -----------------------------------------------------
-!||    check_error_and_write   ../common_source/tools/memory/shrink_array.F90
+!||    check_error_and_write   ../common_source/tools/memory/my_alloc.F90
 !||====================================================================
         subroutine my_alloc_pdouble_2d(a, n,m, msg, stat)
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -995,7 +995,7 @@
 !||====================================================================
 !||    my_alloc_pdouble_3d     ../common_source/tools/memory/my_alloc.F90
 !||--- calls      -----------------------------------------------------
-!||    check_error_and_write   ../common_source/tools/memory/shrink_array.F90
+!||    check_error_and_write   ../common_source/tools/memory/my_alloc.F90
 !||====================================================================
         subroutine my_alloc_pdouble_3d(a,l,m,n, msg, stat)
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -1035,7 +1035,7 @@
 !||====================================================================
 !||    my_alloc_pinteger_1d    ../common_source/tools/memory/my_alloc.F90
 !||--- calls      -----------------------------------------------------
-!||    check_error_and_write   ../common_source/tools/memory/shrink_array.F90
+!||    check_error_and_write   ../common_source/tools/memory/my_alloc.F90
 !||====================================================================
         subroutine my_alloc_pinteger_1d(a, n, msg, stat)
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -1068,7 +1068,7 @@
 !||====================================================================
 !||    my_alloc_pinteger_2d    ../common_source/tools/memory/my_alloc.F90
 !||--- calls      -----------------------------------------------------
-!||    check_error_and_write   ../common_source/tools/memory/shrink_array.F90
+!||    check_error_and_write   ../common_source/tools/memory/my_alloc.F90
 !||====================================================================
         subroutine my_alloc_pinteger_2d(a, n,m, msg, stat)
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -1102,7 +1102,7 @@
 !||====================================================================
 !||    my_alloc_pinteger_3d    ../common_source/tools/memory/my_alloc.F90
 !||--- calls      -----------------------------------------------------
-!||    check_error_and_write   ../common_source/tools/memory/shrink_array.F90
+!||    check_error_and_write   ../common_source/tools/memory/my_alloc.F90
 !||====================================================================
         subroutine my_alloc_pinteger_3d(a,l,m,n, msg, stat)
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -1144,7 +1144,7 @@
 !||====================================================================
 !||    my_alloc_8_real_1d      ../common_source/tools/memory/my_alloc.F90
 !||--- calls      -----------------------------------------------------
-!||    check_error_and_write   ../common_source/tools/memory/shrink_array.F90
+!||    check_error_and_write   ../common_source/tools/memory/my_alloc.F90
 !||====================================================================
         subroutine my_alloc_8_real_1d(a, n, msg, stat)
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -1177,7 +1177,7 @@
 !||====================================================================
 !||    my_alloc_8_real_2d      ../common_source/tools/memory/my_alloc.F90
 !||--- calls      -----------------------------------------------------
-!||    check_error_and_write   ../common_source/tools/memory/shrink_array.F90
+!||    check_error_and_write   ../common_source/tools/memory/my_alloc.F90
 !||====================================================================
         subroutine my_alloc_8_real_2d(a, n,m, msg, stat)
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -1210,7 +1210,7 @@
 !||====================================================================
 !||    my_alloc_8_real_3d      ../common_source/tools/memory/my_alloc.F90
 !||--- calls      -----------------------------------------------------
-!||    check_error_and_write   ../common_source/tools/memory/shrink_array.F90
+!||    check_error_and_write   ../common_source/tools/memory/my_alloc.F90
 !||====================================================================
         subroutine my_alloc_8_real_3d(a,l,m,n, msg, stat)
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -1249,7 +1249,7 @@
 !||====================================================================
 !||    my_alloc_8_double_1d    ../common_source/tools/memory/my_alloc.F90
 !||--- calls      -----------------------------------------------------
-!||    check_error_and_write   ../common_source/tools/memory/shrink_array.F90
+!||    check_error_and_write   ../common_source/tools/memory/my_alloc.F90
 !||====================================================================
         subroutine my_alloc_8_double_1d(a, n, msg, stat)
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -1282,7 +1282,7 @@
 !||====================================================================
 !||    my_alloc_8_double_2d    ../common_source/tools/memory/my_alloc.F90
 !||--- calls      -----------------------------------------------------
-!||    check_error_and_write   ../common_source/tools/memory/shrink_array.F90
+!||    check_error_and_write   ../common_source/tools/memory/my_alloc.F90
 !||====================================================================
         subroutine my_alloc_8_double_2d(a, n,m, msg, stat)
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -1315,7 +1315,7 @@
 !||====================================================================
 !||    my_alloc_8_double_3d    ../common_source/tools/memory/my_alloc.F90
 !||--- calls      -----------------------------------------------------
-!||    check_error_and_write   ../common_source/tools/memory/shrink_array.F90
+!||    check_error_and_write   ../common_source/tools/memory/my_alloc.F90
 !||====================================================================
         subroutine my_alloc_8_double_3d(a,l,m,n, msg, stat)
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -1355,7 +1355,7 @@
 !||====================================================================
 !||    my_alloc_8_integer_1d   ../common_source/tools/memory/my_alloc.F90
 !||--- calls      -----------------------------------------------------
-!||    check_error_and_write   ../common_source/tools/memory/shrink_array.F90
+!||    check_error_and_write   ../common_source/tools/memory/my_alloc.F90
 !||====================================================================
         subroutine my_alloc_8_integer_1d(a, n, msg, stat)
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -1388,7 +1388,7 @@
 !||====================================================================
 !||    my_alloc_8_integer_2d   ../common_source/tools/memory/my_alloc.F90
 !||--- calls      -----------------------------------------------------
-!||    check_error_and_write   ../common_source/tools/memory/shrink_array.F90
+!||    check_error_and_write   ../common_source/tools/memory/my_alloc.F90
 !||====================================================================
         subroutine my_alloc_8_integer_2d(a, n,m, msg, stat)
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -1422,7 +1422,7 @@
 !||====================================================================
 !||    my_alloc_8_integer_3d   ../common_source/tools/memory/my_alloc.F90
 !||--- calls      -----------------------------------------------------
-!||    check_error_and_write   ../common_source/tools/memory/shrink_array.F90
+!||    check_error_and_write   ../common_source/tools/memory/my_alloc.F90
 !||====================================================================
         subroutine my_alloc_8_integer_3d(a,l,m,n, msg, stat)
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -1460,7 +1460,7 @@
 !||====================================================================
 !||    my_alloc_8_preal_1d     ../common_source/tools/memory/my_alloc.F90
 !||--- calls      -----------------------------------------------------
-!||    check_error_and_write   ../common_source/tools/memory/shrink_array.F90
+!||    check_error_and_write   ../common_source/tools/memory/my_alloc.F90
 !||====================================================================
         subroutine my_alloc_8_preal_1d(a, n, msg, stat)
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -1493,7 +1493,7 @@
 !||====================================================================
 !||    my_alloc_8_preal_2d     ../common_source/tools/memory/my_alloc.F90
 !||--- calls      -----------------------------------------------------
-!||    check_error_and_write   ../common_source/tools/memory/shrink_array.F90
+!||    check_error_and_write   ../common_source/tools/memory/my_alloc.F90
 !||====================================================================
         subroutine my_alloc_8_preal_2d(a, n,m, msg, stat)
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -1526,7 +1526,7 @@
 !||====================================================================
 !||    my_alloc_8_preal_3d     ../common_source/tools/memory/my_alloc.F90
 !||--- calls      -----------------------------------------------------
-!||    check_error_and_write   ../common_source/tools/memory/shrink_array.F90
+!||    check_error_and_write   ../common_source/tools/memory/my_alloc.F90
 !||====================================================================
         subroutine my_alloc_8_preal_3d(a,l,m,n, msg, stat)
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -1565,7 +1565,7 @@
 !||====================================================================
 !||    my_alloc_8_pdouble_1d   ../common_source/tools/memory/my_alloc.F90
 !||--- calls      -----------------------------------------------------
-!||    check_error_and_write   ../common_source/tools/memory/shrink_array.F90
+!||    check_error_and_write   ../common_source/tools/memory/my_alloc.F90
 !||====================================================================
         subroutine my_alloc_8_pdouble_1d(a, n, msg, stat)
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -1598,7 +1598,7 @@
 !||====================================================================
 !||    my_alloc_8_pdouble_2d   ../common_source/tools/memory/my_alloc.F90
 !||--- calls      -----------------------------------------------------
-!||    check_error_and_write   ../common_source/tools/memory/shrink_array.F90
+!||    check_error_and_write   ../common_source/tools/memory/my_alloc.F90
 !||====================================================================
         subroutine my_alloc_8_pdouble_2d(a, n,m, msg, stat)
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -1631,7 +1631,7 @@
 !||====================================================================
 !||    my_alloc_8_pdouble_3d   ../common_source/tools/memory/my_alloc.F90
 !||--- calls      -----------------------------------------------------
-!||    check_error_and_write   ../common_source/tools/memory/shrink_array.F90
+!||    check_error_and_write   ../common_source/tools/memory/my_alloc.F90
 !||====================================================================
         subroutine my_alloc_8_pdouble_3d(a,l,m,n, msg, stat)
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -1671,7 +1671,7 @@
 !||====================================================================
 !||    my_alloc_8_pinteger_1d   ../common_source/tools/memory/my_alloc.F90
 !||--- calls      -----------------------------------------------------
-!||    check_error_and_write    ../common_source/tools/memory/shrink_array.F90
+!||    check_error_and_write    ../common_source/tools/memory/my_alloc.F90
 !||====================================================================
         subroutine my_alloc_8_pinteger_1d(a, n, msg, stat)
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -1704,7 +1704,7 @@
 !||====================================================================
 !||    my_alloc_8_pinteger_2d   ../common_source/tools/memory/my_alloc.F90
 !||--- calls      -----------------------------------------------------
-!||    check_error_and_write    ../common_source/tools/memory/shrink_array.F90
+!||    check_error_and_write    ../common_source/tools/memory/my_alloc.F90
 !||====================================================================
         subroutine my_alloc_8_pinteger_2d(a, n,m, msg, stat)
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -1738,7 +1738,7 @@
 !||====================================================================
 !||    my_alloc_8_pinteger_3d   ../common_source/tools/memory/my_alloc.F90
 !||--- calls      -----------------------------------------------------
-!||    check_error_and_write    ../common_source/tools/memory/shrink_array.F90
+!||    check_error_and_write    ../common_source/tools/memory/my_alloc.F90
 !||====================================================================
         subroutine my_alloc_8_pinteger_3d(a,l,m,n, msg, stat)
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -1776,7 +1776,7 @@
 !||====================================================================
 !||    my_alloc_logical_1d     ../common_source/tools/memory/my_alloc.F90
 !||--- calls      -----------------------------------------------------
-!||    check_error_and_write   ../common_source/tools/memory/shrink_array.F90
+!||    check_error_and_write   ../common_source/tools/memory/my_alloc.F90
 !||====================================================================
         subroutine my_alloc_logical_1d(a, n, msg, stat)
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -1809,7 +1809,7 @@
 !||====================================================================
 !||    my_alloc_logical_2d     ../common_source/tools/memory/my_alloc.F90
 !||--- calls      -----------------------------------------------------
-!||    check_error_and_write   ../common_source/tools/memory/shrink_array.F90
+!||    check_error_and_write   ../common_source/tools/memory/my_alloc.F90
 !||====================================================================
         subroutine my_alloc_logical_2d(a, n,m, msg, stat)
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -1842,7 +1842,7 @@
 !||====================================================================
 !||    my_alloc_logical_3d     ../common_source/tools/memory/my_alloc.F90
 !||--- calls      -----------------------------------------------------
-!||    check_error_and_write   ../common_source/tools/memory/shrink_array.F90
+!||    check_error_and_write   ../common_source/tools/memory/my_alloc.F90
 !||====================================================================
         subroutine my_alloc_logical_3d(a,l,m,n, msg, stat)
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -1877,7 +1877,7 @@
 !||====================================================================
 !||    my_alloc_plogical_1d    ../common_source/tools/memory/my_alloc.F90
 !||--- calls      -----------------------------------------------------
-!||    check_error_and_write   ../common_source/tools/memory/shrink_array.F90
+!||    check_error_and_write   ../common_source/tools/memory/my_alloc.F90
 !||====================================================================
         subroutine my_alloc_plogical_1d(a, n, msg, stat)
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -1910,7 +1910,7 @@
 !||====================================================================
 !||    my_alloc_plogical_2d    ../common_source/tools/memory/my_alloc.F90
 !||--- calls      -----------------------------------------------------
-!||    check_error_and_write   ../common_source/tools/memory/shrink_array.F90
+!||    check_error_and_write   ../common_source/tools/memory/my_alloc.F90
 !||====================================================================
         subroutine my_alloc_plogical_2d(a, n,m, msg, stat)
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -1943,7 +1943,7 @@
 !||====================================================================
 !||    my_alloc_plogical_3d    ../common_source/tools/memory/my_alloc.F90
 !||--- calls      -----------------------------------------------------
-!||    check_error_and_write   ../common_source/tools/memory/shrink_array.F90
+!||    check_error_and_write   ../common_source/tools/memory/my_alloc.F90
 !||====================================================================
         subroutine my_alloc_plogical_3d(a,l,m,n, msg, stat)
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -1981,7 +1981,7 @@
 !||====================================================================
 !||    my_alloc_8_logical_1d   ../common_source/tools/memory/my_alloc.F90
 !||--- calls      -----------------------------------------------------
-!||    check_error_and_write   ../common_source/tools/memory/shrink_array.F90
+!||    check_error_and_write   ../common_source/tools/memory/my_alloc.F90
 !||====================================================================
         subroutine my_alloc_8_logical_1d(a, n, msg, stat)
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -2014,7 +2014,7 @@
 !||====================================================================
 !||    my_alloc_8_logical_2d   ../common_source/tools/memory/my_alloc.F90
 !||--- calls      -----------------------------------------------------
-!||    check_error_and_write   ../common_source/tools/memory/shrink_array.F90
+!||    check_error_and_write   ../common_source/tools/memory/my_alloc.F90
 !||====================================================================
         subroutine my_alloc_8_logical_2d(a, n,m, msg, stat)
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -2047,7 +2047,7 @@
 !||====================================================================
 !||    my_alloc_8_logical_3d   ../common_source/tools/memory/my_alloc.F90
 !||--- calls      -----------------------------------------------------
-!||    check_error_and_write   ../common_source/tools/memory/shrink_array.F90
+!||    check_error_and_write   ../common_source/tools/memory/my_alloc.F90
 !||====================================================================
         subroutine my_alloc_8_logical_3d(a,l,m,n, msg, stat)
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -2082,7 +2082,7 @@
 !||====================================================================
 !||    my_alloc_8_plogical_1d   ../common_source/tools/memory/my_alloc.F90
 !||--- calls      -----------------------------------------------------
-!||    check_error_and_write    ../common_source/tools/memory/shrink_array.F90
+!||    check_error_and_write    ../common_source/tools/memory/my_alloc.F90
 !||====================================================================
         subroutine my_alloc_8_plogical_1d(a, n, msg, stat)
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -2115,7 +2115,7 @@
 !||====================================================================
 !||    my_alloc_8_plogical_2d   ../common_source/tools/memory/my_alloc.F90
 !||--- calls      -----------------------------------------------------
-!||    check_error_and_write    ../common_source/tools/memory/shrink_array.F90
+!||    check_error_and_write    ../common_source/tools/memory/my_alloc.F90
 !||====================================================================
         subroutine my_alloc_8_plogical_2d(a, n,m, msg, stat)
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -2148,7 +2148,7 @@
 !||====================================================================
 !||    my_alloc_8_plogical_3d   ../common_source/tools/memory/my_alloc.F90
 !||--- calls      -----------------------------------------------------
-!||    check_error_and_write    ../common_source/tools/memory/shrink_array.F90
+!||    check_error_and_write    ../common_source/tools/memory/my_alloc.F90
 !||====================================================================
         subroutine my_alloc_8_plogical_3d(a,l,m,n, msg, stat)
 ! ----------------------------------------------------------------------------------------------------------------------

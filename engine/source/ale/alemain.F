@@ -68,7 +68,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    alefvm_mod                   ../common_source/modules/ale/alefvm_mod.F
 !||    bcs_mod                      ../common_source/modules/boundary_conditions/bcs_mod.F90
 !||    bcs_wall_trigger_mod         ../engine/source/boundary_conditions/bcs_wall_trigger.F90
-!||    debug_mod                    ../engine/share/modules/debug_mod.F
 !||    diffusion_mod                ../engine/share/modules/diffusion_mod.F
 !||    dt_mod                       ../engine/source/modules/dt_mod.F
 !||    ebcs_mod                     ../common_source/modules/boundary_conditions/ebcs_mod.F90
