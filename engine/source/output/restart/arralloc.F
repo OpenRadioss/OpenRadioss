@@ -70,7 +70,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    trimat_mod              ../engine/share/modules/trimat.F
 !||====================================================================
       SUBROUTINE RESTALLOC(OUTPUT,ELEMENT, NODES,MULTI_FVM,H3D_DATA,PINCH_DATA,ALE_CONNECTIVITY,SEGVAR,INTERFACES,SKEWS,
-     .                     GLOB_THERM,RBE3,RWALL)
+     .                     GLOB_THERM,RBE3,RWALL,SFEM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -107,6 +107,7 @@ C-----------------------------------------------
       use rbe3_mod
       use rwall_mod
       use element_mod , only : nixs,nixq,nixc,nixt,nixr,nixp,nixtg
+      use sfem_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -150,6 +151,7 @@ C-----------------------------------------------
       type(glob_therm_) ,intent(inout) :: GLOB_THERM
       type(rbe3_) ,intent(inout) :: RBE3
       type(rwall_),intent(inout) :: RWALL
+      type(sfem_), intent(inout) :: SFEM
 C----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -2320,7 +2322,8 @@ C-------/DAMP/VREL----------------------
 
         ! Skew
         CALL MY_ALLOC(SKEWS%SKEW,SKEWS%N_SKEW_VAR,SKEWS%TOTAL_SKEW_NUMBER)
-        
+        ! SFEM allocation
+        CALL allocate_sfem(sfem,numnod)
 C  DEBUG MEMORY ALLOCATIONS
 C
         IF(DEBUG(6)==1)THEN

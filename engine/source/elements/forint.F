@@ -113,16 +113,16 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      P    DF        ,WF        ,FFSKY      ,AFGLOB    ,NBSDVOIS  ,
      Q    NERCVOIS  ,NESDVOIS  ,LERCVOIS   ,LESDVOIS  ,PHI1      ,
      R    PHI2      ,MSF       ,NODFT      ,NODLT     ,
-     S    FLG_KJ2   ,POR       ,ICONTACT   ,IFOAM     ,SFEM_NODVAR,
+     S    FLG_KJ2   ,POR       ,ICONTACT   ,IFOAM     ,
      T    KXIG3D    ,IXIG3D    ,KNOT       ,WIGE      ,CONDN     ,
-     U    CONDNSKY  ,S_SFEM_NODVAR,
+     U    CONDNSKY  ,
      V    TAGPRT_SMS,ITAGND    ,MS_2D      ,NALE      ,STRESSMEAN,
      W    KNOTLOCPC ,KNOTLOCEL ,SUBSET     ,FLAG_SLIPRING_UPDATE,FLAG_RETRACTOR_UPDATE,
      Y    H3D_DATA  ,IFTHE     ,ICONDN     ,DT        ,OUTPUT,
      Z    SBUFMAT   ,SNPC      ,STF        ,NODADT    ,DTFAC1,
      .    DTMIN1    ,IDTMIN    ,IOUT       ,ISTDO     ,IDTMINS,DTFACS,NSVOIS,
      *    IRESP     ,MAXFUNC   ,USERL_AVAIL,GLOB_THERM,IMON_MAT,DTMINS,SANIN,
-     *    NGRTH     ,NELEM     )
+     *    NGRTH     ,NELEM     ,SFEM )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -146,6 +146,7 @@ C-----------------------------------------------
       USE PRELOAD_SOLID_INI_MOD
       USE S6ZFORC3_MOD
       use element_mod , only : nixs,nixq,nixt,nixr,nixp
+      use sfem_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -176,7 +177,6 @@ C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE(TIMER_), INTENT(INOUT) :: TIMERS
-      INTEGER, INTENT(IN) :: S_SFEM_NODVAR
       type(python_), intent(inout) :: PYTHON
       INTEGER IXS(NIXS,*),ITAB(*),FLG_KJ2,
      .   IXQ(NIXQ,*), IXT(NIXT,*), IXP(NIXP,*),
@@ -225,7 +225,7 @@ C-----------------------------------------------
      .   GRESAV(*), MSSA(*), DMELS(*), MSTR(*), DMELTR(*),
      .   MSP(*), DMELP(*), MSRT(*), DMELRT(*),VF(3,*),AF(3,*),FFSKY(*),
      .   PHI1(*),PHI2(*),DF(3,*),WF(3,*),MSF(*),AFGLOB(3,*),
-     .   POR(*) ,SFEM_NODVAR(S_SFEM_NODVAR),KNOT(*),WIGE(*),CONDN(*),CONDNSKY(*),AGRAV(*),
+     .   POR(*) ,KNOT(*),WIGE(*),CONDN(*),CONDNSKY(*),AGRAV(*),
      .   MS_2D(*),STRESSMEAN(6,*),KNOTLOCPC(*),KNOTLOCEL(*)
       DOUBLE PRECISION XDP(3,*)
       TYPE(TTABLE) TABLE(*)
@@ -242,6 +242,7 @@ C-----------------------------------------------
       my_real, INTENT(IN) :: DTFAC1(102),DTMIN1(102)
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
       type (glob_therm_) ,intent(inout)    :: glob_therm
+      TYPE(SFEM_) ,INTENT(INOUT) :: SFEM  
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -414,12 +415,12 @@ C---------
      D   ISTRA,      ITASK,           TEMP,       FTHE,
      E   FTHESKY,    IEXPAN,          GRESAV,     GRTH,
      F   IGRTH(NF1), MSSA(NF1),       DMELS(NF1), TABLE,
-     G   XDP,        SFEM_NODVAR,     VOLN,       CONDN,
+     G   XDP,      sfem%SFEM_NODVAR,  VOLN,       CONDN,
      H   CONDNSKY,   D,               SENSORS,    IPRI,
      I   MAT_ELEM,   IBID,            DT,         IDEL7NOK,NSVOIS,IBID,
      *   SNPC,       STF,             SBUFMAT,    SVIS,IDTMINS,IRESP,
      *   IDEL7NG,    MAXFUNC,         USERL_AVAIL, GLOB_THERM,
-     V   impl_s,     idyna,           S_SFEM_NODVAR,fake_size,nv46)
+     V   impl_s,     idyna,           sfem%S_SFEM_NODVAR,fake_size,nv46,  sfem%itag_nsfem )
 C
             IF (NSECT > 0) THEN 
               K0=NSTRF(25)                                             
@@ -465,12 +466,12 @@ c---------
      D   D,                   GRESAV,              GRTH,                IGRTH(OFF_IGRTH+NF1),
      E   TABLE,               MSSA(NF1),           DMELS(NF1),          IGEO,
      F   XDP,                 VOLN,                CONDN,               CONDNSKY,
-     G   SFEM_NODVAR,         ITAGND,              SENSORS,             IPRI,
+     G   sfem%SFEM_NODVAR,    ITAGND,              SENSORS,             IPRI,
      H   MAT_ELEM,            IBID,                DT,                  IDEL7NOK,
      I   SNPC,                STF,                 SBUFMAT,             SVIS,
      J   NSVOIS,              IDTMINS,             IDEL7NG,             MAXFUNC ,     
      V   USERL_AVAIL,         GLOB_THERM,          impl_s,              idyna ,
-     W   S_SFEM_NODVAR)
+     W   sfem%S_SFEM_NODVAR,  sfem%itag_nsfem )
 c
             IF(NSECT>0)THEN 
               K0=NSTRF(25)                                             

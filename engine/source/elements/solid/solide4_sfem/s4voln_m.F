@@ -37,7 +37,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      5   FZY,              FZZ,           VOL0,     VOLN,
      6   VOL0DP,           VOLDP,         AMU0,     DXX,
      7   DYY,              DZZ,           MATPARAM, NEL,
-     8   ISMSTR,           S_SFEM_NODVAR)
+     8   ISMSTR,           S_SFEM_NODVAR, ITAG_NSFEM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -58,6 +58,7 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: ISMSTR
       INTEGER NC1(*),NC2(*),NC3(*),NC4(*),MAT(*),NEL
       INTEGER,INTENT(IN) :: S_SFEM_NODVAR
+      INTEGER,DIMENSION(NUMNOD),INTENT(IN) :: ITAG_NSFEM
       my_real :: OFFG(*),VOL0(*),AMU0(*),
      .           DXX(*),DYY(*),DZZ(*),VOLN(*),
      .           FXX(*), FXY(*), FXZ(*),
@@ -74,7 +75,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,MX
+      INTEGER I,MX,ISUM
       my_real AMU(MVSIZ), SUM,DTR,DTREP_R,DIVDE(MVSIZ),JAC_M(MVSIZ),JAC(MVSIZ),FAC,BASE,JFAC,DVDP
       DOUBLE PRECISION VOL0DP(*),VOLDP(*),SUMDP
 C-----------------------------------------------
@@ -90,8 +91,16 @@ C-----------------------------------------------
         ELSE
           DO I=1,NEL
            IF(OFFG(I) == ZERO) CYCLE
-           SUM=SFEM_NODVAR(NC1(I))+SFEM_NODVAR(NC2(I))+SFEM_NODVAR(NC3(I))+SFEM_NODVAR(NC4(I))
-           AMU(I) = FOUR/SUM -ONE
+           ISUM = ITAG_NSFEM(NC1(I)) + ITAG_NSFEM(NC2(I)) +
+     .            ITAG_NSFEM(NC3(I)) + ITAG_NSFEM(NC4(I))
+!  exclude multi-mat node for average value and don't do it if less than 3 nodes
+!  this will avoid zero division as well
+           IF (ISUM < 3) CYCLE    
+           SUM=SFEM_NODVAR(NC1(I))*ITAG_NSFEM(NC1(I))+
+     .         SFEM_NODVAR(NC2(I))*ITAG_NSFEM(NC2(I))+
+     .         SFEM_NODVAR(NC3(I))*ITAG_NSFEM(NC3(I))+
+     .         SFEM_NODVAR(NC4(I))*ITAG_NSFEM(NC4(I))
+           AMU(I) = ISUM/SUM -ONE
            DIVDE(I) = AMU0(I)-AMU(I)
            DTR=DIVDE(I)/DT1             
            DTREP_R = THIRD*(DTR-DXX(I)-DYY(I)-DZZ(I))
@@ -106,15 +115,27 @@ c-------------------------------------------------------------------------
         IF(IRESP == 1)THEN
           DO I=1,NEL
            IF(OFFG(I) == ZERO .OR. ABS(OFFG(I)) > ONE) CYCLE
-           SUMDP=SFEM_NODVAR(NC1(I))+SFEM_NODVAR(NC2(I))+SFEM_NODVAR(NC3(I))+SFEM_NODVAR(NC4(I))
-           VOLDP(I) = FOURTH*SUMDP*VOL0DP(I) 
+           ISUM = ITAG_NSFEM(NC1(I)) + ITAG_NSFEM(NC2(I)) +
+     .            ITAG_NSFEM(NC3(I)) + ITAG_NSFEM(NC4(I))
+           IF (ISUM < 3) CYCLE
+           SUMDP=SFEM_NODVAR(NC1(I))*ITAG_NSFEM(NC1(I))+
+     .           SFEM_NODVAR(NC2(I))*ITAG_NSFEM(NC2(I))+
+     .           SFEM_NODVAR(NC3(I))*ITAG_NSFEM(NC3(I))+
+     .           SFEM_NODVAR(NC4(I))*ITAG_NSFEM(NC4(I))
+           VOLDP(I) = SUMDP*VOL0DP(I)/ISUM 
            VOLN(I) = VOLDP(I)
           ENDDO
         ELSE
           DO I=1,NEL
            IF(OFFG(I) == ZERO .OR. ABS(OFFG(I)) > ONE) CYCLE
-           SUM=SFEM_NODVAR(NC1(I))+SFEM_NODVAR(NC2(I))+SFEM_NODVAR(NC3(I))+SFEM_NODVAR(NC4(I))
-           VOLN(I)=FOURTH*SUM*VOL0(I) 
+           ISUM = ITAG_NSFEM(NC1(I)) + ITAG_NSFEM(NC2(I)) +
+     .            ITAG_NSFEM(NC3(I)) + ITAG_NSFEM(NC4(I))
+           IF (ISUM < 3) CYCLE
+           SUM=SFEM_NODVAR(NC1(I))*ITAG_NSFEM(NC1(I))+
+     .         SFEM_NODVAR(NC2(I))*ITAG_NSFEM(NC2(I))+
+     .         SFEM_NODVAR(NC3(I))*ITAG_NSFEM(NC3(I))+
+     .         SFEM_NODVAR(NC4(I))*ITAG_NSFEM(NC4(I))
+           VOLN(I)=SUM*VOL0(I)/ISUM 
           ENDDO
         END IF            
         IF (MATPARAM(MX)%STRAIN_FORMULATION == 1) THEN
@@ -153,8 +174,14 @@ C------compute AMU(t+dt) for large strain
           ELSE
             DO I=1,NEL
              IF(OFFG(I) == ZERO .OR. ABS(OFFG(I)) <= ONE) CYCLE
-             SUM=SFEM_NODVAR(NC1(I))+SFEM_NODVAR(NC2(I))+SFEM_NODVAR(NC3(I))+SFEM_NODVAR(NC4(I))
-             AMU(I) = FOUR/SUM -ONE
+             ISUM = ITAG_NSFEM(NC1(I)) + ITAG_NSFEM(NC2(I)) +
+     .              ITAG_NSFEM(NC3(I)) + ITAG_NSFEM(NC4(I))
+             IF (ISUM < 3) CYCLE
+             SUM=SFEM_NODVAR(NC1(I))*ITAG_NSFEM(NC1(I))+
+     .           SFEM_NODVAR(NC2(I))*ITAG_NSFEM(NC2(I))+
+     .           SFEM_NODVAR(NC3(I))*ITAG_NSFEM(NC3(I))+
+     .           SFEM_NODVAR(NC4(I))*ITAG_NSFEM(NC4(I))
+             AMU(I) = ISUM/SUM -ONE
              DIVDE(I) = AMU0(I)-AMU(I)
              DTR=DIVDE(I)/DT1             
              DTREP_R = THIRD*(DTR-DXX(I)-DYY(I)-DZZ(I))

@@ -646,7 +646,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      N        KLOADPINTER,LOADPINTER,DGAPLOADINT,DRAPEG,USER_WINDOWS,OUTPUT,INTERFACES,
      O        DT        ,LOADS     , PYTHON, DPL0CLD,VEL0CLD,
      P        NDAMP_VREL,ID_DAMP_VREL,FR_DAMP_VREL,NDAMP_VREL_RBYG,NAMES_AND_TITLES,UNITAB,LIFLOW,LRFLOW ,
-     R        GLOB_THERM ,PBLAST,RBE3,RWALL)
+     R        GLOB_THERM ,PBLAST,RBE3,RWALL,SFEM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -766,6 +766,7 @@ C-----------------------------------------------
               use element_mod , only : nixs,nixq,nixc,nixt,nixp,nixr,nixtg
               use resol_alloc_mod
               use init_ale_mod , only : init_ale
+              use sfem_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -995,6 +996,7 @@ c
               type (PBLAST_) ,intent(inout)                      :: PBLAST
               type (rbe3_) ,intent(inout)                        :: RBE3
               type (rwall_) ,intent(inout)                       :: RWALL
+              type (sfem_) ,intent(inout)                        :: SFEM  
 C
               INTEGER ,INTENT(IN) :: NDAMP_VREL,NDAMP_VREL_RBYG
               INTEGER ,INTENT(IN) :: ID_DAMP_VREL(NDAMP_VREL),FR_DAMP_VREL(NSPMD+2,NDAMP_VREL)
@@ -1156,10 +1158,7 @@ C End Parith/ON specific
               INTEGER  IGROUPFLG(2)
               INTEGER, DIMENSION(:),ALLOCATABLE :: IGROUPC,IGROUPTG,IGROUPS
               INTEGER  IOLDSECT
-              ! TETRA4 : SMOOTH FINITE ELEMENT FORMULATIONS
-              my_real, DIMENSION(:),ALLOCATABLE :: SFEM_NODVAR     !lagrange framework
-              my_real, DIMENSION(:),ALLOCATABLE :: SFEM_NODVAR_ALE !ALE framework
-              INTEGER S_SFEM_NODVAR ! same size for ALE and Lagrange frameworks
+              ! TETRA4 : SMOOTH FINITE ELEMENT FORMULATIONS now in SFEM%
 C-----------------------------------------------------------------------------------
 C Parith/OFF + AMS
               INTEGER, DIMENSION(:),ALLOCATABLE :: UNCOMP_FR,FR_LOC,
@@ -2047,15 +2046,8 @@ C Init var parallel SMP
                 CALL DEALLOC_SHOOT_INTER( SHOOT_STRUCT )
               ENDIF
 
-
               ! TETRA4 : SMOOTH FINITE ELEMENT FORMULATIONS
-              IF(ISFEM >= 1) THEN
-                S_SFEM_NODVAR = 2*NUMNOD
-              ELSE
-                S_SFEM_NODVAR = 1
-              ENDIF
-              ALLOCATE(SFEM_NODVAR(S_SFEM_NODVAR))
-              ALLOCATE(SFEM_NODVAR_ALE(S_SFEM_NODVAR))
+              CALL sfem_init(SFEM)
 
 C========================================================================================
 C                                    NON PARALLEL SECTION (SMP)
@@ -3097,10 +3089,10 @@ C----------------------------------------------------------
 C---------------------------------------------
 C TETRA4 : SMOOTH FINITE ELEMENT FORMULATIONS
 C---------------------------------------------
-              IF(ISFEM >= 1) THEN
+              IF(SFEM%ISFEM == 1) THEN
                 IF(GLOB_THERM%ITHERM == 0)THEN
                   L1 = 1+NIXS*NUMELS + NSVOIS*NIXS
-                  CALL S4LAGSFEM(IPARG, IXS, NODES%X, NODES%V, ELBUF_TAB, SFEM_NODVAR, S_SFEM_NODVAR,
+                  CALL S4LAGSFEM(IPARG, IXS, NODES%X, NODES%V, ELBUF_TAB, sfem%SFEM_NODVAR, sfem%S_SFEM_NODVAR,
      .                           NODES%BOUNDARY_ADD, NODES%BOUNDARY, IXS(L1), NODES%XDP, SXDP,
      .                           NUMNOD, NODES%BOUNDARY_SIZE , NSPMD, NUMELS, NUMELS8, NUMELS10,  NPARG, NGROUP, IRESP)
                 ENDIF
@@ -3406,13 +3398,13 @@ C
      G               NODES%ITABM1          ,NODES%A           ,GRESAV             ,
      H               GRTH                  ,IGRTH    ,LGAUGE        ,GAUGE             ,MSSA               ,
      I               DMELS                 ,IGAUP    ,NGAUP         ,TABLE             ,NODES%MS0          ,
-     J               NODES%XDP        ,IGRNOD   ,SFEM_NODVAR_ALE ,INTERFACES%PON%FSKYI,INTERFACES%PON%ISKY, S_SFEM_NODVAR,
+     J               NODES%XDP             ,IGRNOD   ,INTERFACES%PON%FSKYI,INTERFACES%PON%ISKY,
      K               INTERFACES%INTBUF_TAB ,IXT      ,IGRV          ,AGRV              ,SENSORS            ,
      L               LGRAV                 ,CONDNSKY ,CONDN         ,MS_2D             ,MULTI_FVM          ,IGRTRUSS        ,
      M               IGRBRIC               ,NLOC_DMG ,ID_GLOBAL_VOIS,FACE_VOIS         ,EBCS_TAB           ,ALE_CONNECTIVITY,
      N               MAT_ELEM              ,H3D_DATA ,DT            ,OUTPUT            ,NEED_COMM_INTER18  ,IDTMINS         ,
      O               IDTMIN                ,MAXFUNC  ,IMON_MAT      ,USERL_AVAIL       ,
-     P               impl_s                ,idyna    ,PYTHON        ,MAT_ELEM%MAT_PARAM,GLOB_THERM)
+     P               impl_s                ,idyna    ,PYTHON        ,MAT_ELEM%MAT_PARAM,GLOB_THERM,SFEM )
 
                 IF(INT22 /=0)  call my_barrier !INTER22in input files  - get also IDT_INT22
 #include "lockon.inc"
@@ -4115,16 +4107,16 @@ C
      P         DFLOW          ,WFLOW         ,FFSKY       ,AFLOW      ,NBSDVOIS        ,
      Q         NERCVOIS       ,NESDVOIS      ,LERCVOIS    ,LESDVOIS   ,PHI             ,
      R         PHIE           ,MSF           ,NODFTSK     ,NODLTSK    ,
-     S         FLG_KJ2        ,POR           ,IFOAM_CONT  ,IFOAM      ,SFEM_NODVAR     ,
+     S         FLG_KJ2        ,POR           ,IFOAM_CONT  ,IFOAM      ,
      T         KXIG3D         ,IXIG3D        ,KNOT        ,WIGE       ,CONDN(IDX_CONDN),
-     U         CONDNSKY       ,S_SFEM_NODVAR,
+     U         CONDNSKY       ,
      V         TAGPRT_SMS     ,ITAGND        ,MS_2D       ,ALE_CONNECTIVITY%NALE       ,STRESSMEAN      ,
      W         KNOTLOCPC      ,KNOTLOCEL     ,SUBSETS     ,FLAG_SLIPRING_UPDATE, FLAG_RETRACTOR_UPDATE  ,
      Y         H3D_DATA       ,IFTHE         ,ICONDN      ,DT      ,OUTPUT,
      Z         SBUFMAT        ,SNPC          ,STF         ,NODADT  ,DTFAC1,
      .         DTMIN1         ,IDTMIN        ,IOUT        ,ISTDO   ,IDTMINS,DTFACS,NSVOIS,
      .         IRESP          ,MAXFUNC       ,USERL_AVAIL ,GLOB_THERM,IMON_MAT,DTMINS,SANIN,
-     .         NGRTH          ,NELEM         )
+     .         NGRTH          ,NELEM         ,SFEM  )
 C
 #include "lockon.inc"
               IF(DT2TT<DT2T)THEN
@@ -9152,7 +9144,7 @@ C--- //0 ----------------
      .                       IMPBUF_TAB ,IMPL_S          ,IMPL_S0        ,NODES%MCP             ,NODES%TEMP             ,
      .                       FORNEQS    ,UNITAB          ,STACK          ,NDRAPE          ,DRAPE_SH3N       ,
      .                       DRAPE_SH4N ,DRAPEG          ,RESTSIZE       ,SKEWS           ,GLOB_THERM       ,
-     .                       PBLAST     ,RBE3            ,RWALL )
+     .                       PBLAST     ,RBE3            ,RWALL          ,SFEM )
 
                 ! Restart file size
                 IF (MULTIREST >0)THEN
@@ -9327,8 +9319,6 @@ C--- //0 ----------------
                 IF(ALLOCATED(IGROUPTG))DEALLOCATE(IGROUPTG)
                 IF(ALLOCATED(IGROUPS))DEALLOCATE(IGROUPS)
                 IF(ALLOCATED(GRESAV))DEALLOCATE(GRESAV)
-                IF(ALLOCATED(SFEM_NODVAR))DEALLOCATE(SFEM_NODVAR)
-                IF(ALLOCATED(SFEM_NODVAR_ALE))DEALLOCATE(SFEM_NODVAR_ALE)
                 IF(ALLOCATED(PARTSAV2))DEALLOCATE(PARTSAV2)
                 IF(IMON>0) THEN
                   IF(NVOLU > 0)  CALL FVSTATS(MONVOL)

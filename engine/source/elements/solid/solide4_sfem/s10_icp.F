@@ -74,7 +74,7 @@ C----------------------------
      2   DYX,     DYY,     DYZ,     DZX,
      3   DZY,     DZZ,     NEL)
           DO I=1,NEL
-           IF(OFFG(I)==ZERO.OR.ABS(OFFG(I))>ONE) CYCLE
+           IF(OFFG(I)==ZERO.OR.ABS(OFFG(I))>ONE.OR.JACG(I)==ZERO) CYCLE
            FAC=TWO_THIRD*NU(I)
            BASE = JACG(I)/MAX(EM20,JAC(I))
            JFAC =EXP(FAC*LOG(MAX(EM20,BASE)))

@@ -165,7 +165,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                   IMPBUF_TAB ,IMPL_S          ,IMPL_S0    ,MCP         ,TEMP             ,
      .                   FORNEQS    ,UNITAB          ,STACK      ,NDRAPE      ,DRAPE_SH3N       ,
      .                   DRAPE_SH4N ,DRAPEG          ,RESTSIZE   ,SKEWS       ,GLOB_THERM       ,
-     .                   PBLAST     ,RBE3            ,RWALL      )
+     .                   PBLAST     ,RBE3            ,RWALL      ,SFEM )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -224,6 +224,7 @@ C-----------------------------------------------
       use checksum_output_option_mod, only : checksum_restart_write
       use rwall_mod
       use restart_rwallpen_mod, only : write_rrwallpen
+      use sfem_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -275,6 +276,7 @@ c     TYPE (CLUSTER_) ,DIMENSION(NCLUSTER) :: CLUSTER
       TYPE(PBLAST_)    ,INTENT(INOUT) :: PBLAST
       TYPE(RBE3_)      ,INTENT(INOUT) :: RBE3
       TYPE(RWALL_)     ,INTENT(INOUT) :: RWALL
+      TYPE(SFEM_)      ,INTENT(IN   ) :: SFEM
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -353,7 +355,7 @@ C--------------------------------------
       SFR_ELEM = SIZE(NODES%BOUNDARY,1)
       SIAD_ELEM = SIZE(NODES%BOUNDARY_ADD,1) * SIZE(NODES%BOUNDARY_ADD,2)
       CALL WRCOMI(OUTPUT,LMXVINT,LVARINT,TABVINT,1,MULTI_FVM,H3D_DATA,DYNAIN_DATA,
-     .     INTERFACES%PARAMETERS,SENSORS,LOADS,GLOB_THERM,PBLAST)
+     .     INTERFACES%PARAMETERS,SENSORS,LOADS,GLOB_THERM,PBLAST,SFEM)
 C
       ENTMP(1) = OUTPUT%TH%WFEXT
       ENTMP(2) = EHOUR
@@ -737,6 +739,8 @@ C--------------------------------------
         CALL WRITE_I_C(FASOLFR,SFASOLFR)
 
         CALL WRITE_I_C(SEGQUADFR,SSEGQUADFR)
+
+        CALL WRITE_I_C(sfem%in_sfem,sfem%ne_sfem)
 
         CALL WRITE_I_C(IPARI,SIPARI)
 

@@ -650,6 +650,7 @@ C-----------------------------------------------
       use element_mod , only : nixs,nixq,nixc,nixp,nixt,nixr,nixtg
       use hm_preread_skw_mod, ONLY : hm_preread_skw
       use hierarchy_rbody_mod
+      use sfem_exclude_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -942,6 +943,8 @@ C-----------------------------------------------
       INTEGER, DIMENSION(:), ALLOCATABLE :: LIST_NIN25
       INTEGER, DIMENSION(:), ALLOCATABLE :: ISKEW_TMP
       my_real, DIMENSION(:), ALLOCATABLE :: SKEW_TMP
+      INTEGER NE_SFEM
+      INTEGER, DIMENSION(:), ALLOCATABLE :: IN_SFEM
 C-----------------------------------------------
 C Model Checker Memory
       DATA IUN/1/
@@ -8825,6 +8828,23 @@ C
           CALL BULKFAKEIGEO3(ELBUF_TAB,IPARG,PM,KXIG3D,IGRSURF,STIFINT)
         ENDIF
       ENDIF
+C----------------------------------
+C -- SFEM (nodal pressure) exception initialization
+C----------------------------------
+      NE_SFEM = 0
+      IF(ISFEM>0) THEN
+        CALL SFEM_EXCLUDE_DIM(
+     &             NUMNOD,  NPARG,  NGROUP,  IPARG,      IXS,                   
+     &             NUMELS,NE_SFEM)
+      ENDIF
+      IF(NE_SFEM > 0) THEN
+          call my_alloc(IN_SFEM,NE_SFEM) 
+      ELSEIF(.NOT. ALLOCATED(IN_SFEM)) THEN
+          ALLOCATE(IN_SFEM(0))
+      END IF
+      CALL SFEM_EXCLUDE_INI(
+     &             NUMNOD,  NPARG,  NGROUP,  IPARG,      IXS,                   
+     &             NUMELS,IN_SFEM, NE_SFEM)
 C
 C----------------------------------
 C
@@ -11155,7 +11175,8 @@ c
      D         KLOADPINTER  ,LOADPINTER   ,DGAPLOADINT   ,S_LOADPINTER, SCEP,DYNAIN_DATA,
      E         DRAPEG       ,USER_WINDOWS ,OUTPUT        ,INTERFACES  ,NUMBER_LOAD_CYL ,
      F         LOADS_PER_PROC(P), PYTHON,DPL0CLD,VEL0CLD ,NAMES_AND_TITLES,
-     G         BCS_PER_PROC(P),constraint_struct,glob_therm,PBLAST,RWSTIF_PEN ,SLN_PEN )
+     G         BCS_PER_PROC(P),constraint_struct,glob_therm,PBLAST,RWSTIF_PEN ,SLN_PEN ,
+     H         IN_SFEM, NE_SFEM)
       GOTO 220
  221  CONTINUE
 
