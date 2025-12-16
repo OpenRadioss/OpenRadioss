@@ -136,8 +136,8 @@ C-----------------------------------------------
       s_lesdvois = nesdvois(nspmd+1)
       s_lercvois = nercvois(nspmd+1)
       s_fr_elem = iad_elem(1,nspmd+1) - iad_elem(1,1)
-      n_entity = numels+nsvois+numelq+nqvois      
-
+      n_entity = numels+nsvois+numelq+nqvois           
+     
       DO NG=ITASK+1,NGROUP,NTHREAD      
 C     ALE ON / OFF
          IF (IPARG(76, NG)  ==  1) CYCLE ! --> OFF
@@ -269,8 +269,7 @@ C     ALE ON / OFF
                II     = I+NFT    
                ALEMUSCL_Buffer%VOLUME_FRACTION(II,ITRIMAT) = VOLP(I)/VOLG(I)
                ALEMUSCL_Buffer%VOLUME_FRACTION(II,ITRIMAT) = 
-     .              MAX(ZERO,MIN(ONE,ALEMUSCL_Buffer%VOLUME_FRACTION(II,ITRIMAT))) 
-               
+     .              MAX(ZERO,MIN(ONE,ALEMUSCL_Buffer%VOLUME_FRACTION(II,ITRIMAT)))                
             ENDDO  
          ENDDO  
       ENDDO  ! NG=ITASK+1,NGROUP,NTHREAD
@@ -331,11 +330,12 @@ C     ALE ON / OFF
                   ALEMUSCL_Buffer%NODE_MAX_VALUE(NODE_ID,ITRIMAT) = MAX(ALEMUSCL_Buffer%NODE_MAX_VALUE(NODE_ID,ITRIMAT), 
      .                 ALEMUSCL_Buffer%VOLUME_FRACTION(ELEM_ID,ITRIMAT))
                   ALEMUSCL_Buffer%NODE_MIN_VALUE(NODE_ID,ITRIMAT) = MIN(ALEMUSCL_Buffer%NODE_MIN_VALUE(NODE_ID,ITRIMAT), 
-     .                 ALEMUSCL_Buffer%VOLUME_FRACTION(ELEM_ID,ITRIMAT))
+     .                 ALEMUSCL_Buffer%VOLUME_FRACTION(ELEM_ID,ITRIMAT)) 
                ENDIF
             ENDDO
          ENDDO
-      ENDDO
+      ENDDO   
+   
       CALL MY_BARRIER 
       ! ------------
       ! MPI comms : iSend & iRecv min/max
@@ -346,10 +346,10 @@ C     ALE ON / OFF
           s_proc_nb_3 = 0
           r_proc_nb_3 = 0
           buff_size = iad_elem(1,nspmd+1)
-          allocate(s_buffer(2*buff_size*3))
-          allocate(r_buffer(2*buff_size*3))
+          allocate(s_buffer(2*buff_size*trimat))
+          allocate(r_buffer(2*buff_size*trimat))
           call spmd_exch_min_max(flag,nspmd,numnod,buff_size,s_proc_nb_3,r_proc_nb_3,             
-     .                           s_fr_elem,s_index_3,r_index_3,s_req_3,r_req_3,fr_elem,iad_elem,            
+     .                           s_fr_elem,trimat,s_index_3,r_index_3,s_req_3,r_req_3,fr_elem,iad_elem,            
      .                           alemuscl_buffer%node_min_value,alemuscl_buffer%node_max_value,s_buffer,r_buffer)
         endif
          if(itask==0) call stoptime(timers,timer_spmdcfd)
@@ -378,7 +378,7 @@ C     ALE ON / OFF
          LFT = 1
          !!!   Reconstruct gradient
          nel = llt - lft + 1 
-         call gradient_reconstruction_new(numels,numnod,nel,nft,trimat,facet_nb,ixs,x,ale_connect,segvar)
+         call gradient_reconstruction_new(numels,numnod,nel,nft,trimat,facet_nb,ixs,x,ale_connect,segvar)  
       END DO
 !$omp end do      
 
@@ -392,7 +392,7 @@ C     ALE ON / OFF
           flag = 1
           buff_size = iad_elem(1,nspmd+1)          
           call spmd_exch_min_max(flag,nspmd,numnod,buff_size,s_proc_nb_3,r_proc_nb_3,             
-     .                           s_fr_elem,s_index_3,r_index_3,s_req_3,r_req_3,fr_elem,iad_elem,            
+     .                           s_fr_elem,trimat,s_index_3,r_index_3,s_req_3,r_req_3,fr_elem,iad_elem,            
      .                           alemuscl_buffer%node_min_value,alemuscl_buffer%node_max_value,s_buffer,r_buffer)
           deallocate(s_buffer)
           deallocate(r_buffer)
@@ -406,13 +406,13 @@ C     ALE ON / OFF
 C     MPI Communication for gradients
         if(itask==0) call startime(timers,timer_spmdcfd)
         if(itask==0) then
-          call spmd_exchange_grad(n_entity,3,TRIMAT,alemuscl_buffer%grad,
+          call spmd_exchange_grad(n_entity,3,trimat,alemuscl_buffer%grad,
      .                            nercvois,nesdvois,lercvois,lesdvois,lencom)
         endif
         if(itask==0) call stoptime(timers,timer_spmdcfd)
       ENDIF
       CALL MY_BARRIER
-      
+
       DO NG=ITASK+1,NGROUP,NTHREAD  
 C     ALE ON / OFF
          IF (IPARG(76, NG)  ==  1) CYCLE ! --> OFF
@@ -426,10 +426,11 @@ C     ALE ON / OFF
          IF(JALE+JEUL == 0)    CYCLE
          IF(IPARG(8,NG) == 1)  CYCLE
          IF(IPARG(1,NG)  /= 51) CYCLE
-         LFT = 1
-
+         LFT = 1      
          CALL GRADIENT_LIMITATION(IXS, X, TRIMAT)
+     
       ENDDO
+
       CALL MY_BARRIER
  
 C-----------------------------------------------      

@@ -215,10 +215,10 @@ C     ALE ON / OFF
           s_proc_nb = 0
           r_proc_nb = 0
           s_fr_elem = iad_elem(1,nspmd+1) - iad_elem(1,1)
-          allocate(s_buffer(2*lencom*3))
-          allocate(r_buffer(2*lencom*3))
+          allocate(s_buffer(2*lencom*trimat))
+          allocate(r_buffer(2*lencom*trimat))
           call spmd_exch_min_max(flag,nspmd,numnod,lencom,s_proc_nb,r_proc_nb,             
-     .                           s_fr_elem,s_index,r_index,s_req,r_req,fr_elem,iad_elem,            
+     .                           s_fr_elem,trimat,s_index,r_index,s_req,r_req,fr_elem,iad_elem,            
      .                           alemuscl_buffer%node_min_value,alemuscl_buffer%node_max_value,s_buffer,r_buffer)
         endif
         if(itask==0) call stoptime(timers,timer_spmdcfd)
@@ -257,7 +257,7 @@ C     ALE ON / OFF
         if(itask==0) then
           flag = 1
           call spmd_exch_min_max(flag,nspmd,numnod,lencom,s_proc_nb,r_proc_nb,             
-     .                           s_fr_elem,s_index,r_index,s_req,r_req,fr_elem,iad_elem,            
+     .                           s_fr_elem,trimat,s_index,r_index,s_req,r_req,fr_elem,iad_elem,            
      .                           alemuscl_buffer%node_min_value,alemuscl_buffer%node_max_value,s_buffer,r_buffer)
           deallocate(s_buffer)
           deallocate(r_buffer)

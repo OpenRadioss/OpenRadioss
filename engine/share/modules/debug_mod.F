@@ -51,6 +51,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
         USE ISO_C_BINDING
         INTEGER, DIMENSION(:),ALLOCATABLE :: ITAB_DEBUG !< User Node Identifiers
         INTEGER :: NCYCLE_DEBUG                         !< Engine Cycle number
+        integer :: nspmd_debug !< number of processors
         integer :: ispmd_debug !< processor id
 !       Double precision, dimension (:), allocatable:: detach_shell
 
@@ -227,22 +228,24 @@ C     (s2 << 16) | s1
 !||--- uses       -----------------------------------------------------
 !||    debug_mod            ../engine/share/modules/debug_mod.F
 !||====================================================================
-      SUBROUTINE PREPARE_DEBUG(ITAB,NUMNOD,ispmd)
+      SUBROUTINE PREPARE_DEBUG(ITAB,NUMNOD,ispmd,nspmd)
         USE DEBUG_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-            INTEGER, INTENT(IN) :: NUMNOD
-            integer, intent(in) :: ispmd !< processor id
-            INTEGER, DIMENSION(:), INTENT(IN) :: ITAB(NUMNOD)
+       INTEGER, INTENT(IN) :: NUMNOD
+       integer, intent(in) :: ispmd !< processor id
+       integer, intent(in) :: nspmd !< number of processors
+       INTEGER, DIMENSION(:), INTENT(IN) :: ITAB(NUMNOD)
 C-----------------------------------------------
        ALLOCATE (ITAB_DEBUG(NUMNOD))
        ITAB_DEBUG(1:NUMNOD)=ITAB(1:NUMNOD)
 C-----------------------------------------------
        NCYCLE_DEBUG = 0 ! updated in resol loop
        ispmd_debug = ispmd
+       nspmd_debug = nspmd
 C-----------------------------------------------
       END
       
