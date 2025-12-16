@@ -51,7 +51,7 @@
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
           use elbufdef_mod
-          use constant_mod,           only: zero,half,one,two,fourth,hundred,three_half,three
+          use constant_mod,           only: zero,half,one,two,fourth,hundred,three_half,three,ten
           use element_mod,            only: nixc, nixtg, nixs,nixp,nixr,nixt
           use matparam_def_mod,       only: matparam_struct_
           use precision_mod,          only: WP
@@ -125,7 +125,7 @@
                   ii = nft + i
                   do j = 1, 8
                     n = ixs(1+j,ii)
-                    if (n>0) imnt(n) = mtn
+                    if (n>0) imnt(n) = mid
                   end do
                 end do
               select case (isolnod)
@@ -134,7 +134,7 @@
                    ii = nft + i -numels8
                    do j = 1, 6
                      n = ixs10(j,ii)
-                     if (n>0) imnt(n) = mtn
+                     if (n>0) imnt(n) = mid
                    end do
                  end do
                 case (16)
@@ -142,7 +142,7 @@
                    ii = nft + i -numels8 -numels10 -numels20
                    do j = 1, 8
                      n = ixs16(j,ii)
-                     if (n>0) imnt(n) = mtn
+                     if (n>0) imnt(n) = mid
                    end do
                  end do
                 case (20)
@@ -150,24 +150,26 @@
                    ii = nft + i -numels8 -numels10
                    do j = 1, 12
                      n = ixs20(j,ii)
-                     if (n>0) imnt(n) = mtn
+                     if (n>0) imnt(n) = mid
                    end do
                  end do
               end select
             elseif (ity == 3) then
+                mid   = ixc(1,1+nft)
                 do i = 1, nel
                   ii = nft + i
                   do j = 1, 4
                     n = ixc(1+j,ii)
-                    if (n>0) imnt(n) = -mtn
+                    if (n>0) imnt(n) = -mid
                   end do
                 end do
             elseif (ity == 7) then
+                mid   = ixtg(1,1+nft)
                 do i = 1, nel
                   ii = nft + i
                   do j = 1, 3
                     n = ixtg(1+j,ii)
-                    if (n>0) imnt(n) = -mtn
+                    if (n>0) imnt(n) = -mid
                   end do
                 end do
             end if
@@ -181,18 +183,19 @@
           if (ipen > 0) then 
             do j=1,nsl
               ns = lprw(k+j-1)
-              mtn     = imnt(ns)
+              mid     = iabs(imnt(ns))
+              mtn     = mat_param(mid)%ilaw
               select case (mtn)
                 case (42,69)
                   sfac = two/hundred
                 case (70,90)
-                  sfac = two
+                  sfac = two*mat_param(mid)%young0/mat_param(mid)%young
                 case (28,50,68)
                   sfac = three_half
                 case default
                   sfac = one
               end select
-              if (mtn<0) sfac = half !shell
+              if (imnt(ns)<0) sfac = half !shell
               n_p = n_p + 1
               stif_pen(n_p) = sfac*stifn(ns)
             end do

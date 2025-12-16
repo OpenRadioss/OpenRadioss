@@ -34,7 +34,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
       SUBROUTINE LAW70_UPD(MAT_PARAM,TITR     ,MAT_ID   ,NUPARAM  ,UPARAM   ,
      .                     NFUNC    ,IFUNC    ,NPC      ,PLD      ,IOUT     ,
-     .                     NFUNCT   ,FUNC_ID  ,NPROPM   ,PM       )
+     .                     NFUNCT   ,FUNC_ID  ,NPROPM   ,PM       ,YOUNG0 )
 C----------------------------------------------- 
 C   M o d u l e s
 C-----------------------------------------------
@@ -61,6 +61,7 @@ C-----------------------------------------------
       CHARACTER(LEN=NCHARTITLE) ,INTENT(IN):: TITR
       my_real ,DIMENSION(NPROPM)  ,INTENT(INOUT) :: PM
       my_real ,DIMENSION(NUPARAM) ,INTENT(INOUT) :: UPARAM
+      my_real ,INTENT(INOUT) :: YOUNG0
       TYPE (MATPARAM_STRUCT_)     ,INTENT(INOUT) :: MAT_PARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -278,6 +279,7 @@ c
         IF (EMAX < E0) EMAX = E0        
         IFLAG0 = 1
       END IF
+      YOUNG0 = STIFFINI
 c--------------------------------------------------------
 c     Automatic modification of EPST and E0
 c--------------------------------------------------------

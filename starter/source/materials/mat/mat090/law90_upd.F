@@ -32,7 +32,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    table_mod              ../starter/share/modules1/table_mod.F
 !||====================================================================
       SUBROUTINE LAW90_UPD(IOUT,TITR,MAT_ID,UPARAM,IPM, FUNC_ID,NPC,PLD,PM,
-     .                     NFUNCT)
+     .                     NFUNCT,YOUNG0)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -59,6 +59,7 @@ C-----------------------------------------------
 !      TYPE(TTABLE) TABLE(*)
       TARGET IPM
       INTEGER, DIMENSION(:), POINTER :: IFUNC
+      my_real ,INTENT(INOUT) :: YOUNG0
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -88,7 +89,8 @@ c
               EMIN_CURVE = MIN(EMIN_CURVE,  STIFFMIN)
               EINI_CURVE = MAX(EINI_CURVE, STIFFINI)
           ENDDO ! NFUNC 
-          E0 = UPARAM(1) 
+          E0 = UPARAM(1)
+          YOUNG0 = EINI_CURVE
           IF(E0 < EINI_CURVE) THEN
              E0 = EINI_CURVE
              UPARAM(1) = E0   
