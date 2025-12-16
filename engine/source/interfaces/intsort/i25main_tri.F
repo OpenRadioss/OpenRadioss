@@ -58,7 +58,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    tri25ebox                    ../engine/share/modules/tri25ebox.F
 !||    tri7box                      ../engine/share/modules/tri7box.F
 !||====================================================================
-      SUBROUTINE I25MAIN_TRI(TIMERS,
+      SUBROUTINE I25MAIN_TRI(TIMERS, VSLV,
      1                  IPARI   ,X       ,V       ,INTBUF_TAB,
      2                  MS      ,NIN     ,ITASK   ,WEIGHT  ,
      3                  ISENDTO ,IRCVFROM,RETRI   ,IAD_ELEM,FR_ELEM ,
@@ -100,6 +100,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE(TIMER_) :: TIMERS
+      my_real , INTENT(IN) :: VSLV(6)
       INTEGER NIN ,ITASK, RETRI, NEDGE_T, NRTM_T, SSHIFT, ESHIFT,
      .        NUM_IMP ,IND_IMP(*),
      .        ITAB(*), KINET(*),
@@ -420,7 +421,7 @@ C     NCONT additional candidates (if all secondary nodes are already impacted, 
      5 SSHIFT ,NIN         ,INTBUF_TAB%STFM(1+SSHIFT) ,INTBUF_TAB%GAP_S,
      6 NSNR   ,NCONT       ,INTBUF_TAB%GAP_M(1+SSHIFT)   ,ITASK      ,INTBUF_TAB%VARIABLES(bgapsmx_index),
      7 I_MEM  ,INTBUF_TAB%PENE_OLD,ITAB          ,INTBUF_TAB%NBINFLG,INTBUF_TAB%MBINFLG,
-     8 ILEV   ,INTBUF_TAB%MSEGTYP24,
+     8 ILEV   ,INTBUF_TAB%MSEGTYP24, VSLV, DT1,
      9 FLAGREMN,INTBUF_TAB%KREMNODE(1+2*SSHIFT),INTBUF_TAB%REMNODE,
      A IGAP   ,INTBUF_TAB%GAP_SL,INTBUF_TAB%GAP_ML(1+SSHIFT),ICODT,ISKEW   ,
      B DRAD   ,DGAPLOAD    )
