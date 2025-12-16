@@ -195,6 +195,7 @@ C     Strain definition
           RV(I) = EV(I,1)*EV(I,2)*EV(I,3)                                    
           RVT(I) = EXP( (-THIRD)* LOG(RV(I)) )
           EVM(I,1:3) = EV(I,1:3)*RVT(I)                                      
+          INVRV(I) = ONE / RV(I)
         ENDDO  ! 1,NEL    
         KIR3(1:NEL) = ZERO
         KT3(1:NEL) = ZERO
