@@ -26,7 +26,7 @@
 !||    mulaw           ../engine/source/materials/mat_share/mulaw.F90
 !||====================================================================
       module sigeps127_mod
-      implicit none
+        implicit none
       contains
         ! ======================================================================================================================
         ! \brief   material law /MAT/LAW127
@@ -283,7 +283,7 @@
 #include "vectorize.inc"
             do n=1,ndex
               i= index(n)
-               xt(i) = xt_0(i)
+              xt(i) = xt_0(i)
               ! Update compressive strength if damage in matrix is complete in b or c
               if(dmg(i,5) == one .or. dmg(i,8) == one) then
                 xc(i) = ycfac*yc(i)!
@@ -331,7 +331,7 @@
 #include "vectorize.inc"
             do n=1,ndex
               i = index(n)
-               xt(i) = xt_0(i)
+              xt(i) = xt_0(i)
               ! Update compressive strength if damage in matrix is complete in direction c
               if(dmg(i,8) == one ) then
                 xc(i) = ycfac*yc(i)!
@@ -449,7 +449,7 @@
               signyy(i) = slimc1*sigoyy(i)
               signzz(i) = slimc1*sigozz(i)
               signxy(i) = slimc1*sigoxy(i)
-           elseif( dmg(i,7) == one .and. &
+            elseif( dmg(i,7) == one .and. &
               (signzz(i) >= slimt2*yt(i) .or. sigozz(i) == slimt2*yt(i)) ) then
               limit_sig= slimt2*yt(i)
               signzz(i)= min(signzz(i),limit_sig)
@@ -481,14 +481,14 @@
               limit_sig = slims*sc(i)
               if(signxy(i) >= zero .and. signxy(i) >= limit_sig) then
                 signxy(i) = min(limit_sig, signxy(i))
-               !! signxx(i) = slims*sigoxx(i)
-               !! signyy(i) = slims*sigoyy(i)
-              !!  signzz(i) = slims*sigozz(i)
+                !! signxx(i) = slims*sigoxx(i)
+                !! signyy(i) = slims*sigoyy(i)
+                !!  signzz(i) = slims*sigozz(i)
               else if(signxy(i) < zero .and. signxy(i) <= -limit_sig) then
                 signxy(i) = max(-limit_sig, signxy(i))
-               !! signxx(i) = slims*sigoxx(i)
-               !! signyy(i) = slims*sigoyy(i)
-               !! signzz(i) = slims*sigozz(i)
+                !! signxx(i) = slims*sigoxx(i)
+                !! signyy(i) = slims*sigoyy(i)
+                !! signzz(i) = slims*sigozz(i)
               end if
             end if
             ! out of plane damage

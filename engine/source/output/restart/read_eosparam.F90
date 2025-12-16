@@ -98,13 +98,13 @@
           iad = iad+1 ; eos%p0 = rbuf(iad)
           iad = iad+1 ; eos%pmin = rbuf(iad)
           deallocate( rbuf )
-      
+
           ! read material title
           call read_c_c(name,nchartitle)
           do i=1,nchartitle
             eos%title(i:i) = char(name(i))
           end do
-      
+
           ! read eos parameter arrays
           nuparam = eos%nuparam
           niparam = eos%niparam

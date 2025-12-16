@@ -31,7 +31,7 @@
 !||    czforc3       ../engine/source/elements/shell/coquez/czforc3.F
 !||====================================================================
       module dttherm_mod
-      implicit none
+        implicit none
       contains
 ! ==================================================================================================
 !                           dttherm
@@ -54,8 +54,8 @@
 !||    precision_mod      ../common_source/modules/precision_mod.F90
 !||====================================================================
         subroutine dttherm(nel     ,pm      ,npropm  ,glob_therm,mat_param,  &
-                           jtur    ,tempel  ,vol0    ,rho       ,            &
-                           lc      ,off     ,conde   ,re        ,rk       )
+          jtur    ,tempel  ,vol0    ,rho       ,            &
+          lc      ,off     ,conde   ,re        ,rk       )
 ! --------------------------------------------------------------------------------------------------
 !                                                        Modules
 ! --------------------------------------------------------------------------------------------------

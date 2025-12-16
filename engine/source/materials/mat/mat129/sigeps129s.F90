@@ -271,14 +271,14 @@
           else                   ! use analytic Voce hardening formula
             do i = 1,nel
               yld(i) = sigy(i)                                     &
-                     + qr1(i)*(one - exp(-cr1*pla(i)))             &
-                     + qr2(i)*(one - exp(-cr2*pla(i)))             &
-                     + qx1(i)*(one - exp(-cx1*pla(i)))             &
-                     + qx2(i)*(one - exp(-cx2*pla(i)))
+                + qr1(i)*(one - exp(-cr1*pla(i)))             &
+                + qr2(i)*(one - exp(-cr2*pla(i)))             &
+                + qx1(i)*(one - exp(-cx1*pla(i)))             &
+                + qx2(i)*(one - exp(-cx2*pla(i)))
               h(i)   = qr1(i)*cr1*exp(-cr1*pla(i))                 &
-                     + qr2(i)*cr2*exp(-cr2*pla(i))                 &
-                     + qx1(i)*cx1*exp(-cx1*pla(i))                 &
-                     + qx2(i)*cx2*exp(-cx2*pla(i))
+                + qr2(i)*cr2*exp(-cr2*pla(i))                 &
+                + qx1(i)*cx1*exp(-cx1*pla(i))                 &
+                + qx2(i)*cx2*exp(-cx2*pla(i))
             enddo
           end if
 ! ---------------------------------------------------------------------------------------------
@@ -286,7 +286,7 @@
           ! initial Von Mises stress = sqrt(3*J2)
           do i=1,nel
             j2 = (sigoxx(i)**2 + sigoyy(i)**2 + sigozz(i)**2)*half &
-               +  sigoxy(i)**2 + sigoyz(i)**2 + sigozx(i)**2
+              +  sigoxy(i)**2 + sigoyz(i)**2 + sigozx(i)**2
             svm(i) = sqrt(three*j2)
           enddo
 !
@@ -309,7 +309,7 @@
 ! ---------------------------------------------------------------------------------------------
           do i=1,nel
             j2 = (sigoxx(i)**2 + sigoyy(i)**2 + sigozz(i)**2)*half    &
-               +  sigoxy(i)**2 + sigoyz(i)**2 + sigozx(i)**2
+              +  sigoxy(i)**2 + sigoyz(i)**2 + sigozx(i)**2
             svm0(i) = sqrt(three*j2)
           enddo
 ! ---------------------------------------------------------------------------------------------
@@ -362,7 +362,7 @@
           pla0(1:nel)  = pla(1:nel)
           depsc(1:nel) = zero
 !
-          !< plastic and creep flow direction - normal to the yield surface    
+          !< plastic and creep flow direction - normal to the yield surface
           do i=1,nel
             seq = max(svm(i), em20)
             normxx(i) = three_half * sxx(i) / seq
@@ -386,9 +386,9 @@
             endif
           enddo
 !
-          !< plastic projection - Newton iterations  
-          do iter = 1,niter 
-#include "vectorize.inc" 
+          !< plastic projection - Newton iterations
+          do iter = 1,niter
+#include "vectorize.inc"
             do ii=1,nindx
               i  = indx(ii)
               dphi_dlam  = -(three*shear(i) + h(i))
@@ -412,26 +412,26 @@
                 call table_mat_vinterp(itable,nel,nel,vartmp,xvec2,yld,h)
               end if
             else                   ! use analytic Voce hardening formula
-#include "vectorize.inc" 
+#include "vectorize.inc"
               do i = 1,nel
                 yld(i) = sigy(i)                                     &
-                       + qr1(i)*(one - exp(-cr1*pla(i)))             &
-                       + qr2(i)*(one - exp(-cr2*pla(i)))             &
-                       + qx1(i)*(one - exp(-cx1*pla(i)))             &
-                       + qx2(i)*(one - exp(-cx2*pla(i)))
+                  + qr1(i)*(one - exp(-cr1*pla(i)))             &
+                  + qr2(i)*(one - exp(-cr2*pla(i)))             &
+                  + qx1(i)*(one - exp(-cx1*pla(i)))             &
+                  + qx2(i)*(one - exp(-cx2*pla(i)))
                 h(i)   = qr1(i)*cr1*exp(-cr1*pla(i))                 &
-                       + qr2(i)*cr2*exp(-cr2*pla(i))                 &
-                       + qx1(i)*cx1*exp(-cx1*pla(i))                 &
-                       + qx2(i)*cx2*exp(-cx2*pla(i))
+                  + qr2(i)*cr2*exp(-cr2*pla(i))                 &
+                  + qx1(i)*cx1*exp(-cx1*pla(i))                 &
+                  + qx2(i)*cx2*exp(-cx2*pla(i))
               enddo
             end if
             !< Update the stress tensor
-#include "vectorize.inc" 
+#include "vectorize.inc"
             do ii=1,nindx
               i  = indx(ii)
               g3 = shear(i) * three
               rfact  = yld(i) / (g3*dlam(i) + yld(i))
-              sxx(i) = sxx(i) * rfact 
+              sxx(i) = sxx(i) * rfact
               syy(i) = syy(i) * rfact
               szz(i) = szz(i) * rfact
               sxy(i) = sxy(i) * rfact
@@ -450,7 +450,7 @@
           ! stop creep evolution if sensor is activated
 ! ---------------------------------------------------------------------------------------------
           if (crpa0 > zero .and. time > zero .and. time < tstart) then
-            niter = 20   ! number of iterations for creep 
+            niter = 20   ! number of iterations for creep
 !
             if (crp_law == 1) then           ! use transient Norton power law
               if (mat_param%table(14)%notable > 0) then
@@ -461,10 +461,10 @@
                   do i=1,nel
                     fsig  = (svm(i)/sig_crp)**crpn(i)
                     depsc(i) = crpa(i) * fsig * ftime
-                    depsc(i) = max(depsc(i) ,zero) 
+                    depsc(i) = max(depsc(i) ,zero)
                     seq      = max(svm(i),   em20)
                     rfact   = one / (one + three*depsc(i)*shear(i)/seq)
-                    sxx(i)  = stxx(i) * rfact 
+                    sxx(i)  = stxx(i) * rfact
                     syy(i)  = styy(i) * rfact
                     szz(i)  = stzz(i) * rfact
                     sxy(i)  = stxy(i) * rfact
@@ -480,10 +480,10 @@
                     fsig  = (svm(i)/sig_crp)**crpn(i)
                     ftime = (time/time_crp)**crpm(i)
                     depsc(i) = crpa(i) * fsig * ftime * dtime
-                    depsc(i) = max(depsc(i) ,zero) 
+                    depsc(i) = max(depsc(i) ,zero)
                     seq      = max(svm(i),   em20)
                     rfact   = one / (one + three*depsc(i)*shear(i)/seq)
-                    sxx(i)  = stxx(i) * rfact 
+                    sxx(i)  = stxx(i) * rfact
                     syy(i)  = styy(i) * rfact
                     szz(i)  = stzz(i) * rfact
                     sxy(i)  = stxy(i) * rfact
@@ -500,10 +500,10 @@
                   fsig  = (sinh(svm(i)/sig_crp))**crpn(i)
                   ftime = exp(-crpq(i)/max(temp(i),em20))
                   depsc(i) = crpa(i) * fsig * ftime * dtime
-                  depsc(i) = max(depsc(i) ,zero) 
+                  depsc(i) = max(depsc(i) ,zero)
                   seq      = max(svm(i),   em20)
                   rfact   = one / (one + three*depsc(i)*shear(i)/seq)
-                  sxx(i)  = stxx(i) * rfact 
+                  sxx(i)  = stxx(i) * rfact
                   syy(i)  = styy(i) * rfact
                   szz(i)  = stzz(i) * rfact
                   sxy(i)  = stxy(i) * rfact
@@ -526,11 +526,11 @@
                   n  = crpn(i)
                   m  = crpm(i)
                   depsc(i) = m*ca**(one/m) * (svm(i)/sig_crp)**(n/m)   &
-                           * uvar(i,2)**((m-one)/m) * dtime/time_crp
-                  depsc(i) = max(depsc(i) ,zero) 
+                    * uvar(i,2)**((m-one)/m) * dtime/time_crp
+                  depsc(i) = max(depsc(i) ,zero)
                   seq      = max(svm(i),   em20)
                   rfact   = one / (one + three*depsc(i)*shear(i)/seq)
-                  sxx(i)  = stxx(i) * rfact 
+                  sxx(i)  = stxx(i) * rfact
                   syy(i)  = styy(i) * rfact
                   szz(i)  = stzz(i) * rfact
                   sxy(i)  = stxy(i) * rfact
@@ -576,7 +576,7 @@
           end if
           soundsp(1:nel) = sqrt((bulk(1:nel) + four_over_3*shear(1:nel)) / rho0)
 ! ----------------------------------------------------------------------------------------------------------------------
-        return
+          return
         end subroutine sigeps129s
 ! ----------------------------------------------------------------------------------------------------------------------
       end module sigeps129s_mod

@@ -26,12 +26,12 @@
 !||    init_nodal_state                           ../engine/source/interfaces/interf/init_nodal_state.F
 !||====================================================================
       module init_hashtable_for_neighbour_segment_mod
-      implicit none
+        implicit none
       contains
 ! ======================================================================================================================
 !                                                   procedures
 ! ======================================================================================================================
-!! \brief This routine initializes the shoot_struct data structure to store the neighbour segment information 
+!! \brief This routine initializes the shoot_struct data structure to store the neighbour segment information
 !!        (only for interface TYPE25 with erosion or deletion)
 !||====================================================================
 !||    init_hashtable_for_neighbour_segment   ../engine/source/interfaces/interf/init_hashtable_for_neighbour_segment.F90

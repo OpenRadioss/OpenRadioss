@@ -250,7 +250,7 @@
             do n=1,ndex0
               i=index0(n)
               ! Update compressive strength if damage in matrix is complete
-               xt(i) = xt_0(i)
+              xt(i) = xt_0(i)
               if(dmg(i,5) == one ) then
                 xc(i) = ycfac*yc(i)!
                 xt(i) = fbrt*xt_0(i)
@@ -318,7 +318,7 @@
             do n=1,ndex0
               i=index0(n)
               !  ! Update compressive strength if damage in matrix is complete
-               xt(i) = xt_0(i)
+              xt(i) = xt_0(i)
               if(dmg(i,5) == one ) then
                 xc(i) = ycfac*yc(i) !
                 xt(i) = fbrt*xt_0(i)

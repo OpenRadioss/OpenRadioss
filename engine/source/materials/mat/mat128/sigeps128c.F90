@@ -206,11 +206,11 @@
           if (mat_param%ntable == 0) then    ! analytical yield formulation
             do i = 1,nel
               yld(i) = sigy + qr1*(one - exp(-cr1*pla(i)))                    &
-                            + qr2*(one - exp(-cr2*pla(i)))                    &
-                            + qx1*(one - exp(-cx1*pla(i)))                    &
-                            + qx2*(one - exp(-cx2*pla(i)))                
+                + qr2*(one - exp(-cr2*pla(i)))                    &
+                + qx1*(one - exp(-cx1*pla(i)))                    &
+                + qx2*(one - exp(-cx2*pla(i)))
               h(i)   = qr1*cr1*exp(-cr1*pla(i)) + qr2*cr2*exp(-cr2*pla(i))    &
-                     + qx1*cx1*exp(-cx1*pla(i)) + qx2*cx2*exp(-cx2*pla(i))
+                + qx1*cx1*exp(-cx1*pla(i)) + qx2*cx2*exp(-cx2*pla(i))
               h(i)   = h(i)   * cowp(i)
               yld(i) = yld(i) * cowp(i)
             enddo
@@ -236,7 +236,7 @@
           ! equivalent Hill stress
           do i=1,nel
             sighl(i) = (gg + hh)*signxx(i)**2 +  (ff + hh)*signyy(i)**2        &
-                     - two*hh*signxx(i)*signyy(i) + two*nn*signxy(i)**2
+              - two*hh*signxx(i)*signyy(i) + two*nn*signxy(i)**2
             sighl(i) = sqrt(max(zero,sighl(i)))
           enddo
 !
@@ -272,8 +272,8 @@
                 !< dsig/dlam = (dphi/dsig : dsig/dlam) = (Normal : dsig/dlam)
                 !   --------------------------------------------------------
                 dsig_dlam = normxx * (a11*normxx + a12*normyy)                &
-                          + normyy * (a12*normxx + a11*normyy)                &
-                          + normxy * normxy * shear
+                  + normyy * (a12*normxx + a11*normyy)                &
+                  + normxy * normxy * shear
 !
                 !<  derivative of dpla over lambda, dpla = lam * dphi/dsig
                 !<  dpla/dlam : sig_y*d_pla = [sig:df/dsig)]*dlam = [sig:N] * dlam
@@ -296,11 +296,11 @@
                 do ii=1,nindx
                   i = indx(ii)
                   yld(i) = sigy + qr1*(one - exp(-cr1*pla(i)))                  &
-                                + qr2*(one - exp(-cr2*pla(i)))                  &
-                                + qx1*(one - exp(-cx1*pla(i)))                  &
-                                + qx2*(one - exp(-cx2*pla(i)))                    
+                    + qr2*(one - exp(-cr2*pla(i)))                  &
+                    + qx1*(one - exp(-cx1*pla(i)))                  &
+                    + qx2*(one - exp(-cx2*pla(i)))
                   h(i)   = qr1*cr1*exp(-cr1*pla(i)) + qr2*cr2*exp(-cr2*pla(i))    &
-                         + qx1*cx1*exp(-cx1*pla(i)) + qx2*cx2*exp(-cx2*pla(i))
+                    + qx1*cx1*exp(-cx1*pla(i)) + qx2*cx2*exp(-cx2*pla(i))
                   h(i)   = h(i)   * cowp(i)
                   yld(i) = yld(i) * cowp(i)
                 end do
@@ -350,11 +350,11 @@
               do ii=1,nindx
                 i = indx(ii)
                 sighl(i) = (gg+hh)*signxx(i)**2 + (ff+hh)*signyy(i)**2            &
-                         - two*hh*signxx(i)*signyy(i) + two*nn*signxy(i)**2
+                  - two*hh*signxx(i)*signyy(i) + two*nn*signxy(i)**2
                 sighl(i) = sqrt(max(zero,sighl(i)))
 !
                 phi(i)  = sighl(i) - yld(i)
-                et(i)   = h(i) / (h(i) + young)        ! tangent stiffness coefficient for hourglass                
+                et(i)   = h(i) / (h(i) + young)        ! tangent stiffness coefficient for hourglass
                 dpzz(i) = dpzz(i) - (dpxx(i)+dpyy(i))  ! transverse strain update
                 et(i)   = h(i) / (h(i) + young)        ! tangent stiffness coefficient for hourglass
               enddo

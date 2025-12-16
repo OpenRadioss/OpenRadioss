@@ -26,7 +26,7 @@
 !||    sigeps25c            ../engine/source/materials/mat/mat025/sigeps25c.F
 !||====================================================================
       module mat25_tsaiwu_c_mod
-      implicit none
+        implicit none
       contains
 
 ! ======================================================================================================================
@@ -130,7 +130,7 @@
           integer ,dimension(nel) :: index,icas,isoft
           integer ,dimension(nel) :: fail_old
           real(kind=WP) :: scale, cnn, scale1, scale2, dam1, dam2, dwpla
- 
+
           real(kind=WP) ,dimension(nel) :: dp1,dp2,dp3,cb,cn,e11,e22,nu12,nu21
           real(kind=WP) ,dimension(nel) :: de1,de2,ds1,ds2,ds3,g12,g23,g31,fmax
           real(kind=WP) ,dimension(nel) :: wvec,t1,t2,t3,lamda,coef,a11,a12,a22

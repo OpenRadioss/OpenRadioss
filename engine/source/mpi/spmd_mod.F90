@@ -686,7 +686,7 @@
           else
             used_comm = SPMD_COMM_WORLD
           end if
-          if(buf_count .ne. 1) then
+          if(buf_count /= 1) then
             ierr = -1
           else
             call MPI_Reduce(sendbuf, recvbuf, buf_count, MPI_REAL, mpi_op, root, used_comm, ierr)
@@ -723,7 +723,7 @@
           else
             used_comm = SPMD_COMM_WORLD
           end if
-          if(buf_count .ne. 1) then
+          if(buf_count /= 1) then
             ierr = -1
           else
             call MPI_Reduce(sendbuf, recvbuf, buf_count, MPI_INTEGER, mpi_op, root, used_comm, ierr)
@@ -798,7 +798,7 @@
           else
             used_comm = SPMD_COMM_WORLD
           end if
-          if(buf_count .ne. 1) then
+          if(buf_count /= 1) then
             ierr = -1
           else
             call MPI_Allreduce(sendbuf, recvbuf, buf_count, MPI_INTEGER, mpi_op, used_comm, ierr)
@@ -873,7 +873,7 @@
           else
             used_comm = SPMD_COMM_WORLD
           end if
-          if(buf_count .ne. 1) then
+          if(buf_count /= 1) then
             ierr = -1
           else
             call MPI_Allreduce(sendbuf, recvbuf, buf_count, MPI_REAL, mpi_op, used_comm, ierr)

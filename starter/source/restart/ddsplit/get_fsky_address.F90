@@ -31,11 +31,11 @@
 ! ======================================================================================================================
 !                                                   procedures
 ! ======================================================================================================================
-!! \brief Assigns a local address to a node within an element if the node matches the specified global node ID and has 
+!! \brief Assigns a local address to a node within an element if the node matches the specified global node ID and has
 !!        not been assigned yet.
 !! \details This subroutine searches for a node within an element (using the connectivity array) that matches the given
-!!          global node ID. If the node is found and has not already been assigned (as determined by the shift array), 
-!!          it assigns the provided local address to the node in the address array and updates the shift array to mark 
+!!          global node ID. If the node is found and has not already been assigned (as determined by the shift array),
+!!          it assigns the provided local address to the node in the address array and updates the shift array to mark
 !!          the assignment. The subroutine sets the boolean flag to indicate whether the assignment was successful.
 !||====================================================================
 !||    get_fsky_address   ../starter/source/restart/ddsplit/get_fsky_address.F90
@@ -43,7 +43,7 @@
 !||    w_pon              ../starter/source/restart/ddsplit/w_pon.F
 !||====================================================================
         subroutine get_fsky_address(bool,nixx,ixx_offset,global_elem_id,local_elem_id,local_address,node_nb,global_node_id, &
-             & global_elem_nb,local_elem_nb,elm_shft,ixx,s_address,address)
+        & global_elem_nb,local_elem_nb,elm_shft,ixx,s_address,address)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -73,7 +73,7 @@
           integer, dimension(global_elem_nb), intent(inout) :: elm_shft !< array to store the shifts for each element
           integer, dimension(nixx,global_elem_nb), intent(in) :: ixx !< connectivity array
           integer, dimension(s_address,local_elem_nb), intent(inout) :: address !< address array to fill
-          
+
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -91,7 +91,7 @@
           myone = 1
           do i=1,node_nb
             shft = ishft(myone,i-1)
-            testval =iand(elm_shft(global_elem_id),shft)        
+            testval =iand(elm_shft(global_elem_id),shft)
             if( ixx(i+ixx_offset,global_elem_id)==global_node_id.and.testval==0) then
               address(i,local_elem_id) = local_address
               elm_shft(global_elem_id) = elm_shft(global_elem_id)+shft
@@ -99,7 +99,7 @@
               go to 100
             endif
           enddo
- 100       continue
+100       continue
 ! ----------------------------------------------------------------------------------------------------------------------
         end subroutine get_fsky_address
       end module get_fsky_address_mod

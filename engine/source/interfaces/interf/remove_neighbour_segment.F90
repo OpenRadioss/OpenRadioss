@@ -26,7 +26,7 @@
 !||    check_remote_surface_state     ../engine/source/interfaces/interf/check_remote_surface_state.F
 !||====================================================================
       module remove_neighbour_segment_mod
-      implicit none
+        implicit none
       contains
 ! ======================================================================================================================
 !                                                   procedures
@@ -53,7 +53,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
-          implicit none       
+          implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   arguments
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -80,7 +80,7 @@
           call c_hash_find( shoot_struct%neighbour(nin)%hash_id,segment_id,ijk ) ! find the address of seg_nb & seg_index arrays for the deleted segment "segment_id"
           if(ijk/=-1) then
             total_neighbour_seg = shoot_struct%neighbour(nin)%seg_nb(ijk) ! get the number of neighbouring segment
-            address = shoot_struct%neighbour(nin)%seg_index(ijk) ! get the address of mvoisin_index array 
+            address = shoot_struct%neighbour(nin)%seg_index(ijk) ! get the address of mvoisin_index array
             ! loop over the number of neighbouring segment
             do i=1,total_neighbour_seg
               my_index = shoot_struct%neighbour(nin)%mvoisin_index(address+i-1) ! get the address of mvoisin

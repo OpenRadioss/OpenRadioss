@@ -26,7 +26,7 @@
 !||    get_neighbour_surface          ../engine/source/interfaces/interf/get_neighbour_surface.F90
 !||====================================================================
       module update_neighbour_segment_mod
-      implicit none
+        implicit none
       contains
 ! ======================================================================================================================
 !                                                   procedures
@@ -82,7 +82,7 @@
           integer, intent(in) :: nspmd !< number of mpi tasks
           integer, intent(in) :: ninter !< number of interface
           integer, intent(in) :: npari !< number of parameters
-          integer, dimension(npari,ninter), intent(in) :: ipari !< interface parameters                    
+          integer, dimension(npari,ninter), intent(in) :: ipari !< interface parameters
           integer, dimension(2,nspmd), intent(in) :: r_buffer_size
           integer, dimension(3,nspmd), intent(in) :: r_buffer_2_size
           type(array_type), dimension(nspmd), intent(in) :: r_buffer
@@ -269,8 +269,8 @@
 
             if(segment_pair(new_segment_id(i),my_iedge,1) == 0) then
 
-            ! ---------------------
-            ! local neighbour segments (=same processor than "segment_id"'s processor)
+              ! ---------------------
+              ! local neighbour segments (=same processor than "segment_id"'s processor)
               do j=1,nb_connected_segment
                 my_integer = transfer(r_buffer(proc_id)%my_real_array_1d(my_offset_1 + j),my_int_variable) ! get global neighbour segment id
                 n_segment_id = abs(my_integer)
@@ -284,14 +284,14 @@
 
                 ierror = -1
                 call c_hash_find( segment_hash_id,n_segment_id+ &
-                   shoot_struct%shift_interface2(list_new_segment(permutation(i),5)) ,ierror ) ! check if "n_segment id" is already in the hash table
+                  shoot_struct%shift_interface2(list_new_segment(permutation(i),5)) ,ierror ) ! check if "n_segment id" is already in the hash table
                 if(ierror==-1) then  ! no --> need to add it
-                   seg_id = seg_id + 1
-                   call c_hash_insert( segment_hash_id,n_segment_id+  &
-                            shoot_struct%shift_interface2(list_new_segment(permutation(i),5)),seg_id )
-                   n_seg_id = seg_id
+                  seg_id = seg_id + 1
+                  call c_hash_insert( segment_hash_id,n_segment_id+  &
+                    shoot_struct%shift_interface2(list_new_segment(permutation(i),5)),seg_id )
+                  n_seg_id = seg_id
                 else
-                   n_seg_id = ierror
+                  n_seg_id = ierror
                 endif
 
                 n_normal(1) = r_buffer(proc_id)%my_real_array_1d(my_offset_3 + 3*(j-1)+1)
@@ -301,8 +301,8 @@
                 n_vconvexity(1) = r_buffer(proc_id)%my_real_array_1d(my_offset_8 + 3*(j-1)+1)
                 n_vconvexity(2) = r_buffer(proc_id)%my_real_array_1d(my_offset_8 + 3*(j-1)+2)
                 n_vconvexity(3) = r_buffer(proc_id)%my_real_array_1d(my_offset_8 + 3*(j-1)+3)
-  
-              ! -------
+
+                ! -------
                 if(segment_id/=n_segment_id.and.already_a_neighbour==0.and.segment_pair(n_seg_id,n_iedge_id,1)==0) then
                   call get_segment_criteria( convexity,normal,n_vconvexity )
                   call get_segment_criteria( my_criteria,v_convexity,n_vconvexity )
@@ -334,15 +334,15 @@
                   end if
 
                 end if
-              ! -------
+                ! -------
               end do
 
 
-            ! ---------------------
+              ! ---------------------
 
 
-            ! ---------------------
-            ! remote neighbour segments (=different processor than "segment_id"'s processor)
+              ! ---------------------
+              ! remote neighbour segments (=different processor than "segment_id"'s processor)
               do k=1,proc_number
 
                 my_integer = transfer(r_buffer(proc_id)%my_real_array_1d(my_offset_5 + k),my_int_variable) ! get the remote proc id
@@ -357,7 +357,7 @@
                   my_integer = transfer(r_buffer_2(r_proc_id)%my_real_array_1d(r_address + 7),my_int_variable) ! get the number of r connected segment
                   nb_r_connected_segment = my_integer
 
-                ! check if the segment in the r_buffer_2 is the same new segment
+                  ! check if the segment in the r_buffer_2 is the same new segment
                   if((segment_id_2==segment_id).and.(my_iedge_2==my_iedge)) then
 
 
@@ -391,17 +391,17 @@
 
                       ierror = -1
                       call c_hash_find( segment_hash_id,n_segment_id+ &
-                            shoot_struct%shift_interface2(list_new_segment(permutation(i),5)) ,ierror ) ! check if "n_segment id" is already in the hash table
+                        shoot_struct%shift_interface2(list_new_segment(permutation(i),5)) ,ierror ) ! check if "n_segment id" is already in the hash table
                       if(ierror==-1) then  ! no --> need to add it
                         seg_id = seg_id + 1
                         call c_hash_insert( segment_hash_id,n_segment_id+  &
-                              shoot_struct%shift_interface2(list_new_segment(permutation(i),5)),seg_id )
+                          shoot_struct%shift_interface2(list_new_segment(permutation(i),5)),seg_id )
                         n_seg_id = seg_id
                       else
                         n_seg_id = ierror
                       endif
 
-                    ! -------
+                      ! -------
                       if(segment_id/=n_segment_id.and.already_a_neighbour==0.and.segment_pair(n_seg_id,n_iedge_id,1)==0) then
                         call get_segment_criteria( convexity,normal,n_vconvexity )
                         call get_segment_criteria( my_criteria,v_convexity,n_vconvexity )
@@ -430,7 +430,7 @@
                         end if
 
                       end if
-                    ! -------
+                      ! -------
                     end do
 
 
@@ -441,15 +441,15 @@
               end do
 
               if(segment_pair(new_segment_id(i),my_iedge,1) /= 0) then
-                    n_seg_id=segment_pair(new_segment_id(i),my_iedge,3) 
-                    n_iedge_id = segment_pair(new_segment_id(i),my_iedge,4)
-                    criteria(n_seg_id,n_iedge_id) = criteria(new_segment_id(i),my_iedge)
+                n_seg_id=segment_pair(new_segment_id(i),my_iedge,3)
+                n_iedge_id = segment_pair(new_segment_id(i),my_iedge,4)
+                criteria(n_seg_id,n_iedge_id) = criteria(new_segment_id(i),my_iedge)
 
-                    segment_pair(n_seg_id,n_iedge_id,1) = segment_id
-                    segment_pair(n_seg_id,n_iedge_id,2) = proc_id
-                    segment_pair(n_seg_id,n_iedge_id,3) = new_segment_id(i)
-                    segment_pair(n_seg_id,n_iedge_id,4) = my_iedge
-                    segment_pair(n_seg_id,n_iedge_id,5) = local_segment_id
+                segment_pair(n_seg_id,n_iedge_id,1) = segment_id
+                segment_pair(n_seg_id,n_iedge_id,2) = proc_id
+                segment_pair(n_seg_id,n_iedge_id,3) = new_segment_id(i)
+                segment_pair(n_seg_id,n_iedge_id,4) = my_iedge
+                segment_pair(n_seg_id,n_iedge_id,5) = local_segment_id
               endif
             endif
             ! ---------------------c
@@ -508,14 +508,14 @@
           ! --------------------------
 
 
-        ! ---------------------------
+          ! ---------------------------
           ! if the neighbourhood of at least 1 segment changes, --> need to re-build the hash table
-        if(updated_interface_bool) then
-          do nin=1,ninter
-            if(updated_interface(nin)) call get_hashtable_for_neighbour_segment( nin,npari,ninter,ipari,intbuf_tab,shoot_struct )         
-          enddo
-        endif
-        ! ---------------------------          
+          if(updated_interface_bool) then
+            do nin=1,ninter
+              if(updated_interface(nin)) call get_hashtable_for_neighbour_segment( nin,npari,ninter,ipari,intbuf_tab,shoot_struct )
+            enddo
+          endif
+          ! ---------------------------
 
           deallocate( list_new_segment )
           deallocate( new_segment_id )

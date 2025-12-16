@@ -49,9 +49,9 @@
 !||    spmd_mod                        ../engine/source/mpi/spmd_mod.F90
 !||====================================================================
         subroutine spmd_exch_n_neighbor(flag,nspmd,n_entity,dim1,s_lesdvois,s_lercvois, &
-                                        s_proc_nb,r_proc_nb,s_index,r_index,s_req,r_req, &
-                                        nesdvois,nercvois,lesdvois,lercvois, &
-                                        phi,s_buffer,r_buffer)
+          s_proc_nb,r_proc_nb,s_index,r_index,s_req,r_req, &
+          nesdvois,nercvois,lesdvois,lercvois, &
+          phi,s_buffer,r_buffer)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -78,20 +78,20 @@
           integer, intent(in) :: n_entity !< number of entity (= numels/q + sum of the numbers of frontier elements (rcv))
           integer, intent(in) :: dim1 !< second dimension of phi array
           integer, intent(in) :: s_lesdvois !< size of lesdvois array
-          integer, intent(in) :: s_lercvois !< size of lercvois array       
+          integer, intent(in) :: s_lercvois !< size of lercvois array
           integer, intent(inout) :: s_proc_nb !< number of S procs
           integer, intent(inout) :: r_proc_nb !< number of R procs
           integer, dimension(nspmd), intent(inout) :: s_index !< index of S processor
           integer, dimension(nspmd), intent(inout) :: r_index !< index of R processor
           integer, dimension(nspmd), intent(inout) :: s_req !< S requests
           integer, dimension(nspmd), intent(inout) :: r_req !< R requests
-          integer, dimension(nspmd+1), intent(in) :: nesdvois !< number of frontier elements (send)          
+          integer, dimension(nspmd+1), intent(in) :: nesdvois !< number of frontier elements (send)
           integer, dimension(nspmd+1), intent(in) :: nercvois !< number of frontier elements (rcv)
           integer, dimension(s_lesdvois), intent(in) :: lesdvois !< frontier element ids (send)
           integer, dimension(s_lercvois), intent(in) :: lercvois !< frontier element ids (rcv)
           real(kind=WP), dimension(n_entity,dim1), intent(inout) :: phi !<values to exchange
           type(array_type), dimension(nspmd), intent(inout) :: s_buffer !< send buffer
-          type(array_type), dimension(nspmd), intent(inout) :: r_buffer !< send buffer     
+          type(array_type), dimension(nspmd), intent(inout) :: r_buffer !< send buffer
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -138,14 +138,14 @@
                 call alloc_my_real_2d_array(s_buffer(p))
                 do k=1,dim1
                   do j=1,s_size
-                    ijk = lesdvois(s_address+j)                
+                    ijk = lesdvois(s_address+j)
                     s_buffer(p)%my_real_array_2d(j,k) = phi(ijk,k)
                   end do
                 enddo
                 s_address = s_address + s_size
                 ! send the data
                 s_proc_nb = s_proc_nb + 1
-                s_index(s_proc_nb) = p   
+                s_index(s_proc_nb) = p
                 call spmd_isend(s_buffer(p)%my_real_array_2d(1,1),dim1*s_size,p-1,msgtyp,s_req(s_proc_nb))
               end if
             end do
@@ -180,7 +180,7 @@
               if (s_size > 0) then
                 call dealloc_my_real_2d_array(s_buffer(p))
               end if
-            end do            
+            end do
             ! -------------
           endif
 ! ----------------------------------------------------------------------------------------------------------------------

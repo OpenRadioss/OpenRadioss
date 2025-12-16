@@ -49,7 +49,7 @@
 !||    submodel_mod             ../starter/share/modules1/submodel_mod.F
 !||====================================================================
         subroutine hm_read_mat130(                                             &
-          matparam ,nuvar    ,mtag     ,iout     ,parmat   ,unitab   ,         & 
+          matparam ,nuvar    ,mtag     ,iout     ,parmat   ,unitab   ,         &
           lsubmodel,israte   ,mat_id   ,titr     ,table    ,ntable   ,         &
           nvartmp  ,imatvis  )
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -80,7 +80,7 @@
           integer, intent(inout)                :: israte            !< strain rate filtering flag
           integer, intent(in)                   :: mat_id            !< material law user ID
           character(len=nchartitle),intent(in)  :: titr              !< material law user title
-          integer, intent(in)                   :: ntable            
+          integer, intent(in)                   :: ntable
           type(ttable)  ,dimension(ntable) ,intent(in) :: table
           integer,                intent(inout) :: nvartmp           !< temporary number of user variables
           integer,                intent(inout) :: imatvis           !< material viscosity flag
@@ -135,8 +135,8 @@
           call hm_get_intv("LSD_LCID5"       ,lcab   ,is_available,lsubmodel)
           call hm_get_intv("LSD_LCID6"       ,lcbc   ,is_available,lsubmodel)
           call hm_get_intv("LSD_LCID7"       ,lcca   ,is_available,lsubmodel)
-          !< Shear stress curves 
-          if ((lcs > 0).and.(lcab == 0).and.(lcbc == 0).and.(lcca == 0)) then 
+          !< Shear stress curves
+          if ((lcs > 0).and.(lcab == 0).and.(lcbc == 0).and.(lcca == 0)) then
             lcab = lcs
             lcbc = lcs
             lcca = lcs
@@ -157,7 +157,7 @@
           call hm_get_floatv("LSDYNA_EPSF"   ,ssef   ,is_available, lsubmodel, unitab)
           call hm_get_intv("LSDYNA_PRU"      ,ipru   ,is_available, lsubmodel)
 ! ----------------------------------------------------------------------------------------------------------------------
-          if (lcsrtmp < 0) then 
+          if (lcsrtmp < 0) then
             call hm_get_intv("MATL126_LCSRA" ,lcsra  ,is_available,lsubmodel)
             call hm_get_intv("MATL126_LCSRB" ,lcsrb  ,is_available,lsubmodel)
             call hm_get_intv("MATL126_LCSRC" ,lcsrc  ,is_available,lsubmodel)
@@ -178,16 +178,16 @@
           !< Elastic constants
           bulk  = young/(three * (one - two * nu))
           shear = young/(two * (one + nu))
-          !< Yield stress 
+          !< Yield stress
           if (sigy == zero) sigy = infinity
           !< Check formulation for the yield surface
           if (itype == 0) itype = 1
-          if ((eccu < zero).or.(itype == 3)) then 
+          if ((eccu < zero).or.(itype == 3)) then
             itype = 3
             sigyd0 = abs(eccu)
             sigyp0 = abs(gcau)
           endif
-          if ((itype == 2).or.(itype == 3)) then 
+          if ((itype == 2).or.(itype == 3)) then
             eccu = ebbu
             gcau = gabu
           endif
@@ -212,14 +212,14 @@
           matparam%ntable = 6
           if (lcsrtmp > 0) then
             matparam%ntable = matparam%ntable + 1
-          elseif ((lcsrtmp < 0).and.(itype == 1)) then 
+          elseif ((lcsrtmp < 0).and.(itype == 1)) then
             matparam%ntable = matparam%ntable + 6
           endif
 !
           !< Number of user variables
           nuvar = 11
           !< Number of temporary variables
-          if (itype == 1) then 
+          if (itype == 1) then
             nvartmp = 18
           else
             nvartmp = 9
@@ -281,7 +281,7 @@
           matparam%table(6)%notable = lcca
           if (lcsrtmp > 0) then
             matparam%table(7)%notable  = lcsr
-          elseif ((lcsrtmp < 0).and.(itype == 1)) then 
+          elseif ((lcsrtmp < 0).and.(itype == 1)) then
             matparam%table(7)%notable  = lcsra
             matparam%table(8)%notable  = lcsrb
             matparam%table(9)%notable  = lcsrc
@@ -310,11 +310,11 @@
           mtag%l_epsd = 1
 !
           ! Tag for damage output
-          if (itype > 1) then 
+          if (itype > 1) then
             ! -> Number of output modes (stored in DMG(NEL,I), I>1)
             matparam%nmod = 3
             ! Total number of damage outputs
-            ! -> DMG(NEL,1) = Global damage output 
+            ! -> DMG(NEL,1) = Global damage output
             ! -> DMG(NEL,2:NMOD+1) = Damage modes output
             mtag%g_dmg = 1 + matparam%nmod
             mtag%l_dmg = 1 + matparam%nmod
@@ -349,14 +349,14 @@
               write(iout,1260) pruab,pruac,prubc,pruba,pruca,prucb
             endif
             write(iout,1300) itype
-            if (itype == 1) then 
+            if (itype == 1) then
               write(iout,1400) lca,lcb,lcc,lcab,lcbc,lcca,lcs
             elseif (itype == 2) then
               write(iout,1500) lca,lcb,lcc,lcab,lcbc,lcca,shdflg
             elseif (itype == 3) then
               write(iout,1600) lca,lcb,sigyd0,sigyp0,lcab,lcbc,lcca,shdflg
             endif
-            if (lcsrtmp > 0) then 
+            if (lcsrtmp > 0) then
               write(iout,1410) lcsr,rfac
             elseif ((itype == 1).and.(lcsrtmp < 0)) then
               write(iout,1420) lcsra,lcsrb,lcsrc,lcsrab,lcsrbc,lcsrca,rfac
@@ -366,17 +366,17 @@
             write(iout,2000)
           end if
 ! ----------------------------------------------------------------------------------------------------------------------
-900  format(/                                                                   &
+900       format(/                                                                   &
             5X,A,/,                                                             &
             5X,"MATERIAL NUMBER . . . . . . . . . . . . . . . . . .=",I10/,     &
             5X,"MATERIAL LAW. . . . . . . . . . . . . . . . . . . .=",I10/)
-1000 format(/                                                                   &
+1000      format(/                                                                   &
             5X,"----------------------------------------------------",/         &
             5X,"        MATERIAL MODEL:  MODIFIED HONEYCOMB         ",/,        &
             5X,"----------------------------------------------------",/)
-1100 format(/                                                                   &
+1100      format(/                                                                   &
             5X,"INITIAL DENSITY . . . . . . . . . . . . . . . . . .=",1PG20.13/)
-1200 format(/                                                                   &
+1200      format(/                                                                   &
             5X,"UNCOMPACTED MATERIAL PROPERTIES:                    ",/,        &
             5X,"----------------------------------------------------",/,        &
             5X,"YOUNG MODULUS IN DIRECTION A (EAAU) . . . . . . . .=",1PG20.13/,&
@@ -385,24 +385,24 @@
             5X,"SHEAR MODULUS IN PLANE AB (GABU). . . . . . . . . .=",1PG20.13/,&
             5X,"SHEAR MODULUS IN PLANE BC (GBCU). . . . . . . . . .=",1PG20.13/,&
             5X,"SHEAR MODULUS IN PLANE CA (GCAU). . . . . . . . . .=",1PG20.13/)
-1250 format(/                                                                   &
+1250      format(/                                                                   &
             5X,"POISSON'S EFFECT FLAG (IPRU). . . . . . . . . . . .=",I10/,     &
             5X,"    IPRU = 0: NO POISSON'S EFFECTS                  ",/,        &
             5X,"    IPRU = 1: RAMP ON POISSON'S RATIO               ",/,        &
             5X,"    IPRU = 2: INPUT ANISOTROPIC POISSON'S RATIO     ",/)
-1260 format(/                                                                   &
+1260      format(/                                                                   &
             5X,"POISSON'S RATIO IN PLANE AB (PRUAB) . . . . . . . .=",1PG20.13/ &
             5X,"POISSON'S RATIO IN PLANE AC (PRUAC) . . . . . . . .=",1PG20.13/ &
             5X,"POISSON'S RATIO IN PLANE BC (PRUBC) . . . . . . . .=",1PG20.13/ &
             5X,"POISSON'S RATIO IN PLANE BA (PRUBA) . . . . . . . .=",1PG20.13/ &
             5X,"POISSON'S RATIO IN PLANE CA (PRUCA) . . . . . . . .=",1PG20.13/ &
             5X,"POISSON'S RATIO IN PLANE CB (PRUCB) . . . . . . . .=",1PG20.13/)
-1300 format(/                                                                   &
+1300      format(/                                                                   &
             5X,"YIELD SURFACE TYPE FLAG (IFORM) . . . . . . . . . .=",I10/,     &
             5X,"    IFORM = 1: CLASSIC CLIPPING YIELD SURFACE       ",/,        &
             5X,"    IFORM = 2: TRANSVERSE ISOTROPIC YIELD SURFACE   ",/,        &
             5X,"    IFORM = 3: HYDROSTATIC/SHEAR YIELD SURFACE      ",/)
-1400 format(/                                                                   &
+1400      format(/                                                                   &
             5X,"CLASSIC YIELD SURFACE PARAMETERS:                   ",/,        &
             5X,"----------------------------------------------------",/,        &
             5X,"LOAD EVOLUTION IN DIRECTION A FUNCTION ID (LCA) . .=",I10/,     &
@@ -412,10 +412,10 @@
             5X,"LOAD EVOLUTION IN PLANE BC FUNCTION ID (LCBC) . . .=",I10/,     &
             5X,"LOAD EVOLUTION IN PLANE CA FUNCTION ID (LCCA) . . .=",I10/,     &
             5X,"DAMAGE EVOLUTION IN SHEARING FUNCTION ID (LCS). . .=",I10/)
-1410 format(/                                                                   &
+1410      format(/                                                                   &
             5X,"STRAIN RATE DEPENDENCY FUNCTION ID (LCSR) . . . . .=",I10/,     &
             5X,"STRAIN RATE FILTERING FACTOR (RFAC) . . . . . . . .=",1PG20.13/)
-1420 format(/                                                                   &
+1420      format(/                                                                   &
             5X,"S-R DEPENDENCY IN DIRECTION A FUNCTION ID (LCSRA) .=",I10/,     &
             5X,"S-R DEPENDENCY IN DIRECTION B FUNCTION ID (LCSRB) .=",I10/,     &
             5X,"S-R DEPENDENCY IN DIRECTION C FUNCTION ID (LCSRC) .=",I10/,     &
@@ -423,7 +423,7 @@
             5X,"S-R DEPENDENCY IN PLANE BC FUNCTION ID (LCSRBC) . .=",I10/,     &
             5X,"S-R DEPENDENCY IN PLANE CA FUNCTION ID (LCSRCA) . .=",I10/,     &
             5X,"STRAIN RATE FILTERING FACTOR (RFAC) . . . . . . . .=",1PG20.13/)
-1500 format(/                                                                   &
+1500      format(/                                                                   &
             5X,"TRANSVERSE ISOTROPIC YIELD SURFACE PARAMETERS:      ",/,        &
             5X,"----------------------------------------------------",/,        &
             5X,"OFF-ANGLE LIMIT STRESS FUNCTION ID (LCA)  . . . . .=",I10/,     &
@@ -435,7 +435,7 @@
             5X,"SHEAR DAMAGE FLAG (SHDFLG). . . . . . . . . . . . .=",I10/,     &
             5X,"   SHDFLG = 0: DAMAGE REDUCES STRESS EVERY TIME STEP",/,        &
             5X,"   SHDFLG = 1: DAMAGE = SHEAR STRESS/UNDAMAGED SHEAR STRESS",/)
-1600 format(/                                                                   &
+1600      format(/                                                                   &
             5X,"HYDROSTATIC/SHEAR YIELD SURFACE PARAMETERS:         ",/,        &
             5X,"----------------------------------------------------",/,        &
             5X,"UNIAXIAL LIMIT STRESS FUNCTION ID (LCA) . . . . . .=",I10/     ,&
@@ -448,20 +448,20 @@
             5X,"SHEAR DAMAGE FLAG (SHDFLG). . . . . . . . . . . . .=",I10/,     &
             5X,"   SHDFLG = 0: DAMAGE REDUCES STRESS EVERY TIME STEP",/,        &
             5X,"   SHDFLG = 1: DAMAGE = SHEAR STRESS/UNDAMAGED SHEAR STRESS",/)
-1700 format(/                                                                   &
+1700      format(/                                                                   &
             5X,"FULLY COMPACTED MATERIAL PROPERTIES:                ",/,        &
             5X,"----------------------------------------------------",/,        &
             5X,"YOUNG MODULUS E . . . . . . . . . . . . . . . . . .=",1PG20.13/,&
             5X,"POISSON'S RATIO . . . . . . . . . . . . . . . . . .=",1PG20.13/,&
             5X,"FULLY COMPACTED YIELD STRESS (SIGY) . . . . . . . .=",1PG20.13/,&
             5X,"VOLUME FRACTION AT FULL COMPACTION (VF) . . . . . .=",1PG20.13/,&
-            5X,"VISCOSITY COEFFICIENT (MU). . . . . . . . . . . . .=",1PG20.13/) 
-1800 format(/                                                                   &
+            5X,"VISCOSITY COEFFICIENT (MU). . . . . . . . . . . . .=",1PG20.13/)
+1800      format(/                                                                   &
             5X,"ELEMENT DELETION PROPERTIES:                        ",/,        &
             5X,"----------------------------------------------------",/,        &
             5X,"TENSILE STRAIN AT FAILURE (TSEF). . . . . . . . . .=",1PG20.13/,&
             5X,"SHEAR STRAIN AT FAILURE (SSEF). . . . . . . . . . .=",1PG20.13/)
-2000 format(/                                                                   &
+2000      format(/                                                                   &
             5X,"----------------------------------------------------",/)
 !
         end subroutine hm_read_mat130

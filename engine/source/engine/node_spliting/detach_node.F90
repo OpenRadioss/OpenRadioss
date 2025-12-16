@@ -339,7 +339,7 @@
               end do
             else if (itype == 11) then
 
-               ! search if node_id is in interf%intbuf_tab(i)%MSR(1:NMN)
+              ! search if node_id is in interf%intbuf_tab(i)%MSR(1:NMN)
               is_found = any(interf%intbuf_tab(i)%MSR(1:nmn) == node_id)
               if(is_found) then
                 ! extend the arrays MSR
@@ -653,7 +653,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
-           !write(6,*) "detach_node",node_id,nodes%itab(node_id),"from:",shell_list(1:list_size)
+          !write(6,*) "detach_node",node_id,nodes%itab(node_id),"from:",shell_list(1:list_size)
           !call flush(6)
 !         new_uid = nodes%max_uid + 1
 !         nodes%max_uid = new_uid
@@ -811,9 +811,9 @@
             end do
             do n = 1, size(elbuf(ng)%GBUF%OFF)
               detach_shell(nft+n) = max(detach_shell(nft+n), ONE - abs(elbuf(ng)%GBUF%OFF(n)))
-              if(elbuf(ng)%GBUF%OFF(n) .lt. -99.0 ) then
+              if(elbuf(ng)%GBUF%OFF(n) < -99.0 ) then
                 write(6,*) "detaching shell ", element%shell%user_id(n), " with OFF=", elbuf(ng)%GBUF%OFF(n)
-                detach_shell(nft+n) = 0.98d0 
+                detach_shell(nft+n) = 0.98d0
                 elbuf(ng)%GBUF%OFF(n) = one
               end if
 !             if(element%shell%user_id(nft+n) == 100344279) then
@@ -821,7 +821,7 @@
 
 !             endif
             end do
- 
+
             ! detach_shell(nft+1: nft+nel) = detach_shell(nft+1: nft+nel) - element%shell%damage(nft+1: nft+nel)
           end do
 
@@ -910,7 +910,7 @@
                 element%shell%damage(i) = 1.0D0 !
                 nb_detached_nodes_local = nb_detached_nodes_local + 1
                 detached_nodes_local(nb_detached_nodes_local) = nodes%itab(crack(1))
-                 !write(6,*) "detach_node",node_id,nodes%itab(node_id),"from:",shell_list(1:list_size)
+                !write(6,*) "detach_node",node_id,nodes%itab(node_id),"from:",shell_list(1:list_size)
                 write(6,*) "DETACH NODE",nodes%itab(crack(1)),"damage",nodal_damage(crack(1)), &
                   "ratio",distance / element%shell%dist_to_center(i)
 

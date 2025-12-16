@@ -26,7 +26,7 @@
 !||    mulaw           ../engine/source/materials/mat_share/mulaw.F90
 !||====================================================================
       module sigeps126_mod
-      implicit none
+        implicit none
       contains
         ! ======================================================================================================================
         ! \brief Johnson-Holmquist 1 material law /MAT/LAW126
@@ -177,7 +177,7 @@
             signyz(i) = sigoyz(i) + g*depsyz(i)
             signzx(i) = sigozx(i) + g*depszx(i)
             j2        = half*(signxx(i)**2+signyy(i)**2+signzz(i)**2)           &
-                            + signxy(i)**2+signyz(i)**2+signzx(i)**2
+              + signxy(i)**2+signyz(i)**2+signzx(i)**2
             vm(i)     = sqrt(three*j2)
           end do
 !
@@ -272,22 +272,22 @@
             if (pstar(i) > zero) then
               sigy(i) = aa*(one-dmg(i)) + bb*exp(nn*log(pstar(i)))
               !< Cowper-Symonds strain rate dependency
-              if (icowpsym == 1) then 
+              if (icowpsym == 1) then
                 sigy(i) = sigy(i)*(one + exp((one/powc)*log((epsd(i)+em20)/csc)))
-              !< Johnson-Cook strain rate dependency
+                !< Johnson-Cook strain rate dependency
               else
                 if (epsd(i) > eps0) then
                   sigy(i) = sigy(i)*(one + cc*log(epsd(i)/eps0))
                 end if
               end if
               sigy(i) = min(sfmax,sigy(i))
-            !< For tension loadings
+              !< For tension loadings
             else
               sigy(i) = aa * max(zero, one + pnew(i)/t0) * (one - dmg(i))
               !< Cowper-Symonds strain rate dependency
-              if (icowpsym == 1) then 
+              if (icowpsym == 1) then
                 sigy(i) = sigy(i)*(one + exp((one/powt)*log((epsd(i)+em20)/cst)))
-              !< Johnson-Cook strain rate dependency
+                !< Johnson-Cook strain rate dependency
               else
                 if (epsd(i) > eps0) then
                   sigy(i) = sigy(i)*(one + cc*log(epsd(i)/eps0))
@@ -417,7 +417,7 @@
               if (off(i) <  one) off(i) = off(i)*four_over_5
               if ((noff(i) == 1).and.(off(i) == one)) off(i) = four_over_5
             end do
-          !< Set to zero the deviatoric stress tensor
+            !< Set to zero the deviatoric stress tensor
           else if (ifail == 2) then
             do i = 1,nel
               if (noff(i) == 1) then
@@ -429,8 +429,8 @@
                 signzx(i) = zero
               end if
             end do
-          !< Set to zero the deviatoric stress tensor
-          !< Keep pressure only in compression
+            !< Set to zero the deviatoric stress tensor
+            !< Keep pressure only in compression
           else if (ifail == 3) then
             do i = 1,nel
               if (noff(i) == 1) then
@@ -442,7 +442,7 @@
                 signzx(i) = zero
               end if
             end do
-          !< Set to zero the whole stress tensor
+            !< Set to zero the whole stress tensor
           else if (ifail == 4) then
             do i = 1,nel
               if (noff(i) == 1) then
@@ -468,22 +468,22 @@
                 write(iout, 1000) ngl(i),tt
                 write(istdo,1000) ngl(i),tt
               end do
-            !< Set to zero the deviatoric stress tensor
+              !< Set to zero the deviatoric stress tensor
             else if (ifail == 2) then
               do j=1,nindx
                 i = indx(j)
                 write(iout, 2000) ngl(i),tt
                 write(istdo,2000) ngl(i),tt
               end do
-            !< Set to zero the deviatoric stress tensor
-            !< Keep pressure only in compression
+              !< Set to zero the deviatoric stress tensor
+              !< Keep pressure only in compression
             else if (ifail == 3) then
               do j=1,nindx
                 i = indx(j)
                 write(iout, 3000) ngl(i),tt
                 write(istdo,3000) ngl(i),tt
               end do
-            !< Set to zero the whole stress tensor
+              !< Set to zero the whole stress tensor
             else if (ifail == 4) then
               do j=1,nindx
                 i = indx(j)

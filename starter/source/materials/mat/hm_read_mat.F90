@@ -405,22 +405,22 @@
               &matparam)
 !-------
              case ('LAW2','LAW02','PLAS_JOHNS','JOHNS')
-               ilaw  = 2
-               call hm_read_mat02_jc(matparam,mtag     ,parmat   ,           &
-                 nuvar    ,unitab  ,mat_id   ,titr     ,lsubmodel,           &
-                 npropm   ,pm(1,i) ,npropmi  ,ipm(1,i) )                 
+              ilaw  = 2
+              call hm_read_mat02_jc(matparam,mtag     ,parmat   ,           &
+                nuvar    ,unitab  ,mat_id   ,titr     ,lsubmodel,           &
+                npropm   ,pm(1,i) ,npropmi  ,ipm(1,i) )
 !-------
              case ('ZERIL','PLAS_ZERIL')
-               ilaw  = 2
-               call hm_read_mat02_zerilli(matparam,mtag,parmat   ,           &
-                 nuvar    ,unitab  ,mat_id   ,titr     ,lsubmodel,           &
-                 npropm   ,pm(1,i) ,npropmi  ,ipm(1,i) )                 
+              ilaw  = 2
+              call hm_read_mat02_zerilli(matparam,mtag,parmat   ,           &
+                nuvar    ,unitab  ,mat_id   ,titr     ,lsubmodel,           &
+                npropm   ,pm(1,i) ,npropmi  ,ipm(1,i) )
 !-------
              case ('PLAS_PREDEF')
-               ilaw  = 2
-               call hm_read_mat02_predef(matparam,mtag     ,parmat   ,       &
-                        nuvar    ,unitab  ,mat_id   ,titr     ,              &
-                        npropm   ,pm(1,i) ,npropmi  ,ipm(1,i) ) 
+              ilaw  = 2
+              call hm_read_mat02_predef(matparam,mtag     ,parmat   ,       &
+                nuvar    ,unitab  ,mat_id   ,titr     ,              &
+                npropm   ,pm(1,i) ,npropmi  ,ipm(1,i) )
 !-------
              case ('LAW3','LAW03', 'HYDPLA')
               ilaw=3
@@ -707,14 +707,14 @@
                 ntable   ,table    ,mat_id   ,iout     ,titr     ,  &
                 unitab   ,lsubmodel)
 !-------
-          case ('LAW51','MULTIMAT')
-            ilaw = 51
-            call hm_read_mat51(&
-            &uparam   ,maxuparam ,nuparam  ,israte  ,imatvis  ,&
-            &nuvar    ,ifunc     ,maxfunc  ,nfunc   ,parmat   ,&
-            &unitab   ,mat_id    ,titr     ,mtag    ,lsubmodel,&
-            &pm(1,i)  ,mat_param, mat_number ,ipm(1,i)  ,nvartmp ,&
-            &nummat)
+             case ('LAW51','MULTIMAT')
+              ilaw = 51
+              call hm_read_mat51(&
+              &uparam   ,maxuparam ,nuparam  ,israte  ,imatvis  ,&
+              &nuvar    ,ifunc     ,maxfunc  ,nfunc   ,parmat   ,&
+              &unitab   ,mat_id    ,titr     ,mtag    ,lsubmodel,&
+              &pm(1,i)  ,mat_param, mat_number ,ipm(1,i)  ,nvartmp ,&
+              &nummat)
 !-------
              case ('LAW52','GURSON')
               ilaw  = 52
@@ -953,7 +953,7 @@
               &unitab   ,lsubmodel,mtag     ,iout     ,nvartmp  ,&
               &israte   ,ntable   ,table    ,maxfunc  )
 !-------
-            case ('LAW88','MLAW88','TABULATED_HYPERELASTIC')
+             case ('LAW88','MLAW88','TABULATED_HYPERELASTIC')
               ilaw = 88
               call hm_read_mat88(&
               &matparam ,nvartmp  ,parmat   ,unitab   ,mat_id   ,&
@@ -1059,7 +1059,7 @@
               call hm_read_mat106(&
               &matparam ,nuvar    ,nfunc    ,parmat  ,unitab   ,&
               &mat_id   ,titr     ,mtag     ,nvartmp ,lsubmodel,&
-              &ntable   ,table    ,iout     ,israte  )      
+              &ntable   ,table    ,iout     ,israte  )
 !-------
              case ('LAW107','PAPER_LIGHT','PFEIFFER')
               ilaw = 107
@@ -1189,9 +1189,9 @@
              case ('LAW124','CDPM2')
               ilaw  = 124
               call hm_read_mat124(&
-               uparam   ,maxuparam,nuparam  ,nuvar    ,mtag     ,&
-               parmat   ,unitab   ,pm(1,i)  ,lsubmodel,israte   ,&
-               mat_id   ,titr     ,matparam )
+                uparam   ,maxuparam,nuparam  ,nuvar    ,mtag     ,&
+                parmat   ,unitab   ,pm(1,i)  ,lsubmodel,israte   ,&
+                mat_id   ,titr     ,matparam )
 !-------
              case ('LAW125','LAMINATED_COMPOSITE')
               ilaw = 125
@@ -1400,7 +1400,7 @@
 
 !-----------------------------------------------------------------------
             if (ilaw == 99) then  ! write header info for user laws
-               write(iout,2000) titr,mat_id,iuser_law
+              write(iout,2000) titr,mat_id,iuser_law
             endif
 !--------------------------------------------
             matparam%ilaw   = ilaw
@@ -1523,7 +1523,7 @@
             if (matparam%therm%tmelt == zero) matparam%therm%tmelt = pm(80,i)
             if (matparam%therm%rhocp == zero) matparam%therm%rhocp = pm(69,i)
 !
-            if (pm(79,i) == zero) pm(79,i) = matparam%therm%tini 
+            if (pm(79,i) == zero) pm(79,i) = matparam%therm%tini
             if (pm(80,i) == zero) pm(80,i) = matparam%therm%tmelt
             if (pm(69,i) == zero) pm(69,i) = matparam%therm%rhocp
 !---------------------------------------------------------
@@ -1535,7 +1535,7 @@
             if (pm(100,i) == zero) pm(100,i) = pm(32,i) ! bulk used for interf 20 stiffness
 !---------------------------------------------------------
             if (matparam%rho == zero .and. ilaw /= 37) then
-              rho = matparam%rho0 
+              rho = matparam%rho0
               pm(1,i)      = rho
               matparam%rho = rho
             endif

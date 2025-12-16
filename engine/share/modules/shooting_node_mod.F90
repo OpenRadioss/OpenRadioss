@@ -71,7 +71,7 @@
 
         type working_array
           integer, dimension(:), allocatable :: surf  ! working array for surface
-          integer, dimension(:), allocatable :: proc  ! working array for processor            
+          integer, dimension(:), allocatable :: proc  ! working array for processor
         end type working_array
 
         type remote_elm
@@ -85,9 +85,9 @@
           integer, dimension(:), allocatable :: seg_nb !< number of neighbouring segments, size = 4*nrtm
           integer, dimension(:), allocatable :: seg_index !< pointer to mvoisin_index array, size = 4*nrtm+4
           integer, dimension(:), allocatable :: mvoisin_index !< pointer to mvoisin array, size = 4*nrtm
-        end type neighbour_        
+        end type neighbour_
 
-        type shooting_node_type 
+        type shooting_node_type
           ! ------------------------------
           ! secondary node array
           integer :: size_sec_node ! size of inter_sEC_node & SEC_node_ID
@@ -154,6 +154,6 @@
           type(remote_elm), dimension(:), allocatable :: inter
           type(offset_elem_) :: offset_elem !< upper and lower bound
           type(neighbour_), dimension(:), allocatable :: neighbour
-        end type shooting_node_type 
+        end type shooting_node_type
 ! ----------------------------------------------------------------------------------------------------------------------
       end module shooting_node_mod

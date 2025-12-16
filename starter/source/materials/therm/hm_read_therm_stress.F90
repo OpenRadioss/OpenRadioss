@@ -32,7 +32,7 @@
 !||    read_material_models       ../starter/source/materials/read_material_models.F
 !||====================================================================
       module hm_read_therm_stress_mod
-      implicit none
+        implicit none
       contains
 
 !||====================================================================
@@ -119,10 +119,10 @@
             if (key(1:3) == 'MAT') then
               call hm_get_intv  ('FUNCT_ID'      ,func_id     ,is_available, lsubmodel)
               call hm_get_floatv('CLOAD_SCALE_Y' ,fscal_alpha ,is_available, lsubmodel, unitab)
-              
+
               ifunc_alpha = func_id
               if (func_id > 0) then
-                do i=1,nfunct 
+                do i=1,nfunct
                   j = nfunct+1+i                 ! indx of function IDs
                   if (func_id == npc(j))  then
                     ifunc_alpha = i
@@ -131,7 +131,7 @@
                 end do
                 if (ifunc_alpha == 0) then
                   call ancmsg(MSGID=126, MSGTYPE=MSGERROR, ANMODE=ANINFO_BLIND_1,      &
-                              i1=mat_id, c1=titr, i2=func_id)
+                    i1=mat_id, c1=titr, i2=func_id)
                 end if
               end if
 

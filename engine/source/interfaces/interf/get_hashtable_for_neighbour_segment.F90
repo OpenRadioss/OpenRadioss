@@ -27,7 +27,7 @@
 !||    update_neighbour_segment                  ../engine/source/interfaces/interf/update_neighbour_segment.F90
 !||====================================================================
       module get_hashtable_for_neighbour_segment_mod
-      implicit none
+        implicit none
       contains
 ! ======================================================================================================================
 !                                                   procedures
@@ -66,7 +66,7 @@
           integer, intent(in) :: npari !< number of parameters
           integer, intent(in) :: ninter !< number of interface
           integer, dimension(npari,ninter), intent(in) :: ipari !< interface parameters
-          type(intbuf_struct_), dimension(ninter), intent(inout) :: intbuf_tab !< interface data structure          
+          type(intbuf_struct_), dimension(ninter), intent(inout) :: intbuf_tab !< interface data structure
           type(shooting_node_type), intent(inout) :: shoot_struct !< structure for shooting node algo
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   local variables
@@ -91,7 +91,7 @@
             shoot_struct%neighbour(nin)%hash_id = nin
           else
             call c_delete_hash( shoot_struct%neighbour(nin)%hash_id )
-          end if            
+          end if
           call c_new_hash( shoot_struct%neighbour(nin)%hash_id, 4*(nrtm+1) ) ! create a new hash table
           ! ------------
 
@@ -123,7 +123,7 @@
           shoot_struct%neighbour(nin)%seg_index(1) = 1
           do i=1,local_seg_nb
             shoot_struct%neighbour(nin)%seg_index(i+1) = shoot_struct%neighbour(nin)%seg_index(i) + &
-                                                            shoot_struct%neighbour(nin)%seg_nb(i)
+              shoot_struct%neighbour(nin)%seg_nb(i)
           end do
           ! ------------
 
@@ -131,7 +131,7 @@
           do i=1,nrtm
             do j=1,4
               segment_id = intbuf_tab(nin)%mvoisin(4*(i-1)+j) ! get the neighbouring segment id
-              if(segment_id/=0) then            
+              if(segment_id/=0) then
                 call c_hash_find( shoot_struct%neighbour(nin)%hash_id,segment_id,ijk )
                 address = shoot_struct%neighbour(nin)%seg_index(ijk) + tmp_address(ijk) ! compute the address of %mvoisin_index
                 shoot_struct%neighbour(nin)%mvoisin_index(address) = 4*(i-1)+j ! save the address of %mvoisin into %mvoisin_index

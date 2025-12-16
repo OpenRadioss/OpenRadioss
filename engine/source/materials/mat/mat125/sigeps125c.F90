@@ -26,7 +26,7 @@
 !||    mulawc           ../engine/source/materials/mat_share/mulawc.F90
 !||====================================================================
       module sigeps125c_mod
-      implicit none
+        implicit none
       contains
         ! ======================================================================================================================
         ! \brief   material law /MAT/LAW125
@@ -499,9 +499,9 @@
                 w22 = dmg(i,3)
                 w12 = dmg(i,4)
                 !if(check(i)  > zero) then
-                !  if( ( limit_strain < uvar(i,2) .and. dmg(i,1) > zero )  .or.       & 
+                !  if( ( limit_strain < uvar(i,2) .and. dmg(i,1) > zero )  .or.       &
                 !      ( limit_strain > uvar(i,2) .and. dmg(i,1) < zero ) ) dmg(i,1) = -dmg(i,1)
-                !endif      
+                !endif
               end if
               ! damage hook matrix
               d = (one - w11*w22*nu12*nu21)
@@ -532,22 +532,22 @@
               w22 = dmg(i,3)
               limit_strain = epsxx(i)**2 + epsyy(i)**2 + epsxy(i)**2
               if(check(i) >= zero .and. limit_strain > uvar(i,2) .and. dmg(i,1) /= two .and. dmg(i,1) >= zero) then
-                 if(tau(i) >  zero ) then
+                if(tau(i) >  zero ) then
                   w12 = abs(epsxy(i))/efs(i)
                   w12 = exp(ms(i)*log(w12))/als(i)  ! (esp/epsf)^m/alpha
                   w12 = exp(-w12)
-                end if  
+                end if
               else
                 w12 = dmg(i,4)
                 if(check(i)  > zero) then
-                  if( ( limit_strain < uvar(i,2) .and. dmg(i,1) > zero )  .or.       & 
-                      ( limit_strain > uvar(i,2) .and. dmg(i,1) < zero ) ) dmg(i,1) = -dmg(i,1)
-                end if   
+                  if( ( limit_strain < uvar(i,2) .and. dmg(i,1) > zero )  .or.       &
+                    ( limit_strain > uvar(i,2) .and. dmg(i,1) < zero ) ) dmg(i,1) = -dmg(i,1)
+                end if
               end if
               g12d = w12*g12
               signxy(i) = g12d*epsxy(i)
               if(abs(signxy(i)) >= tau(i) .and. abs(signxy(i)) <  sc(i)) then
-                scale =  (sc(i) - tau(i))/(ems(i) - gamma(i)) 
+                scale =  (sc(i) - tau(i))/(ems(i) - gamma(i))
                 tauxy = tau(i) + scale*(abs(epsxy(i)) - gamma(i))
                 signxy(i) = sign(tauxy,signxy(i))
               end if
@@ -563,44 +563,44 @@
               if(check(i) >= zero) then
                 if(dmg(i,1) >= one  ) then
                   if( dmg(i,5) >= zep99) then
-                     if(signxx(i) >= zero .and. (signxx(i) <=  slimt1*xt(i) .or. dmg(i,5) == two )) then !  slimt1*xt(i) ) then
-                       limit_sig = slimt1*xt(i)
-                       signxx(i) = limit_sig ! max(signxx(i), limit_sig )
-                       signyy(i) = slimt1*sigoyy(i)
-                       signxy(i) = slimt1*sigoxy(i) 
-                       dmg(i,5) = two ! 
-                      elseif(signxx(i) < zero .and. ( signxx(i) >= -slimc1*xc(i) .or. dmg(i,5) == two)) then
-                       limit_sig = -slimc1*xc(i)
-                       signxx(i) = limit_sig !  min(signxx(i),  limit_sig ) 
-                       signyy(i) = slimc1*sigoyy(i)
-                       signxy(i) = slimc1*sigoxy(i)
-                       dmg(i,5) = two !
-                      end if 
-                   elseif( dmg(i,6) >= zep99)then
-                     if(signyy(i) >= zero .and. (signyy(i) <= slimt2*yt(i) .or. dmg(i,6) == two )) then !  slimt2*yt(i) ) then
-                       limit_sig = slimt2*yt(i)
-                       signyy(i) = limit_sig
-                       signxx(i) = slimt2*sigoxx(i)
-                       signxy(i) = slimt2*sigoxy(i)
-                       dmg(i,6) = two ! 
-                      elseif(signyy(i) < zero .and. ( signyy(i) >= -slimc2*yc(i) .or. dmg(i,6) == two ) ) then
-                       limit_sig = -slimc2*yc(i)
-                       signyy(i) = limit_sig ! min(signyy(i),limit_sig )
-                       signxx(i) = slimc2*sigoxx(i)
-                       signxy(i) = slimc2*sigoxy(i)
-                       dmg(i,6) = two !
-                      end if
-                    elseif( dmg(i,7) >= zep99 .and. (abs(signxy(i)) <= slims*sc(i) .or. dmg(i,7) == two )) then
-                         limit_sig = slims*sc(i)
-                         signxy(i) = sign(limit_sig,signxy(i))
-                         signxx(i) = slims*sigoxx(i)
-                         signyy(i) = slims*sigoyy(i)
-                         dmg(i,7) = two 
-                    end if ! dmg
-                    dmg(i,1) = max(one, dmg(i,5),dmg(i,6),dmg(i,7))
-                    if(epsxx(i) /= zero ) w11 = Min(one, abs(signxx(i)/epsxx(i))/e1)
-                    if(epsyy(i) /= zero ) w22 = Min(one, abs(signyy(i)/epsyy(i))/e2)
-                    if(epsxy(i) /= zero ) w12 = Min(one, abs(signxy(i)/epsxy(i))/g12)
+                    if(signxx(i) >= zero .and. (signxx(i) <=  slimt1*xt(i) .or. dmg(i,5) == two )) then !  slimt1*xt(i) ) then
+                      limit_sig = slimt1*xt(i)
+                      signxx(i) = limit_sig ! max(signxx(i), limit_sig )
+                      signyy(i) = slimt1*sigoyy(i)
+                      signxy(i) = slimt1*sigoxy(i)
+                      dmg(i,5) = two !
+                    elseif(signxx(i) < zero .and. ( signxx(i) >= -slimc1*xc(i) .or. dmg(i,5) == two)) then
+                      limit_sig = -slimc1*xc(i)
+                      signxx(i) = limit_sig !  min(signxx(i),  limit_sig )
+                      signyy(i) = slimc1*sigoyy(i)
+                      signxy(i) = slimc1*sigoxy(i)
+                      dmg(i,5) = two !
+                    end if
+                  elseif( dmg(i,6) >= zep99)then
+                    if(signyy(i) >= zero .and. (signyy(i) <= slimt2*yt(i) .or. dmg(i,6) == two )) then !  slimt2*yt(i) ) then
+                      limit_sig = slimt2*yt(i)
+                      signyy(i) = limit_sig
+                      signxx(i) = slimt2*sigoxx(i)
+                      signxy(i) = slimt2*sigoxy(i)
+                      dmg(i,6) = two !
+                    elseif(signyy(i) < zero .and. ( signyy(i) >= -slimc2*yc(i) .or. dmg(i,6) == two ) ) then
+                      limit_sig = -slimc2*yc(i)
+                      signyy(i) = limit_sig ! min(signyy(i),limit_sig )
+                      signxx(i) = slimc2*sigoxx(i)
+                      signxy(i) = slimc2*sigoxy(i)
+                      dmg(i,6) = two !
+                    end if
+                  elseif( dmg(i,7) >= zep99 .and. (abs(signxy(i)) <= slims*sc(i) .or. dmg(i,7) == two )) then
+                    limit_sig = slims*sc(i)
+                    signxy(i) = sign(limit_sig,signxy(i))
+                    signxx(i) = slims*sigoxx(i)
+                    signyy(i) = slims*sigoyy(i)
+                    dmg(i,7) = two
+                  end if ! dmg
+                  dmg(i,1) = max(one, dmg(i,5),dmg(i,6),dmg(i,7))
+                  if(epsxx(i) /= zero ) w11 = Min(one, abs(signxx(i)/epsxx(i))/e1)
+                  if(epsyy(i) /= zero ) w22 = Min(one, abs(signyy(i)/epsyy(i))/e2)
+                  if(epsxy(i) /= zero ) w12 = Min(one, abs(signxy(i)/epsxy(i))/g12)
                 end if ! dmg(i,1)
                 uvar(i,2) = max(uvar(i,2), limit_strain)
               endif ! check
@@ -621,7 +621,7 @@
             ! fiber/shear
             ! matrix/shear
             !  FS = 1  ! not finalized. Waiting to understand how we can handle the coupling.
-          
+
           end select ! FS
 ! ----------------------------------------------------------------------------------------------------------------------
         end subroutine sigeps125c

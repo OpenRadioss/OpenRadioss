@@ -26,7 +26,7 @@
 !||    mulaw           ../engine/source/materials/mat_share/mulaw.F90
 !||====================================================================
       module sigeps125_mod
-      implicit none
+        implicit none
       contains
         ! ======================================================================================================================
         ! \brief    Mat058 Lsdyna
@@ -45,7 +45,7 @@
 !||====================================================================
         subroutine sigeps125(                                         &
           nel      ,nuvar    ,uvar     ,matparam   ,rho0   ,          &
-          nfunc   ,ifunc     ,snpc     ,npf      ,stf      ,tf , &          
+          nfunc   ,ifunc     ,snpc     ,npf      ,stf      ,tf , &
           epsxx    ,epsyy    ,epszz    ,epsxy    ,epsyz    ,epszx   , &
           signxx   ,signyy   ,signzz   ,signxy   ,signyz   ,signzx  , &
           ssp      ,epsp     ,dmg      )
@@ -107,21 +107,21 @@
             tauyz,c11,c12,c13,c21,c22,c23,c31,c32,c33,                     &
             e3, slims13,slims23,scale,limit_strain
           real(kind=WP) , dimension(nel) ::  em11t,xt,em11c,xc, em22t,yt,  &
-                                             em22c,yc,gamma,tau,ems,sc,    &
-                                             ef11t,ef11c, m1t,m1c,al1t,    & 
-                                             al2t,al2c,als,m3t,m3c,        &
-                                             al3t,al3c,als13, als23,       &
-                                             ms13,ms23,al1c,ef22c,         &
-                                             ef22t,ef33c,ef33t, efs13,efs23, &
-                                             em33c,em33t, ems13,ems23,      &
-                                             sc13,sc23,zc,zt,gamma1, gamma2, &
-                                             tau1,tau2, m2t, m2c, efs , ms,  &
-                                             check
-           
-          real(kind=WP) , dimension(nel) ::  yy, dydx                                  
+            em22c,yc,gamma,tau,ems,sc,    &
+            ef11t,ef11c, m1t,m1c,al1t,    &
+            al2t,al2c,als,m3t,m3c,        &
+            al3t,al3c,als13, als23,       &
+            ms13,ms23,al1c,ef22c,         &
+            ef22t,ef33c,ef33t, efs13,efs23, &
+            em33c,em33t, ems13,ems23,      &
+            sc13,sc23,zc,zt,gamma1, gamma2, &
+            tau1,tau2, m2t, m2c, efs , ms,  &
+            check
+
+          real(kind=WP) , dimension(nel) ::  yy, dydx
 !!======================================================================
 !
-         ! FS  ! type of failure yield surface method
+          ! FS  ! type of failure yield surface method
           !  =  -1
           !  =  0 ! not available
           !  =  1 ! not available
@@ -220,7 +220,7 @@
           als23(1:nel) = matparam%uparam(75)
           !
           fs = nint(matparam%uparam(76))
-          ! 
+          !
           if(ifunc(1) /= 0) then  ! em11t
             ipos(1:nel) = 1
             iad (1:nel) = npf(ifunc(1)) / 2 + 1
@@ -282,16 +282,16 @@
             CALL vinter(tf,iad,ipos,ilen,nel,epsp,dydx,yy)
             yc(1:nel)= yy(1:nel)
           end if
-          ! Dir 33 
+          ! Dir 33
 
-         if(ifunc(9) /= 0) then  ! em33t
+          if(ifunc(9) /= 0) then  ! em33t
             ipos(1:nel) = 0
             iad (1:nel) = npf(ifunc(9)) / 2 + 1
             ilen(1:NEL) = npf(ifunc(9)+1) / 2 - iad(1:nel) - ipos(1:nel)
             CALL vinter(tf,iad,ipos,ilen,nel,epsp,dydx,yy)
             em33t(1:nel)= yy(1:nel)
-        end if
-        if(ifunc(10) /= 0) then  ! zt
+          end if
+          if(ifunc(10) /= 0) then  ! zt
             ipos(1:nel) = 1
             iad (1:nel) = npf(ifunc(10)) / 2 + 1
             ilen(1:NEL) = npf(ifunc(10)+1) / 2 - iad(1:nel) - ipos(1:nel)
@@ -438,7 +438,7 @@
               m2c(i) = -one/log(ef22c(i)/em22c(i))
               al2c(i) = m2c(i)*(em22c(i)/ef22c(i))**m2c(i)
             end if
-             if(zt(i) > zero )then
+            if(zt(i) > zero )then
               ef33t(i)  = zt(i)/e3
               em33t(i) = max(em33t(i), onep1*ef33t(i))
               m3t(i)= -one/log(ef33t(i)/em33t(i))
@@ -456,7 +456,7 @@
               ms(i) = -one/log(efs(i)/gamma(i)) ! one/ln(epsm/epsf)
               als(i) = ms(i)*(gamma(i)/efs(i))**ms(i)
             end if
-             if(tau1(i) > zero  )then
+            if(tau1(i) > zero  )then
               efs13(i)  = tau1(i) /g13
               gamma1(i) = max(gamma1(i), onep1*efs13(i))
               ms13(i) = -one/log(efs13(i)/gamma1(i)) ! one/ln(epsm/epsf)
@@ -469,261 +469,261 @@
               als23(i) = ms23(i)*(gamma2(i)/efs23(i))**ms23(i)
             end if
           end do ! nel
-        
+
           select  case (fs)
            case(-1)
-           ! uncoupled formulation 
-             do i=1,nel
-            ! computing damage by direction
-            ! dir
-            w11 = one
-            w22 = one
-            check(i) = one
-            ! check unloading
-            w11 = dmg(i,2)
-            w22 = dmg(i,3)
-            w33 = dmg(i,4)
-            W12 = dmg(i,5)
-            w23 = dmg(i,6)
-            w13 = dmg(i,7)
-            d = (one - w11*w22*w33*nu12*nu23*nu31 - w11*w22*w33*nu21*nu32*nu13        &
-              - w11*w33*nu31*nu13 - w22*w33*nu23*nu32 - w11*w22*nu12*nu21 )
-            c11 = (one - w22*w33*nu23*nu32)*w11*e1
-            c22 = (one - w11*w33*nu13*nu31)*w22*e2
-            c33 = (one - w11*w22*nu12*nu21)*w33*e3
-            c12 = w11*w22*(nu21 + w33*nu23*nu31)*e1
-            c21 = w11*w22*(nu12 + w33*nu13*nu32)*e2
-            c31 = w11*w33*(nu13 + w22*nu12*nu23)*e3
-            c13 = w11*w33*(nu31 + w22*nu21*nu32)*e1
-            c32 = w22*w33*(nu23 + w11*nu13*nu21)*e3
-            c23 = w22*w33*(nu32 + w11*nu12*nu31)*e2
-
-            invd = one/(max(em20,d))
-            signxx(i) = invd*(c11*epsxx(i) + c12*epsyy(i) + c13*epszz(i))
-            signyy(i) = invd*(c21*epsxx(i) + c22*epsyy(i) + c23*epszz(i))
-            signzz(i) = invd*(c31*epsxx(i) + c32*epsyy(i) + c33*epszz(i))
-            signxy(i) = w12*g12*epsxy(i)
-            signzx(i) = w13*g13*epszx(i)
-            signyz(i) = w23*g23*epsyz(i)
-
-            eint =  half*(epsxx(i)*signxx(i) + epsyy(i)*signyy(i) + epszz(i)*signzz(i)    &
-              + epsxy(i)*signxy(i) + epszx(i)*signzx(i) + epsyz(i)*signyz(i))
-            deint = eint - uvar(i,1)
-            uvar(i,1) = eint
-            if(deint < zero ) then
-              check(i) = -one
-            else
+            ! uncoupled formulation
+            do i=1,nel
+              ! computing damage by direction
+              ! dir
+              w11 = one
+              w22 = one
               check(i) = one
-            end if
-            limit_strain = epsxx(i)**2 + epsyy(i)**2 + epszz(i)**2 +  &
-                           epsxy(i)**2  + epszx(i)**2 + epsyz(i)**2
-            if(check(i) >= zero .and. limit_strain > uvar(i,2) .and. dmg(i,1) /= two .and. dmg(i,1) >= zero) then
-              if(epsxx(i) >= zero )then
-                  w11 = epsxx(i)/ef11t(i)
-                  w11 = exp(m1t(i)*log(w11))/al1t(i)  ! (esp/epsf)^m/alpha
-                  w11 = exp(-w11)
-               else
-                  w11 = abs(epsxx(i))/ef11c(i)
-                  w11 = exp(m1c(i)*log(w11))/al1c(i)  ! (esp/epsf)^m/alpha
-                  w11 = exp(-w11)
-               end if
-                ! dir 22
-               if(epsyy(i) >= zero )then
-                  w22 = epsyy(i)/ef22t(i)
-                  w22 = exp(m2t(i)*log(w22))/al2t(i)  ! (esp/epsf)^m/alpha
-                  w22 = exp(-w22)
-               else
-                  w22 = abs(epsyy(i))/ef22c(i)
-                  w22 = exp(m2c(i)*log(w22))/al2c(i)  ! (esp/epsf)^m/alpha
-                  w22 = exp(-w22)
-               end if
-                ! dir 33
-               if(epszz(i) >= zero )then
-                  w33 = epszz(i)/ef33t(i)
-                  w33 = exp(m3t(i)*log(w33))/al3t(i)  ! (esp/epsf)^m/alpha
-                  w33 = exp(-w33)
-               else
-                  w33 = abs(epszz(i))/ef33c(i)
-                  w33 = exp(m3c(i)*log(w33))/al3c(i)  ! (esp/epsf)^m/alpha
-                  w33 = exp(-w33)
-              end if
-              w12 = abs(epsxy(i))/efs(i)
-              w12 = exp(ms(i)*log(w12))/als(i)  ! (esp/epsf)^m/alpha
-              w12 = exp(-w12)
-                !
-              w13 = abs(epszx(i))/efs13(i)
-              w13 = exp(ms13(i)*log(w13))/als13(i) !
-              w13 = exp(-w13)
-                !
-              w23 = abs(epsyz(i))/efs23(i)
-              w23 = exp(ms23(i)*log(w23))/als23(i)
-              w23 = exp(-w23)
-            else ! unlaod
+              ! check unloading
               w11 = dmg(i,2)
               w22 = dmg(i,3)
               w33 = dmg(i,4)
-              w12 = dmg(i,5)
-              w13 = dmg(i,6)
-              w23 = dmg(i,7)
-               if(check(i)  > zero) then
-                  if( ( limit_strain < uvar(i,2) .and. dmg(i,1) > zero )  .or.       & 
-                      ( limit_strain > uvar(i,2) .and. dmg(i,1) < zero ) ) dmg(i,1) = -dmg(i,1)
-                end if   
-            end if
-            uvar(i,2) = max(uvar(i,2), limit_strain)
-            ! damage hook matrix
-            d = (one - w11*w22*w33*nu12*nu23*nu31 - w11*w22*w33*nu21*nu32*nu13        &
-              - w11*w33*nu31*nu13 - w22*w33*nu23*nu32 - w11*w22*nu12*nu21 )
-            c11 = (one - w22*w33*nu23*nu32)*w11*e1
-            c22 = (one - w11*w33*nu13*nu31)*w22*e2
-            c33 = (one - w11*w22*nu12*nu21)*w33*e3
-            c12 = w11*w22*(nu21 + w33*nu23*nu31)*e1
-            c21 = w11*w22*(nu12 + w33*nu13*nu32)*e2
-            c31 = w11*w33*(nu13 + w22*nu12*nu23)*e3
-            c13 = w11*w33*(nu31 + w22*nu21*nu32)*e1
-            c32 = w22*w33*(nu23 + w11*nu13*nu21)*e3
-            c23 = w22*w33*(nu32 + w11*nu12*nu31)*e2
-            !
-            invd = one/(max(em20,d))
-            signxx(i) = invd*(c11*epsxx(i) + c12*epsyy(i) + c13*epszz(i))
-            signyy(i) = invd*(c21*epsxx(i) + c22*epsyy(i) + c23*epszz(i))
-            signzz(i) = invd*(c31*epsxx(i) + c32*epsyy(i) + c33*epszz(i))
-            signxy(i) = w12*g12*epsxy(i)
-            signzx(i) = w13*g13*epszx(i)
-            signyz(i) = w23*g23*epsyz(i)
-            ! shear treatement
-            if(abs(signxy(i)) >= tau(i) ) then
-                scale =  (sc(i) - tau(i))/(ems(i)- gamma(i)) 
+              W12 = dmg(i,5)
+              w23 = dmg(i,6)
+              w13 = dmg(i,7)
+              d = (one - w11*w22*w33*nu12*nu23*nu31 - w11*w22*w33*nu21*nu32*nu13        &
+                - w11*w33*nu31*nu13 - w22*w33*nu23*nu32 - w11*w22*nu12*nu21 )
+              c11 = (one - w22*w33*nu23*nu32)*w11*e1
+              c22 = (one - w11*w33*nu13*nu31)*w22*e2
+              c33 = (one - w11*w22*nu12*nu21)*w33*e3
+              c12 = w11*w22*(nu21 + w33*nu23*nu31)*e1
+              c21 = w11*w22*(nu12 + w33*nu13*nu32)*e2
+              c31 = w11*w33*(nu13 + w22*nu12*nu23)*e3
+              c13 = w11*w33*(nu31 + w22*nu21*nu32)*e1
+              c32 = w22*w33*(nu23 + w11*nu13*nu21)*e3
+              c23 = w22*w33*(nu32 + w11*nu12*nu31)*e2
+
+              invd = one/(max(em20,d))
+              signxx(i) = invd*(c11*epsxx(i) + c12*epsyy(i) + c13*epszz(i))
+              signyy(i) = invd*(c21*epsxx(i) + c22*epsyy(i) + c23*epszz(i))
+              signzz(i) = invd*(c31*epsxx(i) + c32*epsyy(i) + c33*epszz(i))
+              signxy(i) = w12*g12*epsxy(i)
+              signzx(i) = w13*g13*epszx(i)
+              signyz(i) = w23*g23*epsyz(i)
+
+              eint =  half*(epsxx(i)*signxx(i) + epsyy(i)*signyy(i) + epszz(i)*signzz(i)    &
+                + epsxy(i)*signxy(i) + epszx(i)*signzx(i) + epsyz(i)*signyz(i))
+              deint = eint - uvar(i,1)
+              uvar(i,1) = eint
+              if(deint < zero ) then
+                check(i) = -one
+              else
+                check(i) = one
+              end if
+              limit_strain = epsxx(i)**2 + epsyy(i)**2 + epszz(i)**2 +  &
+                epsxy(i)**2  + epszx(i)**2 + epsyz(i)**2
+              if(check(i) >= zero .and. limit_strain > uvar(i,2) .and. dmg(i,1) /= two .and. dmg(i,1) >= zero) then
+                if(epsxx(i) >= zero )then
+                  w11 = epsxx(i)/ef11t(i)
+                  w11 = exp(m1t(i)*log(w11))/al1t(i)  ! (esp/epsf)^m/alpha
+                  w11 = exp(-w11)
+                else
+                  w11 = abs(epsxx(i))/ef11c(i)
+                  w11 = exp(m1c(i)*log(w11))/al1c(i)  ! (esp/epsf)^m/alpha
+                  w11 = exp(-w11)
+                end if
+                ! dir 22
+                if(epsyy(i) >= zero )then
+                  w22 = epsyy(i)/ef22t(i)
+                  w22 = exp(m2t(i)*log(w22))/al2t(i)  ! (esp/epsf)^m/alpha
+                  w22 = exp(-w22)
+                else
+                  w22 = abs(epsyy(i))/ef22c(i)
+                  w22 = exp(m2c(i)*log(w22))/al2c(i)  ! (esp/epsf)^m/alpha
+                  w22 = exp(-w22)
+                end if
+                ! dir 33
+                if(epszz(i) >= zero )then
+                  w33 = epszz(i)/ef33t(i)
+                  w33 = exp(m3t(i)*log(w33))/al3t(i)  ! (esp/epsf)^m/alpha
+                  w33 = exp(-w33)
+                else
+                  w33 = abs(epszz(i))/ef33c(i)
+                  w33 = exp(m3c(i)*log(w33))/al3c(i)  ! (esp/epsf)^m/alpha
+                  w33 = exp(-w33)
+                end if
+                w12 = abs(epsxy(i))/efs(i)
+                w12 = exp(ms(i)*log(w12))/als(i)  ! (esp/epsf)^m/alpha
+                w12 = exp(-w12)
+                !
+                w13 = abs(epszx(i))/efs13(i)
+                w13 = exp(ms13(i)*log(w13))/als13(i) !
+                w13 = exp(-w13)
+                !
+                w23 = abs(epsyz(i))/efs23(i)
+                w23 = exp(ms23(i)*log(w23))/als23(i)
+                w23 = exp(-w23)
+              else ! unlaod
+                w11 = dmg(i,2)
+                w22 = dmg(i,3)
+                w33 = dmg(i,4)
+                w12 = dmg(i,5)
+                w13 = dmg(i,6)
+                w23 = dmg(i,7)
+                if(check(i)  > zero) then
+                  if( ( limit_strain < uvar(i,2) .and. dmg(i,1) > zero )  .or.       &
+                    ( limit_strain > uvar(i,2) .and. dmg(i,1) < zero ) ) dmg(i,1) = -dmg(i,1)
+                end if
+              end if
+              uvar(i,2) = max(uvar(i,2), limit_strain)
+              ! damage hook matrix
+              d = (one - w11*w22*w33*nu12*nu23*nu31 - w11*w22*w33*nu21*nu32*nu13        &
+                - w11*w33*nu31*nu13 - w22*w33*nu23*nu32 - w11*w22*nu12*nu21 )
+              c11 = (one - w22*w33*nu23*nu32)*w11*e1
+              c22 = (one - w11*w33*nu13*nu31)*w22*e2
+              c33 = (one - w11*w22*nu12*nu21)*w33*e3
+              c12 = w11*w22*(nu21 + w33*nu23*nu31)*e1
+              c21 = w11*w22*(nu12 + w33*nu13*nu32)*e2
+              c31 = w11*w33*(nu13 + w22*nu12*nu23)*e3
+              c13 = w11*w33*(nu31 + w22*nu21*nu32)*e1
+              c32 = w22*w33*(nu23 + w11*nu13*nu21)*e3
+              c23 = w22*w33*(nu32 + w11*nu12*nu31)*e2
+              !
+              invd = one/(max(em20,d))
+              signxx(i) = invd*(c11*epsxx(i) + c12*epsyy(i) + c13*epszz(i))
+              signyy(i) = invd*(c21*epsxx(i) + c22*epsyy(i) + c23*epszz(i))
+              signzz(i) = invd*(c31*epsxx(i) + c32*epsyy(i) + c33*epszz(i))
+              signxy(i) = w12*g12*epsxy(i)
+              signzx(i) = w13*g13*epszx(i)
+              signyz(i) = w23*g23*epsyz(i)
+              ! shear treatement
+              if(abs(signxy(i)) >= tau(i) ) then
+                scale =  (sc(i) - tau(i))/(ems(i)- gamma(i))
                 tauxy = tau(i) + scale*(abs(epsxy(i)) - gamma(i))
                 signxy(i) = sign(tauxy,signxy(i))
-            end if
-            if(abs(signzx(i)) >= tau1(i) ) then
-                scale =  (sc13(i) - tau1(i))/(ems13 (i)- gamma1(i)) 
+              end if
+              if(abs(signzx(i)) >= tau1(i) ) then
+                scale =  (sc13(i) - tau1(i))/(ems13 (i)- gamma1(i))
                 tauzx = tau1(i) + scale*(abs(epszx(i)) - gamma1(i))
                 signzx(i) = sign(tauzx,signzx(i))
-            end if
-            if(abs(signyz(i)) >= tau2(i) ) then
-                scale =  (sc23(i)- tau2(i))/(ems23(i) - gamma2(i)) 
+              end if
+              if(abs(signyz(i)) >= tau2(i) ) then
+                scale =  (sc23(i)- tau2(i))/(ems23(i) - gamma2(i))
                 tauyz = tau2(i) + scale*(abs(epsyz(i)) - gamma2(i))
                 signyz(i) = sign(tauyz,signyz(i))
-            end if
-            !
-            !
-            if(abs(dmg(i,1)) < one) then
-               dmg(i,8) =  max(zero, epsxx(i)/em11t(i), signxx(i)/xt(i))
-               if(signxx(i) < zero) dmg(i,8) =  max(zero, abs(epsxx(i))/em11c(i), abs(signxx(i))/xc(i))
-               dmg(i,8) = min(dmg(i,8), one)
-               
-               dmg(i,9) =  max(zero, epsyy(i)/em22t(i), signyy(i)/yt(i))
-               if(signyy(i) < zero) dmg(i,9) =  max(zero, abs(epsyy(i))/em22c(i), abs(signyy(i))/yc(i)) 
-               dmg(i,9) = min(dmg(i,9), one)
+              end if
+              !
+              !
+              if(abs(dmg(i,1)) < one) then
+                dmg(i,8) =  max(zero, epsxx(i)/em11t(i), signxx(i)/xt(i))
+                if(signxx(i) < zero) dmg(i,8) =  max(zero, abs(epsxx(i))/em11c(i), abs(signxx(i))/xc(i))
+                dmg(i,8) = min(dmg(i,8), one)
 
-               dmg(i,10) =  max(zero, epszz(i)/em33t(i), signzz(i)/zt(i))
-               if(signzz(i) < zero) dmg(i,10) =  max(zero, abs(epszz(i))/em33c(i), abs(signzz(i))/zc(i))
-               dmg(i,10) = min(dmg(i,10), one)
-               dmg(i,11) = max(zero, abs(signxy(i))/sc(i))
-               dmg(i,12) = max(zero, abs(signzx(i))/sc13(i))
-               dmg(i,13) = max(zero, abs(signyz(i))/sc23(i))
-               dmg(i,1) = max(dmg(i,8),dmg(i,9),dmg(i,10),dmg(i,11),dmg(i,12),dmg(i,13))
-            endif
-            !
-            if( check(i) >= zero ) then
-              if( dmg(i,1) >= one ) then  
-                if(dmg(i,8) >= one  ) then
-                  if(signxx(i) >= zero .and. (signxx(i) <=  slimt1*xt(i) .or. dmg(i,8) == two )) then
-                    limit_sig = slimt1*xt(i)
-                    signxx(i) = limit_sig
-                    signyy(i) = slimt1*signyy(i)
-                    signzz(i) = slimt1*signzz(i)
-                    signxy(i) = slimt1*signxy(i)
-                    signzx(i) = slimt1*signzx(i)
-                    signyz(i) = slimt1*signyz(i)
-                    w11 = signxx(i) / epsxx(i)/e1
-                    dmg(i,8) = two
-                  elseif(signxx(i) < zero .and. ( signxx(i) >= -slimc1*xc(i) .or. dmg(i,8) == two)) then
-                    limit_sig = slimc1*xc(i)
-                    signxx(i) = - limit_sig
-                    signyy(i) = slimc1*signyy(i)
-                    signzz(i) = slimc1*signzz(i)
-                    signxy(i) = slimc1*signxy(i)
-                    signzx(i) = slimc1*signzx(i)
-                    signyz(i) = slimc1*signyz(i)
+                dmg(i,9) =  max(zero, epsyy(i)/em22t(i), signyy(i)/yt(i))
+                if(signyy(i) < zero) dmg(i,9) =  max(zero, abs(epsyy(i))/em22c(i), abs(signyy(i))/yc(i))
+                dmg(i,9) = min(dmg(i,9), one)
 
-                    w11 = signxx(i) / epsxx(i)/e1
-                    dmg(i,8) = two
-                  endif 
-                elseif(dmg(i,9) >= one ) then
-                  if(signyy(i) >= zero .and. (signyy(i) <=  slimt2*yt(i) .or. dmg(i,9) == two )) then
-                    limit_sig = slimt2*yt(i)
-                    signyy(i) = limit_sig
-                    signxx(i) = slimt2*signxx(i)
-                    signzz(i) = slimt2*signzz(i)
-                    signxy(i) = slimt2*signxy(i)
-                    signzx(i) = slimt2*signzx(i)
-                    signyz(i) = slimt2*signyz(i)
+                dmg(i,10) =  max(zero, epszz(i)/em33t(i), signzz(i)/zt(i))
+                if(signzz(i) < zero) dmg(i,10) =  max(zero, abs(epszz(i))/em33c(i), abs(signzz(i))/zc(i))
+                dmg(i,10) = min(dmg(i,10), one)
+                dmg(i,11) = max(zero, abs(signxy(i))/sc(i))
+                dmg(i,12) = max(zero, abs(signzx(i))/sc13(i))
+                dmg(i,13) = max(zero, abs(signyz(i))/sc23(i))
+                dmg(i,1) = max(dmg(i,8),dmg(i,9),dmg(i,10),dmg(i,11),dmg(i,12),dmg(i,13))
+              endif
+              !
+              if( check(i) >= zero ) then
+                if( dmg(i,1) >= one ) then
+                  if(dmg(i,8) >= one  ) then
+                    if(signxx(i) >= zero .and. (signxx(i) <=  slimt1*xt(i) .or. dmg(i,8) == two )) then
+                      limit_sig = slimt1*xt(i)
+                      signxx(i) = limit_sig
+                      signyy(i) = slimt1*signyy(i)
+                      signzz(i) = slimt1*signzz(i)
+                      signxy(i) = slimt1*signxy(i)
+                      signzx(i) = slimt1*signzx(i)
+                      signyz(i) = slimt1*signyz(i)
+                      w11 = signxx(i) / epsxx(i)/e1
+                      dmg(i,8) = two
+                    elseif(signxx(i) < zero .and. ( signxx(i) >= -slimc1*xc(i) .or. dmg(i,8) == two)) then
+                      limit_sig = slimc1*xc(i)
+                      signxx(i) = - limit_sig
+                      signyy(i) = slimc1*signyy(i)
+                      signzz(i) = slimc1*signzz(i)
+                      signxy(i) = slimc1*signxy(i)
+                      signzx(i) = slimc1*signzx(i)
+                      signyz(i) = slimc1*signyz(i)
 
-                    w22 = signyy(i) / epsyy(i) / e2
-                    dmg(i,9) = two
-                  elseif(signyy(i) < zero .and. ( signyy(i) >= -slimc2*yc(i) .or. dmg(i,9) == two)) then
-                    limit_sig = slimc2*yc(i)
-                    signyy(i) = - limit_sig
-                    signxx(i) = slimc2*signxx(i)
-                    signzz(i) = slimc2*signzz(i)
-                    signxy(i) = slimc2*signxy(i)
-                    signzx(i) = slimc2*signzx(i)
-                    signyz(i) = slimc2*signyz(i)
-                    w22 = signyy(i) / epsyy(i)/e2
-                    dmg(i,9) = two
-                  endif    
-                elseif(dmg(i,10) >= one ) then
-                  if(signzz(i) > zero .and. (signzz(i) <=  slimt3*zt(i) .or. dmg(i,10) == two )) then
-                    limit_sig = slimt3*zt(i)
-                    signzz(i) = limit_sig
-                    signxx(i) = slimt3*signxx(i)
-                    signyy(i) = slimt3*signyy(i)
-                    signxy(i) = slimt3*signxy(i)
-                    signzx(i) = slimt3*signzx(i)
-                    signyz(i) = slimt3*signyz(i)
+                      w11 = signxx(i) / epsxx(i)/e1
+                      dmg(i,8) = two
+                    endif
+                  elseif(dmg(i,9) >= one ) then
+                    if(signyy(i) >= zero .and. (signyy(i) <=  slimt2*yt(i) .or. dmg(i,9) == two )) then
+                      limit_sig = slimt2*yt(i)
+                      signyy(i) = limit_sig
+                      signxx(i) = slimt2*signxx(i)
+                      signzz(i) = slimt2*signzz(i)
+                      signxy(i) = slimt2*signxy(i)
+                      signzx(i) = slimt2*signzx(i)
+                      signyz(i) = slimt2*signyz(i)
 
-                    w33 = signzz(i) / epszz(i)/e3
-                     dmg(i,10) = two
-                  else if(signzz(i) < zero .and. ( signzz(i) >= -slimc3*zc(i) .or. dmg(i,10) == two)) then
-                    limit_sig = slimc3*zc(i)
-                    signzz(i) = - limit_sig
-                    signxx(i) = slimc3*signxx(i)
-                    signyy(i) = slimc3*signyy(i)
-                    signxy(i) = slimc3*signxy(i)
-                    signzx(i) = slimc3*signzx(i)
-                    signyz(i) = slimc3*signyz(i)
+                      w22 = signyy(i) / epsyy(i) / e2
+                      dmg(i,9) = two
+                    elseif(signyy(i) < zero .and. ( signyy(i) >= -slimc2*yc(i) .or. dmg(i,9) == two)) then
+                      limit_sig = slimc2*yc(i)
+                      signyy(i) = - limit_sig
+                      signxx(i) = slimc2*signxx(i)
+                      signzz(i) = slimc2*signzz(i)
+                      signxy(i) = slimc2*signxy(i)
+                      signzx(i) = slimc2*signzx(i)
+                      signyz(i) = slimc2*signyz(i)
+                      w22 = signyy(i) / epsyy(i)/e2
+                      dmg(i,9) = two
+                    endif
+                  elseif(dmg(i,10) >= one ) then
+                    if(signzz(i) > zero .and. (signzz(i) <=  slimt3*zt(i) .or. dmg(i,10) == two )) then
+                      limit_sig = slimt3*zt(i)
+                      signzz(i) = limit_sig
+                      signxx(i) = slimt3*signxx(i)
+                      signyy(i) = slimt3*signyy(i)
+                      signxy(i) = slimt3*signxy(i)
+                      signzx(i) = slimt3*signzx(i)
+                      signyz(i) = slimt3*signyz(i)
 
-                    w33 = signzz(i) / epszz(i)/e3
-                    dmg(i,10) = two
-                  endif
-                elseif((dmg(i,11) ==  one .and. abs(signxy(i)) >= slims*sc(i) ) .or. dmg(i,11) == two) then
-                  signxy(i) = sign( slims*sc(i), signxy(i))
-                  w12 = signxy(i)/epsxy(i)/g12
-                  dmg(i,11 ) = two
-                elseif((dmg(i,12) ==  one .and. abs(signzx(i)) >= slims13*sc13(i) ) .or. dmg(i,12) == two) then
-                  signzx(i) = sign(slims13*sc13(i), signzx(i))
-                  dmg(i,12) = two
-                  w13 = signzx(i)/epszx(i)/g13
-                elseif((dmg(i,13) ==  one .and. abs(signyz(i)) >= slims23*sc23(i) ) .or. dmg(i,13) == two) then
-                  signyz(i) = sign(slims23*sc23(i), signyz(i))
-                  dmg(i,13) = two
-                  w23 = signyz(i)/epsyz(i)/g23
-                end if ! dmg(i,7) >= one
-                dmg(i,1) = max(dmg(i,1), dmg(i,8),dmg(i,9),dmg(i,10),dmg(i,11),dmg(i,12),dmg(i,13))
-              endif ! dmg_g(i) >= one
-              ! save w11 & w22 & w33
-              dmg(i,2) = w11
-              dmg(i,3) = w22
-              dmg(i,4) = w33
-              dmg(i,5) = w12
-              dmg(i,6) = w13
-              dmg(i,7) = w23
-             end if ! check   
-             a11       = max(e1,e2,e3)  ! bulk + G*4/3 ????
-             ssp(i) = sqrt(a11/rho0(i))
+                      w33 = signzz(i) / epszz(i)/e3
+                      dmg(i,10) = two
+                    else if(signzz(i) < zero .and. ( signzz(i) >= -slimc3*zc(i) .or. dmg(i,10) == two)) then
+                      limit_sig = slimc3*zc(i)
+                      signzz(i) = - limit_sig
+                      signxx(i) = slimc3*signxx(i)
+                      signyy(i) = slimc3*signyy(i)
+                      signxy(i) = slimc3*signxy(i)
+                      signzx(i) = slimc3*signzx(i)
+                      signyz(i) = slimc3*signyz(i)
+
+                      w33 = signzz(i) / epszz(i)/e3
+                      dmg(i,10) = two
+                    endif
+                  elseif((dmg(i,11) ==  one .and. abs(signxy(i)) >= slims*sc(i) ) .or. dmg(i,11) == two) then
+                    signxy(i) = sign( slims*sc(i), signxy(i))
+                    w12 = signxy(i)/epsxy(i)/g12
+                    dmg(i,11 ) = two
+                  elseif((dmg(i,12) ==  one .and. abs(signzx(i)) >= slims13*sc13(i) ) .or. dmg(i,12) == two) then
+                    signzx(i) = sign(slims13*sc13(i), signzx(i))
+                    dmg(i,12) = two
+                    w13 = signzx(i)/epszx(i)/g13
+                  elseif((dmg(i,13) ==  one .and. abs(signyz(i)) >= slims23*sc23(i) ) .or. dmg(i,13) == two) then
+                    signyz(i) = sign(slims23*sc23(i), signyz(i))
+                    dmg(i,13) = two
+                    w23 = signyz(i)/epsyz(i)/g23
+                  end if ! dmg(i,7) >= one
+                  dmg(i,1) = max(dmg(i,1), dmg(i,8),dmg(i,9),dmg(i,10),dmg(i,11),dmg(i,12),dmg(i,13))
+                endif ! dmg_g(i) >= one
+                ! save w11 & w22 & w33
+                dmg(i,2) = w11
+                dmg(i,3) = w22
+                dmg(i,4) = w33
+                dmg(i,5) = w12
+                dmg(i,6) = w13
+                dmg(i,7) = w23
+              end if ! check
+              a11       = max(e1,e2,e3)  ! bulk + G*4/3 ????
+              ssp(i) = sqrt(a11/rho0(i))
             end do ! nel loop
            case(0)
             ! not available

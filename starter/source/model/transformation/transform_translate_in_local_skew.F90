@@ -44,9 +44,9 @@
 !||--- uses       -----------------------------------------------------
 !||====================================================================
         subroutine transform_translate_in_local_skew( &
-                          &   nodes  ,n_nodes ,x    ,numnod ,isk   ,&
-                          &   tx     ,ty      ,tz   ,skew   ,lskew ,&
-                          &   sskew  )
+        &   nodes  ,n_nodes ,x    ,numnod ,isk   ,&
+        &   tx     ,ty      ,tz   ,skew   ,lskew ,&
+        &   sskew  )
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -94,11 +94,11 @@
             do i=1, n_nodes
               igrnod = nodes(i)
               xn(1,i) = skew(1,isk)*(x(1,igrnod) - orig(1)) + skew(2,isk)*(x(2,igrnod) - orig(2)) + &
-                     &  skew(3,isk)*(x(3,igrnod) - orig(3))
+              &  skew(3,isk)*(x(3,igrnod) - orig(3))
               xn(2,i) = skew(4,isk)*(x(1,igrnod) - orig(1)) + skew(5,isk)*(x(2,igrnod) - orig(2)) + &
-                     &  skew(6,isk)*(x(3,igrnod) - orig(3))
+              &  skew(6,isk)*(x(3,igrnod) - orig(3))
               xn(3,i) = skew(7,isk)*(x(1,igrnod) - orig(1)) + skew(8,isk)*(x(2,igrnod) - orig(2)) + &
-                     &  skew(9,isk)*(x(3,igrnod) - orig(3))
+              &  skew(9,isk)*(x(3,igrnod) - orig(3))
             end do
           else
             do i=1, n_nodes
@@ -108,7 +108,7 @@
               xn(3,i) = x(3,igrnod)
             end do
           endif
-          
+
           ! Compute inverse of skew matrix for transforming back to global coordinates
           ! skew is a 3x3 matrix stored in column-major order
 
@@ -119,9 +119,9 @@
 
           if (isk > 0) then
             detskew = (skew(1,isk)*skew(5,isk)*skew(9,isk)) + (skew(4,isk)*skew(8,isk)*skew(3,isk))&
-                  & + (skew(7,isk)*skew(2,isk)*skew(6,isk)) &
-                  & - (skew(7,isk)*skew(5,isk)*skew(3,isk)) - (skew(8,isk)*skew(6,isk)*skew(1,isk))&
-                  & - (skew(9,isk)*skew(2,isk)*skew(4,isk))
+            & + (skew(7,isk)*skew(2,isk)*skew(6,isk)) &
+            & - (skew(7,isk)*skew(5,isk)*skew(3,isk)) - (skew(8,isk)*skew(6,isk)*skew(1,isk))&
+            & - (skew(9,isk)*skew(2,isk)*skew(4,isk))
 
             detskew = max(detskew, 1e-20)
 
@@ -144,7 +144,7 @@
             norm(1) = sqrt(invertskew_x(1)**2 + invertskew_x(2)**2 + invertskew_x(3)**2)
             norm(2) = sqrt(invertskew_Y(1)**2 + invertskew_Y(2)**2 + invertskew_Y(3)**2)
             norm(3) = sqrt(invertskew_Z(1)**2 + invertskew_Z(2)**2 + invertskew_Z(3)**2)
-          
+
             invertskew_x(1) = invertskew_x(1)/norm(1)
             invertskew_x(2) = invertskew_x(2)/norm(1)
             invertskew_x(3) = invertskew_x(3)/norm(1)
@@ -193,11 +193,11 @@
               ! local to global transformation after translation in local system
 
               x(1,igrnod) = invertskew_x(1) * (xn(1,i)) + invertskew_x(2) * (xn(2,i)) &
-                        & + invertskew_x(3) * (xn(3,i)) + orig(1)
+              & + invertskew_x(3) * (xn(3,i)) + orig(1)
               x(2,igrnod) = invertskew_Y(1) * (xn(1,i)) + invertskew_Y(2) * (xn(2,i)) &
-                        & + invertskew_Y(3) * (xn(3,i)) + orig(2)
+              & + invertskew_Y(3) * (xn(3,i)) + orig(2)
               x(3,igrnod) = invertskew_Z(1) * (xn(1,i)) + invertskew_Z(2) * (xn(2,i)) &
-                        & + invertskew_Z(3) * (xn(3,i)) + orig(3)
+              & + invertskew_Z(3) * (xn(3,i)) + orig(3)
             end do
           end if
 
