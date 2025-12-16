@@ -9,13 +9,13 @@
 **                                                                    **
 **                                                                    **
 **                Linux 64 bits, GNU compiler, OpenMPI                **
+**                      Double Precision Version                      **
 **                                                                    **
 **                                                                    **
 **                                                                    **
-** CommitID: 440deeba848d606665f88afb8302e85b1ecf72bf                 **
 ************************************************************************
 ** OpenRadioss Software                                               **
-** COPYRIGHT (C) 1986-2022 Altair Engineering, Inc.                   **
+** COPYRIGHT (C) 1986-2025 Altair Engineering, Inc.                   **
 ** Licensed under GNU Affero General Public License.                  **
 ** See License file.                                                  **
 ************************************************************************
@@ -27,11 +27,14 @@
  COMPUTATION HARDWARE DESCRIPTION
   
  CPU#  HOSTNAME     CPU TYPE, FREQUENCY AND MEMORY
-   1   fr-shady.europe.altair.com   Intel(R) Xeon(R) CPU           X5680  @ 3.33GHz (x86_64), 1596 MHz,  20012 MB RAM,  49126 MB swap
-   2   fr-shady.europe.altair.com   Intel(R) Xeon(R) CPU           X5680  @ 3.33GHz (x86_64), 1596 MHz,  20012 MB RAM,  49126 MB swap
-   3   fr-shady.europe.altair.com   Intel(R) Xeon(R) CPU           X5680  @ 3.33GHz (x86_64), 1596 MHz,  20012 MB RAM,  49126 MB swap
-   4   fr-shady.europe.altair.com   Intel(R) Xeon(R) CPU           X5680  @ 3.33GHz (x86_64), 1596 MHz,  20012 MB RAM,  49126 MB swap
+   1   bf1f055d3294   Intel(R) Xeon(R) Gold 6248R CPU @ 3.00GHz (x86_64), 2992 MHz,  64290 MB RAM,      0 MB swap
+   2   bf1f055d3294   Intel(R) Xeon(R) Gold 6248R CPU @ 3.00GHz (x86_64), 2992 MHz,  64290 MB RAM,      0 MB swap
+   3   bf1f055d3294   Intel(R) Xeon(R) Gold 6248R CPU @ 3.00GHz (x86_64), 2992 MHz,  64290 MB RAM,      0 MB swap
+   4   bf1f055d3294   Intel(R) Xeon(R) Gold 6248R CPU @ 3.00GHz (x86_64), 2992 MHz,  64290 MB RAM,      0 MB swap
   
+ STACKSIZE  . . . . . . . . . . . . . . . . . . . . 8 MB
+ THREAD STACKSIZE . . . . . . . . . . . . . . . . . 400 mB
+ 
 ************************************************************************
 
 
@@ -88,9 +91,38 @@
  INVERS: INPUT DECK VERSION . . . . . . . . . . .  2017
  ITTYP : FLAG FOR TYPE OF T-FILE. . . . . . . . .     4
 
+ INITIAL TIME STEP. . . . . . . . . . . . . . . .   0.000000    
+ MAXIMUM TIME STEP. . . . . . . . . . . . . . . .  0.1000000E+21
+
+ PARALLEL ARITHMETIC ON
+ NUMBER OF INTERFACES TO BE ELIMINATED. . . . . .        0
+
+ NUMBER OF PARTS TO BE ELIMINATED . . . . . . . .        0
+
+ NUMBER OF SOLID  ELEMENT BLOCKS TO BE ELIMINATED        0
+
+ NUMBER OF QUAD   ELEMENT BLOCKS TO BE ELIMINATED        0
+
+ NUMBER OF SHELL  ELEMENT BLOCKS TO BE ELIMINATED        0
+
+ NUMBER OF TRUSS  ELEMENT BLOCKS TO BE ELIMINATED        0
+
+ NUMBER OF BEAM   ELEMENT BLOCKS TO BE ELIMINATED        0
+
+ NUMBER OF SPRING ELEMENT BLOCKS TO BE ELIMINATED        0
+
+ NUMBER OF SH_3N  ELEMENT BLOCKS TO BE ELIMINATED        0
+
+ NUMBER OF  SPH PARTICLES BLOCKS TO BE ELIMINATED        0
+
+ NUMBER OF RIGID LINKS. . . . . . . . . . . . . .        0
+
+ NUMBER OF NEW BOUNDARY CONDITIONS. . . . . . . .        0
+
 
  TIME FOR FIRST ANIMATION-FILE PLOT . . . . . . .   0.000000    
  TIME INTERVAL FOR ANIMATION-FILE PLOTS . . . . .   5.000000    
+ TIME TO STOP ANIMATION-FILE PLOTS. . . . . . . .  0.1000000E+21
  SENSOR FOR ANIMATION-FILE PLOTS. . . . . . . . .          0
  TIME INTERVAL FOR SENSOR ANIMATION-FILE PLOTS. .   0.000000    
 
@@ -133,48 +165,25 @@
  KEEP DELETED ELEMENT (1: YES) :    0
 
 
- INITIAL TIME STEP. . . . . . . . . . . . . . . .   0.000000    
- MAXIMUM TIME STEP. . . . . . . . . . . . . . . .  0.1000000E+31
-
- PARALLEL ARITHMETIC ON
- NUMBER OF INTERFACES TO BE ELIMINATED. . . . . .        0
-
- NUMBER OF SOLID  ELEMENT BLOCKS TO BE ELIMINATED        0
-
- NUMBER OF QUAD   ELEMENT BLOCKS TO BE ELIMINATED        0
-
- NUMBER OF SHELL  ELEMENT BLOCKS TO BE ELIMINATED        0
-
- NUMBER OF TRUSS  ELEMENT BLOCKS TO BE ELIMINATED        0
-
- NUMBER OF BEAM   ELEMENT BLOCKS TO BE ELIMINATED        0
-
- NUMBER OF SPRING ELEMENT BLOCKS TO BE ELIMINATED        0
-
- NUMBER OF SH_3N  ELEMENT BLOCKS TO BE ELIMINATED        0
-
- NUMBER OF  SPH PARTICLES BLOCKS TO BE ELIMINATED        0
-
- NUMBER OF RIGID LINKS. . . . . . . . . . . . . .        0
-
- NUMBER OF NEW BOUNDARY CONDITIONS. . . . . . . .        0
-
- 23/11/2022
+ 
+ CHECKSUM DIGESTS
+ ----------------
+ 
+ 
+ 18/12/2025
    CYCLE    TIME      TIME-STEP  ELEMENT          ERROR  I-ENERGY    K-ENERGY T  K-ENERGY R  EXT-WORK     MAS.ERR     TOTAL MASS  MASS ADDED
        0   0.000      0.8401E-01 SOLID          2   0.0%   0.000       0.000       0.000       0.000       0.000      0.2340E+05   0.000    
      ANIMATION FILE: LOI12A001 WRITTEN
- DELETE SOLID ELEMENT #          1 Failed layer #          1  HASHIN mode #          2 AT TIME #   6.7209E-01
- RESPONSIBLE STRESS: SIG_11=   1.5986E-07 SIG_22=  -1.6802E-04 SIG_33=   1.5986E-08
- RESPONSIBLE STRESS: SIG_12=   0.0000E+00 SIG_13=   0.0000E+00 SIG_23=   0.0000E+00
-      10  0.8401      0.8401E-01 SOLID          2 -10.0%  0.7517E-03  0.5964E-02   0.000      0.7462E-02   0.000      0.2340E+05   0.000    
- DELETE SOLID ELEMENT #          2 Failed layer #          1  HASHIN mode #          2 AT TIME #   1.0081E+00
- RESPONSIBLE STRESS: SIG_11=  -5.0407E-05 SIG_22=   2.0897E-05 SIG_33=   2.2799E-07
- RESPONSIBLE STRESS: SIG_12=   0.0000E+00 SIG_13=   0.0000E+00 SIG_23=   0.0000E+00
- DELETE SOLID ELEMENT #          3 Failed layer #          1  HASHIN mode #          2 AT TIME #   1.0081E+00
- RESPONSIBLE STRESS: SIG_11=  -5.0407E-05 SIG_22=   2.0897E-05 SIG_33=   2.2799E-07
- RESPONSIBLE STRESS: SIG_12=   0.0000E+00 SIG_13=   0.0000E+00 SIG_23=   0.0000E+00
-      20   1.706      0.1118     SOLID          2 -10.8%  0.8732E-03  0.5997E-02   0.000      0.7705E-02   0.000      0.2340E+05   0.000    
-      30   3.488      0.2900     SOLID          2 -10.8%  0.8732E-03  0.5997E-02   0.000      0.7705E-02   0.000      0.2340E+05   0.000    
+ FAILURE (HASHIN) IN SOLID ELEMENT          1 ,GAUSS PT    1 ,LAYER  1
+ MODE 2 - COMPRESSION FIBER
+ FAILURE (HASHIN) IN SOLID ELEMENT          2 ,GAUSS PT    1 ,LAYER  1
+ FAILURE (HASHIN) IN SOLID ELEMENT          3 ,GAUSS PT    1 ,LAYER  1
+ MODE 2 - COMPRESSION FIBER
+ MODE 2 - COMPRESSION FIBER
+      10  0.8401      0.8401E-01 SOLID          3  -7.1%  0.4262E-02  0.5953E-02   0.000      0.1100E-01   0.000      0.2340E+05   0.000    
+      20   1.680      0.8401E-01 SOLID          3  -5.5%  0.1701E-01  0.6134E-02   0.000      0.2449E-01   0.000      0.2340E+05   0.000    
+      30   2.520      0.8401E-01 SOLID          3  -3.9%  0.3823E-01  0.6333E-02   0.000      0.4639E-01   0.000      0.2340E+05   0.000    
+      40   3.360      0.8401E-01 SOLID          1  -2.8%  0.6800E-01  0.6486E-02   0.000      0.7662E-01   0.000      0.2340E+05   0.000    
 
      RESTART FILES: LOI12_0001_[0001-0004].rst WRITTEN
      -------------
@@ -186,30 +195,30 @@
                         ** SUMMARY **
   
  #PROC  ELEMENT   KINCOND   INTEG     IO        T0        ASM       RESOL    
-   1   .4174E-02 .1121E-02 .7030E-03 .3369E-01 .2214E-02 .4070E-03 .5517E-01
-   2   .5710E-03 .5790E-03 .5400E-03 .8596E-02 .3512E-01 .2440E-03 .5950E-01
-   3   .7830E-03 .7670E-03 .6550E-03 .7532E-02 .3400E-01 .3380E-03 .5905E-01
-   4   .6220E-03 .6250E-03 .5620E-03 .8617E-02 .3681E-01 .2900E-03 .6209E-01
+   1   .1544E-02 .7250E-03 .3900E-03 .3166E-01 .2032E-02 .4790E-03 .4471E-01
+   2   .7520E-03 .2450E-03 .2950E-03 .1447E-01 .2882E-01 .2020E-03 .5297E-01
+   3   .2890E-03 .8010E-03 .2940E-03 .1220E-01 .2925E-01 .2550E-03 .4823E-01
+   4   .4870E-03 .2370E-03 .2560E-03 .1136E-01 .2515E-01 .1490E-03 .4381E-01
   
                  ** SPMD COM. TIME **
   
  #PROC  FORCES    RBYFOR    RBYVEL    VEL       TOT       %        
-   1   .2500E-03 .0000E+00 .0000E+00 .2540E-03 .5040E-03 .9135E+00
-   2   .1500E-03 .0000E+00 .0000E+00 .2059E-03 .3560E-03 .5983E+00
-   3   .2100E-03 .0000E+00 .0000E+00 .2540E-03 .4640E-03 .7857E+00
-   4   .1970E-03 .0000E+00 .0000E+00 .2340E-03 .4310E-03 .6941E+00
+   1   .8502E-04 .0000E+00 .0000E+00 .1090E-02 .1175E-02 .2628E+01
+   2   .2230E-03 .0000E+00 .0000E+00 .7398E-04 .2970E-03 .5607E+00
+   3   .7398E-04 .0000E+00 .0000E+00 .5800E-04 .1320E-03 .2737E+00
+   4   .7498E-04 .0000E+00 .0000E+00 .1080E-03 .1830E-03 .4177E+00
   
  
                    ** CUMULATIVE CPU TIME SUMMARY **
   
  CONTACT SORTING.............: .0000E+00     0.00 % 
- CONTACT FORCES..............: .2819E-03     0.12 % 
- ELEMENT FORCES..............: .6150E-02     2.61 % 
- KINEMATIC COND..............: .3092E-02     1.31 % 
- INTEGRATION.................: .2460E-02     1.04 % 
- ASSEMBLING..................: .1279E-02     0.54 % 
- OTHERS (including I/O)......: .2226E+00    94.38 % 
- TOTAL.......................: .2358E+00   100.00 % 
+ CONTACT FORCES..............: .7902E-04     0.04 % 
+ ELEMENT FORCES..............: .3072E-02     1.62 % 
+ KINEMATIC COND..............: .2008E-02     1.06 % 
+ INTEGRATION.................: .1235E-02     0.65 % 
+ ASSEMBLING..................: .1085E-02     0.57 % 
+ OTHERS (including I/O)......: .1822E+00    96.06 % 
+ TOTAL.......................: .1897E+00   100.00 % 
   
   
                            ** ELAPSED TIME **
@@ -218,35 +227,35 @@
                         ** SUMMARY **
   
  #PROC  ELEMENT   KINCOND   INTEG     IO        T0        ASM       RESOL    
-   1   .2634E-02 .6685E-03 .4210E-03 .2043E-01 .1333E-02 .2362E-03 .3708E-01
-   2   .4483E-03 .3623E-03 .3223E-03 .5329E-02 .1934E-01 .1615E-03 .3724E-01
-   3   .4804E-03 .4562E-03 .3896E-03 .4995E-02 .1865E-01 .2059E-03 .3716E-01
-   4   .3781E-03 .3538E-03 .3034E-03 .5213E-02 .1955E-01 .1645E-03 .3687E-01
+   1   .1660E-02 .4445E-03 .4472E-03 .2035E-01 .1854E-02 .3208E-03 .3114E-01
+   2   .5553E-03 .2722E-03 .3349E-03 .6959E-02 .1652E-01 .2283E-03 .3258E-01
+   3   .3987E-03 .3083E-03 .3325E-03 .6391E-02 .1684E-01 .2134E-03 .3083E-01
+   4   .3940E-03 .3032E-03 .3730E-03 .6714E-02 .1675E-01 .1873E-03 .3112E-01
   
         ELEMENT   KINCOND   INTEG     IO        T0        ASM       RESOL    
- MIN   .3781E-03 .3538E-03 .3034E-03 .4995E-02 .1333E-02 .1615E-03 .3687E-01
- MAX   .2634E-02 .6685E-03 .4210E-03 .2043E-01 .1955E-01 .2362E-03 .3724E-01
- AVG   .9851E-03 .4602E-03 .3591E-03 .8993E-02 .1472E-01 .1920E-03 .3709E-01
+ MIN   .3940E-03 .2722E-03 .3325E-03 .6391E-02 .1854E-02 .1873E-03 .3083E-01
+ MAX   .1660E-02 .4445E-03 .4472E-03 .2035E-01 .1684E-01 .3208E-03 .3258E-01
+ AVG   .7520E-03 .3320E-03 .3719E-03 .1010E-01 .1299E-01 .2375E-03 .3142E-01
   
                  ** SPMD COM. TIME **
   
  #PROC  FORCES    RBYFOR    RBYVEL    VEL       TOT       %        
-   1   .1442E-03 .0000E+00 .0000E+00 .1768E-03 .3209E-03 .8655E+00
-   2   .9456E-04 .0000E+00 .0000E+00 .1341E-03 .2286E-03 .6139E+00
-   3   .1324E-03 .0000E+00 .0000E+00 .1630E-03 .2954E-03 .7947E+00
-   4   .1095E-03 .0000E+00 .0000E+00 .1298E-03 .2393E-03 .6491E+00
+   1   .9742E-04 .0000E+00 .0000E+00 .1032E-03 .2006E-03 .6444E+00
+   2   .9926E-04 .0000E+00 .0000E+00 .1005E-03 .1998E-03 .6132E+00
+   3   .9392E-04 .0000E+00 .0000E+00 .8319E-04 .1771E-03 .5745E+00
+   4   .1034E-03 .0000E+00 .0000E+00 .2009E-03 .3044E-03 .9779E+00
   
         FORCES    RBYFOR    RBYVEL    VEL       TOT       %        
- MIN   .9456E-04 .0000E+00 .0000E+00 .1298E-03 .2286E-03 .6139E+00
- MAX   .1442E-03 .0000E+00 .0000E+00 .1768E-03 .3209E-03 .8655E+00
- AVG   .1202E-03 .0000E+00 .0000E+00 .1509E-03 .2711E-03 .7308E+00
+ MIN   .9392E-04 .0000E+00 .0000E+00 .8319E-04 .1771E-03 .5745E+00
+ MAX   .1034E-03 .0000E+00 .0000E+00 .2009E-03 .3044E-03 .9779E+00
+ AVG   .9851E-04 .0000E+00 .0000E+00 .1220E-03 .2205E-03 .7025E+00
   
                    ** MEMORY USAGE STATISTICS **
   
- TOTAL MEMORY USED .........................:      228 MB
- MAXIMUM MEMORY PER PROCESSOR...............:       57 MB
- MINIMUM MEMORY PER PROCESSOR...............:       57 MB
- AVERAGE MEMORY PER PROCESSOR...............:       57 MB
+ TOTAL MEMORY USED .........................:      216 MB
+ MAXIMUM MEMORY PER PROCESSOR...............:       54 MB
+ MINIMUM MEMORY PER PROCESSOR...............:       54 MB
+ AVERAGE MEMORY PER PROCESSOR...............:       54 MB
   
                    ** DISK USAGE STATISTICS **
   
@@ -257,12 +266,12 @@
                    ** COMPUTE TIME INFORMATION **
                         ** CURRENT ENGINE **
   
- EXECUTION STARTED .........................:      2022/11/23  16:21:37
- EXECUTION COMPLETED .......................:      2022/11/23  16:21:37
+ EXECUTION STARTED .........................:      2025/12/18  15:35:59
+ EXECUTION COMPLETED .......................:      2025/12/18  15:35:59
   
- ELAPSED TIME     =          0.12 s
+ ELAPSED TIME     =          0.11 s
                           0:00:00
- ESTIMATED SPEEDUP=          1.89
+ ESTIMATED SPEEDUP=          1.77
 
 
 
@@ -270,13 +279,13 @@
 
 
 
-     TOTAL NUMBER OF CYCLES  :      32
+     TOTAL NUMBER OF CYCLES  :      48
 
   
                    ** COMPUTE RUNTIME INFORMATION SUMMARY **
   
-        STARTER RUNTIME =          0.62s (00:00:00)
- # 001   ENGINE RUNTIME =          0.12s (00:00:00)
+        STARTER RUNTIME =          0.45s (00:00:00)
+ # 001   ENGINE RUNTIME =          0.11s (00:00:00)
  ------------------------------ 
- STARTER+ENGINE RUNTIME =          0.75s (00:00:00)
+ STARTER+ENGINE RUNTIME =          0.56s (00:00:00)
   

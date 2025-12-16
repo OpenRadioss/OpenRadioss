@@ -146,6 +146,9 @@ C-----------------------------------------------
       USE FAIL_LEMAITRE_S_MOD
       USE FAIL_SPALLING_S_MOD
       USE FAIL_COMPOSITE_S_MOD
+      USE FAIL_PUCK_S_MOD
+      USE FAIL_HASHIN_S_MOD
+      USE FAIL_CHANGCHANG_S_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1337,28 +1340,27 @@ C---- energy failure
           ELSEIF (IRUPT == 13) THEN
 C---- chang - chang   
             CALL FAIL_CHANGCHANG_S(
-     1         NEL      ,NPAR     ,NVARF    ,UPARAMF  ,UVARF    ,
-     2         TT       ,IPG      ,ILAY     ,NPG      ,NGL      ,
-     3         LBUF%DMGSCL,DFMAX  ,OFF      ,LBUF%OFF ,GBUF%NOFF,
-     4         S1       ,S2       ,S3       ,S4       ,S6       ,
-     5         TDEL     ,LF_DAMMX )  
+     1        NEL      ,NPAR     ,NVARF    ,UPARAMF  ,UVARF    ,
+     2        TT       ,NGL      ,ILAY     ,IPG      ,NPG      ,
+     3        S1       ,S2       ,S3       ,S4       ,S6       ,
+     4        LBUF%DMGSCL,LF_DAMMX,DFMAX   ,TDEL     ,DT1      ,
+     5        LBUF%OFF ,OFF      ,GBUF%NOFF,NIPAR    ,IPARAMF  )
           ELSEIF(IRUPT == 14)THEN                                        
 c --- Hashin failure model
-            DO I=1,NEL
-              EPSP1(I) = MAX(ABS(EP1(I)),ABS(EP2(I)),ABS(EP3(I)),EM20)
-            ENDDO   
             CALL FAIL_HASHIN_S(
-     1        NEL      ,NVARF    ,ILAY     ,NPG      ,TT       ,       
-     2        DT1      ,UPARAMF  ,NGL      ,OFF      ,GBUF%NOFF, 
+     1        NEL      ,NPAR     ,NVARF    ,UPARAMF  ,UVARF    ,
+     2        TT       ,NGL      ,ILAY     ,IPG      ,NPG      ,
      3        S1       ,S2       ,S3       ,S4       ,S5       ,S6       ,
-     4        UVARF    ,NPAR     ,DFMAX    ,TDEL     ,EPSP1    ,LF_DAMMX )  
+     4        LBUF%DMGSCL,LF_DAMMX,DFMAX   ,TDEL     ,DT1      ,
+     5        LBUF%OFF ,OFF      ,GBUF%NOFF,NIPAR    ,IPARAMF  )
           ELSEIF(IRUPT == 16)THEN                                        
 c --- modified Puck failure model
             CALL FAIL_PUCK_S(
-     1        NEL      ,NVARF    ,ILAY     ,NPG      ,TT       ,      
-     2        DT1      ,UPARAMF  ,NGL      ,OFF      ,GBUF%NOFF,
-     3        S1       ,S2       ,S3       ,S4       ,S5       ,S6       ,
-     4        UVARF    ,NPAR     ,DFMAX    ,LF_DAMMX ,TDEL     )   
+     1        NEL      ,NPAR     ,NVARF    ,UPARAMF  ,UVARF    ,
+     2        TT       ,NGL      ,ILAY     ,IPG      ,NPG      ,
+     3        S1       ,S2       ,S3       ,S4       ,S6       ,
+     4        LBUF%DMGSCL,LF_DAMMX,DFMAX   ,TDEL     ,DT1      ,
+     5        LBUF%OFF ,OFF      ,GBUF%NOFF,NIPAR    ,IPARAMF  )
           ELSEIF (IRUPT == 23) THEN                                      
 C---- tabulated failure model
                CALL FAIL_TAB_S(

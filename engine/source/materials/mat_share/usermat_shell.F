@@ -128,6 +128,9 @@ C-----------------------------------------------
       USE DT_MOD
       USE FAIL_LEMAITRE_C_MOD
       USE FAIL_COMPOSITE_C_MOD
+      USE FAIL_PUCK_C_MOD
+      USE FAIL_HASHIN_C_MOD
+      USE FAIL_CHANGCHANG_C_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1482,31 +1485,27 @@ c
               CASE (13)     !    Chang-Chang failure model
                 CALL FAIL_CHANGCHANG_C(
      1               NEL       ,NUPAR     ,NVARF     ,UPARAMF   ,UVARF     ,
-     2               TT        ,DT1C      ,IPG       ,ILAYER    ,IT        ,
-     3               NGL       ,DMG_FLAG  ,DMG_LOC_SCALE ,DFMAX ,TDEL      ,
-     4               SIGNXX    ,SIGNYY    ,SIGNXY    ,SIGNYZ    ,SIGNZX    ,        
-     5               OFF       ,FOFF      ,LF_DAMMX  )
+     2               TT        ,NGL       ,IPG       ,ILAYER    ,IT        ,                  
+     3               SIGNXX    ,SIGNYY    ,SIGNXY    ,FOFF      ,DMG_FLAG  ,
+     4               DMG_LOC_SCALE,LF_DAMMX,DFMAX    ,TDEL      ,DT1       ,
+     5               IGTYP     ,PLY_ID    ,NIPAR     ,IPARAMF   )           
 c
-              CASE (14)     !    Hashin failure model  
-!                DO I=JFT,JLT        
-!                  EPSP(I) = MAX(ABS(EPSPXX(I)),ABS(EPSPYY(I)),
-!     .                          ABS(EPSPXY(I)),EM20)
-!                ENDDO            
+              CASE (14)     !    Hashin failure model        
                 CALL FAIL_HASHIN_C(
-     1               NEL       ,NUPAR     ,NVARF     ,UPARAMF   ,UVARF      ,
-     2               TT        ,DT1C      ,IPG       ,ILAYER    ,IT         ,
-     3               NGL       ,DMG_FLAG  ,DMG_LOC_SCALE ,DFMAX     ,TDEL       ,
-     4               SIGNXX    ,SIGNYY    ,SIGNXY    ,SIGNYZ    ,SIGNZX     ,        
-     5               OFF       ,FOFF      ,PLY_ID    ,
-     6               EPSPL     ,FWAVE_EL  ,DADV      ,LF_DAMMX  ) 
+     1               NEL       ,NUPAR     ,NVARF     ,UPARAMF   ,UVARF     ,
+     2               TT        ,NGL       ,IPG       ,ILAYER    ,IT        ,                  
+     3               SIGNXX    ,SIGNYY    ,SIGNXY    ,SIGNYZ    ,SIGNZX    ,
+     4               FOFF      ,DMG_FLAG  ,DMG_LOC_SCALE,LF_DAMMX,DFMAX    ,
+     5               TDEL      ,DT1       ,IGTYP     ,PLY_ID    ,NIPAR     ,
+     6               IPARAMF   )
 c
               CASE (16)     !    Modified Puck failure model
                 CALL FAIL_PUCK_C(
      1               NEL       ,NUPAR     ,NVARF     ,UPARAMF   ,UVARF     ,
-     2               TT        ,NGL       ,IPG       ,ILAYER    ,IT        ,
-     3               SIGNXX    ,SIGNYY    ,SIGNXY    ,SIGNYZ    ,SIGNZX    ,
-     4               OFF       ,FOFF      ,DMG_FLAG  ,DMG_LOC_SCALE ,
-     5               DFMAX     ,LF_DAMMX  ,TDEL      ,DT1C      )
+     2               TT        ,NGL       ,IPG       ,ILAYER    ,IT        ,                  
+     3               SIGNXX    ,SIGNYY    ,SIGNXY    ,FOFF      ,DMG_FLAG  ,
+     4               DMG_LOC_SCALE,LF_DAMMX,DFMAX    ,TDEL      ,DT1       ,
+     5               IGTYP     ,PLY_ID    ,NIPAR     ,IPARAMF   )
 c
               CASE (23)     !    Tabulated failure model
                 IF (IXFEM == 0) THEN
