@@ -315,7 +315,7 @@
               do i = 1,nel
                 if (triax(i) < third) then 
                   reta =  shrf*(one - min(max(triax(i),zero),rgtr1)/rgtr1)
-                elseif (triax(i) >= third) then 
+                else !if (triax(i) >= third) then 
                   reta = (three*biaxf/(three*rgtr2 - two))*                    &
                          (rgtr2 - min(max(triax(i),rgtr2),two_third))
                 endif

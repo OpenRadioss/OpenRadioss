@@ -262,7 +262,7 @@ c
           DO I = 1,NEL
             IF (TRIAX(I) < THIRD) THEN 
               RETA =  SHRF*(ONE - MIN(MAX(TRIAX(I),ZERO),RGTR1)/RGTR1)
-            ELSEIF (TRIAX(I) >= THIRD) THEN 
+            ELSE !IF (TRIAX(I) >= THIRD) THEN 
               RETA = (THREE*BIAXF/(THREE*RGTR2 - TWO))*
      .               (RGTR2 - MIN(MAX(TRIAX(I),RGTR2),TWO_THIRD))
             ENDIF
