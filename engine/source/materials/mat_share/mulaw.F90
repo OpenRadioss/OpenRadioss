@@ -268,6 +268,9 @@
           use fail_spalling_s_mod
           use fail_lemaitre_s_mod
           use fail_composite_s_mod
+          use fail_puck_s_mod
+          use fail_hashin_s_mod
+          use fail_changchang_s_mod
           use prop_param_mod
           use dt_mod
           use glob_therm_mod
@@ -2414,28 +2417,27 @@
               else if (irupt == 13) then
 !---- chang - chang
                 call fail_changchang_s(&
-                &nel      ,nparf    ,nvarf    ,uparf    ,uvarf    ,&
-                &tt       ,ipg      ,ilay     ,npg      ,ngl      ,&
-                &lbuf%dmgscl,dfmax  ,off      ,lbuf%off ,gbuf%noff,&
-                &s1       ,s2       ,s3       ,s4       ,s6       ,&
-                &tdel     ,lf_dammx )
+                &nel     ,nparf   ,nvarf   ,uparf   ,uvarf   ,&
+                &tt      ,ngl     ,ilay    ,ipg     ,npg     ,&
+                &s1      ,s2      ,s3      ,s4      ,s6      ,&
+                &lbuf%dmgscl,lf_dammx,dfmax,tdel    ,dt1     ,&
+                &lbuf%off,off     ,gbuf%noff,niparf ,iparf   )
               else if(irupt == 14)then
 ! --- hashin failure model
-                do i=1,nel
-                  epsp1(i) = max(abs(ep1(i)),abs(ep2(i)),abs(ep3(i)),em20)
-                end do
                 call fail_hashin_s(&
-                &nel      ,nvarf    ,ilay     ,npg      ,tt       ,&
-                &dt1      ,uparf    ,ngl      ,off      ,gbuf%noff,&
-                &s1       ,s2       ,s3       ,s4       ,s5       ,s6       ,&
-                &uvarf    ,nparf    ,dfmax    ,tdel     ,epsp1    ,lf_dammx )
+                &nel     ,nparf   ,nvarf   ,uparf   ,uvarf   ,&
+                &tt      ,ngl     ,ilay    ,ipg     ,npg     ,&
+                &s1      ,s2      ,s3      ,s4      ,s5      ,s6      ,&
+                &lbuf%dmgscl,lf_dammx,dfmax,tdel    ,dt1     ,&
+                &lbuf%off,off     ,gbuf%noff,niparf ,iparf   )
               else if(irupt == 16)then
 ! --- modified puck failure model
                 call fail_puck_s(&
-                &nel      ,nvarf    ,ilay     ,npg      ,tt       ,&
-                &dt1      ,uparf    ,ngl      ,off      ,gbuf%noff,&
-                &s1       ,s2       ,s3       ,s4       ,s5       ,s6       ,&
-                &uvarf    ,nparf    ,dfmax    ,lf_dammx ,tdel     )
+                &nel     ,nparf   ,nvarf   ,uparf   ,uvarf   ,&
+                &tt      ,ngl     ,ilay    ,ipg     ,npg     ,&
+                &s1      ,s2      ,s3      ,s4      ,s6      ,&
+                &lbuf%dmgscl,lf_dammx,dfmax,tdel    ,dt1     ,&
+                &lbuf%off,off     ,gbuf%noff,niparf ,iparf   )
               else if (irupt == 23) then
 !---- tabulated failure model
                 call fail_tab_s(&

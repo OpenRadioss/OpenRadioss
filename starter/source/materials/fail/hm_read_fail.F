@@ -106,6 +106,9 @@ C-----------------------------------------------
       USE HM_READ_FAIL_LEMAITRE_MOD
       USE HM_READ_FAIL_COMPOSITE_MOD
       USE ELBUFTAG_MOD
+      USE HM_READ_FAIL_PUCK_MOD
+      USE HM_READ_FAIL_HASHIN_MOD
+      USE HM_READ_FAIL_CHANG_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARLINE, NCHARKEY
 C============================================================================
 C   I m p l i c i t   T y p e s
@@ -375,23 +378,23 @@ c
             ELSEIF (KEY(1:5) == 'CHANG') THEN
               IRUPT = 13
               CALL HM_READ_FAIL_CHANG(MAT_PARAM(IMAT)%FAIL(IFL),
-     .             MAT_ID   ,FAIL_ID  ,IRUPT    ,
-     .             LSUBMODEL,UNITAB   ,FAIL_TAG(IRUPT))
+     .             FAIL_ID  ,IRUPT    ,LSUBMODEL,UNITAB   ,
+     .             FAIL_TAG(IRUPT),IOUT    ,MLAW_TAG(IMAT))
 c     
             ELSEIF (KEY(1:6) == 'HASHIN') THEN
               IRUPT = 14
               CALL HM_READ_FAIL_HASHIN(MAT_PARAM(IMAT)%FAIL(IFL),
-     .             MAT_ID   ,FAIL_ID  ,IRUPT    ,IFAILWAVE,
-     .             LSUBMODEL,UNITAB   ,FAIL_TAG(IRUPT))
+     .             FAIL_ID  ,IRUPT    , LSUBMODEL,UNITAB   ,
+     .             FAIL_TAG(IRUPT),IOUT     ,MLAW_TAG(IMAT))
 c     
             !!  ELSEIF (KEY(1:6) == '') THEN   
             !!     IRUPT = 15                      ! not used
 c     
             ELSEIF (KEY(1:4) == 'PUCK') THEN
-                 IRUPT = 16 
+              IRUPT = 16 
               CALL HM_READ_FAIL_PUCK(MAT_PARAM(IMAT)%FAIL(IFL),
-     .             MAT_ID   ,FAIL_ID  ,IRUPT    ,
-     .             LSUBMODEL,UNITAB   ,FAIL_TAG(IRUPT))
+     .             FAIL_ID    ,IRUPT      ,LSUBMODEL,UNITAB   ,
+     .             FAIL_TAG(IRUPT),IOUT   ,MLAW_TAG(IMAT))
 c     
             !! ELSEIF (KEY(1:10) == '') THEN
             !!       IRUPT = 17                     ! not used
