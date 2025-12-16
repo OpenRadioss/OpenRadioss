@@ -106,7 +106,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      I   MAT_ELEM,   H3D_STRAIN,       DT,         IDEL7NOK,NSVOIS,SZ_BUFVOIS,
      *   SNPC,       STF,              SBUFMAT,    SVIS,IDTMINS,IRESP,
      *   IDEL7NG,    MAXFUNC,          USERL_AVAIL, GLOB_THERM,
-     V   impl_s,     idyna,            S_SFEM_NODVAR,s_flux,nv46)
+     V   impl_s,     idyna,            S_SFEM_NODVAR,s_flux,nv46,ITAG_NSFEM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -166,6 +166,7 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: USERL_AVAIL
       integer, intent(in) :: s_flux !< first dimension of flux array
       integer, intent(in) :: nv46 !< second dimension of flux array
+      INTEGER, DIMENSION(NUMNOD), INTENT(IN)    :: ITAG_NSFEM
       INTEGER IXS(NIXS,*), IPARG(NPARG,NGROUP), NPF(*),IADS(8,*),
      .        IPARTS(*),IPM(NPROPMI,*),IGEO(NPROPGI,*),ITASK,
      .        GRTH(*),IGRTH(*),IOUTPRT
@@ -201,7 +202,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,IBID,NF1,IFLAG,IPTR,IPTS,IPTT,ILAY,IMAT
-      INTEGER IBIDON(1),ITET,IP
+      INTEGER IBIDON(1),ITET,IP,ISUM
       my_real SUM
       INTEGER MXT(MVSIZ),NGL(MVSIZ),NGEO(MVSIZ)
       my_real
@@ -509,14 +510,20 @@ C-----------------------------------------------------
      5   MFZY,             MFZZ,        GBUF%VOL,    VOLN,
      6   LBUF%VOL0DP,      VOLDP,       GBUF%AMU,    DXX,
      7   DYY,              DZZ,         MAT_ELEM%MAT_PARAM,NEL,
-     8   ISMSTR,           S_SFEM_NODVAR)
+     8   ISMSTR,           S_SFEM_NODVAR, ITAG_NSFEM)
       ENDIF
       IF(JALE > 0 .AND. ISROT == 3 .AND. MTN /= 37 .AND. MTN /= 51 .AND.
      .   MTN /= 18 .AND. MTN /= 11) THEN
         DO I=LFT,LLT
          IF(OFF(I) /= 0) THEN
-         SUM=SFEM_NODVAR(NC1(I))+SFEM_NODVAR(NC2(I))+SFEM_NODVAR(NC3(I))+SFEM_NODVAR(NC4(I))
-         VOLN(I)=FOURTH*SUM*GBUF%RHO(I)/PM(1,MXT(I))
+         ISUM = ITAG_NSFEM(NC1(I)) + ITAG_NSFEM(NC2(I)) +
+     .          ITAG_NSFEM(NC3(I)) + ITAG_NSFEM(NC4(I))
+         IF (ISUM < 3) CYCLE
+         SUM=SFEM_NODVAR(NC1(I))*ITAG_NSFEM(NC1(I))+
+     .       SFEM_NODVAR(NC2(I))*ITAG_NSFEM(NC2(I))+
+     .       SFEM_NODVAR(NC3(I))*ITAG_NSFEM(NC3(I))+
+     .       SFEM_NODVAR(NC4(I))*ITAG_NSFEM(NC4(I))
+         VOLN(I)=SUM*GBUF%RHO(I)/PM(1,MXT(I))/ISUM
          ENDIF
         ENDDO
       ENDIF

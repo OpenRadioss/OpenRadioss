@@ -70,7 +70,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      4   N_ANCHOR_REMOTE_SEND_L,N_SEATBELT_L,N_SEATBELT_2D_L,DYNAIN_DATA,
      5   NUMSH4N_L,NUMSH3N_L,INTER_PARAMETERS,SENSORS,NLOAD_CYL,
      6   NCLOAD_L,NPLOAD_L,NDAMP_VREL_L, UNITAB,
-     7   LWAMP_L,LWANMP_L,NINIVELT_L,GLOB_THERM,PBLAST)
+     7   LWAMP_L,LWANMP_L,NINIVELT_L,GLOB_THERM,PBLAST,NE_SFEM_L)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -141,7 +141,7 @@ C-----------------------------------------------
      .        LENISLIN_L,NE_NERVOIS_L, NE_NESVOIS_L, NE_NSVOIS_L, NE_NQVOIS_L, NE_NTGVOIS_L,NBCSCYC_L,LLBCSCYC_L,
      .        N_SLIPRING_L,N_RETRACTOR_L,N_ANCHOR_REMOTE_L,N_ANCHOR_REMOTE_SEND_L,N_SEATBELT_L,N_SEATBELT_2D_L,
      .        NUMSH4N_L,NUMSH3N_L,NLOAD_CYL,NDAMP_VREL_L,NINIVELT_L
-      INTEGER, INTENT(IN) :: NCLOAD_L,NPLOAD_L
+      INTEGER, INTENT(IN) :: NCLOAD_L,NPLOAD_L,NE_SFEM_L
       INTEGER, INTENT(IN) :: LWAMP_L     !< Size of Engine work array (WA)
       INTEGER, INTENT(IN) :: LWANMP_L    !< Size of Engine work array (WA)
       TYPE(MULTI_FVM_STRUCT) :: MULTI_FVM
@@ -1584,7 +1584,7 @@ C Stack info
 C
 C ITETRA=3
       LVARINT=LVARINT+1
-      TABVINT(LVARINT)=ISFEM  
+      TABVINT(LVARINT)=ISFEM  + NE_SFEM_L
 C /LOAD/PBLAST
       LVARINT=LVARINT+1
       TABVINT(LVARINT) = NLOADP_F

@@ -200,6 +200,7 @@ C-----------------------------------------------
       use coupling_adapter_mod
       USE ANIM_MOD
       use rwall_mod
+      use sfem_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -356,6 +357,7 @@ C-------------------------------------------------------------------------------
       TYPE(rbe3_) :: rbe3
       TYPE(coupling_type) :: coupling
       TYPE(rwall_) :: rwall
+      TYPE(sfem_)  :: sfem
 C------------------------------------------------------------------
 C to build a IBM PARALLEL version
 C In starter : define install parameter nspmd 
@@ -864,7 +866,7 @@ C------------------------------------------------
      .            PRESFIL, MULTI_FVM, H3D_DATA,
      .            PINCH_DATA,DYNAIN_DATA,INTERFACES,SENSORS,LOADS,
      .            MAT_ELEM,NAMES_AND_TITLES,SKEWS ,GLOB_THERM,PBLAST,
-     .            RBE3,RWALL)
+     .            RBE3,RWALL,SFEM)
 
 C------------------------------------------------
 C     Test of .rst file compatibility
@@ -967,7 +969,7 @@ C
 
       ! Most of arrays from Restart
       CALL RESTALLOC(OUTPUT,ELEMENT,NODES,MULTI_FVM,H3D_DATA,PINCH_DATA,ALE_CONNECTIVITY,SEGVAR,INTERFACES,SKEWS,
-     *               GLOB_THERM,RBE3,RWALL)
+     *               GLOB_THERM,RBE3,RWALL,SFEM)
 
       ! Initialization
       IGEO = 0
@@ -1055,7 +1057,7 @@ C
      .            FORNEQS       ,UNITAB,
      .            STACK          ,DRAPE_SH4N ,DRAPE_SH3N    ,DRAPEG           ,NDRAPE ,
      .            GLOB_THERM     ,PBLAST     ,ELEMENT       ,NODES            ,RBE3     ,
-     .            RWALL          )
+     .            RWALL          ,SFEM      )
       ! Close restart file
        CALL CLOSE_C
  
@@ -2208,7 +2210,7 @@ C---------------------------------------------------------------------
      .                   DIFFUSION    ,SEGVAR          ,DYNAIN_DATA     ,DRAPEG     ,USER_WINDOWS    ,
      .                   OUTPUT       ,INTERFACES      ,DT              ,LOADS      ,MAT_ELEM  , PYTHON,
      .                   NAMES_AND_TITLES, UNITAB ,SKEWS,LIFLOW         ,LRFLOW     ,glob_therm,PBLAST,
-     .                   RBE3, coupling,RWALL)
+     .                   RBE3, coupling,RWALL     ,SFEM)
 C---------------------------------------------------------------------
       CURRENT_RUN = GLOBAL_COMP_TIME%RUN_NBR
       CALL SPMD_REDUCE_DB(GLOBAL_COMP_TIME%ENGINE_TIME(CURRENT_RUN),RESULT,1,0,"MAX ")

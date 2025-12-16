@@ -49,7 +49,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    th_mod           ../engine/share/modules/th_mod.F
 !||====================================================================
       SUBROUTINE WRCOMI(OUTPUT,LMXVINT,LVARINT,TABVINT,ISP,MULTI_FVM,H3D_DATA,DYNAIN_DATA,
-     .           INTER_PARAMETERS,SENSORS,LOADS,GLOB_THERM,PBLAST)
+     .           INTER_PARAMETERS,SENSORS,LOADS,GLOB_THERM,PBLAST,SFEM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -73,6 +73,7 @@ C-----------------------------------------------
       USE TH_MOD , ONLY : TH_HAS_NODA_PEXT
       USE EOS_PARAM_MOD , ONLY : ANALY_TEMP
       use element_mod , only : nixs,nixq,nixc,nixt,nixr,nixp,nixtg
+      use sfem_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -90,6 +91,7 @@ C-----------------------------------------------
       TYPE (LOADS_)          ,INTENT(IN) :: LOADS
       type (glob_therm_)     ,intent(in) :: GLOB_THERM
       type (PBLAST_)         ,intent(in) :: PBLAST
+      type (SFEM_)           ,intent(in) :: SFEM
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -1410,7 +1412,7 @@ C
 
 C ITETRA=3
       LVARINT=LVARINT+1
-      TABVINT(LVARINT)=ISFEM            
+      TABVINT(LVARINT)=SFEM%ISFEM  + SFEM%ne_sfem         
 C
       LVARINT=LVARINT+1
       TABVINT(LVARINT) = NLOADP_F      
