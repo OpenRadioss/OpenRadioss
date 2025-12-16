@@ -225,6 +225,9 @@
           use fail_param_mod
           use fail_lemaitre_c_mod
           use fail_composite_c_mod
+          use fail_puck_c_mod
+          use fail_hashin_c_mod
+          use fail_changchang_c_mod
           use precision_mod, only : WP
           use shell_offset_wm_ini_mod
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -2254,31 +2257,27 @@
                    case (13)     !    chang-chang failure model
                     call fail_changchang_c(&
                     &nel       ,nupar     ,nvarf     ,uparamf   ,uvarf     ,&
-                    &tt        ,dt1c      ,ipg       ,ilayer    ,it        ,&
-                    &ngl       ,dmg_flag  ,dmg_loc_scale ,dfmax ,tdel      ,&
-                    &signxx    ,signyy    ,signxy    ,signyz    ,signzx    ,&
-                    &off       ,foff      ,lf_dammx  )
+                    &tt        ,ngl       ,ipg       ,ilayer    ,it        ,&                  
+                    &signxx    ,signyy    ,signxy    ,foff      ,dmg_flag  ,&
+                    &dmg_loc_scale,lf_dammx,dfmax    ,tdel      ,dt1       ,&
+                    &igtyp     ,ply_id    ,nipar     ,iparamf   )
 !
                    case (14)     !    hashin failure model
-!                    do i=jft,jlt
-!                      epsp(i) = max(abs(epspxx(i)),abs(epspyy(i)),&
-!                      &                                   abs(epspxy(i)),em20)
-!                    enddo
                     call fail_hashin_c(&
-                    &nel       ,nupar     ,nvarf     ,uparamf   ,uvarf      ,&
-                    &tt        ,dt1c      ,ipg       ,ilayer    ,it         ,&
-                    &ngl       ,dmg_flag  ,dmg_loc_scale,dfmax  ,tdel       ,&
-                    &signxx    ,signyy    ,signxy    ,signyz    ,signzx     ,&
-                    &off       ,foff      ,ply_id    ,&
-                    &epsd      ,fwave_el  ,gbuf%dmg  ,lf_dammx  )
+                    &nel       ,nupar     ,nvarf     ,uparamf   ,uvarf     ,&
+                    &tt        ,ngl       ,ipg       ,ilayer    ,it        ,&                  
+                    &signxx    ,signyy    ,signxy    ,signyz    ,signzx    ,&
+                    &foff      ,dmg_flag  ,dmg_loc_scale,lf_dammx,dfmax    ,&
+                    &tdel      ,dt1       ,igtyp     ,ply_id    ,nipar     ,&
+                    &iparamf   )
 !
                    case (16)     !    modified puck failure model
                     call fail_puck_c(&
                     &nel       ,nupar     ,nvarf     ,uparamf   ,uvarf     ,&
-                    &tt        ,ngl       ,ipg       ,ilayer    ,it        ,&
-                    &signxx    ,signyy    ,signxy    ,signyz    ,signzx    ,&
-                    &off       ,foff      ,dmg_flag  ,dmg_loc_scale ,&
-                    &dfmax     ,lf_dammx  ,tdel      ,dt1c      )
+                    &tt        ,ngl       ,ipg       ,ilayer    ,it        ,&                  
+                    &signxx    ,signyy    ,signxy    ,foff      ,dmg_flag  ,&
+                    &dmg_loc_scale,lf_dammx,dfmax    ,tdel      ,dt1       ,&
+                    &igtyp     ,ply_id    ,nipar     ,iparamf   )
 !
                    case (23)     !    tabulated failure model
                     if (ixfem == 0) then

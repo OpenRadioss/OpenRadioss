@@ -237,6 +237,9 @@
           use fail_lemaitre_s_mod
           use fail_spalling_s_mod
           use fail_composite_s_mod
+          use fail_puck_s_mod
+          use fail_hashin_s_mod
+          use fail_changchang_s_mod
           use eosmain_mod , only : eosmain
           use precision_mod, only : WP
           use mvsiz_mod, only : mvsiz
@@ -2524,31 +2527,27 @@
               else if (irupt == 13) then
 !---- chang - chang
                 call fail_changchang_s(&
-                &llt      ,nparam   ,nvarf    ,uparamf,uvarf,&
-                &tt       ,ipg      ,ilay     ,npg      ,ngl      ,&
-                &lbuf%dmgscl,dfmax  ,off      ,lbuf%off ,gbuf%noff,&
-                &ss1      ,ss2      ,ss3      ,ss4      ,ss6      ,&
-                &tdel     ,lf_dammx )
+                &llt     ,nparam  ,nvarf   ,uparamf ,uvarf   ,&
+                &tt      ,ngl     ,ilay    ,ipg     ,npg     ,&
+                &ss1     ,ss2     ,ss3     ,ss4     ,ss6     ,&
+                &lbuf%dmgscl,lf_dammx,dfmax,tdel    ,dt1     ,&
+                &lbuf%off,off     ,gbuf%noff,niparam,iparamf )
               else if(irupt == 14)then
 ! --- hashin    failure model
-                do i=1,nel
-                  epsp(i) = max(abs(ep1(i)),abs(ep2(i)),abs(ep3(i)),em20)
-                end do
                 call fail_hashin_s(&
-                &llt    ,nvarf  ,ilay     ,npg           ,&
-                &tt     ,dt1    ,uparamf  ,&
-                &ngl    ,off    ,gbuf%noff,ss1           ,&
-                &ss2    ,ss3    ,ss4      ,ss5           ,ss6           ,&
-                &uvarf  ,nparam ,dfmax    ,tdel          ,&
-                &epsp   ,lf_dammx)
+                &llt     ,nparam  ,nvarf   ,uparamf ,uvarf   ,&
+                &tt      ,ngl     ,ilay    ,ipg     ,npg     ,&
+                &ss1     ,ss2     ,ss3     ,ss4     ,ss5     ,ss6     ,&
+                &lbuf%dmgscl,lf_dammx,dfmax,tdel    ,dt1     ,&
+                &lbuf%off,off     ,gbuf%noff,niparam,iparamf )
               else if(irupt == 16)then
 ! --- modified puck failure model
                 call fail_puck_s(&
-                &llt    ,nvarf  ,ilay     ,npg           ,&
-                &tt     ,dt1    ,uparamf  ,&
-                &ngl    ,off    ,gbuf%noff,ss1           ,&
-                &ss2    ,ss3    ,ss4     ,ss5            ,ss6           ,&
-                &uvarf  ,nparam,dfmax    ,lf_dammx       ,tdel     )
+                &llt     ,nparam  ,nvarf   ,uparamf ,uvarf   ,&
+                &tt      ,ngl     ,ilay    ,ipg     ,npg     ,&
+                &ss1     ,ss2     ,ss3     ,ss4     ,ss6     ,&
+                &lbuf%dmgscl,lf_dammx,dfmax,tdel    ,dt1     ,&
+                &lbuf%off,off     ,gbuf%noff,niparam,iparamf )
               else if(irupt == 18)then
 ! --- ladeveze delamination damage model
                 call fail_ladeveze(&
