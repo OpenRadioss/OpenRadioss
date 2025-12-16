@@ -279,7 +279,7 @@ c------------------
 c------------------
             CALL LAW70_UPD(MAT_PARAM(IMAT)    ,TITR     ,MAT_ID   ,NPARAM   ,UPARAM   ,
      .                     NFUNC    ,IFUNC    ,NPC      ,PLD      ,IOUT     ,
-     .                     NFUNCT   ,FUNC_ID  ,NPROPM   ,PM(1,IMAT))       
+     .                     NFUNCT   ,FUNC_ID  ,NPROPM   ,PM(1,IMAT),MAT_PARAM(IMAT)%YOUNG0)       
 c------------------
           CASE (76) 
             CALL LAW76_UPD(IOUT   ,TITR    ,MAT_ID   ,NPARAM ,MAT_PARAM(IMAT) ,
@@ -308,7 +308,7 @@ c------------------
 c
             CALL LAW90_UPD(IOUT,TITR,MAT_ID   ,UPARAM,
      .                     IPM(1,IMAT),FUNC_ID,NPC,PLD,PM(1,IMAT),
-     .                     NFUNCT)
+     .                     NFUNCT,MAT_PARAM(IMAT)%YOUNG0)
 c------------------
           CASE (92) ! Arruda-Boyce hyperelastic law
 c------------------

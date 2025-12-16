@@ -457,6 +457,7 @@
           real(kind=WP) :: rho                !< reference density
           real(kind=WP) :: rho0               !< initial density
           real(kind=WP) :: young              !< Young modulus
+          real(kind=WP) :: young0             !< initial Young modulus
           real(kind=WP) :: bulk               !< bulk modulus
           real(kind=WP) :: shear              !< shear modulus
           real(kind=WP) :: nu                 !< Poisson's ratio
