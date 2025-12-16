@@ -107,7 +107,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
-          call prepare_debug(nodes%itab,numnod,ispmd)
+          call prepare_debug(nodes%itab,numnod,ispmd,nspmd)
           call my_alloc(rby6,8,6,nrbykin)
           call my_alloc(dxancg,3,numnod)
           call my_alloc(nb25_candt,parasiz)

@@ -48,7 +48,7 @@
 !||    spmd_mod                         ../engine/source/mpi/spmd_mod.F90
 !||====================================================================
         subroutine spmd_exch_min_max(flag,nspmd,numnod,lencom,s_proc_nb,r_proc_nb,            & 
-                                     s_fr_elem,s_index,r_index,s_req,r_req,fr_elem,iad_elem,            &
+                                     s_fr_elem,trimat,s_index,r_index,s_req,r_req,fr_elem,iad_elem,            &
                                      min_value,max_value,s_buffer,r_buffer)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
@@ -79,16 +79,17 @@
           integer, intent(inout) :: s_proc_nb !< number of S procs
           integer, intent(inout) :: r_proc_nb !< number of R procs
           integer, intent(in) :: s_fr_elem !< size of fr_elem array
+          integer, intent(in) :: trimat !< number of materials
           integer, dimension(nspmd), intent(inout) :: s_index !< index of S processor
           integer, dimension(nspmd), intent(inout) :: r_index !< index of R processor
           integer, dimension(nspmd), intent(inout) :: s_req !< S requests
           integer, dimension(nspmd), intent(inout) :: r_req !< R requests
           integer, dimension(s_fr_elem), intent(in) :: fr_elem !< frontier elements & nodes
           integer, dimension(2,nspmd+1), intent(in) :: iad_elem !< number of frontier elements & nodes
-          real(kind=WP), dimension(numnod,3), intent(inout) :: min_value !< minimum values to exchange
-          real(kind=WP), dimension(numnod,3), intent(inout) :: max_value !< maximum values to exchange
-          real(kind=WP), dimension(2*lencom*3), intent(inout) :: s_buffer !< send buffer
-          real(kind=WP), dimension(2*lencom*3), intent(inout) :: r_buffer !< receive buffer        
+          real(kind=WP), dimension(numnod,trimat), intent(inout) :: min_value !< minimum values to exchange
+          real(kind=WP), dimension(numnod,trimat), intent(inout) :: max_value !< maximum values to exchange
+          real(kind=WP), dimension(2*lencom*trimat), intent(inout) :: s_buffer !< send buffer
+          real(kind=WP), dimension(2*lencom*trimat), intent(inout) :: r_buffer !< receive buffer        
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -115,9 +116,9 @@
               if (r_size > 0) then
                 r_proc_nb = r_proc_nb + 1
                 r_index(r_proc_nb) = p
-                call spmd_irecv(r_buffer(r_address),2*r_size*3,p-1,msgtyp,r_req(r_proc_nb))
+                call spmd_irecv(r_buffer(r_address),2*r_size*trimat,p-1,msgtyp,r_req(r_proc_nb))
               end if
-              r_address = r_address + 2*r_size*3
+              r_address = r_address + 2*r_size*trimat
             end do
             ! -------------
 
@@ -131,19 +132,17 @@
               if (s_size > 0) then
                 do j=iad_elem(1,p),iad_elem(1,p+1)-1
                   node_id = fr_elem(j)
-                  s_buffer(s_address_2) = min_value(node_id,1)
-                  s_buffer(s_address_2+1) = max_value(node_id,1)
-                  s_buffer(s_address_2+2) = min_value(node_id,2)
-                  s_buffer(s_address_2+3) = max_value(node_id,2)
-                  s_buffer(s_address_2+4) = min_value(node_id,3)
-                  s_buffer(s_address_2+5) = max_value(node_id,3)
-                  s_address_2 = s_address_2 + 6
+                  do ijk=1,trimat
+                    s_buffer(s_address_2) = min_value(node_id,ijk)
+                    s_buffer(s_address_2+1) = max_value(node_id,ijk)
+                    s_address_2 = s_address_2 + 2                  
+                  end do
                 end do
                 ! send the data
                 s_proc_nb = s_proc_nb + 1
                 s_index(s_proc_nb) = p                
-                call spmd_isend(s_buffer(s_address),2*s_size*3,p-1,msgtyp,s_req(s_proc_nb))
-                s_address = s_address + 2*s_size*3
+                call spmd_isend(s_buffer(s_address),2*s_size*trimat,p-1,msgtyp,s_req(s_proc_nb))
+                s_address = s_address + 2*s_size*trimat
               end if
             end do
           else
@@ -152,16 +151,14 @@
             do p=1,r_proc_nb
               call spmd_waitany(r_proc_nb,r_req,ijk)
               proc_id = r_index(ijk) ! get the R processor id
-              r_address = 1 + 2*(iad_elem(1,proc_id) - iad_elem(1,1))*3
+              r_address = 1 + 2*(iad_elem(1,proc_id) - iad_elem(1,1))*trimat
               do j=iad_elem(1,proc_id),iad_elem(1,proc_id+1)-1
                 node_id = fr_elem(j)
-                min_value(node_id,1) = min(min_value(node_id,1), r_buffer(r_address))
-                max_value(node_id,1) = max(max_value(node_id,1), r_buffer(r_address+1))
-                min_value(node_id,2) = min(min_value(node_id,2), r_buffer(r_address+2))
-                max_value(node_id,2) = max(max_value(node_id,2), r_buffer(r_address+3))
-                min_value(node_id,3) = min(min_value(node_id,3), r_buffer(r_address+4))
-                max_value(node_id,3) = max(max_value(node_id,3), r_buffer(r_address+5))
-                r_address = r_address + 6
+                do ijk=1,trimat
+                  min_value(node_id,ijk) = min(min_value(node_id,ijk), r_buffer(r_address))
+                  max_value(node_id,ijk) = max(max_value(node_id,ijk), r_buffer(r_address+1))                
+                  r_address = r_address + 2
+                enddo
               end do
             end do
             ! -------------
