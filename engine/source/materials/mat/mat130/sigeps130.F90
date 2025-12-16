@@ -412,17 +412,41 @@
                     ipos(j,13) = vartmp(i,13)
                   elseif (lcsrtmp < 0) then
                     epspm(i)   = third*(epspxx_f(i)+epspyy_f(i)+epspzz_f(i))
-                    xvec(j,13) = log(abs(epspxx_f(i) - epspm(i)))
+                    if (abs(epspxx_f(i) - epspm(i)) > zero) then 
+                      xvec(j,13) = log(abs(epspxx_f(i) - epspm(i)))
+                    else
+                      xvec(j,13) = zero
+                    endif
                     ipos(j,13) = vartmp(i,13)
-                    xvec(j,14) = log(abs(epspyy_f(i) - epspm(i)))
+                    if (abs(epspyy_f(i) - epspm(i)) > zero) then 
+                      xvec(j,14) = log(abs(epspyy_f(i) - epspm(i)))
+                    else
+                      xvec(j,14) = zero
+                    endif
                     ipos(j,14) = vartmp(i,14)
-                    xvec(j,15) = log(abs(epspzz_f(i) - epspm(i)))
+                    if (abs(epspzz_f(i) - epspm(i)) > zero) then 
+                      xvec(j,15) = log(abs(epspzz_f(i) - epspm(i)))
+                    else
+                      xvec(j,15) = zero
+                    endif
                     ipos(j,15) = vartmp(i,15)
-                    xvec(j,16) = log(abs(epspxy_f(i)))
+                    if (abs(epspxy_f(i)) > zero) then 
+                      xvec(j,16) = log(abs(epspxy_f(i)))
+                    else
+                      xvec(j,16) = zero
+                    endif
                     ipos(j,16) = vartmp(i,16)
-                    xvec(j,17) = log(abs(epspyz_f(i)))
+                    if (abs(epspyz_f(i)) > zero) then 
+                      xvec(j,17) = log(abs(epspyz_f(i)))
+                    else
+                      xvec(j,17) = zero
+                    endif
                     ipos(j,17) = vartmp(i,17)
-                    xvec(j,18) = log(abs(epspzx_f(i)))
+                    if (abs(epspzx_f(i)) > zero) then 
+                      xvec(j,18) = log(abs(epspzx_f(i)))
+                    else
+                      xvec(j,18) = zero
+                    endif
                     ipos(j,18) = vartmp(i,18)
                   endif
                 enddo       
@@ -454,27 +478,27 @@
                 !< Strain rate dependency interpolation
                 ! -> General strain rate scale factor
                 if (lcsrtmp > 0) then 
-                  call table_mat_vinterp(matparam%table(8),nindxuc,nindxuc,    &
+                  call table_mat_vinterp(matparam%table(7),nindxuc,nindxuc,    &
                      ipos(1:nindxuc,13),xvec(1:nindxuc,13),lambda(1:nindxuc),  &
                      dlambda(1:nindxuc))
                 ! -> Directional strain rate scale factors
                 elseif (lcsrtmp < 0) then
-                  call table_mat_vinterp(matparam%table(8),nindxuc,nindxuc,    &
+                  call table_mat_vinterp(matparam%table(7),nindxuc,nindxuc,    &
                      ipos(1:nindxuc,13),xvec(1:nindxuc,13),lambdaa(1:nindxuc), &
                      dlambdaa(1:nindxuc))
-                  call table_mat_vinterp(matparam%table(9),nindxuc,nindxuc,    &
+                  call table_mat_vinterp(matparam%table(8),nindxuc,nindxuc,    &
                      ipos(1:nindxuc,14),xvec(1:nindxuc,14),lambdbb(1:nindxuc), &
                      dlambdbb(1:nindxuc))
-                  call table_mat_vinterp(matparam%table(10),nindxuc,nindxuc,   &
+                  call table_mat_vinterp(matparam%table(9),nindxuc,nindxuc,   &
                      ipos(1:nindxuc,15),xvec(1:nindxuc,15),lambdcc(1:nindxuc), &
                      dlambdcc(1:nindxuc))
-                  call table_mat_vinterp(matparam%table(11),nindxuc,nindxuc,   &
+                  call table_mat_vinterp(matparam%table(10),nindxuc,nindxuc,   &
                      ipos(1:nindxuc,16),xvec(1:nindxuc,16),lambdab(1:nindxuc), &
                      dlambdab(1:nindxuc))
-                  call table_mat_vinterp(matparam%table(12),nindxuc,nindxuc,   &
+                  call table_mat_vinterp(matparam%table(11),nindxuc,nindxuc,   &
                      ipos(1:nindxuc,17),xvec(1:nindxuc,17),lambdbc(1:nindxuc), &
                      dlambdbc(1:nindxuc))
-                  call table_mat_vinterp(matparam%table(13),nindxuc,nindxuc,   &
+                  call table_mat_vinterp(matparam%table(12),nindxuc,nindxuc,   &
                      ipos(1:nindxuc,18),xvec(1:nindxuc,18),lambdca(1:nindxuc), &
                      dlambdca(1:nindxuc))
                 endif

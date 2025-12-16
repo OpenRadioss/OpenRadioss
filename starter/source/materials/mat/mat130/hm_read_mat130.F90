@@ -103,6 +103,14 @@
           is_available = .false.
           ilaw = 130
           imatvis = 2
+          sigyd0 = zero
+          sigyp0 = zero
+          pruab  = zero
+          pruac  = zero
+          prubc  = zero
+          pruba  = zero
+          pruca  = zero
+          prucb  = zero
 ! ----------------------------------------------------------------------------------------------------------------------
           call hm_option_is_encrypted(is_encrypted)
 ! ----------------------------------------------------------------------------------------------------------------------
