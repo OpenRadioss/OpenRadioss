@@ -179,6 +179,12 @@ C   2D
                            TAGE_L(PROC2+1,IE_LOC)=1
                         END IF
                      ENDIF
+                  ELSEIF(PROC/=0.AND.IV<0)THEN
+C IV < 0 : SEGMENT INT12
+                    IF(TAGS(1,-IV)==0)THEN
+                      NSEGFL_L = NSEGFL_L + 1
+                      TAGS(1,-IV) = 1
+                    ENDIF
                   ENDIF
                ENDDO
             ENDDO
@@ -202,8 +208,14 @@ C     2D Triangulaire
                         IF(TAGE_L(PROC2 + 1, IE_LOC) == 0)THEN
                            NESVOIS = NESVOIS + 1
                            TAGE_L(PROC2 + 1, IE_LOC) = 1
-                        ENDIF                       
+                        ENDIF
                     ENDIF
+                 ELSEIF(PROC/=0.AND.IV<0)THEN
+C IV < 0 : SEGMENT INT12
+                   IF(TAGS(1,-IV)==0)THEN
+                     NSEGFL_L = NSEGFL_L + 1
+                     TAGS(1,-IV) = 1
+                   ENDIF
                  ENDIF
               ENDDO
            ENDDO
@@ -216,7 +228,7 @@ C
          P = IPARG(32,NG)+1
 C   See other solid types
          ISOLNOD = IPARG(28,NG)
-         IF(ITY==1) THEN
+         IF(ITY==1 .OR. ITY==2 .OR. (ITY==7 .AND. N2D>0)) THEN
            DO I = 1, NEL
              IE = I+NFT
 C   IVOIS
