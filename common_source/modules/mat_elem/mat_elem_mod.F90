@@ -103,6 +103,7 @@
 !||    read_material_models      ../starter/source/materials/read_material_models.F
 !||    read_matparam             ../engine/source/output/restart/read_matparam.F
 !||    resol                     ../engine/source/engine/resol.F
+!||    resol_alloc_python        ../engine/source/engine/resol_alloc.F90
 !||    resol_head                ../engine/source/engine/resol_head.F
 !||    s10forc3                  ../engine/source/elements/solid/solide10/s10forc3.F
 !||    s16forc3                  ../engine/source/elements/thickshell/solide16/s16forc3.F

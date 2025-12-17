@@ -479,21 +479,16 @@ C
 C===============================================================================
 
 !||====================================================================
-!||    bitget          ../engine/source/interfaces/intsort/i20sto.F
+!||    bitget     ../engine/source/interfaces/intsort/i20sto.F
 !||--- called by ------------------------------------------------------
-!||    i11for3         ../engine/source/interfaces/int11/i11for3.F
-!||    i20dst3         ../engine/source/interfaces/int20/i20dst3.F
-!||    i20sto          ../engine/source/interfaces/intsort/i20sto.F
-!||    i24dst3e        ../engine/source/interfaces/int24/i24dst3e.F
-!||    i24edgt         ../engine/source/interfaces/intsort/i24sto.F
-!||    i24for3         ../engine/source/interfaces/int24/i24for3.F
-!||    i24s1s2         ../engine/source/interfaces/intsort/i24sto.F
-!||    i25for3         ../engine/source/interfaces/int25/i25for3.F
-!||    i25for3_e2s     ../engine/source/interfaces/int25/i25for3_e2s.F
-!||    i25for3e        ../engine/source/interfaces/int25/i25for3e.F
-!||    i25s1s2         ../engine/source/interfaces/intsort/i25sto.F
-!||    i25trivox_edg   ../engine/source/interfaces/intsort/i25trivox_edg.F
-!||    i7for3          ../engine/source/interfaces/int07/i7for3.F
+!||    i11for3    ../engine/source/interfaces/int11/i11for3.F
+!||    i20dst3    ../engine/source/interfaces/int20/i20dst3.F
+!||    i20sto     ../engine/source/interfaces/intsort/i20sto.F
+!||    i24dst3e   ../engine/source/interfaces/int24/i24dst3e.F
+!||    i24edgt    ../engine/source/interfaces/intsort/i24sto.F
+!||    i24for3    ../engine/source/interfaces/int24/i24for3.F
+!||    i24s1s2    ../engine/source/interfaces/intsort/i24sto.F
+!||    i7for3     ../engine/source/interfaces/int07/i7for3.F
 !||====================================================================
       INTEGER FUNCTION BITGET(I,N)
       INTEGER I,N

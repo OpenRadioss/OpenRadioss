@@ -24,6 +24,7 @@
 !||    python_share_memory_mod   ../engine/source/coupling/python/python_share_memory.F90
 !||--- called by ------------------------------------------------------
 !||    resol                     ../engine/source/engine/resol.F
+!||    resol_alloc_python        ../engine/source/engine/resol_alloc.F90
 !||====================================================================
       module python_share_memory_mod
         implicit none
@@ -31,7 +32,7 @@
 !||====================================================================
 !||    python_share_memory     ../engine/source/coupling/python/python_share_memory.F90
 !||--- called by ------------------------------------------------------
-!||    resol                   ../engine/source/engine/resol.F
+!||    resol_alloc_python      ../engine/source/engine/resol_alloc.F90
 !||--- calls      -----------------------------------------------------
 !||    python_expose_doubles   ../common_source/modules/python_mod.F90
 !||    python_expose_ints      ../common_source/modules/python_mod.F90

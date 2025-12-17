@@ -132,8 +132,6 @@ C-----------------------------------------------
 !||    i25s1s2   ../engine/source/interfaces/intsort/i25sto.F
 !||--- called by ------------------------------------------------------
 !||    i25sto    ../engine/source/interfaces/intsort/i25sto.F
-!||--- calls      -----------------------------------------------------
-!||    bitget    ../engine/source/interfaces/intsort/i20sto.F
 !||--- uses       -----------------------------------------------------
 !||    tri7box   ../engine/share/modules/tri7box.F
 !||====================================================================

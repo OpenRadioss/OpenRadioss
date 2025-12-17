@@ -25,7 +25,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- called by ------------------------------------------------------
 !||    i25buce_edg     ../engine/source/interfaces/intsort/i25buce_edg.F
 !||--- calls      -----------------------------------------------------
-!||    bitget          ../engine/source/interfaces/intsort/i20sto.F
 !||    i25sto_e2s      ../engine/source/interfaces/intsort/i25sto_e2s.F
 !||    i25sto_edg      ../engine/source/interfaces/intsort/i25sto_edg.F
 !||    int_checksum    ../engine/share/modules/debug_mod.F

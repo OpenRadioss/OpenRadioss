@@ -24,6 +24,7 @@
 !||    funct_python_update_elements_mod   ../engine/source/tools/curve/funct_python_update_elements.F90
 !||--- called by ------------------------------------------------------
 !||    resol                              ../engine/source/engine/resol.F
+!||    resol_alloc_python                 ../engine/source/engine/resol_alloc.F90
 !||====================================================================
       module funct_python_update_elements_mod
         implicit none
@@ -33,6 +34,7 @@
 !||    funct_python_update_elements   ../engine/source/tools/curve/funct_python_update_elements.F90
 !||--- called by ------------------------------------------------------
 !||    resol                          ../engine/source/engine/resol.F
+!||    resol_alloc_python             ../engine/source/engine/resol_alloc.F90
 !||--- calls      -----------------------------------------------------
 !||    h3d_quad_scalar_1              ../engine/source/output/h3d/h3d_results/h3d_quad_scalar_1.F90
 !||    h3d_shell_scalar_1             ../engine/source/output/h3d/h3d_results/h3d_shell_scalar_1.F

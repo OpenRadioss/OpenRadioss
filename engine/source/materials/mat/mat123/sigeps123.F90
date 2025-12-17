@@ -20,25 +20,37 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    sigeps123_mod   ../engine/source/materials/mat/mat123/sigeps123.F90
-      !||--- called by ------------------------------------------------------
-      !||    mulaw           ../engine/source/materials/mat_share/mulaw.F90
-      !||====================================================================
+!||====================================================================
+!||    sigeps123_mod   ../engine/source/materials/mat/mat123/sigeps123.F90
+!||--- called by ------------------------------------------------------
+!||    mulaw           ../engine/source/materials/mat_share/mulaw.F90
+!||====================================================================
       module sigeps123_mod
         contains
   ! ======================================================================================================================
   ! \brief   material law /MAT/LAW123
   ! \details Material law  Dedicated to composite application. 
   ! ======================================================================================================================
-      !||====================================================================
-      !||    sigeps123         ../engine/source/materials/mat/mat123/sigeps123.F90
-      !||--- called by ------------------------------------------------------
-      !||    mulawF             ../engine/source/materials/mat_share/mulaw.F
-      !||--- uses       -----------------------------------------------------
-      !||    constant_mod       ../common_source/modules/constant_mod.F
-      !||    matparam_def_mod   ../common_source/modules/mat_elem/matparam_def_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    sigeps123                   ../engine/source/materials/mat/mat123/sigeps123.F90
+!||--- called by ------------------------------------------------------
+!||    mulaw                       ../engine/source/materials/mat_share/mulaw.F90
+!||--- calls      -----------------------------------------------------
+!||    analyze_failure             ../engine/source/materials/mat/mat123/analyze_failure.F90
+!||    analyze_failure_trial       ../engine/source/materials/mat/mat123/analyze_failure_trial.F90
+!||    strainrate_dependency       ../engine/source/materials/mat/mat123/strainrate_dependency.F90
+!||    table_mat_vinterp           ../engine/source/materials/tools/table_mat_vinterp.F
+!||    table_mat_vinterp_inv       ../engine/source/materials/tools/table_mat_vinterp_inv.F90
+!||--- uses       -----------------------------------------------------
+!||    analyze_failure_mod         ../engine/source/materials/mat/mat123/analyze_failure.F90
+!||    analyze_failure_trial_mod   ../engine/source/materials/mat/mat123/analyze_failure_trial.F90
+!||    constant_mod                ../common_source/modules/constant_mod.F
+!||    matparam_def_mod            ../common_source/modules/mat_elem/matparam_def_mod.F90
+!||    precision_mod               ../common_source/modules/precision_mod.F90
+!||    strainrate_dependency_mod   ../engine/source/materials/mat/mat123/strainrate_dependency.F90
+!||    table_mat_vinterp_inv_mod   ../engine/source/materials/tools/table_mat_vinterp_inv.F90
+!||    table_mat_vinterp_mod       ../engine/source/materials/tools/table_mat_vinterp.F
+!||====================================================================
          SUBROUTINE sigeps123(&
           nel       ,nuvar    ,uvar     ,nvartmp, vartmp,  mat_param , &
           rho0      ,vol      ,time     ,epsp                        ,&

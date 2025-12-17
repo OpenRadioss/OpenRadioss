@@ -187,6 +187,7 @@
 !||    read_ebcs                        ../starter/source/boundary_conditions/ebcs/read_ebcs.F
 !||    read_material_models             ../starter/source/materials/read_material_models.F
 !||    resol                            ../engine/source/engine/resol.F
+!||    resol_alloc_python               ../engine/source/engine/resol_alloc.F90
 !||    resol_head                       ../engine/source/engine/resol_head.F
 !||    restalloc                        ../engine/source/output/restart/arralloc.F
 !||    schlieren_buffer_gathering       ../engine/source/output/anim/generate/schlieren_buffer_gathering.F

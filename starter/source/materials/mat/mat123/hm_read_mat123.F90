@@ -20,32 +20,36 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    hm_read_mat123_mod   ../starter/source/materials/mat/mat123/hm_read_mat123.F90
-      !||--- called by ------------------------------------------------------
-      !||    hm_read_mat          ../starter/source/materials/mat/hm_read_mat.F
-      !||====================================================================
+!||====================================================================
+!||    hm_read_mat123_mod   ../starter/source/materials/mat/mat123/hm_read_mat123.F90
+!||--- called by ------------------------------------------------------
+!||    hm_read_mat          ../starter/source/materials/mat/hm_read_mat.F90
+!||====================================================================
       module hm_read_mat123_mod
       contains
 ! ======================================================================================================================
 ! \brief Reading material parameters of /MAT/LAW123
 ! \details Reading material parameters of /MAT/LAW123
 ! ======================================================================================================================
-      !||====================================================================
-      !||    hm_read_mat123           ../starter/source/materials/mat/mat127/hm_read_mat123.F90
-      !||--- called by ------------------------------------------------------
-      !||    hm_read_mat              ../starter/source/materials/mat/hm_read_mat.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                   ../starter/source/output/message/message.F
-      !||    hm_get_floatv            ../starter/source/devtools/hm_reader/hm_get_floatv.F
-      !||    hm_get_intv              ../starter/source/devtools/hm_reader/hm_get_intv.F
-      !||    hm_option_is_encrypted   ../starter/source/devtools/hm_reader/hm_option_is_encrypted.F
-      !||    init_mat_keyword         ../starter/source/materials/mat/init_mat_keyword.F
-      !||--- uses       -----------------------------------------------------
-      !||    elbuftag_mod             ../starter/share/modules1/elbuftag_mod.F
-      !||    message_mod              ../starter/share/message_module/message_mod.F
-      !||    submodel_mod             ../starter/share/modules1/submodel_mod.F
-      !||====================================================================
+!||====================================================================
+!||    hm_read_mat123           ../starter/source/materials/mat/mat123/hm_read_mat123.F90
+!||--- called by ------------------------------------------------------
+!||    hm_read_mat              ../starter/source/materials/mat/hm_read_mat.F90
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                   ../starter/source/output/message/message.F
+!||    func_table_copy          ../starter/source/materials/tools/func_table_copy.F90
+!||    hm_get_floatv            ../starter/source/devtools/hm_reader/hm_get_floatv.F
+!||    hm_get_intv              ../starter/source/devtools/hm_reader/hm_get_intv.F
+!||    hm_option_is_encrypted   ../starter/source/devtools/hm_reader/hm_option_is_encrypted.F
+!||    init_mat_keyword         ../starter/source/materials/mat/init_mat_keyword.F
+!||--- uses       -----------------------------------------------------
+!||    elbuftag_mod             ../starter/share/modules1/elbuftag_mod.F
+!||    func_table_copy_mod      ../starter/source/materials/tools/func_table_copy.F90
+!||    mat_table_copy_mod       ../starter/source/materials/tools/mat_table_copy.F90
+!||    message_mod              ../starter/share/message_module/message_mod.F
+!||    submodel_mod             ../starter/share/modules1/submodel_mod.F
+!||    table_mod                ../starter/share/modules1/table_mod.F
+!||====================================================================
       subroutine hm_read_mat123(                                      &       
                nuvar    ,maxfunc  ,npropm   ,iout,                    &
                mtag     ,parmat   ,unitab   , ntable   ,table     ,    &

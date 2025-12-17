@@ -108,6 +108,7 @@
 !||    redef3_law113                  ../engine/source/elements/spring/redef3_law113.F
 !||    redef_seatbelt                 ../engine/source/tools/seatbelts/redef_seatbelt.F90
 !||    resol                          ../engine/source/engine/resol.F
+!||    resol_alloc_python             ../engine/source/engine/resol_alloc.F90
 !||    resol_head                     ../engine/source/engine/resol_head.F
 !||    rforc3                         ../engine/source/elements/spring/rforc3.F
 !||    rgwal1                         ../engine/source/ale/grid/rgwal1.F

@@ -25,7 +25,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- called by ------------------------------------------------------
 !||    i25mainf         ../engine/source/interfaces/int25/i25mainf.F
 !||--- calls      -----------------------------------------------------
-!||    bitget           ../engine/source/interfaces/intsort/i20sto.F
 !||    i25sms2          ../engine/source/interfaces/int25/i25for3.F
 !||    ibcoff           ../engine/source/interfaces/interf/ibcoff.F
 !||--- uses       -----------------------------------------------------

@@ -22,12 +22,10 @@
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
 !||====================================================================
-!||    failure_tools_mod         ../engine/source/materials/mat/mat123/failure_tools_mod.F90
+!||    failure_tools_mod       ../engine/source/materials/mat/mat123/failure_tools_mod.F90
 !||--- called by ------------------------------------------------------
-!||    sigeps123c             ../engine/source/materials/mat/mat123/signeps123c.F90
-!||--- uses       -----------------------------------------------------
-!||    constant_mod       ../common_source/modules/constant_mod.F
-!||    matparam_def_mod   ../common_source/modules/mat_elem/matparam_def_mod.F90
+!||    analyze_failure         ../engine/source/materials/mat/mat123/analyze_failure.F90
+!||    analyze_failure_trial   ../engine/source/materials/mat/mat123/analyze_failure_trial.F90
 !||====================================================================
       module failure_tools_mod
       implicit none
@@ -37,15 +35,16 @@
 ! ======================================================================================================================
 !                                                   FUNCTION
 ! ======================================================================================================================
-!||======================================================================================================================
-!||    negative_f_kink                .
-!||--- called by ------------------------------------------------------
-!||    
-!||--- uses       -----------------------------------------------------
-!||    constant_mod               ../common_source/modules/constant_mod.F
-!||======================================================================================================================
 
   ! Main failure criterion function (Eq. 3.89 and 3.90)
+!||====================================================================
+!||    negative_f_kink   ../engine/source/materials/mat/mat123/failure_tools_mod.F90
+!||--- called by ------------------------------------------------------
+!||    brent_minimize    ../engine/source/materials/mat/mat123/failure_tools_mod.F90
+!||--- uses       -----------------------------------------------------
+!||    constant_mod      ../common_source/modules/constant_mod.F
+!||    precision_mod     ../common_source/modules/precision_mod.F90
+!||====================================================================
        function negative_f_kink(phi, S_T, S_L, Y_t, mu_T, mu_L, &
                     sigma_bm, sigma_cp, tau_bm_cp, tau_am_bm, tau_cp_am) result(f_val)
         ! 
@@ -100,15 +99,16 @@
 ! ======================================================================================================================
 !                                                   FUNCTION
 ! ======================================================================================================================
-!||======================================================================================================================
-!||    negative_f_kink                
-!||--- called by ------------------------------------------------------
-!||    c
-!||--- uses       -----------------------------------------------------
-!||    constant_mod               ../common_source/modules/constant_mod.F
-!||======================================================================================================================
 
   ! Main failure criterion function (Eq. 3.89 and 3.90)
+!||====================================================================
+!||    negative_f_matrix   ../engine/source/materials/mat/mat123/failure_tools_mod.F90
+!||--- called by ------------------------------------------------------
+!||    brent_minimize      ../engine/source/materials/mat/mat123/failure_tools_mod.F90
+!||--- uses       -----------------------------------------------------
+!||    constant_mod        ../common_source/modules/constant_mod.F
+!||    precision_mod       ../common_source/modules/precision_mod.F90
+!||====================================================================
        function negative_f_matrix(phi, S_T, S_L, Y_t, mu_T, mu_L, &
                     sigma_b, sigma_c, tau_bc, tau_ab, tau_ca) result(f_val)
         ! 
@@ -159,14 +159,18 @@
 ! ======================================================================================================================
 !                                                   SUBROUTINE
 ! ======================================================================================================================
-!||=====================================================================================================================
-!||    brent_minimize                ../source/materials/mat/mat123/failure_tool_mod
-!||--- called by ------------------------------------------------------
-!||    analysis_kinking_failure   ../source/materials/mat/mat123/analysis_kinking_failure.F90
-!||--- uses       -----------------------------------------------------
-!||    constant_mod               ../common_source/modules/constant_mod.F
-!||====================================================================================================================
        ! Brent's minimization algorithm
+!||====================================================================
+!||    brent_minimize      ../engine/source/materials/mat/mat123/failure_tools_mod.F90
+!||--- called by ------------------------------------------------------
+!||    analyze_failure     ../engine/source/materials/mat/mat123/analyze_failure.F90
+!||--- calls      -----------------------------------------------------
+!||    negative_f_kink     ../engine/source/materials/mat/mat123/failure_tools_mod.F90
+!||    negative_f_matrix   ../engine/source/materials/mat/mat123/failure_tools_mod.F90
+!||--- uses       -----------------------------------------------------
+!||    constant_mod        ../common_source/modules/constant_mod.F
+!||    precision_mod       ../common_source/modules/precision_mod.F90
+!||====================================================================
         subroutine brent_minimize(a, b, tol, type, maxiter, &
                     S_T, S_L, Y_t, mu_T, mu_L,    &
                     sigma_b, sigma_c, tau_bc, tau_ab, tau_ca, & 

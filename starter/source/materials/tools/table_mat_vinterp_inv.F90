@@ -20,19 +20,19 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    table_mat_vinterp_mod        ../starter/source/materials/tools/table_mat_vinterp_inv.F
-      !||--- called by ------------------------------------------------------
-      !||    law123_upd                   ../starter/source/materials/mat/mat123/law123_upd.F90
-      !||====================================================================
+!||====================================================================
+!||    table_mat_vinterp_inv_mod   ../starter/source/materials/tools/table_mat_vinterp_inv.F90
+!||--- called by ------------------------------------------------------
+!||    law123_upd                  ../starter/source/materials/mat/mat123/law123_upd.F90
+!||====================================================================
       module table_mat_vinterp_inv_mod
       contains
-      !||====================================================================
-      !||    table_mat_vinterp_inv            ../starter/source/materials/tools/table_mat_vinterp_inv.F90
-      !||--- called by ------------------------------------------------------
-      !||    law123_upd                   ../starter/source/materials/mat/mat123/law123_upd.F90
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    table_mat_vinterp_inv   ../starter/source/materials/tools/table_mat_vinterp_inv.F90
+!||--- called by ------------------------------------------------------
+!||    law123_upd              ../starter/source/materials/mat/mat123/law123_upd.F90
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       subroutine table_mat_vinterp_inv(table,dimx,nel,ipos,xx,yy,dydx)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules

@@ -22,12 +22,10 @@
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
 !||====================================================================
-!||    analysis_kinking_failure         ../engine/source/materials/mat/mat123/analysis_failure.F90
+!||    analyze_failure_mod   ../engine/source/materials/mat/mat123/analyze_failure.F90
 !||--- called by ------------------------------------------------------
-!||    sigeps123c             ../engine/source/materials/mat/mat123/signeps123c.F90
-!||--- uses       -----------------------------------------------------
-!||    constant_mod       ../common_source/modules/constant_mod.F
-!||    matparam_def_mod   ../common_source/modules/mat_elem/matparam_def_mod.F90
+!||    sigeps123             ../engine/source/materials/mat/mat123/sigeps123.F90
+!||    sigeps123c            ../engine/source/materials/mat/mat123/sigeps123c.F90
 !||====================================================================
       module analyze_failure_mod
       implicit none
@@ -38,11 +36,18 @@
 !! \brief max finding algo based on Brent's algo
 !! \details
 !||====================================================================
-!||    analyze_failure         ../engine/source/materials/mat/mat123/analyze_failure.F90
+!||    analyze_failure     ../engine/source/materials/mat/mat123/analyze_failure.F90
+!||--- called by ------------------------------------------------------
+!||    sigeps123           ../engine/source/materials/mat/mat123/sigeps123.F90
+!||    sigeps123c          ../engine/source/materials/mat/mat123/sigeps123c.F90
+!||--- calls      -----------------------------------------------------
+!||    brent_minimize      ../engine/source/materials/mat/mat123/failure_tools_mod.F90
 !||--- uses       -----------------------------------------------------
-!||    constant_mod    ../common_source/modules/constant_mod.F
-!||    precision_mod   ../common_source/modules/precision_mod.F90
-!||====================================================================     
+!||    constant_mod        ../common_source/modules/constant_mod.F
+!||    failure_tools_mod   ../engine/source/materials/mat/mat123/failure_tools_mod.F90
+!||    matparam_def_mod    ../common_source/modules/mat_elem/matparam_def_mod.F90
+!||    precision_mod       ../common_source/modules/precision_mod.F90
+!||====================================================================
              subroutine  analyze_failure(S_T, S_L, Y_t, mu_T, mu_L, type, &
                                                   sigma_b, sigma_c, tau_bc, tau_ab, tau_ca, &
                                                   critical_phi, max_f)

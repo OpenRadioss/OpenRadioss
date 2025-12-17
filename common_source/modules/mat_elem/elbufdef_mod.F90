@@ -478,6 +478,7 @@
 !||    rbypid                              ../engine/source/constraints/general/rbody/rbypid.F
 !||    rbysens                             ../engine/source/constraints/general/rbody/rbyonf.F
 !||    resol                               ../engine/source/engine/resol.F
+!||    resol_alloc_python                  ../engine/source/engine/resol_alloc.F90
 !||    resol_init                          ../engine/source/engine/resol_init.F
 !||    rforc3                              ../engine/source/elements/spring/rforc3.F
 !||    rgwal1                              ../engine/source/ale/grid/rgwal1.F

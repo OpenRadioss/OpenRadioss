@@ -44,6 +44,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    table_mat2d_intersect   ../starter/source/materials/mat/mat088/hm_read_mat88.F90
 !||    table_mat_vinterp       ../engine/source/materials/tools/table_mat_vinterp.F
 !||    table_mat_vinterp_c1    ../engine/source/materials/tools/table_mat_vinterp_c1.F90
+!||    table_mat_vinterp_inv   ../engine/source/materials/tools/table_mat_vinterp_inv.F90
 !||    table_rresti_mat        ../engine/source/materials/tools/table_rresti_mat.F
 !||    table_slope             ../starter/source/materials/tools/table_slope.F
 !||    visc_param_mod          ../common_source/modules/mat_elem/visc_param_mod.F90

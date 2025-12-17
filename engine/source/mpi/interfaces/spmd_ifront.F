@@ -26,8 +26,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    imp_tripi             ../engine/source/implicit/imp_int_k.F
 !||    inttri                ../engine/source/interfaces/intsort/inttri.F
 !||--- calls      -----------------------------------------------------
-!||    ancmsg                ../engine/source/output/message/message.F
-!||    arret                 ../engine/source/system/arret.F
 !||--- uses       -----------------------------------------------------
 !||    ifront_mod            ../engine/share/modules/ifront_mod.F
 !||    intbufdef_mod         ../common_source/modules/interfaces/intbufdef_mod.F90

@@ -975,6 +975,14 @@
 
         end subroutine resol_alloc_phase10
 
+!||====================================================================
+!||    resol_alloc_phase11   ../engine/source/engine/resol_alloc.F90
+!||--- called by ------------------------------------------------------
+!||    resol                 ../engine/source/engine/resol.F
+!||--- uses       -----------------------------------------------------
+!||    constant_mod          ../common_source/modules/constant_mod.F
+!||    precision_mod         ../common_source/modules/precision_mod.F90
+!||====================================================================
         subroutine resol_alloc_phase11(IREAC,IGRELEM,NUMNOD,NUMELSG,NUMELS16G,NUMSPHG, &
           NUMELCG,NUMELTGG,NUMELQG,NUMELTG,NUMELPG,NUMELRG,NTHPART, &
           NGPE,NGRTH,NELEM,NODREAC,GRTH,IGRTH,DXANCG, &
@@ -1064,6 +1072,14 @@
               ALLOCATE(IGROUPS(NUMELS))
         end subroutine resol_alloc_phase11
 
+!||====================================================================
+!||    resol_alloc_nitsche   ../engine/source/engine/resol_alloc.F90
+!||--- called by ------------------------------------------------------
+!||    resol                 ../engine/source/engine/resol.F
+!||--- uses       -----------------------------------------------------
+!||    constant_mod          ../common_source/modules/constant_mod.F
+!||    precision_mod         ../common_source/modules/precision_mod.F90
+!||====================================================================
         subroutine resol_alloc_nitsche(NFACNIT, NITSCHE, IPARIT, NUMELS, NUMELS10G, LSKY, &
           STRESSMEAN, FORNEQSKY)
           use constant_mod, only : ZERO
@@ -1107,6 +1123,32 @@
               ENDIF
         end subroutine resol_alloc_nitsche
 
+!||====================================================================
+!||    resol_alloc_python                 ../engine/source/engine/resol_alloc.F90
+!||--- called by ------------------------------------------------------
+!||    resol                              ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||    funct_python_update_elements       ../engine/source/tools/curve/funct_python_update_elements.F90
+!||    python_dummy_active_node           ../engine/source/loads/general/python_call_funct_cload.F90
+!||    python_register                    ../engine/source/tools/curve/python_register.F90
+!||    python_share_memory                ../engine/source/coupling/python/python_share_memory.F90
+!||--- uses       -----------------------------------------------------
+!||    ale_connectivity_mod               ../common_source/modules/ale/ale_connectivity_mod.F
+!||    connectivity_mod                   ../common_source/modules/connectivity.F90
+!||    elbufdef_mod                       ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    funct_python_update_elements_mod   ../engine/source/tools/curve/funct_python_update_elements.F90
+!||    glob_therm_mod                     ../common_source/modules/mat_elem/glob_therm_mod.F90
+!||    mat_elem_mod                       ../common_source/modules/mat_elem/mat_elem_mod.F90
+!||    multi_fvm_mod                      ../common_source/modules/ale/multi_fvm_mod.F90
+!||    nodal_arrays_mod                   ../common_source/modules/nodal_arrays.F90
+!||    output_mod                         ../common_source/modules/output/output_mod.F90
+!||    precision_mod                      ../common_source/modules/precision_mod.F90
+!||    python_call_funct_cload_mod        ../engine/source/loads/general/python_call_funct_cload.F90
+!||    python_funct_mod                   ../common_source/modules/python_mod.F90
+!||    python_register_mod                ../engine/source/tools/curve/python_register.F90
+!||    python_share_memory_mod            ../engine/source/coupling/python/python_share_memory.F90
+!||    stack_mod                          ../engine/share/modules/stack_mod.F
+!||====================================================================
         subroutine resol_alloc_python(PYTHON, NODES, NUMNOD, IXS, NIXS, NUMELS, &
           NIXC, NUMELC, IXP, NIXP, NUMELP, IXT, NIXT, NUMELT, &
           IXQ, NIXQ, NUMELQ, IXTG, NIXTG, NUMELTG, &

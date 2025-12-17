@@ -356,7 +356,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    spmd_i7fcom_poff                 ../engine/source/mpi/forces/spmd_i7fcom_poff.F
 !||    spmd_i7fcom_pon                  ../engine/source/mpi/forces/spmd_i7fcom_pon.F
 !||    spmd_i7xvcom2                    ../engine/source/mpi/interfaces/spmd_i7xvcom2.F
-!||    spmd_ifront                      ../engine/source/mpi/interfaces/spmd_ifront.F
 !||    spmd_ifront_stamp                ../engine/source/mpi/interfaces/send_cand.F
 !||    spmd_inisph                      ../engine/source/mpi/sph/spmd_sptool.F
 !||    spmd_initfi                      ../engine/source/mpi/interfaces/spmd_i7tool.F

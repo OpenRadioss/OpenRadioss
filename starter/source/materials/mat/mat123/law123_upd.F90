@@ -20,23 +20,24 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    law123_upd_mod   ../starter/source/materials/mat/mat123/law123_upd.F90
-      !||--- called by ------------------------------------------------------
-      !||    updmat           ../starter/source/materials/updmat.F
-      !||====================================================================
+!||====================================================================
+!||    law123_upd_mod   ../starter/source/materials/mat/mat123/law123_upd.F90
+!||--- called by ------------------------------------------------------
+!||    updmat           ../starter/source/materials/updmat.F
+!||====================================================================
       module law123_upd_mod
         implicit none
       contains
 !! \brief update material law 123
-      !||====================================================================
-      !||    law123_upd         ../starter/source/materials/mat/mat123/law123_upd.F90
-      !||--- called by ------------------------------------------------------
-      !||    updmat             ../starter/source/materials/updmat.F
-      !||--- calls      -----------------------------------------------------
-      !||    table_slope        ../starter/source/materials/tools/table_slope.F
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
+!||====================================================================
+!||    law123_upd                  ../starter/source/materials/mat/mat123/law123_upd.F90
+!||--- called by ------------------------------------------------------
+!||    updmat                      ../starter/source/materials/updmat.F
+!||--- calls      -----------------------------------------------------
+!||    table_mat_vinterp_inv       ../starter/source/materials/tools/table_mat_vinterp_inv.F90
+!||--- uses       -----------------------------------------------------
+!||    table_mat_vinterp_inv_mod   ../starter/source/materials/tools/table_mat_vinterp_inv.F90
+!||====================================================================
         subroutine law123_upd(  matparam    )
 ! ----------------------------------------------------------------------------------------------------------------------
 !   M o d u l e s

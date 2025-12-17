@@ -27,6 +27,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    alevflu                                  ../engine/source/output/anim/generate/monvol_anim.F90
 !||    alew8                                    ../engine/source/ale/grid/alew8.F90
 !||    allocbuf_auto                            ../engine/source/elements/elbuf/allocbuf_auto.F
+!||    analyze_failure                          ../engine/source/materials/mat/mat123/analyze_failure.F90
+!||    analyze_failure_trial                    ../engine/source/materials/mat/mat123/analyze_failure_trial.F90
 !||    anim_nodal_ssp_elems                     ../engine/source/output/anim/generate/anim_nodal_ssp_elems.F90
 !||    animbale                                 ../engine/source/output/anim/generate/monvol_anim.F90
 !||    animcale                                 ../engine/source/output/anim/generate/monvol_anim.F90
@@ -37,6 +39,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    bcs_nrf                                  ../engine/source/boundary_conditions/bcs_nrf.F90
 !||    bcs_wall_trigger                         ../engine/source/boundary_conditions/bcs_wall_trigger.F90
 !||    brent_algo                               ../common_source/modules/root_finding_algo_mod.F90
+!||    brent_minimize                           ../engine/source/materials/mat/mat123/failure_tools_mod.F90
 !||    brokmann_crack_init                      ../starter/source/materials/fail/windshield_alter/brokmann_crack_init.F90
 !||    brokmann_elem_renum                      ../starter/source/materials/fail/windshield_alter/brokmann_elem_spmd_renum.F90
 !||    brokmann_random                          ../starter/source/materials/fail/windshield_alter/brokmann_random.F90
@@ -154,6 +157,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_read_mat102                           ../starter/source/materials/mat/mat102/hm_read_mat102.F
 !||    hm_read_mat105                           ../starter/source/materials/mat/mat105/hm_read_mat105.F90
 !||    hm_read_mat106                           ../starter/source/materials/mat/mat106/hm_read_mat106.F90
+!||    hm_read_mat123                           ../starter/source/materials/mat/mat123/hm_read_mat123.F90
 !||    hm_read_mat125                           ../starter/source/materials/mat/mat125/hm_read_mat125.F90
 !||    hm_read_mat126                           ../starter/source/materials/mat/mat126/hm_read_mat126.F90
 !||    hm_read_mat127                           ../starter/source/materials/mat/mat127/hm_read_mat127.F90
@@ -204,6 +208,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    intersectpt                              ../common_source/tools/clipping/polygon_clipping_mod.F90
 !||    jcook51                                  ../engine/source/materials/mat/mat051/jcook51.F90
 !||    jwl_eos_delta                            ../engine/source/materials/mat/mat041/jwl_eos_mod.F90
+!||    law123_upd                               ../starter/source/materials/mat/mat123/law123_upd.F90
 !||    law133_upd                               ../starter/source/materials/mat/mat133/law133_upd.F90
 !||    law163_upd                               ../starter/source/materials/mat/mat163/law163_upd.F90
 !||    law190_upd                               ../starter/source/materials/mat/mat190/law190_upd.F90
@@ -241,6 +246,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    multifluid_global_tdet                   ../starter/source/multifluid/multifluid_global_tdet.F
 !||    murnaghan                                ../common_source/eos/murnaghan.F
 !||    nasg                                     ../common_source/eos/nasg.F
+!||    negative_f_kink                          ../engine/source/materials/mat/mat123/failure_tools_mod.F90
+!||    negative_f_matrix                        ../engine/source/materials/mat/mat123/failure_tools_mod.F90
 !||    newman_raju                              ../common_source/fail/newman_raju.F90
 !||    noble_abel                               ../common_source/eos/noble_abel.F
 !||    offset_nproj                             ../engine/source/interfaces/shell_offset/offset_nproj.F90
@@ -273,7 +280,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    read_sensor_python                       ../starter/source/tools/sensor/hm_read_sensor_python.F90
 !||    redef3                                   ../engine/source/elements/spring/redef3.F90
 !||    redef_seatbelt                           ../engine/source/tools/seatbelts/redef_seatbelt.F90
+!||    resol_alloc_nitsche                      ../engine/source/engine/resol_alloc.F90
 !||    resol_alloc_phase10                      ../engine/source/engine/resol_alloc.F90
+!||    resol_alloc_phase11                      ../engine/source/engine/resol_alloc.F90
 !||    resol_alloc_phase4                       ../engine/source/engine/resol_alloc.F90
 !||    resol_alloc_phase5                       ../engine/source/engine/resol_alloc.F90
 !||    resol_alloc_phase6                       ../engine/source/engine/resol_alloc.F90
@@ -316,6 +325,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    sigeps100                                ../engine/source/materials/mat/mat100/sigeps100.F90
 !||    sigeps106                                ../engine/source/materials/mat/mat106/sigeps106.F90
 !||    sigeps106c                               ../engine/source/materials/mat/mat106/sigeps106c.F90
+!||    sigeps123                                ../engine/source/materials/mat/mat123/sigeps123.F90
+!||    sigeps123c                               ../engine/source/materials/mat/mat123/sigeps123c.F90
 !||    sigeps125                                ../engine/source/materials/mat/mat125/sigeps125.F90
 !||    sigeps125c                               ../engine/source/materials/mat/mat125/sigeps125c.F90
 !||    sigeps126                                ../engine/source/materials/mat/mat126/sigeps126.F90
@@ -349,9 +360,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    spmd_xv_inter_type1                      ../engine/source/mpi/nodes/spmd_sd_xv_inter1.F90
 !||    stiffgas                                 ../common_source/eos/stiffgas.F
 !||    stifint_icontrol                         ../starter/source/interfaces/interf1/stifint_icontrol.F90
+!||    strainrate_dependency                    ../engine/source/materials/mat/mat123/strainrate_dependency.F90
 !||    sz_dt1                                   ../engine/source/elements/solid/solidez/sz_dt1.F90
 !||    table_mat2d_intersect                    ../starter/source/materials/mat/mat088/hm_read_mat88.F90
 !||    table_mat_vinterp_c1                     ../engine/source/materials/tools/table_mat_vinterp_c1.F90
+!||    table_mat_vinterp_inv                    ../engine/source/materials/tools/table_mat_vinterp_inv.F90
 !||    tabulated                                ../common_source/eos/tabulated.F
 !||    test_jc_shell_detach                     ../engine/source/engine/node_spliting/detach_node.F90
 !||    thsechecksum                             ../engine/source/output/th/thchecksum.F90

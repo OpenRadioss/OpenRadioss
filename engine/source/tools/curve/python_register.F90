@@ -26,6 +26,7 @@
 !||    python_register_mod   ../engine/source/tools/curve/python_register.F90
 !||--- called by ------------------------------------------------------
 !||    resol                 ../engine/source/engine/resol.F
+!||    resol_alloc_python    ../engine/source/engine/resol_alloc.F90
 !||====================================================================
       module python_register_mod
         implicit none
@@ -33,7 +34,7 @@
 !||====================================================================
 !||    python_register                        ../engine/source/tools/curve/python_register.F90
 !||--- called by ------------------------------------------------------
-!||    resol                                  ../engine/source/engine/resol.F
+!||    resol_alloc_python                     ../engine/source/engine/resol_alloc.F90
 !||--- calls      -----------------------------------------------------
 !||    element_user_id                        ../common_source/modules/element_user_id.F90
 !||    python_element_init                    ../engine/source/mpi/python_spmd_mod.F90

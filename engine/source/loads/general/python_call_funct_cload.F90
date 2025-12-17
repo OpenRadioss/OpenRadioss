@@ -31,6 +31,7 @@
 !||    lag_fxv                       ../engine/source/tools/lagmul/lag_fxv.F
 !||    lag_fxvp                      ../engine/source/tools/lagmul/lag_fxv.F
 !||    resol                         ../engine/source/engine/resol.F
+!||    resol_alloc_python            ../engine/source/engine/resol_alloc.F90
 !||====================================================================
       module python_call_funct_cload_mod
 
@@ -216,7 +217,7 @@
 !||====================================================================
 !||    python_dummy_active_node        ../engine/source/loads/general/python_call_funct_cload.F90
 !||--- called by ------------------------------------------------------
-!||    resol                           ../engine/source/engine/resol.F
+!||    resol_alloc_python              ../engine/source/engine/resol_alloc.F90
 !||--- calls      -----------------------------------------------------
 !||    python_set_active_node_values   ../common_source/modules/python_mod.F90
 !||--- uses       -----------------------------------------------------

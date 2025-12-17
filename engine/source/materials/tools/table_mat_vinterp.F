@@ -38,6 +38,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    s6zforc3                      ../engine/source/elements/solid/solide6z/s6zforc3.F90
 !||    sigeps106                     ../engine/source/materials/mat/mat106/sigeps106.F90
 !||    sigeps106c                    ../engine/source/materials/mat/mat106/sigeps106c.F90
+!||    sigeps123                     ../engine/source/materials/mat/mat123/sigeps123.F90
+!||    sigeps123c                    ../engine/source/materials/mat/mat123/sigeps123c.F90
 !||    sigeps128c                    ../engine/source/materials/mat/mat128/sigeps128c.F90
 !||    sigeps128s                    ../engine/source/materials/mat/mat128/sigeps128s.F90
 !||    sigeps129s                    ../engine/source/materials/mat/mat129/sigeps129s.F90
@@ -49,6 +51,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    sigeps70                      ../engine/source/materials/mat/mat070/sigeps70.F
 !||    sigeps88                      ../engine/source/materials/mat/mat088/sigeps88.F90
 !||    sigeps88c                     ../engine/source/materials/mat/mat088/sigeps88c.F90
+!||    strainrate_dependency         ../engine/source/materials/mat/mat123/strainrate_dependency.F90
 !||====================================================================
       MODULE TABLE_MAT_VINTERP_MOD
       CONTAINS
@@ -69,6 +72,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    no_asso_qplas76c              ../engine/source/materials/mat/mat076/no_asso_qplas76c.F
 !||    sigeps106                     ../engine/source/materials/mat/mat106/sigeps106.F90
 !||    sigeps106c                    ../engine/source/materials/mat/mat106/sigeps106c.F90
+!||    sigeps123                     ../engine/source/materials/mat/mat123/sigeps123.F90
+!||    sigeps123c                    ../engine/source/materials/mat/mat123/sigeps123c.F90
 !||    sigeps128c                    ../engine/source/materials/mat/mat128/sigeps128c.F90
 !||    sigeps128s                    ../engine/source/materials/mat/mat128/sigeps128s.F90
 !||    sigeps129s                    ../engine/source/materials/mat/mat129/sigeps129s.F90
@@ -80,6 +85,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    sigeps70                      ../engine/source/materials/mat/mat070/sigeps70.F
 !||    sigeps88                      ../engine/source/materials/mat/mat088/sigeps88.F90
 !||    sigeps88c                     ../engine/source/materials/mat/mat088/sigeps88c.F90
+!||    strainrate_dependency         ../engine/source/materials/mat/mat123/strainrate_dependency.F90
 !||--- calls      -----------------------------------------------------
 !||    ancmsg                        ../engine/source/output/message/message.F
 !||    arret                         ../engine/source/system/arret.F

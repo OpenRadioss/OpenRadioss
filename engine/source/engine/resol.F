@@ -257,11 +257,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    printime_interf                              ../engine/source/system/timer_interf.F
 !||    printimeg                                    ../engine/source/system/timer.F
 !||    python_begin_openmp                          ../common_source/modules/python_mod.F90
-!||    python_dummy_active_node                     ../engine/source/loads/general/python_call_funct_cload.F90
 !||    python_end_openmp                            ../common_source/modules/python_mod.F90
 !||    python_monvol                                ../engine/source/coupling/python/python_monvol.F90
-!||    python_register                              ../engine/source/tools/curve/python_register.F90
-!||    python_share_memory                          ../engine/source/coupling/python/python_share_memory.F90
 !||    python_update_nodal_entities                 ../common_source/modules/python_mod.F90
 !||    r2r_block_c                                  ../engine/source/coupling/rad2rad/rad2rad_c.c
 !||    r2r_exchange                                 ../engine/source/coupling/rad2rad/r2r_exchange.F
@@ -293,8 +290,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    reaction_forces_th                           ../engine/source/output/reaction_forces_th.F
 !||    reallocate_i_skyline                         ../engine/source/system/reallocate_skyline.F
 !||    renum_siz                                    ../engine/source/interfaces/interf/renum_siz.F
+!||    resol_alloc_nitsche                          ../engine/source/engine/resol_alloc.F90
 !||    resol_alloc_phase1                           ../engine/source/engine/resol_alloc.F90
 !||    resol_alloc_phase10                          ../engine/source/engine/resol_alloc.F90
+!||    resol_alloc_phase11                          ../engine/source/engine/resol_alloc.F90
 !||    resol_alloc_phase2                           ../engine/source/engine/resol_alloc.F90
 !||    resol_alloc_phase3                           ../engine/source/engine/resol_alloc.F90
 !||    resol_alloc_phase4                           ../engine/source/engine/resol_alloc.F90
@@ -303,6 +302,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    resol_alloc_phase7                           ../engine/source/engine/resol_alloc.F90
 !||    resol_alloc_phase8                           ../engine/source/engine/resol_alloc.F90
 !||    resol_alloc_phase9                           ../engine/source/engine/resol_alloc.F90
+!||    resol_alloc_python                           ../engine/source/engine/resol_alloc.F90
 !||    resol_init                                   ../engine/source/engine/resol_init.F
 !||    rgwal0                                       ../engine/source/constraints/general/rwall/rgwal0.F
 !||    rgwal0_pen                                   ../engine/source/constraints/general/rwall/rgwall_pen.F90

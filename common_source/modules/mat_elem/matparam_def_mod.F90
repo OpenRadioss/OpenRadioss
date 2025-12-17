@@ -27,6 +27,8 @@
 !||    akturb                              ../engine/source/ale/turbulence/akturb.F
 !||    alemain                             ../engine/source/ale/alemain.F
 !||    alethe                              ../engine/source/ale/alethe.F
+!||    analyze_failure                     ../engine/source/materials/mat/mat123/analyze_failure.F90
+!||    analyze_failure_trial               ../engine/source/materials/mat/mat123/analyze_failure_trial.F90
 !||    atherm                              ../engine/source/ale/atherm.F
 !||    binit2                              ../starter/source/ale/bimat/binit2.F
 !||    brest2                              ../engine/source/ale/bimat/brest2.F
@@ -128,6 +130,7 @@
 !||    hm_read_mat120                      ../starter/source/materials/mat/mat120/hm_read_mat120.F
 !||    hm_read_mat121                      ../starter/source/materials/mat/mat121/hm_read_mat121.F
 !||    hm_read_mat122                      ../starter/source/materials/mat/mat122/hm_read_mat122.F
+!||    hm_read_mat123                      ../starter/source/materials/mat/mat123/hm_read_mat123.F90
 !||    hm_read_mat124                      ../starter/source/materials/mat/mat124/hm_read_mat124.F
 !||    hm_read_mat125                      ../starter/source/materials/mat/mat125/hm_read_mat125.F90
 !||    hm_read_mat126                      ../starter/source/materials/mat/mat126/hm_read_mat126.F90
@@ -241,6 +244,7 @@
 !||    initwg_tri                          ../starter/source/spmd/domain_decomposition/initwg_tri.F
 !||    inivol_set                          ../starter/source/initial_conditions/inivol/inivol_set.F
 !||    law104_upd                          ../starter/source/materials/mat/mat104/law104_upd.F
+!||    law123_upd                          ../starter/source/materials/mat/mat123/law123_upd.F90
 !||    law129_upd                          ../starter/source/materials/mat/mat129/law129_upd.F90
 !||    law133_upd                          ../starter/source/materials/mat/mat133/law133_upd.F90
 !||    law158_upd                          ../starter/source/materials/mat/mat158/law158_upd.F
@@ -323,6 +327,8 @@
 !||    sigeps02g                           ../engine/source/materials/mat/mat002/sigeps02g.F
 !||    sigeps106                           ../engine/source/materials/mat/mat106/sigeps106.F90
 !||    sigeps106c                          ../engine/source/materials/mat/mat106/sigeps106c.F90
+!||    sigeps123                           ../engine/source/materials/mat/mat123/sigeps123.F90
+!||    sigeps123c                          ../engine/source/materials/mat/mat123/sigeps123c.F90
 !||    sigeps125                           ../engine/source/materials/mat/mat125/sigeps125.F90
 !||    sigeps125c                          ../engine/source/materials/mat/mat125/sigeps125c.F90
 !||    sigeps126                           ../engine/source/materials/mat/mat126/sigeps126.F90
@@ -360,6 +366,7 @@
 !||    stat_inimap2d_file_spmd             ../engine/source/output/sta/stat_inimap2d_file_spmd.F
 !||    stat_inimap2d_spmd                  ../engine/source/output/sta/stat_inimap2d_spmd.F
 !||    stherm                              ../engine/source/elements/solid/solide/stherm.F
+!||    strainrate_dependency               ../engine/source/materials/mat/mat123/strainrate_dependency.F90
 !||    suinit3                             ../starter/source/elements/elbuf_init/suinit3.F
 !||    szhour3_or                          ../engine/source/elements/solid/solidez/szhour3_or.F
 !||    t3grhead                            ../starter/source/elements/solid_2d/tria/t3grhead.F
