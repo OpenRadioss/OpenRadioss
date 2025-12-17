@@ -107,6 +107,7 @@ C-----------------------------------------------
       integer :: grad_size
       integer :: s_fr_elem      
       integer :: flag,s_proc_nb,r_proc_nb
+      integer :: buff_size
       integer, dimension(nspmd) :: s_index,r_index,s_req,r_req
       real(kind=WP), dimension(:), allocatable :: s_buffer,r_buffer           
 C-----------------------------------------------
@@ -215,9 +216,10 @@ C     ALE ON / OFF
           s_proc_nb = 0
           r_proc_nb = 0
           s_fr_elem = iad_elem(1,nspmd+1) - iad_elem(1,1)
-          allocate(s_buffer(2*lencom*trimat))
-          allocate(r_buffer(2*lencom*trimat))
-          call spmd_exch_min_max(flag,nspmd,numnod,lencom,s_proc_nb,r_proc_nb,             
+          buff_size = iad_elem(1,nspmd+1)
+          allocate(s_buffer(2*buff_size*trimat))
+          allocate(r_buffer(2*buff_size*trimat))
+          call spmd_exch_min_max(flag,nspmd,numnod,buff_size,s_proc_nb,r_proc_nb,             
      .                           s_fr_elem,trimat,s_index,r_index,s_req,r_req,fr_elem,iad_elem,            
      .                           alemuscl_buffer%node_min_value,alemuscl_buffer%node_max_value,s_buffer,r_buffer)
         endif
