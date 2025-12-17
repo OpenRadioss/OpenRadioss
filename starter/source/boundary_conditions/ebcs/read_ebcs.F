@@ -96,7 +96,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: LOCAL_ID
       INTEGER :: ID,TYP,UID,SURF_ID2
-      INTEGER :: II, SURF_ID, JJ, SUB_INDEX
+      INTEGER :: II, SURF_ID, JJ, SUB_INDEX, NB_NODES
       CHARACTER(LEN=NCHARTITLE) :: TITR
       CHARACTER(LEN=NCHARKEY) :: KEY, KEY2
       LOGICAL :: IS_AVAILABLE, IS_EBCS_PARALLEL
@@ -278,15 +278,28 @@ C-----------------------------------------------
               IS_EBCS_PARALLEL = .TRUE.
             ENDIF
 
+            NB_NODES = EBCS_TAB%tab(II)%poly%nb_node
             IF(.NOT. IS_EBCS_PARALLEL) THEN
-              DO JJ = 1, EBCS_TAB%tab(II)%poly%nb_node
+              DO JJ = 1, NB_NODES
                 CALL IFRONTPLUS(EBCS_TAB%tab(II)%poly%node_list(jj), 1)
               ENDDO
+              !cyclic ebcs, treating also nodes of secondary surface
+              IF(EBCS_TAB%tab(II)%poly%type == 12)THEN
+                DO JJ = 1, NB_NODES
+                  CALL IFRONTPLUS(EBCS_TAB%tab(II)%poly%node_list(NB_NODES+jj), 1)
+                ENDDO
+              ENDIF
             ENDIF
 
-            DO JJ = 1, EBCS_TAB%tab(II)%poly%nb_node
+            DO JJ = 1, NB_NODES
               FLAGKIN(EBCS_TAB%tab(II)%poly%node_list(jj)) = 1
             ENDDO
+            ! /EBCS/CYCLIC surface 2
+            IF(EBCS_TAB%tab(II)%poly%type == 12)THEN
+              DO JJ = 1, NB_NODES
+                FLAGKIN(EBCS_TAB%tab(II)%poly%node_list(NB_NODES+jj)) = 1
+              ENDDO
+            ENDIF
 
          ELSE
            !     error

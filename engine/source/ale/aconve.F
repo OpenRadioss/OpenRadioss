@@ -394,7 +394,7 @@ C     ALE ON / OFF
         IF(NSEGFLU > 0)THEN
           IOFF = NUMELS+NUMELQ+NUMELTG
           IF(NSPMD > 1) THEN
-            IOFF = IOFF + NSVOIS
+            IOFF = IOFF + NSVOIS + NQVOIS + NTGVOIS
           ENDIF
           NGSEG=NSEGFLU/NVSIZ
           IF(NSEGFLU-NGSEG*NVSIZ  > 0)NGSEG=NGSEG+1
