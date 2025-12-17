@@ -55,6 +55,7 @@ C-----------------------------------------------
       INTEGER,INTENT(IN) :: IOFF
       my_real VTOT(*), PHI(*), FLUX(s_flux,nv46), FLU1(*), QMV(s_qmv,2*nv46), X(3,NUMNOD)
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
+      my_real :: delta
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -85,7 +86,8 @@ C-----------------------------------------------
       
       DO I=LFT,LLT
         IE =NFT+I
-        VTOT(I) = VTOT(I) + HALF * DT1 * (- PHI(IE)*FLU1(I) - VL(I,1)-VL(I,2)-VL(I,3)-VL(I,4) )
+        delta = HALF * DT1 * (- PHI(IE)*FLU1(I) - VL(I,1)-VL(I,2)-VL(I,3)-VL(I,4) )
+        VTOT(I) = VTOT(I) + delta
         VTOT(I)=MAX(EM20,VTOT(I))
       ENDDO
 C

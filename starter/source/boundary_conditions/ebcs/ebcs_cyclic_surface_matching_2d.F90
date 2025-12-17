@@ -51,7 +51,7 @@
           use precision_mod, only : WP
           use ebcs_mod , only : t_ebcs_cyclic, t_ebcs
           use groupdef_mod , only : surf_
-          use constant_mod, only : em06, half, zero, one, em03
+          use constant_mod, only : em03, half, zero, one, em03
           use names_and_titles_mod , only : nchartitle
           use message_mod
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -117,7 +117,7 @@
           !tol
           d12 = sqrt(v12(2)*v12(2) + v12(3)*v12(3))
           d12_ = sqrt(v12_(2)*v12_(2) + v12_(3)*v12_(3))
-          tol = em06*half*(d12+d12_)
+          tol = em03*half*(d12+d12_)
 
           if(abs(d12-d12_) > tol )then
             lVALID = .FALSE.

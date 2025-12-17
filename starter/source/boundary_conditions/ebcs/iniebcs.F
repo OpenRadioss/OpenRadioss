@@ -410,23 +410,23 @@ C=======================================================================
 
 
           
-          IF(.NOT.EBCS%is_multifluid .AND. (TYP == 0 .OR. TYP == 8 .OR. TYP == 10 .OR. TYP == 11))THEN
+          IF(.NOT.EBCS%is_multifluid .AND. (TYP == 0 .OR. TYP == 8 .OR. TYP == 10 .OR. TYP == 11 .OR. TYP == 12))THEN
             !2D quads & trias EBCS : all on domain 1 (ispmd=0)  --> TAG with  EBCS_TAG_CELL_SPMD
             !-------------------------------------------------                      
-            DO KK=1,EBCS%nb_elem              
+            DO KK=1,size(EBCS%ielem)
               ICELL = EBCS%ielem(KK) 
               K1=0
               IF (EBCS%itype(KK)==4)K1=0
               IF (EBCS%itype(KK)==3)K1=NUMELQ 
               IF (EBCS%itype(KK)==8)K1=NUMELQ+NUMELTG             
               IF(TYP/=10 .AND. TYP /= 11) EBCS_TAG_CELL_SPMD(K1+ICELL)=1    !tag elem to send to domain #1
-            ENDDO                                                
-            !-------------------------------------------------   
+            ENDDO
+            !-------------------------------------------------
                                                                  
           ENDIF
 
           ! check that based element has ALE or EULER framework
-          DO KK=1,EBCS%NB_ELEM
+          DO KK=1,size(EBCS%ielem)
             ICELL = EBCS%IELEM(KK)
             IMID=IX(1,ICELL)
             IPID=IX(NIX-1,ICELL)

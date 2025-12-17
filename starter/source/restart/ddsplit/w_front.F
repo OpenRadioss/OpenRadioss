@@ -1708,7 +1708,7 @@ C no elt frontiere > no elt interne
                       END IF
                     END IF
                   ELSEIF(PROC/=1.AND.IV<0)THEN
-C IV < 0 : SEGMENT INT12
+C IV < 0 : EBCS SEGMENTS &  INT12
                     IF(TAGS(1,-IV)==0)THEN
                       NF_L = NF_L + 1
                       LSEGCOM(NF_L) = -IV
@@ -1750,6 +1750,15 @@ C no elt frontiere > no elt interne
                         NESDVOIS(PROC2) = NESDVOIS(PROC2)+1
                       END IF
                     END IF
+                 ELSEIF(PROC/=1.AND.IV<0)THEN
+C IV < 0 : EBCS SEGMENTS &  INT12
+                    IF(TAGS(1,-IV)==0)THEN
+                      NF_L = NF_L + 1
+                      LSEGCOM(NF_L) = -IV
+                      CPULOCALF(NF_L)=1
+                      TAGS(1,-IV) = 1
+                      NPSEGCOM(1) = NPSEGCOM(1)+1
+                    END IF
                   END IF
                 END DO
               END DO
@@ -1784,7 +1793,16 @@ C no elt frontiere > no elt interne
                         NESDVOIS(PROC2) = NESDVOIS(PROC2)+1
                       END IF
                     END IF
-                  END IF
+                 ELSEIF(PROC/=1.AND.IV<0)THEN
+C IV < 0 : EBCS SEGMENTS &  INT12
+                    IF(TAGS(1,-IV)==0)THEN
+                      NF_L = NF_L + 1
+                      LSEGCOM(NF_L) = -IV
+                      CPULOCALF(NF_L)=1
+                      TAGS(1,-IV) = 1
+                      NPSEGCOM(1) = NPSEGCOM(1)+1
+                    END IF
+                  ENDIF
                 END DO
               END DO
             END IF
@@ -1799,6 +1817,48 @@ C   See other solid types
              ISOLNOD = IPARG(28,NG)
 C   3D
              IF(ITY==1) THEN
+              DO I = 1, NEL
+                IE = I+NFT
+C   IVOIS
+                IAD1 = ALE_CONNECTIVITY%ee_connect%iad_connect(IE)
+                LGTH = ALE_CONNECTIVITY%ee_connect%iad_connect(IE+1)-ALE_CONNECTIVITY%ee_connect%iad_connect(IE)
+                DO J = 1, LGTH
+                  IV = ALE_CONNECTIVITY%ee_connect%connected(IAD1 + J - 1)
+                  IF(IV<0)THEN
+C IV < 0 : SEGMENT INT12
+                    IF(TAGS(P,-IV)==0)THEN
+                      NF_L = NF_L + 1
+                      LSEGCOM(NF_L) = -IV
+                      CPULOCALF(NF_L)=P
+                      TAGS(P,-IV) = 1
+                      NPSEGCOM(P) = NPSEGCOM(P)+1
+                    END IF
+                  END IF
+                END DO
+              END DO
+
+            ELSEIF(ITY==2) THEN
+              DO I = 1, NEL
+                IE = I+NFT
+C   IVOIS
+                IAD1 = ALE_CONNECTIVITY%ee_connect%iad_connect(IE)
+                LGTH = ALE_CONNECTIVITY%ee_connect%iad_connect(IE+1)-ALE_CONNECTIVITY%ee_connect%iad_connect(IE)
+                DO J = 1, LGTH
+                  IV = ALE_CONNECTIVITY%ee_connect%connected(IAD1 + J - 1)
+                  IF(IV<0)THEN
+C IV < 0 : SEGMENT INT12
+                    IF(TAGS(P,-IV)==0)THEN
+                      NF_L = NF_L + 1
+                      LSEGCOM(NF_L) = -IV
+                      CPULOCALF(NF_L)=P
+                      TAGS(P,-IV) = 1
+                      NPSEGCOM(P) = NPSEGCOM(P)+1
+                    END IF
+                  END IF
+                END DO
+              END DO
+
+            ELSEIF(ITY==7 .AND. N2D > 0) THEN
               DO I = 1, NEL
                 IE = I+NFT
 C   IVOIS
