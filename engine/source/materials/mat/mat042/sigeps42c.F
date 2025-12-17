@@ -216,7 +216,7 @@ C     Strain definition
           PARTP = RBULK*(RV(I)- ONE)
           T(I,3)= KIR3(I)*INVRV(I)  + PARTP    !Cauchy 
           KT3(I)= (TWO_THIRD*KT3(I)-KIR3(I))*INVRV(I)/EV(I,3)+ RBULK*EV(I,1)*EV(I,2) 
-          IF (ABS(T(I,3)) > T3_OLD(I)) CYCLE
+          IF (ABS(T(I,3)) > T3_OLD(I) .AND. NPRONY>0) CYCLE
           T3_OLD(I) = ABS(T(I,3))
           IF (KT3(I)>EM20) DLAM3(I) = DLAM3(I) -T(I,3)/KT3(I)
         ENDDO
