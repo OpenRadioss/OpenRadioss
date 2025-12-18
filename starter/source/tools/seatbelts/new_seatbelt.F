@@ -69,9 +69,9 @@ C
       NODE_CUR = NOD_START
       ELEM_NEXT = 0
       IF (FLAG == 0) TAG_RES(ELEM_CUR) = ID
+      IF ((TAG_NOD(IXR(2,ELEM_CUR))/=ID).OR.((TAG_NOD(IXR(3,ELEM_CUR))/=ID))) NNOD = NNOD + 1
       TAG_NOD(IXR(2,ELEM_CUR)) = ID
       TAG_NOD(IXR(3,ELEM_CUR)) = ID
-      NNOD = NNOD + 1
       NRES_FOUND = 1
 C
       DO WHILE (NRES_FOUND > 0)
@@ -122,11 +122,20 @@ C       Exit loop if node is a connection between 1D and 2D seatblet
 C
         IF (NRES_FOUND > 0) THEN
           IF (FLAG == 0) THEN
+            IF ((TAG_NOD(IXR(2,ELEM_NEXT))/=ID).OR.((TAG_NOD(IXR(3,ELEM_NEXT))/=ID))) THEN
+              NNOD = NNOD + 1
+            ENDIF
             TAG_RES(ELEM_NEXT) = ID
             TAG_NOD(IXR(2,ELEM_NEXT)) = ID
             TAG_NOD(IXR(3,ELEM_NEXT)) = ID
-            NNOD = NNOD + 1
-          ELSE
+          ELSE     
+            IF ((TAG_NOD(IXR(2,ELEM_NEXT))>0).and.(TAG_NOD(IXR(3,ELEM_NEXT))>0)) THEN
+C             Loop detected inside retractor  
+              CALL ANCMSG(MSGID=3119,
+     .                    MSGTYPE=MSGERROR,
+     .                    ANMODE=ANINFO,
+     .                    I1=RETRACTOR(ID)%ID,I2=IXR(NIXR,ELEM_NEXT))
+            ENDIF
             IF (TAG_RES(ELEM_NEXT) > 0) THEN
               ID_PREV = RETRACTOR(TAG_RES(ELEM_NEXT))%ID
               IF ((ID_PREV > 0).AND.(NRES_FOUND > 0)) CALL ANCMSG(MSGID=2010,
