@@ -141,8 +141,6 @@ C-----------------------------------------------
 !||    i7remnode_init   ../starter/source/interfaces/inter3d1/i7remnode.F
 !||--- called by ------------------------------------------------------
 !||    i7remnode        ../starter/source/interfaces/inter3d1/i7remnode.F
-!||--- calls      -----------------------------------------------------
-!||    bitget           ../starter/source/interfaces/inter3d1/bitget.F
 !||====================================================================
       SUBROUTINE I7REMNODE_INIT(ISELF_IMPACTANT,NTY    ,
      1         X       ,NRTM    ,IRECT    ,NSV     ,NSN    ,NUMNOD ,

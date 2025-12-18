@@ -26,8 +26,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    inintsub                ../starter/source/interfaces/interf1/inintsub.F
 !||--- calls      -----------------------------------------------------
 !||    ancmsg                  ../starter/source/output/message/message.F
-!||    bitget                  ../starter/source/interfaces/inter3d1/bitget.F
-!||    bitset                  ../starter/source/interfaces/inter3d1/bitget.F
 !||    fretitl2                ../starter/source/starter/freform.F
 !||    get_edge_fic_node       ../starter/source/output/subinterface/get_edge_fic_node.F90
 !||--- uses       -----------------------------------------------------

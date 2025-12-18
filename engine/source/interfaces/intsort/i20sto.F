@@ -481,14 +481,12 @@ C===============================================================================
 !||====================================================================
 !||    bitget     ../engine/source/interfaces/intsort/i20sto.F
 !||--- called by ------------------------------------------------------
-!||    i11for3    ../engine/source/interfaces/int11/i11for3.F
 !||    i20dst3    ../engine/source/interfaces/int20/i20dst3.F
 !||    i20sto     ../engine/source/interfaces/intsort/i20sto.F
 !||    i24dst3e   ../engine/source/interfaces/int24/i24dst3e.F
 !||    i24edgt    ../engine/source/interfaces/intsort/i24sto.F
 !||    i24for3    ../engine/source/interfaces/int24/i24for3.F
 !||    i24s1s2    ../engine/source/interfaces/intsort/i24sto.F
-!||    i7for3     ../engine/source/interfaces/int07/i7for3.F
 !||====================================================================
       INTEGER FUNCTION BITGET(I,N)
       INTEGER I,N

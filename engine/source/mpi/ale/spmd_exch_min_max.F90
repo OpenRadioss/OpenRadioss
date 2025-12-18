@@ -43,7 +43,6 @@
 !||    spmd_waitall                     ../engine/source/mpi/spmd_wait.F90
 !||    spmd_waitany                     ../engine/source/mpi/spmd_wait.F90
 !||--- uses       -----------------------------------------------------
-!||    debug_mod                        ../engine/share/modules/debug_mod.F
 !||    precision_mod                    ../common_source/modules/precision_mod.F90
 !||    spmd_mod                         ../engine/source/mpi/spmd_mod.F90
 !||====================================================================

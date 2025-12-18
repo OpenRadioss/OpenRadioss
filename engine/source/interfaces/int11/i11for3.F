@@ -24,8 +24,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    i11for3      ../engine/source/interfaces/int11/i11for3.F
 !||--- called by ------------------------------------------------------
 !||    i11mainf     ../engine/source/interfaces/int11/i11mainf.F
-!||--- calls      -----------------------------------------------------
-!||    bitget       ../engine/source/interfaces/intsort/i20sto.F
 !||--- uses       -----------------------------------------------------
 !||    output_mod   ../common_source/modules/output/output_mod.F90
 !||    tri7box      ../engine/share/modules/tri7box.F

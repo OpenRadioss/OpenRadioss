@@ -21,17 +21,15 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    bitget           ../starter/source/interfaces/inter3d1/bitget.F
+!||    bitget          ../starter/source/interfaces/inter3d1/bitget.F
 !||--- called by ------------------------------------------------------
-!||    i20dst3          ../starter/source/interfaces/inter3d1/i20dst3.F
-!||    i20gap1          ../starter/source/interfaces/inter3d1/i20dst3.F
-!||    i20sti3          ../starter/source/interfaces/inter3d1/i20sti3.F
-!||    i24s1s2          ../starter/source/interfaces/inter3d1/i24buc1.F
-!||    i25neigh         ../starter/source/interfaces/inter3d1/i25neigh.F
-!||    i25s1s2          ../starter/source/interfaces/inter3d1/i25sto.F
-!||    i25trivox_edg    ../starter/source/interfaces/inter3d1/i25trivox_edg.F
-!||    i7remnode_init   ../starter/source/interfaces/inter3d1/i7remnode.F
-!||    inintsub_25      ../starter/source/output/subinterface/inintsub_25.F
+!||    i20dst3         ../starter/source/interfaces/inter3d1/i20dst3.F
+!||    i20gap1         ../starter/source/interfaces/inter3d1/i20dst3.F
+!||    i20sti3         ../starter/source/interfaces/inter3d1/i20sti3.F
+!||    i24s1s2         ../starter/source/interfaces/inter3d1/i24buc1.F
+!||    i25neigh        ../starter/source/interfaces/inter3d1/i25neigh.F
+!||    i25s1s2         ../starter/source/interfaces/inter3d1/i25sto.F
+!||    i25trivox_edg   ../starter/source/interfaces/inter3d1/i25trivox_edg.F
 !||====================================================================
       INTEGER FUNCTION BITGET(I,N)
       INTEGER I,N
@@ -59,7 +57,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    i25surfi      ../starter/source/interfaces/inter3d1/i25surfi.F
 !||    inintsub      ../starter/source/interfaces/interf1/inintsub.F
 !||    inintsub_11   ../starter/source/output/subinterface/inintsub_11.F
-!||    inintsub_25   ../starter/source/output/subinterface/inintsub_25.F
 !||    inintsub_7    ../starter/source/output/subinterface/inintsub_7.F
 !||====================================================================
       INTEGER FUNCTION BITSET(I,N)

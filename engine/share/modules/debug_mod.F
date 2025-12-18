@@ -39,7 +39,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    resol                                 ../engine/source/engine/resol.F
 !||    spmd_collect_multi_fvm                ../engine/source/mpi/output/spmd_collect_multi_fvm.F
 !||    spmd_collect_nlocal                   ../engine/source/mpi/output/spmd_collect_nlocal.F
-!||    spmd_exch_min_max                     ../engine/source/mpi/ale/spmd_exch_min_max.F90
 !||    spmd_exch_n_neighbor                  ../engine/source/mpi/ale/spmd_exch_n_neighbor.F90
 !||    spmd_fiadd25e_poff                    ../engine/source/mpi/interfaces/spmd_fiadd25e_poff.F
 !||    spmd_fiadd25e_pon                     ../engine/source/mpi/interfaces/spmd_fiadd25e_pon.F
