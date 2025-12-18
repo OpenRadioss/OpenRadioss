@@ -142,7 +142,7 @@ c----------
       IEULER  = 0
       ITURB   = 0
 
-      PM(1:100,NUMMAT)=ZERO
+      PM(1:NPROPM,NUMMAT)=ZERO
       MULTI_FVM%NBMAT   = 0 !Initialize number of material in law151  
       FAILWAVE%WAVE_MOD = 0 !Initialization of failwave option
       FAILWAVE%NDDL = 0
