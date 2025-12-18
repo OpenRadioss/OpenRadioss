@@ -32,8 +32,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    i22tri_mod             ../common_source/modules/interfaces/cut-cell-search_mod.F
 !||    segvar_mod             ../engine/share/modules/segvar_mod.F
 !||====================================================================
-      SUBROUTINE ALEMUSCL_UPWIND2(FLUX, ALE_CONNECT, X, IXQ, FLUX_VOIS,
-     .     N4_VOIS, ITAB, NV46, ITRIMAT, SEGVAR,s_flux)
+      SUBROUTINE ALEMUSCL_UPWIND2(flux_mat,flux_save, ALE_CONNECT, X, IXQ, flux_vois_mat,
+     .      NV46, trimat, SEGVAR,s_flux,s_flux_vois)
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C   This subroutines performs the following steps:
@@ -49,6 +49,7 @@ C-----------------------------------------------
       USE SEGVAR_MOD
       USE ALE_CONNECTIVITY_MOD
       use element_mod , only :nixq
+      use precision_mod , only : WP      
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -63,20 +64,21 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       integer, intent(in) :: s_flux !< first dimension of FLUX array
+      integer, intent(in) :: s_flux_vois !< first dimension of flux_vois_mat
+      integer, intent(in) :: trimat !< number of material      
       INTEGER, INTENT(IN) :: NV46
-      my_real, INTENT(OUT) :: FLUX(s_flux,NV46)
+      real(kind=WP), dimension(s_flux,nv46), intent(in) :: flux_save
+      real(kind=WP), dimension(s_flux,NV46,trimat), INTENT(OUT) :: flux_mat
       my_real, INTENT(IN) :: X(3, NUMNOD)
       INTEGER, INTENT(IN) :: IXQ(NIXQ, NUMELQ)
-      my_real, INTENT(OUT) :: FLUX_VOIS(NUMELQ+NQVOIS, NV46)
-      INTEGER, INTENT(OUT) :: N4_VOIS(NUMELQ+NQVOIS,8)
-      INTEGER, INTENT(IN) :: ITAB(NUMNOD)
-      INTEGER, INTENT(IN) :: ITRIMAT
+      real(kind=WP), INTENT(OUT) :: flux_vois_mat(s_flux_vois, NV46,trimat)
       TYPE(t_segvar),INTENT(IN) :: SEGVAR
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: I, II, KK, JJ, IAD2, IAD3
+      integer :: itrimat
       INTEGER :: NEIGHBOOR_LIST(NV46), FACE_NEIGHBOOR(NV46)
       my_real :: ALPHAK
       my_real :: YK, ZK
@@ -104,7 +106,7 @@ C-----------------------------------------------
         !!! Neighbors
         DO KK = 1, NV46
           !!! Only for outgoing fluxes
-          IF (FLUX(II,KK) > ZERO) THEN
+          IF (flux_save(II,KK) > ZERO) THEN
             !!! Storing neighbor indexes
             NEIGHBOOR_LIST(KK) = ALE_CONNECT%ee_connect%connected(IAD2 + KK - 1)
             FACE_NEIGHBOOR(KK) = KK
@@ -128,23 +130,25 @@ C-----------------------------------------------
             ZF = HALF * (X(3, NODEID1) + X(3, NODEID2))
 
             !!! Reconstruct second order value for ALPHA(II) on the face
-            ALPHAK = ALEMUSCL_Buffer%VOLUME_FRACTION(II,ITRIMAT)
-     .           + ALEMUSCL_Buffer%GRAD(II,2,ITRIMAT) * (YF - YK)
-     .           + ALEMUSCL_Buffer%GRAD(II,3,ITRIMAT) * (ZF - ZK)
+            do itrimat=1,trimat
+              ALPHAK = ALEMUSCL_Buffer%VOLUME_FRACTION(II,ITRIMAT)
+     .                + ALEMUSCL_Buffer%GRAD(II,2,ITRIMAT) * (YF - YK)
+     .                + ALEMUSCL_Buffer%GRAD(II,3,ITRIMAT) * (ZF - ZK)
 
-            !!! Partial volume flux is then computed as:
-            FLUX(II,KK) = ALPHAK * FLUX(II,KK)
+              !!! Partial volume flux is then computed as:
+              flux_mat(II,KK,itrimat) = ALPHAK * flux_save(II,KK)
+            enddo
+
             IF (NEIGHBOOR_LIST(KK) > 0)THEN
               IF (NEIGHBOOR_LIST(KK) <= NUMELQ) THEN
-                !!! The opposite of the flux goes to the neighbor
-                FLUX(NEIGHBOOR_LIST(KK),FACE_NEIGHBOOR(KK)) = -FLUX(II,KK)
+                do itrimat=1,trimat                
+                  !!! The opposite of the flux goes to the neighbor
+                  flux_mat(NEIGHBOOR_LIST(KK),FACE_NEIGHBOOR(KK),itrimat) = -flux_mat(II,KK,itrimat)
+                enddo
               ELSE
-                !!! cf. ALE51_ANTIDIFF3
-                FLUX_VOIS(II, KK) = FLUX(II,KK)
-                N4_VOIS(II, 1) = ITAB(IXQ(2, II))
-                N4_VOIS(II, 2) = ITAB(IXQ(3, II))
-                N4_VOIS(II, 3) = ITAB(IXQ(4, II))
-                N4_VOIS(II, 4) = ITAB(IXQ(5, II))
+                do itrimat=1,trimat
+                  flux_vois_mat(II, KK,itrimat) = flux_mat(II,KK,itrimat)
+                enddo
               ENDIF
             ENDIF
           ENDIF  ! (FLUX(II,KK) > ZERO)
@@ -158,10 +162,13 @@ C-----------------------------------------------
         DO I = LFT, LLT
           II = I + NFT
           IAD2 = ALE_CONNECT%ee_connect%iad_connect(II)
-          DO KK=1,4
-            IF(FLUX(II,KK) < ZERO .AND. ALE_CONNECT%ee_connect%connected(IAD2 + KK - 1) < 0)THEN
-              FLUX(II,KK) = SEGVAR%PHASE_ALPHA(ITRIMAT,-ALE_CONNECT%ee_connect%connected(IAD2 + KK - 1))*FLUX(II,KK)
-            ENDIF
+          DO KK=1,4            
+            IF(flux_save(II,KK) < ZERO .AND. ALE_CONNECT%ee_connect%connected(IAD2 + KK - 1) < 0)THEN
+              do itrimat=1,trimat
+                flux_mat(II,KK,itrimat) = SEGVAR%PHASE_ALPHA(ITRIMAT,-ALE_CONNECT%ee_connect%connected(IAD2 + KK - 1))*
+     .                                  flux_save(II,KK)
+              enddo
+            ENDIF            
           ENDDO
         ENDDO
       ENDIF

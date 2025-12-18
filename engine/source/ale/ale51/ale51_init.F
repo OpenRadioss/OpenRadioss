@@ -142,13 +142,15 @@ C     ALE ON / OFF
         ! UPWIND, QMV, DDVOL           !
         !------------------------------!
         IF(N2D == 0)THEN
-          CALL ALE51_UPWIND3(PM,IXS,FLUX,FLU2(NF1),ALE_CONNECT,
+          CALL ALE51_UPWIND3(PM,IXS,FLUX,FLU2,ALE_CONNECT,
      +                       0 ,BID,QMV,1,
-     +                       nv46,s_flux,s_qmv)
+     +                       nv46,s_flux,s_qmv,
+     .                         ALE_CONNECT%group(ng)%nb_element_with_bc,ALE_CONNECT%group(ng)%list_element_with_bc)
         ELSE
-          CALL ALE51_UPWIND2(PM,X,IXQ,FLUX,FLU2(NF1),ALE_CONNECT,
+          CALL ALE51_UPWIND2(PM,X,IXQ,FLUX,FLU2,ALE_CONNECT,
      +                       0,BID,QMV,1,
-     +                       nv46,s_flux,s_qmv)
+     +                       nv46,s_flux,s_qmv,
+     .                       ALE_CONNECT%group(ng)%nb_element_with_bc,ALE_CONNECT%group(ng)%list_element_with_bc)     
         ENDIF
       END DO !next NG
 

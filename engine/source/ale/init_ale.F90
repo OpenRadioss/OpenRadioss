@@ -40,11 +40,19 @@
 !||--- uses       -----------------------------------------------------
 !||    ale_mod    ../common_source/modules/ale/ale_mod.F
 !||====================================================================
-        subroutine init_ale(global_active_ale_element,n2d,numels,numelq,nmult,iale,ieuler,trimat,itherm,ale)
+        subroutine init_ale(global_active_ale_element,n2d,numels,numelq,nmult, &
+                            iale,ieuler,trimat,itherm,numnod, &
+                            nspmd,nsvois,nqvois,nparg,ngroup,s_lesdvois,s_lercvois, &
+                            nesdvois,nercvois,lesdvois,lercvois,itab, &
+                            itabm1,ixs,ixq,iparg,ale,ale_connect)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
           use ale_mod , only : ale_
+          use ale_connectivity_mod , only : t_ale_connectivity
+          use element_mod , only : nixs, nixq
+          use init_ale_spmd_mod , only : init_ale_spmd
+          use init_ale_boundary_condition_mod , only : init_ale_boundary_condition
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -64,9 +72,25 @@
           integer, intent(in) :: ieuler !< Eulerian activated flag
           integer, intent(in) :: trimat !< number of sub-materials
           integer, intent(in) :: itherm !< thermal activated flag
-
-          type(ale_), intent(inout) :: ale !< ALE data structure
-
+          integer, intent(in) :: numnod !< Number of nodes
+          integer, intent(in) :: nspmd !< Number of processors
+          integer, intent(in) :: nsvois !< number of frontier solid elements
+          integer, intent(in) :: nqvois !< number of frontier quad elements
+          integer, intent(in) :: nparg !< first dimension of iparg array
+          integer, intent(in) :: ngroup !< number of element group
+          integer, intent(in) :: s_lesdvois !< size of lesdvois array
+          integer, intent(in) :: s_lercvois !< size of lercvois array  
+          integer, dimension(nspmd+1), intent(in) :: nesdvois !< number of frontier elements (send)          
+          integer, dimension(nspmd+1), intent(in) :: nercvois !< number of frontier elements (rcv)
+          integer, dimension(s_lesdvois), intent(in) :: lesdvois !< frontier element ids (send)
+          integer, dimension(s_lercvois), intent(in) :: lercvois !< frontier element ids (rcv)
+          integer, dimension(numnod), intent(in) :: itab !< local node ID to global node ID mapping
+          integer, dimension(2*numnod), intent(in) :: itabm1 !< local node ID to user node ID mapping
+          integer, dimension(nixs,numels), intent(in) :: ixs !< Solid element connectivity
+          integer, dimension(nixq,numelq), intent(in) :: ixq !< Quad element connectivity
+          integer, dimension(nparg,ngroup), intent(in) :: iparg !< group element data    
+          type(ale_), intent(inout) :: ale !< ALE data structure                  
+          type(t_ale_connectivity), intent(inout) :: ale_connect !< ALE data structure for connectivity  
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -93,6 +117,14 @@
 
             ale%global%s_qmv = 1
             if(trimat>0) ale%global%s_qmv = min(1,trimat)*(numels+numelq)
+
+            if(numels+numelq>0) then
+              call init_ale_spmd(ale%global%nv46,n2d,numels,numelq,numnod, &
+                                 nspmd,nsvois,nqvois,s_lesdvois,s_lercvois,nesdvois,nercvois, &
+                                 lesdvois,lercvois,itab,itabm1,ixs,ixq,ale_connect )
+            end if
+
+            call init_ale_boundary_condition(ale%global%nv46,nparg,ngroup,iparg,ale_connect)
           end if
 
           return
