@@ -200,7 +200,7 @@ C-----------------------------------------------
           MID = MAT_PARAM(MAT(1))%MULTIMAT%MID(IMAT)
           ISUB = NINT(UPARAM(276+IMAT))  !convert IMAT in 1..3 -> 1..4
           IF(MID == 0) CYCLE
-            off(1) = ZERO
+            off(1) = one
             mat_(1) = mid
             eint(1) = E0_(ISUB)
             rho(1)  = RHO0_(ISUB)
@@ -233,13 +233,18 @@ C-----------------------------------------------
      .                   BUFMAT  , SIGOLD     , MUOLD     , MATLAW     ,
      .                   NPF     , TF         , VAREOS    , 6, MAT_PARAM(MID),
      .                   BURNFRAC, NVARTMP    , VARTMP)
-            IF(MATLAW ==5) DPDM(1) = MAX(PM(44,MID) , DPDM(1))
+            IF(MATLAW ==5) THEN
+              !bfrac=0
+              DPDM(1) = MAX(PM(44,MID) , DPDM(1))
+              PRES(1) = PM(31,MID)
+            ENDIF
 
             IF(RHO0_(ISUB) > ZERO)SSP_(ISUB) = SQRT( ABS(DPDM(1))+TWO*TWO_THIRD*GG_(ISUB)/RHO0_(ISUB) )
             KK = M51_N0PHAS + (ISUB-1)*M51_NVPHAS
             DO I=1,NEL
-              UVAR(I,KK+24:KK-1+nvareos) = VAREOS(1, 1:6)
+              UVAR(I,KK+24:KK+24-1+nvareos) = VAREOS(1, 1:6)
             ENDDO
+            P0_(ISUB) = PRES(1)
          ENDDO ! next IMAT
 
       ENDIF
@@ -306,7 +311,7 @@ C-----------------------------------------------
         if (RHO0_(4) > zero .and. SSP_(4) > zero) K_mix = K_mix + VF(4) / ( RHO0_(4) * SSP_(4)**2 )
         If(K_mix > zero)K_mix=one/K_mix
         SSP_MIX=zero
-        if(gbuf%rho(i) > zero) SSP_mix = SQRT(K_mix / RHO0_MIX)
+        if(RHO0_MIX > zero) SSP_mix = SQRT(K_mix / RHO0_MIX)
         PM(27,MAT(1)) = SSP_mix
 
         DO I=1,NEL

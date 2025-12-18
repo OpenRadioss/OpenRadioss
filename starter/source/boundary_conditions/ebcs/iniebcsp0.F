@@ -84,6 +84,7 @@ C=======================================================================
            TYPE IS (t_ebcs_nrf)
              lFOUND_EBCS_NRF = .TRUE.
              NSEG = twf%nb_elem
+             NOD = twf%nb_node
              CALL INIEBCS_DP(NSEG, NOD, twf%iseg, twf%ielem, twf%elem_list, twf%node_list,
      .                       IPARG, ELBUF_STR, X, IXS, IXQ, IXTG, twf%DP0,
      .                       IPARTS, IPARTQ, IPARTTG)    

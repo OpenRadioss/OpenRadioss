@@ -187,7 +187,8 @@
           integer,intent(in) :: nel, nuparam, nuvar,nft,n48,nix,jthe,numel, &
             ix(nix,numel), pid(nel), ilay, ng,iparg(n_var_iparg,ngroup), &
             ipm(n_var_ipm,nummat),nv46
-          real(kind=WP),intent(in) :: time,timestep,uparam(nuparam),pm(n_var_pm,nummat), &
+          real(kind=WP),intent(inout) :: uparam(nuparam)
+          real(kind=WP),intent(in) :: time,timestep,pm(n_var_pm,nummat), &
             volume(nel),bufvois(*),ddvol(nel),qqold(nel), &
             epspxx(nel),epspyy(nel),epspzz(nel), &
             epspxy(nel),epspyz(nel),epspzx(nel), &
@@ -280,6 +281,7 @@
             RHOOLD, SSP1_INI, SSP2_INI, SSP3_INI, SSP4_INI, VFRAC(nel)
           real(kind=WP) :: VISC1, VISC2, VISC3,VISC4
           INTEGER :: CONT
+          INTEGER :: IBIJ(4)  !  UPARAM(277:280) is legacy order,  IBIJ is inverse application : is user order
           INTEGER :: IFLG,IEXP, IOPT
           INTEGER :: IPLA, IPLA1, IPLA2, IPLA3 !< plasticity flags
           INTEGER ::  K1,K2,K3,K4,ML,IFORM
@@ -448,10 +450,10 @@
           PM3    = UPARAM(41)
           PM4    = UPARAM(56)
 
-          ! UPARAM(57) !no longer used
-          ! UPARAM(58) !no longer used
-          ! UPARAM(59) !no longer used
-          ! UPARAM(60) !no longer used
+          IBIJ(1) = UPARAM(57)
+          IBIJ(2) = UPARAM(58)
+          IBIJ(3) = UPARAM(59)
+          IBIJ(4) = UPARAM(60)
 
           SPH1   = UPARAM(112)
           SPH2   = UPARAM(162)
@@ -472,6 +474,15 @@
 !CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC!
 
           IF (TIME == ZERO) THEN
+
+            ! user order from legacy order [1:4] -> [1:4]
+            IBIJ(1:4) = 0
+            DO I=1,4 ; IF(UPARAM(276+I)==1) THEN ; IBIJ(1) = I ; EXIT; END IF; ENDDO
+            DO I=1,4 ; IF(UPARAM(276+I)==2) THEN ; IBIJ(2) = I ; EXIT; END IF; ENDDO
+            DO I=1,4 ; IF(UPARAM(276+I)==3) THEN ; IBIJ(3) = I ; EXIT; END IF; ENDDO
+            DO I=1,4 ; IF(UPARAM(276+I)==4) THEN ; IBIJ(4) = I ; EXIT; END IF; ENDDO
+            UPARAM(57:60) = IBIJ(1:4)
+
             DO I = 1, NEL
               KK = M51_N0PHAS + 0 * M51_NVPHAS
               V1OLD = AV1(I) * VOLUME(I)
@@ -1062,18 +1073,18 @@
             !=======================================================================
             IF(SUBMAT_CODE == 1 .OR. SUBMAT_CODE == 2 .OR. SUBMAT_CODE == 4 .OR. SUBMAT_CODE == 8) THEN
 
-              P1    = ZERO
-              P2    = ZERO
-              P3    = ZERO
-              P4    = ZERO
-              Q1    = ZERO
-              Q2    = ZERO
-              Q3    = ZERO
-              Q4    = ZERO
-              V1    = ZERO
-              V2    = ZERO
-              V3    = ZERO
-              V4    = ZERO
+              P1 = P1OLD(I)
+              P2 = P2OLD(I)
+              P3 = P3OLD(I)
+              P4 = P4OLD(I)
+              Q1 = ZERO
+              Q2 = ZERO
+              Q3 = ZERO
+              Q4 = ZERO
+              V1 = ZERO
+              V2 = ZERO
+              V3 = ZERO
+              V4 = ZERO
 
               !==========================================
               ! The only material is MAT1 (sol, liq, gas)
@@ -1088,10 +1099,10 @@
                 DF1 = RHO10 / RHO(I)
                 ESPE1 = EINT1 / V10
 
-                ISUBMAT = 1
+                ISUBMAT = IBIJ(1) !user order, not legacy order
                 call eosmain51(pm1, off(i), eint1, mu1, espe1, dvol, df1, v1, pext, p1, dpdmu1, dpde1, rho10, &
                   temp1, v10, sbufmat, bufmat, matparam(imid)%multimat%peos(isubmat)%eos, vareos1, &
-                  time, timestep, npf   ,tf   ,snpf ,stf )
+                  time, timestep, npf   ,tf   ,snpf ,stf , matparam(matparam(imid)%multimat%mid(isubmat))%ilaw)
 
                 SSP1 = SQRT((ABS(DPDMU1) + TWO_THIRD*GG1(I))/RHO10)
                 VISCMAX(I) = RHO(I)*(QAL*MAX(ZERO,DD) + QBL*SSP1)
@@ -1116,10 +1127,10 @@
                 DF2 = RHO20 / RHO(I)
                 ESPE2 = EINT2 / V20
 
-                ISUBMAT = 2
+                ISUBMAT = IBIJ(2) !user order, not legacy order
                 call eosmain51(pm2, off(i), eint2, mu2, espe2, dvol, df2, v2, pext, p2, dpdmu2, dpde2, rho20, &
                   temp2, v20, sbufmat, bufmat, matparam(imid)%multimat%peos(isubmat)%eos, vareos2, &
-                  time, timestep, npf   ,tf   ,snpf ,stf )
+                  time, timestep, npf   ,tf   ,snpf ,stf , matparam(matparam(imid)%multimat%mid(isubmat))%ilaw)
 
                 SSP2 = SQRT((ABS(DPDMU2) + TWO_THIRD*GG2(I))/RHO20)
                 VISCMAX(I) = RHO(I)*(QAL*MAX(ZERO,DD) + QBL*SSP2)
@@ -1144,10 +1155,10 @@
                 DF3 = RHO30 / RHO(I)
                 ESPE3 = EINT3 / V30
 
-                ISUBMAT = 3
+                ISUBMAT = IBIJ(3) !user order, not legacy order
                 call eosmain51(pm3, off(i), eint3, mu3, espe3, dvol, df3, v3, pext, p3, dpdmu3, dpde3, rho30, &
                   temp3, v30, sbufmat, bufmat, matparam(imid)%multimat%peos(isubmat)%eos, vareos3 ,&
-                  time, timestep, npf   ,tf   ,snpf ,stf )
+                  time, timestep, npf   ,tf   ,snpf ,stf , matparam(matparam(imid)%multimat%mid(isubmat))%ilaw)
 
                 SSP3 = SQRT((ABS(DPDMU3) + TWO_THIRD*GG3(I))/RHO30)
                 VISCMAX(I) = RHO(I)*(QAL*MAX(ZERO,DD) + QBL*SSP3)
@@ -1233,18 +1244,18 @@
               !---------------------------------------------------
               !     COMPUTE MASS DENSITIES FOR EACH FLUID
               !---------------------------------------------------
-              P1    = ZERO
-              P2    = ZERO
-              P3    = ZERO
-              P4    = ZERO
+              P1 = P1OLD(I)
+              P2 = P2OLD(I)
+              P3 = P3OLD(I)
+              P4 = P4OLD(I)
               DVOL1 = ZERO
               DVOL2 = ZERO
               DVOL3 = ZERO
               DVOL4 = ZERO
-              V1I   = V1
-              V2I   = V2
-              V3I   = V3
-              V4I   = V4
+              V1I = V1
+              V2I = V2
+              V3I = V3
+              V4I = V4
               IF (V1  >  ZERO) RHO1 = MAS1 / V1
               IF (V2  >  ZERO) RHO2 = MAS2 / V2
               IF (V3  >  ZERO) RHO3 = MAS3 / V3
@@ -1260,11 +1271,11 @@
                 DVOL = V1-V1I
                 DF1 = RHO10/RHO1
                 ESPE1 = EINT1 / V10
-                ISUBMAT = 1
+                ISUBMAT = IBIJ(1) !user order, not legacy order
                 VAREOS1_TMP(1:6) = VAREOS1(1:6)
                 call eosmain51(pm1, off(i), eint1, mu1, espe1, dvol, df1, v1, pext, p1, dpdmu1, dpde1, rho10, &
                   temp1, v10, sbufmat, bufmat, matparam(imid)%multimat%peos(isubmat)%eos, vareos1, &
-                  time, timestep, npf   ,tf   ,snpf ,stf )
+                  time, timestep, npf   ,tf   ,snpf ,stf , matparam(matparam(imid)%multimat%mid(isubmat))%ilaw)
 
                 SSP1 = SQRT((DPDMU1 + TWO_THIRD*GG1(I))/RHO10)
               ENDIF
@@ -1275,11 +1286,11 @@
                 DVOL = V2-V2I
                 DF2 = RHO20/RHO2
                 ESPE2 = EINT2 / V20
-                ISUBMAT = 2
+                ISUBMAT = IBIJ(2) !user order, not legacy order
                 VAREOS2_TMP(1:6) = VAREOS2(1:6)
                 call eosmain51(pm2, off(i), eint2, mu2, espe2, dvol, df2, v2, pext, p2, dpdmu2, dpde2, rho20, &
                   temp2, v20, sbufmat, bufmat, matparam(imid)%multimat%peos(isubmat)%eos, vareos2, &
-                  time, timestep, npf   ,tf   ,snpf ,stf )
+                  time, timestep, npf   ,tf   ,snpf ,stf , matparam(matparam(imid)%multimat%mid(isubmat))%ilaw)
 
                 SSP2 = SQRT((DPDMU2 + TWO_THIRD*GG2(I))/RHO20)
               ENDIF
@@ -1290,11 +1301,11 @@
                 DVOL = V3-V3I
                 DF3 = RHO30/RHO3
                 ESPE3 = EINT3 / V30
-                ISUBMAT = 3
+                ISUBMAT = IBIJ(3) !user order, not legacy order
                 VAREOS3_TMP(1:6) = VAREOS3(1:6)
                 call eosmain51(pm3, off(i), eint3, mu3, espe3, dvol, df3, v3, pext, p3, dpdmu3, dpde3, rho30, &
                   temp3, v30, sbufmat, bufmat, matparam(imid)%multimat%peos(isubmat)%eos, vareos3, &
-                  time, timestep, npf   ,tf   ,snpf ,stf )
+                  time, timestep, npf   ,tf   ,snpf ,stf , matparam(matparam(imid)%multimat%mid(isubmat))%ilaw)
 
                 SSP3 = SQRT((DPDMU3 + TWO_THIRD*GG3(I))/RHO30)
               ENDIF
@@ -1452,8 +1463,8 @@
                   VAREOS1(1:6) = VAREOS1_TMP(1:6)
                   call eosmain51(pm5, off(i), eint1, mu1, espe1, dvol, df1, v1, pext, p1, dpdmu1, dpde1, rho10, &
                     temp1, v10, sbufmat, bufmat, matparam(imid)%multimat%peos(isubmat)%eos, vareos1 ,&
-                    time, timestep, npf   ,tf   ,snpf ,stf )
-                  SSP1 = SQRT((DPDMU1 + TWO_THIRD*GG1(I))/RHO10)
+                    time, timestep, npf   ,tf   ,snpf ,stf , matparam(matparam(imid)%multimat%mid(isubmat))%ilaw)
+                    SSP1 = SQRT((DPDMU1 + TWO_THIRD*GG1(I))/RHO10)
                 ENDIF
                 !===========================================
                 !       material 2 - Polynomial EOS
@@ -1467,8 +1478,8 @@
                   VAREOS2(1:6) = VAREOS2_TMP(1:6)
                   call eosmain51(pm5, off(i), eint2, mu2, espe2, dvol, df2, v2, pext, p2, dpdmu2, dpde2, rho20, &
                     temp2, v20, sbufmat, bufmat, matparam(imid)%multimat%peos(isubmat)%eos, vareos2, &
-                    time, timestep, npf   ,tf   ,snpf ,stf )
-                  SSP2 = SQRT((DPDMU2 + TWO_THIRD*GG2(I))/RHO20)
+                    time, timestep, npf   ,tf   ,snpf ,stf , matparam(matparam(imid)%multimat%mid(isubmat))%ilaw )
+                    SSP2 = SQRT((DPDMU2 + TWO_THIRD*GG2(I))/RHO20)
                 ENDIF
                 !===========================================
                 !       material 3 - Polynomial EOS
@@ -1482,8 +1493,8 @@
                   VAREOS3(1:6) = VAREOS3_TMP(1:6)
                   call eosmain51(pm5, off(i), eint3, mu3, espe3, dvol, df3, v3, pext, p3, dpdmu3, dpde3, rho30, &
                     temp3, v30, sbufmat, bufmat, matparam(imid)%multimat%peos(isubmat)%eos, vareos3, &
-                    time, timestep, npf   ,tf   ,snpf ,stf )
-                  SSP3 = SQRT((DPDMU3 + TWO_THIRD*GG3(I))/RHO30)
+                    time, timestep, npf   ,tf   ,snpf ,stf , matparam(matparam(imid)%multimat%mid(isubmat))%ilaw)
+                    SSP3 = SQRT((DPDMU3 + TWO_THIRD*GG3(I))/RHO30)
                 ENDIF
                 !===========================================
                 !       material 4 - Polynomial EOS
