@@ -85,7 +85,7 @@ C-----------------------------------------------
       INTEGER  J, N, MAX_M,JT(3,NRBE3),JR(3,NRBE3),NMT,
      .        IADA,IADMS,IADFN,IADAR,IADIN,IADFR,IADM0,IADI0,IADL,
      .        IPA,IPMS,IPFN,IPAR,IPIN,IPFR,NMP,IADLP,NS,ICOM,
-     .        NMT0,IADMP(SLRBE3/2),IML(SLRBE3/2),IPEN
+     .        NMT0,IADMP(SLRBE3/2),IML(SLRBE3/2),IPEN,IPARITF
       INTEGER IROTG_LOC   !< Local Max of IROT Flags keep for compatibility
 C======================================================================|
       I7KGLO = 1
@@ -97,6 +97,7 @@ C======================================================================|
       IF (NMT0>0) THEN
        IF (NCYCLE==0) CALL RBE3PEN_INIT(NODES%X,NODES%MS,NODES%IN,NODES%STIFN ,NODES%STIFR,NUMNOD,RBE3,TT,IMPL_S)
        CALL PRERBE3P(RBE3%IRBE3 ,RBE3%LRBE3 ,IADMP ,IML   , NMT   )
+       IPARITF = 1 ! fix to P/ON anyway after issue of P/OFF w/ mass increasing
        IADA=1
        IADMS=IADA+3*NMT
        IADFN=IADMS+NMT
@@ -136,13 +137,13 @@ C       ALLOCATE(RSUM(IADL),STAT=IERR)
      5           IADMP ,RBE3%pen,NODES%V,NODES%VR,NMT ,DT1 ,IRODDL ,
      6           RBE3%RRBE3_PON(IPA),RBE3%RRBE3_PON(IPAR),RBE3%RRBE3_PON(IPMS),
      7           RBE3%RRBE3_PON(IPIN),RBE3%RRBE3_PON(IPFN),RBE3%RRBE3_PON(IPFR),
-     8           IPARIT)
+     8           IPARITF)
 C
-       IF (NSPMD>1.AND.IPARIT==0) THEN
+       IF (NSPMD>1.AND.IPARITF==0) THEN
             CALL RBE3POFF(RBE3%IRBE3 ,RBE3%LRBE3 ,NODES%A ,NODES%MS ,NODES%WEIGHT,
      1                    NODES%AR    ,NODES%IN    ,NODES%STIFN,NODES%STIFR )
        END IF
-       IF (IPARIT>0) THEN
+       IF (IPARITF>0) THEN
         IF (ICOM>0) THEN
             CALL SPMD_EXCH_RBE3_PON(
      .       RBE3%RRBE3_PON(IPA),RBE3%RRBE3_PON(IPAR),RBE3%RRBE3_PON(IPMS),RBE3%RRBE3_PON(IPIN),
@@ -162,7 +163,7 @@ C-----------------A-=A*W+DA-----
      1                NODES%IN ,NODES%WEIGHT,NODES%STIFN ,NODES%STIFR ,RBE3%RRBE3(IADA),
      2                RBE3%RRBE3(IADAR) ,RBE3%RRBE3(IADMS), RBE3%RRBE3(IADIN),
      3                RBE3%RRBE3(IADFN) ,RBE3%RRBE3(IADFR),NMT   ,IML  ,RBE3%IROTG)
-        IF (IPARIT==0.AND.ICOM>0) THEN
+        IF (IPARITF==0.AND.ICOM>0) THEN
             CALL SPMD_EXCH_RBE3(
      .       NODES%A    ,NODES%AR   ,NODES%MS      ,NODES%IN     ,NODES%STIFN,
      .       NODES%STIFR,rbe3%mpi%FR_RBE3 ,RBE3%mpi%IAD_RBE3   ,RBE3%mpi%IAD_RBE3(NSPMD+1),rbe3%irotg_sz,
