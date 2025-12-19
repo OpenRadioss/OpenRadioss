@@ -266,6 +266,7 @@ c
               RETA = (THREE*BIAXF/(THREE*RGTR2 - TWO))*
      .               (RGTR2 - MIN(MAX(TRIAX(I),RGTR2),TWO_THIRD))
             ENDIF
+            RETA = MAX(ZERO, MIN(ONE, RETA))
             SIZEFAC(I) = SIZEFAC(I) + RETA*(ONE - SIZEFAC(I))
           ENDDO
         ENDIF
