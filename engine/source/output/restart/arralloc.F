@@ -29,6 +29,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    allocate_nodal_arrays   ../common_source/modules/nodal_arrays.F90
 !||    allocate_rbe3           ../common_source/modules/constraints/rbe3_mod.F90
 !||    allocate_rwall          ../common_source/modules/constraints/rwall_mod.F90
+!||    allocate_sfem           ../common_source/modules/elements/sfem_mod.F90
 !||    ancmsg                  ../engine/source/output/message/message.F
 !||    arret                   ../engine/source/system/arret.F
 !||    intstamp_zero           ../engine/share/modules/intstamp_mod.F
@@ -64,6 +65,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    rwall_mod               ../common_source/modules/constraints/rwall_mod.F90
 !||    seatbelt_mod            ../common_source/modules/seatbelt_mod.F
 !||    segvar_mod              ../engine/share/modules/segvar_mod.F
+!||    sfem_mod                ../common_source/modules/elements/sfem_mod.F90
 !||    skew_mod                ../common_source/modules/skew_mod.F90
 !||    sph_mod                 ../engine/share/modules/sph_mod.F
 !||    stack_mod               ../engine/share/modules/stack_mod.F

@@ -61,6 +61,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    rwall_mod              ../common_source/modules/constraints/rwall_mod.F90
 !||    segvar_mod             ../engine/share/modules/segvar_mod.F
 !||    sensor_mod             ../common_source/modules/sensor_mod.F90
+!||    sfem_mod               ../common_source/modules/elements/sfem_mod.F90
 !||    skew_mod               ../common_source/modules/skew_mod.F90
 !||    soltosph_mod           ../engine/share/modules/soltosph_mod.F
 !||    sph_mod                ../engine/share/modules/sph_mod.F

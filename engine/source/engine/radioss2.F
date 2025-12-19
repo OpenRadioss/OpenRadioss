@@ -129,6 +129,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    scratchfile_mod              ../engine/share/modules/scratchfiles_mod.F
 !||    segvar_mod                   ../engine/share/modules/segvar_mod.F
 !||    sensor_mod                   ../common_source/modules/sensor_mod.F90
+!||    sfem_mod                     ../common_source/modules/elements/sfem_mod.F90
 !||    skew_mod                     ../common_source/modules/skew_mod.F90
 !||    soltosph_mod                 ../engine/share/modules/soltosph_mod.F
 !||    spmd_mod                     ../engine/source/mpi/spmd_mod.F90

@@ -21,6 +21,22 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
+!||    sfem_mod        ../common_source/modules/elements/sfem_mod.F90
+!||--- called by ------------------------------------------------------
+!||    alemain         ../engine/source/ale/alemain.F
+!||    forint          ../engine/source/elements/forint.F
+!||    radioss2        ../engine/source/engine/radioss2.F
+!||    rdcomi          ../engine/source/output/restart/rdcomm.F
+!||    rdresa          ../engine/source/output/restart/rdresa.F
+!||    rdresb          ../engine/source/output/restart/rdresb.F
+!||    resol           ../engine/source/engine/resol.F
+!||    resol_head      ../engine/source/engine/resol_head.F
+!||    restalloc       ../engine/source/output/restart/arralloc.F
+!||    wrcomi          ../engine/source/output/restart/wrcomm.F
+!||    wrrestp         ../engine/source/output/restart/wrrestp.F
+!||--- uses       -----------------------------------------------------
+!||    precision_mod   ../common_source/modules/precision_mod.F90
+!||====================================================================
       module sfem_mod
         use precision_mod, only: WP
         implicit none
@@ -44,6 +60,13 @@
       contains
 
 !! \brief allocate sfem type
+!||====================================================================
+!||    allocate_sfem   ../common_source/modules/elements/sfem_mod.F90
+!||--- called by ------------------------------------------------------
+!||    restalloc       ../engine/source/output/restart/arralloc.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||    my_alloc_mod    ../common_source/tools/memory/my_alloc.F90
 !||====================================================================
         subroutine allocate_sfem(sfem,numnod)
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -77,6 +100,10 @@
           call my_alloc(sfem%sfem_nodvar_ale,sfem%s_sfem_nodvar)
         end subroutine allocate_sfem
 !! \brief initialization sfem type
+!||====================================================================
+!||    sfem_init   ../common_source/modules/elements/sfem_mod.F90
+!||--- called by ------------------------------------------------------
+!||    resol       ../engine/source/engine/resol.F
 !||====================================================================
         subroutine sfem_init(sfem)
 ! ----------------------------------------------------------------------------------------------------------------------

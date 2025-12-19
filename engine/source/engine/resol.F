@@ -334,6 +334,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    sensor_logical                               ../engine/source/tools/sensor/sensor_logical.F
 !||    sensor_spmd                                  ../engine/source/tools/sensor/sensor_spmd.F
 !||    sensor_temp0                                 ../engine/source/tools/sensor/sensor_temp0.F
+!||    sfem_init                                    ../common_source/modules/elements/sfem_mod.F90
 !||    smp_init                                     ../engine/source/engine/resol_init.F
 !||    sms_build_mat_2                              ../engine/source/ams/sms_build_mat_2.F
 !||    sms_encin_2                                  ../engine/source/ams/sms_encin_2.F
@@ -542,6 +543,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    seatbelt_mod                                 ../common_source/modules/seatbelt_mod.F
 !||    segvar_mod                                   ../engine/share/modules/segvar_mod.F
 !||    sensor_mod                                   ../common_source/modules/sensor_mod.F90
+!||    sfem_mod                                     ../common_source/modules/elements/sfem_mod.F90
 !||    shooting_node_mod                            ../engine/share/modules/shooting_node_mod.F90
 !||    skew_mod                                     ../common_source/modules/skew_mod.F90
 !||    sms_mod                                      ../engine/share/modules/sms_mod.F

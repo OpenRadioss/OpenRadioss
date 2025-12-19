@@ -83,6 +83,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    python_funct_mod        ../common_source/modules/python_mod.F90
 !||    s6zforc3_mod            ../engine/source/elements/solid/solide6z/s6zforc3.F90
 !||    sensor_mod              ../common_source/modules/sensor_mod.F90
+!||    sfem_mod                ../common_source/modules/elements/sfem_mod.F90
 !||    table_mod               ../engine/share/modules/table_mod.F
 !||    timer_mod               ../engine/source/system/timer_mod.F90
 !||====================================================================

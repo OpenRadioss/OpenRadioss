@@ -21,6 +21,10 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
+!||    sfem_exclude_mod   ../starter/source/elements/solid/solide4/sfem_exclude.F90
+!||--- called by ------------------------------------------------------
+!||    lectur             ../starter/source/starter/lectur.F
+!||====================================================================
       module sfem_exclude_mod
 
       implicit none
@@ -29,6 +33,13 @@
 !=======================================================================================================================
 !!\brief This subroutine get number of nodes excluded for nodal pressure
 !=======================================================================================================================
+!||====================================================================
+!||    sfem_exclude_dim   ../starter/source/elements/solid/solide4/sfem_exclude.F90
+!||--- called by ------------------------------------------------------
+!||    lectur             ../starter/source/starter/lectur.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||====================================================================
         subroutine sfem_exclude_dim(                                             &
                    numnod,  nparg,  ngroup,  iparg,      ixs,                    &
                    numels, ne_sfem)
@@ -97,6 +108,13 @@
 !=======================================================================================================================
 !!\brief This subroutine do the initialization of list of nodes excluded for nodal pressure
 !=======================================================================================================================
+!||====================================================================
+!||    sfem_exclude_ini   ../starter/source/elements/solid/solide4/sfem_exclude.F90
+!||--- called by ------------------------------------------------------
+!||    lectur             ../starter/source/starter/lectur.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||====================================================================
         subroutine sfem_exclude_ini(                                             &
                    numnod,  nparg,  ngroup,  iparg,      ixs,                    &
                    numels,in_sfem, ne_sfem)

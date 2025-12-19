@@ -932,6 +932,8 @@
 !||    seteloff2                           ../starter/source/constraints/general/rbe2/hm_read_rbe2.F
 !||    setrb2on                            ../starter/source/constraints/general/rbe2/hm_read_rbe2.F
 !||    setrbyon                            ../starter/source/constraints/general/rbody/hm_read_rbody.F
+!||    sfem_exclude_dim                    ../starter/source/elements/solid/solide4/sfem_exclude.F90
+!||    sfem_exclude_ini                    ../starter/source/elements/solid/solide4/sfem_exclude.F90
 !||    sfint3                              ../engine/source/elements/solid/solide/sfint3.F
 !||    sfint3b                             ../engine/source/elements/solid/solide/sfint3b.F
 !||    sforc3                              ../engine/source/elements/solid/solide/sforc3.F

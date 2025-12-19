@@ -83,6 +83,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    c_seatbelts                      ../starter/source/restart/ddsplit/c_seatbelts.F
 !||    c_sectio                         ../starter/source/restart/ddsplit/c_sectio.F
 !||    c_segquadfr                      ../starter/source/restart/ddsplit/c_segquadfr.F
+!||    c_sfem_exclude                   ../starter/source/restart/ddsplit/split_sfem_exclude.F90
 !||    c_spmd_ne_connect                ../starter/source/ale/spmd_ne_connect.F
 !||    c_vois                           ../starter/source/restart/ddsplit/c_vois.F
 !||    checksum_write_starter_restart   ../starter/source/output/checksum/checksum_option.F90
@@ -199,6 +200,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    w_secbuf                         ../starter/source/restart/ddsplit/w_secbuf.F
 !||    w_sectio                         ../starter/source/restart/ddsplit/w_sectio.F
 !||    w_segquadfr                      ../starter/source/restart/ddsplit/w_segquadfr.F
+!||    w_sfem_exclude                   ../starter/source/restart/ddsplit/split_sfem_exclude.F90
 !||    w_skwsph                         ../starter/source/restart/ddsplit/w_skwsph.F
 !||    w_skwsub                         ../starter/source/restart/ddsplit/w_skwsub.F
 !||    w_stack                          ../starter/source/restart/ddsplit/w_stack.F
@@ -232,6 +234,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    mid_pid_mod                      ../starter/share/modules1/mid_pid_mod.F
 !||    monvol_struct_mod                ../starter/share/modules1/monvol_struct_mod.F
 !||    split_cfd_mod                    ../starter/share/modules1/split_cfd_mod.F
+!||    split_sfem_exclude_mod           ../starter/source/restart/ddsplit/split_sfem_exclude.F90
 !||    stack_mod                        ../starter/share/modules1/stack_mod.F
 !||    stack_var_mod                    ../starter/share/modules1/stack_var_mod.F
 !||    submodel_mod                     ../starter/share/modules1/submodel_mod.F

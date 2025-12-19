@@ -21,6 +21,10 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
+!||    split_sfem_exclude_mod   ../starter/source/restart/ddsplit/split_sfem_exclude.F90
+!||--- called by ------------------------------------------------------
+!||    ddsplit                  ../starter/source/restart/ddsplit/ddsplit.F
+!||====================================================================
       module split_sfem_exclude_mod
 
       implicit none
@@ -29,6 +33,11 @@
 !=======================================================================================================================
 !!\brief This subroutine get local number of nodes excluded for nodal pressure
 !=======================================================================================================================
+!||====================================================================
+!||    c_sfem_exclude   ../starter/source/restart/ddsplit/split_sfem_exclude.F90
+!||--- called by ------------------------------------------------------
+!||    ddsplit          ../starter/source/restart/ddsplit/ddsplit.F
+!||====================================================================
         subroutine c_sfem_exclude(numnod,nodlocal,ne_sfem,in_sfem,ne_sfem_l)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
@@ -62,6 +71,12 @@
 !=======================================================================================================================
 !!\brief This subroutine write restart list of node sfem_exclude
 !=======================================================================================================================
+!||====================================================================
+!||    w_sfem_exclude   ../starter/source/restart/ddsplit/split_sfem_exclude.F90
+!||--- called by ------------------------------------------------------
+!||    ddsplit          ../starter/source/restart/ddsplit/ddsplit.F
+!||--- calls      -----------------------------------------------------
+!||====================================================================
         subroutine w_sfem_exclude(numnod,nodlocal,ne_sfem,in_sfem,ne_sfem_l,len_ia)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules

@@ -409,6 +409,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    setmulti                            ../starter/source/restart/ddsplit/setlenwa.F
 !||    setrb2on                            ../starter/source/constraints/general/rbe2/hm_read_rbe2.F
 !||    setrbyon                            ../starter/source/constraints/general/rbody/hm_read_rbody.F
+!||    sfem_exclude_dim                    ../starter/source/elements/solid/solide4/sfem_exclude.F90
+!||    sfem_exclude_ini                    ../starter/source/elements/solid/solide4/sfem_exclude.F90
 !||    sgrhead                             ../starter/source/elements/solid/solide/sgrhead.F
 !||    sgrtails                            ../starter/source/elements/solid/solide/sgrtails.F
 !||    shell_offset_ini                    ../starter/source/elements/shell/shell_offset/shell_offset_ini.F90
@@ -521,6 +523,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    reorder_mod                         ../starter/share/modules1/reorder_mod.F
 !||    restmod                             ../starter/share/modules1/restart_mod.F
 !||    set_mod                             ../starter/share/modules1/set_mod.F
+!||    sfem_exclude_mod                    ../starter/source/elements/solid/solide4/sfem_exclude.F90
 !||    shell_offset_ini_mod                ../starter/source/elements/shell/shell_offset/shell_offset_ini.F90
 !||    shell_offsetp_mod                   ../starter/source/elements/shell/shell_offset/shell_offsetp.F90
 !||    sms_mod                             ../starter/share/modules1/sms_mod.F
