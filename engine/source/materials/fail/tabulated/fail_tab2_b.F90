@@ -319,6 +319,7 @@
                   reta = (three*biaxf/(three*rgtr2 - two))*                    &
                          (rgtr2 - min(max(triax(i),rgtr2),two_third))
                 endif
+                reta = max(zero, min(one, reta))
                 sizefac(i) = sizefac(i) + reta*(one - sizefac(i))
               end do
             end if
