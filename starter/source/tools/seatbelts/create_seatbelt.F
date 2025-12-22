@@ -737,7 +737,9 @@ C--           count and tag of 2d elements of the seatbelt
                 ENDDO
 C               FLAG_SHELL needed in case of 1D/2D connection
                 IF ((MTYP==119).AND.(FLAG_SHELL==1)) THEN
-                  IF (TAG_SHELL(ELEM_CUR)==0) THEN
+                  IF(ELEM_CUR > NUMELC .OR. ELEM_CUR <= 0) THEN
+                     write(6,*) 'Error in seatbelt element indexing. Material',IPM(2,MID_2D)
+                  ELSEIF (TAG_SHELL(ELEM_CUR)==0) THEN
                     TAG_SHELL(ELEM_CUR) = I
                     COMPT_2D = COMPT_2D + 1
                     TAG_MAT_2D(MID) = MID_2D
@@ -756,7 +758,18 @@ C               FLAG_SHELL needed in case of 1D/2D connection
           ENDDO        
           SEATBELT_TAB(I)%NSPRING = COMPT
           SEATBELT_TAB(I)%NSHELL = COMPT_2D
-          IF (IDDLEVEL == 0) CALL MY_ALLOC(SEATBELT_TAB(I)%SPRING,COMPT)
+          COMPT = 0
+          DO J=1,NUMELR
+            IF (TAG_RES(J) == I) THEN
+              COMPT = COMPT + 1
+            ENDIF
+          ENDDO    
+          IF (IDDLEVEL == 0) THEN
+              CALL MY_ALLOC(SEATBELT_TAB(I)%SPRING,COMPT)
+          ELSEIF(COMPT > SIZE(SEATBELT_TAB(I)%SPRING)) THEN
+              DEALLOCATE(SEATBELT_TAB(I)%SPRING)
+              CALL MY_ALLOC(SEATBELT_TAB(I)%SPRING,COMPT)
+          ENDIF
           COMPT = 0
           DO J=1,NUMELR
             IF (TAG_RES(J) == I) THEN
