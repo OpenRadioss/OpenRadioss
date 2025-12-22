@@ -917,10 +917,10 @@ C     !============================!
         UPARAM(54) = W
         UPARAM(55) = IEXP
         UPARAM(56) = PMIN_(4)
-        UPARAM(57) = C0(1)+C4(1)*E0(1)
-        UPARAM(58) = C0(2)+C4(2)*E0(2)
-        UPARAM(59) = C0(3)+C4(3)*E0(3)
-        UPARAM(60) = C0(4)
+        UPARAM(57) = ZERO !IBIJ(1)
+        UPARAM(58) = ZERO !IBIJ(2)
+        UPARAM(59) = ZERO !IBIJ(3)
+        UPARAM(60) = ZERO !IBIJ(4)
         UPARAM(61) = IOPT  
         UPARAM(62) = ONE/N_LC
         UPARAM(63) = IPLA_

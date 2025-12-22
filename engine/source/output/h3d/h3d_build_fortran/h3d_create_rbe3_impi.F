@@ -100,7 +100,7 @@ C sending the size array to processor 0
 
       IF (ISPMD == 0) THEN
 C Procement reception of sizes
-        ALLOCATE(P0RECRBE3(NRBE3G,NSPMD))
+        ALLOCATE(P0RECRBE3(MAX(1,NRBE3G),NSPMD)) !size 1 to avoid zero size allocation (argument of mpi_recv)
         DO I=1,NRBE3G
            P0RECRBE3(I,1) = SZLOCRBE3(I)
         ENDDO
