@@ -760,7 +760,7 @@ C interface stripped with sub-interfaces ?
               IDEB3 = 0
               ADDSUBSFI(NIN)%P(1:LEN) = 1
               DO P = 1, NSPMD
-               IF(ISCOM(P)>0 .AND. LEN > 0) THEN 
+               IF(ISCOM(P)>0) THEN 
                 DO I = 1, NSNFI(NIN)%P(P)
                   IDEB2 = IDEBUT(P)
                   IDEB2 = IDEB2 + 1
