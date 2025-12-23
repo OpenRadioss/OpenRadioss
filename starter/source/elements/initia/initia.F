@@ -1088,7 +1088,11 @@ C Case total strain
      .      STRAGLOB(NF1),MSSA ,FAIL_INI ,SIZLOADP ,NLOADP    ,ILOADP   ,
      .      LFACLOAD ,FACLOAD  ,NPERTURB ,SRNOISE  ,RNOISE    ,PERTURB  ,
      .      MAT_PARAM,DEFAULTS%SOLID     ,NUMSOL   ,I7STIFS   ,ISORTH   ,
-     .      ISTRAIN  ,JTHE     ,MTN      ,NFT      )
+     .      ISTRAIN  ,JTHE     ,MTN      ,NFT      ,ISMSTR)
+          IF (ISMSTR == 10 ) THEN  
+              CALL SGSAVINI(ISOLNOD,X,IXS(1,NFT+1),GBUF%SMSTR,NEL)
+          ENDIF
+
          ELSEIF(ISOLNOD == 10 .OR.(ISOLNOD == 4 .AND.ISROT == 1))THEN
           KK1=1+NUMELS*NIXS
           CALL S10INIT3(ELBUF_TAB(NG),
@@ -1235,6 +1239,7 @@ C Case total strain
      .             MSSA    ,STRSGLOB(NF1),STRAGLOB(NF1),FAIL_INI,SPBUF   ,
      .             KXSP    ,IPART(I15J) ,NOD2SP  ,SOL2SPH ,IRST,
      .             ILOADP  ,FACLOAD     ,PERTURB ,RNOISE  ,MAT_PARAM)
+
               IF (NSIGI > 0 .AND. ISMSTR == 1) THEN
                  CALL SGSAVINIEREF(ISOLNOD,STRAGLOB(NF1),SIGSP,NSIGI,PTSOL(NF1),
      .                             GBUF%SMSTR,GBUF%OFF,NEL)
@@ -1252,6 +1257,7 @@ C Case total strain
           ELSE
             GBUF => ELBUF_TAB(NG)%GBUF
             IF (NPT == 1 .AND. ISTOT == 1) THEN
+
                 CALL SGSAVINI(ISOLNOD,X,IXS(1,NFT+1),GBUF%SMSTR,NEL)
                IF (NSIGI > 0 ) THEN
                   CALL SGSAVINIEREF(ISOLNOD,STRAGLOB(NF1),SIGSP,NSIGI,PTSOL(NF1),
