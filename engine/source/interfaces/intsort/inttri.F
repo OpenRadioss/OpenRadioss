@@ -989,7 +989,7 @@ c-----------------------------------------------------------------------
           SSHIFT = ITASK*NRTM_T
           IF(ITASK==NTHREAD-1)NRTM_T=(IPARI(4,N)-IPARI(42,N))
      +                                -(NTHREAD-1)*NRTM_T
-          CALL I25MAIN_TRI(TIMERS,
+          CALL I25MAIN_TRI(TIMERS,VSLV(1:6,N),
      1      IPARI   ,X       ,V   ,INTBUF_TAB(N),
      2      MS      ,N            ,ITASK        ,WEIGHT  ,
      3      ISENDTO ,IRECVFROM    ,RETRI        ,IAD_ELEM,FR_ELEM ,
@@ -1125,7 +1125,7 @@ c-----------------------------------------------------------------------
           IF(ITASK==NTHREAD-1)NRTM_T=(IPARI(4,N)-IPARI(42,N))
      +                                -(NTHREAD-1)*NRTM_T
 C-------  KINET,MS used for commu remot second, for the moment no need.   
-          CALL I25MAIN_TRI(TIMERS,
+          CALL I25MAIN_TRI(TIMERS, VSLV,
      1      IPARI   ,X       ,V       ,INTBUF_TAB(N),
      2      MS      ,N            ,ITASK        ,WEIGHT  ,
      3      ISENDTO ,IRECVFROM    ,RETRI        ,IAD_ELEM,FR_ELEM ,
