@@ -699,12 +699,13 @@ C-------------------------
      .        TABLE   ,MSSA(NF1) ,DMELS(NF1),VOLN    ,ITASK    ,IPRI     ,MAT_ELEM ,
      .        IBID    ,IFTHE     ,FTHE     ,FTHESKY  ,ICONDN   ,CONDN    ,CONDNSKY ,
      .        IEXPAN  ,DT        ,SVIS     ,IRESP    ,idel7nok ,MAXFUNC  ,IMON_MAT ,
-     .        USERL_AVAIL,GLOB_THERM,XDP   ,SENSORS  ,DT1      ,VOLMIN   ,TH_STRAIN,
-     .        IDTMIN  ,TT        ,IDYNA    ,IMPL_S   ,INEG_V   ,IPARIT   ,IREP     , 
+     .        USERL_AVAIL,GLOB_THERM,XDP   ,SENSORS  ,DT1      ,TH_STRAIN,
+     .        IDTMIN  ,TT        ,IDYNA    ,IMPL_S   ,IPARIT   ,IREP     , 
      .        ISCAU   ,ISMDISP   ,ISMSTR   ,ISORTH   ,ISORTHG  ,JALE     ,JCVT     ,
-     .        JEUL    ,JLAG      ,JSPH     ,JPLASOL  ,JTHE     ,MSTOP    ,MTN      , 
+     .        JEUL    ,JLAG      ,JSPH     ,JPLASOL  ,JTHE     ,MTN      , 
      .        N2D     ,NCPRI     ,NCYCLE   ,NFILSOL  ,NFT      ,IINT     ,NODADT   ,
-     .        DTFAC1  ,D         ,IMATVIS  ,INVSTR   ,ICP )
+     .        DTFAC1  ,D         ,IMATVIS  ,INVSTR   ,ICP      , 
+     .        JHBE)
 c
               IF (NSECT>0) THEN
                 K0 = NSTRF(25)

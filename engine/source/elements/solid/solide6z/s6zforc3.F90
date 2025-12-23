@@ -21,84 +21,84 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    s6zforc3_mod   ../engine/source/elements/solid/solide6z/s6zforc3.F90
+!||    s6zforc3_mod   ../engine/source/elements/solid/solide6z/s6zforc3.f90
 !||--- called by ------------------------------------------------------
-!||    forint         ../engine/source/elements/forint.F
+!||    forint         ../engine/source/elements/forint.f
 !||====================================================================
       module s6zforc3_mod
       contains
         ! ======================================================================================================================
-        ! \brief /PENTA6 solid elements
-        ! \details 6 nodes PENTA6 solid elements
+        ! \brief /penta6 solid elements
+        ! \details 6 nodes penta6 solid elements
         ! ======================================================================================================================
 !||====================================================================
-!||    s6zforc3                ../engine/source/elements/solid/solide6z/s6zforc3.F90
+!||    s6zforc3                ../engine/source/elements/solid/solide6z/s6zforc3.f90
 !||--- called by ------------------------------------------------------
-!||    forint                  ../engine/source/elements/forint.F
+!||    forint                  ../engine/source/elements/forint.f
 !||--- calls      -----------------------------------------------------
-!||    csmall3                 ../engine/source/elements/solid/solide/csmall3.F
-!||    mmain                   ../engine/source/materials/mat_share/mmain.F90
-!||    s6cbilan                ../engine/source/elements/thickshell/solide6c/s6cbilan.F
-!||    s6chour_ctl             ../engine/source/elements/thickshell/solide6c/s6chour_ctl.F90
-!||    s6cumu3                 ../engine/source/elements/thickshell/solide6c/s6cumu3.F
-!||    s6cumu3p                ../engine/source/elements/thickshell/solide6c/s6cumu3p.F
-!||    s6czero3                ../engine/source/elements/thickshell/solide6c/s6czero3.F
-!||    s6fillopt               ../engine/source/elements/thickshell/solide6c/s6fillopt.F
-!||    s6fint_reg              ../engine/source/elements/solid/solide6z/s6fint_reg.F90
-!||    s6for_distor            ../engine/source/elements/thickshell/solide6c/s6for_distor.F90
-!||    s6get_xv                ../engine/source/elements/thickshell/solide6c/s6get_xv.F90
-!||    s6zdefc3                ../engine/source/elements/solid/solide6z/s6zdefc3.F90
-!||    s6zdefo3                ../engine/source/elements/solid/solide6z/s6zdefo3.F90
-!||    s6zdefot3               ../engine/source/elements/solid/solide6z/s6zdefot3.F90
-!||    s6zderi3                ../engine/source/elements/solid/solide6z/s6zderi3.F90
-!||    s6zderito3              ../engine/source/elements/solid/solide6z/s6zderito3.F90
-!||    s6zfint3                ../engine/source/elements/solid/solide6z/s6zfint3.F90
-!||    s6zhour3                ../engine/source/elements/solid/solide6z/s6zhourg3.F90
-!||    s6zrcoor3               ../engine/source/elements/solid/solide6z/s6zrcoor3.F90
-!||    s6zrrota3               ../engine/source/elements/solid/solide6z/s6zrrota3.F90
-!||    s6zsav3                 ../engine/source/elements/solid/solide6z/s6zsav3.F90
-!||    sdistor_ini             ../engine/source/elements/solid/solide/sdistror_ini.F90
-!||    sdlen3                  ../engine/source/elements/solid/solide/sdlen3.F
-!||    sgcoor3                 ../engine/source/elements/solid/solide/sgcoor3.F
-!||    smallb3                 ../engine/source/elements/solid/solide/smallb3.F
-!||    sordeft3                ../engine/source/elements/solid/solidez/sordeft3.F
-!||    srho3                   ../engine/source/elements/solid/solide/srho3.F
-!||    sstra3                  ../engine/source/elements/solid/solide/sstra3.F
-!||    sztorth3                ../engine/source/elements/solid/solidez/sztorth3.F
+!||    csmall3                 ../engine/source/elements/solid/solide/csmall3.f
+!||    mmain                   ../engine/source/materials/mat_share/mmain.f90
+!||    s6cbilan                ../engine/source/elements/thickshell/solide6c/s6cbilan.f
+!||    s6chour_ctl             ../engine/source/elements/thickshell/solide6c/s6chour_ctl.f90
+!||    s6cumu3                 ../engine/source/elements/thickshell/solide6c/s6cumu3.f
+!||    s6cumu3p                ../engine/source/elements/thickshell/solide6c/s6cumu3p.f
+!||    s6czero3                ../engine/source/elements/thickshell/solide6c/s6czero3.f
+!||    s6fillopt               ../engine/source/elements/thickshell/solide6c/s6fillopt.f
+!||    s6fint_reg              ../engine/source/elements/solid/solide6z/s6fint_reg.f90
+!||    s6for_distor            ../engine/source/elements/thickshell/solide6c/s6for_distor.f90
+!||    s6get_xv                ../engine/source/elements/thickshell/solide6c/s6get_xv.f90
+!||    s6zdefc3                ../engine/source/elements/solid/solide6z/s6zdefc3.f90
+!||    s6zdefo3                ../engine/source/elements/solid/solide6z/s6zdefo3.f90
+!||    s6zdefot3               ../engine/source/elements/solid/solide6z/s6zdefot3.f90
+!||    s6zderi3                ../engine/source/elements/solid/solide6z/s6zderi3.f90
+!||    s6zderito3              ../engine/source/elements/solid/solide6z/s6zderito3.f90
+!||    s6zfint3                ../engine/source/elements/solid/solide6z/s6zfint3.f90
+!||    s6zhour3                ../engine/source/elements/solid/solide6z/s6zhourg3.f90
+!||    s6zrcoor3               ../engine/source/elements/solid/solide6z/s6zrcoor3.f90
+!||    s6zrrota3               ../engine/source/elements/solid/solide6z/s6zrrota3.f90
+!||    s6zsav3                 ../engine/source/elements/solid/solide6z/s6zsav3.f90
+!||    sdistor_ini             ../engine/source/elements/solid/solide/sdistror_ini.f90
+!||    sdlen3                  ../engine/source/elements/solid/solide/sdlen3.f
+!||    sgcoor3                 ../engine/source/elements/solid/solide/sgcoor3.f
+!||    smallb3                 ../engine/source/elements/solid/solide/smallb3.f
+!||    sordeft3                ../engine/source/elements/solid/solidez/sordeft3.f
+!||    srho3                   ../engine/source/elements/solid/solide/srho3.f
+!||    sstra3                  ../engine/source/elements/solid/solide/sstra3.f
+!||    sztorth3                ../engine/source/elements/solid/solidez/sztorth3.f
 !||--- uses       -----------------------------------------------------
-!||    ale_connectivity_mod    ../common_source/modules/ale/ale_connectivity_mod.F
-!||    constant_mod            ../common_source/modules/constant_mod.F
-!||    dt_mod                  ../engine/source/modules/dt_mod.F
-!||    elbufdef_mod            ../common_source/modules/mat_elem/elbufdef_mod.F90
-!||    eos_param_mod           ../common_source/modules/mat_elem/eos_param_mod.F90
-!||    glob_therm_mod          ../common_source/modules/mat_elem/glob_therm_mod.F90
-!||    mat_elem_mod            ../common_source/modules/mat_elem/mat_elem_mod.F90
-!||    matparam_def_mod        ../common_source/modules/mat_elem/matparam_def_mod.F90
-!||    mmain_mod               ../engine/source/materials/mat_share/mmain.F90
-!||    mvsiz_mod               ../engine/share/spe_inc/mvsiz_mod.F90
-!||    names_and_titles_mod    ../common_source/modules/names_and_titles_mod.F
-!||    nlocal_reg_mod          ../common_source/modules/nlocal_reg_mod.F
-!||    output_mod              ../common_source/modules/output/output_mod.F90
-!||    precision_mod           ../common_source/modules/precision_mod.F90
-!||    s6chour_ctl_mod         ../engine/source/elements/thickshell/solide6c/s6chour_ctl.F90
-!||    s6fint_reg_mod          ../engine/source/elements/solid/solide6z/s6fint_reg.F90
-!||    s6for_distor_mod        ../engine/source/elements/thickshell/solide6c/s6for_distor.F90
-!||    s6get_xv_mod            ../engine/source/elements/thickshell/solide6c/s6get_xv.F90
-!||    s6zdefc3_mod            ../engine/source/elements/solid/solide6z/s6zdefc3.F90
-!||    s6zdefo3_mod            ../engine/source/elements/solid/solide6z/s6zdefo3.F90
-!||    s6zdefot3_mod           ../engine/source/elements/solid/solide6z/s6zdefot3.F90
-!||    s6zderi3_mod            ../engine/source/elements/solid/solide6z/s6zderi3.F90
-!||    s6zderito3_mod          ../engine/source/elements/solid/solide6z/s6zderito3.F90
-!||    s6zfint3_mod            ../engine/source/elements/solid/solide6z/s6zfint3.F90
-!||    s6zhour3_mod            ../engine/source/elements/solid/solide6z/s6zhourg3.F90
-!||    s6zrcoor3_mod           ../engine/source/elements/solid/solide6z/s6zrcoor3.F90
-!||    s6zrrota3_mod           ../engine/source/elements/solid/solide6z/s6zrrota3.F90
-!||    s6zsav3_mod             ../engine/source/elements/solid/solide6z/s6zsav3.F90
-!||    sdistor_ini_mod         ../engine/source/elements/solid/solide/sdistror_ini.F90
-!||    sensor_mod              ../common_source/modules/sensor_mod.F90
-!||    table_mat_vinterp_mod   ../engine/source/materials/tools/table_mat_vinterp.F
-!||    table_mod               ../engine/share/modules/table_mod.F
-!||    timer_mod               ../engine/source/system/timer_mod.F90
+!||    ale_connectivity_mod    ../common_source/modules/ale/ale_connectivity_mod.f
+!||    constant_mod            ../common_source/modules/constant_mod.f
+!||    dt_mod                  ../engine/source/modules/dt_mod.f
+!||    elbufdef_mod            ../common_source/modules/mat_elem/elbufdef_mod.f90
+!||    eos_param_mod           ../common_source/modules/mat_elem/eos_param_mod.f90
+!||    glob_therm_mod          ../common_source/modules/mat_elem/glob_therm_mod.f90
+!||    mat_elem_mod            ../common_source/modules/mat_elem/mat_elem_mod.f90
+!||    matparam_def_mod        ../common_source/modules/mat_elem/matparam_def_mod.f90
+!||    mmain_mod               ../engine/source/materials/mat_share/mmain.f90
+!||    mvsiz_mod               ../engine/share/spe_inc/mvsiz_mod.f90
+!||    names_and_titles_mod    ../common_source/modules/names_and_titles_mod.f
+!||    nlocal_reg_mod          ../common_source/modules/nlocal_reg_mod.f
+!||    output_mod              ../common_source/modules/output/output_mod.f90
+!||    precision_mod           ../common_source/modules/precision_mod.f90
+!||    s6chour_ctl_mod         ../engine/source/elements/thickshell/solide6c/s6chour_ctl.f90
+!||    s6fint_reg_mod          ../engine/source/elements/solid/solide6z/s6fint_reg.f90
+!||    s6for_distor_mod        ../engine/source/elements/thickshell/solide6c/s6for_distor.f90
+!||    s6get_xv_mod            ../engine/source/elements/thickshell/solide6c/s6get_xv.f90
+!||    s6zdefc3_mod            ../engine/source/elements/solid/solide6z/s6zdefc3.f90
+!||    s6zdefo3_mod            ../engine/source/elements/solid/solide6z/s6zdefo3.f90
+!||    s6zdefot3_mod           ../engine/source/elements/solid/solide6z/s6zdefot3.f90
+!||    s6zderi3_mod            ../engine/source/elements/solid/solide6z/s6zderi3.f90
+!||    s6zderito3_mod          ../engine/source/elements/solid/solide6z/s6zderito3.f90
+!||    s6zfint3_mod            ../engine/source/elements/solid/solide6z/s6zfint3.f90
+!||    s6zhour3_mod            ../engine/source/elements/solid/solide6z/s6zhourg3.f90
+!||    s6zrcoor3_mod           ../engine/source/elements/solid/solide6z/s6zrcoor3.f90
+!||    s6zrrota3_mod           ../engine/source/elements/solid/solide6z/s6zrrota3.f90
+!||    s6zsav3_mod             ../engine/source/elements/solid/solide6z/s6zsav3.f90
+!||    sdistor_ini_mod         ../engine/source/elements/solid/solide/sdistror_ini.f90
+!||    sensor_mod              ../common_source/modules/sensor_mod.f90
+!||    table_mat_vinterp_mod   ../engine/source/materials/tools/table_mat_vinterp.f
+!||    table_mod               ../engine/share/modules/table_mod.f
+!||    timer_mod               ../engine/source/system/timer_mod.f90
 !||====================================================================
       subroutine s6zforc3(                                                     &
         timers   ,output   ,ngroup   ,elbuf_tab,npropm   ,nummat   ,pm       , &
@@ -116,12 +116,13 @@
         table    ,mssa     ,dmels    ,voln     ,itask    ,ioutprt  ,mat_elem , &
         h3d_strain,ifthe   ,fthe     ,fthesky  ,icondn   ,condn    ,condnsky , &
         iexpan   ,dt       ,svis     ,iresp    ,idel7nok ,maxfunc  ,imon_mat , &
-        userl_avail,glob_therm,xdp   ,sensors  ,dt1      ,volmin   ,th_strain, & 
-        idtmin   ,tt       ,idyna    ,impl_s   ,ineg_v   ,iparit   ,irep     , &
+        userl_avail,glob_therm,xdp   ,sensors  ,dt1      ,th_strain, & 
+        idtmin   ,tt       ,idyna    ,impl_s   ,iparit   ,irep     , &
         iscau    ,ismdisp  ,ismstr   ,isorth   ,isorthg  ,jale     ,jcvt     , &
-        jeul     ,jlag     ,jsph     ,jplasol  ,jthe     ,mstop    ,mtn      , & 
+        jeul     ,jlag     ,jsph     ,jplasol  ,jthe     ,mtn      , & 
         n2d      ,ncpri    ,ncycle   ,nfilsol  ,nft      ,iint     ,nodadt   , &
-        dtfac1   ,d        ,imatvis  ,invstr   ,icp )
+        dtfac1   ,d        ,imatvis  ,invstr   ,icp                          , &
+        jhbe  )
 !-------------------------------------------------------------------------------
 !   m o d u l e s
 !-------------------------------------------------------------------------------
@@ -143,6 +144,7 @@
       use s6zdefot3_mod
       use s6zrcoor3_mod
       use s6zhour3_mod
+      use s6zhour3_or_mod
       use s6fint_reg_mod
       use matparam_def_mod
       use names_and_titles_mod
@@ -158,6 +160,12 @@
       use s6chour_ctl_mod ,only : s6chour_ctl
       use output_mod      ,only : output_     
       use s6zsav3_mod
+      use s6zderit3_mod
+      use s6zcoor_cp2sp_mod
+      use s6zrmalla11_mod
+      use s6zrrotadp_mod
+      use s6zupd11t12_mod
+      use s6zsav12_mod
 !-------------------------------------------------------------------------------
 !    i m p l i c i t   t y p e s
 !-------------------------------------------------------------------------------
@@ -246,7 +254,7 @@
       type(ttable) , dimension(ntable)  , intent(inout) :: table     !< table data structure
       real(kind=wp), dimension(nel),      intent(inout) :: mssa      !< mass array
       real(kind=wp), dimension(nel),      intent(inout) :: dmels     !< element damage array
-      real(kind=wp), dimension(mvsiz),    intent(inout) :: voln      !< element volume array
+      real(kind=wp), dimension(nel),    intent(inout) :: voln      !< element volume array
       integer,                            intent(in)    :: itask     !< task identifier
       integer,                            intent(in)    :: ioutprt   !< output print flag
       type(mat_elem_),                    intent(inout) :: mat_elem  !< material data structure
@@ -270,27 +278,24 @@
       type(sensors_),                     intent(inout) :: sensors
       real(kind=wp),                      intent(in)    :: dt1
       integer,                            intent(in)    :: th_strain
-      real(kind=wp),                      intent(in)    :: volmin
       integer,       dimension(102)                     :: idtmin
       real(kind=wp),                      intent(in)    :: tt
       integer,                            intent(in)    :: idyna     !< dynamic condensation flag
       integer,                            intent(in)    :: impl_s    !< implicit solver flag
-      integer,                            intent(inout) :: ineg_v    !< negative volume flag
       integer,                            intent(in)    :: iparit    !< parallel iteration flag
       integer,                            intent(in)    :: irep      !< reference frame flag
-      integer,                            intent(in)    :: iscau     !< cauchy stress flag
-      integer,                            intent(in)    :: ismdisp   !< displacement flag
+      integer,                            intent(inout)    :: iscau     !< cauchy stress flag
+      integer,                            intent(inout)    :: ismdisp   !< displacement flag
       integer,                            intent(in)    :: ismstr    !< small strain flag
       integer,                            intent(inout) :: isorth    !< orthotropic material flag
       integer,                            intent(inout) :: isorthg   !< global orthotropic flag
       integer,                            intent(in)    :: jale      !< ale formulation flag
-      integer,                            intent(in)    :: jcvt      !< coordinate transformation flag
+      integer,                            intent(inout)    :: jcvt      !< coordinate transformation flag
       integer,                            intent(in)    :: jeul      !< eulerian formulation flag
       integer,                            intent(in)    :: jlag      !< lagrangian formulation flag
       integer,                            intent(inout) :: jsph      !< smoothed particle hydrodynamics flag
       integer,                            intent(inout) :: jplasol   !< plastic solution flag
       integer,                            intent(inout) :: jthe      !< thermal analysis flag
-      integer,                            intent(inout) :: mstop     !< stop flag
       integer,                            intent(inout) :: mtn       !< material type number
       integer,                            intent(in)    :: n2d       !< 2d analysis flag
       integer,                            intent(in)    :: ncpri     !< print cycle interval
@@ -302,11 +307,13 @@
       real(kind=wp),                      intent(in)    :: dtfac1(102)
       integer,                           intent(in)     :: invstr
       integer,                           intent(in)     :: icp
+      integer,                            intent(in)    :: jhbe !< total number of nodes 
+ 
 !-------------------------------------------------------------------------------
 !    l o c a l   v a r i a b l e s
 !-------------------------------------------------------------------------------
       !< loop counters and flags
-      integer :: i, j, nf1, iflag
+      integer :: i, j, nf1, iflag,itet,iadbuf
       integer :: ilay, nlay, ir, is, it, mx, l_pla, l_epsd
       !< element connectivity and property arrays
       integer :: mxt(mvsiz), ngl(mvsiz), ngeo(mvsiz), ii(6)
@@ -321,7 +328,7 @@
       !< strain rate components
       real(kind=wp), dimension(mvsiz) :: dxx,dyy,dzz,d4,d5,d6 !< strain rate components d11, d22, d33
       !< jacobian matrix components
-      real(kind=wp), dimension(mvsiz) :: jac1,jac2,jac3,jac4,jac5,jac6 !< jacobian matrix components j11, j12, j13
+      real(kind=wp), dimension(mvsiz) :: jac1,jac2,jac3,jac4,jac5,jac6,jac9 !< jacobian matrix components j11, j12, j13
       !< velocity gradients and additional variables
       real(kind=wp), dimension(mvsiz) :: vdx,vdy,vdz,ssp_eq,aire !< equivalent sound speed, element area
       !< additional stress and kinematic variables
@@ -378,17 +385,17 @@
       real(kind=8), dimension(mvsiz) :: voldp
       real(kind=8), dimension(mvsiz,6) :: x0,y0,z0
 
-          integer :: inloc,l_nloc,sz_r1_free,sz_ix
-          integer, dimension(6) :: ipos, inod
-          real(kind=wp), dimension(:) ,allocatable :: var_reg
-          real(kind=wp), dimension(:), pointer :: dnl
-          real(kind=wp) :: cns2, fqmax, dn
+      integer :: inloc,l_nloc,sz_r1_free,sz_ix,jft,jlt,ism12_11
+      integer, dimension(6) :: ipos, inod
+      real(kind=wp), dimension(:) ,allocatable :: var_reg
+      real(kind=wp), dimension(:), pointer :: dnl
+      real(kind=wp) :: cns2, fqmax, dn
 
-          integer :: fake_size = 0
-          real(kind=wp), dimension(1) :: fake_array
+      integer :: fake_size = 0
+      real(kind=wp), dimension(1) :: fake_array
 !
-          type(g_bufel_) ,pointer :: gbuf
-          type(l_bufel_) ,pointer :: lbuf
+      type(g_bufel_) ,pointer :: gbuf
+      type(l_bufel_) ,pointer :: lbuf
 !
 !===============================================================================
 !     s o u r c e  l i n e s
@@ -402,10 +409,15 @@
       ir = 1
       is = 1
       it = 1
-      isorthg = 0
-      isorth  = 0
+      jft = 1 
+      jlt = nel
       gbuf => elbuf_tab(ng)%gbuf
       lbuf => elbuf_tab(ng)%bufly(ilay)%lbuf(ir,is,it)
+
+      ism12_11 = elbuf_tab(ng)%bufly(1)%l_sigl
+
+
+      if (jcvt==1 .and. isorth>0) jcvt=2
       do i=1,6
         ii(i) = nel*(i-1)
       enddo
@@ -434,7 +446,7 @@
 !
 !-------------------------------------------------------------------------------
 !<  gather nodal variables and compute intinsic rotations
-!-------------------------------------------------------------------------------
+!-------------------------------------------------------------------------------     
       call s6zrcoor3(                                                          &
         numnod   ,x         ,ixs(1,nf1),v       ,gbuf%gama,gama     ,          &
         x1       ,x2        ,x3       ,x4       ,x5       ,x6       ,          &
@@ -452,7 +464,10 @@
         gbuf%gama_r,nixs    ,irep     ,ismstr   ,isorth   ,jlag               ,&        
         xd1      ,xd2       ,xd3      ,xd4      ,xd5      ,xd6                ,&
         yd1      ,yd2       ,yd3      ,yd4      ,yd5      ,yd6                ,&
-        zd1      ,zd2       ,zd3      ,zd4      ,zd5      ,zd6       )    
+        zd1      ,zd2       ,zd3      ,zd4      ,zd5      ,zd6                ,&
+        jhbe    , idtmin    ,x0       ,y0       ,z0       ,iresp    ,xdp)
+
+
 
       !< 
       nn_del = 0
@@ -465,6 +480,7 @@
       c1 = pm(32,mx)
       ipres = 0
       isctl = igeo(97,pid)
+  
 !
       !< elastic parameters, nodal stiffness ...  
       do i=1,nel
@@ -474,22 +490,57 @@
         conden(i) = zero
       enddo          
 
-      if (ismstr == 10) then
+      if ((ismstr >= 10.and.ismstr <= 12).and.jlag > 0) then
+    
+          call sgcoor3(&
+            tt,        6,         x,         ixs(1,nf1),&
+            x0,        y0,        z0,        vx0,       &
+            vy0,       vz0,       gbuf%smstr, d,        &
+            gbuf%off,  offg0,     nel,       xdp,       &
+            mtn,       ismstr)
 
-      call sgcoor3(&
-        tt,        6,         x,         ixs(1,nf1),&
-        x0,        y0,        z0,        vx0,    &
-        vy0,       vz0,       gbuf%smstr, d,     &
-        gbuf%off,  offg0,     nel,       xdp,    &
-        mtn,       ismstr)
+     if (ismstr == 11) then 
+
+        call s6zrrotadp(                    &
+          r11,     r12,     r13,     r21,     &
+          r22,     r23,     r31,     r32,     &
+          r33,     x0(1,1), x0(1,2), x0(1,3), &
+          x0(1,4), x0(1,5), x0(1,6),          &
+          y0(1,1), y0(1,2), y0(1,3),          &
+          y0(1,4), y0(1,5), y0(1,6),          &
+          z0(1,1), z0(1,2), z0(1,3),          &
+          z0(1,4), z0(1,5), z0(1,6), nel)
+        call s6zrrota3(                     &
+          r11,     r12,     r13,     r21,     &
+          r22,     r23,     r31,     r32,     &
+          r33,     vx0(1,1),vx0(1,2),vx0(1,3),&
+          vx0(1,4),vx0(1,5),vx0(1,6),         &
+          vy0(1,1),vy0(1,2),vy0(1,3),         &
+          vy0(1,4),vy0(1,5),vy0(1,6),         &
+          vz0(1,1),vz0(1,2),vz0(1,3),         &
+          vz0(1,4),vz0(1,5),vz0(1,6),         &
+          nel)
+
+        call s6zderit3(&
+          offg     ,voln     ,ngl      ,nel   ,                               &
+          x0(1,1)  ,x0(1,2)  ,x0(1,3)  ,x0(1,4)  ,x0(1,5)  ,x0(1,6)  ,           &
+          y0(1,1)  ,y0(1,2)  ,y0(1,3)  ,y0(1,4)  ,y0(1,5)  ,y0(1,6)  ,           &
+          z0(1,1)  ,z0(1,2)  ,z0(1,3)  ,z0(1,4)  ,z0(1,5)  ,z0(1,6)  ,           &
+          px1      ,px2      ,px3      ,px4      ,px5      ,px6      ,           &
+          py1      ,py2      ,py3      ,py4      ,py5      ,py6      ,           &
+          pz1      ,pz2      ,pz3      ,pz4      ,pz5      ,pz6      ,           &
+          jac1     ,jac2     ,jac3     ,jac4     ,jac5     ,jac6     ,           &
+          jac9     ,voldp)  
 
 
+     else  
       call s6zderito3(                                                         &
         voln      ,                                                            &
         px1      ,px2      ,px3      ,px4      ,px5      ,px6      ,           &
         py1      ,py2      ,py3      ,py4      ,py5      ,py6      ,           &
         pz1      ,pz2      ,pz3      ,pz4      ,pz5      ,pz6      ,           &
         nel      ,gbuf%jac_i )  
+     endif
 
       call s6zdefot3( &
         px1      , px2      , px3      , px4      , px5      , px6      ,      &
@@ -504,60 +555,64 @@
       
          
       if (ismstr == 10 .or. ismstr == 12 .or. isorth /= 0) then
-        call sztorth3(1,nel,isorth,nel,&
+        call sztorth3(jft,jlt,isorth,nel,&
               r11, r12, r13, r21, r22, r23, r31, r32, r33,&
               g1x, g1y, g1z, g2x, g2y, g2z, g3x, g3y, g3z, gbuf%gama)
-        call sordeft3(1,nel,mfxx, mfxy, mfxz, mfyx, mfyy, mfyz,&
+        call sordeft3(jft,jlt,mfxx, mfxy, mfxz, mfyx, mfyy, mfyz,&
                mfzx, mfzy, mfzz,&
                g1x, g1y, g1z, g2x, g2y, g2z, g3x, g3y, g3z)
       endif
 
 
      endif 
-!
+    
 !-------------------------------------------------------------------------------
 !<  computation of derivatives and jacobian matrix
 !-------------------------------------------------------------------------------  
-      call s6zderi3(&
-        offg     ,voln     ,ngl      ,                                         &
-        xd1      ,xd2      ,xd3      ,xd4      ,xd5      ,xd6      ,           &
-        yd1      ,yd2      ,yd3      ,yd4      ,yd5      ,yd6      ,           &
-        zd1      ,zd2      ,zd3      ,zd4      ,zd5      ,zd6      ,           &
-        px1      ,px2      ,px3      ,px4      ,px5      ,px6      ,           &
-        py1      ,py2      ,py3      ,py4      ,py5      ,py6      ,           &
-        pz1      ,pz2      ,pz3      ,pz4      ,pz5      ,pz6      ,           &
-        jac1     ,jac2     ,jac3     ,jac4     ,jac5     ,jac6     ,           &
-        vzl      ,volg     ,gbuf%smstr,gbuf%off,nel      ,ismstr   ,           &
-        idel7nok ,ineg_v   ,mstop    ,volmin   ,idtmin   ,voldp    ,           &
-        jlag )  
-!
+!       
+        if (ismstr==11) then
+          call s6zcoor_cp2sp(             &
+            x0,      y0,      z0,      x1,  &
+            x2,      x3,      x4,      x5,  &
+            x6,      y1,                    &
+            y2,      y3,      y4,      y5,  &
+            y6,      z1,                    &
+            z2,      z3,      z4,      z5,  &
+            z6,      nel)
+        else
+ 
+          call s6zderi3(&
+            offg     ,voln     ,ngl      ,                                         &
+            xd1      ,xd2      ,xd3      ,xd4      ,xd5      ,xd6      ,           &
+            yd1      ,yd2      ,yd3      ,yd4      ,yd5      ,yd6      ,           &
+            zd1      ,zd2      ,zd3      ,zd4      ,zd5      ,zd6      ,           &
+            px1      ,px2      ,px3      ,px4      ,px5      ,px6      ,           &
+            py1      ,py2      ,py3      ,py4      ,py5      ,py6      ,           &
+            pz1      ,pz2      ,pz3      ,pz4      ,pz5      ,pz6      ,           &
+            jac1     ,jac2     ,jac3     ,jac4     ,jac5     ,jac6     ,           &
+            jac9     ,                                                             &
+            vzl      ,volg     ,gbuf%smstr,gbuf%off,nel      ,ismstr   ,           &
+            voldp    ,           &
+            jlag )  
+         endif
+          
+
 !-------------------------------------------------------------------------------
 !<  compute element characteristic length and volume change
 !-------------------------------------------------------------------------------
           call sdlen3(&
-            volg     ,deltax   ,                                                   &
-            x1       ,x2       ,x5       ,x4       ,x3       ,x3       ,           &
-            x6       ,x6       ,y1       ,y2       ,y5       ,y4       ,           &
-            y3       ,y3       ,y6       ,y6       ,z1       ,z2       ,           &
-            z5       ,z4       ,z3       ,z3       ,z6       ,z6       ,           &
+            voln     ,deltax   ,                                                   &
+            x1       ,x2       ,x3       ,x3       ,                               &
+            x4       ,x5       ,x6       ,x6       ,                               &
+            y1       ,y2       ,y3       ,y3       ,                               &
+            y4       ,y5       ,y6       ,y6       ,                               &
+            z1       ,z2       ,z3       ,z3       ,                               & 
+            z4       ,z5       ,z6       ,z6       ,                               &
             n1x      ,n2x      ,n3x      ,n4x      ,n5x      ,n6x      ,           &
             n1y      ,n2y      ,n3y      ,n4y      ,n5y      ,n6y      ,           &
             n1z      ,n2z      ,n3z      ,n4z      ,n5z      ,n6z      ,           &
             nel      ,mtn      ,jale     ,jeul     )
 !
-!-------------------------------------------------------------------------------
-!<  compute velocity gradients
-!-------------------------------------------------------------------------------
-          call s6zdefc3(&
-            px1     ,px2       ,px3      ,px4      ,px5      ,px6      ,           &
-            py1     ,py2       ,py3      ,py4      ,py5      ,py6      ,           &
-            pz1     ,pz2       ,pz3      ,pz4      ,pz5      ,pz6      ,           &
-            vx1     ,vx2       ,vx3      ,vx4      ,vx5      ,vx6      ,           &
-            vy1     ,vy2       ,vy3      ,vy4      ,vy5      ,vy6      ,           &
-            vz1     ,vz2       ,vz3      ,vz4      ,vz5      ,vz6      ,           &
-            dcxx    ,dcxy      ,dcxz     ,dcyx     ,dcyy     ,dcyz     ,           &
-            dczx    ,dczy      ,dczz     ,wxx      ,wyy      ,wzz      ,           &
-            nel     )
 !
 !-------------------------------------------------------------------------------
 !<  reset internal forces
@@ -573,7 +628,7 @@
 !<  update reference configuration (possible future change to small strain option)
 !-------------------------------------------------------------------------------
           if (ismstr <= 3.or.(ismstr==4.and.jlag>0)) then
-            call s6zsav3(                                                          &
+            call s6zsav3(                                                        &
               gbuf%off ,gbuf%smstr,                                                &
               xd1      ,xd2      ,xd3      ,xd4      ,xd5      ,xd6      ,         &
               yd1      ,yd2      ,yd3      ,yd4      ,yd5      ,yd6      ,         &
@@ -619,22 +674,54 @@
       zt = zero
       wt = two
 
+      !-------------------------------------------------------------------------------
+!<  compute velocity gradients
+!-------------------------------------------------------------------------------
+
+      call s6zdefc3(&
+        px1     ,px2       ,px3      ,px4      ,px5      ,px6      ,           &
+        py1     ,py2       ,py3      ,py4      ,py5      ,py6      ,           &
+        pz1     ,pz2       ,pz3      ,pz4      ,pz5      ,pz6      ,           &
+        vx1     ,vx2       ,vx3      ,vx4      ,vx5      ,vx6      ,           &
+        vy1     ,vy2       ,vy3      ,vy4      ,vy5      ,vy6      ,           &
+        vz1     ,vz2       ,vz3      ,vz4      ,vz5      ,vz6      ,           &
+        dcxx    ,dcxy      ,dcxz     ,dcyx     ,dcyy     ,dcyz     ,           &
+        dczx    ,dczy      ,dczz     ,wxx      ,wyy      ,wzz      ,           &
+        nel     )
+
+
       call s6zdefo3(&
         dxx      ,dxy      ,dxz      ,dyx      ,                               &
         dyy      ,dyz      ,dzx      ,dzy      ,                               &
         dzz      ,d4       ,d5       ,d6       ,                               &
         dcxx     ,dcxy     ,dcxz     ,dcyx     ,                               &
         dcyy     ,dcyz     ,dczx     ,dczy     ,                               &
-        dczz     ,zt       ,wt       ,vzl      ,                               & 
-        voln     ,volg     ,off      ,offg     ,                               & 
+        dczz     ,                                                             & 
+        voln     ,off      ,offg     ,                                         & 
         gbuf%off ,voldp    ,nel      ,dt1      ,                               &
-        ismdisp  ,iscau    )
-      !< recover initial density
-      rhoo(1:nel)  = lbuf%rho(1:nel)
-      !< volume change
-      divde(1:nel) = dt1*(dxx(1:nel) + dyy(1:nel) + dzz(1:nel)) + dsv(1:nel)  
+        ismdisp  ,iscau    ,                                                   & 
+        jcvt     ,ismstr   ,wxx      ,wyy      ,                               &
+        wzz      ,impl_s   ,idyna    ,output%data%fani_cell,                   &          
+        nft )
+
+
+       iscau = iscau 
+       ismdisp = ismdisp
+
+      if (jcvt == 2) then !//orth!
+       call storth3(&
+        jft,      jlt,      nel,      g1x,&
+        g1y,      g1z,      g2x,      g2y,&
+        g2z,      g3x,      g3y,      g3z,&
+        gbuf%gama,isorth)
+       call szordef3(jft,      jlt,dxx,dyy,dzz,d4,d5,d6, &
+                     g1x, g1y, g1z, g2x, g2y, g2z, g3x, g3y, g3z)
+      endif
+ 
+      divde(1:nel) = dt1*(dxx(1:nel) + dyy(1:nel) + dzz(1:nel))   
+
       !< update element density
-      call srho3(&
+      call srho3(                                                              &
           pm       ,lbuf%vol ,lbuf%rho ,lbuf%eint,                             &
           divde    ,fake_array,flu1(nf1),voln   ,                              &
           dvol     ,ngl      ,mxt      ,off      ,                             &
@@ -642,16 +729,27 @@
           amu      ,gbuf%off ,nel      ,mtn      ,                             &
           jale     ,ismstr   ,jeul     ,jlag     ,                             &
           fake_size,fake_size,0)
+
+
 !
 !-------------------------------------------------------------------------------      
 !  recover stress tensor at gauss point
 !-------------------------------------------------------------------------------      
-      call csmall3(&
-        lbuf%sig ,s1       ,s2       ,s3       ,s4       ,s5       ,s6       , &
-        gbuf%off ,off      ,nel      )
+
+
+       call srmalla3(gbuf%sig,s1,s2,s3,s4,s5,s6, & 
+                  gbuf%off,off,nel)
+  
+       call s6zrmalla11(                                 &
+        gbuf%smstr,gbuf%off,  wxx,       wyy,            &
+        wzz,       r11,       r12,       r13,            &
+        r21,       r22,       r23,       r31,            &
+        r32,       r33,       nel,       ismstr)
+       
 !-------------------------------------------------------------------------------      
 !  compute new stresses according to constitutive laws
-!-------------------------------------------------------------------------------      
+!-------------------------------------------------------------------------------     
+   
       call mmain(                                                              &
         timers   ,output   ,elbuf_tab,ng       ,pm       ,geo      ,           &
         ale_connect, ixs,  iparg,                                              &
@@ -678,13 +776,27 @@
         numnod   ,numels   ,idel7nok ,idtmin   ,maxfunc  ,imon_mat ,           &
         userl_avail,impl_s ,idyna    ,dt       ,fheat    ,sensors  ,           &
         opt_mtn=mtn,opt_jcvt=jcvt,opt_isorth=isorth,opt_isorthg=isorthg)
-!
+
+        !< update the total strain tensor for output
+
+        if (istrain == 1) then 
+          call sstra3(&
+            dxx      ,dyy      ,dzz      ,d4       ,d5       ,d6       ,       &
+            lbuf%stra,wxx      ,wyy      ,wzz      ,off      ,nel      ,       &
+            jcvt)
+        endif
+
         !< update nodal stiffness computation
         do i=1,nel
           stin(i) = stin(i) + sti(i)
         enddo
 !
         !< copy the new stress tensor
+
+        if (jcvt == 2) then
+        call sroto3( jft, jlt, gbuf%sig,sign, &
+                 g1x, g2x, g3x, g1y, g2y, g3y, g1z, g2z, g3z,nel)
+        else
         do i=1,nel
           sign(i,1) = gbuf%sig(ii(1)+i)
           sign(i,2) = gbuf%sig(ii(2)+i)
@@ -693,28 +805,40 @@
           sign(i,5) = gbuf%sig(ii(5)+i)
           sign(i,6) = gbuf%sig(ii(6)+i)
         enddo
+      endif
 !
           if(glob_therm%nodadt_therm == 1) then
             do i=1,nel
               conden(i)= conden(i)+ conde(i)
             enddo
           endif
-!
-        !< update the total strain tensor for output
-        if (istrain == 1) then 
-          call sstra3(&
-            dxx      ,dyy      ,dzz      ,d4       ,d5       ,d6       ,       &
-            lbuf%stra,wxx      ,wyy      ,wzz      ,off      ,nel      ,       &
-            jcvt)
-        endif
-!
+       itet = 0
+           
+      call smallb3(gbuf%off,off,nel,ismstr)
+ 
+      call smallgeo3(ngl, gbuf%off ,voln ,deltax, gbuf%vol ,itet,nel,ismstr,dt)
+    
+
+      if (ismstr == 12.and.idtmin(1)==3) then
+        call s6zsav12(                       &
+        gbuf%off,  offg0,     gbuf%smstr,  x,&
+        xdp,       nc1,       nc2,       nc3,&
+        nc4,       nc5,       nc6,           &
+        nel,       numnod,     iresp)
+
+        if (ism12_11>0 .and. isorth == 0) then
+          call s6zupd11t12(gbuf%off,offg0  ,x  ,xdp  , &
+            nc1   ,nc2   ,nc3   ,nc4   ,nc5   ,nc6   , &
+          gbuf%jac_i,gbuf%sig,lbuf%sigl  ,nel    ,numnod   ,iresp )
+        end if
+      endif
 !-------------------------------------------------------------------------------      
 !<  computation of the new internal forces
 !------------------------------------------------------------------------------- 
         l_pla  = elbuf_tab(ng)%bufly(ilay)%l_pla
         l_epsd = elbuf_tab(ng)%bufly(ilay)%l_epsd
         call s6zfint3(&
-          lbuf%sig ,px1      ,px2      ,px3      ,px4      ,px5      ,         &
+          sign     ,px1      ,px2      ,px3      ,px4      ,px5      ,         &
           px6      ,py1      ,py2      ,py3      ,py4      ,py5      ,         &
           py6      ,pz1      ,pz2      ,pz3      ,pz4      ,pz5      ,         &
           pz6      ,f11      ,f21      ,f31      ,f12      ,f22      ,         &
@@ -777,7 +901,35 @@
             pm       ,npropm   ,nummat   ,mtn      ,mxt      ,dn       ,       &
             gbuf%rho ,volg     ,cxx      ,gbuf%hourg,off     ,gbuf%vol ,       &
             gbuf%eint,dt1      ,stin     ,nel      )
-        else
+
+        elseif (isorth>0) then
+
+             if (mtn>=28) then
+                iadbuf = ipm(7,mxt(1))
+             else
+               iadbuf = 1 ! bufmat starts at 1 => bufmat(0) is wrong 
+             endif 
+
+             call s6zhour3_or( &
+            npropm   ,nummat   ,pm       ,gbuf%rho ,volg     ,cxx      ,        &
+            xd1      ,xd2      ,xd3      ,xd4      ,xd5      ,xd6      ,       &
+            yd1      ,yd2      ,yd3      ,yd4      ,yd5      ,yd6      ,       &
+            zd1      ,zd2      ,zd3      ,zd4      ,zd5      ,zd6      ,       &
+            vx1      ,vx2      ,vx3      ,vx4      ,vx5      ,vx6      ,       &
+            vy1      ,vy2      ,vy3      ,vy4      ,vy5      ,vy6      ,       &
+            vz1      ,vz2      ,vz3      ,vz4      ,vz5      ,vz6      ,       &
+            f11      ,f12      ,f13      ,f14      ,f15      ,f16      ,       &
+            f21      ,f22      ,f23      ,f24      ,f25      ,f26      ,       &
+            f31      ,f32      ,f33      ,f34      ,f35      ,f36      ,       &
+            nu       ,gbuf%hourg,off     ,gbuf%vol ,gbuf%eint,nel      ,       &
+            mxt      ,npropg   ,numgeo   ,geo      ,ngeo      ,dt1     ,       &
+            elbuf_tab(ng),iint ,jlag     ,mtn      ,sigy     ,sign     ,       &
+            sigo     ,ismstr   ,imatvis  , et      , dxx     ,                 &
+            dyy      ,dzz      , d4      , d5       , d6     ,invstr   ,     &
+            icp      ,lbuf%pla ,                                               &
+            gama     ,bufmat(iadbuf), mat_elem%mat_param(mx) )
+          
+        else           
           call s6zhour3(&
             npropm   ,nummat   ,pm       ,gbuf%rho ,volg     ,cxx      ,       &
             xd1      ,xd2      ,xd3      ,xd4      ,xd5      ,xd6      ,       &
@@ -795,6 +947,7 @@
             sigo     ,vis      ,ismstr   ,imatvis  , et      , dxx     ,             &
             dyy     , dzz    , d4      , d5       , d6       ,invstr   ,             &
             icp     , lbuf%pla  )
+
         endif
       endif
 !-------------------------------------------------------------------------------      
@@ -882,6 +1035,5 @@
               nel      ,nft      ,jthe     ,fthesky  ,them     ,condnsky ,         &
               conden   ,glob_therm%nodadt_therm)
           endif
-!
         end subroutine s6zforc3
       end module s6zforc3_mod

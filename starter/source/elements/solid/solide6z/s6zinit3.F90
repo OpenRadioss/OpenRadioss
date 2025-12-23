@@ -24,9 +24,9 @@
 ! \brief   initiation of penta solid element
 ! ======================================================================================================================
 !||====================================================================
-!||    s6zinit3_mod   ../starter/source/elements/solid/solide6z/s6zinit3.F90
+!||    s6zinit3_mod   ../starter/source/elements/solid/solide6z/s6zinit3.f90
 !||--- called by ------------------------------------------------------
-!||    initia         ../starter/source/elements/initia/initia.F
+!||    initia         ../starter/source/elements/initia/initia.f
 !||====================================================================
       module s6zinit3_mod
       contains
@@ -35,30 +35,30 @@
       ! \details initializes element variables, material model, mass, etc ... for 6-node solid elements
       ! ======================================================================================================================
 !||====================================================================
-!||    s6zinit3                ../starter/source/elements/solid/solide6z/s6zinit3.F90
+!||    s6zinit3                ../starter/source/elements/solid/solide6z/s6zinit3.f90
 !||--- called by ------------------------------------------------------
-!||    initia                  ../starter/source/elements/initia/initia.F
+!||    initia                  ../starter/source/elements/initia/initia.f
 !||--- calls      -----------------------------------------------------
-!||    atheri                  ../starter/source/ale/atheri.F
-!||    dtmain                  ../starter/source/materials/time_step/dtmain.F
-!||    failini                 ../starter/source/elements/solid/solide/failini.F
-!||    matini                  ../starter/source/materials/mat_share/matini.F
-!||    s6mass3                 ../starter/source/elements/thickshell/solide6c/s6mass3.F
-!||    s6zcoor3                ../starter/source/elements/solid/solide6z/s6zcoor3.F90
-!||    s6zderi3                ../starter/source/elements/solid/solide6z/s6zderi3.F90
-!||    s6zjacidp               ../starter/source/elements/solid/solide6z/s6zjacidp.F90
-!||    s6zrcoor3               ../starter/source/elements/solid/solide6z/s6zrcoor3.F90
-!||    sbulk3                  ../starter/source/elements/solid/solide/sbulk3.F
-!||    sigin20b                ../starter/source/elements/solid/solide20/s20mass3.F
+!||    atheri                  ../starter/source/ale/atheri.f
+!||    dtmain                  ../starter/source/materials/time_step/dtmain.f
+!||    failini                 ../starter/source/elements/solid/solide/failini.f
+!||    matini                  ../starter/source/materials/mat_share/matini.f
+!||    s6mass3                 ../starter/source/elements/thickshell/solide6c/s6mass3.f
+!||    s6zcoor3                ../starter/source/elements/solid/solide6z/s6zcoor3.f90
+!||    s6zderi3                ../starter/source/elements/solid/solide6z/s6zderi3.f90
+!||    s6zjacidp               ../starter/source/elements/solid/solide6z/s6zjacidp.f90
+!||    s6zrcoor3               ../starter/source/elements/solid/solide6z/s6zrcoor3.f90
+!||    sbulk3                  ../starter/source/elements/solid/solide/sbulk3.f
+!||    sigin20b                ../starter/source/elements/solid/solide20/s20mass3.f
 !||--- uses       -----------------------------------------------------
-!||    defaults_mod            ../starter/source/modules/defaults_mod.F90
-!||    detonators_mod          ../starter/share/modules1/detonators_mod.F
-!||    message_mod             ../starter/share/message_module/message_mod.F
-!||    s6zcoor3_mod            ../starter/source/elements/solid/solide6z/s6zcoor3.F90
-!||    s6zderi3_mod            ../starter/source/elements/solid/solide6z/s6zderi3.F90
-!||    s6zjacidp_mod           ../starter/source/elements/solid/solide6z/s6zjacidp.F90
-!||    s6zrcoor3_mod           ../starter/source/elements/solid/solide6z/s6zrcoor3.F90
-!||    table_mat_vinterp_mod   ../starter/source/materials/tools/table_mat_vinterp.F
+!||    defaults_mod            ../starter/source/modules/defaults_mod.f90
+!||    detonators_mod          ../starter/share/modules1/detonators_mod.f
+!||    message_mod             ../starter/share/message_module/message_mod.f
+!||    s6zcoor3_mod            ../starter/source/elements/solid/solide6z/s6zcoor3.f90
+!||    s6zderi3_mod            ../starter/source/elements/solid/solide6z/s6zderi3.f90
+!||    s6zjacidp_mod           ../starter/source/elements/solid/solide6z/s6zjacidp.f90
+!||    s6zrcoor3_mod           ../starter/source/elements/solid/solide6z/s6zrcoor3.f90
+!||    table_mat_vinterp_mod   ../starter/source/materials/tools/table_mat_vinterp.f
 !||====================================================================
       subroutine s6zinit3(                                                     & 
         elbuf_str,nixs     ,numels   ,ixs      ,numnod   ,mas       ,          &      
@@ -74,7 +74,7 @@
         straglob ,mssa     ,fail_ini ,sizloadp ,nloadp   ,iloadp    ,          &
         lfacload ,facload  ,nperturb ,srnoise  ,rnoise   ,perturb   ,          &
         mat_param,defaults_solid     ,numsol   ,i7stifs  ,isorth    ,          &   
-        istrain  ,jthe     ,mtn      ,nft      ,ismstr)                       
+        istrain  ,jthe     ,mtn      ,nft      ,ismstr   )                       
 !-------------------------------------------------------------------------------
 !   m o d u l e s
 !-------------------------------------------------------------------------------
@@ -186,8 +186,8 @@
 !------------------------------------------------
 !    l o c a l   v a r i a b l e s
 !------------------------------------------------
-      integer :: i, nf1, ibid, igtyp, irep, ip, ilay, nlay, nuvar, ncc, jhbe
-      integer ::  idef
+      integer ::  i, nf1, ibid, igtyp, irep, ip, ilay, nlay, nuvar, ncc, jhbe
+      integer ::  idef, jcvt
       integer ::  nptr, npts, nptt, l_pla, l_sigb, imas_ds
       integer, dimension(nel) :: mat, pid, ngl
       integer, dimension(nel) :: ix1, ix2, ix3, ix4, ix5, ix6
@@ -227,7 +227,6 @@
           idef  = 0
           ibid  = 0
           bid   = zero
-          isorth = 0
           imas_ds = defaults_solid%imas
 !=======================================================================
       do i = 1, nel
@@ -235,9 +234,12 @@
         temp0(i) = pm(79, ixs(1, nft+i))
       end do
 
+      jcvt  = iparg(37)
 
-!
-      if (ismstr==10) then
+      if (jcvt==1.and.isorth/=0) jcvt=2
+
+ 
+      if (ismstr>=10) then
           call s6zcoor3(                                                         &
             x        ,ixs(1,nf1) ,ngl    ,mat      ,pid      ,                     &
             rx       ,ry       ,rz       ,sx       ,sy       ,sz       ,           &
@@ -254,7 +256,7 @@
             zd1      ,zd2      ,zd3      ,zd4      ,zd5      ,zd6      ,           &
             nel      ,jthe     ,numnod) 
 
-          call s6zjacidp(                                &
+          call s6zjacidp(                                  &
                      xd1  ,xd2  ,xd3  ,xd4  ,xd5  ,xd6  ,  &
                      yd1  ,yd2  ,yd3  ,yd4  ,yd5  ,yd6  ,  &
                      zd1  ,zd2  ,zd3  ,zd4  ,zd5  ,zd6  ,  &
@@ -278,6 +280,15 @@
       zd1      ,zd2      ,zd3      ,zd4      ,zd5      ,zd6      ,           &
       nel      ,numnod   ,jthe)
 
+      if (isorth == 1) then 
+       call smorth3(pid  ,geo  ,igeo ,skew ,irep ,gbuf%gama  , &
+              rx   ,ry   ,rz   ,sx   ,sy   ,sz   ,tx   ,ty   ,tz   ,&
+              e1x  ,e1y  ,e1z  ,e2x  ,e2y  ,e2z  ,e3x  ,e3y  ,e3z  ,&
+              f1x  ,f1y  ,f1z  ,f2x  ,f2y  ,f2z  ,nsigi,sigsp,nsigs,&
+              sigi ,ixs  ,x    ,jhbe ,ptsol,nel  ,iparg(28),jcvt)             
+     endif 
+
+   
       call s6zderi3(                                               &
         nel     ,gbuf%vol,vzl                                      , &
         ngl     ,deltax  ,volu                                     , &
