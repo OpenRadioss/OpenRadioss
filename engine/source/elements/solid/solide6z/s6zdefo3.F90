@@ -35,21 +35,25 @@
 !||    constant_mod    ../common_source/modules/constant_mod.F
 !||    precision_mod   ../common_source/modules/precision_mod.F90
 !||====================================================================
-        subroutine s6zdefo3( &
+        subroutine s6zdefo3(                                                      &
           dxx      , dxy      , dxz      , dyx      ,                             &
           dyy      , dyz      , dzx      , dzy      ,                             &
           dzz      , d4       , d5       , d6       ,                             &
           dcxx     , dcxy     , dcxz     , dcyx     ,                             &
           dcyy     , dcyz     , dczx     , dczy     ,                             &
-          dczz     , zi       , wi       , vzl      ,                             &
-          vol      , volg     , off      , offg     ,                             &
+          dczz     ,                                                              &
+          vol      , off      , offg     ,                                        &
           offs     , voldp    , nel      , dt1      ,                             &
-          ismdisp  , iscau    )
+          ismdisp  , iscau    ,                                                   &
+          jcvt     , ISMSTR   , WXX      , WYY      ,                             &
+          WZZ      , IMPL_S   ,IDYNA     , FANI_CELL,                             &
+          NFT )
 !-------------------------------------------------------------------------------
 !   M o d u l e s
 !-------------------------------------------------------------------------------
           use precision_mod, only : wp
-          use constant_mod , only : zero, one, two, half, em20
+          use constant_mod
+          USE ALEANIM_MOD, only : FANI_CELL_
 !-------------------------------------------------------------------------------
 !    I m p l i c i t   t y p e s
 !-------------------------------------------------------------------------------
@@ -57,9 +61,15 @@
 !-------------------------------------------------------------------------------
 !    D u m m y   a r g u m e n t s
 !-------------------------------------------------------------------------------
+          TYPE(FANI_CELL_), intent(inout) :: FANI_CELL       
           integer,                    intent(in)       :: nel       !< Number of elements
+          INTEGER,                    INTENT(IN)       :: NFT
           integer,                    intent(in)       :: ismdisp
           integer,                    intent(in)       :: iscau
+          integer,                    intent(in)       :: JCVT
+          integer,                    intent(in)       :: ISMSTR
+          integer,                    intent(in)       :: IMPL_S        
+          integer,                    intent(in)       :: IDYNA          
           real(kind=WP),              intent(in)       :: dt1       !< Time step
           real(kind=wp), dimension(nel), intent(inout) :: dxx       !< Strain rate component XX
           real(kind=wp), dimension(nel), intent(inout) :: dxy       !< Strain rate component XY
@@ -70,9 +80,11 @@
           real(kind=wp), dimension(nel), intent(inout) :: dzx       !< Strain rate component ZX
           real(kind=wp), dimension(nel), intent(inout) :: dzy       !< Strain rate component ZY
           real(kind=wp), dimension(nel), intent(inout) :: dzz       !< Strain rate component ZZ
+
           real(kind=wp), dimension(nel), intent(inout) :: d4        !< Strain rate component 4
           real(kind=wp), dimension(nel), intent(inout) :: d5        !< Strain rate component 5
           real(kind=wp), dimension(nel), intent(inout) :: d6        !< Strain rate component 6
+
           real(kind=wp), dimension(nel), intent(in)    :: dcxx      !< Constant strain rate XX
           real(kind=wp), dimension(nel), intent(in)    :: dcxy      !< Constant strain rate XY
           real(kind=wp), dimension(nel), intent(in)    :: dcxz      !< Constant strain rate XZ
@@ -82,27 +94,28 @@
           real(kind=wp), dimension(nel), intent(in)    :: dczx      !< Constant strain rate ZX
           real(kind=wp), dimension(nel), intent(in)    :: dczy      !< Constant strain rate ZY
           real(kind=wp), dimension(nel), intent(in)    :: dczz      !< Constant strain rate ZZ
-          real(kind=wp),                 intent(in)    :: zi        !< Thickness coordinate
-          real(kind=wp),                 intent(in)    :: wi        !< Weight factor
-          real(kind=wp), dimension(nel), intent(in)    :: vzl       !< Volume velocity
           real(kind=wp), dimension(nel), intent(inout) :: vol       !< Current volume
-          real(kind=wp), dimension(nel), intent(in)    :: volg      !< Global volume
           real(kind=wp), dimension(nel), intent(inout) :: off       !< Element flag
           real(kind=wp), dimension(nel), intent(in)    :: offg      !< Global element flag
           real(kind=wp), dimension(nel), intent(in)    :: offs      !< Shell element flag
 !C     ENSURE DOUBLE-PRECISION (64-BIT) FLOATING-POINT CALCULATIONS, EVEN WHEN COMPILING IN SINGLE-PRECISION MODE.
-          real(kind=8), dimension(nel), intent(inout)   :: voldp     !< Double precision volume
+          real(kind=8), dimension(nel), intent(inout)  :: voldp     !< Double precision volume
+          real(kind=WP), dimension(nel), intent(inout) :: wxx   !< Spin rate XX component
+          real(kind=WP), dimension(nel), intent(inout) :: wyy   !< Spin rate YY component
+          real(kind=WP), dimension(nel), intent(inout) :: wzz   !< Spin rate ZZ component
 !-------------------------------------------------------------------------------
 !    L o c a l   v a r i a b l e s
 !-------------------------------------------------------------------------------
           integer :: i                                              !< Loop counter
-          real(kind=wp) ::   tol, dt1d2, dt1d1          !< Local work variables
+          real(kind=wp) ::   dt1d2, dt1d1,FAC
+          real(kind=wp) ::   exx, eyy, ezz, exy, eyx, exz, ezx, eyz, ezy
+          real(kind=wp) ::   AAA, DT1D
 !===============================================================================
 !     S o u r c e  l i n e s
 !===============================================================================
-          tol = one - em20
+!          tol = one - em20
           do i = 1, nel
-            vol(i) = half * wi * (volg(i) + vzl(i) * zi)
+!  vol(i) = half * wi * (volg(i) + vzl(i) * zi)
             vol(i) = voldp(i)
             off(i) = offg(i)
             if (vol(i) <= zero) then
@@ -113,10 +126,16 @@
               vol(i) = max(em20, vol(i))
             endif
           enddo
+
+
+
           dt1d1 = dt1
-          if (ismdisp > 0 .and. iscau == 0) dt1d1 = zero
-          dt1d2 = half * dt1d1
-          do i = 1, nel
+          if (ismdisp > 0 .and. iscau == 0) dt1d1 = zero !!???
+
+          
+
+    
+          do i = 1, nel     
             dxx(i) = dcxx(i)
             dyy(i) = dcyy(i)
             dzz(i) = dczz(i)
@@ -126,18 +145,97 @@
             dzy(i) = dczy(i)
             dxz(i) = dcxz(i)
             dyz(i) = dcyz(i)
-            d4(i)  = dxy(i) + dyx(i)                                              &
-              - dt1d1 * (dxx(i) * dxy(i) + dyx(i) * dyy(i) + dzx(i) * dzy(i))
-            d5(i)  = dyz(i) + dzy(i)                                              &
-              - dt1d1 * (dyy(i) * dyz(i) + dzy(i) * dzz(i) + dxy(i) * dxz(i))
-            d6(i)  = dxz(i) + dzx(i)                                              &
-              - dt1d1 * (dzz(i) * dzx(i) + dxz(i) * dxx(i) + dyz(i) * dyx(i))
-            dxx(i) = dxx(i)                                                       &
-              - dt1d2 * (dxx(i) * dxx(i) + dyx(i) * dyx(i) + dzx(i) * dzx(i))
-            dyy(i) = dyy(i)                                                       &
-              - dt1d2 * (dyy(i) * dyy(i) + dzy(i) * dzy(i) + dxy(i) * dxy(i))
-            dzz(i) = dzz(i)                                                       &
-              - dt1d2 * (dzz(i) * dzz(i) + dxz(i) * dxz(i) + dyz(i) * dyz(i))
           enddo
+
+          DT1D2=HALF*DT1
+ !         IF(ISCAU>0 .OR. IMP_LR>0)DT1D2=DT1
+
+
+      IF(JCVT /= 0)THEN !JCVT = 1 OR 2 IN PENTA SOLID
+        IF(ISMSTR == 11)THEN
+          DO I=1,NEL
+            D4(I)=DXY(I)+DYX(I)
+            D5(I)=DYZ(I)+DZY(I)
+            D6(I)=DXZ(I)+DZX(I)
+            WZZ(I)=DT1D2*(DYX(I)-DXY(I))
+            WYY(I)=DT1D2*(DXZ(I)-DZX(I))
+            WXX(I)=DT1D2*(DZY(I)-DYZ(I))
+          ENDDO
+        ELSE
+          DO I=1,NEL
+            WXX(I)=ZERO
+            WYY(I)=ZERO
+            WZZ(I)=ZERO
+          ENDDO
+          IF (IMPL_S == 0 .OR. (IDYNA > 0 .AND. ISMDISP == 0)) THEN
+            DO I=1,NEL
+             EXX=DXX(I)
+             EYY=DYY(I)
+             EZZ=DZZ(I)
+             EXY=DXY(I)
+             EYX=DYX(I)
+             EXZ=DXZ(I)
+             EZX=DZX(I)
+             EYZ=DYZ(I)
+             EZY=DZY(I)
+             DXX(I)=DXX(I)-DT1D2*(EXX*EXX+EYX*EYX+EZX*EZX)
+             DYY(I)=DYY(I)-DT1D2*(EYY*EYY+EZY*EZY+EXY*EXY)
+             DZZ(I)=DZZ(I)-DT1D2*(EZZ*EZZ+EXZ*EXZ+EYZ*EYZ)
+             AAA=DT1D2*(EXX*EXY+EYX*EYY+EZX*EZY)
+             DXY(I)=DXY(I)-AAA
+             DYX(I)=DYX(I)-AAA
+             D4(I)=DXY(I)+DYX(I)
+             AAA=DT1D2*(EYY*EYZ+EZY*EZZ+EXY*EXZ)
+             DYZ(I)=DYZ(I)-AAA
+             DZY(I)=DZY(I)-AAA
+             D5(I)=DYZ(I)+DZY(I)
+             AAA=DT1D2*(EZZ*EZX+EXZ*EXX+EYZ*EYX)
+             DXZ(I)=DXZ(I)-AAA
+             DZX(I)=DZX(I)-AAA
+             D6(I)=DXZ(I)+DZX(I)
+            ENDDO
+          ELSEIF (ISMDISP>0.AND.ISCAU==0) THEN
+          !---------implicit static---------            
+            DO I=1,NEL
+             D4(I) = DXY(I)+DYX(I)
+             D5(I) = DYZ(I)+DZY(I)
+             D6(I) = DXZ(I)+DZX(I)
+            ENDDO
+          ELSE
+            DT1D=TWO*DT1D2
+            DO I=1,NEL
+             D4(I)=DXY(I)+DYX(I)-DT1D*(DXX(I)*DXY(I)+DYX(I)*DYY(I)+DZX(I)*DZY(I))
+             D5(I)=DYZ(I)+DZY(I)-DT1D*(DYY(I)*DYZ(I)+DZY(I)*DZZ(I)+DXY(I)*DXZ(I))
+             D6(I)=DXZ(I)+DZX(I)-DT1D*(DZZ(I)*DZX(I)+DXZ(I)*DXX(I)+DYZ(I)*DYX(I))
+             DXX(I)=DXX(I)-DT1D2*(DXX(I)*DXX(I)+DYX(I)*DYX(I)+DZX(I)*DZX(I))
+             DYY(I)=DYY(I)-DT1D2*(DYY(I)*DYY(I)+DZY(I)*DZY(I)+DXY(I)*DXY(I))
+             DZZ(I)=DZZ(I)-DT1D2*(DZZ(I)*DZZ(I)+DXZ(I)*DXZ(I)+DYZ(I)*DYZ(I))
+            ENDDO
+          ENDIF ! IF (IMPL_S==0.OR.IDYNA>0)
+        END IF !(ISMSTR == 11) THEN
+
+      ENDIF
+
+      
+      !VORTICITY OUTPUT /ANIM/ELEM/VORTX,VORTY,VORTZ
+      IF(DT1/=ZERO)THEN
+        FAC = FOUR/DT1
+        IF(FANI_CELL%IS_VORT_X_REQUESTED)THEN
+          DO I=1,NEL
+            FANI_CELL%VORT_X(I+NFT) = FAC*WXX(I)
+          ENDDO
+        ENDIF
+        IF(FANI_CELL%IS_VORT_Y_REQUESTED)THEN
+          DO I=1,NEL
+            FANI_CELL%VORT_Y(I+NFT) = FAC*WYY(I)
+          ENDDO
+        ENDIF
+        IF(FANI_CELL%IS_VORT_Z_REQUESTED)THEN
+          DO I=1,NEL
+            FANI_CELL%VORT_Z(I+NFT) = FAC*WZZ(I)
+          ENDDO
+        ENDIF
+      ENDIF          
+
         end subroutine s6zdefo3
       end module s6zdefo3_mod

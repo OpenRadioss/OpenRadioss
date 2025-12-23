@@ -39,7 +39,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .       RX   ,RY   ,RZ   ,SX   ,SY   ,SZ   ,TX   ,TY   ,TZ   ,
      .       E1X  ,E1Y  ,E1Z  ,E2X  ,E2Y  ,E2Z  ,E3X  ,E3Y  ,E3Z  ,
      .       F1X  ,F1Y  ,F1Z  ,F2X  ,F2Y  ,F2Z  ,NSIGI,SIGSP,NSIGS,
-     .       SIGI ,IXS  ,X    ,JHBE ,PT   ,NEL  ,ISOLNOD)
+     .       SIGI ,IXS  ,X    ,JHBE ,PT   ,NEL  ,ISOLNOD ,JCVT_NEW )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -64,7 +64,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER JHBE,IREP,NSIGI,NSIGS,NEL,ISOLNOD
+      INTEGER JHBE,IREP,NSIGI,NSIGS,NEL,ISOLNOD,JCVT_NEW
       INTEGER PID(*),IGEO(NPROPGI,*),IXS(NIXS,*),PT(*)
 C     REAL
       my_real
@@ -93,6 +93,11 @@ C     GAMA(1)= TG11 , GAMA(2) = TG12, TG13..., TG21..., TG22..., TG23...
 C=======================================================================
 C---- tag elm /w /INIBRI/ORTHO
       INIORTH(LFT:LLT)=0
+
+    
+      JCVT = JCVT_NEW
+
+
       IF (NVSOLID3 /= 0) THEN
         IIS= NVSOLID1  + NVSOLID2 +  4 +NUSOLID 
         DO I=LFT,LLT
