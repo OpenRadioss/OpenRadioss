@@ -1091,7 +1091,7 @@ C Case total strain
      .      NUMGEO   ,GEO      ,ALE_CONNECTIVITY   ,NPARG     ,      
      .      IPARG(1,NG),NEL    ,DTELEM   ,NSIGS    ,LSIGI     ,SIGI     ,
      .      LSKEW    ,NUMSKW   ,SKEW     ,NPROPGI  ,IGEO      ,STIFN    ,
-     .      NPSAV    ,NPART    ,PARTSAV  ,V        ,IPART(I15A),MSS     ,
+     .      20       ,NPART    ,PARTSAV  ,V        ,IPART(I15A),MSS     ,
      .      LIPART1  ,IPART    ,GLOB_THERM,NSIGI   ,LSIGSP    ,SIGSP    ,
      .      NPROPMI  ,IPM      ,IUSER    ,VOLNOD   ,BVOLNOD   ,VNS      ,
      .      BNS      ,PTSOL    ,SBUFMAT  ,BUFMAT   ,MCP       ,MCPS     ,
@@ -1099,8 +1099,8 @@ C Case total strain
      .      STRAGLOB(NF1),MSSA ,FAIL_INI ,SIZLOADP ,NLOADP    ,ILOADP   ,
      .      LFACLOAD ,FACLOAD  ,NPERTURB ,SRNOISE  ,RNOISE    ,PERTURB  ,
      .      MAT_PARAM,DEFAULTS%SOLID     ,NUMSOL   ,I7STIFS   ,ISORTH   ,
-     .      ISTRAIN  ,JTHE     ,MTN      ,NFT      ,ISMSTR)
-          IF (ISMSTR == 10 ) THEN  
+     .      ISTRAIN  ,JTHE     ,MTN      ,NFT      ,ISMSTR    )
+          IF (ISMSTR >= 10.AND.ISMSTR <= 12) THEN  
               CALL SGSAVINI(ISOLNOD,X,IXS(1,NFT+1),GBUF%SMSTR,NEL)
           ENDIF
 

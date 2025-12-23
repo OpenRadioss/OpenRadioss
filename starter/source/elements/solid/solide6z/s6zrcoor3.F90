@@ -21,27 +21,27 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    s6zrcoor3_mod   ../starter/source/elements/solid/solide6z/s6zrcoor3.F90
+!||    s6zrcoor3_mod   ../starter/source/elements/solid/solide6z/s6zrcoor3.f90
 !||--- called by ------------------------------------------------------
-!||    s6zinit3        ../starter/source/elements/solid/solide6z/s6zinit3.F90
+!||    s6zinit3        ../starter/source/elements/solid/solide6z/s6zinit3.f90
 !||====================================================================
       module s6zrcoor3_mod
       contains
 
 !||====================================================================
-!||    s6zrcoor3        ../starter/source/elements/solid/solide6z/s6zrcoor3.F90
+!||    s6zrcoor3        ../starter/source/elements/solid/solide6z/s6zrcoor3.f90
 !||--- called by ------------------------------------------------------
-!||    s6zinit3         ../starter/source/elements/solid/solide6z/s6zinit3.F90
+!||    s6zinit3         ../starter/source/elements/solid/solide6z/s6zinit3.f90
 !||--- calls      -----------------------------------------------------
-!||    checkvolume_6n   ../starter/source/elements/solid/solide/checksvolume.F
-!||    s6zortho3        ../starter/source/elements/solid/solide6z/s6zortho3.F90
+!||    checkvolume_6n   ../starter/source/elements/solid/solide/checksvolume.f
+!||    s6zortho3        ../starter/source/elements/solid/solide6z/s6zortho3.f90
 !||--- uses       -----------------------------------------------------
-!||    message_mod      ../starter/share/message_module/message_mod.F
-!||    s6zortho3_mod    ../starter/source/elements/solid/solide6z/s6zortho3.F90
+!||    message_mod      ../starter/share/message_module/message_mod.f
+!||    s6zortho3_mod    ../starter/source/elements/solid/solide6z/s6zortho3.f90
 !||====================================================================
       subroutine s6zrcoor3(x      ,ixs ,ngl  ,mxt  ,ngeo ,           &
            rx   ,ry   ,rz   ,sx   ,sy   ,sz   ,tx   ,ty   ,tz   ,    &
-           r11  ,r21  ,r31  ,r12  ,r22  ,r32  ,r13  ,r23  ,r33  ,    &
+           e1x  ,e1y  ,e1z,  e2x  ,e2y  ,e2z   ,e3x ,e3y  ,e3z  ,    &
            f1x  ,f1y  ,f1z  ,f2x  ,f2y  ,f2z  ,temp0, temp,nintemp,  &
            ix1, ix2, ix3, ix4, ix5, ix6,     &
            x1, x2, x3, x4, x5, x6,           &
@@ -85,21 +85,23 @@
       real(kind=wp), dimension(nel),     intent(inout)   :: tx
       real(kind=wp), dimension(nel),     intent(inout)   :: ty 
       real(kind=wp), dimension(nel),     intent(inout)   :: tz
-      real(kind=wp), dimension(nel),     intent(inout)   :: r11 
-      real(kind=wp), dimension(nel),     intent(inout)   :: r12 
-      real(kind=wp), dimension(nel),     intent(inout)   :: r13
-      real(kind=wp), dimension(nel),     intent(inout)   :: r21
-      real(kind=wp), dimension(nel),     intent(inout)   :: r22 
-      real(kind=wp), dimension(nel),     intent(inout)   :: r23
-      real(kind=wp), dimension(nel),     intent(inout)   :: r31
-      real(kind=wp), dimension(nel),     intent(inout)   :: r32
-      real(kind=wp), dimension(nel),     intent(inout)   :: r33
       real(kind=wp), dimension(nel),     intent(inout)   :: f1x
       real(kind=wp), dimension(nel),     intent(inout)   :: f1y
       real(kind=wp), dimension(nel),     intent(inout)   :: f1z
       real(kind=wp), dimension(nel),     intent(inout)   :: f2x
       real(kind=wp), dimension(nel),     intent(inout)   :: f2y
       real(kind=wp), dimension(nel),     intent(inout)   :: f2z
+
+      real(kind=wp), dimension(nel),     intent(inout)   :: e1x
+      real(kind=wp), dimension(nel),     intent(inout)   :: e1y
+      real(kind=wp), dimension(nel),     intent(inout)   :: e1z
+      real(kind=wp), dimension(nel),     intent(inout)   :: e2x
+      real(kind=wp), dimension(nel),     intent(inout)   :: e2y
+      real(kind=wp), dimension(nel),     intent(inout)   :: e2z
+      real(kind=wp), dimension(nel),     intent(inout)   :: e3x
+      real(kind=wp), dimension(nel),     intent(inout)   :: e3y
+      real(kind=wp), dimension(nel),     intent(inout)   :: e3z
+
       real(kind=wp), dimension(nel),     intent(in)    :: temp0
       real(kind=wp), dimension(nel),     intent(inout) :: temp
 
@@ -134,13 +136,15 @@
       real(kind=8), dimension(nel),       intent(inout)   :: xd3       
       real(kind=8), dimension(nel),       intent(inout)   :: xd4       
       real(kind=8), dimension(nel),       intent(inout)   :: xd5       
-      real(kind=8), dimension(nel),       intent(inout)   :: xd6       
+      real(kind=8), dimension(nel),       intent(inout)   :: xd6    
+
       real(kind=8), dimension(nel),       intent(inout)   :: yd1       
       real(kind=8), dimension(nel),       intent(inout)   :: yd2       
       real(kind=8), dimension(nel),       intent(inout)   :: yd3       
       real(kind=8), dimension(nel),       intent(inout)   :: yd4       
       real(kind=8), dimension(nel),       intent(inout)   :: yd5       
-      real(kind=8), dimension(nel),       intent(inout)   :: yd6       
+      real(kind=8), dimension(nel),       intent(inout)   :: yd6      
+       
       real(kind=8), dimension(nel),       intent(inout)   :: zd1       
       real(kind=8), dimension(nel),       intent(inout)   :: zd2       
       real(kind=8), dimension(nel),       intent(inout)   :: zd3       
@@ -152,6 +156,9 @@
 !c-----------------------------------------------
       integer :: i
       real(kind=8) :: xl,yl,zl
+      real(kind=wp), dimension(nel) :: xdl1, xdl2, xdl3, xdl4, xdl5, xdl6, xdl7, xdl8
+      real(kind=wp), dimension(nel) :: ydl1, ydl2, ydl3, ydl4, ydl5, ydl6, ydl7, ydl8
+      real(kind=wp), dimension(nel) :: zdl1, zdl2, zdl3, zdl4, zdl5, zdl6, zdl7, zdl8
       real(kind=wp) :: xl_t,yl_t,zl_t
 !c-----------------------------------------------
 !c   e x t e r n a l  f u n c t i o n s
@@ -235,6 +242,40 @@
           yd6(i) = y6(i)
           zd6(i) = z6(i)
 
+
+
+          xdl1(i)=xd1(i)
+          ydl1(i)=yd1(i)
+          zdl1(i)=zd1(i)
+!
+          xdl2(i)=xd2(i)
+          ydl2(i)=yd2(i)
+          zdl2(i)=zd2(i)
+!
+          xdl3(i)=xd3(i)
+          ydl3(i)=yd3(i)
+          zdl3(i)=zd3(i)
+!
+          xdl4(i)=xd3(i)
+          ydl4(i)=yd3(i)
+          zdl4(i)=zd3(i)
+!
+            xdl5(i)=xd4(i)
+            ydl5(i)=yd4(i)
+            zdl5(i)=zd4(i)
+!
+            xdl6(i)=xd5(i)
+            ydl6(i)=yd5(i)
+            zdl6(i)=zd5(i)
+!
+            xdl7(i)=xd6(i)
+            ydl7(i)=yd6(i)
+            zdl7(i)=zd6(i)
+!
+            xdl8(i)=xd6(i)  
+            ydl8(i)=yd6(i)  
+            zdl8(i)=zd6(i) 
+
         enddo
 
    do i=1,nel
@@ -246,81 +287,107 @@
         f2z(i) = z3(i) - z1(i)
       enddo
 !c
-      do i=1,nel
-        xl=one_over_6*(xd1(i)+xd2(i)+xd3(i)+xd4(i)+xd5(i)+xd6(i))
-        yl=one_over_6*(yd1(i)+yd2(i)+yd3(i)+yd4(i)+yd5(i)+yd6(i))
-        zl=one_over_6*(zd1(i)+zd2(i)+zd3(i)+zd4(i)+zd5(i)+zd6(i))
-        xd1(i)=xd1(i)-xl
-        yd1(i)=yd1(i)-yl
-        zd1(i)=zd1(i)-zl
-        xd2(i)=xd2(i)-xl
-        yd2(i)=yd2(i)-yl
-        zd2(i)=zd2(i)-zl
-        xd3(i)=xd3(i)-xl
-        yd3(i)=yd3(i)-yl
-        zd3(i)=zd3(i)-zl
-        xd4(i)=xd4(i)-xl
-        yd4(i)=yd4(i)-yl
-        zd4(i)=zd4(i)-zl
-        xd5(i)=xd5(i)-xl
-        yd5(i)=yd5(i)-yl
-        zd5(i)=zd5(i)-zl
-        xd6(i)=xd6(i)-xl
-        yd6(i)=yd6(i)-yl
-        zd6(i)=zd6(i)-zl
-      enddo
+
 !c-----------
 !c     convected frame .
 !c-----------
-      call s6zortho3(                                   &
-       xd1, xd2, xd3, xd4, xd5, xd6,                          &
-       yd1, yd2, yd3, yd4, yd5, yd6,                          &
-       zd1, zd2, zd3, zd4, zd5, zd6,                          &
-       rx  ,ry  ,rz  ,sx  ,sy  ,sz  ,tx  ,ty  ,tz  ,    &
-       r11 ,r21 ,r31 ,r12 ,r22 ,r32 ,r13, r23,  r33, nel)    
-!c
+
+!c     isoparametric reference frame according to the manual for bricks
+      call srepiso3(                                            &
+            xdl1, xdl2, xdl3, xdl4, xdl5, xdl6, xdl7, xdl8,     &
+            ydl1, ydl2, ydl3, ydl4, ydl5, ydl6, ydl7, ydl8,     &
+            zdl1, zdl2, zdl3, zdl4, zdl5, zdl6, zdl7, zdl8,     &
+            rx, ry, rz, sx, sy, sz, tx, ty,                     &
+            tz ,f1x  ,f1y  ,f1z  ,f2x  ,f2y  ,f2z   )
+      !c
+
+      call sortho3(&
+           rx   ,ry   ,rz   ,sx   ,sy   ,sz   ,tx   ,ty   ,tz   ,   &
+           e2x  ,e2y  ,e2z  ,e3x  ,e3y  ,e3z  ,e1x  ,e1y  ,e1z  )
+      
        do i=1,nel
 
-
-        xl=r11(i)*xd1(i)+r21(i)*yd1(i)+r31(i)*zd1(i)
-        yl=r12(i)*xd1(i)+r22(i)*yd1(i)+r32(i)*zd1(i)
-        zl=r13(i)*xd1(i)+r23(i)*yd1(i)+r33(i)*zd1(i)
-        xd1(i)=xl
-        yd1(i)=yl
-        zd1(i)=zl
-        xl=r11(i)*xd2(i)+r21(i)*yd2(i)+r31(i)*zd2(i)
-        yl=r12(i)*xd2(i)+r22(i)*yd2(i)+r32(i)*zd2(i)
-        zl=r13(i)*xd2(i)+r23(i)*yd2(i)+r33(i)*zd2(i)
-        xd2(i)=xl
-        yd2(i)=yl
-        zd2(i)=zl
-        xl=r11(i)*xd3(i)+r21(i)*yd3(i)+r31(i)*zd3(i)
-        yl=r12(i)*xd3(i)+r22(i)*yd3(i)+r32(i)*zd3(i)
-        zl=r13(i)*xd3(i)+r23(i)*yd3(i)+r33(i)*zd3(i)
-        xd3(i)=xl
-        yd3(i)=yl
-        zd3(i)=zl
-        xl=r11(i)*xd4(i)+r21(i)*yd4(i)+r31(i)*zd4(i)
-        yl=r12(i)*xd4(i)+r22(i)*yd4(i)+r32(i)*zd4(i)
-        xd4(i)=xl
-        yd4(i)=yl
-        zd4(i)=-zd1(i)
-        xl=r11(i)*xd5(i)+r21(i)*yd5(i)+r31(i)*zd5(i)
-        yl=r12(i)*xd5(i)+r22(i)*yd5(i)+r32(i)*zd5(i)
-        xd5(i)=xl
-        yd5(i)=yl
-        zd5(i)=-zd2(i)
-        xl=r11(i)*xd6(i)+r21(i)*yd6(i)+r31(i)*zd6(i)
-        yl=r12(i)*xd6(i)+r22(i)*yd6(i)+r32(i)*zd6(i)
-        xd6(i)=xl
-        yd6(i)=yl
-        zd6(i)=-zd3(i)
+          xl=e1x(i)*xdl1(i)+e1y(i)*ydl1(i)+e1z(i)*zdl1(i)
+          yl=e2x(i)*xdl1(i)+e2y(i)*ydl1(i)+e2z(i)*zdl1(i)
+          zl=e3x(i)*xdl1(i)+e3y(i)*ydl1(i)+e3z(i)*zdl1(i)
+          xdl1(i)=xl
+          ydl1(i)=yl
+          zdl1(i)=zl
+          xl=e1x(i)*xdl2(i)+e1y(i)*ydl2(i)+e1z(i)*zdl2(i)
+          yl=e2x(i)*xdl2(i)+e2y(i)*ydl2(i)+e2z(i)*zdl2(i)
+          zl=e3x(i)*xdl2(i)+e3y(i)*ydl2(i)+e3z(i)*zdl2(i)
+          xdl2(i)=xl
+          ydl2(i)=yl
+          zdl2(i)=zl
+          xl=e1x(i)*xdl3(i)+e1y(i)*ydl3(i)+e1z(i)*zdl3(i)
+          yl=e2x(i)*xdl3(i)+e2y(i)*ydl3(i)+e2z(i)*zdl3(i)
+          zl=e3x(i)*xdl3(i)+e3y(i)*ydl3(i)+e3z(i)*zdl3(i)
+          xdl3(i)=xl
+          ydl3(i)=yl
+          zdl3(i)=zl
+          xl=e1x(i)*xdl4(i)+e1y(i)*ydl4(i)+e1z(i)*zdl4(i)
+          yl=e2x(i)*xdl4(i)+e2y(i)*ydl4(i)+e2z(i)*zdl4(i)
+          zl=e3x(i)*xdl4(i)+e3y(i)*ydl4(i)+e3z(i)*zdl4(i)
+          xdl4(i)=xl
+          ydl4(i)=yl
+          zdl4(i)=zl
+          xl=e1x(i)*xdl5(i)+e1y(i)*ydl5(i)+e1z(i)*zdl5(i)
+          yl=e2x(i)*xdl5(i)+e2y(i)*ydl5(i)+e2z(i)*zdl5(i)
+          zl=e3x(i)*xdl5(i)+e3y(i)*ydl5(i)+e3z(i)*zdl5(i)
+          xdl5(i)=xl
+          ydl5(i)=yl
+          zdl5(i)=zl
+          xl=e1x(i)*xdl6(i)+e1y(i)*ydl6(i)+e1z(i)*zdl6(i)
+          yl=e2x(i)*xdl6(i)+e2y(i)*ydl6(i)+e2z(i)*zdl6(i)
+          zl=e3x(i)*xdl6(i)+e3y(i)*ydl6(i)+e3z(i)*zdl6(i)
+          xdl6(i)=xl
+          ydl6(i)=yl
+          zdl6(i)=zl
+          xl=e1x(i)*xdl7(i)+e1y(i)*ydl7(i)+e1z(i)*zdl7(i)
+          yl=e2x(i)*xdl7(i)+e2y(i)*ydl7(i)+e2z(i)*zdl7(i)
+          zl=e3x(i)*xdl7(i)+e3y(i)*ydl7(i)+e3z(i)*zdl7(i)
+          xdl7(i)=xl
+          ydl7(i)=yl
+          zdl7(i)=zl
+          xl=e1x(i)*xdl8(i)+e1y(i)*ydl8(i)+e1z(i)*zdl8(i)
+          yl=e2x(i)*xdl8(i)+e2y(i)*ydl8(i)+e2z(i)*zdl8(i)
+          zl=e3x(i)*xdl8(i)+e3y(i)*ydl8(i)+e3z(i)*zdl8(i)
+          xdl8(i)=xl
+          ydl8(i)=yl
+          zdl8(i)=zl
 
 
        enddo
 
 
        do i=1,nel
+
+            xd1(i) = xdl1(i)
+            yd1(i) = ydl1(i)
+            zd1(i) = zdl1(i)
+!
+            xd2(i) = xdl2(i)
+            yd2(i) = ydl2(i)
+            zd2(i) = zdl2(i)
+!
+            xd3(i) = xdl3(i)
+            yd3(i) = ydl3(i)
+            zd3(i) = zdl3(i)
+!
+            xd4(i) = xdl5(i)
+            yd4(i) = ydl5(i)
+            zd4(i) = zdl5(i)
+!
+            xd5(i) = xdl6(i)
+            yd5(i) = ydl6(i)
+            zd5(i) = zdl6(i)
+!
+            xd6(i) = xdl7(i) 
+            yd6(i) = ydl7(i) 
+            zd6(i) = zdl7(i) 
+
+
+
           x1(i) = xd1(i)
           y1(i) = yd1(i)
           z1(i) = zd1(i)
