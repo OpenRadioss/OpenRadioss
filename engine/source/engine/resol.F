@@ -652,6 +652,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+              USE SPMD_EXCH_WAVE_MOD
               USE GHOST_SHELLS_MOD
               USE CONNECTIVITY_MOD
               USE NODAL_ARRAYS_MOD
@@ -1330,6 +1331,7 @@ C-------------------------------------------------------------------------------
               INTEGER, PARAMETER :: MAXFUNC = 100
               integer :: numnod_old,numnodm_old
               integer :: new_crack,nsect_offset
+              TYPE(FR_WAVE_) :: FR_WAVE_BUF
 C-----------------------------------------------------------------------------------
 C Err THK
 C-----------------------------------------------------------------------------------
@@ -4907,23 +4909,9 @@ C-----------------------------------------------
                   LENGTH = 1
                   LENR = NODES%BOUNDARY_ADD(1,NSPMD+1)-NODES%BOUNDARY_ADD(1,1)
 C FR_WAVE boundary exchange
-                  CALL SPMD_EXCH_WAVE(FR_WAVE,NODES%BOUNDARY_ADD ,NODES%BOUNDARY,LENGTH,LENR)
+                  CALL SPMD_EXCH_WAVE_INIT(FR_WAVE_BUF, LENGTH, LENR, NSPMD)
+                  CALL SPMD_EXCH_WAVE(FR_WAVE,NODES%BOUNDARY_ADD ,NODES%BOUNDARY,FR_WAVE_BUF,1,ISPMD,NSPMD)
                 END IF
-
-C========================================================================================
-C                                     PARALLEL SECTION (SMP)
-C========================================================================================
-
-!$OMP PARALLEL PRIVATE(ITSK,NODFTSK,NODLTSK)
-                ITSK = OMP_GET_THREAD_NUM()
-                NODFTSK   = 1+ITSK*NUMNOD/ NTHREAD
-                NODLTSK   = (ITSK+1)*NUMNOD/NTHREAD
-                DO I=NODFTSK,NODLTSK
-                  FR_WAVE(I)=ABS(FR_WAVE(I))
-                ENDDO
-
-!$OMP END PARALLEL
-
               ENDIF
 
 C========================================================================================
@@ -8350,6 +8338,27 @@ C------------
                 ENDIF
               ENDIF
 C ---------------------------------
+C-----------------------------------------------
+C       COMMUNICATION BETWEEN BOUNDARY ELEMENTS AFTER ASSEMBLY
+C-----------------------------------------------
+              IF (IFRWV > 0) THEN
+                IF (NSPMD > 1) THEN
+                  CALL SPMD_EXCH_WAVE(FR_WAVE,NODES%BOUNDARY_ADD ,NODES%BOUNDARY,FR_WAVE_BUF,2,ISPMD,NSPMD)
+                END IF
+C========================================================================================
+C                                     PARALLEL SECTION (SMP)
+C========================================================================================
+!$OMP PARALLEL PRIVATE(ITSK,NODFTSK,NODLTSK)
+                ITSK = OMP_GET_THREAD_NUM()
+                NODFTSK   = 1+ITSK*NUMNOD/ NTHREAD
+                NODLTSK   = (ITSK+1)*NUMNOD/NTHREAD
+                DO I=NODFTSK,NODLTSK
+                  FR_WAVE(I)=ABS(FR_WAVE(I))
+                ENDDO
+!$OMP END PARALLEL
+              ENDIF
+
+
               CALL PYTHON_UPDATE_TIME(TT,DT2)
 
 C----------------------------------
