@@ -742,7 +742,7 @@ C-----------------------------------------------
               USE INTER_SH_OFFSET_MOD , only:SH_OFFSET_
               USE OFFSET_NPROJ_MOD, only : OFFSET_NPROJ
               USE get_neighbour_surface_mod , only : get_neighbour_surface
-              USE spmd_mod , only : SPMD_MAX,spmd_allreduce,SPMD_BARRIER
+              USE spmd_mod
               USE SKEW_MOD
               USE ELBUFDEF_MOD
               USE MULTIMAT_PARAM_MOD , ONLY : M51_N0PHAS, M51_NVPHAS
@@ -1331,6 +1331,7 @@ C-------------------------------------------------------------------------------
               ! Restart File Writing
               INTEGER STOP_OR_ADD_CYCLE  !< Check if additional cycle must be done after restart at termination
               INTEGER, PARAMETER :: MAXFUNC = 100
+              INTEGER :: GLOB_IDEL7NOK, RQ_SHOOTING_NODE
               integer :: numnod_old,numnodm_old
               integer :: new_crack,nsect_offset
               TYPE(FR_WAVE_) :: FR_WAVE_BUF
@@ -4644,7 +4645,16 @@ C
                 ENDIF
                 IF (IMON>0) CALL STOPTIME(TIMERS,TIMER_EXFOR)
               ENDIF
-
+! shooting node, send
+              IF (N2D/=0.AND.IDEL7==2) THEN
+              ELSEIF(IDEL7NG>=1.OR.PDEL>0) THEN
+                IF (NSPMD>1.AND.(IDEL7NG>=1.OR.PDEL>0)) THEN
+                  GLOB_IDEL7NOK = IDEL7NG
+                  CALL SPMD_IALLREDUCE(IDEL7NOK,GLOB_IDEL7NOK,1,SPMD_SUM,RQ_SHOOTING_NODE)
+!                 CALL SPMD_ALLGLOB_ISUM9(IDEL7NOK/S1)
+                ENDIF
+              ENDIF
+ 
 C--- //------------------------------
 C       PARITH/ON ASSEMBLY OF FORCES AFTER COMMUNICATION
 C-------------------------------------
@@ -4805,7 +4815,6 @@ c--------------------------------------
 C========================================================================================
 C                                     PARALLEL SECTION (SMP)
 C========================================================================================
-              CALL PYTHON_BEGIN_OPENMP(PYTHON)
 !$OMP PARALLEL PRIVATE(ITSK,NODFTSK,NODLTSK)
                 ITSK = OMP_GET_THREAD_NUM()
                 NODFTSK   = 1+ITSK*NUMNOD/ NTHREAD
@@ -4821,7 +4830,6 @@ C===============================================================================
                   DMSPH(I)=ZERO
                 ENDDO
 !$OMP END PARALLEL
-                CALL PYTHON_END_OPENMP(PYTHON)
               ENDIF
 
 C========================================================================================
@@ -4941,14 +4949,13 @@ C IDEL7NG = 0 => nothing
 C IDEL7NG = 1 | 2 => deleted segments/nodes (for at least 1 interface)
 C IDEL7NOK = 1 : need all interface such as IPARI(17)= 1 | 2
               ELSEIF(IDEL7NG>=1.OR.PDEL>0) THEN
-C        IF (NCYCLE==97) IDEL7NOK = 1
-C        IF (NCYCLE==98) IDEL7NOK = 1
                 IF (NSPMD>1.AND.(IDEL7NG>=1.OR.PDEL>0)) THEN
 C recuperation IDEL7NOK global
                   IF (IMONM > 0 ) CALL STARTIME(TIMERS,76)
-                  CALL SPMD_ALLGLOB_ISUM9(IDEL7NOK,1)
+!                 CALL SPMD_ALLGLOB_ISUM9(IDEL7NOK,1)
+                  CALL SPMD_WAIT(RQ_SHOOTING_NODE)
                   IF (IMONM > 0 ) CALL STOPTIME(TIMERS,76)
-                  IDEL7NOK = MIN(1,IDEL7NOK)
+                  IDEL7NOK = MIN(1,GLOB_IDEL7NOK)
                 ENDIF
                 IDEL7NOK_SAV = IDEL7NOK
                 IF (R2R_SIU==1.AND.IDEL7NG>=1) THEN

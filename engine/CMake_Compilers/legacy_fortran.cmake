@@ -54,6 +54,9 @@ set_source_files_properties( ${source_directory}/source/mpi/spmd_pack.F90 PROPER
 set_source_files_properties( ${source_directory}/source/mpi/spmd_unpack.F90 PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
 set_source_files_properties( ${source_directory}/source/mpi/spmd_wait.F90 PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
 set_source_files_properties( ${source_directory}/source/mpi/spmd_isend.F90 PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
+set_source_files_properties( ${source_directory}/source/mpi/spmd_allreduce.F90 PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
+set_source_files_properties( ${source_directory}/source/mpi/spmd_iallreduce.F90 PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
+
 set_source_files_properties( ${source_directory}/source/mpi/spmd_recv.F90 PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
 set_source_files_properties( ${source_directory}/source/mpi/spmd_irecv.F90 PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
 set_source_files_properties( ${source_directory}/source/mpi/spmd_allgatherv.F90 PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
