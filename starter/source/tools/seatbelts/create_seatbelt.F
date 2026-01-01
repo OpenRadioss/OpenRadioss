@@ -688,7 +688,17 @@ C---  Filling of seatbelt structure
 C----------------------------------------------------------------------------
 C
         N_SEATBELT = SEATBELT_ID
-        IF (IDDLEVEL == 0) ALLOCATE(SEATBELT_TAB(N_SEATBELT))
+C       SEATBELT_TAB reallocation for iddlevel=1 - needed for loop (order change because of element rordering))       
+        IF (ALLOCATED(SEATBELT_TAB)) THEN
+          DO I = 1, SIZE(SEATBELT_TAB)
+            IF (ALLOCATED(SEATBELT_TAB(I)%SPRING)) THEN
+              DEALLOCATE(SEATBELT_TAB(I)%SPRING)
+            ENDIF
+          ENDDO
+          DEALLOCATE(SEATBELT_TAB)
+        ENDIF
+C        
+        ALLOCATE(SEATBELT_TAB(N_SEATBELT))
         CALL MY_ALLOC(TAG_MAT_2D,NUMMAT)
         TAG_MAT_2D(1:NUMMAT) = 0
         IF (NB_2D_SEATBELT > 0) THEN
@@ -758,18 +768,7 @@ C               FLAG_SHELL needed in case of 1D/2D connection
           ENDDO        
           SEATBELT_TAB(I)%NSPRING = COMPT
           SEATBELT_TAB(I)%NSHELL = COMPT_2D
-          COMPT = 0
-          DO J=1,NUMELR
-            IF (TAG_RES(J) == I) THEN
-              COMPT = COMPT + 1
-            ENDIF
-          ENDDO    
-          IF (IDDLEVEL == 0) THEN
-              CALL MY_ALLOC(SEATBELT_TAB(I)%SPRING,COMPT)
-          ELSEIF(COMPT > SIZE(SEATBELT_TAB(I)%SPRING)) THEN
-              DEALLOCATE(SEATBELT_TAB(I)%SPRING)
-              CALL MY_ALLOC(SEATBELT_TAB(I)%SPRING,COMPT)
-          ENDIF
+          CALL MY_ALLOC(SEATBELT_TAB(I)%SPRING,COMPT)
           COMPT = 0
           DO J=1,NUMELR
             IF (TAG_RES(J) == I) THEN
