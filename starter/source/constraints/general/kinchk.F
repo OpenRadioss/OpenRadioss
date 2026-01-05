@@ -70,7 +70,7 @@ C-----------------------------------------------
      .        IK(10), RBWARN, RB2WARN, KRB, NSLRB,
      .        MARQUEUR(8192),
      .        MARQUEURDOUBLE(13),J1,FLAG_IKCOND,MARQ2,MARQM2,
-     .        NS,NM,M,IAD,NUN,JJ,NIKRW,IPEN
+     .        NS,NM,M,IAD,NUN,JJ,NIKRW,IPEN,NHIER
       INTEGER, DIMENSION(:), ALLOCATABLE :: NKINDOUBLE,NKIN,IKRW
       INTEGER ID
       CHARACTER(LEN=NCHARTITLE) :: TITR
@@ -90,6 +90,8 @@ C=======================================================================
         JWARN = 0
         NSL=NPRW(N)
         ITYP=NPRW(N+3*NRWALL)
+        IPEN=NPRW(N+8*NRWALL)
+        IF (IPEN>0) CYCLE 
         J=0
         DO L=1,NSL
           I=LPRW(K+L)
@@ -287,6 +289,11 @@ C----------------------------------------------------------
 C----------------------------------------------------------
 C - Check main nodes of Rbody SECONDARY to other Rbodies
 C----------------------------------------------------------
+      NHIER = 0
+      DO N=1,NRBYKIN
+        NHIER = MAX(NHIER,NPBY(20,N))
+      END DO
+      IF (NHIER==0) THEN
        KRB = 0
        DO N=1,NRBYKIN
          NSLRB = NPBY(2,N)
@@ -310,6 +317,7 @@ C----------------------------------------------------------
           ENDIF
         ENDDO
        ENDDO
+      END IF !(NHIER==0) THEN
 C----------------------------------------------------------
 C - Check incompatibility /BCS/CYCLIC
 C----------------------------------------------------------
