@@ -209,7 +209,7 @@ C
           TANI(6,I)= -MOM(I,3) - HALF*AL(I)*FOR(I,2)
           ! Beam Node_2 moment
           TANI(7,I)= MOM(I,1)
-          TANI(5,I)= MOM(I,2) + HALF*AL(I)*FOR(I,3)
+          TANI(8,I)= MOM(I,2) + HALF*AL(I)*FOR(I,3)
           TANI(9,I)= MOM(I,3) - HALF*AL(I)*FOR(I,2)
 C          TANI(10,I)= E1X(I)
 C          TANI(11,I)= E1Y(I)
