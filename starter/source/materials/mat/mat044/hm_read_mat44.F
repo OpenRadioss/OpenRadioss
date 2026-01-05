@@ -88,9 +88,10 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED
-      INTEGER :: ILAW,ICC,ISRAT,Ivflag
+      INTEGER :: ILAW,ICC,ISRAT,Ivflag,IFLAG
       my_real :: RHO0,RHOR,E,NU,CA,CB,CN,G,A1,BULK,EPSM,SIGM,EPSR1,EPSR2,
-     .           EPSP_REF,FISOKIN,CP,CC,ASRATE,EPSGM,YLD_SCALE,YLD_SCALE_UNIT
+     .           EPSP_REF,FISOKIN,CP,CC,ASRATE,EPSGM,YLD_SCALE,YLD_SCALE_UNIT,
+     .           CB0,RM,AG,CN0
 C=======================================================================
       IS_ENCRYPTED   = .FALSE.
       IS_AVAILABLE = .FALSE.
@@ -100,15 +101,25 @@ c
 c
       CALL HM_GET_FLOATV('MAT_RHO'   ,RHO0     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('Refer_Rho' ,RHOR     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-      
+c      
       CALL HM_GET_FLOATV('MAT_E'     ,E        ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT_NU'    ,NU       ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_INTV  ('MAT_Iflag' ,IFLAG    ,IS_AVAILABLE, LSUBMODEL)
+      IFLAG = MAX(MIN(IFLAG,1),0)
 c
-      CALL HM_GET_FLOATV('MAT_SIGY'  ,CA       ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-      CALL HM_GET_FLOATV('MAT_B'     ,CB       ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-      CALL HM_GET_FLOATV('MAT_N'     ,CN       ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-      CALL HM_GET_FLOATV('MAT_HARD'  ,FISOKIN  ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-      CALL HM_GET_FLOATV('MAT_SIG'   ,SIGM     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      IF (IFLAG == 1) THEN
+        CALL HM_GET_FLOATV('SIG_Y'    ,CA      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+        CALL HM_GET_FLOATV('UTS'      ,CB      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+        CALL HM_GET_FLOATV('EUTS'     ,CN      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+        CALL HM_GET_FLOATV('MAT_HARD' ,FISOKIN ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+        CALL HM_GET_FLOATV('MAT_SIG'  ,SIGM    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      ELSE
+        CALL HM_GET_FLOATV('MAT_SIGY' ,CA      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+        CALL HM_GET_FLOATV('MAT_B'    ,CB      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+        CALL HM_GET_FLOATV('MAT_N'    ,CN      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+        CALL HM_GET_FLOATV('MAT_HARD' ,FISOKIN ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+        CALL HM_GET_FLOATV('MAT_SIG'  ,SIGM    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      ENDIF
 c
       CALL HM_GET_FLOATV('MAT_SRC'   ,EPSP_REF ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT_SRE'   ,CP       ,IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -127,6 +138,33 @@ c--------------------------------------------------
 c     default values
 c---------------------
       IF (RHOR == ZERO)  RHOR  = RHO0
+c
+      IF (IFLAG == 1) THEN
+        CB0 = CB
+        RM  = CB *(ONE+CN)
+        AG  = LOG(ONE+CN)
+        CN0 = CN
+        CN  = RM*AG / (RM-CA)
+        CB  = RM/MAX((CN*AG**(CN-ONE)),EM20)
+        IF (CN > ONE) THEN
+          CN = ONE
+          CB = (CB0*(ONE+CN0)-CA)/(LOG(1+CN0)-CB0*(1+CN0)/E-CA/E)
+          CALL ANCMSG(MSGID=3120,
+     .                MSGTYPE=MSGWARNING,
+     .                ANMODE=ANINFO_BLIND_1,
+     .                I1=MAT_ID,
+     .                C1=TITR)
+        ENDIF                                                       
+        IF (CN < ZERO .AND. CB < ZERO) THEN                         
+          CN = ZERO                                                 
+          CB = ZERO                                                 
+          CALL ANCMSG(MSGID=3121,
+     .                MSGTYPE=MSGWARNING,
+     .                ANMODE=ANINFO_BLIND_1,
+     .                I1=MAT_ID,
+     .                C1=TITR)
+        ENDIF
+      ENDIF
 c
       IF (NU < ZERO .OR. NU >= HALF) THEN
          CALL ANCMSG(MSGID=49,
@@ -291,9 +329,15 @@ c-----------------
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
       ELSE
         WRITE(IOUT,1200) RHO0
-        WRITE(IOUT,1300)E,NU,CA,CB,CN,FISOKIN,SIGM,
-     .      EPSP_REF,CP,ICC,ISRATE,ASRATE,Ivflag,EPSM,
-     .      EPSR1,EPSR2,IFUNC(1),YLD_SCALE
+        IF (IFLAG == 0) THEN
+          WRITE(IOUT,1300) E,NU,CA,CB,CN,FISOKIN,SIGM,
+     .        EPSP_REF,CP,ICC,ISRATE,ASRATE,Ivflag,EPSM,
+     .        EPSR1,EPSR2,IFUNC(1),YLD_SCALE
+        ELSEIF (IFLAG == 1) THEN
+          WRITE(IOUT,1350) E,NU,CA,CB0,CN0,CB,CN,FISOKIN,SIGM,
+     .        EPSP_REF,CP,ICC,ISRATE,ASRATE,Ivflag,EPSM,
+     .        EPSR1,EPSR2,IFUNC(1),YLD_SCALE
+        ENDIF
       ENDIF     
 c-----------------------------------------------------------------------
  1000 FORMAT(/
@@ -309,6 +353,30 @@ c-----------------------------------------------------------------------
      & 5X,'YOUNG MODULUS . . . . . . . . . . . . .=',1PG20.13/
      & 5X,'POISSON RATIO . . . . . . . . . . . . .=',1PG20.13/
      & 5X,'YIELD STRESS . . . . . . . . . . . . . =',1PG20.13/
+     & 5X,'HARDENING PARAMETER. . . . . . . . . . =',1PG20.13/
+     & 5X,'HARDENING EXPONENT . . . . . . . . . . =',1PG20.13/
+     & 5X,'ISO-KINEMATIC HARDENNING FACTOR. . . . =',1PG20.13/
+     & 5X,'MAXIMUM STRESS . . . . . . . . . . . . =',1PG20.13/
+     & 5X,'REFERENCE STRAIN RATE CC . . . . . . . =',1PG20.13/
+     & 5X,'STRAIN RATE EXPONENT (1/P) . . . . . . =',1PG20.13/
+     & 5X,'FLAG FOR STRAIN RATE ON SIG-MAX. . . . =',I10/
+     & 5X,'SMOOTH STRAIN RATE OPTION. . . . . . . =',I10/
+     & 5X,'STRAIN RATE CUTTING FREQUENCY. . . . . =',1PG20.13/
+     & 5X,'STRAIN RATE CHOICE FLAG  . . . . . . . =',I10/
+     & 5X,'     VP=1  EQUIVALENT PLASTIC STRAIN RATE'/
+     & 5X,'     VP=2  TOTAL STRAIN RATE (DEFAULT)'/
+     & 5X,'     VP=3  DEVIATORIC STRAIN RATE'/
+     & 5X,'FAILURE PLASTIC STRAIN . . . . . . . . =',1PG20.13/
+     & 5X,'TENSION FAILURE STRAIN 1 . . . . . . . =',1PG20.13/
+     & 5X,'TENSION FAILURE STRAIN 2 . . . . . . . =',1PG20.13/
+     & 5X,'YIELD FUNCTION IDENTIFIER  . . . . . . =',I10/
+     & 5X,'YIELD FUNCTION SCALE FACTOR  . . . . . =',1PG20.13/)
+ 1350 FORMAT(
+     & 5X,'YOUNG MODULUS . . . . . . . . . . . . .=',1PG20.13/
+     & 5X,'POISSON RATIO . . . . . . . . . . . . .=',1PG20.13/
+     & 5X,'YIELD STRESS . . . . . . . . . . . . . =',1PG20.13/
+     & 5X,'ULTIMATE STRESS (UTS) . . . . . . . . .=',1PG20.13/
+     & 5X,'STRAIN AT UTS (AG). . . . . . . . . . .=',1PG20.13/
      & 5X,'HARDENING PARAMETER. . . . . . . . . . =',1PG20.13/
      & 5X,'HARDENING EXPONENT . . . . . . . . . . =',1PG20.13/
      & 5X,'ISO-KINEMATIC HARDENNING FACTOR. . . . =',1PG20.13/
