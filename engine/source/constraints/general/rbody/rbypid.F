@@ -45,7 +45,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                  X       ,V    ,VR    ,RBY   ,
      .                  IXTG    ,NPBYI,RBYI  ,LPBYI ,IACTS  ,
      .                  FR_RBY2 ,NRB  ,ONFELT,WEIGHT,PARTSAV,
-     .                  IPARTC  ,NSN  ,ELBUF_TAB,PRI_OFF)
+     .                  NSN  ,ELBUF_TAB,PRI_OFF,IPARTC,IPARTG,
+     .                  IPARTS  ,IPARTQ,IPARTT,IPARTP,IPARTR )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -72,9 +73,16 @@ C-----------------------------------------------
      .   IXC(NIXC,*), IXT(NIXT,*), IXP(NIXP,*), IXR(NIXR,*),
      .   ITAB(*), ITABM1(*),IXTG(NIXTG,*),NRB, NSN,
      .   ISKWN(LISKN,*), NPBY(*),ITAG(*),LPBY(*),NPBYI(*) ,LPBYI(*),
-     .   WEIGHT(*), FR_RBY2(3,*), IPARTC(*)
+     .   WEIGHT(*), FR_RBY2(3,*)
       INTEGER ONOF,IACTS, ONFELT, IWIOUT
       INTEGER, INTENT(IN) :: PRI_OFF
+      INTEGER, DIMENSION(NUMELC),  INTENT(IN) :: IPARTC
+      INTEGER, DIMENSION(NUMELTG), INTENT(IN) :: IPARTG
+      INTEGER, DIMENSION(NUMELT),  INTENT(IN) :: IPARTT
+      INTEGER, DIMENSION(NUMELP),  INTENT(IN) :: IPARTP
+      INTEGER, DIMENSION(NUMELR),  INTENT(IN) :: IPARTR
+      INTEGER, DIMENSION(NUMELS),  INTENT(IN) :: IPARTS
+      INTEGER, DIMENSION(NUMELQ),  INTENT(IN) :: IPARTQ
 C     REAL
       my_real
      .   SKEW(LSKEW,*),MS(*),IN(*),PARTSAV(NPSAV,*),
@@ -85,7 +93,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, II, NG, ITY, NEL, NFT, IAD, IGOF, N, NI,
      .   M, ISPH, NALL,MLW, K, PMAIN, TAG,
-     .   MX,ICOMM(NSPMD+2),ISTRAIN,NPT,IHBE, ID
+     .   MX,ICOMM(NSPMD+2),ISTRAIN,NPT,IHBE, ID,IGOF_OLD
 C     REAL
       my_real
      .   XMOM, YMOM, ZMOM,II1,II2,II3,II4,II5,II6,II7,II8,II9,
@@ -452,6 +460,7 @@ C-----------------------
        NFT=IPARG(3,NG)
        IAD=IPARG(4,NG) - 1
        GBUF => ELBUF_TAB(NG)%GBUF
+       IGOF_OLD = IPARG(8,NG)
 C-----------------------
 C     1. Solid elements
 C-----------------------
@@ -485,6 +494,18 @@ C----------------------------------------
            IF (OFFG(I) > ZERO) IGOF=0
          ENDDO
          IPARG(8,NG) = IGOF
+         IF(IGOF == 1.OR.IGOF /=IGOF_OLD)THEN
+           MX = IPARTS(1+NFT)
+           IF(ONFELT == 1.AND.IGOF_OLD==1)THEN
+             DO I=1,NEL
+               PARTSAV(24,MX) = PARTSAV(24,MX)- GBUF%EINT(I) - GBUF%EINT(I+NEL)
+             END DO
+           ELSE IF(IGOF == 1.AND.ONFELT == 0)THEN
+             DO I=1,NEL
+               PARTSAV(24,MX) = PARTSAV(24,MX)+ GBUF%EINT(I) + GBUF%EINT(I+NEL)
+             END DO
+           END IF !(ONFELT == 1)THEN
+         END IF
 C-----------------------
 C     2. Quad elements
 C-----------------------
@@ -516,6 +537,18 @@ C----------------------------------------
            IF (OFFG(I) > ZERO) IGOF=0
          ENDDO
          IPARG(8,NG) = IGOF
+         IF(IGOF == 1.OR.IGOF /=IGOF_OLD)THEN
+           MX = IPARTQ(1+NFT)
+           IF(ONFELT == 1.AND.IGOF_OLD==1)THEN
+             DO I=1,NEL
+               PARTSAV(24,MX) = PARTSAV(24,MX)- GBUF%EINT(I) - GBUF%EINT(I+NEL)
+             END DO
+           ELSE IF(IGOF == 1.AND.ONFELT == 0)THEN
+             DO I=1,NEL
+               PARTSAV(24,MX) = PARTSAV(24,MX)+ GBUF%EINT(I) + GBUF%EINT(I+NEL)
+             END DO
+           END IF !(ONFELT == 1)THEN
+         END IF
 C-----------------------
 C     3. SHell elements
 C-----------------------
@@ -533,18 +566,12 @@ C-----------------------
              IF(ONFELT == 1)THEN
                IF (OFFG(I) < ZERO)THEN
                  OFFG(I) = -OFFG(I)
-                 MX = IPARTC(II)
-                 PARTSAV(24,MX) = PARTSAV(24,MX)
-     .                          - GBUF%EINT(I) - GBUF%EINT(I+NEL)
                ENDIF
                IF ((PRI_OFF==0).OR.(OFF_OLD*OFFG(I)<ZERO))
      .            WRITE(IOUT,*)' SHELL ACTIVATION:',IXC(7,II)
              ELSEIF(ONFELT == 0)THEN
                IF (OFFG(I) > ZERO) THEN
                  OFFG(I) = -OFFG(I)
-                 MX = IPARTC(II)
-                 PARTSAV(24,MX) = PARTSAV(24,MX)
-     .                          + GBUF%EINT(I) + GBUF%EINT(I+NEL)
                ENDIF
                IF ((PRI_OFF==0).OR.(OFF_OLD*OFFG(I)<ZERO))
      .            WRITE(IOUT,*)' SHELL DEACTIVATION:',IXC(7,II)
@@ -559,6 +586,18 @@ C----------------------------------------
            IF (OFFG(I) > ZERO) IGOF=0
          ENDDO
          IPARG(8,NG) = IGOF
+         IF(IGOF == 1.OR.IGOF /=IGOF_OLD)THEN
+           MX = IPARTC(1+NFT)
+           IF(ONFELT == 1.AND.IGOF_OLD==1)THEN
+             DO I=1,NEL
+               PARTSAV(24,MX) = PARTSAV(24,MX)- GBUF%EINT(I) - GBUF%EINT(I+NEL)
+             END DO
+           ELSE IF(IGOF == 1.AND.ONFELT == 0)THEN
+             DO I=1,NEL
+               PARTSAV(24,MX) = PARTSAV(24,MX)+ GBUF%EINT(I) + GBUF%EINT(I+NEL)
+             END DO
+           END IF !(ONFELT == 1)THEN
+         END IF
 C-----------------------
 C     4. Truss elements
 C-----------------------
@@ -618,6 +657,18 @@ C----------------------------------------
            IF (OFFG(I) > ZERO) IGOF=0
          ENDDO
          IPARG(8,NG) = IGOF
+         IF(IGOF == 1.OR.IGOF /=IGOF_OLD)THEN
+           MX = IPARTP(1+NFT)
+           IF(ONFELT == 1.AND.IGOF_OLD==1)THEN
+             DO I=1,NEL
+               PARTSAV(24,MX) = PARTSAV(24,MX)- GBUF%EINT(I) - GBUF%EINT(I+NEL)
+             END DO
+           ELSE IF(IGOF == 1.AND.ONFELT == 0)THEN
+             DO I=1,NEL
+               PARTSAV(24,MX) = PARTSAV(24,MX)+ GBUF%EINT(I) + GBUF%EINT(I+NEL)
+             END DO
+           END IF !(ONFELT == 1)THEN
+         END IF
 C-----------------------
 C     6. Spring elements
 C-----------------------
@@ -652,6 +703,18 @@ C----------------------------------------
            IF(OFFG(I) /= ZERO) IGOF=0
          ENDDO
          IPARG(8,NG) = IGOF
+         IF(IGOF == 1.OR.IGOF /=IGOF_OLD)THEN
+           MX = IPARTR(1+NFT)
+           IF(ONFELT == 1.AND.IGOF_OLD==1)THEN
+             DO I=1,NEL
+               PARTSAV(24,MX) = PARTSAV(24,MX)- GBUF%EINT(I) - GBUF%EINT(I+NEL)
+             END DO
+           ELSE IF(IGOF == 1.AND.ONFELT == 0)THEN
+             DO I=1,NEL
+               PARTSAV(24,MX) = PARTSAV(24,MX)+ GBUF%EINT(I) + GBUF%EINT(I+NEL)
+             END DO
+           END IF !(ONFELT == 1)THEN
+         END IF
 C-----------------------
 C     7. SH3N elements
 C-----------------------
@@ -684,6 +747,18 @@ C----------------------------------------
           IF (OFFG(I) > ZERO) IGOF=0
         ENDDO
         IPARG(8,NG) = IGOF
+         IF(IGOF == 1.OR.IGOF /=IGOF_OLD)THEN
+           MX = IPARTG(1+NFT)
+           IF(ONFELT == 1.AND.IGOF_OLD==1)THEN
+             DO I=1,NEL
+               PARTSAV(24,MX) = PARTSAV(24,MX)- GBUF%EINT(I) - GBUF%EINT(I+NEL)
+             END DO
+           ELSE IF(IGOF == 1.AND.ONFELT == 0)THEN
+             DO I=1,NEL
+               PARTSAV(24,MX) = PARTSAV(24,MX)+ GBUF%EINT(I) + GBUF%EINT(I+NEL)
+             END DO
+           END IF !(ONFELT == 1)THEN
+         END IF
 C----------------------------------------
        ENDIF
       ENDDO
