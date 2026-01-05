@@ -93,7 +93,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    message_mod                   ../engine/share/message_module/message_mod.F
 !||    table4d_mod                   ../common_source/modules/table4d_mod.F
 !||====================================================================
-      SUBROUTINE TABLE_MAT_VINTERP(TABLE,DIMX,NEL,IPOS,XX,YY,DYDX, OPT_EXTRAPOLATE)
+      SUBROUTINE TABLE_MAT_VINTERP(TABLE,DIMX,NEL,IPOS,XX,YY,DYDX,OPT_EXTRAPOLATE,
+     .  OPT_REGULAR)
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -124,6 +125,7 @@ C-----------------------------------------------
       my_real, DIMENSION(DIMX)           ,INTENT(INOUT) :: YY
       my_real, DIMENSION(DIMX)           ,INTENT(INOUT) :: DYDX
       LOGICAL, OPTIONAL, INTENT(IN)                     :: OPT_EXTRAPOLATE
+      LOGICAL, OPTIONAL, INTENT(IN)                     :: OPT_REGULAR
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -134,13 +136,18 @@ C-----------------------------------------------
       INTEGER, DIMENSION(4)   :: LDIM
       my_real :: DX,DY,ALPHA,ALPHAI,BETA,BETAI,GAMMA,GAMMAI,DELTA,DELTAI
       my_real, DIMENSION(NEL,4) :: FAC
-      LOGICAL DO_EXTRAPOLATION
+      LOGICAL DO_EXTRAPOLATION,REGULAR_ABSCISSA
 C-----------------------------------------------
 C   Source Lines
 C-----------------------------------------------
       DO_EXTRAPOLATION = .TRUE.
       IF(PRESENT(OPT_EXTRAPOLATE)) THEN
         DO_EXTRAPOLATION = OPT_EXTRAPOLATE
+      ENDIF
+
+      REGULAR_ABSCISSA = .FALSE.
+      IF(PRESENT(OPT_REGULAR)) THEN
+        REGULAR_ABSCISSA = OPT_REGULAR  
       ENDIF
 
       NDIM = TABLE%NDIM
@@ -170,35 +177,66 @@ C-----------------------------------------------
           ENDIF
         ENDDO
 
-        DO J=1,NINDX_1
-          I = INDX_1(J)
-          M = IPOS(I,K)
-          NEED_TO_COMPUTE = .TRUE.
-          DO WHILE (NEED_TO_COMPUTE )
-             DX = TABLE%X(K)%VALUES(M) - XX(I,K)
-             IF (DX < ZERO .OR. M <= 1 ) THEN
-                IPOS(I,K) = MAX(M,1)
-                NEED_TO_COMPUTE = .FALSE.
-             ELSE
-                M=M-1
-             ENDIF
+        !< ABSCISSA GRID IS NOT UNIFORM
+        IF (.NOT.REGULAR_ABSCISSA) THEN 
+          DO J=1,NINDX_1
+            I = INDX_1(J)
+            M = IPOS(I,K)
+            NEED_TO_COMPUTE = .TRUE.
+            DO WHILE (NEED_TO_COMPUTE )
+               DX = TABLE%X(K)%VALUES(M) - XX(I,K)
+               IF (DX < ZERO .OR. M <= 1 ) THEN
+                  IPOS(I,K) = MAX(M,1)
+                  NEED_TO_COMPUTE = .FALSE.
+               ELSE
+                  M=M-1
+               ENDIF
+            ENDDO
           ENDDO
-        ENDDO
+  
+          DO J=1,NINDX_2
+            I = INDX_2(J)
+            M = IPOS(I,K) 
+            NEED_TO_COMPUTE = .TRUE.
+            DO WHILE (NEED_TO_COMPUTE )
+               DX = TABLE%X(K)%VALUES(M) - XX(I,K)
+               IF (DX >= ZERO .OR. M == LDIM(K)) THEN
+                  IPOS(I,K) = M-1
+                  NEED_TO_COMPUTE = .FALSE.
+               ELSE
+                  M=M+1
+               ENDIF
+            ENDDO
+          ENDDO
 
-        DO J=1,NINDX_2
-          I = INDX_2(J)
-          M = IPOS(I,K) 
-          NEED_TO_COMPUTE = .TRUE.
-          DO WHILE (NEED_TO_COMPUTE )
-             DX = TABLE%X(K)%VALUES(M) - XX(I,K)
-             IF (DX >= ZERO .OR. M == LDIM(K)) THEN
-                IPOS(I,K) = M-1
-                NEED_TO_COMPUTE = .FALSE.
-             ELSE
-                M=M+1
-             ENDIF
+        !< ABSCISSA GRID IS UNIFORM
+        ELSE
+         
+          DO J=1,NINDX_1
+            I = INDX_1(J)
+            M = IPOS(I,K)
+            DX = TABLE%X(K)%VALUES(M) - TABLE%X(K)%VALUES(M-1)
+            IF (DX > ZERO) THEN
+              IPOS(I,K) = INT( (XX(I,K) - TABLE%X(K)%VALUES(1)) / DX ) + 1
+              IPOS(I,K) = MAX(1,MIN(IPOS(I,K),LDIM(K)-1))
+            ELSE
+              IPOS(I,K) = 1
+            ENDIF
           ENDDO
-        ENDDO
+
+          DO J=1,NINDX_2
+            I = INDX_2(J)
+            M = IPOS(I,K)
+            DX = TABLE%X(K)%VALUES(M+1) - TABLE%X(K)%VALUES(M)
+            IF (DX > ZERO) THEN
+              IPOS(I,K) = INT( (XX(I,K) - TABLE%X(K)%VALUES(1)) / DX ) + 1
+              IPOS(I,K) = MAX(1,MIN(IPOS(I,K),LDIM(K)-1))
+            ELSE
+              IPOS(I,K) = LDIM(K)-1
+            ENDIF
+          ENDDO
+
+        ENDIF
       ENDDO ! K=1,NDIM
 
       DO K=1,NDIM

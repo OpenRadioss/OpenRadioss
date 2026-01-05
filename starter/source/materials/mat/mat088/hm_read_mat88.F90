@@ -107,7 +107,7 @@
           integer ::                                                             &
             i,nd,nl,ifunc(maxfunc+1),ifunc_unload,itens,iunl_for,                &
             ifunc_out(maxfunc+1),npt,npt2,ndim,rtype,j,failip,nv_base
-          logical :: is_available,is_encrypted,found,insert_origin
+          logical :: is_available,is_encrypted,found
           type(table_4d_), dimension(:), pointer :: table_mat
           real(kind=8) :: xint,yint
           real(kind=8), dimension(:)  , allocatable :: x_raw
@@ -303,38 +303,11 @@
             x_out(1:nout,1) = x_out(1:nout,1)*xscale
             y_out(1:nout,1) = y_out(1:nout,1)*yscale
 !
-            !< Check if the origin (0,0) is included in the smoothed curve
-            insert_origin = .false.
-            do i = 1, nout-1
-              if ((x_out(i,1) < zero) .and. (x_out(i+1,1) > zero)) then
-                insert_origin = .true.
-                exit
-              endif
-            enddo
-!
             !< Copy the smoothed curve to the material table
-            if (insert_origin) then
-              deallocate(table_mat(1)%x(1)%values,table_mat(1)%y1d)
-              allocate(table_mat(1)%x(1)%values(nout+1),table_mat(1)%y1d(nout+1))
-              nd = 1
-              do i = 1, nout
-                table_mat(1)%x(1)%values(nd) = x_out(i,1)
-                table_mat(1)%y1d(nd) = y_out(i,1)
-                nd = nd + 1
-                if (i < nout) then
-                  if ((x_out(i,1) < zero) .and. (x_out(i+1,1) > zero)) then
-                    table_mat(1)%x(1)%values(nd) = zero
-                    table_mat(1)%y1d(nd) = zero
-                    nd = nd + 1
-                  endif
-                endif
-              enddo
-            else
-              deallocate(table_mat(1)%x(1)%values,table_mat(1)%y1d)
-              allocate(table_mat(1)%x(1)%values(nout),table_mat(1)%y1d(nout))
-              table_mat(1)%x(1)%values(1:nout) = x_out(1:nout,1)
-              table_mat(1)%y1d(1:nout) = y_out(1:nout,1)
-            endif
+            deallocate(table_mat(1)%x(1)%values,table_mat(1)%y1d)
+            allocate(table_mat(1)%x(1)%values(nout),table_mat(1)%y1d(nout))
+            table_mat(1)%x(1)%values(1:nout) = x_out(1:nout,1)
+            table_mat(1)%y1d(1:nout) = y_out(1:nout,1)
 !
             ! ---> Strain rate dependency
             !-----------------------------------------------------------------------
@@ -368,42 +341,13 @@
               y_out(1:nout,j) = y_out(1:nout,j)*yscale
             enddo
 !
-            !< Check if the origin (0,0) is included in the smoothed curve
-            insert_origin = .false.
-            do i = 1, nout-1
-              if ((x_out(i,1) < zero) .and. (x_out(i+1,1) > zero)) then
-                insert_origin = .true.
-                exit
-              endif
-            enddo
-!
             !< Copy the smoothed curve to the material table
-            if (insert_origin) then
-              deallocate(table_mat(1)%x(1)%values,table_mat(1)%y2d)
-              allocate(table_mat(1)%x(1)%values(nout+1),table_mat(1)%y2d(nout+1,nl))
-              do j = 1, nl
-                nd = 1
-                do i = 1, nout
-                  table_mat(1)%x(1)%values(nd) = x_out(i,j)
-                  table_mat(1)%y2d(nd,j) = y_out(i,j)
-                  nd = nd + 1
-                  if (i < nout) then
-                    if ((x_out(i,j) < zero) .and. (x_out(i+1,j) > zero)) then
-                      table_mat(1)%x(1)%values(nd) = zero
-                      table_mat(1)%y2d(nd,j) = zero
-                      nd = nd + 1
-                    endif
-                  endif
-                enddo
-              enddo
-            else
-              deallocate(table_mat(1)%x(1)%values,table_mat(1)%y2d)
-              allocate(table_mat(1)%x(1)%values(nout),table_mat(1)%y2d(nout,nl))
-              do j = 1,nl
-                table_mat(1)%x(1)%values(1:nout) = x_out(1:nout,j)
-                table_mat(1)%y2d(1:nout,j) = y_out(1:nout,j)
-              enddo
-            endif
+            deallocate(table_mat(1)%x(1)%values,table_mat(1)%y2d)
+            allocate(table_mat(1)%x(1)%values(nout),table_mat(1)%y2d(nout,nl))
+            do j = 1,nl
+              table_mat(1)%x(1)%values(1:nout) = x_out(1:nout,j)
+              table_mat(1)%y2d(1:nout,j) = y_out(1:nout,j)
+            enddo
 !
             !< Update number of points after smoothing
             npt = size(table_mat(1)%x(1)%values)
@@ -510,38 +454,11 @@
               y_out2(nout) = table_mat(1)%y2d(npt,1)
             endif
 !
-            !< Check if the origin (0,0) is included in the smoothed curve
-            insert_origin = .false.
-            do i = 1, nout-1
-              if ((x_out2(i) < zero) .and. (x_out2(i+1) > zero)) then
-                insert_origin = .true.
-                exit
-              endif
-            enddo
-!
             !< Copy the smoothed curve to the material table
-            if (insert_origin) then
-              deallocate(table_mat(2)%x(1)%values,table_mat(2)%y1d)
-              allocate(table_mat(2)%x(1)%values(nout+1),table_mat(2)%y1d(nout+1))
-              nd = 1
-              do i = 1, nout
-                table_mat(2)%x(1)%values(nd) = x_out2(i)
-                table_mat(2)%y1d(nd) = y_out2(i)
-                nd = nd + 1
-                if (i < nout) then
-                  if ((x_out2(i) < zero) .and. (x_out2(i+1) > zero)) then
-                    table_mat(2)%x(1)%values(nd) = zero
-                    table_mat(2)%y1d(nd) = zero
-                    nd = nd + 1
-                  endif
-                endif
-              enddo
-            else
-              deallocate(table_mat(2)%x(1)%values,table_mat(2)%y1d)
-              allocate(table_mat(2)%x(1)%values(nout),table_mat(2)%y1d(nout))
-              table_mat(2)%x(1)%values(1:nout) = x_out2(1:nout)
-              table_mat(2)%y1d(1:nout) = y_out2(1:nout)
-            endif
+            deallocate(table_mat(2)%x(1)%values,table_mat(2)%y1d)
+            allocate(table_mat(2)%x(1)%values(nout),table_mat(2)%y1d(nout))
+            table_mat(2)%x(1)%values(1:nout) = x_out2(1:nout)
+            table_mat(2)%y1d(1:nout) = y_out2(1:nout)
             ! --> Hysteretic unloading parameters
           elseif (hys /= zero) then
             iunl_for = 2

@@ -172,6 +172,59 @@ double pchip_eval(const std::vector<double>& x,
     return h00*z[k] + h10*m[k] + h01*z[k+1] + h11*m[k+1];
 }
 
+static void ensure_origin_point(std::vector<double>& x, std::vector<double>& y, double xtol=1e-15)
+{
+    const int n = (int)x.size();
+    if (n==0) { x.push_back(0.0); y.push_back(0.0); return; }
+
+    // Si déjà présent
+    for (int i=0;i<n;++i){
+        if (std::abs(x[i]) < xtol){
+            x[i] = 0.0;
+            y[i] = 0.0;
+            return;
+        }
+    }
+
+    // Insérer en conservant l'ordre croissant (supposé déjà croissant)
+    auto it = std::lower_bound(x.begin(), x.end(), 0.0);
+    int pos = (int)(it - x.begin());
+    x.insert(it, 0.0);
+    y.insert(y.begin() + pos, 0.0);
+}
+
+static void build_uniform_grid_with_zero(double xmin, double xmax, int nout,
+                                         double& xmin_new, double& xmax_new, int& i0)
+{
+    if (nout < 2) nout = 2;
+
+    // Cas 0 hors intervalle (tout >=0 ou tout <=0) : 0 sur un bord
+    if (xmin >= 0.0){
+        i0 = 0;
+        xmin_new = 0.0;
+        xmax_new = xmax;
+        return;
+    }
+    if (xmax <= 0.0){
+        i0 = nout - 1;
+        xmin_new = xmin;
+        xmax_new = 0.0;
+        return;
+    }
+
+    // Cas traversant 0 : choisir un i0 "raisonnable"
+    // ratio = position relative de 0 entre xmin et xmax
+    double ratio = (-xmin) / (xmax - xmin); // dans (0,1)
+    i0 = (int)std::llround(ratio * (double)(nout - 1)); // index proche
+    i0 = std::max(1, std::min(nout - 2, i0));           // éviter bords
+
+    double h1 = (-xmin) / (double)i0;
+    double h2 = (xmax) / (double)(nout - 1 - i0);
+    double h  = std::max(h1, h2);
+
+    xmin_new = -(double)i0 * h;
+    xmax_new =  (double)(nout - 1 - i0) * h;
+}
 
 //----------------------------------------------------------------------------------------------------------------
 // C Interface to Fortran
@@ -183,7 +236,7 @@ extern "C" {
         std::vector<double> x_raw(s_inp), y_raw(s_inp);
         for (int i=0;i<s_inp;++i){ x_raw[i]=x_inp[i]; y_raw[i]=y_inp[i]; }
        
-        const int n = (int)x_raw.size();
+        int n = (int)x_raw.size();
         if (n==0){
             x_out[0]=0.0; y_out[0]=0.0; return;
         }
@@ -191,6 +244,9 @@ extern "C" {
             for (int i=0;i<nout;++i){ x_out[i]=x_raw[0]; y_out[i]=y_raw[0]; }
             return;
         }
+
+        ensure_origin_point(x_raw, y_raw);
+        n = (int)x_raw.size();
     
         std::vector<double> z;
         smooth_isotone(x_raw, y_raw, z, /*mu=*/std::max(0.0,lambda));
@@ -201,8 +257,15 @@ extern "C" {
         double xmin = x_raw.front(), xmax = x_raw.back();
         if (nout<2) nout=2;
 
+        double xmin_new, xmax_new;
+        int i0;
+        build_uniform_grid_with_zero(xmin, xmax, nout, xmin_new, xmax_new, i0);
+
+        double h = (xmax_new - xmin_new) / (double)(nout - 1);
+
         for (int i=0;i<nout;++i){
-            double xi = xmin + (xmax - xmin) * (double)i / (double)(nout-1);
+            double xi = xmin_new + h * (double)i;
+            if (i == i0) xi = 0.0;
             x_out[i] = xi;
             y_out[i] = pchip_eval(x_raw, z, m, xi);
         }

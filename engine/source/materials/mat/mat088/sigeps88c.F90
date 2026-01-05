@@ -120,7 +120,7 @@
           real(kind=WP) :: nu,hys,shape,rbulk(nel),gs,gdamp,sigf,kfail,gam1,     &
             gam2,eh,beta
           !< Integer working variables
-          integer :: i,j,n,ne_load,ne_unload,jj,nindx_dam,nindx_fail,           &
+          integer :: i,j,n,ne_load,ne_unload,jj,nindx_dam,nindx_fail,            &
             iter2d
           integer, dimension (nel) :: indx_l,indx_unl,jdom,indx_dam,indx_fail
           integer, dimension(nel,6) :: ipos
@@ -141,6 +141,8 @@
           real(kind=WP), dimension(nel,6) :: xvec
           real(kind=WP), dimension(nel,3,2) :: eigv
           real(kind=WP) :: vx, vy, nrm, alt1
+          logical, parameter :: opt_extrapolate = .true.
+          logical, parameter :: opt_regular = .true.
 !
           !=======================================================================
           !<                           /!\ WARNING
@@ -196,9 +198,9 @@
             sigdxy(i) = uvar(i,9)
             !< Previous energie increment
             deint0(i) = half*(one/(max(one - dmg(i),em20)))*(                    &
-              (sigoxx(i) - sigdxx(i))*depsxx(i) +                 &
-              (sigoyy(i) - sigdyy(i))*depsyy(i) +                 &
-              (sigoxy(i) - sigdxy(i))*depsxy(i))
+                             (sigoxx(i) - sigdxx(i))*depsxx(i) +                 &
+                             (sigoyy(i) - sigdyy(i))*depsyy(i) +                 &
+                             (sigoxy(i) - sigdxy(i))*depsxy(i))
             !< Re-initialize the thickness
             if (ipg == 1) thkn(i) = zero
           enddo
@@ -276,11 +278,11 @@
           !< Compute strain rates in principal reference directions
           do i = 1,nel
             evvp(i,1) = eigv(i,1,1)*eigv(i,1,1)*epspxx(i) +                      &
-              eigv(i,1,1)*eigv(i,2,1)*epspxy(i) +                      &
-              eigv(i,2,1)*eigv(i,2,1)*epspyy(i)
+                        eigv(i,1,1)*eigv(i,2,1)*epspxy(i) +                      &
+                        eigv(i,2,1)*eigv(i,2,1)*epspyy(i)
             evvp(i,2) = eigv(i,1,2)*eigv(i,1,2)*epspxx(i) +                      &
-              eigv(i,1,2)*eigv(i,2,2)*epspxy(i) +                      &
-              eigv(i,2,2)*eigv(i,2,2)*epspyy(i)
+                        eigv(i,1,2)*eigv(i,2,2)*epspxy(i) +                      &
+                        eigv(i,2,2)*eigv(i,2,2)*epspyy(i)
             !< Third principal strain rate
             if (nu > 0.49d0) then
               evvp(i,3) = - (evvp(i,1) + evvp(i,2))
@@ -424,11 +426,14 @@
             !< Interpolate uniaxial loading stress functions g(λ, ẋ) for each
             !  principal stretch
             call table_mat_vinterp(matparam%table(1),nel,nel,vartmp(1:nel,1),    &
-              xvec(1:nel,1),g(1:nel,1),dgdlam(1:nel,1))
+              xvec(1:nel,1),g(1:nel,1),dgdlam(1:nel,1),opt_extrapolate,          &
+              opt_regular)
             call table_mat_vinterp(matparam%table(1),nel,nel,vartmp(1:nel,3),    &
-              xvec(1:nel,3),g(1:nel,2),dgdlam(1:nel,2))
+              xvec(1:nel,3),g(1:nel,2),dgdlam(1:nel,2),opt_extrapolate,          &
+              opt_regular)
             call table_mat_vinterp(matparam%table(1),nel,nel,vartmp(1:nel,5),    &
-              xvec(1:nel,5),g(1:nel,3),dgdlam(1:nel,3))
+              xvec(1:nel,5),g(1:nel,3),dgdlam(1:nel,3),opt_extrapolate,          &
+              opt_regular)
             !< Initialize loading function values f = λ * g, and derivatives
             !  dfdlam = d(λ*g)/dλ
             do i = 1, nel
@@ -451,11 +456,14 @@
               enddo
               !< Interpolation of the uniaxial loading stresses
               call table_mat_vinterp(matparam%table(1),nel,nel,ipos(1:nel,1),    &
-                xvec(1:nel,1),gsqr(1:nel,1),dgsqrdlam(1:nel,1))
+                xvec(1:nel,1),gsqr(1:nel,1),dgsqrdlam(1:nel,1),opt_extrapolate,  &
+                opt_regular)
               call table_mat_vinterp(matparam%table(1),nel,nel,ipos(1:nel,3),    &
-                xvec(1:nel,3),gsqr(1:nel,2),dgsqrdlam(1:nel,2))
+                xvec(1:nel,3),gsqr(1:nel,2),dgsqrdlam(1:nel,2),opt_extrapolate,  &
+                opt_regular)
               call table_mat_vinterp(matparam%table(1),nel,nel,ipos(1:nel,5),    &
-                xvec(1:nel,5),gsqr(1:nel,3),dgsqrdlam(1:nel,3))
+                xvec(1:nel,5),gsqr(1:nel,3),dgsqrdlam(1:nel,3),opt_extrapolate,  &
+                opt_regular)
               do i = 1, nel
                 !< Loading functions recursive update
                 f(i,1) = f(i,1) + xvec(i,1)*gsqr(i,1)
@@ -483,7 +491,7 @@
                 !< Volume change rate
                 ldav = epspxx(i) + epspyy(i)
                 !< Viscous pressure
-                p(i) = uvar(i,12)*exp(-beta*tstep) +                            &
+                p(i) = uvar(i,12)*exp(-beta*tstep) +                             &
                   rbulk(i)*ldav*((one - exp(-beta*tstep))/beta)
                 !< Derivative of p w.r.t. rv
                 dpdrv(i) = zero
@@ -498,8 +506,9 @@
                 ipos(i,1:6) = 1
               enddo
               !< Interpolation of the uniaxial loading stresses
-              call table_mat_vinterp(matparam%table(1),nel,nel,ipos(1:nel,1),      &
-                xvec(1:nel,1),gJ(1:nel),dgJdlam(1:nel))
+              call table_mat_vinterp(matparam%table(1),nel,nel,ipos(1:nel,1),    &
+                xvec(1:nel,1),gJ(1:nel),dgJdlam(1:nel),opt_extrapolate,          &
+                opt_regular)
               !< Initialize loading function value
               do i = 1, nel
                 fJ(i) = gJ(i)*xvec(i,1)
@@ -513,13 +522,14 @@
                   ipos(i,1:6) = 1
                 enddo
                 !< Interpolation of the uniaxial loading stresses
-                call table_mat_vinterp(matparam%table(1),nel,nel,ipos(1:nel,1),    &
-                  xvec(1:nel,1),gJsqr(1:nel),dgJsqrdlam(1:nel))
+                call table_mat_vinterp(matparam%table(1),nel,nel,ipos(1:nel,1),  &
+                  xvec(1:nel,1),gJsqr(1:nel),dgJsqrdlam(1:nel),opt_extrapolate,  &
+                  opt_regular)
                 do i = 1, nel
                   !< Loading functions recursive update
                   fJ(i) = fJ(i) + xvec(i,1)*gJsqr(i)
-                  dfJdx(i) = dfJdx(i) + ((-nu)**n) *                               &
-                    (xfoam(i)**(((-nu)**n) - one)) *                      &
+                  dfJdx(i) = dfJdx(i) + ((-nu)**n) *                             &
+                    (xfoam(i)**(((-nu)**n) - one)) *                             &
                     (gJsqr(i) + xvec(i,1) * dgJsqrdlam(i))
                 enddo
               enddo
@@ -549,14 +559,14 @@
               !< Derivative of t3 w.r.t. λ3
               if (nu <= zero .or. nu >= 0.49d0) then
                 dt3_dlam3 = (one/rv(i))*(                                        &
-                  (four/nine)*dfdlam(i,3)*lam(i,3)/(lam(i,3)/rv_mth(i)) +    &
-                  (one/nine)*dfdlam(i,1)*lam(i,1)/(lam(i,3)/rv_mth(i)) +    &
-                  (one/nine)*dfdlam(i,2)*lam(i,2)/(lam(i,3)/rv_mth(i)) +    &
-                  (lam(i,1)/rv_mth(i))*(lam(i,2)/rv_mth(i))*(dpdrv(i) - t(i,3)))
+                  (four/nine)*dfdlam(i,3)*lam(i,3)/(lam(i,3)/rv_mth(i)) +        &
+                   (one/nine)*dfdlam(i,1)*lam(i,1)/(lam(i,3)/rv_mth(i)) +        &
+                   (one/nine)*dfdlam(i,2)*lam(i,2)/(lam(i,3)/rv_mth(i)) +        &
+                   (lam(i,1)/rv_mth(i))*(lam(i,2)/rv_mth(i))*(dpdrv(i) - t(i,3)))
               else
                 dt3_dlam3 = (one/rv(i))*dfdlam(i,3) + (one/lam(i,3))*dfJdx(i)*(  &
-                  nu/(one - two*nu))*(rv(i)**((nu-one)/(one - two*nu))) -  &
-                  (one/lam(i,3))*t(i,3)
+                        nu/(one - two*nu))*(rv(i)**((nu-one)/(one - two*nu))) -  &
+                        (one/lam(i,3))*t(i,3)
               endif
               dt3_dlam3 = sign(max(abs(dt3_dlam3),em20) ,dt3_dlam3)
 !
@@ -599,8 +609,8 @@
                 t(i,3) = (f(i,3) - fJ(i))/rv(i)
               endif
               !< Compute strain energy increment (using trial stresses)
-              deint(i) = deint0(i) + half*(                                        &
-                t(i,1)*evvp(i,1) +                                     &
+              deint(i) = deint0(i) + half*(                                      &
+                t(i,1)*evvp(i,1) +                                               &
                 t(i,2)*evvp(i,2)) * tstep
               ecurent(i) = max(em20, ecurent(i) + deint(i))
               emax(i)    = max(emax(i), ecurent(i))
@@ -744,9 +754,9 @@
           !<======================================================================
           if (ne_unload > 0) then
             select case (iunl_for)
-              !<--------------------------------------------------------------------
+              !<------------------------------------------------------------------
               !< Following unloading curve
-              !<--------------------------------------------------------------------
+              !<------------------------------------------------------------------
              case (1)
 !
               !< Re-initialize variables for unloading elements
@@ -806,11 +816,14 @@
                 !< Interpolate uniaxial loading stress functions g(λ, ẋ) for each
                 !  principal stretch
                 call table_mat_vinterp(matparam%table(1),nel,nel,                &
-                  vartmp(1:nel,1),xvec(1:nel,1),g(1:nel,1),dgdlam(1:nel,1))
+                  vartmp(1:nel,1),xvec(1:nel,1),g(1:nel,1),dgdlam(1:nel,1),      &  
+                  opt_extrapolate,opt_regular)
                 call table_mat_vinterp(matparam%table(1),nel,nel,                &
-                  vartmp(1:nel,3),xvec(1:nel,3),g(1:nel,2),dgdlam(1:nel,2))
+                  vartmp(1:nel,3),xvec(1:nel,3),g(1:nel,2),dgdlam(1:nel,2),      &   
+                  opt_extrapolate,opt_regular)
                 call table_mat_vinterp(matparam%table(1),nel,nel,                &
-                  vartmp(1:nel,5),xvec(1:nel,5),g(1:nel,3),dgdlam(1:nel,3))
+                  vartmp(1:nel,5),xvec(1:nel,5),g(1:nel,3),dgdlam(1:nel,3),      &
+                  opt_extrapolate,opt_regular)
 !
                 !< Initialize loading function values f = λ * g, and derivatives
                 !  dfdlam = d(λ*g)/dλ
@@ -837,11 +850,14 @@
                   enddo
                   !< Interpolation of the uniaxial loading stresses
                   call table_mat_vinterp(matparam%table(1),nel,nel,ipos(1:nel,1),&
-                    xvec(1:nel,1),gsqr(1:nel,1),dgsqrdlam(1:nel,1))
+                    xvec(1:nel,1),gsqr(1:nel,1),dgsqrdlam(1:nel,1),              &
+                    opt_extrapolate,opt_regular)
                   call table_mat_vinterp(matparam%table(1),nel,nel,ipos(1:nel,3),&
-                    xvec(1:nel,3),gsqr(1:nel,2),dgsqrdlam(1:nel,2))
+                    xvec(1:nel,3),gsqr(1:nel,2),dgsqrdlam(1:nel,2),              &
+                    opt_extrapolate,opt_regular)
                   call table_mat_vinterp(matparam%table(1),nel,nel,ipos(1:nel,5),&
-                    xvec(1:nel,5),gsqr(1:nel,3),dgsqrdlam(1:nel,3))
+                    xvec(1:nel,5),gsqr(1:nel,3),dgsqrdlam(1:nel,3),              &
+                    opt_extrapolate,opt_regular)
                   !< Update loading functions and derivatives
                   do jj = 1, ne_unload
                     i = indx_unl(jj)
@@ -851,13 +867,13 @@
                     f(i,3) = f(i,3) + xvec(i,5)*gsqr(i,3)
                     !< Loading functions derivatives recursiven update
                     dfdlam(i,1) = dfdlam(i,1) +                                  &
-                      ((-nu)**n)*(lam(i,1)**(((-nu)**n)-1))*           &
+                      ((-nu)**n)*(lam(i,1)**(((-nu)**n)-1))*                     &
                       (gsqr(i,1) + lam(i,1)**((-nu)**n)*dgsqrdlam(i,1))
                     dfdlam(i,2) = dfdlam(i,2) +                                  &
-                      ((-nu)**n)*(lam(i,2)**(((-nu)**n)-1))*           &
+                      ((-nu)**n)*(lam(i,2)**(((-nu)**n)-1))*                     &
                       (gsqr(i,2) + lam(i,2)**((-nu)**n)*dgsqrdlam(i,2))
                     dfdlam(i,3) = dfdlam(i,3) +                                  &
-                      ((-nu)**n)*(lam(i,3)**(((-nu)**n)-1))*           &
+                      ((-nu)**n)*(lam(i,3)**(((-nu)**n)-1))*                     &
                       (gsqr(i,3) + lam(i,3)**((-nu)**n)*dgsqrdlam(i,3))
                   enddo
                 enddo
@@ -874,7 +890,8 @@
                   enddo
                   !< Interpolation of the uniaxial loading stresses
                   call table_mat_vinterp(matparam%table(1),nel,nel,ipos(1:nel,1),&
-                    xvec(1:nel,1),gJ(1:nel),dgJdlam(1:nel))
+                    xvec(1:nel,1),gJ(1:nel),dgJdlam(1:nel),opt_extrapolate,      &
+                    opt_regular)
                   !< Initialize loading function value
                   do jj = 1, ne_unload
                     i = indx_unl(jj)
@@ -891,14 +908,14 @@
                     enddo
                     !< Interpolation of the uniaxial loading stresses
                     call table_mat_vinterp(matparam%table(1),nel,nel,            &
-                      ipos(1:nel,1),xvec(1:nel,1),gJsqr(1:nel),            &
-                      dgJsqrdlam(1:nel))
+                      ipos(1:nel,1),xvec(1:nel,1),gJsqr(1:nel),                  &
+                      dgJsqrdlam(1:nel),opt_extrapolate,opt_regular)
                     do jj = 1, ne_unload
                       i = indx_unl(jj)
                       !< Loading functions recursive update
                       fJ(i) = fJ(i) + xvec(i,1)*gJsqr(i)
                       dfJdx(i) = dfJdx(i) + ((-nu)**n) *                         &
-                        (xfoam(i)**(((-nu)**n) - one)) *                &
+                        (xfoam(i)**(((-nu)**n) - one)) *                         &
                         (gJsqr(i) + xvec(i,1) * dgJsqrdlam(i))
                     enddo
                   enddo
@@ -968,11 +985,13 @@
                 ! --- Loading ---
                 ipos(1:nel,1:6) = 1
                 call table_mat_vinterp(matparam%table(3),nel,nel,ipos(1:nel,1),  &
-                  xvec(1:nel,1),g(1:nel,1),dgdlam(1:nel,1))
+                  xvec(1:nel,1),g(1:nel,1),dgdlam(1:nel,1),opt_extrapolate,      &
+                  opt_regular)
                 ! --- Unloading ---
                 ipos(1:nel,1:6) = 1
                 call table_mat_vinterp(matparam%table(2),nel,nel,ipos(1:nel,1),  &
-                  xvec(1:nel,1),gunl(1:nel),dgunldlam(1:nel))
+                  xvec(1:nel,1),gunl(1:nel),dgunldlam(1:nel),opt_extrapolate,    &
+                  opt_regular)
 !
                 !<================================================================
                 !< - Scalar ratio R = gunl(xhat) / g(xhat,ẋ), bounded [0,1] then
@@ -1028,14 +1047,14 @@
                   !< Derivative of t3 w.r.t. λ3
                   if (nu <= zero .or. nu >= 0.49d0) then
                     dt3_dlam3 = (one/rv(i))*                                     &
-                      ((four/nine)*dfdlam(i,3)*lam(i,3)/(lam(i,3)/rv_mth(i))   &
-                      + (one/nine)*dfdlam(i,1)*lam(i,1)/(lam(i,3)/rv_mth(i))   &
-                      + (one/nine)*dfdlam(i,2)*lam(i,2)/(lam(i,3)/rv_mth(i))   &
-                      + (lam(i,1)/rv_mth(i))*(lam(i,2)/rv_mth(i))*             &
+                      ((four/nine)*dfdlam(i,3)*lam(i,3)/(lam(i,3)/rv_mth(i))     &
+                      + (one/nine)*dfdlam(i,1)*lam(i,1)/(lam(i,3)/rv_mth(i))     &
+                      + (one/nine)*dfdlam(i,2)*lam(i,2)/(lam(i,3)/rv_mth(i))     &
+                      + (lam(i,1)/rv_mth(i))*(lam(i,2)/rv_mth(i))*               &
                       (dpdrv(i) - t(i,3)))
                   else
                     dt3_dlam3 = (one/rv(i))*dfdlam(i,3) + (one/lam(i,3))*        &
-                      dfJdx(i)*(nu/(one - two*nu))*(rv(i)**((nu-one)/          &
+                      dfJdx(i)*(nu/(one - two*nu))*(rv(i)**((nu-one)/            &
                       (one - two*nu))) - (one/lam(i,3))*t(i,3)
                   endif
                   dt3_dlam3 = sign(max(abs(dt3_dlam3),em20) ,dt3_dlam3)
@@ -1058,9 +1077,9 @@
                 lam(i,3) = lam(i,3)*rv_mth(i)
               enddo
 !
-              !<--------------------------------------------------------------------
+              !<------------------------------------------------------------------
               !< Unloading with hysteretic model based on the energy
-              !<--------------------------------------------------------------------
+              !<------------------------------------------------------------------
              case (2)
 !
               do jj = 1, ne_unload
@@ -1080,12 +1099,12 @@
           do i = 1, nel
 !
             !< Transform principal stresses t(i,*) back to global coordinates
-            signxx(i) = t(i,1)*eigv(i,1,1)*eigv(i,1,1) +                        &
-              t(i,2)*eigv(i,1,2)*eigv(i,1,2)
-            signyy(i) = t(i,1)*eigv(i,2,1)*eigv(i,2,1) +                        &
-              t(i,2)*eigv(i,2,2)*eigv(i,2,2)
-            signxy(i) = t(i,1)*eigv(i,1,1)*eigv(i,2,1) +                        &
-              t(i,2)*eigv(i,1,2)*eigv(i,2,2)
+            signxx(i) = t(i,1)*eigv(i,1,1)*eigv(i,1,1) +                         &
+                        t(i,2)*eigv(i,1,2)*eigv(i,1,2)
+            signyy(i) = t(i,1)*eigv(i,2,1)*eigv(i,2,1) +                         &
+                        t(i,2)*eigv(i,2,2)*eigv(i,2,2)
+            signxy(i) = t(i,1)*eigv(i,1,1)*eigv(i,2,1) +                         &
+                        t(i,2)*eigv(i,1,2)*eigv(i,2,2)
             signyz(i) = sigoyz(i) + gs*shf(i)*depsyz(i)
             signzx(i) = sigozx(i) + gs*shf(i)*depszx(i)
 !
@@ -1096,7 +1115,7 @@
               !< Unloading behavior case
               select case (iunl_for)
                case (1)
-                dlam_eff = merge(max(dfdlam(i,j),dgdlam(i,j)),dgdlam(i,j),     &
+                dlam_eff = merge(max(dfdlam(i,j),dgdlam(i,j)),dgdlam(i,j),       &
                   loadflg(i) == -one )
                 !< Keep the positive slope only
                 dlam_eff = max(dlam_eff, zero)
@@ -1188,11 +1207,11 @@
               !< Invariants of the stretch tensor
               i1(i) = lam(i,1)**2 + lam(i,2)**2 + lam(i,3)**2
               i2(i) = lam(i,1)**2 * lam(i,2)**2 +                                &
-                lam(i,2)**2 * lam(i,3)**2 +                                &
-                lam(i,3)**2 * lam(i,1)**2
+                      lam(i,2)**2 * lam(i,3)**2 +                                &
+                      lam(i,3)**2 * lam(i,1)**2
               !< Failure criterion
               fcrit(i) = (i1(i) - three) + gam1*(i1(i) - three)**2 +             &
-                gam2*(i2(i) - three)
+                                           gam2*(i2(i) - three)
               !< List of elements that can be damaged
               if ((dmg(i) < one).and.(off(i) == one)) then
                 nindx_dam = nindx_dam + 1
