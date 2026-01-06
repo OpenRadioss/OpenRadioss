@@ -477,4 +477,16 @@
       module spmd_comm_world_mod
         implicit none
         integer :: spmd_comm_world
+#ifndef MPI
+        integer, parameter, public :: MPI_STATUS_IGNORE = 0
+        integer, parameter, public :: MPI_STATUS_SIZE = 1
+        integer, parameter, public :: MPI_REQUEST_NULL = 0
+        integer, parameter, public :: MPI_COMM_WORLD = 0
+        integer, parameter, public :: SPMD_STATUS_IGNORE = 0
+        integer, parameter, public :: SPMD_STATUS_SIZE = 1
+        integer, parameter, public :: SPMD_REQUEST_NULL = 0
+#else
+#include "mpif.h"
+        integer, parameter, public :: SPMD_REQUEST_NULL = MPI_REQUEST_NULL
+#endif
       end module spmd_comm_world_mod

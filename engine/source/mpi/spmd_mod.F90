@@ -149,7 +149,7 @@
 !||    spmd_wait_mod                   ../engine/source/mpi/spmd_wait.F90
 !||====================================================================
       module spmd_mod
-        use spmd_comm_world_mod, only: SPMD_COMM_WORLD
+        use spmd_comm_world_mod
         use spmd_allgather_mod , only : spmd_allgather
         use spmd_send_mod, only: spmd_send
         use spmd_recv_mod, only: spmd_recv
@@ -181,20 +181,20 @@
         integer, parameter, public :: SPMD_REAL8 = 0
 #define MY_MPI_REAL MPI_REAL
 #endif
-
 #ifndef MPI
-        integer, parameter, public :: MPI_STATUS_IGNORE = 0
-        integer, parameter, public :: MPI_STATUS_SIZE = 1
-        integer, parameter, public :: MPI_REQUEST_NULL = 0
-        integer, parameter, public :: MPI_COMM_WORLD = 0
-        integer, parameter, public :: SPMD_STATUS_IGNORE = 0
-        integer, parameter, public :: SPMD_STATUS_SIZE = 1
-        integer, parameter, public :: SPMD_REQUEST_NULL = 0
+        public :: MPI_STATUS_IGNORE 
+        public :: MPI_STATUS_SIZE 
+        public :: MPI_REQUEST_NULL 
+        public :: MPI_COMM_WORLD 
+        public :: SPMD_STATUS_IGNORE 
+        public :: SPMD_STATUS_SIZE 
+        public :: SPMD_REQUEST_NULL
 #else
-#include "mpif.h"
-        integer, parameter, public :: SPMD_REQUEST_NULL = MPI_REQUEST_NULL
+        public :: SPMD_REQUEST_NULL
 #endif
-        ! \brief Interface for spmd_reduce, a wrapper for MPI_REDUCE
+
+
+       ! \brief Interface for spmd_reduce, a wrapper for MPI_REDUCE
         interface spmd_reduce
           module procedure spmd_reduce_reals    !< Reduces real numbers across all processes
           module procedure spmd_reduce_ints     !< Reduces integers across all processes
