@@ -123,11 +123,11 @@
 
           !< Update material parameters (if max are needed instead of initial values)
           !----------------------------
-          matparam%shear = shear_max
-          matparam%young = young_max
-          matparam%bulk = bulk_max
-          pm(20) = young_max
-          pm(24) = young_max
+          !matparam%shear = shear_max
+          !matparam%young = young_max
+          !matparam%bulk = bulk_max
+          pm(20) = matparam%young ! young_max
+          pm(24) = matparam%young ! young_max
 
 ! ----------------------------------------------------------------------------------------------------------------------
         end subroutine law133_upd

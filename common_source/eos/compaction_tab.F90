@@ -129,8 +129,8 @@
           real(kind=WP) :: tol
           real(kind=WP) :: rhomax_plastic
           real(kind=WP) :: cunl(nel), c_prime(nel)
-          real(kind=WP) :: Pc(nel)
-          real(kind=WP) :: dpdr(nel)
+          real(kind=WP) :: Pc(1)
+          real(kind=WP) :: dpdr(1)
           real(kind=WP) :: gamma(nel), gl, rhol, rhol_, c2
           real(kind=WP) :: b(nel)
           real(kind=WP) :: tmp1,tmp2, xx
@@ -193,7 +193,7 @@
                 end if
 
                 !for sound speed
-                dpdm(i) = rho0(i)*dPdr(i)   ! total derivative dP/d(mu) = rho0*dP/d(rho)
+                dpdm(i) = rho0(i)*dPdr(1)   ! total derivative dP/d(mu) = rho0*dP/d(rho)
 
                 ! History variable: density at current plastic state
                 !vareos(i,6) is rho_bak
@@ -219,16 +219,16 @@
                 else
                   !non-linear unloading
                   c2 = vareos(i,2)
-                  Pc = vareos(i,5)
+                  dpdm(i) = rho0(i)*c2
+                  Pc(1) = vareos(i,5)
                   rhol = Pc(1)/c2
                   rhol_ = abs(Pmin/c2) ! left size in case Pmin /= 0.0
                   tmp1 = (Pc(1)-Pmin)/(exp(gl)-one)
                   tmp2 = exp(gl/(rhol+rhol_)*(max(zero,rho(i)-lambda+rhol_)))
                   P(i) = Pmin+tmp1*(tmp2-one)
                   P(i) = max(P(i), Pmin)
-                  b(i) = tmp1*tmp2 * gl/rhol
-                  b(i) = max(vareos(i,2), b(i)) ! upper bound for non linear unloading
-                  dpdm(i) = rho0(i)*b(i)
+                  !b(i) = tmp1*tmp2 * gl/rhol
+                  !b(i) = max(vareos(i,2), b(i)) ! upper bound for non linear unloading
                 endif
 
                ! --- OPTIONNAL : PLASEXP == 1 update re-loading path for next cycle (if needed) ---!
@@ -356,9 +356,9 @@
               lambda = rho(i)
               do while(iter <= niter .and. residu > tol)
                 xvec1(1:1,1) = lambda
-                call table_mat_vinterp(eos_struct%table(1),1,1,vartmp(1,1),xvec1,Pc,dPdr) ! provides cunl=c(x) and c_prime=c'(x)
-                FF = Pc(1)
-                DF = dPdr(1)
+                call table_mat_vinterp(eos_struct%table(1),1,1,vartmp(1,1),xvec1,Pc(i),dPdr(i)) ! provides cunl=c(x) and c_prime=c'(x)
+                FF = Pc(i)
+                DF = dPdr(i)
                 LAMBDA = LAMBDA - FF / DF
                 residu = abs(FF)/RHO_TMD
                 iter = iter + 1
