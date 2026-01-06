@@ -190,8 +190,6 @@
         integer, parameter, public :: SPMD_STATUS_IGNORE = 0
         integer, parameter, public :: SPMD_STATUS_SIZE = 1
         integer, parameter, public :: SPMD_REQUEST_NULL = 0
-        integer, parameter, public :: SPMD_COMM_WORLD = 0
-
 #else
 #include "mpif.h"
         integer, parameter, public :: SPMD_REQUEST_NULL = MPI_REQUEST_NULL
