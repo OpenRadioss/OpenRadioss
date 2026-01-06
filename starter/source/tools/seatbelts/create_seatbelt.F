@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -688,7 +688,17 @@ C---  Filling of seatbelt structure
 C----------------------------------------------------------------------------
 C
         N_SEATBELT = SEATBELT_ID
-        IF (IDDLEVEL == 0) ALLOCATE(SEATBELT_TAB(N_SEATBELT))
+C       SEATBELT_TAB reallocation for iddlevel=1 - needed for loop (order change because of element rordering))       
+        IF (ALLOCATED(SEATBELT_TAB)) THEN
+          DO I = 1, SIZE(SEATBELT_TAB)
+            IF (ALLOCATED(SEATBELT_TAB(I)%SPRING)) THEN
+              DEALLOCATE(SEATBELT_TAB(I)%SPRING)
+            ENDIF
+          ENDDO
+          DEALLOCATE(SEATBELT_TAB)
+        ENDIF
+C        
+        ALLOCATE(SEATBELT_TAB(N_SEATBELT))
         CALL MY_ALLOC(TAG_MAT_2D,NUMMAT)
         TAG_MAT_2D(1:NUMMAT) = 0
         IF (NB_2D_SEATBELT > 0) THEN
@@ -737,7 +747,9 @@ C--           count and tag of 2d elements of the seatbelt
                 ENDDO
 C               FLAG_SHELL needed in case of 1D/2D connection
                 IF ((MTYP==119).AND.(FLAG_SHELL==1)) THEN
-                  IF (TAG_SHELL(ELEM_CUR)==0) THEN
+                  IF(ELEM_CUR > NUMELC .OR. ELEM_CUR <= 0) THEN
+                     write(6,*) 'Error in seatbelt element indexing. Material',IPM(2,MID_2D)
+                  ELSEIF (TAG_SHELL(ELEM_CUR)==0) THEN
                     TAG_SHELL(ELEM_CUR) = I
                     COMPT_2D = COMPT_2D + 1
                     TAG_MAT_2D(MID) = MID_2D
@@ -756,7 +768,7 @@ C               FLAG_SHELL needed in case of 1D/2D connection
           ENDDO        
           SEATBELT_TAB(I)%NSPRING = COMPT
           SEATBELT_TAB(I)%NSHELL = COMPT_2D
-          IF (IDDLEVEL == 0) CALL MY_ALLOC(SEATBELT_TAB(I)%SPRING,COMPT)
+          CALL MY_ALLOC(SEATBELT_TAB(I)%SPRING,COMPT)
           COMPT = 0
           DO J=1,NUMELR
             IF (TAG_RES(J) == I) THEN

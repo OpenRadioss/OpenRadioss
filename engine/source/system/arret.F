@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -38,7 +38,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    c_fortran_dgssv                  ../engine/stub/superlu_stub.F
 !||    c_freemem                        ../engine/stub/superlu_stub.F
 !||    c_tricall                        ../engine/stub/fvmbags_stub.F
-!||    check_error_and_write            ../common_source/tools/memory/extend_array.F90
+!||    check_error_and_write            ../common_source/tools/memory/shrink_array.F90
 !||    cp_ifront                        ../engine/source/implicit/produt_v.F
 !||    create_h3d_1d_scalar             ../engine/source/output/h3d/h3d_build_fortran/create_h3d_1d_scalar.F
 !||    create_h3d_1d_tensor             ../engine/source/output/h3d/h3d_build_fortran/create_h3d_1d_tensor.F

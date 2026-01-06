@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -100,7 +100,7 @@ C sending the size array to processor 0
 
       IF (ISPMD == 0) THEN
 C Procement reception of sizes
-        ALLOCATE(P0RECRBE2(NRBE2G,NSPMD))
+        ALLOCATE(P0RECRBE2(MAX(1,NRBE2G),NSPMD)) !size 1 to avoid zero size allocation (argument of mpi_recv)
         DO I=1,NRBE2G
            P0RECRBE2(I,1) = SZLOCRBE2(I)
         ENDDO

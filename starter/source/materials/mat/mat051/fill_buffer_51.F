@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -163,11 +163,11 @@ C-----------------------------------------------
       UPARAM(173)=-INFINITY
       UPARAM(223)=-INFINITY
 
-      !Ei_INF
-      UPARAM(57) = -INFINITY
-      UPARAM(58) = -INFINITY
-      UPARAM(59) = -INFINITY
-      UPARAM(60) = ZERO !-INFINITY
+      ! IBIJ(1:4) (iform=12 only)
+      UPARAM(57) = ZERO
+      UPARAM(58) = ZERO
+      UPARAM(59) = ZERO
+      UPARAM(60) = ZERO
 
       IEXP     = 0
       NJWL     = 0
