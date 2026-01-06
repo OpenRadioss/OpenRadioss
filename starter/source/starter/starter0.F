@@ -102,6 +102,7 @@ C-----------------------------------------------
       use checksum_starter_option_mod
       use checksum_check_mod
       use th_mod , only : TH_HAS_NODA_PEXT
+      use hm_rbodies_add_main_node_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -778,6 +779,10 @@ c 2d seatbelt translation
       IF (NB_SEATBELT_SHELLS > 0) 
      .  CALL HM_CONVERT_2D_ELEMENTS_SEATBELT(IDMAX_PART,IDMAX_PROP,IDMAX_MAT,IDMAX_ELEM,IDMAX_TH,
      .                                           SEATBELT_CONVERTED_ELEMENTS,NB_SEATBELT_SHELLS,LSUBMODEL)
+C-------------------------------------------------------------------
+C Add RBODY master node if not existing in /RBODY cards
+C------------------------------------------------------------------
+      CALL hm_rbodies_add_main_node(LSUBMODEL)
 C------------------------------------------------------------------
       ! Initialisation of glob_therm module
 C------------------------------------------------------------------
