@@ -84,21 +84,8 @@ void sdiD2R::ConvertInclude::ConvertEntities()
 
     SelectionRead selInclude(p_lsdynaModel, "*INCLUDE");
 
-    while (selInclude.Next())
-    {
-        unsigned int id = selInclude->GetId();
-        sdiString name = selInclude->GetName();
-        name += "_0000.rad";
-
-        HandleEdit includeHEdit;
-        p_radiossModel->CreateEntity(includeHEdit, "#include" , name, id);
-    }
-
-    // For each *INCLUDE_TRANSFORM we need a //SUBMODEL, which contains the include.
-    // We do this in a second iteration as a temporary workaround, because otherwise the
-    // p_radiossModel gets confused with include ids
     EntityType includeType = p_radiossModel->GetEntityType("#include");
-    selInclude.Restart();
+    
     while (selInclude.Next())
     {
         if(selInclude->GetKeyword() == "*INCLUDE_TRANSFORM")
@@ -110,11 +97,15 @@ void sdiD2R::ConvertInclude::ConvertEntities()
             p_radiossModel->CreateEntity(submodelHEdit, "//SUBMODEL",
                 "Submodel " + to_string(id));
             EntityEdit submodelEntEdit(p_radiossModel, submodelHEdit);
-
+            
+            p_useSubmodelOffsets = true;
             if(p_useSubmodelOffsets)
             {
+                int defineTransformEnt = 0;
                 sdiValue tempVal;
                 selInclude->GetValue(sdiIdentifier("IDNOFF"), tempVal);
+                tempVal.GetValue(defineTransformEnt);
+
                 submodelEntEdit.SetValue(sdiIdentifier("nodeoffset"), tempVal);
                 selInclude->GetValue(sdiIdentifier("IDEOFF"), tempVal);
                 submodelEntEdit.SetValue(sdiIdentifier("elementoffset"), tempVal);
@@ -133,17 +124,10 @@ void sdiD2R::ConvertInclude::ConvertEntities()
                 */
             }
 
-            HandleEdit includeHEdit;
-            p_radiossModel->FindById(includeType, id, includeHEdit);
-            if(!includeHEdit.IsValid()) continue; // ... but should always be valid
-
-            EntityEdit includeEntEdit(p_radiossModel, includeHEdit);
-            // TBD: Clean up SDI so that the cast isn't necessary in the following line
-            HandleRead parentHRead = static_cast<const EntityRead&>(includeEntEdit).GetInclude();
-            includeEntEdit.SetInclude(submodelHEdit);
-            submodelEntEdit.SetInclude(parentHRead);
-
             // convert define transform, if present
+            HandleRead defineTransformHandle;
+            selInclude->GetEntityHandle(sdiIdentifier("TRANID"), defineTransformHandle);
+
             sdiValue tempVal;
             selInclude->GetValue(sdiIdentifier("TRANID"), tempVal);
             sdiValueEntity defineTransformEnt;
@@ -205,5 +189,11 @@ void sdiD2R::ConvertInclude::ConvertEntities()
                     "*INCLUDE_TRANSFORM", selInclude->GetName().c_str(), "FCTTEM");
             }
         }
+        unsigned int id = selInclude->GetId();
+        sdiString name = selInclude->GetName();
+        name += "_0000.rad";
+
+        HandleEdit includeHEdit;
+        p_radiossModel->CreateEntity(includeHEdit, "#include" , name, id);
     }
 }

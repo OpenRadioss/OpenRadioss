@@ -42,6 +42,7 @@ void DynakeyMessages::ShowMessage(const sdiMessageHandler::Level &level, int cod
  
 #include <sdiCFGTypeMapper.h> 
 #include <sdiModelViewPO.h>
+#include <sdiModelViewPOLSDyna.h>
 
 static std::vector<IMECPreObject *> pre_obj_lst[HCDI_OBJ_TYPE_HC_MAX];
 
@@ -78,12 +79,7 @@ sdi::ModelViewEdit* DynakeyReadModel(const char *filename)
     ModelFactoryReaderPOExprTk* model = new ModelFactoryReaderPOExprTk();
     CommonDataReaderCFG reader(model,"", str_version, "", true);
     reader.ReadModel(filename, pre_obj_lst);
-    const CFGKernel* cfgkernel = MultiCFGKernelMgr::getInstance().GetCurrentCFGKernel();
-    sdi::ModelViewPO* pModelViewSDI =  new sdi::ModelViewPO(
-        //sdi::SDICFGTypeMapper(cfgkernel, "*"),
-        sdi::SDICFGTypeMapper(),
-        pre_obj_lst, HCDI_OBJ_TYPE_HC_MAX, cfgkernel,
-        {"*DEFINE_CURVE"});
+    sdi::ModelViewPO* pModelViewSDI = new sdi::SDIModelViewPOLSDyna(pre_obj_lst);
     pModelViewSDI->ApplyIdOffsets("INCLUDE_TRANSFORM");
 
     return pModelViewSDI;
