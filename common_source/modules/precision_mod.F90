@@ -397,6 +397,8 @@
 !||    spmd_exch_min_max                        ../engine/source/mpi/ale/spmd_exch_min_max.F90
 !||    spmd_exch_n_neighbor                     ../engine/source/mpi/ale/spmd_exch_n_neighbor.F90
 !||    spmd_exch_neighbour_segment              ../engine/source/mpi/interfaces/spmd_exch_neighbour_segment.F90
+!||    spmd_exch_wave                           ../engine/source/mpi/nodes/spmd_exch_wave.F
+!||    spmd_exch_wave_mod                       ../engine/source/mpi/nodes/spmd_exch_wave.F
 !||    spmd_exchange_component                  ../engine/source/mpi/interfaces/spmd_exch_component.F90
 !||    spmd_exchange_ghost_shells               ../engine/source/engine/node_spliting/ghost_shells.F90
 !||    spmd_gather_nodal_scalar                 ../engine/source/mpi/nodes/spmd_gather_nodal_scalar.F

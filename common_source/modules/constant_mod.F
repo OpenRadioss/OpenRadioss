@@ -354,6 +354,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    spmd_exch_flow_tracking_data3            ../engine/source/ale/grid/spmd_exch_flow_tracking_data3.F90
 !||    spmd_exch_flow_tracking_data4            ../engine/source/ale/grid/spmd_exch_flow_tracking_data4.F90
 !||    spmd_exch_output_noda_pext               ../engine/source/mpi/output/spmd_exch_output_noda_pext.F
+!||    spmd_exch_wave                           ../engine/source/mpi/nodes/spmd_exch_wave.F
 !||    spmd_exchange_component                  ../engine/source/mpi/interfaces/spmd_exch_component.F90
 !||    spmd_gather_nodal_scalar                 ../engine/source/mpi/nodes/spmd_gather_nodal_scalar.F
 !||    spmd_update_frontier_int25               ../engine/source/mpi/interfaces/spmd_update_frontier_int25.F90

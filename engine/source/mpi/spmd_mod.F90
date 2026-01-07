@@ -69,6 +69,7 @@
 !||    spmd_exch_sms                   ../engine/source/mpi/ams/spmd_exch_sms.F
 !||    spmd_exch_sms6                  ../engine/source/mpi/ams/spmd_exch_sms6.F
 !||    spmd_exch_vnpon                 ../engine/source/mpi/nodes/spmd_exch_vnpon.F90
+!||    spmd_exch_wave                  ../engine/source/mpi/nodes/spmd_exch_wave.F
 !||    spmd_exchange_component         ../engine/source/mpi/interfaces/spmd_exch_component.F90
 !||    spmd_exchange_ghost_shells      ../engine/source/engine/node_spliting/ghost_shells.F90
 !||    spmd_extag                      ../engine/source/mpi/fluid/spmd_cfd.F

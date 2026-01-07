@@ -390,6 +390,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    spmd_exch_thknod                             ../engine/source/mpi/nodes/spmd_exch_thknod.F
 !||    spmd_exch_vmax                               ../engine/source/mpi/elements/spmd_exch_dttsh.F
 !||    spmd_exch_wave                               ../engine/source/mpi/nodes/spmd_exch_wave.F
+!||    spmd_exch_wave_init                          ../engine/source/mpi/nodes/spmd_exch_wave.F
 !||    spmd_exsum_fb6                               ../engine/source/mpi/generic/spmd_exsum_fb6.F
 !||    spmd_flush_accel                             ../engine/source/mpi/output/spmd_flush_accel.F
 !||    spmd_fvb_switch                              ../engine/source/mpi/airbags/spmd_fvb_switch.F
@@ -549,6 +550,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    sms_mod                                      ../engine/share/modules/sms_mod.F
 !||    sms_pcg_proj                                 ../engine/share/modules/sms_mod.F
 !||    sph_work_mod                                 ../common_source/modules/mat_elem/sph_work.F90
+!||    spmd_exch_wave_mod                           ../engine/source/mpi/nodes/spmd_exch_wave.F
 !||    spmd_mod                                     ../engine/source/mpi/spmd_mod.F90
 !||    spmd_xv_inter_type1_mod                      ../engine/source/mpi/nodes/spmd_sd_xv_inter1.F90
 !||    stack_mod                                    ../engine/share/modules/stack_mod.F

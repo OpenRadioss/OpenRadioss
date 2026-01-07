@@ -20,6 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+!||====================================================================
+!||    spmd_exch_wave_mod   ../engine/source/mpi/nodes/spmd_exch_wave.F
+!||--- called by ------------------------------------------------------
+!||    resol                ../engine/source/engine/resol.F
+!||--- uses       -----------------------------------------------------
+!||    precision_mod        ../common_source/modules/precision_mod.F90
+!||====================================================================
       MODULE SPMD_EXCH_WAVE_MOD
         ! types containing buffer and request for wave exchange
         USE PRECISION_MOD, ONLY: WP
@@ -35,6 +42,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
         END TYPE FR_WAVE_
 
       contains
+!||====================================================================
+!||    spmd_exch_wave_init   ../engine/source/mpi/nodes/spmd_exch_wave.F
+!||--- called by ------------------------------------------------------
+!||    resol                 ../engine/source/engine/resol.F
+!||====================================================================
         SUBROUTINE SPMD_EXCH_WAVE_INIT(FR_WAVE_BUF, SIZ, LENR, NSPMD)
           implicit none
           TYPE(FR_WAVE_), INTENT(INOUT) :: FR_WAVE_BUF
@@ -62,12 +74,15 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
           RETURN
         END SUBROUTINE SPMD_EXCH_WAVE_INIT
 !||====================================================================
-!||    spmd_exch_wave        ../engine/source/mpi/nodes/spmd_exch_wave.F
+!||    spmd_exch_wave   ../engine/source/mpi/nodes/spmd_exch_wave.F
 !||--- called by ------------------------------------------------------
-!||    resol                 ../engine/source/engine/resol.F
+!||    resol            ../engine/source/engine/resol.F
 !||--- calls      -----------------------------------------------------
+!||    spmd_wait        ../engine/source/mpi/spmd_wait.F90
 !||--- uses       -----------------------------------------------------
-!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||    constant_mod     ../common_source/modules/constant_mod.F
+!||    precision_mod    ../common_source/modules/precision_mod.F90
+!||    spmd_mod         ../engine/source/mpi/spmd_mod.F90
 !||====================================================================
         SUBROUTINE SPMD_EXCH_WAVE(FR_WAVE,IAD_ELEM,FR_ELEM,FR_WAVE_BUF,MODE,ISPMD,NSPMD)
           USE SPMD_MOD
