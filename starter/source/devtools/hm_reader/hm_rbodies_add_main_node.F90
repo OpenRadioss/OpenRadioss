@@ -22,6 +22,14 @@
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       module hm_rbodies_add_main_node_mod
         implicit none
+        
+        interface
+          subroutine add_rbody_main_node(addednodeid) bind(C, name="cpp_add_rbody_main_node")
+            use, intrinsic :: iso_c_binding
+            integer(C_INT), intent(inout) :: addednodeid
+          end subroutine add_rbody_main_node
+        end interface
+        
       contains
 ! ======================================================================================================================
 !                                                   procedures
@@ -67,7 +75,7 @@
                                     option_titr = rbodyidtitle)
             call hm_get_intv('node_ID',m_id,is_available,lsubmodel)
             if(m_id == 0 )  then
-              call cpp_add_rbody_main_node(addednodeid)
+              call add_rbody_main_node(addednodeid)
               if(addednodeid > 0)  call ancmsg(msgid=3122,      &
                                              msgtype=msgwarning,&
                                              anmode=aninfo,     &
