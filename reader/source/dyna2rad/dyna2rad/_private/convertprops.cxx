@@ -325,11 +325,6 @@ void ConvertProp::p_ConvertPropBasedOnCard(const EntityRead& dynaProp, const sdi
                     destCard = "/PROP/TYPE14";
                     isolid = 1;
                 }
-                else if (elform == 13 && (matCard.find("*MAT_OGDEN_RUBBER") != string::npos || matCard.find("*MAT_077_O") != string::npos))
-                {
-                    destCard = "/PROP/TYPE14";
-                    isolid = 24;
-                }
                 else if ((matCard.find("*MAT_SPOTWELD") != string::npos) || 
                          (matCard.find("*MAT_ARUP_ADHESIVE") != string::npos) ||
                          (matCard.find("*MAT_COHESIVE_MIXED_MODE_ELASTOPLASTIC_RATE") != string::npos) ||
@@ -459,10 +454,6 @@ void ConvertProp::p_ConvertPropBasedOnCard(const EntityRead& dynaProp, const sdi
                     {
                         radPropEdit.SetValue(sdiIdentifier("Ismstr"), sdiValue(10));
                     }
-                }
-                else if (elform == 13 && (matCard.find("*MAT_OGDEN_RUBBER") != string::npos || matCard.find("*MAT_077_O") != string::npos))
-                {
-                    radPropEdit.SetValue(sdiIdentifier("Itetra4"), sdiValue(3));
                 }
             }
             else if (keyword == "*SECTION_SEATBELT")
@@ -2769,7 +2760,6 @@ void ConvertProp::ConvertSecBeamRelatedMatMuscle(const EntityRead& matEntityRead
         matEntityRead.GetValue(sdiIdentifier("FLAG_SSP"), tempVal);
         tempVal.GetValue(flagSSP);
 
-
         if(flagSSP == 0)
         {
             // SCALAR
@@ -2841,11 +2831,60 @@ void ConvertProp::ConvertSecBeamRelatedMatMuscle(const EntityRead& matEntityRead
         else
         {
             // FUNCTION
-            tempVal = sdiValue(lcidEntity);
-            matEntityRead.GetValue(sdiIdentifier("SSP"), tempVal);
-            tempVal.GetValue(lcidEntity);
-            radProp.SetValue(p_radiossModel, sdiIdentifier("fct_id4"), sdiValue(lcidEntity));
-            lcid = lcidEntity.GetId();
+            HandleRead lcSSPHandle;
+            matEntityRead.GetEntityHandle(sdiIdentifier("SSP"), lcSSPHandle);
+            if (lcSSPHandle.IsValid())
+            {
+              // create a modified copy of SSP (abscisa shifted by -1)--> "fct_id4"
+
+              EntityRead lcSSPEntRead(p_lsdynaModel, lcSSPHandle);
+              EntityId lcSSPId = lcSSPEntRead.GetId();
+
+              int nPnts = 0;
+              sdiDoubleList crvPoints;
+
+              double lsdSFA = 1.0;
+              double lsdSFO = 1.0;
+              double lsdOFFA = 0.0;
+              double lsdOFFO = 0.0;
+
+              tempVal = sdiValue(crvPoints);
+              lcSSPEntRead.GetValue(sdiIdentifier("points"), tempVal);
+              tempVal.GetValue(crvPoints);
+
+              tempVal = sdiValue(nPnts);
+              lcSSPEntRead.GetValue(sdiIdentifier("numberofpoints"), tempVal);
+              tempVal.GetValue(nPnts);
+              crvPoints.reserve(2 * nPnts + 2);
+
+              vector< reference_wrapper<double>> attribVals({ lsdSFA, lsdSFO, lsdOFFA, lsdOFFO });
+              vector<sdiString> lsdQueryAttribs = { "SFA", "SFO", "OFFA", "OFFO" };
+              p_ConvertUtils.GetAttribValues(lcSSPEntRead, lsdQueryAttribs, attribVals);
+              lsdSFA = (lsdSFA == 0.0) ? 1.0 : lsdSFA;
+              lsdSFO = (lsdSFO == 0.0) ? 1.0 : lsdSFO;
+              //-----------------------
+              // shift abscisa of SSP function, by -1
+
+              for (size_t j = 0; j < crvPoints.size(); j += 2)
+              {
+                  crvPoints[j] = crvPoints[j]-1;
+              }
+
+              //-----------------------
+              HandleEdit functHEdit;
+              p_ConvertUtils.CreateCurve("Recalculated_" + to_string(lcSSPId) + "_MAT_MUSCLE_" + to_string(dynaMatId),
+                                        (int)crvPoints.size() / 2, crvPoints, functHEdit, lsdSFA, lsdSFO, lsdOFFA);
+              if (functHEdit.IsValid())
+              {
+                 //radProp.SetEntityHandle(p_radiossModel,sdiIdentifier("fct_id4"), functHEdit);
+
+                 radProp.SetValue(p_radiossModel,sdiIdentifier("fct_id4"), sdiValue(sdiValueEntity(radFunctType, 
+                                  functHEdit.GetId(p_radiossModel))));
+                 sdiConvert::SDIHandlReadList sourceProps = { {dynaProp.GetHandle()} };
+                 sdiConvert::Convert::PushToConversionLog(std::make_pair(functHEdit, sourceProps));
+              }
+            }
+            //---------------------
         } // if(flagSSP == 0)
 
         // not translated, set by default:

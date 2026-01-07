@@ -217,7 +217,7 @@ void sdiD2R::ConvertCard::p_ConvertCtrlTimeStep()
 
 
         int IMSCLOptFlag = GetValue<int>(*selectCtrlTS, "IMSCLOptFlag");
-        if(IMSCLOptFlag == 3 || IMSCLOptFlag == 2)
+        if(IMSCLOptFlag == 3 || IMSCLOptFlag == 2 || IMSCLOptFlag == 1)
         {
             sdiValueEntity LSD_IMSCL = GetValue<sdiValueEntity>(*selectCtrlTS, "LSD_IMSCL");
             unsigned int grPartId=LSD_IMSCL.GetId();

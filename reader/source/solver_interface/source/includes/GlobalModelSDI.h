@@ -102,6 +102,7 @@ void GlobalModelSDIGetIncludesList(char **includeFiles);
 void GlobalModelSDIIsGroupUsed(char *type,int *id, bool *isUsed);
 
 void GlobalEntitySDIdeleteEntity();
+void GlobalEntitySDIRbodiesCreateMainNode(int *addedNodeId);
 
 
 #endif /* !defined(GlobalModelSDI__INCLUDED_) */

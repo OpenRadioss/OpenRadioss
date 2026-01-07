@@ -80,6 +80,8 @@ namespace sdiD2R
 
         void ConvertAirbagHybrid();
 
+        void ConvertAirbagReferenceGeometry();
+
     };
 }
 

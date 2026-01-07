@@ -51,6 +51,7 @@ void sdiD2R::ConvertControlVolume::ConvertEntities()
     ConvertAirbagParticle();
     ConvertAirbagLinearFluid();
     ConvertAirbagHybrid();
+    ConvertAirbagReferenceGeometry();
 }
 
 void sdiD2R::ConvertControlVolume::ConvertAirbagPressureVolume()
@@ -544,494 +545,111 @@ void sdiD2R::ConvertControlVolume::ConvertInitialFoamReferenceGeometry()
 
     EntityType radPart = p_radiossModel->GetEntityType("/PART");
     EntityType radNode = p_radiossModel->GetEntityType("/NODE");
+    EntityType radShellType = p_radiossModel->GetEntityType("/XREF");
 
     if(selInitialFoamRefGeom.Count() == 0) return;
 
-    int numnod = 0;
-    int npart = 0;
-    int nodeCount = 0;
-    int numelsolid = 0;
-    int numelshell = 0;
-    int numelsh3n = 0;
-    int eltype = 0;
-    int nbelemtype = 0;
-    int partID = 0;
-    int PartIdnodeRef;
-    int elemId = 0;
-    int elemnNbNode = 0;  // element nb of nodes
-    sdiString elemType = "\0";
-    sdiUIntList listPartNodeRef;
+    // Map of INITIAL_FOAM_REFERENCE_GEOMETRY node_Id + coordinates
+    map<int, double> nodeXInitialFoamRef;
+    map<int, double> nodeYInitialFoamRef;
+    map<int, double> nodeZInitialFoamRef;
 
-
-// Node Id Map
-    SelectionRead selNodes(p_radiossModel, "/NODE");
-    map<int, int> nodeIndexes;
-    map<int, int> nodeIds;
-    int cpt = 0;
-    while (selNodes.Next())
-    {
-      nodeIndexes.insert(pair<int, int>(selNodes->GetId(),cpt));
-      nodeIds.insert(pair<int, int>(cpt,selNodes->GetId()));
-      cpt++;
-    }
-    numnod = selNodes.Count();
-
-// SOLID Id Map
-    SelectionRead selSolid(p_radiossModel, "/BRICK");
-    map<int, int> solidIndexes;
-    map<int, int> solidIds;
-    map<int, sdiString> mapSolidElemType;
-    cpt = 0;
-    while (selSolid.Next())
-    {
-       solidIndexes.insert(pair<int, int>(selSolid->GetId(),cpt));
-       solidIds.insert(pair<int, int>(cpt,selSolid->GetId()));
-       mapSolidElemType.insert(pair<int, sdiString>(selSolid->GetId(),"BRICK"));
-       cpt++;
-    }
-    numelsolid = cpt;
-// Shell Id Map
-    SelectionRead selShell(p_radiossModel, "/SHELL");
-    map<int, int> shellIndexes;
-    map<int, int> shellIds;
-    map<int, sdiString> mapShellElemType;
-    cpt = 0;
-    while (selShell.Next())
-    {
-       shellIndexes.insert(pair<int, int>(selShell->GetId(),cpt));
-       shellIds.insert(pair<int, int>(cpt,selShell->GetId()));
-       mapShellElemType.insert(pair<int, sdiString>(selShell->GetId(),"SHELL"));
-       cpt++;
-    }
-    numelshell = cpt;
-// Sh3n Id Map
-    SelectionRead selSh3n(p_radiossModel, "/SH3N");
-    map<int, int> sh3nIndexes;
-    map<int, int> sh3nIds;
-    map<int, sdiString> mapSh3nElemType;
-    cpt = 0;
-    while (selSh3n.Next())
-    {
-       sh3nIndexes.insert(pair<int, int>(selSh3n->GetId(),cpt));
-       sh3nIds.insert(pair<int, int>(cpt,selSh3n->GetId()));
-       mapSh3nElemType.insert(pair<int, sdiString>(selSh3n->GetId(),"SH3N"));
-       cpt++;
-    }
-    numelsh3n = cpt;
-
-// Part Id Map
-    SelectionRead selParts(p_radiossModel, "/PART");
-    map<int, int> partIndexes;
-    map<int, int> partIds;
-    cpt = 0;
-    while (selParts.Next())
-    {
-      partIndexes.insert(pair<int, int>(selParts->GetId(),cpt));
-      partIds.insert(pair<int, int>(cpt,selParts->GetId()));
-      cpt++;
-    }
-    npart = selParts.Count();
-
-// Ndtrrg for each part
-    int *partNdtrrg;
-    partNdtrrg=(int*) malloc(sizeof(int)*npart);
-    for (int i = 0; i < npart; i++)
-    {
-        partNdtrrg[i] = 0;
-    }
-
-    nbelemtype = 3;
-    std::vector<int> type = { 1, 2, 3 };
-    type[0] = 0;
-    type[1] = 0;
-    type[2] = 0;
-    if(numelsolid > 0) type[0] = 1;
-    if(numelshell > 0) type[1] = 2;
-    if(numelsh3n > 0)  type[2] = 3;
-
-    //---
-    //---  node <-> element inverse connectivity
-    //---
-
-    //  solid
-    elemType = "/BRICK";
-    elemnNbNode = 8;
-    int *knod2solid, *nod2solid, *solidNodes;
-    knod2solid=(int*) malloc(sizeof(int)*(numnod+1));
-    nod2solid=(int*) malloc(sizeof(int)*(elemnNbNode*numelsolid+1));
-    solidNodes=(int*) malloc(sizeof(int)*elemnNbNode*numelsolid);
-    p_ConvertUtils.InversConnectivityNode2Elem(elemType, elemnNbNode, knod2solid, nod2solid, solidNodes);
-    //---
-
-    //  shell
-    elemType = "/SHELL";
-    elemnNbNode = 4;
-    int *knod2shell, *nod2shell, *shellNodes;
-    knod2shell=(int*) malloc(sizeof(int)*(numnod+1));
-    nod2shell=(int*) malloc(sizeof(int)*(elemnNbNode*numelshell+1));
-    shellNodes=(int*) malloc(sizeof(int)*elemnNbNode*numelshell);
-    p_ConvertUtils.InversConnectivityNode2Elem(elemType, elemnNbNode, knod2shell, nod2shell, shellNodes);
-    //---
-
-    //  sh3n
-    elemType = "/SH3N";
-    elemnNbNode = 3;
-    int *knod2sh3n, *nod2sh3n, *sh3nNodes;
-    knod2sh3n=(int*) malloc(sizeof(int)*(numnod+1));
-    nod2sh3n=(int*) malloc(sizeof(int)*(elemnNbNode*numelsh3n+1));
-    sh3nNodes=(int*) malloc(sizeof(int)*elemnNbNode*numelsh3n);
-    p_ConvertUtils.InversConnectivityNode2Elem(elemType, elemnNbNode, knod2sh3n, nod2sh3n, sh3nNodes);
-    //---
-
-
-    // =======================================================
-    //  step 1 - tag parts option's nodes
-    // =======================================================
+    sdiUIntList listPartRef;
+    sdiUIntList lsdrefnodlist;
 
     while (selInitialFoamRefGeom.Next())
     {
-      sdiValue tempValue;
-      int table_count = 0;
-      tempValue =sdiValue(table_count);
-      selInitialFoamRefGeom->GetValue(sdiIdentifier("table_count"), tempValue);
-      tempValue.GetValue(table_count);
+        int tablecount = GetValue<int>(*selInitialFoamRefGeom, "table_count");
+        sdiUIntList lsdrefnodlist;
+        lsdrefnodlist.reserve(tablecount);
+        int ndtrrg = 0;
 
-      for (int j = 0; j < nbelemtype; ++j) // loop over type of elems (solid + shell + sh3n)
-      {
-        sdiString elemType = "\0";
-        if(type[j] > 0)
+        sdiString keyWord = selInitialFoamRefGeom->GetKeyword();
+        if (keyWord.find("_RAMP") != keyWord.npos)
         {
-          if (type[j] == 1) elemType = "/BRICK";
-          if (type[j] == 2) elemType = "/SHELL";
-          if (type[j] == 3) elemType = "/SH3N";
-
-// Find for each listed node in option, the belonging part
-
-          for (int i = 0; i < table_count; ++i) // loop over Xref nodes
-          {
-            // nodeRef --> tag elems --> tag part_ID attached to nodeRef
-            sdiValueEntity nodeId;
-            tempValue = sdiValue(nodeId);
-            selInitialFoamRefGeom->GetValue(sdiIdentifier("nodes_table_node",0,i), tempValue);
-            tempValue.GetValue(nodeId);
-            unsigned int nodeRef = nodeId.GetId();
-
-            int ndtrrg = 0;
-            tempValue =sdiValue(ndtrrg);
-            selInitialFoamRefGeom->GetValue(sdiIdentifier("NDTRRG"), tempValue);
-            tempValue.GetValue(ndtrrg);
-
-            // element_type < - > node connectivity
-
-            if( elemType == "/BRICK" )
-            {
-              for(int k=knod2solid[nodeIndexes[nodeRef]]; k<knod2solid[nodeIndexes[nodeRef]+1]; k=k+1)
-              {
-                elemId = solidIds[nod2solid[k]];
-
-                HandleRead elementHRead;
-                p_radiossModel->FindById(p_radiossModel->GetEntityType(elemType), elemId, elementHRead);
-
-                if (elementHRead.IsValid())
-                {
-                  HandleRead partHRead;
-                  elementHRead.GetEntityHandle(p_radiossModel, sdiIdentifier("part_ID"), partHRead);
-                  if (partHRead.IsValid())
-                  {
-                    PartIdnodeRef = partHRead.GetId(p_radiossModel);
-                    listPartNodeRef.push_back(PartIdnodeRef);
-                    if(ndtrrg > partNdtrrg[partIndexes[PartIdnodeRef]])
-                       partNdtrrg[partIndexes[PartIdnodeRef]] = ndtrrg;
-                  } // if (partHRead.IsValid())
-                } // if (elementHRead.IsValid()
-              } // for(int k=knod2solid[nodeIndexes[nodeRef]]
-            }
-            else if( elemType == "/SHELL" )
-            {
-              for(int k=knod2shell[nodeIndexes[nodeRef]]; k<knod2shell[nodeIndexes[nodeRef]+1]; k=k+1)
-              {
-                elemId = shellIds[nod2shell[k]];
-
-                HandleRead elementHRead;
-                p_radiossModel->FindById(p_radiossModel->GetEntityType(elemType), elemId, elementHRead);
-
-                if (elementHRead.IsValid())
-                {
-                  HandleRead partHRead;
-                  elementHRead.GetEntityHandle(p_radiossModel, sdiIdentifier("part_ID"), partHRead);
-                  if (partHRead.IsValid())
-                  {
-                    PartIdnodeRef = partHRead.GetId(p_radiossModel);
-                    listPartNodeRef.push_back(PartIdnodeRef);
-                    // max of "NDTRRG" for each PID
-                    if(ndtrrg > partNdtrrg[partIndexes[PartIdnodeRef]])
-                       partNdtrrg[partIndexes[PartIdnodeRef]] = ndtrrg;
-                  } // if (partHRead.IsValid())
-                } // if (elementHRead.IsValid()
-              } // for(int k=knod2shell[nodeIndexes[nodeRef]]
-            }
-            else if( elemType == "/SH3N" )
-            {
-              for(int k=knod2sh3n[nodeIndexes[nodeRef]]; k<knod2sh3n[nodeIndexes[nodeRef]+1]; k=k+1)
-              {
-                elemId = sh3nIds[nod2shell[k]];
-
-                HandleRead elementHRead;
-                p_radiossModel->FindById(p_radiossModel->GetEntityType(elemType), elemId, elementHRead);
-
-                if (elementHRead.IsValid())
-                {
-                  HandleRead partHRead;
-                  elementHRead.GetEntityHandle(p_radiossModel, sdiIdentifier("part_ID"), partHRead);
-                  if (partHRead.IsValid())
-                  {
-                    PartIdnodeRef = partHRead.GetId(p_radiossModel);
-                    listPartNodeRef.push_back(PartIdnodeRef);
-                    if(ndtrrg > partNdtrrg[partIndexes[PartIdnodeRef]])
-                       partNdtrrg[partIndexes[PartIdnodeRef]] = ndtrrg;
-                  } // if (partHRead.IsValid())
-                } // if (elementHRead.IsValid()
-              } // for(int k=knod2sh3n[nodeIndexes[nodeRef]]
-            }
-          } // for (int i = 0; i < table_count; ++i) // loop over Xref nodes
-          sdiVectorSort(listPartNodeRef);
-          sdiVectorUnique(listPartNodeRef);
-        } // if(type[j] == 0)
-      } // for (int j = 0; j < nbelemtype; ++j) // loop over type of elems (solid + shell)
-    } // while (selInitialFoamRefGeom.Next())
-
-
-    // =======================================================
-    //  step 2 - converting *INITIAL_FOAM_REFERENCE_GEOMETRY card
-    // =======================================================
-
-
-    // loop over total parts of Xref nodes to fill par part_ID
-
-    for (int j = 0; j < listPartNodeRef.size(); ++j)
-    {
-      partID = listPartNodeRef[j];
-      int radNitrs = 0;
-      // type of elements of partID
-      //====================
-      size_t nbsh4N = 0;
-      size_t nbsh3N = 0;
-
-      EntityType partType = p_radiossModel->GetEntityType("/PART");
-      sdiUIntList solidList,sh4Nlist,sh3Nlist;
-      HandleRead partHread;
-      p_radiossModel->FindById(partType, partID, partHread);
-      if(partHread.IsValid())
-      {
-        EntityRead partEdit(p_radiossModel, partHread);
-        SelectionElementRead selPartElem(partEdit);
-
-        while(selPartElem.Next())
-        {
-          elemId = selPartElem->GetId();
-          if (elemId)
-          {
-            if (mapSolidElemType[elemId] == "BRICK") solidList.push_back(elemId);
-            if (mapShellElemType[elemId] == "SHELL") sh4Nlist.push_back(elemId);
-            if (mapSh3nElemType[elemId] == "SH3N")   sh3Nlist.push_back(elemId);
-          }
+            ndtrrg = GetValue<int>(*selInitialFoamRefGeom, "NDTRRG");
         }
 
-        if (!solidList.empty()) elemType = "/BRICK";
-        // if (!sh4Nlist.empty())  elemType = "/SHELL";
-        // if (!sh3Nlist.empty())  elemType = "/SH3N";
-        if (!sh4Nlist.empty() || !sh3Nlist.empty())  elemType = "/SHELL";
-        nbsh4N = sh4Nlist.size();
-        nbsh3N = sh3Nlist.size();
-      } // if(partHread.IsValid())
-
-
-      //====================
-
-      nodeCount = 0;
-      //int *tagRefNod;
-      //tagRefNod=(int*) malloc(sizeof(int)*numnod);
-      //for (int i = 0; i < numnod; ++i) // loop over Xref nodes
-      //{
-      //  tagRefNod[i] = 0;
-      //}
-      SelectionRead selInitialFoamRefGeom(p_lsdynaModel, "*INITIAL_FOAM_REFERENCE_GEOMETRY");
-
-      HandleEdit radInitialFoamHEdit;
-      p_radiossModel->CreateEntity(radInitialFoamHEdit, "/XREF");
-      if(radInitialFoamHEdit.IsValid())
-      {
-
-        EntityEdit radInitialFoamEdit(p_radiossModel, radInitialFoamHEdit);
-
-        while (selInitialFoamRefGeom.Next())
+        for (int i = 0; i < tablecount; ++i)
         {
-          sdiValue tempValue;
-          int table_count = 0;
-          tempValue =sdiValue(table_count);
-          selInitialFoamRefGeom->GetValue(sdiIdentifier("table_count"), tempValue);
-          tempValue.GetValue(table_count);
-          /*
-          int ndtrrg = 0;
-          tempValue =sdiValue(ndtrrg);
-          selInitialFoamRefGeom->GetValue(sdiIdentifier("NDTRRG"), tempValue);
-          tempValue.GetValue(ndtrrg);
-          */
-          for (int i = 0; i < table_count; ++i) // loop over Xref nodes
-          {
-            // nodeRef --> tag elems --> tag part_ID attached to nodeRef
+            sdiValueEntity nid = GetValue<sdiValueEntity>(*selInitialFoamRefGeom, "nodes_table_node",i);
+            unsigned int nidId = nid.GetId();
+            lsdrefnodlist.push_back(nidId);
+            //lsdrefnodlist.push_back(GetValue<sdiValueEntity>(*selInitialFoamRefGeom, "nodes_table_node",i).GetId());
+          
+            double lsdXcoor = GetValue<double>(*selInitialFoamRefGeom, "X",i);
+            double lsdYcoor = GetValue<double>(*selInitialFoamRefGeom, "Y",i);
+            double lsdZcoor = GetValue<double>(*selInitialFoamRefGeom, "Z",i);
 
-            sdiValueEntity nodeId;
-            tempValue = sdiValue(nodeId);
-            selInitialFoamRefGeom->GetValue(sdiIdentifier("nodes_table_node",0,i), tempValue);
-            tempValue.GetValue(nodeId);
-            unsigned int nodeRef = nodeId.GetId();
+            sdiTriple refNodeoffCoord(lsdXcoor, lsdYcoor, lsdZcoor) ;
 
-            double nodes_x = 0.0;
-            double nodes_y = 0.0;
-            double nodes_z = 0.0;
-            int tagNodPartSh4n = 0;
+            // map of INITIAL_FOAM_REFERENCE_GEOMETRY coordinates
+            nodeXInitialFoamRef.insert(std::pair<int, double>(lsdrefnodlist[i], lsdXcoor));
+            nodeYInitialFoamRef.insert(std::pair<int, double>(lsdrefnodlist[i], lsdYcoor));
+            nodeZInitialFoamRef.insert(std::pair<int, double>(lsdrefnodlist[i], lsdZcoor));
+        }
+        sdiVectorSort(lsdrefnodlist);
+        sdiVectorUnique(lsdrefnodlist);
+        //-----------------------------
+        //-----------------------------
 
-            tempValue = sdiValue(nodes_x);
-            selInitialFoamRefGeom->GetValue(sdiIdentifier("nodes_table_x",0,i), tempValue);
-            tempValue.GetValue(nodes_x);
+        sdiUIntList AllpartsList, PartsRefList, partsNodeLists;
+        PartsRefList.clear();
 
-            tempValue = sdiValue(nodes_y);
-            selInitialFoamRefGeom->GetValue(sdiIdentifier("nodes_table_y",0,i), tempValue);
-            tempValue.GetValue(nodes_y);
+        SelectionRead partsSelect(p_radiossModel, "/PART");
+        while (partsSelect.Next())
+        {
+            sdiString partName = partsSelect->GetName();
+            EntityId partId = partsSelect->GetId();
+            AllpartsList.push_back(partId);
+        }
 
-            tempValue = sdiValue(nodes_z);
-            selInitialFoamRefGeom->GetValue(sdiIdentifier("nodes_table_z",0,i), tempValue);
-            tempValue.GetValue(nodes_z);
-
-            // ---
-            // node connectivity par element type
-            // ---
-
-            if( elemType == "/BRICK" )
+        sdiUIntList v_intersection; // intersect list of nodes of each part with the *INITIAL_FOAM_REFERENCE_GEOMETRY list nodes
+        for (int i = 0; i < int(AllpartsList.size()); ++i)
+        {
+            unsigned int partId = int(AllpartsList[i]);
+            partsNodeLists.clear();
+            p_ConvertUtils.GetNodesOfParts(partId, partsNodeLists);
+ 
+            // intersect nodes of part i with *INITIAL_FOAM_REFERENCE_GEOMETRY list nodes
+            v_intersection.clear();
+            std::set_intersection(lsdrefnodlist.begin(), lsdrefnodlist.end(), partsNodeLists.begin(), partsNodeLists.end(),
+                                  std::back_inserter(v_intersection));
+        
+            int part_ID = 0;
+            for (int j = 0; j < int(v_intersection.size()); ++j)
             {
-              for(int k=knod2solid[nodeIndexes[nodeRef]]; k<knod2solid[nodeIndexes[nodeRef]+1]; k=k+1)
-              {
-                int elemId = solidIds[nod2solid[k]];
-
-                HandleRead elementHRead;
-                p_radiossModel->FindById(p_radiossModel->GetEntityType("/BRICK"), elemId, elementHRead);
-
-                if (elementHRead.IsValid())
-                {
-                  HandleRead partHRead;
-                  elementHRead.GetEntityHandle(p_radiossModel, sdiIdentifier("part_ID"), partHRead);
-                  if (partHRead.IsValid())
-                  {
-                    PartIdnodeRef = partHRead.GetId(p_radiossModel);
-                    //if (PartIdnodeRef == partID && tagRefNod[nodeIndexes[nodeRef]] == 0) // "nodeRef" is in part, plus remode doubles
-                    if (PartIdnodeRef == partID) // "nodeRef" is in part
-                    {
-                      radInitialFoamEdit.SetValue(sdiIdentifier("node_ID",0,nodeCount),sdiValue(sdiValueEntity(radNode, nodeRef)));
-                      radInitialFoamEdit.SetValue(sdiIdentifier("globalx",0,nodeCount), sdiValue(nodes_x));
-                      radInitialFoamEdit.SetValue(sdiIdentifier("globaly",0,nodeCount), sdiValue(nodes_y));
-                      radInitialFoamEdit.SetValue(sdiIdentifier("globalz",0,nodeCount), sdiValue(nodes_z));
-                      nodeCount = nodeCount + 1; // nodeRef found on part partID
-                      //tagRefNod[nodeIndexes[nodeRef]] = 1;
-                      break;
-                    } // if (PartIdnodeRef == partID)
-                  } // if (partHRead.IsValid())
-                } // if (elementHRead.IsValid()
-              } // for(int k=knod2solid[nodeIndexes[nodeRef]]
+                part_ID = AllpartsList[i];
             }
-            else if( elemType == "/SHELL" )
+            if (part_ID > 0) PartsRefList.push_back(part_ID);
+            //---
+            int nodeCount = 0;
+            if (v_intersection.size() > 0) // "nodeRef" is in part
             {
-              // -- sh4n --
-              if(nbsh4N > 0)
-              {
-                for(int k=knod2shell[nodeIndexes[nodeRef]]; k<knod2shell[nodeIndexes[nodeRef]+1]; k=k+1)
+                HandleEdit radXREFHEdit;
+                p_radiossModel->CreateEntity(radXREFHEdit, "/XREF", "XREF_PART_" + to_string(part_ID),selInitialFoamRefGeom->GetId());
+                if(radXREFHEdit.IsValid())
                 {
-                  int elemId = shellIds[nod2shell[k]];
-
-                  HandleRead elementHRead;
-                  p_radiossModel->FindById(p_radiossModel->GetEntityType("/SHELL"), elemId, elementHRead);
-
-                  if (elementHRead.IsValid())
-                  {
-                    HandleRead partHRead;
-                    elementHRead.GetEntityHandle(p_radiossModel, sdiIdentifier("part_ID"), partHRead);
-                    if (partHRead.IsValid())
+                    EntityEdit radXREFEdit(p_radiossModel, radXREFHEdit);
+                    for (int j = 0; j < int(v_intersection.size()); ++j)
                     {
-                      PartIdnodeRef = partHRead.GetId(p_radiossModel);
-                      //if (PartIdnodeRef == partID && tagRefNod[nodeIndexes[nodeRef]] == 0) // "nodeRef" is in part, plus remode doubles
-                      if (PartIdnodeRef == partID) // "nodeRef" is in part
-                      {
-                        radInitialFoamEdit.SetValue(sdiIdentifier("node_ID",0,nodeCount),sdiValue(sdiValueEntity(radNode, nodeRef)));
-                        radInitialFoamEdit.SetValue(sdiIdentifier("globalx",0,nodeCount), sdiValue(nodes_x));
-                        radInitialFoamEdit.SetValue(sdiIdentifier("globaly",0,nodeCount), sdiValue(nodes_y));
-                        radInitialFoamEdit.SetValue(sdiIdentifier("globalz",0,nodeCount), sdiValue(nodes_z));
-                        nodeCount = nodeCount + 1; // nodeRef found on part partID
-                        tagNodPartSh4n = 1; // nodeRef already tag in sh4n (no need to be tagged in sh3n of same part)
-                        //tagRefNod[nodeIndexes[nodeRef]] = 1;
-                        break;
-                      } // if (PartIdnodeRef == partID)
-                    } // if (partHRead.IsValid())
-                  } // if (elementHRead.IsValid()
-                } // for(int k=knod2shell[nodeIndexes[nodeRef]]
-              } // if(nbsh4N > 0)
+                        radXREFEdit.SetValue(sdiIdentifier("node_ID",0,nodeCount), sdiValue(sdiValueEntity(radNode, v_intersection[j])));
+                        radXREFEdit.SetValue(sdiIdentifier("globalx",0,nodeCount), sdiValue(nodeXInitialFoamRef[v_intersection[j]]));
+                        radXREFEdit.SetValue(sdiIdentifier("globaly",0,nodeCount), sdiValue(nodeYInitialFoamRef[v_intersection[j]]));
+                        radXREFEdit.SetValue(sdiIdentifier("globalz",0,nodeCount), sdiValue(nodeZInitialFoamRef[v_intersection[j]]));
+                        nodeCount++; // nodeRef found on part partID
+                    }
+                    if(ndtrrg > 0) radXREFEdit.SetValue(sdiIdentifier("NITRS"), sdiValue(ndtrrg));
+                    radXREFEdit.SetValue(sdiIdentifier("refnodesmax"), sdiValue(nodeCount));
+                    radXREFEdit.SetValue(sdiIdentifier("Comp_Id"),sdiValue(sdiValueEntity(radPart, part_ID)));
 
-              // -- sh3n --
-              if(nbsh3N > 0)
-              {
-                for(int k=knod2sh3n[nodeIndexes[nodeRef]]; k<knod2sh3n[nodeIndexes[nodeRef]+1]; k=k+1)
-                {
-                  int elemId = sh3nIds[nod2sh3n[k]];
-
-                  HandleRead elementHRead;
-                  p_radiossModel->FindById(p_radiossModel->GetEntityType("/SH3N"), elemId, elementHRead);
-
-                  if (elementHRead.IsValid())
-                  {
-                    HandleRead partHRead;
-                    elementHRead.GetEntityHandle(p_radiossModel, sdiIdentifier("part_ID"), partHRead);
-                    if (partHRead.IsValid())
-                    {
-                      PartIdnodeRef = partHRead.GetId(p_radiossModel);
-                      //if (PartIdnodeRef == partID && tagRefNod[nodeIndexes[nodeRef]] == 0) // "nodeRef" is in part, plus remode doubles
-                      if (PartIdnodeRef == partID && tagNodPartSh4n == 0) // "nodeRef" is in part
-                      {
-                        radInitialFoamEdit.SetValue(sdiIdentifier("node_ID",0,nodeCount),sdiValue(sdiValueEntity(radNode, nodeRef)));
-                        radInitialFoamEdit.SetValue(sdiIdentifier("globalx",0,nodeCount), sdiValue(nodes_x));
-                        radInitialFoamEdit.SetValue(sdiIdentifier("globaly",0,nodeCount), sdiValue(nodes_y));
-                        radInitialFoamEdit.SetValue(sdiIdentifier("globalz",0,nodeCount), sdiValue(nodes_z));
-                        nodeCount = nodeCount + 1; // nodeRef found on part partID
-                        //tagRefNod[nodeIndexes[nodeRef]] = 1;
-                        break;
-                      } // if (PartIdnodeRef == partID)
-                    } // if (partHRead.IsValid())
-                  } // if (elementHRead.IsValid()
-                } // for(int k=knod2sh3n[nodeIndexes[nodeRef]]
-              } // if(nbsh3N > 0)
-            } // if( elemType == "/BRICK" )
-          } // for (int i = 0; i < table_count; ++i) // loop over Xref nodes
-        } // while (selInitialFoamRefGeom.Next())
-
-        radNitrs = partNdtrrg[partIndexes[PartIdnodeRef]];
-        radInitialFoamEdit.SetValue(sdiIdentifier("NITRS"),sdiValue(radNitrs));
-        radInitialFoamEdit.SetValue(sdiIdentifier("refnodesmax"), sdiValue(nodeCount));
-        radInitialFoamEdit.SetValue(sdiIdentifier("Comp_Id"),sdiValue(sdiValueEntity(radPart, partID)));
-
-        sdiConvert::SDIHandlReadList sourceConVol = { {selInitialFoamRefGeom->GetHandle()} };
-        sdiConvert::Convert::PushToConversionLog(std::make_pair(radInitialFoamHEdit, sourceConVol));
-        //free(tagRefNod);
-      } // if(radInitialFoamHEdit.IsValid())
-    } // for (int j = 0; j < listPartNodeRef.size(); ++j)
-     
-    if(partNdtrrg)free(partNdtrrg);
-    if(nod2solid)free(nod2solid);
-    if(solidNodes)free(solidNodes);
-    if(knod2solid)free(knod2solid);
-    if(nod2shell)free(nod2shell);
-    if(shellNodes)free(shellNodes);
-    if(knod2shell)free(knod2shell);
-    if(nod2sh3n)free(nod2sh3n);
-    if(sh3nNodes)free(sh3nNodes);
-    if(knod2sh3n)free(knod2sh3n);
+                    sdiConvert::SDIHandlReadList sourceINITIALFOAM = { {selInitialFoamRefGeom->GetHandle()} };
+                    if (radXREFHEdit.IsValid())
+                       sdiConvert::Convert::PushToConversionLog(std::make_pair(radXREFHEdit, sourceINITIALFOAM));
+                }
+            }
+        }
+    } // while (selInitialFoamRefGeom.Next())
 }
 
 
@@ -3603,4 +3221,249 @@ void sdiD2R::ConvertControlVolume::ConvertAirbagHybrid()
         sdiConvert::SDIHandlReadList sourceConVol = { {selAirbagHybrid->GetHandle()} };
         sdiConvert::Convert::PushToConversionLog(std::make_pair(radAirbagHEdit, sourceConVol));
     }
+}
+void sdiD2R::ConvertControlVolume::ConvertAirbagReferenceGeometry()
+{
+    SelectionRead selAirbagRefGeom(p_lsdynaModel, "*AIRBAG_REFERENCE_GEOMETRY");
+
+    EntityType radPart = p_radiossModel->GetEntityType("/PART");
+    EntityType radNode = p_radiossModel->GetEntityType("/NODE");
+    EntityType radSetType = p_radiossModel->GetEntityType("/SET/GENERAL");
+    EntityType radShellType = p_radiossModel->GetEntityType("/XREF");
+    EntityType radSensorType = p_radiossModel->GetEntityType("/SENSOR");
+
+    if(selAirbagRefGeom.Count() == 0) return;
+
+    SelectionRead selAirbagShellRefGeom(p_lsdynaModel, "*AIRBAG_SHELL_REFERENCE_GEOMETRY");
+
+    int offsetNodeId = 0;
+    if (selAirbagShellRefGeom.Count() > 0)
+    {
+      // tag max node_Id in input deck, to offset all "*AIRBAG_REFERENCE_GEOMETRY" nodes:
+      offsetNodeId = p_ConvertUtils.GetDynaMaxEntityID(p_lsdynaModel->GetEntityType("*NODE"));
+    }
+
+    // Map of AIRBAG_REFERENCE_GEOMETRY node_Id + coordinates
+    map<int, double> nodeXAirbagRef;
+    map<int, double> nodeYAirbagRef;
+    map<int, double> nodeZAirbagRef;
+
+
+    sdiUIntList listPartRef;
+    sdiUIntList lsdrefnodlist;
+
+    while (selAirbagRefGeom.Next())
+    {
+        int flagTransform = 0;
+        unsigned int  NID0ID = 0;
+        double lsdSX = 0.0;
+        double lsdSY = 0.0;
+        double lsdSZ = 0.0;
+        double lsdBirth = 0.0;
+
+        int tablecount = GetValue<int>(*selAirbagRefGeom, "table_count");
+        sdiUIntList lsdrefnodlist;
+        lsdrefnodlist.reserve(tablecount);
+
+        // check for _OPTION = _ID
+        sdiString keyWord = selAirbagRefGeom->GetKeyword();
+
+        if (keyWord.find("_ID") != keyWord.npos)
+        {
+            sdiValueEntity nodeNID0 = GetValue<sdiValueEntity>(*selAirbagRefGeom, "NID0");
+            NID0ID = nodeNID0.GetId();
+            if (NID0ID == 0)
+            {
+                // tag first node "nodes_table_node"
+                sdiValueEntity nodeNID0 = GetValue<sdiValueEntity>(*selAirbagRefGeom, "nodes_table_node",0);
+                NID0ID = nodeNID0.GetId();
+            }
+
+            lsdSX = GetValue<double>(*selAirbagRefGeom, "SX");
+            lsdSY = GetValue<double>(*selAirbagRefGeom, "SY");
+            lsdSZ = GetValue<double>(*selAirbagRefGeom, "SZ");
+
+            flagTransform = 1; 
+            // default scale values
+            if(lsdSX == 0.0) lsdSX = 1.0;
+            if(lsdSY == 0.0) lsdSY = 1.0;
+            if(lsdSZ == 0.0) lsdSZ = 1.0;
+            if(lsdSX == 1.0 && lsdSY == 1.0 && lsdSZ == 1.0) flagTransform = 0;
+        }
+
+        if (keyWord.find("_BIRTH") != keyWord.npos)
+        {
+            lsdBirth = GetValue<double>(*selAirbagRefGeom, "BIRTH");
+        }
+        
+        for (int i = 0; i < tablecount; ++i)
+        {
+            sdiValueEntity nid = GetValue<sdiValueEntity>(*selAirbagRefGeom, "nodes_table_node",i);
+            unsigned int nidId = nid.GetId();
+            lsdrefnodlist.push_back(nidId);
+            //lsdrefnodlist.push_back(GetValue<sdiValueEntity>(*selAirbagRefGeom, "nodes_table_node",i).GetId());
+          
+            double lsdXcoor = GetValue<double>(*selAirbagRefGeom, "X",i);
+            double lsdYcoor = GetValue<double>(*selAirbagRefGeom, "Y",i);
+            double lsdZcoor = GetValue<double>(*selAirbagRefGeom, "Z",i);
+
+            sdiTriple refNodeoffCoord(lsdXcoor, lsdYcoor, lsdZcoor) ;
+
+            // map of AIRBAG_REFERENCE_GEOMETRY node_Id + coordinates
+            nodeXAirbagRef.insert(std::pair<int, double>(lsdrefnodlist[i], lsdXcoor));
+            nodeYAirbagRef.insert(std::pair<int, double>(lsdrefnodlist[i], lsdYcoor));
+            nodeZAirbagRef.insert(std::pair<int, double>(lsdrefnodlist[i], lsdZcoor));
+
+            if(offsetNodeId >0)
+            {
+                sdiTriple refNodeoffCoord(lsdXcoor, lsdYcoor, lsdZcoor) ;
+                HandleNodeEdit nodeHEdit;
+                p_radiossModel->CreateNode(nodeHEdit, "/NODE", refNodeoffCoord,nidId + offsetNodeId);
+            }
+        }
+ 
+        //-----------------------------
+        //-----------------------------
+
+        sdiUIntList AllpartsList, PartsRefList, partsNodeLists;
+        PartsRefList.clear();
+
+        SelectionRead partsSelect(p_radiossModel, "/PART");
+        while (partsSelect.Next())
+        {
+            sdiString partName = partsSelect->GetName();
+            EntityId partId = partsSelect->GetId();
+            AllpartsList.push_back(partId);
+        }
+
+        sdiUIntList v_intersection; // intersect list of nodes of each part with the *Airbag_Reference_Geometry list nodes
+        for (int i = 0; i < int(AllpartsList.size()); ++i)
+        {
+            unsigned int partId = int(AllpartsList[i]);
+            partsNodeLists.clear();
+            p_ConvertUtils.GetNodesOfParts(partId, partsNodeLists);
+ 
+            // intersect nodes of part i with Airbag Reference Geometry nodes
+            v_intersection.clear();
+            std::set_intersection(lsdrefnodlist.begin(), lsdrefnodlist.end(), partsNodeLists.begin(), partsNodeLists.end(),
+                                  std::back_inserter(v_intersection));
+        
+            int part_ID = 0;
+            for (int j = 0; j < int(v_intersection.size()); ++j)
+            {
+                part_ID = AllpartsList[i];
+            }
+            if (part_ID > 0) PartsRefList.push_back(part_ID);
+            //---
+            int nodeCount = 0;
+            if (v_intersection.size() > 0) // "nodeRef" is in part
+            {
+                HandleEdit radXREFHEdit;
+                p_radiossModel->CreateEntity(radXREFHEdit, "/XREF", "AIRBAG_REFERENCE_GEOMETRY_ID_" + to_string(selAirbagRefGeom->GetId()) + "_PART_" + to_string(part_ID));
+                if(radXREFHEdit.IsValid())
+                {
+                    EntityEdit radXREFEdit(p_radiossModel, radXREFHEdit);
+                    for (int j = 0; j < int(v_intersection.size()); ++j)
+                    {
+                        if(offsetNodeId > 0)
+                        {
+                            // offset all "*AIRBAG_REFERENCE_GEOMETRY" nodes:
+                           radXREFEdit.SetValue(sdiIdentifier("node_ID",0,nodeCount), sdiValue(sdiValueEntity(radNode, v_intersection[j] + offsetNodeId)));
+                        }
+                        else
+                        {
+                           radXREFEdit.SetValue(sdiIdentifier("node_ID",0,nodeCount), sdiValue(sdiValueEntity(radNode, v_intersection[j])));
+                        }
+                        radXREFEdit.SetValue(sdiIdentifier("globalx",0,nodeCount), sdiValue(nodeXAirbagRef[v_intersection[j]]));
+                        radXREFEdit.SetValue(sdiIdentifier("globaly",0,nodeCount), sdiValue(nodeYAirbagRef[v_intersection[j]]));
+                        radXREFEdit.SetValue(sdiIdentifier("globalz",0,nodeCount), sdiValue(nodeZAirbagRef[v_intersection[j]]));
+                        nodeCount++; // nodeRef found on part partID
+                    }
+                    radXREFEdit.SetValue(sdiIdentifier("refnodesmax"), sdiValue(nodeCount));
+                    radXREFEdit.SetValue(sdiIdentifier("Comp_Id"),sdiValue(sdiValueEntity(radPart, part_ID)));
+
+                    sdiConvert::SDIHandlReadList sourceAIRBAG = { {selAirbagRefGeom->GetHandle()} };
+                    if (radXREFHEdit.IsValid())
+                       sdiConvert::Convert::PushToConversionLog(std::make_pair(radXREFHEdit, sourceAIRBAG));
+                }
+            }
+        }
+        //-------------------
+        //   +  /SENSOR/TIME
+        //-------------------
+        if (lsdBirth > 0.0)
+        {
+            HandleEdit sensorTimeHedit;
+            p_radiossModel->CreateEntity(sensorTimeHedit, "/SENSOR/TIME", selAirbagRefGeom->GetName());
+            EntityEdit sensorTimeEntityEdit(p_radiossModel, sensorTimeHedit);
+            sensorTimeEntityEdit.SetValue(sdiIdentifier("Tdelay"), sdiValue(lsdBirth));
+
+            sdiConvert::SDIHandlReadList sourceConVol = { {selAirbagRefGeom->GetHandle()} };
+            if(sensorTimeHedit.IsValid())
+               sdiConvert::Convert::PushToConversionLog(std::make_pair(sensorTimeHedit, sourceConVol));
+
+            for(int i=0; i< (int)PartsRefList.size(); i++)
+            {
+                HandleEdit radParHEdit;
+                p_radiossModel->FindById(p_radiossModel->GetEntityType("/PART"), PartsRefList[i], radParHEdit);
+                if(radParHEdit.IsValid())
+                {
+                    HandleEdit radamatHRead;
+                    sdiString matCard ;
+                    radParHEdit.GetEntityHandle(p_radiossModel,sdiIdentifier("mat_ID"), radamatHRead);
+                    EntityEdit radamatEdit(p_radiossModel, radamatHRead);
+                    matCard = radamatEdit.GetKeyword();
+                    if (matCard.find("/MAT/FABRI") != string::npos || matCard.find("/MAT/FABR_A") != string::npos)
+                    {
+                        radamatEdit.SetValue(sdiIdentifier("ISENSOR"), sdiValue(sdiValueEntity(radSensorType, sensorTimeHedit.GetId(p_radiossModel))));
+                        radamatEdit.SetValue(sdiIdentifier("ZEROSTRESS"), sdiValue(1.0));
+                    }
+                }
+            }
+        }
+        //-------------------
+        //   +  /TRANSFORM/SCA
+        //-------------------
+        if(flagTransform > 0)
+        {
+            HandleEdit transformHEdit;
+            p_radiossModel->CreateEntity(transformHEdit, "/TRANSFORM/SCA", "TRANSFORM_SCA_AIRBAG_SHELL_REFERENCE_GEOMETRY_" + to_string(selAirbagRefGeom->GetId()));
+            EntityEdit transformEdit(p_radiossModel, transformHEdit);
+            transformEdit.SetValue(sdiIdentifier("scalefactor_x"), sdiValue(lsdSX));
+            transformEdit.SetValue(sdiIdentifier("scalefactor_y"), sdiValue(lsdSY));
+            transformEdit.SetValue(sdiIdentifier("scalefactor_z"), sdiValue(lsdSZ));
+
+            if(NID0ID > 0)
+            {
+               transformEdit.SetValue(sdiIdentifier("node1"), sdiValue(sdiValueEntity(1, NID0ID)));
+            }
+            else // create node
+            {
+              HandleNodeEdit nodeHEdit;
+              sdiTriple centroid(0.0, 0.0, 0.0);
+              p_radiossModel->CreateNode(nodeHEdit, "/NODE", centroid);
+              if (nodeHEdit.IsValid())
+              {
+                transformEdit.SetValue(sdiIdentifier("node1"), sdiValue(sdiValueEntity(sdiValueEntityType(radNode), nodeHEdit.GetId(p_radiossModel))));
+              }
+            }
+            sdiConvert::SDIHandlReadList sourceAIRBAG = { {selAirbagRefGeom->GetHandle()} };
+            if (transformHEdit.IsValid())
+                sdiConvert::Convert::PushToConversionLog(std::make_pair(transformHEdit, sourceAIRBAG));
+
+            // node SET for /TRANSFORM/SCA node group
+            HandleEdit setHEdit;
+            p_radiossModel->CreateEntity(setHEdit, "/SET/GENERAL", "SET_GENERAL_AIRBAG_REFERENCE_GEOMETRY_" + to_string(selAirbagRefGeom->GetId()));
+            EntityEdit SetEntityEdit(p_radiossModel, setHEdit);
+
+            SetEntityEdit.SetValue(sdiIdentifier("clausesmax"), sdiValue(1));
+            SetEntityEdit.SetValue(sdiIdentifier("KEY_type", 0, 0), sdiValue(sdiString("NODE")));
+            SetEntityEdit.SetValue(sdiIdentifier("idsmax", 0, 0), sdiValue((int)lsdrefnodlist.size())); 
+            SetEntityEdit.SetValue(sdiIdentifier("ids", 0, 0), sdiValue(sdiValueEntityList(1, lsdrefnodlist))); 
+            transformEdit.SetEntityHandle(sdiIdentifier("grnod_ID"), setHEdit);
+
+            if (setHEdit.IsValid())
+                sdiConvert::Convert::PushToConversionLog(std::make_pair(setHEdit, sourceAIRBAG));
+        }
+    } // while (selAirbagRefGeom.Next())
 }
