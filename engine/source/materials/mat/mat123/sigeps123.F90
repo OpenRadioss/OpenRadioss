@@ -218,7 +218,7 @@
        indx(:)=0
        do i=1,nel
         !! dmg(i,1) =  max(dmg(i,2),dmg(i,3),dmg(i,4)) 
-         eps_eq =  two_third* (epsxx(i)**2 + epsyy(i)**2 + epszz(i) + &
+         eps_eq =  two_third* (epsxx(i)**2 + epsyy(i)**2 + epszz(i)**2 + &
                                epsxy(i)**2 + epsyz(i)**2 + epszx(i)**2 ) 
          eps_eq = sqrt(eps_eq)
          if(off(i) < one ) then

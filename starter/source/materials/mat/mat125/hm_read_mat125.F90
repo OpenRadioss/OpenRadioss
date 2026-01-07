@@ -291,9 +291,8 @@
           !--------------------------
           ! number of material parameters
           matparam%nuparam = 80
-
           allocate (matparam%uparam(matparam%nuparam))
-
+          matparam%uparam(1:matparam%nuparam) = zero 
           ! number of functions
           nfunc   = 25
           ! number of user variables
@@ -308,8 +307,8 @@
           m1t = one
           al1c = ep20
           m1c = one
-          ef11t = zero
-          ef11c = -HUGE(ef11c)
+          ef11t = ep10
+          ef11c = ep10
           if(e1 > zero ) then
             if(xt > zero )then
               ef11t  = xt/e1
@@ -330,9 +329,9 @@
           m2t = one
           al2c = ep20
           m2c = one
-          ef22t = zero
-          ef22c = -HUGE(ef22c)
-          al2t = -HUGE(al2t)
+          ef22t = ep10
+          ef22c = ep10
+          al2t = ep20
           if(e2 > zero) then
             if(yt > zero )then
               ef22t  = yt/e2
@@ -352,9 +351,9 @@
           m3t = one
           al3c = ep20
           m3c = one
-          ef33t = zero
-          al3t = -HUGE(al3t)
-          ef33c = -HUGE(ef33c)
+          ef33t = ep10
+          al3t = ep20
+          ef33c = ep10
           if(e3 > zero) then
             if(zt  > zero )then
               ef33t  = zt/e3
@@ -373,13 +372,13 @@
           end if
           ms = one
           als = ep20
-          efs = zero
-          ms13 = -HUGE(ms13)
-          als13 = -HUGE(als13)
-          efs13 = -HUGE(efs13)
-          ms23 = -HUGE(ms23)
-          als23 = -HUGE(als23)
-          efs23 = -HUGE(efs23)
+          efs = ep10
+          ms13 = one
+          als13 = ep20
+          efs13 = ep10
+          ms23 = one
+          als23 = ep20
+          efs23 = ep10
           if(tau == zero) tau = sc
           if(gamma == zero) gamma = ems
           if(fs == -1) then
@@ -395,7 +394,7 @@
             ! transverse shear 13 (only for solid)
             ms13 = one
             als13 = ep20
-            efs13 = zero
+            efs13 = ep10
             if(g13 > zero ) then
               if( tau2 > zero ) then
                 efs13  = tau2 /g13
@@ -409,7 +408,7 @@
             ! transverse shear 23 (only for solid)
             ms23 = one
             als23 = ep20
-            efs23 = zero
+            efs23 = ep10
             if(g23 > zero ) then
               if(tau3 > zero ) then
                 efs23  = tau3 /g23
@@ -425,8 +424,6 @@
           if(ems <= gamma) ems = two*gamma
           if(ems13 <= gamma2) ems13 = two*gamma2
           if(ems23 <= gamma3) ems23 = two*gamma3
-
-
           if(sc == zero ) sc = ep10
           if(sc13 == zero) sc13 = ep10
           if(sc23 == zero) sc23 = ep10
