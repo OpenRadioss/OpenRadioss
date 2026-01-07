@@ -221,271 +221,268 @@
           !
           fs = nint(matparam%uparam(76))
           !
-          if(ifunc(1) /= 0) then  ! em11t
-            ipos(1:nel) = 1
-            iad (1:nel) = npf(ifunc(1)) / 2 + 1
-            ilen(1:NEL) = npf(ifunc(1)+1) / 2 - iad(1:nel) - ipos(1:nel)
-            CALL vinter(tf,iad,ipos,ilen,nel,epsp,dydx,yy)
-            em11t(1:nel)= yy(1:nel)
-          end if
+          if(nfunc > 0) then 
+           if(ifunc(1) /= 0) then  ! em11t
+             ipos(1:nel) = 1
+             iad (1:nel) = npf(ifunc(1)) / 2 + 1
+             ilen(1:NEL) = npf(ifunc(1)+1) / 2 - iad(1:nel) - ipos(1:nel)
+             CALL vinter(tf,iad,ipos,ilen,nel,epsp,dydx,yy)
+             em11t(1:nel)= yy(1:nel)
+           end if
           !
-          if(ifunc(2) /= 0) then  ! em11t
-            ipos(1:nel) = 1
-            iad (1:nel) = npf(ifunc(2)) / 2 + 1
-            ilen(1:NEL) = npf(ifunc(2)+1) / 2 - iad(1:nel) - ipos(1:nel)
-            CALL vinter(tf,iad,ipos,ilen,nel,epsp,dydx,yy)
-            xt(1:nel)= yy(1:nel)
-          end if
+           if(ifunc(2) /= 0) then  ! em11t
+             ipos(1:nel) = 1
+             iad (1:nel) = npf(ifunc(2)) / 2 + 1
+             ilen(1:NEL) = npf(ifunc(2)+1) / 2 - iad(1:nel) - ipos(1:nel)
+             CALL vinter(tf,iad,ipos,ilen,nel,epsp,dydx,yy)
+             xt(1:nel)= yy(1:nel)
+           end if
           ! fiber - compression  dir 1 -
-          if(ifunc(3) /= 0) then  ! em11c
-            ipos(1:nel) = 1
-            iad (1:nel) = npf(ifunc(3)) / 2 + 1
-            ilen(1:NEL) = npf(ifunc(3)+1) / 2 - iad(1:nel) - ipos(1:nel)
-            CALL vinter(tf,iad,ipos,ilen,nel,epsp,dydx,yy)
-            em11c(1:nel)= yy(1:nel)
-          end if
-          if(ifunc(4) /= 0) then  ! xc
-            ipos(1:nel) = 1
-            iad (1:nel) = npf(ifunc(4)) / 2 + 1
-            ilen(1:NEL) = npf(ifunc(4)+1) / 2 - iad(1:nel) - ipos(1:nel)
-            CALL vinter(tf,iad,ipos,ilen,nel,epsp,dydx,yy)
-            xc(1:nel)= yy(1:nel)
-          end if
+           if(ifunc(3) /= 0) then  ! em11c
+             ipos(1:nel) = 1
+             iad (1:nel) = npf(ifunc(3)) / 2 + 1
+             ilen(1:NEL) = npf(ifunc(3)+1) / 2 - iad(1:nel) - ipos(1:nel)
+             CALL vinter(tf,iad,ipos,ilen,nel,epsp,dydx,yy)
+             em11c(1:nel)= yy(1:nel)
+           end if
+           if(ifunc(4) /= 0) then  ! xc
+             ipos(1:nel) = 1
+             iad (1:nel) = npf(ifunc(4)) / 2 + 1
+             ilen(1:NEL) = npf(ifunc(4)+1) / 2 - iad(1:nel) - ipos(1:nel)
+             CALL vinter(tf,iad,ipos,ilen,nel,epsp,dydx,yy)
+             xc(1:nel)= yy(1:nel)
+           end if
           ! matrix - tension dir 2 -
-          if(ifunc(5) /= 0) then  !
-            ipos(1:nel) = 1
-            iad (1:nel) = npf(ifunc(5)) / 2 + 1
-            ilen(1:NEL) = npf(ifunc(5)+1) / 2 - iad(1:nel) - ipos(1:nel)
-            CALL vinter(tf,iad,ipos,ilen,nel,epsp,dydx,yy)
-            em22t(1:nel)= yy(1:nel)
-          end if
+           if(ifunc(5) /= 0) then  !
+             ipos(1:nel) = 1
+             iad (1:nel) = npf(ifunc(5)) / 2 + 1
+             ilen(1:NEL) = npf(ifunc(5)+1) / 2 - iad(1:nel) - ipos(1:nel)
+             CALL vinter(tf,iad,ipos,ilen,nel,epsp,dydx,yy)
+             em22t(1:nel)= yy(1:nel)
+           end if
           !
-          if(ifunc(6) /= 0) then  ! em11t
-            ipos(1:nel) = 1
-            iad (1:nel) = npf(ifunc(6)) / 2 + 1
-            ilen(1:NEL) = npf(ifunc(6)+1) / 2 - iad(1:nel) - ipos(1:nel)
-            CALL vinter(tf,iad,ipos,ilen,nel,epsp,dydx,yy)
-            yt(1:nel)= yy(1:nel)
-          end if
+           if(ifunc(6) /= 0) then  ! em11t
+             ipos(1:nel) = 1
+             iad (1:nel) = npf(ifunc(6)) / 2 + 1
+             ilen(1:NEL) = npf(ifunc(6)+1) / 2 - iad(1:nel) - ipos(1:nel)
+             CALL vinter(tf,iad,ipos,ilen,nel,epsp,dydx,yy)
+             yt(1:nel)= yy(1:nel)
+           end if
           ! matrix - compression  dir 2 -
-          if(ifunc(7) /= 0) then  ! em11c
-            ipos(1:nel) = 0
-            iad (1:nel) = npf(ifunc(7)) / 2 + 1
-            ilen(1:NEL) = npf(ifunc(7)+1) / 2 - iad(1:nel) - ipos(1:nel)
-            CALL vinter(tf,iad,ipos,ilen,nel,epsp,dydx,yy)
-            em22c(1:nel)= yy(1:nel)
-          end if
-          if(ifunc(8) /= 0) then  ! yc
-            ipos(1:nel) = 1
-            iad (1:nel) = npf(ifunc(8)) / 2 + 1
-            ilen(1:NEL) = npf(ifunc(8)+1) / 2 - iad(1:nel) - ipos(1:nel)
-            CALL vinter(tf,iad,ipos,ilen,nel,epsp,dydx,yy)
-            yc(1:nel)= yy(1:nel)
-          end if
+           if(ifunc(7) /= 0) then  ! em11c
+             ipos(1:nel) = 0
+             iad (1:nel) = npf(ifunc(7)) / 2 + 1
+             ilen(1:NEL) = npf(ifunc(7)+1) / 2 - iad(1:nel) - ipos(1:nel)
+             CALL vinter(tf,iad,ipos,ilen,nel,epsp,dydx,yy)
+             em22c(1:nel)= yy(1:nel)
+           end if
+           if(ifunc(8) /= 0) then  ! yc
+             ipos(1:nel) = 1
+             iad (1:nel) = npf(ifunc(8)) / 2 + 1
+             ilen(1:NEL) = npf(ifunc(8)+1) / 2 - iad(1:nel) - ipos(1:nel)
+             CALL vinter(tf,iad,ipos,ilen,nel,epsp,dydx,yy)
+             yc(1:nel)= yy(1:nel)
+           end if
           ! Dir 33
-
-          if(ifunc(9) /= 0) then  ! em33t
-            ipos(1:nel) = 0
-            iad (1:nel) = npf(ifunc(9)) / 2 + 1
-            ilen(1:NEL) = npf(ifunc(9)+1) / 2 - iad(1:nel) - ipos(1:nel)
-            CALL vinter(tf,iad,ipos,ilen,nel,epsp,dydx,yy)
-            em33t(1:nel)= yy(1:nel)
-          end if
-          if(ifunc(10) /= 0) then  ! zt
-            ipos(1:nel) = 1
-            iad (1:nel) = npf(ifunc(10)) / 2 + 1
-            ilen(1:NEL) = npf(ifunc(10)+1) / 2 - iad(1:nel) - ipos(1:nel)
-            CALL vinter(tf,iad,ipos,ilen,nel,epsp,dydx,yy)
-            zt(1:nel)= yy(1:nel)
-          end if
+           if(ifunc(9) /= 0) then  ! em33t
+             ipos(1:nel) = 0
+             iad (1:nel) = npf(ifunc(9)) / 2 + 1
+             ilen(1:NEL) = npf(ifunc(9)+1) / 2 - iad(1:nel) - ipos(1:nel)
+             CALL vinter(tf,iad,ipos,ilen,nel,epsp,dydx,yy)
+             em33t(1:nel)= yy(1:nel)
+           end if
+           if(ifunc(10) /= 0) then  ! zt
+             ipos(1:nel) = 1
+             iad (1:nel) = npf(ifunc(10)) / 2 + 1
+             ilen(1:NEL) = npf(ifunc(10)+1) / 2 - iad(1:nel) - ipos(1:nel)
+             CALL vinter(tf,iad,ipos,ilen,nel,epsp,dydx,yy)
+             zt(1:nel)= yy(1:nel)
+           end if
           ! matrix - compression  dir 3 -
-          if(ifunc(11) /= 0) then  ! em33c
-            ipos(1:nel) = 0
-            iad (1:nel) = npf(ifunc(11)) / 2 + 1
-            ilen(1:NEL) = npf(ifunc(11)+1) / 2 - iad(1:nel) - ipos(1:nel)
-            CALL vinter(tf,iad,ipos,ilen,nel,epsp,dydx,yy)
-            em33c(1:nel)= yy(1:nel)
-          end if
-          if(ifunc(12) /= 0) then  ! yc
-            ipos(1:nel) = 1
-            iad (1:nel) = npf(ifunc(11)) / 2 + 1
-            ilen(1:NEL) = npf(ifunc(11) +1) / 2 - iad(1:nel) - ipos(1:nel)
-            CALL vinter(tf,iad,ipos,ilen,nel,epsp,dydx,yy)
-            zc(1:nel)= yy(1:nel)
-          end if
-
+           if(ifunc(11) /= 0) then  ! em33c
+             ipos(1:nel) = 0
+             iad (1:nel) = npf(ifunc(11)) / 2 + 1
+             ilen(1:NEL) = npf(ifunc(11)+1) / 2 - iad(1:nel) - ipos(1:nel)
+             CALL vinter(tf,iad,ipos,ilen,nel,epsp,dydx,yy)
+             em33c(1:nel)= yy(1:nel)
+           end if
+           if(ifunc(12) /= 0) then  ! yc
+             ipos(1:nel) = 1
+             iad (1:nel) = npf(ifunc(11)) / 2 + 1
+             ilen(1:NEL) = npf(ifunc(11) +1) / 2 - iad(1:nel) - ipos(1:nel)
+             CALL vinter(tf,iad,ipos,ilen,nel,epsp,dydx,yy)
+             zc(1:nel)= yy(1:nel)
+           end if
           !
           ! shear  12 - gamma
-          if(ifunc(13) /= 0) then  !
-            ipos(1:nel) = 1
-            iad (1:nel) = npf(ifunc(13)) / 2 + 1
-            ilen(1:NEL) = npf(ifunc(13)+1) / 2 - iad(1:nel) - ipos(1:nel)
-            CALL vinter(tf,iad,ipos,ilen,nel,epsp,dydx,yy)
-            gamma(1:nel)= yy(1:nel)
-          end if
+           if(ifunc(13) /= 0) then  !
+             ipos(1:nel) = 1
+             iad (1:nel) = npf(ifunc(13)) / 2 + 1
+             ilen(1:NEL) = npf(ifunc(13)+1) / 2 - iad(1:nel) - ipos(1:nel)
+             CALL vinter(tf,iad,ipos,ilen,nel,epsp,dydx,yy)
+             gamma(1:nel)= yy(1:nel)
+           end if
           ! shear  tau
-          if(ifunc(14) /= 0) then  ! tau
-            ipos(1:nel) = 1
-            iad (1:nel) = npf(ifunc(14)) / 2 + 1
-            ilen(1:NEL) = npf(ifunc(14)+1) / 2 - iad(1:nel) - ipos(1:nel)
-            CALL vinter(tf,iad,ipos,ilen,nel,epsp,dydx,yy)
-            tau(1:nel)= yy(1:nel)
-          end if
+           if(ifunc(14) /= 0) then  ! tau
+             ipos(1:nel) = 1
+             iad (1:nel) = npf(ifunc(14)) / 2 + 1
+             ilen(1:NEL) = npf(ifunc(14)+1) / 2 - iad(1:nel) - ipos(1:nel)
+             CALL vinter(tf,iad,ipos,ilen,nel,epsp,dydx,yy)
+             tau(1:nel)= yy(1:nel)
+           end if
           ! shear strain 12 - ems
-          if(ifunc(15) /= 0) then  ! em11c
-            ipos(1:nel) = 1
-            iad (1:nel) = npf(ifunc(15)) / 2 + 1
-            ilen(1:NEL) = npf(ifunc(15)+1) / 2 - iad(1:nel) - ipos(1:nel)
-            CALL vinter(tf,iad,ipos,ilen,nel,epsp,dydx,yy)
-            ems(1:nel)= yy(1:nel)
-          end if
+           if(ifunc(15) /= 0) then  ! em11c
+             ipos(1:nel) = 1
+             iad (1:nel) = npf(ifunc(15)) / 2 + 1
+             ilen(1:NEL) = npf(ifunc(15)+1) / 2 - iad(1:nel) - ipos(1:nel)
+             CALL vinter(tf,iad,ipos,ilen,nel,epsp,dydx,yy)
+             ems(1:nel)= yy(1:nel)
+           end if
           ! shear strengh sc
-          if(ifunc(16) /= 0) then  ! sc
-            ipos(1:nel) = 1
-            iad (1:nel) = npf(ifunc(16)) / 2 + 1
-            ilen(1:NEL) = npf(ifunc(16)+1) / 2 - iad(1:nel) - ipos(1:nel)
-            CALL vinter(tf,iad,ipos,ilen,nel,epsp,dydx,yy)
-            sc(1:nel)= yy(1:nel)
-          end if
+           if(ifunc(16) /= 0) then  ! sc
+             ipos(1:nel) = 1
+             iad (1:nel) = npf(ifunc(16)) / 2 + 1
+             ilen(1:NEL) = npf(ifunc(16)+1) / 2 - iad(1:nel) - ipos(1:nel)
+             CALL vinter(tf,iad,ipos,ilen,nel,epsp,dydx,yy)
+             sc(1:nel)= yy(1:nel)
+           end if
           ! shear  13 - gamma1
-          if(ifunc(17) /= 0) then  !
-            ipos(1:nel) = 1
-            iad (1:nel) = npf(ifunc(17)) / 2 + 1
-            ilen(1:NEL) = npf(ifunc(17)+1) / 2 - iad(1:nel) - ipos(1:nel)
-            CALL vinter(tf,iad,ipos,ilen,nel,epsp,dydx,yy)
-            gamma1(1:nel)= yy(1:nel)
-          end if
+           if(ifunc(17) /= 0) then  !
+             ipos(1:nel) = 1
+             iad (1:nel) = npf(ifunc(17)) / 2 + 1
+             ilen(1:NEL) = npf(ifunc(17)+1) / 2 - iad(1:nel) - ipos(1:nel)
+             CALL vinter(tf,iad,ipos,ilen,nel,epsp,dydx,yy)
+             gamma1(1:nel)= yy(1:nel)
+           end if
           ! shear  tau 2
-          if(ifunc(18) /= 0) then  ! tau
-            ipos(1:nel) = 1
-            iad (1:nel) = npf(ifunc(18)) / 2 + 1
-            ilen(1:NEL) = npf(ifunc(18)+1) / 2 - iad(1:nel) - ipos(1:nel)
-            CALL vinter(tf,iad,ipos,ilen,nel,epsp,dydx,yy)
-            tau1(1:nel)= yy(1:nel)
-          end if
-          ! shear strain 13 - ems13
-          if(ifunc(19) /= 0) then  ! em11c
-            ipos(1:nel) = 1
-            iad (1:nel) = npf(ifunc(19)) / 2 + 1
-            ilen(1:NEL) = npf(ifunc(19)+1) / 2 - iad(1:nel) - ipos(1:nel)
-            CALL vinter(tf,iad,ipos,ilen,nel,epsp,dydx,yy)
-            ems13(1:nel)= yy(1:nel)
-          end if
+           if(ifunc(18) /= 0) then  ! tau
+             ipos(1:nel) = 1
+             iad (1:nel) = npf(ifunc(18)) / 2 + 1
+             ilen(1:NEL) = npf(ifunc(18)+1) / 2 - iad(1:nel) - ipos(1:nel)
+             CALL vinter(tf,iad,ipos,ilen,nel,epsp,dydx,yy)
+             tau1(1:nel)= yy(1:nel)
+           end if
+            ! shear strain 13 - ems13
+           if(ifunc(19) /= 0) then  ! em11c
+             ipos(1:nel) = 1
+             iad (1:nel) = npf(ifunc(19)) / 2 + 1
+             ilen(1:NEL) = npf(ifunc(19)+1) / 2 - iad(1:nel) - ipos(1:nel)
+             CALL vinter(tf,iad,ipos,ilen,nel,epsp,dydx,yy)
+             ems13(1:nel)= yy(1:nel)
+           end if
           ! shear strengh sc13
-          if(ifunc(20) /= 0) then  ! sc
-            ipos(1:nel) = 1
-            iad (1:nel) = npf(ifunc(20)) / 2 + 1
-            ilen(1:NEL) = npf(ifunc(20)+1) / 2 - iad(1:nel) - ipos(1:nel)
-            CALL vinter(tf,iad,ipos,ilen,nel,epsp,dydx,yy)
-            sc13(1:nel)= yy(1:nel)
-          end if
+           if(ifunc(20) /= 0) then  ! sc
+             ipos(1:nel) = 1
+             iad (1:nel) = npf(ifunc(20)) / 2 + 1
+             ilen(1:NEL) = npf(ifunc(20)+1) / 2 - iad(1:nel) - ipos(1:nel)
+             CALL vinter(tf,iad,ipos,ilen,nel,epsp,dydx,yy)
+             sc13(1:nel)= yy(1:nel)
+           end if
           ! shear  23 - gamma2
-          if(ifunc(21) /= 0) then  !
-            ipos(1:nel) = 1
-            iad (1:nel) = npf(ifunc(21)) / 2 + 1
-            ilen(1:NEL) = npf(ifunc(21)+1) / 2 - iad(1:nel) - ipos(1:nel)
-            CALL vinter(tf,iad,ipos,ilen,nel,epsp,dydx,yy)
-            gamma2(1:nel)= yy(1:nel)
-          end if
-          ! shear  tau 2
-          if(ifunc(22) /= 0) then  ! tau
-            ipos(1:nel) = 1
-            iad (1:nel) = npf(ifunc(22)) / 2 + 1
-            ilen(1:NEL) = npf(ifunc(22)+1) / 2 - iad(1:nel) - ipos(1:nel)
-            CALL vinter(tf,iad,ipos,ilen,nel,epsp,dydx,yy)
-            tau2(1:nel)= yy(1:nel)
-          end if
+           if(ifunc(21) /= 0) then  !
+             ipos(1:nel) = 1
+             iad (1:nel) = npf(ifunc(21)) / 2 + 1
+             ilen(1:NEL) = npf(ifunc(21)+1) / 2 - iad(1:nel) - ipos(1:nel)
+             CALL vinter(tf,iad,ipos,ilen,nel,epsp,dydx,yy)
+             gamma2(1:nel)= yy(1:nel)
+           end if
+            ! shear  tau 2
+           if(ifunc(22) /= 0) then  ! tau
+             ipos(1:nel) = 1
+             iad (1:nel) = npf(ifunc(22)) / 2 + 1
+             ilen(1:NEL) = npf(ifunc(22)+1) / 2 - iad(1:nel) - ipos(1:nel)
+             CALL vinter(tf,iad,ipos,ilen,nel,epsp,dydx,yy)
+             tau2(1:nel)= yy(1:nel)
+           end if
           ! shear strain 23 - ems23
-          if(ifunc(23) /= 0) then  !
-            ipos(1:nel) = 1
-            iad (1:nel) = npf(ifunc(23)) / 2 + 1
-            ilen(1:NEL) = npf(ifunc(23)+1) / 2 - iad(1:nel) - ipos(1:nel)
-            CALL vinter(tf,iad,ipos,ilen,nel,epsp,dydx,yy)
-            ems23(1:nel)= yy(1:nel)
-          end if
+           if(ifunc(23) /= 0) then  !
+             ipos(1:nel) = 1
+             iad (1:nel) = npf(ifunc(23)) / 2 + 1
+             ilen(1:NEL) = npf(ifunc(23)+1) / 2 - iad(1:nel) - ipos(1:nel)
+             CALL vinter(tf,iad,ipos,ilen,nel,epsp,dydx,yy)
+             ems23(1:nel)= yy(1:nel)
+           end if
           ! shear strengh sc13
-          if(ifunc(24) /= 0) then  ! sc
-            ipos(1:nel) = 1
-            iad (1:nel) = npf(ifunc(24)) / 2 + 1
-            ilen(1:NEL) = npf(ifunc(24)+1) / 2 - iad(1:nel) - ipos(1:nel)
-            CALL vinter(tf,iad,ipos,ilen,nel,epsp,dydx,yy)
-            sc23(1:nel)= yy(1:nel)
-          end if
-          ! Computing the damage parameters
-          do i=1,nel
-            if(xt(i) > zero )then
-              ef11t(i)  = xt(i)/e1
-              em11t(i) = max(em11t(i), onep1*ef11t(i))
-              m1t(i)= -one/log(ef11t(i)/em11t(i))
-              al1t(i) = m1t(i)*(em11t(i)/ef11t(i))**m1t(i)
-            end if
-            if(xc(i) > zero  )then
-              ef11c(i)  = xc(i)/e1
-              em11c(i) = max(em11c(i), onep1*ef11c(i))
-              m1c(i)= -one/log(ef11c(i)/em11c(i))
-              al1c(i) = m1c(i)*(em11c(i)/ef11c(i))**m1c(i)
-            end if
-            if(yt(i) > zero )then
-              ef22t(i)  = yt(i)/e2
-              em22t(i) = max(em22t(i), onep1*ef22t(i))
-              m2t(i) = -one/log(ef22t(i)/em22t(i))
-              al2t(i) = m2t(i)*(em22t(i)/ef22t(i))**m2t(i)
-            end if
+           if(ifunc(24) /= 0) then  ! sc
+             ipos(1:nel) = 1
+             iad (1:nel) = npf(ifunc(24)) / 2 + 1
+             ilen(1:NEL) = npf(ifunc(24)+1) / 2 - iad(1:nel) - ipos(1:nel)
+             CALL vinter(tf,iad,ipos,ilen,nel,epsp,dydx,yy)
+             sc23(1:nel)= yy(1:nel)
+           end if
+            ! Computing the damage parameters
+           do i=1,nel
+              if(xt(i) > zero )then
+                ef11t(i)  = xt(i)/e1
+                em11t(i) = max(em11t(i), onep1*ef11t(i))
+                m1t(i)= -one/log(ef11t(i)/em11t(i))
+                al1t(i) = m1t(i)*(em11t(i)/ef11t(i))**m1t(i)
+              end if
+              if(xc(i) > zero  )then
+                ef11c(i)  = xc(i)/e1
+                em11c(i) = max(em11c(i), onep1*ef11c(i))
+                m1c(i)= -one/log(ef11c(i)/em11c(i))
+                al1c(i) = m1c(i)*(em11c(i)/ef11c(i))**m1c(i)
+              end if
+              if(yt(i) > zero )then
+                ef22t(i)  = yt(i)/e2
+                em22t(i) = max(em22t(i), onep1*ef22t(i))
+                m2t(i) = -one/log(ef22t(i)/em22t(i))
+                al2t(i) = m2t(i)*(em22t(i)/ef22t(i))**m2t(i)
+              end if
             !
-            if(yc(i) > zero  )then
-              ef22c(i)  = yc(i)/e1
-              em22c(i) = max(em22c(i),onep1*ef22c(i))
-              m2c(i) = -one/log(ef22c(i)/em22c(i))
-              al2c(i) = m2c(i)*(em22c(i)/ef22c(i))**m2c(i)
-            end if
-            if(zt(i) > zero )then
-              ef33t(i)  = zt(i)/e3
-              em33t(i) = max(em33t(i), onep1*ef33t(i))
-              m3t(i)= -one/log(ef33t(i)/em33t(i))
-              al3t(i) = m3t(i)*(em33t(i)/ef33t(i))**m3t(i)
-            end if
-            if(zc(i) > zero  )then
-              ef33c(i)  = zc(i)/e1
-              em33c(i) = max(em33c(i), onep1*ef33c(i))
-              m3c(i)= -one/log(ef33c(i)/em33c(i))
-              al3c(i) = m3c(i)*(em33c(i)/ef33c(i))**m3c(i)
-            end if
-            if(tau(i) > zero  )then
-              efs(i)  = tau(i) /g12
-              gamma(i) = max(gamma(i), onep1*efs(i))
-              ms(i) = -one/log(efs(i)/gamma(i)) ! one/ln(epsm/epsf)
-              als(i) = ms(i)*(gamma(i)/efs(i))**ms(i)
-            end if
-            if(tau1(i) > zero  )then
-              efs13(i)  = tau1(i) /g13
-              gamma1(i) = max(gamma1(i), onep1*efs13(i))
-              ms13(i) = -one/log(efs13(i)/gamma1(i)) ! one/ln(epsm/epsf)
-              als13(i) = ms13(i)*(gamma1(i)/efs13(i))**ms13(i)
-            end if
-            if(tau2(i) > zero  )then
-              efs23(i)  = tau2(i) /g23
-              gamma2(i) = max(gamma2(i), onep1*efs23(i))
-              ms23(i) = -one/log(efs23(i)/gamma2(i)) ! one/ln(epsm/epsf)
-              als23(i) = ms23(i)*(gamma2(i)/efs23(i))**ms23(i)
-            end if
-          end do ! nel
+              if(yc(i) > zero  )then
+                ef22c(i)  = yc(i)/e1
+                em22c(i) = max(em22c(i),onep1*ef22c(i))
+                m2c(i) = -one/log(ef22c(i)/em22c(i))
+                al2c(i) = m2c(i)*(em22c(i)/ef22c(i))**m2c(i)
+              end if
+              if(zt(i) > zero )then
+                ef33t(i)  = zt(i)/e3
+                em33t(i) = max(em33t(i), onep1*ef33t(i))
+                m3t(i)= -one/log(ef33t(i)/em33t(i))
+                al3t(i) = m3t(i)*(em33t(i)/ef33t(i))**m3t(i)
+              end if
+              if(zc(i) > zero  )then
+                ef33c(i)  = zc(i)/e1
+                em33c(i) = max(em33c(i), onep1*ef33c(i))
+                m3c(i)= -one/log(ef33c(i)/em33c(i))
+                al3c(i) = m3c(i)*(em33c(i)/ef33c(i))**m3c(i)
+              end if
+              if(tau(i) > zero  )then
+                efs(i)  = tau(i) /g12
+                gamma(i) = max(gamma(i), onep1*efs(i))
+                ms(i) = -one/log(efs(i)/gamma(i)) ! one/ln(epsm/epsf)
+                als(i) = ms(i)*(gamma(i)/efs(i))**ms(i)
+              end if
+              if(tau1(i) > zero  )then
+                efs13(i)  = tau1(i) /g13
+                gamma1(i) = max(gamma1(i), onep1*efs13(i))
+                ms13(i) = -one/log(efs13(i)/gamma1(i)) ! one/ln(epsm/epsf)
+                als13(i) = ms13(i)*(gamma1(i)/efs13(i))**ms13(i)
+              end if
+              if(tau2(i) > zero  )then
+                efs23(i)  = tau2(i) /g23
+                gamma2(i) = max(gamma2(i), onep1*efs23(i))
+                ms23(i) = -one/log(efs23(i)/gamma2(i)) ! one/ln(epsm/epsf)
+                als23(i) = ms23(i)*(gamma2(i)/efs23(i))**ms23(i)
+              end if
+           end do ! nel
+          endif ! nfunc
 
           select  case (fs)
            case(-1)
             ! uncoupled formulation
             do i=1,nel
-              ! computing damage by direction
-              ! dir
-              w11 = one
-              w22 = one
-              check(i) = one
-              ! check unloading
+              !
               w11 = dmg(i,2)
               w22 = dmg(i,3)
               w33 = dmg(i,4)
-              W12 = dmg(i,5)
-              w23 = dmg(i,6)
-              w13 = dmg(i,7)
+              w12 = dmg(i,5)
+              w13 = dmg(i,6)
+              w23 = dmg(i,7)
+              !
+              check(i) = one
               d = (one - w11*w22*w33*nu12*nu23*nu31 - w11*w22*w33*nu21*nu32*nu13        &
                 - w11*w33*nu31*nu13 - w22*w33*nu23*nu32 - w11*w22*nu12*nu21 )
               c11 = (one - w22*w33*nu23*nu32)*w11*e1
@@ -518,46 +515,58 @@
               limit_strain = epsxx(i)**2 + epsyy(i)**2 + epszz(i)**2 +  &
                 epsxy(i)**2  + epszx(i)**2 + epsyz(i)**2
               if(check(i) >= zero .and. limit_strain > uvar(i,2) .and. dmg(i,1) /= two .and. dmg(i,1) >= zero) then
-                if(epsxx(i) >= zero )then
-                  w11 = epsxx(i)/ef11t(i)
+                 w11 = one
+                 w22 = one 
+                 w33 = one
+                 w12 = one
+                 w23 = one
+                 w13 = one
+                if(epsxx(i) > zero )then
+                  w11 =  epsxx(i)/ef11t(i)
                   w11 = exp(m1t(i)*log(w11))/al1t(i)  ! (esp/epsf)^m/alpha
                   w11 = exp(-w11)
-                else
+                elseif(epsxx(i) < zero) then
                   w11 = abs(epsxx(i))/ef11c(i)
                   w11 = exp(m1c(i)*log(w11))/al1c(i)  ! (esp/epsf)^m/alpha
                   w11 = exp(-w11)
                 end if
                 ! dir 22
-                if(epsyy(i) >= zero )then
+                if(epsyy(i) > zero )then
                   w22 = epsyy(i)/ef22t(i)
                   w22 = exp(m2t(i)*log(w22))/al2t(i)  ! (esp/epsf)^m/alpha
                   w22 = exp(-w22)
-                else
+                elseif(epsyy(i) < zero) then
                   w22 = abs(epsyy(i))/ef22c(i)
                   w22 = exp(m2c(i)*log(w22))/al2c(i)  ! (esp/epsf)^m/alpha
                   w22 = exp(-w22)
                 end if
                 ! dir 33
-                if(epszz(i) >= zero )then
+                if(epszz(i) > zero )then
                   w33 = epszz(i)/ef33t(i)
                   w33 = exp(m3t(i)*log(w33))/al3t(i)  ! (esp/epsf)^m/alpha
                   w33 = exp(-w33)
-                else
+                elseif(epszz(i) < zero) then
                   w33 = abs(epszz(i))/ef33c(i)
                   w33 = exp(m3c(i)*log(w33))/al3c(i)  ! (esp/epsf)^m/alpha
                   w33 = exp(-w33)
                 end if
-                w12 = abs(epsxy(i))/efs(i)
-                w12 = exp(ms(i)*log(w12))/als(i)  ! (esp/epsf)^m/alpha
-                w12 = exp(-w12)
+                if(epsxy(i) /= zero) then
+                  w12 = abs(epsxy(i))/efs(i)
+                  w12 = exp(ms(i)*log(w12))/als(i)  ! (esp/epsf)^m/alpha
+                  w12 = exp(-w12)
+                endif
                 !
-                w13 = abs(epszx(i))/efs13(i)
-                w13 = exp(ms13(i)*log(w13))/als13(i) !
-                w13 = exp(-w13)
+                if(epszx(i) /= zero) then
+                  w13 = abs(epszx(i))/efs13(i)
+                  w13 = exp(ms13(i)*log(w13))/als13(i) !
+                  w13 = exp(-w13)
+                endif
                 !
-                w23 = abs(epsyz(i))/efs23(i)
-                w23 = exp(ms23(i)*log(w23))/als23(i)
-                w23 = exp(-w23)
+                if(epsyz(i) /= zero) then
+                 w23 = abs(epsyz(i))/efs23(i)
+                 w23 = exp(ms23(i)*log(w23))/als23(i)
+                 w23 = exp(-w23)
+                endif
               else ! unlaod
                 w11 = dmg(i,2)
                 w22 = dmg(i,3)
