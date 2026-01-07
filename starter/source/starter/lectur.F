@@ -7981,7 +7981,8 @@ C--------------------------------------------
       IF(NRBYKIN > 0) THEN
         CALL CHECKRBY(
      1       RBY    ,NPBY    ,LPBY   ,ITAB   ,
-     2       D      ,IDDLEVEL,NOM_OPT,SLRBODY)
+     2       D      ,IDDLEVEL,NOM_OPT,SLRBODY,
+     3       ROOTNAM,ROOTLEN )
       ENDIF
 C--------------------------------------------
 C     READING RB LAGRANGE

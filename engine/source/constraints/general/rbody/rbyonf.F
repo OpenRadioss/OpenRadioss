@@ -75,7 +75,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J ,ITEMP(10),K, N,NSL,NN,IAD,ONOF1,ISENS,IACTI,
-     .        ONFELT,K1,K2,K3,K4,K5,K6,K7
+     .        ONFELT,K1,K2,K3,K4,K5,K6,K7,K8,K9
 C======================================================================|
 C     modification of the rigid bodies
 C-------------------------------------------
@@ -86,6 +86,8 @@ C-------------------------------------------
       K5=K4+NUMELT
       K6=K5+NUMELP
       K7=K6+NUMELR
+      K8=K7
+      K9=K8+NUMELTG
 C
       DO I=1,NUMNOD
        ITAG(I)=0
@@ -166,7 +168,9 @@ C
      5             X        ,V      ,VR       ,RBY(1,N),
      6             IXTG     ,NPBY   ,RBY      ,LPBY    ,0        ,
      7             FR_RBY2  ,N      ,ONFELT   ,WEIGHT  ,PARTSAV  ,
-     8             IPART(K3),NPBY(2,N)        ,ELBUF_TAB,PRI_OFF)
+     8             NPBY(2,N),ELBUF_TAB, PRI_OFF ,IPART(K3:K4-1),
+     9             IPART(K8:K9-1),IPART(K1:K2-1),IPART(K2:K3-1),
+     A             IPART(K4:K5-1),IPART(K5:K6-1),IPART(K6:K7-1))
               NPBY(7,N)=ONOF
  120      CONTINUE
       ENDDO
@@ -274,9 +278,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I ,K, N,NSL,NN,IAD,ONOF,ONOF1,ISENS,IACTI,
-     .        
-     .          
-     .        ONFELT,K1,K2,K3,K4,K5,K6,K7,IFAIL,ELT_ACTIV,PRI_OFF
+     .        ONFELT,K1,K2,K3,K4,K5,K6,K7,IFAIL,ELT_ACTIV,PRI_OFF,K8,K9
       my_real
      .        CRIT
 C======================================================================|
@@ -294,6 +296,8 @@ C-------------------------------------------
       K5=K4+NUMELT
       K6=K5+NUMELP
       K7=K6+NUMELR
+      K8=K7
+      K9=K8+NUMELTG
 C-------------------------------------------
 C     ITAG :: Main node of active rbody w/o sensor => Rbody number
 C       is used for initialization of mass & inertia if the rbody is included into the rbody being activated
@@ -348,7 +352,9 @@ C
      5                    X        ,V     ,VR   ,RBY(1,N),
      6                    IXTG     ,NPBY  ,RBY  ,LPBY    ,1        ,
      7                    FR_RBY2  ,N     ,ONFELT,WEIGHT ,PARTSAV  ,
-     8                    IPART(K3),NPBY(2,N)   ,ELBUF_TAB,PRI_OFF)
+     8                    NPBY(2,N),ELBUF_TAB, PRI_OFF ,IPART(K3:K4-1),
+     9                    IPART(K8:K9-1),IPART(K1:K2-1),IPART(K2:K3-1),
+     A                    IPART(K4:K5-1),IPART(K5:K6-1),IPART(K6:K7-1))
             ONOF1 = 1 ! at least 1 rbody is activated or deactivated
             NPBY(7,N)=1
           ELSEIF (IACTI>1 .AND. TT <= SENSOR_TAB(ISENS)%TSTART) THEN
@@ -366,7 +372,9 @@ C
      5                    X        ,V     ,VR   ,RBY(1,N),
      6                    IXTG     ,NPBY  ,RBY  ,LPBY    ,1        ,
      7                    FR_RBY2  ,N     ,ONFELT,WEIGHT ,PARTSAV  ,
-     8                    IPART(K3),NPBY(2,N)   ,ELBUF_TAB,PRI_OFF)
+     8                    NPBY(2,N),ELBUF_TAB, PRI_OFF ,IPART(K3:K4-1),
+     9                    IPART(K8:K9-1),IPART(K1:K2-1),IPART(K2:K3-1),
+     A                    IPART(K4:K5-1),IPART(K5:K6-1),IPART(K6:K7-1))
             NPBY(7,N)=1
           ENDIF
         ENDIF
@@ -409,7 +417,9 @@ C
      5                     X        ,V     ,VR   ,RBY(1,N),
      6                     IXTG     ,NPBY  ,RBY  ,LPBY    ,1        ,
      7                     FR_RBY2  ,N     ,ONFELT,WEIGHT ,PARTSAV  ,
-     8                     IPART(K3),NPBY(2,N)   ,ELBUF_TAB, PRI_OFF)
+     8                    NPBY(2,N),ELBUF_TAB, PRI_OFF ,IPART(K3:K4-1),
+     9                    IPART(K8:K9-1),IPART(K1:K2-1),IPART(K2:K3-1),
+     A                    IPART(K4:K5-1),IPART(K5:K6-1),IPART(K6:K7-1))
              ELT_ACTIV = 1 ! elts of at least 1 rby are activated
            ELSE ! IF(TT>0.)THEN
              IF (ISPMD==0) THEN
@@ -429,7 +439,9 @@ C
      5                     X        ,V     ,VR   ,RBY(1,N),
      6                     IXTG     ,NPBY  ,RBY  ,LPBY    ,1        ,
      7                     FR_RBY2  ,N     ,ONFELT,WEIGHT ,PARTSAV  ,
-     8                     IPART(K3),NPBY(2,N)   ,ELBUF_TAB, PRI_OFF)
+     8                    NPBY(2,N),ELBUF_TAB, PRI_OFF ,IPART(K3:K4-1),
+     9                    IPART(K8:K9-1),IPART(K1:K2-1),IPART(K2:K3-1),
+     A                    IPART(K4:K5-1),IPART(K5:K6-1),IPART(K6:K7-1))
              NPBY(7,N)=0
              ONOF1 = 1 ! at least 1 rbody is activated or deactivated
              ELT_ACTIV = 1 ! elts of at least 1 rby are activated
@@ -456,7 +468,9 @@ C
      5                   X        ,V     ,VR   ,RBY(1,N),
      6                   IXTG     ,NPBY  ,RBY  ,LPBY    ,1        ,
      7                   FR_RBY2  ,N     ,ONFELT,WEIGHT ,PARTSAV  ,
-     8                   IPART(K3),NPBY(2,N)   ,ELBUF_TAB, PRI_OFF)
+     8                    NPBY(2,N),ELBUF_TAB, PRI_OFF ,IPART(K3:K4-1),
+     9                    IPART(K8:K9-1),IPART(K1:K2-1),IPART(K2:K3-1),
+     A                    IPART(K4:K5-1),IPART(K5:K6-1),IPART(K6:K7-1))
            NPBY(7,N)=0
            ONOF1 = 1 ! at least 1 rbody is activated or deactivated
          ENDIF
@@ -496,7 +510,9 @@ C
      5                     X        ,V     ,VR   ,RBY(1,N),
      6                     IXTG     ,NPBY  ,RBY  ,LPBY    ,1        ,
      7                     FR_RBY2  ,N     ,ONFELT,WEIGHT ,PARTSAV  ,
-     8                     IPART(K3),NPBY(2,N)   ,ELBUF_TAB, PRI_OFF)
+     8                    NPBY(2,N),ELBUF_TAB, PRI_OFF ,IPART(K3:K4-1),
+     9                    IPART(K8:K9-1),IPART(K1:K2-1),IPART(K2:K3-1),
+     A                    IPART(K4:K5-1),IPART(K5:K6-1),IPART(K6:K7-1))
              ELT_ACTIV = 1 ! elts of at least 1 rby are activated
            ELSE ! IF(TT>0.)THEN (Failure most probably does not occur at time zero)
              IF (ISPMD==0) THEN
@@ -516,7 +532,9 @@ C
      5                     X        ,V     ,VR   ,RBY(1,N),
      6                     IXTG     ,NPBY  ,RBY  ,LPBY    ,1        ,
      7                     FR_RBY2  ,N     ,ONFELT,WEIGHT ,PARTSAV  ,
-     8                     IPART(K3),NPBY(2,N)   ,ELBUF_TAB, PRI_OFF)
+     8                    NPBY(2,N),ELBUF_TAB, PRI_OFF ,IPART(K3:K4-1),
+     9                    IPART(K8:K9-1),IPART(K1:K2-1),IPART(K2:K3-1),
+     A                    IPART(K4:K5-1),IPART(K5:K6-1),IPART(K6:K7-1))
              NPBY(7,N)=0
              ONOF1 = 1 ! at least 1 rbody is activated or deactivated   
            ENDIF
@@ -542,7 +560,9 @@ C
      5                   X        ,V     ,VR   ,RBY(1,N),
      6                   IXTG     ,NPBY  ,RBY  ,LPBY    ,1        ,
      7                   FR_RBY2  ,N     ,ONFELT,WEIGHT ,PARTSAV  ,
-     8                   IPART(K3),NPBY(2,N)   ,ELBUF_TAB, PRI_OFF)
+     8                   NPBY(2,N),ELBUF_TAB, PRI_OFF ,IPART(K3:K4-1),
+     9                   IPART(K8:K9-1),IPART(K1:K2-1),IPART(K2:K3-1),
+     A                   IPART(K4:K5-1),IPART(K5:K6-1),IPART(K6:K7-1))
            NPBY(7,N)=0
            ONOF1 = 1 ! at least 1 rbody is activated or deactivated
          ENDIF
@@ -569,7 +589,9 @@ C-------------------------------------------
      5                    X        ,V     ,VR   ,RBY(1,N),
      6                    IXTG     ,NPBY  ,RBY  ,LPBY    ,1        ,
      7                    FR_RBY2  ,N     ,ONFELT,WEIGHT ,PARTSAV  ,
-     8                    IPART(K3),NPBY(2,N)   ,ELBUF_TAB,PRI_OFF)
+     8                    NPBY(2,N),ELBUF_TAB, PRI_OFF ,IPART(K3:K4-1),
+     9                    IPART(K8:K9-1),IPART(K1:K2-1),IPART(K2:K3-1),
+     A                    IPART(K4:K5-1),IPART(K5:K6-1),IPART(K6:K7-1))
           ENDIF
           K=K+NPBY(2,N)
         ENDDO
