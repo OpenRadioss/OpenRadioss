@@ -81,7 +81,7 @@
             mpi_operator = MPI_OP_NULL
           end select
 #else
-          mpi_operator = 0
+          mpi_operator = spmd_op
 #endif
         end function get_mpi_operator
       end module get_mpi_operator_mod

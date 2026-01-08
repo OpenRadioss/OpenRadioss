@@ -35,6 +35,7 @@
         use spmd_error_mod, only : spmd_in, spmd_out
         use spmd_comm_world_mod, only : SPMD_COMM_WORLD
         use get_mpi_operator_mod, only : get_mpi_operator, TAG_IALLREDUCE
+        use spmd_constants_mod
         implicit none
 
         interface spmd_iallreduce
