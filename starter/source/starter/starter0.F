@@ -41,6 +41,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_count_2d_element_seatbelt      ../starter/source/devtools/hm_reader/hm_count_2d_element_seatbelt.F
 !||    hm_get_max_id                     ../starter/source/devtools/hm_reader/hm_get_max_id.F
 !||    hm_messages                       ../starter/source/devtools/hm_reader/hm_messages.F
+!||    hm_rbodies_add_main_node          ../starter/source/devtools/hm_reader/hm_rbodies_add_main_node.F90
 !||    hm_read_checksum                  ../starter/source/output/checksum/checksum_option.F90
 !||    hm_read_submodel                  ../starter/source/model/assembling/hm_read_submodel.F
 !||    ini_msg                           ../starter/source/output/message/inimsg.F
@@ -69,6 +70,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    defaults_mod                      ../starter/source/modules/defaults_mod.F90
 !||    detonators_mod                    ../starter/share/modules1/detonators_mod.F
 !||    glob_therm_init_mod               ../starter/source/constraints/thermic/glob_therm_init.F90
+!||    hm_rbodies_add_main_node_mod      ../starter/source/devtools/hm_reader/hm_rbodies_add_main_node.F90
 !||    message_mod                       ../starter/share/message_module/message_mod.F
 !||    submodel_mod                      ../starter/share/modules1/submodel_mod.F
 !||    th_mod                            ../starter/share/modules1/th_mod.F90

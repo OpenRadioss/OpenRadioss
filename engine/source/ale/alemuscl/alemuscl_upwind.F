@@ -30,6 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    element_mod            ../common_source/modules/elements/element_mod.F90
 !||    i22bufbric_mod         ../common_source/modules/interfaces/cut-cell-search_mod.F
 !||    i22tri_mod             ../common_source/modules/interfaces/cut-cell-search_mod.F
+!||    precision_mod          ../common_source/modules/precision_mod.F90
 !||    segvar_mod             ../engine/share/modules/segvar_mod.F
 !||====================================================================
       SUBROUTINE ALEMUSCL_UPWIND(flux_mat,flux_save,ALE_CONNECT, X, IXS, flux_vois_mat,

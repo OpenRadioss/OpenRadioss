@@ -20,6 +20,11 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+!||====================================================================
+!||    aflut_int22_mod   ../engine/source/ale/ale51/afluxt_int22.F90
+!||--- called by ------------------------------------------------------
+!||    alethe            ../engine/source/ale/alethe.F
+!||====================================================================
       module aflut_int22_mod
         implicit none
       contains
@@ -28,6 +33,23 @@
 ! ======================================================================================================================
 !! \brief 
 !! \details 
+!||====================================================================
+!||    aflut_int22             ../engine/source/ale/ale51/afluxt_int22.F90
+!||--- called by ------------------------------------------------------
+!||    alethe                  ../engine/source/ale/alethe.F
+!||--- calls      -----------------------------------------------------
+!||    ale51_antidiff3_int22   ../engine/source/ale/alefvm/cut_cells/ale51_antidiff3_int22.F
+!||    ale51_upwind3_int22     ../engine/source/ale/alefvm/cut_cells/ale51_upwind3_int22.F
+!||    my_barrier              ../engine/source/system/machine.F
+!||--- uses       -----------------------------------------------------
+!||    constant_mod            ../common_source/modules/constant_mod.F
+!||    elbufdef_mod            ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod             ../common_source/modules/elements/element_mod.F90
+!||    i22bufbric_mod          ../common_source/modules/interfaces/cut-cell-search_mod.F
+!||    i22tri_mod              ../common_source/modules/interfaces/cut-cell-search_mod.F
+!||    multimat_param_mod      ../common_source/modules/multimat_param_mod.F90
+!||    precision_mod           ../common_source/modules/precision_mod.F90
+!||====================================================================
         subroutine aflut_int22(itask,nthread,numels,nparg,ngroup,s_flux,s_alpha_mat,nv46, &
                                itrimat,trimat,npropm,nummat,iparg,ixs,pm,alpha_mat,flux_mat,elbuf_tab)
 ! ----------------------------------------------------------------------------------------------------------------------

@@ -23,7 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
 !||    ale51_antidiff3_int22   ../engine/source/ale/alefvm/cut_cells/ale51_antidiff3_int22.F
 !||--- called by ------------------------------------------------------
-!||    afluxt                  ../engine/source/ale/ale51/afluxt.F
+!||    aflut_int22             ../engine/source/ale/ale51/afluxt_int22.F90
 !||--- uses       -----------------------------------------------------
 !||    ale_mod                 ../common_source/modules/ale/ale_mod.F
 !||    elbufdef_mod            ../common_source/modules/mat_elem/elbufdef_mod.F90

@@ -31,7 +31,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    initbuf                         ../engine/share/resol/initbuf.F
 !||    my_barrier                      ../engine/source/system/machine.F
 !||    spmd_exch_min_max               ../engine/source/mpi/ale/spmd_exch_min_max.F90
-!||    spmd_exch_n_neighbor            ../engine/source/mpi/ale/spmd_exch_n_neighbor.F90
 !||    spmd_exchange_grad              ../engine/source/mpi/fluid/spmd_exchange_grad.F
 !||    startime                        ../engine/source/system/timer_mod.F90
 !||    stoptime                        ../engine/source/system/timer_mod.F90

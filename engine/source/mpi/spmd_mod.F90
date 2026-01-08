@@ -63,7 +63,8 @@
 !||    spmd_exch_flow_tracking_data4   ../engine/source/ale/grid/spmd_exch_flow_tracking_data4.F90
 !||    spmd_exch_fvstats               ../engine/source/mpi/airbags/spmd_exch_fvstats.F
 !||    spmd_exch_min_max               ../engine/source/mpi/ale/spmd_exch_min_max.F90
-!||    spmd_exch_n_neighbor            ../engine/source/mpi/ale/spmd_exch_n_neighbor.F90
+!||    spmd_exch_n_neighbor_2d         ../engine/source/mpi/ale/spmd_exch_n_neighbor.F90
+!||    spmd_exch_n_neighbor_3d         ../engine/source/mpi/ale/spmd_exch_n_neighbor.F90
 !||    spmd_exch_neighbour_segment     ../engine/source/mpi/interfaces/spmd_exch_neighbour_segment.F90
 !||    spmd_exch_nodnx                 ../engine/source/mpi/ams/spmd_exch_nodnx.F
 !||    spmd_exch_sms                   ../engine/source/mpi/ams/spmd_exch_sms.F

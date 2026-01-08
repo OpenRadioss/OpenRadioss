@@ -84,15 +84,14 @@ C     >CAS IU>TABM
 C
 C     REAL
 !||====================================================================
-!||    sysfus2       ../engine/source/system/sysfus.F
+!||    sysfus2         ../engine/source/system/sysfus.F
 !||--- called by ------------------------------------------------------
-!||    ale51_spmd2   ../engine/source/ale/ale51/ale51_spmd2.F
-!||    ale51_spmd3   ../engine/source/ale/ale51/ale51_spmd3.F
-!||    fr_rlale      ../engine/source/mpi/kinematic_conditions/fr_rlink1.F
-!||    fr_rlink1     ../engine/source/mpi/kinematic_conditions/fr_rlink1.F
-!||    genh3d        ../engine/source/output/h3d/h3d_results/genh3d.F
-!||    lcbcsf        ../engine/source/constraints/general/bcs/lcbcsf.F
-!||    lecnoise      ../engine/source/general_controls/computation/lecnoise.F
+!||    fr_rlale        ../engine/source/mpi/kinematic_conditions/fr_rlink1.F
+!||    fr_rlink1       ../engine/source/mpi/kinematic_conditions/fr_rlink1.F
+!||    genh3d          ../engine/source/output/h3d/h3d_results/genh3d.F
+!||    init_ale_spmd   ../engine/source/ale/init_ale_spmd.F90
+!||    lcbcsf          ../engine/source/constraints/general/bcs/lcbcsf.F
+!||    lecnoise        ../engine/source/general_controls/computation/lecnoise.F
 !||====================================================================
       INTEGER FUNCTION SYSFUS2(IU,ITABM1,NUMNOD)
 C this function returns the internal number corresponding to a user number or 0

@@ -20,6 +20,11 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+!||====================================================================
+!||    ale51_apply_remote_flux_mod   ../engine/source/ale/ale51/ale51_apply_remote_flux.F90
+!||--- called by ------------------------------------------------------
+!||    afluxt                        ../engine/source/ale/ale51/afluxt.F
+!||====================================================================
       module ale51_apply_remote_flux_mod
         implicit none
       contains
@@ -28,6 +33,15 @@
 ! ======================================================================================================================
 !! \brief
 !! \details
+!||====================================================================
+!||    ale51_apply_remote_flux   ../engine/source/ale/ale51/ale51_apply_remote_flux.F90
+!||--- called by ------------------------------------------------------
+!||    afluxt                    ../engine/source/ale/ale51/afluxt.F
+!||--- uses       -----------------------------------------------------
+!||    ale_connectivity_mod      ../common_source/modules/ale/ale_connectivity_mod.F
+!||    constant_mod              ../common_source/modules/constant_mod.F
+!||    precision_mod             ../common_source/modules/precision_mod.F90
+!||====================================================================
         subroutine ale51_apply_remote_flux(n_entity,nv46,trimat,s_flux,s_flux_vois,flux_mat,flux_vois_mat,ale_connect)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules

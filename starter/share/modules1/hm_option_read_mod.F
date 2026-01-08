@@ -112,6 +112,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_preread_rbody                  ../starter/source/constraints/general/rbody/hm_preread_rbody.F
 !||    hm_preread_skw                    ../starter/source/tools/skew/hm_preread_skw.F90
 !||    hm_preread_sphio                  ../starter/source/loads/sph/hm_preread_sphio.F
+!||    hm_rbodies_add_main_node          ../starter/source/devtools/hm_reader/hm_rbodies_add_main_node.F90
 !||    hm_read_activ                     ../starter/source/tools/activ/hm_read_activ.F
 !||    hm_read_admas                     ../starter/source/tools/admas/hm_read_admas.F
 !||    hm_read_ale_grid                  ../starter/source/general_controls/ale_grid/hm_read_ale_grid.F

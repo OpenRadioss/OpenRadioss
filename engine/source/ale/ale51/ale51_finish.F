@@ -22,8 +22,6 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
 !||    ale51_finish           ../engine/source/ale/ale51/ale51_finish.F
-!||--- called by ------------------------------------------------------
-!||    alethe                 ../engine/source/ale/alethe.F
 !||--- calls      -----------------------------------------------------
 !||    ale51_upwind2          ../engine/source/ale/ale51/ale51_upwind2.F
 !||    ale51_upwind3          ../engine/source/ale/ale51/ale51_upwind3.F

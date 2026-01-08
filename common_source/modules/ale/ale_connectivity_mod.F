@@ -47,12 +47,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    akturb                           ../engine/source/ale/turbulence/akturb.F
 !||    ale51_antidiff2                  ../engine/source/ale/ale51/ale51_antidiff2.F
 !||    ale51_antidiff3                  ../engine/source/ale/ale51/ale51_antidiff3.F
+!||    ale51_apply_remote_flux          ../engine/source/ale/ale51/ale51_apply_remote_flux.F90
 !||    ale51_finish                     ../engine/source/ale/ale51/ale51_finish.F
 !||    ale51_gradient_reconstruction    ../engine/source/ale/alemuscl/ale51_gradient_reconstruction.F
 !||    ale51_gradient_reconstruction2   ../engine/source/ale/alemuscl/ale51_gradient_reconstruction2.F
 !||    ale51_init                       ../engine/source/ale/ale51/ale51_init.F
-!||    ale51_spmd2                      ../engine/source/ale/ale51/ale51_spmd2.F
-!||    ale51_spmd3                      ../engine/source/ale/ale51/ale51_spmd3.F
 !||    ale51_upwind2                    ../engine/source/ale/ale51/ale51_upwind2.F
 !||    ale51_upwind3                    ../engine/source/ale/ale51/ale51_upwind3.F
 !||    aleconv3                         ../engine/source/ale/porous/aleconv.F
@@ -140,6 +139,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    inigrav_m51                      ../starter/source/initial_conditions/inigrav/inigrav_m51.F
 !||    inint3                           ../starter/source/interfaces/inter3d1/inint3.F
 !||    inintr                           ../starter/source/interfaces/interf1/inintr.F
+!||    init_ale                         ../engine/source/ale/init_ale.F90
+!||    init_ale_boundary_condition      ../engine/source/ale/init_ale_boundary_condition.F90
+!||    init_ale_spmd                    ../engine/source/ale/init_ale_spmd.F90
 !||    init_bcs_wall                    ../starter/source/boundary_conditions/init_bcs_wall.F90
 !||    init_diffusion                   ../engine/share/modules/diffusion_mod.F
 !||    initia                           ../starter/source/elements/initia/initia.F

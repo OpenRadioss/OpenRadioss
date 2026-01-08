@@ -34,11 +34,18 @@
 !! \brief
 !! \details
 !||====================================================================
-!||    init_ale   ../engine/source/ale/init_ale.F90
+!||    init_ale                          ../engine/source/ale/init_ale.F90
 !||--- called by ------------------------------------------------------
-!||    resol      ../engine/source/engine/resol.F
+!||    resol                             ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||    init_ale_boundary_condition       ../engine/source/ale/init_ale_boundary_condition.F90
+!||    init_ale_spmd                     ../engine/source/ale/init_ale_spmd.F90
 !||--- uses       -----------------------------------------------------
-!||    ale_mod    ../common_source/modules/ale/ale_mod.F
+!||    ale_connectivity_mod              ../common_source/modules/ale/ale_connectivity_mod.F
+!||    ale_mod                           ../common_source/modules/ale/ale_mod.F
+!||    element_mod                       ../common_source/modules/elements/element_mod.F90
+!||    init_ale_boundary_condition_mod   ../engine/source/ale/init_ale_boundary_condition.F90
+!||    init_ale_spmd_mod                 ../engine/source/ale/init_ale_spmd.F90
 !||====================================================================
         subroutine init_ale(global_active_ale_element,n2d,numels,numelq,nmult, &
                             iale,ieuler,trimat,itherm,numnod, &

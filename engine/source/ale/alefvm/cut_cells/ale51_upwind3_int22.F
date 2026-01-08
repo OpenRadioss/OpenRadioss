@@ -23,8 +23,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
 !||    ale51_upwind3_int22   ../engine/source/ale/alefvm/cut_cells/ale51_upwind3_int22.F
 !||--- called by ------------------------------------------------------
-!||    afluxt                ../engine/source/ale/ale51/afluxt.F
+!||    aflut_int22           ../engine/source/ale/ale51/afluxt_int22.F90
 !||    ale51_finish          ../engine/source/ale/ale51/ale51_finish.F
+!||    ale51_finish_int22    ../engine/source/ale/ale51/ale51_finish_int22.F90
 !||    ale51_init            ../engine/source/ale/ale51/ale51_init.F
 !||--- calls      -----------------------------------------------------
 !||    my_barrier            ../engine/source/system/machine.F

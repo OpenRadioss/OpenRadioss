@@ -353,7 +353,6 @@ C
 !||    spmd_e1vois                      ../engine/source/mpi/fluid/spmd_cfd.F
 !||--- called by ------------------------------------------------------
 !||    aconve                           ../engine/source/ale/aconve.F
-!||    afluxt                           ../engine/source/ale/ale51/afluxt.F
 !||    agauge                           ../engine/source/ale/agauge.F
 !||    ale51_gradient_reconstruction2   ../engine/source/ale/alemuscl/ale51_gradient_reconstruction2.F
 !||    alew6                            ../engine/source/ale/grid/alew6.F
@@ -459,8 +458,6 @@ C
 C
 !||====================================================================
 !||    spmd_e6vois    ../engine/source/mpi/fluid/spmd_cfd.F
-!||--- called by ------------------------------------------------------
-!||    afluxt         ../engine/source/ale/ale51/afluxt.F
 !||--- calls      -----------------------------------------------------
 !||    spmd_wait      ../engine/source/mpi/spmd_wait.F90
 !||    spmd_waitany   ../engine/source/mpi/spmd_wait.F90
@@ -571,8 +568,6 @@ C
 
 !||====================================================================
 !||    spmd_e4vois    ../engine/source/mpi/fluid/spmd_cfd.F
-!||--- called by ------------------------------------------------------
-!||    afluxt         ../engine/source/ale/ale51/afluxt.F
 !||--- calls      -----------------------------------------------------
 !||    spmd_wait      ../engine/source/mpi/spmd_wait.F90
 !||    spmd_waitany   ../engine/source/mpi/spmd_wait.F90
@@ -783,14 +778,14 @@ C
       RETURN
       END
 !||====================================================================
-!||    spmd_i8vois    ../engine/source/mpi/fluid/spmd_cfd.F
+!||    spmd_i8vois     ../engine/source/mpi/fluid/spmd_cfd.F
 !||--- called by ------------------------------------------------------
-!||    afluxt         ../engine/source/ale/ale51/afluxt.F
+!||    init_ale_spmd   ../engine/source/ale/init_ale_spmd.F90
 !||--- calls      -----------------------------------------------------
-!||    spmd_wait      ../engine/source/mpi/spmd_wait.F90
-!||    spmd_waitany   ../engine/source/mpi/spmd_wait.F90
+!||    spmd_wait       ../engine/source/mpi/spmd_wait.F90
+!||    spmd_waitany    ../engine/source/mpi/spmd_wait.F90
 !||--- uses       -----------------------------------------------------
-!||    spmd_mod       ../engine/source/mpi/spmd_mod.F90
+!||    spmd_mod        ../engine/source/mpi/spmd_mod.F90
 !||====================================================================
       SUBROUTINE SPMD_I8VOIS(
      1                       PHI   ,NERCVOIS,NESDVOIS,LERCVOIS,LESDVOIS,
@@ -903,14 +898,14 @@ C
       END
 
 !||====================================================================
-!||    spmd_i4vois    ../engine/source/mpi/fluid/spmd_cfd.F
+!||    spmd_i4vois     ../engine/source/mpi/fluid/spmd_cfd.F
 !||--- called by ------------------------------------------------------
-!||    afluxt         ../engine/source/ale/ale51/afluxt.F
+!||    init_ale_spmd   ../engine/source/ale/init_ale_spmd.F90
 !||--- calls      -----------------------------------------------------
-!||    spmd_wait      ../engine/source/mpi/spmd_wait.F90
-!||    spmd_waitany   ../engine/source/mpi/spmd_wait.F90
+!||    spmd_wait       ../engine/source/mpi/spmd_wait.F90
+!||    spmd_waitany    ../engine/source/mpi/spmd_wait.F90
 !||--- uses       -----------------------------------------------------
-!||    spmd_mod       ../engine/source/mpi/spmd_mod.F90
+!||    spmd_mod        ../engine/source/mpi/spmd_mod.F90
 !||====================================================================
       SUBROUTINE SPMD_I4VOIS(
      1                       PHI   ,NERCVOIS,NESDVOIS,LERCVOIS,LESDVOIS,

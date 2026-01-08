@@ -46,6 +46,7 @@
 !||    aeturb                              ../engine/source/ale/turbulence/aeturb.F
 !||    afimp2                              ../engine/source/ale/ale2d/afimp2.F
 !||    afimp3                              ../engine/source/ale/ale3d/afimp3.F
+!||    aflut_int22                         ../engine/source/ale/ale51/afluxt_int22.F90
 !||    aflux0                              ../engine/source/ale/aflux0.F
 !||    aflux2                              ../engine/source/ale/ale2d/aflux2.F
 !||    aflux3                              ../engine/source/ale/ale3d/aflux3.F
@@ -60,15 +61,13 @@
 !||    agrad2                              ../engine/source/ale/ale2d/agrad2.F
 !||    agrad3                              ../engine/source/ale/ale3d/agrad3.F
 !||    akturb                              ../engine/source/ale/turbulence/akturb.F
-!||    ale51_antidiff2                     ../engine/source/ale/ale51/ale51_antidiff2.F
 !||    ale51_antidiff3                     ../engine/source/ale/ale51/ale51_antidiff3.F
 !||    ale51_antidiff3_int22               ../engine/source/ale/alefvm/cut_cells/ale51_antidiff3_int22.F
 !||    ale51_finish                        ../engine/source/ale/ale51/ale51_finish.F
+!||    ale51_finish_int22                  ../engine/source/ale/ale51/ale51_finish_int22.F90
 !||    ale51_gradient_reconstruction       ../engine/source/ale/alemuscl/ale51_gradient_reconstruction.F
 !||    ale51_gradient_reconstruction2      ../engine/source/ale/alemuscl/ale51_gradient_reconstruction2.F
 !||    ale51_init                          ../engine/source/ale/ale51/ale51_init.F
-!||    ale51_spmd2                         ../engine/source/ale/ale51/ale51_spmd2.F
-!||    ale51_spmd3                         ../engine/source/ale/ale51/ale51_spmd3.F
 !||    ale51_upwind2                       ../engine/source/ale/ale51/ale51_upwind2.F
 !||    ale51_upwind3                       ../engine/source/ale/ale51/ale51_upwind3.F
 !||    ale51_upwind3_int22                 ../engine/source/ale/alefvm/cut_cells/ale51_upwind3_int22.F
@@ -634,6 +633,8 @@
 !||    inirig_mat                          ../starter/source/elements/initia/inirig_mat.F
 !||    inisen                              ../starter/source/tools/sensor/inisen.F
 !||    inisoldist                          ../starter/source/initial_conditions/inivol/inisoldist.F
+!||    init_ale                            ../engine/source/ale/init_ale.F90
+!||    init_ale_spmd                       ../engine/source/ale/init_ale_spmd.F90
 !||    init_link_spmd                      ../engine/source/coupling/rad2rad/r2r_init.F
 !||    init_monvol                         ../starter/source/airbag/init_monvol.F
 !||    init_nodal_state                    ../engine/source/interfaces/interf/init_nodal_state.F

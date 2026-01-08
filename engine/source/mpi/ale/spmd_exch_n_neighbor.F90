@@ -23,6 +23,7 @@
 !||====================================================================
 !||    spmd_exch_n_neighbor_mod        ../engine/source/mpi/ale/spmd_exch_n_neighbor.F90
 !||--- called by ------------------------------------------------------
+!||    afluxt                          ../engine/source/ale/ale51/afluxt.F
 !||    ale51_gradient_reconstruction   ../engine/source/ale/alemuscl/ale51_gradient_reconstruction.F
 !||====================================================================
       module spmd_exch_n_neighbor_mod
@@ -37,23 +38,21 @@
 ! ======================================================================================================================
 !                                                   procedures
 ! ======================================================================================================================
-!||====================================================================
-!||    spmd_exch_n_neighbor            ../engine/source/mpi/ale/spmd_exch_n_neighbor.F90
-!||--- called by ------------------------------------------------------
-!||    ale51_gradient_reconstruction   ../engine/source/ale/alemuscl/ale51_gradient_reconstruction.F
-!||--- calls      -----------------------------------------------------
-!||    alloc_my_real_2d_array          ../common_source/modules/array_mod.F
-!||    dealloc_my_real_2d_array        ../common_source/modules/array_mod.F
-!||    spmd_waitall                    ../engine/source/mpi/spmd_wait.F90
-!||    spmd_waitany                    ../engine/source/mpi/spmd_wait.F90
-!||--- uses       -----------------------------------------------------
-!||    array_mod                       ../common_source/modules/array_mod.F
-!||    debug_mod                       ../engine/share/modules/debug_mod.F
-!||    precision_mod                   ../common_source/modules/precision_mod.F90
-!||    spmd_mod                        ../engine/source/mpi/spmd_mod.F90
-!||====================================================================
 !! \brief Mpi communication of neighboring data for 2D arrays
 !! \details
+!||====================================================================
+!||    spmd_exch_n_neighbor_2d    ../engine/source/mpi/ale/spmd_exch_n_neighbor.F90
+!||--- calls      -----------------------------------------------------
+!||    alloc_my_real_2d_array     ../common_source/modules/array_mod.F
+!||    dealloc_my_real_2d_array   ../common_source/modules/array_mod.F
+!||    spmd_waitall               ../engine/source/mpi/spmd_wait.F90
+!||    spmd_waitany               ../engine/source/mpi/spmd_wait.F90
+!||--- uses       -----------------------------------------------------
+!||    array_mod                  ../common_source/modules/array_mod.F
+!||    debug_mod                  ../engine/share/modules/debug_mod.F
+!||    precision_mod              ../common_source/modules/precision_mod.F90
+!||    spmd_mod                   ../engine/source/mpi/spmd_mod.F90
+!||====================================================================
       subroutine spmd_exch_n_neighbor_2d(flag,nspmd,n_entity,dim1,s_lesdvois,s_lercvois, &
                                         s_proc_nb,r_proc_nb,s_index,r_index,s_req,r_req, &
                                         nesdvois,nercvois,lesdvois,lercvois, &
@@ -196,6 +195,20 @@
 ! ======================================================================================================================
 !! \brief Mpi communication of neighboring data for 3D arrays
 !! \details
+!||====================================================================
+!||    spmd_exch_n_neighbor_3d    ../engine/source/mpi/ale/spmd_exch_n_neighbor.F90
+!||--- calls      -----------------------------------------------------
+!||    alloc_my_real_3d_array     ../common_source/modules/array_mod.F
+!||    dealloc_my_real_3d_array   ../common_source/modules/array_mod.F
+!||    spmd_waitall               ../engine/source/mpi/spmd_wait.F90
+!||    spmd_waitany               ../engine/source/mpi/spmd_wait.F90
+!||--- uses       -----------------------------------------------------
+!||    array_mod                  ../common_source/modules/array_mod.F
+!||    constant_mod               ../common_source/modules/constant_mod.F
+!||    debug_mod                  ../engine/share/modules/debug_mod.F
+!||    precision_mod              ../common_source/modules/precision_mod.F90
+!||    spmd_mod                   ../engine/source/mpi/spmd_mod.F90
+!||====================================================================
         subroutine spmd_exch_n_neighbor_3d(flag,nspmd,n_entity,dim1,dim2,s_lesdvois,s_lercvois, &
                                         s_proc_nb,r_proc_nb,s_index,r_index,s_req,r_req, &
                                         nesdvois,nercvois,lesdvois,lercvois, &

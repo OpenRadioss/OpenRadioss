@@ -34,6 +34,7 @@
 !||    admregul                            ../engine/source/model/remesh/admregul.F
 !||    admthke                             ../engine/source/model/remesh/admthke.F
 !||    aeturb                              ../engine/source/ale/turbulence/aeturb.F
+!||    aflut_int22                         ../engine/source/ale/ale51/afluxt_int22.F90
 !||    aflux0                              ../engine/source/ale/aflux0.F
 !||    aflux3_int22_fvm                    ../engine/source/ale/alefvm/cut_cells/aflux3_int22_fvm.F
 !||    afluxt                              ../engine/source/ale/ale51/afluxt.F
@@ -43,6 +44,7 @@
 !||    akturb                              ../engine/source/ale/turbulence/akturb.F
 !||    ale51_antidiff3_int22               ../engine/source/ale/alefvm/cut_cells/ale51_antidiff3_int22.F
 !||    ale51_finish                        ../engine/source/ale/ale51/ale51_finish.F
+!||    ale51_finish_int22                  ../engine/source/ale/ale51/ale51_finish_int22.F90
 !||    ale51_gradient_reconstruction       ../engine/source/ale/alemuscl/ale51_gradient_reconstruction.F
 !||    ale51_gradient_reconstruction2      ../engine/source/ale/alemuscl/ale51_gradient_reconstruction2.F
 !||    ale51_init                          ../engine/source/ale/ale51/ale51_init.F

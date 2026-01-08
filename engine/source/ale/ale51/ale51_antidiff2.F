@@ -27,7 +27,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- uses       -----------------------------------------------------
 !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
 !||    ale_mod                ../common_source/modules/ale/ale_mod.F
-!||    element_mod            ../common_source/modules/elements/element_mod.F90
+!||    precision_mod          ../common_source/modules/precision_mod.F90
 !||    segvar_mod             ../engine/share/modules/segvar_mod.F
 !||====================================================================
       SUBROUTINE ALE51_ANTIDIFF2(FLUX,flux_save,ALE_CONNECT,alpha_mat,s_alpha_mat,VOL,flux_vois_mat,

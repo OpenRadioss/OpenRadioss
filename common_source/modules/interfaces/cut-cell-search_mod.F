@@ -25,12 +25,13 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- called by ------------------------------------------------------
 !||    a22conv3                     ../engine/source/ale/alefvm/cut_cells/a22conv3.F
 !||    aconve                       ../engine/source/ale/aconve.F
+!||    aflut_int22                  ../engine/source/ale/ale51/afluxt_int22.F90
 !||    aflux3                       ../engine/source/ale/ale3d/aflux3.F
 !||    aflux3_int22_fvm             ../engine/source/ale/alefvm/cut_cells/aflux3_int22_fvm.F
-!||    afluxt                       ../engine/source/ale/ale51/afluxt.F
 !||    ale51_antidiff3              ../engine/source/ale/ale51/ale51_antidiff3.F
 !||    ale51_antidiff3_int22        ../engine/source/ale/alefvm/cut_cells/ale51_antidiff3_int22.F
 !||    ale51_finish                 ../engine/source/ale/ale51/ale51_finish.F
+!||    ale51_finish_int22           ../engine/source/ale/ale51/ale51_finish_int22.F90
 !||    ale51_init                   ../engine/source/ale/ale51/ale51_init.F
 !||    ale51_upwind3_int22          ../engine/source/ale/alefvm/cut_cells/ale51_upwind3_int22.F
 !||    alefvm_freset                ../engine/source/ale/alefvm/alefvm_freset.F
@@ -139,12 +140,13 @@ C
 !||    a22conv3                     ../engine/source/ale/alefvm/cut_cells/a22conv3.F
 !||    aconv3                       ../engine/source/ale/ale3d/aconv3.F
 !||    aconve                       ../engine/source/ale/aconve.F
+!||    aflut_int22                  ../engine/source/ale/ale51/afluxt_int22.F90
 !||    aflux0                       ../engine/source/ale/aflux0.F
 !||    aflux3_int22_fvm             ../engine/source/ale/alefvm/cut_cells/aflux3_int22_fvm.F
-!||    afluxt                       ../engine/source/ale/ale51/afluxt.F
 !||    ale51_antidiff3              ../engine/source/ale/ale51/ale51_antidiff3.F
 !||    ale51_antidiff3_int22        ../engine/source/ale/alefvm/cut_cells/ale51_antidiff3_int22.F
 !||    ale51_finish                 ../engine/source/ale/ale51/ale51_finish.F
+!||    ale51_finish_int22           ../engine/source/ale/ale51/ale51_finish_int22.F90
 !||    ale51_init                   ../engine/source/ale/ale51/ale51_init.F
 !||    ale51_upwind3                ../engine/source/ale/ale51/ale51_upwind3.F
 !||    ale51_upwind3_int22          ../engine/source/ale/alefvm/cut_cells/ale51_upwind3_int22.F

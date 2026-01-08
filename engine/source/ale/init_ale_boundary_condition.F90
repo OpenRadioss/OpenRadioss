@@ -20,6 +20,11 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+!||====================================================================
+!||    init_ale_boundary_condition_mod   ../engine/source/ale/init_ale_boundary_condition.F90
+!||--- called by ------------------------------------------------------
+!||    init_ale                          ../engine/source/ale/init_ale.F90
+!||====================================================================
       module init_ale_boundary_condition_mod
         implicit none
       contains
@@ -28,6 +33,17 @@
 ! ======================================================================================================================
 !! \brief Initialize ALE boundary condition data structure
 !! \details
+!||====================================================================
+!||    init_ale_boundary_condition   ../engine/source/ale/init_ale_boundary_condition.F90
+!||--- called by ------------------------------------------------------
+!||    init_ale                      ../engine/source/ale/init_ale.F90
+!||--- calls      -----------------------------------------------------
+!||    initbuf                       ../engine/share/resol/initbuf.F
+!||--- uses       -----------------------------------------------------
+!||    ale_connectivity_mod          ../common_source/modules/ale/ale_connectivity_mod.F
+!||    initbuf_mod                   ../engine/share/resol/initbuf.F
+!||    mvsiz_mod                     ../engine/share/spe_inc/mvsiz_mod.F90
+!||====================================================================
         subroutine init_ale_boundary_condition(nv46,nparg,ngroup,iparg,ale_connect)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules

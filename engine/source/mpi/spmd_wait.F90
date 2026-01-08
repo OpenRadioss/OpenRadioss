@@ -125,7 +125,8 @@
 !||    spmd_evois                    ../engine/source/mpi/fluid/spmd_cfd.F
 !||    spmd_exalew_pon               ../engine/source/mpi/fluid/spmd_cfd.F
 !||    spmd_exch_min_max             ../engine/source/mpi/ale/spmd_exch_min_max.F90
-!||    spmd_exch_n_neighbor          ../engine/source/mpi/ale/spmd_exch_n_neighbor.F90
+!||    spmd_exch_n_neighbor_2d       ../engine/source/mpi/ale/spmd_exch_n_neighbor.F90
+!||    spmd_exch_n_neighbor_3d       ../engine/source/mpi/ale/spmd_exch_n_neighbor.F90
 !||    spmd_exch_neighbour_segment   ../engine/source/mpi/interfaces/spmd_exch_neighbour_segment.F90
 !||    spmd_exchange_component       ../engine/source/mpi/interfaces/spmd_exch_component.F90
 !||    spmd_i4vois                   ../engine/source/mpi/fluid/spmd_cfd.F
@@ -168,16 +169,17 @@
         end subroutine spmd_waitany
 ! ======================================================================================================================
 !||====================================================================
-!||    spmd_waitall           ../engine/source/mpi/spmd_wait.F90
+!||    spmd_waitall              ../engine/source/mpi/spmd_wait.F90
 !||--- called by ------------------------------------------------------
-!||    spmd_exch_min_max      ../engine/source/mpi/ale/spmd_exch_min_max.F90
-!||    spmd_exch_n_neighbor   ../engine/source/mpi/ale/spmd_exch_n_neighbor.F90
-!||    spmd_tri25vox          ../engine/source/mpi/interfaces/spmd_tri25vox.F
+!||    spmd_exch_min_max         ../engine/source/mpi/ale/spmd_exch_min_max.F90
+!||    spmd_exch_n_neighbor_2d   ../engine/source/mpi/ale/spmd_exch_n_neighbor.F90
+!||    spmd_exch_n_neighbor_3d   ../engine/source/mpi/ale/spmd_exch_n_neighbor.F90
+!||    spmd_tri25vox             ../engine/source/mpi/interfaces/spmd_tri25vox.F
 !||--- calls      -----------------------------------------------------
-!||    spmd_in                ../engine/source/mpi/spmd_error.F90
-!||    spmd_out               ../engine/source/mpi/spmd_error.F90
+!||    spmd_in                   ../engine/source/mpi/spmd_error.F90
+!||    spmd_out                  ../engine/source/mpi/spmd_error.F90
 !||--- uses       -----------------------------------------------------
-!||    spmd_error_mod         ../engine/source/mpi/spmd_error.F90
+!||    spmd_error_mod            ../engine/source/mpi/spmd_error.F90
 !||====================================================================
         subroutine spmd_waitall(buf_count, array_of_requests, array_of_statuses)
           use spmd_error_mod, only: spmd_in, spmd_out

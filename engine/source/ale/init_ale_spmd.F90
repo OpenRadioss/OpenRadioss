@@ -20,6 +20,11 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+!||====================================================================
+!||    init_ale_spmd_mod   ../engine/source/ale/init_ale_spmd.F90
+!||--- called by ------------------------------------------------------
+!||    init_ale            ../engine/source/ale/init_ale.F90
+!||====================================================================
       module init_ale_spmd_mod
         implicit none
       contains
@@ -28,6 +33,18 @@
 ! ======================================================================================================================
 !! \brief Initialize ALE SPMD connectivity data structure
 !! \details
+!||====================================================================
+!||    init_ale_spmd          ../engine/source/ale/init_ale_spmd.F90
+!||--- called by ------------------------------------------------------
+!||    init_ale               ../engine/source/ale/init_ale.F90
+!||--- calls      -----------------------------------------------------
+!||    spmd_i4vois            ../engine/source/mpi/fluid/spmd_cfd.F
+!||    spmd_i8vois            ../engine/source/mpi/fluid/spmd_cfd.F
+!||    sysfus2                ../engine/source/system/sysfus.F
+!||--- uses       -----------------------------------------------------
+!||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
+!||    element_mod            ../common_source/modules/elements/element_mod.F90
+!||====================================================================
         subroutine init_ale_spmd(nv46,n2d,numels,numelq,numnod, &
                                  nspmd,nsvois,nqvois,s_lesdvois,s_lercvois,nesdvois,nercvois, &
                                  lesdvois,lercvois,itab,itabm1,ixs,ixq,ale_connect )
