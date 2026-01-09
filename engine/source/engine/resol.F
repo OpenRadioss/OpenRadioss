@@ -1723,11 +1723,11 @@ C===============================================================================
               GLOBAL_ACTIVE_ALE_ELEMENT = .FALSE.
               CALL CHECK_ALE_COMM(IPARG,ELBUF_TAB,GLOBAL_ACTIVE_ALE_ELEMENT,GLOB_THERM%ITHERM)
               ! initialization of some size and arrays for ALE solver
-              call init_ale(global_active_ale_element,n2d,numels,numelq,nmult,
+              call init_ale(global_active_ale_element,n2d,numels,numelq,numeltg,nmult,
      .                      iale,ieuler,trimat,glob_therm%itherm,numnod,    
-     .                      nspmd,nsvois,nqvois,nparg,ngroup,slesdvois,slercvois,        
+     .                      nspmd,nsvois,nqvois,ntgvois,nparg,ngroup,slesdvois,slercvois,        
      .                      nesdvois,nercvois,lesdvois,lercvois,nodes%itab, 
-     .                      nodes%itabm1,ixs,ixq,iparg,ale,ale_connectivity)
+     .                      nodes%itabm1,ixs,ixq,iparg,ale,ale_connectivity,elbuf_tab)
 
               IF(NADMESH/=0.AND.IDEL7NG>=1) IDEL7NOK = 0
 C     THERMAL TIME STEP : we don t check incompatible kinematic conditions anymore
