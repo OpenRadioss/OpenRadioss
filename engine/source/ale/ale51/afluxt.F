@@ -122,7 +122,7 @@ C-----------------------------------------------
       my_real :: VFRAC
       TYPE(BUF_MAT_)  ,POINTER :: MBUF
       real(kind=WP), dimension(:,:,:), allocatable, save :: flux_vois_mat
-      type(array_type_my_real_2d), dimension(:), allocatable :: s_alpha,r_alpha
+      type(array_type_my_real_2d), dimension(nspmd) :: s_alpha,r_alpha
       type(array_type_my_real_3d), dimension(:), allocatable :: s_flux_neigh,r_flux_neigh
       integer :: flag
       integer :: s_proc_nb,r_proc_nb
@@ -201,15 +201,13 @@ C--------------------
       s_lesdvois = nesdvois(nspmd+1)
       s_lercvois = nercvois(nspmd+1)
       n_entity = s_alpha_mat
+
       IF(NSPMD > 1)THEN     
         if(itask==0) then
           call startime(timers,timer_spmdcfd)  
           flag = 0
           s_proc_nb = 0
           r_proc_nb = 0      
-
-          allocate(s_alpha(nspmd))
-          allocate(r_alpha(nspmd))
 
           call spmd_exch_n_neighbor(flag,nspmd,n_entity,trimat,s_lesdvois,s_lercvois, 
      .                               s_proc_nb,r_proc_nb,s_index,r_index,s_req,r_req, 
@@ -244,14 +242,13 @@ C----------------------
      .                               s_proc_nb,r_proc_nb,s_index,r_index,s_req,r_req, 
      .                               nesdvois,nercvois,lesdvois,lercvois, 
      .                               alpha_mat,s_alpha,r_alpha)
-          deallocate(s_alpha)
-          deallocate(r_alpha)
           call stoptime(timers,timer_spmdcfd)
         endif
 
         CALL MY_BARRIER
 C----------------------
       ENDIF
+
 C-----------------------------------------------
 C     LAW51
 C     submatrial volumefluxes update
