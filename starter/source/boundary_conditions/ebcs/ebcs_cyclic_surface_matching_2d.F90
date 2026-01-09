@@ -51,7 +51,7 @@
           use precision_mod, only : WP
           use ebcs_mod , only : t_ebcs_cyclic, t_ebcs
           use groupdef_mod , only : surf_
-          use constant_mod, only : em03, half, zero, one, em03
+          use constant_mod, only : em10,em02, half, zero, one
           use names_and_titles_mod , only : nchartitle
           use message_mod
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -81,15 +81,16 @@
           real(kind=WP) :: v12(3),v12_(3)
           real(kind=WP) :: d12,d12_ !< vector length
           real(kind=WP) :: R(2,2) !< roation matrix
-          real(kind=WP) :: tol
+          real(kind=WP) :: tol, abs_tol
           real(kind=WP) :: cost, sint
+          real(kind=WP) :: rotated_Y, rotated_Z
           character(len=nchartitle) :: title
           real(kind=WP) :: imgY,imgZ
           integer,dimension(:),allocatable :: NODLIST1, NODLIST2, NODLIST3
           integer,dimension(:),allocatable :: ITAG_ELEM,IFACE,IELEM,ISEG
           integer,dimension(:,:),allocatable :: ELEM_LIST
           integer :: inod1,inod2,inod3,inod4
-          logical :: lFOUND
+          logical :: lFOUND, l_ALL_FOUND
           integer :: i , j
           integer :: nnod
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -117,8 +118,18 @@
           !tol
           d12 = sqrt(v12(2)*v12(2) + v12(3)*v12(3))
           d12_ = sqrt(v12_(2)*v12_(2) + v12_(3)*v12_(3))
-          tol = em03*half*(d12+d12_)
 
+          !tolerance
+          abs_tol =  em10
+          tol = max(em02*half*(d12+d12_), abs_tol)
+
+          !absolute tolerance first tested
+          if (d12 < abs_tol .or. d12_ < abs_tol) then
+              call ancmsg(msgid=1602,msgtype=msgerror,anmode=aninfo,i1=ebcs_uid,c1=trim(title),&
+               C2="NODES DEFINE A NULL OR TOO SHORT VECTOR")
+              lVALID = .FALSE.
+              return
+          end if
           if(abs(d12-d12_) > tol )then
             lVALID = .FALSE.
             !ERROR MESSAGE : user nodes N1N2 and N1'N2' do not match on both surfaces
@@ -154,8 +165,8 @@
           R(2,1) = sint ; R(2,2) = cost
 
           ! tt = N1'-R.N1
-          tt(2) = X(2,nod(4)) - cost*X(2,nod(1)) + sint*X(3,nod(1))
-          tt(3) = X(3,nod(4)) - sint*X(2,nod(1)) - cost*X(3,nod(1))
+          tt(2) = X(2,nod(4)) - (cost*X(2,nod(1)) - sint*X(3,nod(1)))
+          tt(3) = X(3,nod(4)) - (sint*X(2,nod(1)) + cost*X(3,nod(1)))
 
           NSEG = ebcs%nb_elem  !nseg1=nseg2 (checked by Reader subroutine), allocated to 2*nseg
           NNOD = ebcs%nb_node  !nnod1=nnod2 (checked by Reader subroutine), allocated to 2*nnod
@@ -170,14 +181,17 @@
           ! ASSOCIATE NODES
           !  NODLIST1 : corresponding index on %node_list2
           ! -NODLIST2 : corresponding index on %node_list1
+          l_ALL_FOUND = .TRUE.
           DO I=1,NNOD
             INOD1 = NODLIST1(I)
             DO J=1,NNOD
               INOD2 = NODLIST2(J)
               lFOUND=.FALSE.
               if(inod2 > 0)then
-                imgY = X(2,INOD1) + tt(2)
-                imgZ = X(3,INOD1) + tt(3)
+                rotated_Y = R(1,1)*X(2,INOD1) + R(1,2)*X(3,INOD1)
+                rotated_Z = R(2,1)*X(2,INOD1) + R(2,2)*X(3,INOD1)
+                imgY = rotated_Y + tt(2)
+                imgZ = rotated_Z + tt(3)
                 if(abs(imgY-X(2,INOD2)) < tol .and. abs(imgZ-X(3,INOD2)) < tol)then
                   NODLIST1(I) = J
                   NODLIST2(J) = - I
@@ -188,6 +202,7 @@
             END DO
              ! NODE I on surface 1 do not match any node on surface 2
              if(.NOT.lFOUND)then
+               l_ALL_FOUND=.FALSE.
                !error surface soes not match
                  call ancmsg(msgid=1602,msgtype=msgerror,anmode=aninfo,i1=ebcs_uid,c1=trim(title), &
                  C2="SURFACE NODES DO NOT MATCH. CHECK IF N1 AND N2 DO BELONG TO SURFACE.")
@@ -195,7 +210,7 @@
             end if
           END DO
 
-          if(.NOT. lFOUND)return
+          if(.NOT. l_ALL_FOUND)return
 
           !renumber list of nodes
           DO I=1,NNOD
