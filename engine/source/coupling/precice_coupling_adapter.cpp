@@ -190,6 +190,8 @@ bool PreciceCouplingAdapter::initialize(const double* coordinates, int totalNode
             meshVertices.push_back(coordinates[idx * dimensions + 1]);
             meshVertices.push_back(coordinates[idx * dimensions + 2]);
         }
+        // copy initial positions in meshVertices to x0_
+        x0_ = meshVertices;
         
         // Set mesh vertices
         precice_->setMeshVertices(meshName_, meshVertices, vertexIds_);
@@ -254,7 +256,7 @@ void PreciceCouplingAdapter::readData(double* values, int totalNodes, double dt,
 
     // Read data from preCICE
     precice_->readData(meshName_, readDataName, vertexIds_, cdt, readData_[dataType].buffer);
-    
+   
     // Inject data into global arrays
     injectNodeData(values, totalNodes, dataType);
 }
@@ -331,7 +333,6 @@ void PreciceCouplingAdapter::extractNodeData(const double* globalValues, int tot
     if (!writeData_[dataType].isActive) {
         return;
     }
-    
     constexpr auto dimensions = getDimensions();
     for (size_t i = 0; i < couplingNodeIds_.size(); ++i) {
         const auto nodeId = couplingNodeIds_[i];
@@ -357,7 +358,10 @@ void PreciceCouplingAdapter::injectNodeData(double* globalValues, int totalNodes
             globalValues[nodeId * 3 + 1] += readData_[dataType].buffer[i * 3 + 1];
             globalValues[nodeId * 3 + 2] += readData_[dataType].buffer[i * 3 + 2];
         }
-    } else if (readData_[dataType].mode == Mode::REPLACE) {
+    }  else if (readData_[dataType].mode == Mode::REPLACE) {
+        // write a debug message, with the name of the data type being injected and the participant name
+        std::cout << "READ " << dataTypeToString(static_cast<DataType>(dataType))
+                  << " for participant " << participantName_ << std::endl;
         for (size_t i = 0; i < couplingNodeIds_.size(); ++i) {
             int nodeId = couplingNodeIds_[i] - 1; // Convert to 0-based indexing
             globalValues[nodeId * 3] = readData_[dataType].buffer[i * 3];

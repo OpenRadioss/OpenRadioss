@@ -74,6 +74,9 @@
           integer :: surface_id = 0
           integer :: coupler
           character :: filnam*100
+          integer, dimension(:), allocatable :: list_nodes
+          real(c_double), dimension(:,:), allocatable :: values ! buffer
+
         end type coupling_type
 
         ! C interface declarations cooresponding to the file coupling_c_interface./cpp
@@ -190,6 +193,14 @@
             integer(c_int) :: coupling_get_communicator
           end function coupling_get_communicator
 
+          subroutine  coupling_adapter_get_coupled_data(adapter, rd, wd) &
+            bind(c, name="coupling_adapter_get_coupled_data")
+            use, intrinsic :: iso_c_binding
+            type(c_ptr), value :: adapter
+            integer(c_int) :: rd(*), wd(*)
+          end subroutine
+
+
           ! Not available in preCICE yet, only cwipi:
           subroutine coupling_adapter_set_mesh(adapter, elem_node_offsets, elem_node_indices, num_elements) &
             bind(c, name="coupling_adapter_set_mesh")
@@ -198,6 +209,7 @@
             integer(c_int), intent(in) :: elem_node_offsets(*), elem_node_indices(*)
             integer(c_int), value :: num_elements
           end subroutine coupling_adapter_set_mesh
+
 
         end interface
 
@@ -341,6 +353,8 @@
           end if
 
           coupling%nb_coupling_nodes = igrnod(j)%nentity
+          allocate(coupling%list_nodes(coupling%nb_coupling_nodes))
+          coupling%list_nodes(1:coupling%nb_coupling_nodes) = igrnod(j)%entity(1:coupling%nb_coupling_nodes)
 
           call coupling_adapter_set_nodes(coupling%adapter_ptr, igrnod(j)%entity, coupling%nb_coupling_nodes)
         end subroutine coupling_set_nodes
@@ -491,15 +505,17 @@
 !||--- uses       -----------------------------------------------------
 !||    precision_mod         ../common_source/modules/precision_mod.F90
 !||====================================================================
-        subroutine coupling_initialize(coupling, X, nb_nodes, mpi_rank, mpi_commsize)
+        subroutine coupling_initialize(coupling, nodes, nb_nodes, mpi_rank, mpi_commsize)
           use precision_mod, only: WP
+          use nodal_arrays_mod, only: nodal_arrays_
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
           type(coupling_type), intent(inout) :: coupling
           integer, intent(in) :: nb_nodes, mpi_rank, mpi_commsize
-          real(kind=WP), intent(in) :: X(3, nb_nodes)
+!         real(kind=WP), intent(in) :: X(3, nb_nodes)
+          type(nodal_arrays_), intent(inout) :: nodes
 !-----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 !-----------------------------------------------------------------------------------------------------------------------
@@ -515,10 +531,11 @@
           k = 1
           do i = 1, nb_nodes
             do j = 1, 3
-              coordinates(k) = real(X(j, i), c_double)
+              coordinates(k) = real(nodes%X(j, i), c_double)
               k = k + 1
             end do
           end do
+          nodes%X0 = nodes%X
 
           result = coupling_adapter_initialize(coupling%adapter_ptr, coordinates, nb_nodes, mpi_rank, mpi_commsize)
 
@@ -639,23 +656,34 @@
 !-----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 !-----------------------------------------------------------------------------------------------------------------------
-          integer :: numnod
-#ifndef MYREAL8
-          real(c_double), dimension(:,:), allocatable :: values
-#endif
+          integer :: numnod,i,j
+          integer :: read_data(3), write_data(3)
 !------------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 !------------------------------------------------------------------------------------------------------------------------
           if (.not. c_associated(coupling%adapter_ptr)) return
           if (.not. coupling%active) return
+          if(.not. allocated(coupling%values)) allocate(coupling%values(3,nodes%numnod))
           numnod = nodes%numnod
+          read_data = 0
+          write_data = 0
+          call coupling_adapter_get_coupled_data(coupling%adapter_ptr,read_data,write_data)
 #ifdef MYREAL8
           if(name_id == coupling_displacements) then
             call coupling_adapter_write_data(coupling%adapter_ptr, nodes%D, numnod, &
               real(dt, c_double), coupling_displacements)
             ! Read positions
-            call coupling_adapter_read_data(coupling%adapter_ptr, nodes%D, numnod, &
-              real(dt, c_double), coupling_positions, coupling_replace)
+            if(read_data(coupling_displacements) == 1) then
+              call coupling_adapter_read_data(coupling%adapter_ptr, coupling%values, numnod, &
+                real(dt, c_double), coupling_displacements, coupling_replace)
+              do i = 1, coupling%nb_coupling_nodes
+                j = coupling%list_nodes(i)
+                !V_{n+1} = V_{n+1} + (D_recv - D_{n+1}) / DT
+                nodes%V(1:3,j) = nodes%V(1:3,j) + (coupling%values(1:3,j) - nodes%D(1:3,j)) / dt
+                nodes%D(1:3, j) = real(coupling%values(1:3, j), WP)
+                nodes%X(1:3, j) = nodes%X0(1:3,j) + nodes%D(1:3,j)
+              end do
+            endif
           else if(name_id == coupling_forces) THEN
             ! Write forces
             NODES%FORCES(1:3,1:NUMNOD) = nodes%A(1:3,1:NUMNOD) - NODES%FORCES(1:3,1:NUMNOD)
@@ -668,39 +696,46 @@
             ! Write positions
             call coupling_adapter_write_data(coupling%adapter_ptr, nodes%X, numnod, &
               real(dt, c_double), coupling_positions)
-            call coupling_adapter_read_data(coupling%adapter_ptr, nodes%X, numnod, &
-              real(dt, c_double), coupling_positions, coupling_replace)
+            if(read_data(coupling_positions) == 1) then
+              call coupling_adapter_read_data(coupling%adapter_ptr, coupling%values, numnod, &
+                real(dt, c_double), coupling_positions, coupling_replace)
+              do i = 1, coupling%nb_coupling_nodes
+                j = coupling%list_nodes(i)
+                !V_{n+1} = V_{n+1} + (X_recv - X_{n+1}) / DT
+                nodes%V(1:3, j) = nodes%V(1:3,j) + (coupling%values(1:3, j) - nodes%X(1:3, j)) / dt
+                nodes%X(1:3, j) = real(coupling%values(1:3, j), WP)
+                nodes%D(1:3, j) = nodes%X(1:3,j) - nodes%X0(1:3,j)
+              end do
+            endif
           end if
 #else
-          allocate(values(3, numnod))
           if(name_id == coupling_displacements) then
             ! Write displacements
-            values(1:3,1:numnod) = real(nodes%D(1:3,1:numnod), c_double)
-            call coupling_adapter_write_data(coupling%adapter_ptr, values, numnod, &
+            coupling%values(1:3,1:numnod) = real(nodes%D(1:3,1:numnod), c_double)
+            call coupling_adapter_write_data(coupling%adapter_ptr, coupling%values, numnod, &
               real(dt, c_double), coupling_displacements)
-            ! Read positions
-            call coupling_adapter_read_data(coupling%adapter_ptr, values, numnod, &
-              real(dt, c_double), coupling_positions, coupling_replace)
-            nodes%D(1:3,1:numnod) = real(values(1:3,1:numnod), WP)
+            ! Read displacements 
+            call coupling_adapter_read_data(coupling%adapter_ptr, coupling%values, numnod, &
+              real(dt, c_double), coupling_displacements, coupling_replace)
+            nodes%D(1:3,1:numnod) = real(coupling%values(1:3,1:numnod), WP)
           else if(name_id == coupling_forces) THEN
             ! Write forces
-            values(1:3,1:numnod) = real(nodes%A(1:3,1:numnod) - nodes%FORCES(1:3,1:numnod), c_double)
-            call coupling_adapter_write_data(coupling%adapter_ptr, values, numnod, &
+            coupling%values(1:3,1:numnod) = real(nodes%A(1:3,1:numnod) - nodes%FORCES(1:3,1:numnod), c_double)
+            call coupling_adapter_write_data(coupling%adapter_ptr, coupling%values, numnod, &
               real(dt, c_double), coupling_forces)
             ! Read forces
-            call coupling_adapter_read_data(coupling%adapter_ptr, values, numnod, &
+            call coupling_adapter_read_data(coupling%adapter_ptr, coupling%values, numnod, &
               real(dt, c_double), coupling_forces, coupling_add)
-            nodes%A(1:3,1:numnod) = real(values(1:3,1:numnod), WP)
+            nodes%A(1:3,1:numnod) = real(coupling%values(1:3,1:numnod), WP)
           else if(name_id == coupling_positions) then
             ! Write positions
-            values(1:3,1:numnod) = real(nodes%X(1:3,1:numnod), c_double)
-            call coupling_adapter_write_data(coupling%adapter_ptr, values, numnod, &
+            coupling%values(1:3,1:numnod) = real(nodes%X(1:3,1:numnod), c_double)
+            call coupling_adapter_write_data(coupling%adapter_ptr, coupling%values, numnod, &
               real(dt, c_double), coupling_positions)
-            call coupling_adapter_read_data(coupling%adapter_ptr, values, numnod, &
+            call coupling_adapter_read_data(coupling%adapter_ptr, coupling%values, numnod, &
               real(dt, c_double), coupling_positions, coupling_replace)
-            nodes%X(1:3,1:numnod) = real(values(1:3,1:numnod), WP)
+            nodes%X(1:3,1:numnod) = real(coupling%values(1:3,1:numnod), WP)
           end if
-          deallocate(values)
 #endif
 
         end subroutine coupling_sync

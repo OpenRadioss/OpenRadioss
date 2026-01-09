@@ -124,6 +124,7 @@
           real(kind=wp), dimension(:,:), allocatable :: AR !< accelerations
           real(kind=wp), dimension(:,:), allocatable :: V !< velocities
           real(kind=wp), dimension(:,:), allocatable :: X !< coordinates 3*(NUMNOD+NRCVVOIS)
+          real(kind=wp), dimension(:,:), allocatable :: X0 !< initial coordinates 3*NUMNOD
           real(kind=wp), dimension(:,:), allocatable :: D !< displacements 3*(NUMNOD+NRCVVOIS)
           real(kind=wp), dimension(:,:), allocatable :: VR !<velocities 3*(NUMNOD*IRODDL)
           real(kind=wp), dimension(:,:), allocatable :: DR !< displacements (SRD)
@@ -255,6 +256,9 @@
           call my_alloc(arrays%ICODR,numnod*iroddl)
           call my_alloc(arrays%V,3,numnod + nrcvvois)
           call my_alloc(arrays%X,3,numnod + nrcvvois)
+#if defined(WITH_PRECICE) || defined(WITH_CWIPI)
+          call my_alloc(arrays%X0,3,numnod)
+#endif
           call my_alloc(arrays%D,3,numnod + nrcvvois)
           call my_alloc(arrays%VR,3,numnod*iroddl)
           call my_alloc(arrays%MS,numnod)
