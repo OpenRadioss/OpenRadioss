@@ -127,8 +127,8 @@ C-----------------------------------------------
       integer, dimension(nspmd) :: s_index_1,r_index_1,s_index_2,r_index_2,s_index_3,r_index_3
       integer, dimension(nspmd) :: s_req_1,r_req_1,s_req_2,r_req_2,s_req_3,r_req_3
       real(kind=WP), dimension(:), allocatable :: s_buffer,r_buffer
-      type(array_type_my_real_2d), dimension(:), allocatable :: s_elcenter,r_elcenter
-      type(array_type_my_real_2d), dimension(:), allocatable :: s_volfrac,r_volfrac
+      type(array_type_my_real_2d), dimension(nspmd) :: s_elcenter,r_elcenter
+      type(array_type_my_real_2d), dimension(nspmd) :: s_volfrac,r_volfrac
 C-----------------------------------------------
 C   S o u r c e   L i n e s 
 C-----------------------------------------------
@@ -225,22 +225,20 @@ C     ALE ON / OFF
       CALL MY_BARRIER   
       ! ------------
       ! MPI comms : iSend & iRecv Centroid coordinates
+ 
       if(nspmd>1) then
         if(itask==0) call startime(timers,timer_spmdcfd)
         if(itask==0) then
           flag = 0
           s_proc_nb_1 = 0
           r_proc_nb_1 = 0
-         allocate(s_elcenter(nspmd))
-         allocate(r_elcenter(nspmd))
-          call spmd_exch_n_neighbor(flag,nspmd,n_entity,3,s_lesdvois,s_lercvois, 
+         call spmd_exch_n_neighbor(flag,nspmd,n_entity,3,s_lesdvois,s_lercvois, 
      .                              s_proc_nb_1,r_proc_nb_1,s_index_1,r_index_1,s_req_1,r_req_1, 
      .                              nesdvois,nercvois,lesdvois,lercvois, 
      .                              alemuscl_buffer%elcenter,s_elcenter,r_elcenter)
         endif
          if(itask==0) call stoptime(timers,timer_spmdcfd)
-      endif
-      ! ------------
+      endif      ! ------------
 
       DO NG=ITASK+1,NGROUP,NTHREAD      
 C     ALE ON / OFF
@@ -285,15 +283,10 @@ C     ALE ON / OFF
      .                              s_proc_nb_1,r_proc_nb_1,s_index_1,r_index_1,s_req_1,r_req_1, 
      .                              nesdvois,nercvois,lesdvois,lercvois, 
      .                              alemuscl_buffer%elcenter,s_elcenter,r_elcenter)
-         deallocate(s_elcenter)
-         deallocate(r_elcenter)
-
           ! iSend & iRecv fraction of volume
           flag = 0
           s_proc_nb_2 = 0
           r_proc_nb_2 = 0
-          allocate(s_volfrac(nspmd))
-          allocate(r_volfrac(nspmd))
           call spmd_exch_n_neighbor(flag,nspmd,n_entity,TRIMAT,s_lesdvois,s_lercvois, 
      .                              s_proc_nb_2,r_proc_nb_2,s_index_2,r_index_2,s_req_2,r_req_2, 
      .                              nesdvois,nercvois,lesdvois,lercvois, 
@@ -304,13 +297,10 @@ C     ALE ON / OFF
      .                              s_proc_nb_2,r_proc_nb_2,s_index_2,r_index_2,s_req_2,r_req_2,
      .                              nesdvois,nercvois,lesdvois,lercvois,
      .                              alemuscl_buffer%volume_fraction,s_volfrac,r_volfrac)
-          deallocate(s_volfrac)
-          deallocate(r_volfrac) 
         endif
          if(itask==0) call stoptime(timers,timer_spmdcfd)
       endif
       ! ------------      
-
       CALL MY_BARRIER 
       
       FIRST = 1 + ITASK * NUMNOD / NTHREAD
@@ -431,6 +421,7 @@ C     ALE ON / OFF
       ENDDO
 
       CALL MY_BARRIER
+
  
 C-----------------------------------------------      
       END SUBROUTINE ALE51_GRADIENT_RECONSTRUCTION
