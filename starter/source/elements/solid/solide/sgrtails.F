@@ -614,7 +614,8 @@ c
      .         MLN /= 28 .AND. MLN /= 50 .AND. MLN /= 68  .AND. 
      .         MLN /= 53 .AND. MLN /= 93 .AND. MLN /= 107 .AND.
      .         MLN /= 112.AND. MLN /= 122 .AND. MTN /= 123 .AND. 
-     .         MLN /= 125 .AND. MLN /= 127 .AND. MLN /= 128) THEN
+     .         MLN /= 125 .AND. MLN /= 127 .AND. MLN /= 128 .AND.
+     .         MLN /= 130) THEN
 
             CALL ANCMSG(MSGID=1225,
      .                  MSGTYPE=MSGWARNING,
