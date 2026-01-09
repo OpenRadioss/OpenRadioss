@@ -513,7 +513,7 @@ c
             IPARTSPH=IGEO(38,PID)          
 C            
             IF ((ISSN == 10.OR.ISSN == 11).AND.(IGT == 14.OR.IGT == 6)) THEN
-               IF (IKSNOD0/=4 .AND. IKSNOD0/=8.AND. IKSNOD0/=10 ) THEN
+               IF (IKSNOD0/=4 .AND. IKSNOD0/=8.AND. IKSNOD0/=10 .AND. IKSNOD0/=6) THEN
                   CALL ANCMSG(MSGID=1159,
      .                    MSGTYPE=MSGERROR,
      .                    ANMODE=ANINFO_BLIND_2,

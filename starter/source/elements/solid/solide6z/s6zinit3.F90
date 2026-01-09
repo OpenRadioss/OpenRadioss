@@ -24,178 +24,187 @@
 ! \brief   initiation of penta solid element
 ! ======================================================================================================================
 !||====================================================================
-!||    s6zinit3_mod   ../starter/source/elements/solid/solide6z/s6zinit3.F90
+!||    s6zinit3_mod   ../starter/source/elements/solid/solide6z/s6zinit3.f90
 !||--- called by ------------------------------------------------------
-!||    initia         ../starter/source/elements/initia/initia.F
+!||    initia         ../starter/source/elements/initia/initia.f
 !||====================================================================
       module s6zinit3_mod
       contains
-        ! ======================================================================================================================
-        ! \brief Initialization of 6-node solid elements
-        ! \details Initializes element variables, material model, mass, etc ... for 6-node solid elements
-        ! ======================================================================================================================
+      ! ======================================================================================================================
+      ! \brief initialization of 6-node solid elements
+      ! \details initializes element variables, material model, mass, etc ... for 6-node solid elements
+      ! ======================================================================================================================
 !||====================================================================
-!||    s6zinit3                ../starter/source/elements/solid/solide6z/s6zinit3.F90
+!||    s6zinit3                ../starter/source/elements/solid/solide6z/s6zinit3.f90
 !||--- called by ------------------------------------------------------
-!||    initia                  ../starter/source/elements/initia/initia.F
+!||    initia                  ../starter/source/elements/initia/initia.f
 !||--- calls      -----------------------------------------------------
-!||    atheri                  ../starter/source/ale/atheri.F
-!||    dtmain                  ../starter/source/materials/time_step/dtmain.F
-!||    failini                 ../starter/source/elements/solid/solide/failini.F
-!||    matini                  ../starter/source/materials/mat_share/matini.F
-!||    s6ccoor3                ../starter/source/elements/thickshell/solide6c/s6ccoor3.F
-!||    s6cderi3                ../starter/source/elements/thickshell/solide6c/s6cderi3.F
-!||    s6mass3                 ../starter/source/elements/thickshell/solide6c/s6mass3.F
-!||    sbulk3                  ../starter/source/elements/solid/solide/sbulk3.F
-!||    sigin20b                ../starter/source/elements/solid/solide20/s20mass3.F
+!||    atheri                  ../starter/source/ale/atheri.f
+!||    dtmain                  ../starter/source/materials/time_step/dtmain.f
+!||    failini                 ../starter/source/elements/solid/solide/failini.f
+!||    matini                  ../starter/source/materials/mat_share/matini.f
+!||    s6ccoor3                ../starter/source/elements/thickshell/solide6c/s6ccoor3.f
+!||    s6cderi3                ../starter/source/elements/thickshell/solide6c/s6cderi3.f
+!||    s6mass3                 ../starter/source/elements/thickshell/solide6c/s6mass3.f
+!||    sbulk3                  ../starter/source/elements/solid/solide/sbulk3.f
+!||    sigin20b                ../starter/source/elements/solid/solide20/s20mass3.f
 !||--- uses       -----------------------------------------------------
-!||    defaults_mod            ../starter/source/modules/defaults_mod.F90
-!||    detonators_mod          ../starter/share/modules1/detonators_mod.F
-!||    message_mod             ../starter/share/message_module/message_mod.F
-!||    table_mat_vinterp_mod   ../starter/source/materials/tools/table_mat_vinterp.F
+!||    defaults_mod            ../starter/source/modules/defaults_mod.f90
+!||    detonators_mod          ../starter/share/modules1/detonators_mod.f
+!||    message_mod             ../starter/share/message_module/message_mod.f
+!||    table_mat_vinterp_mod   ../starter/source/materials/tools/table_mat_vinterp.f
 !||====================================================================
-        subroutine s6zinit3(                                                     &
-          elbuf_str,nixs     ,numels   ,ixs      ,numnod   ,mas       ,          &
-          npropm   ,nummat   ,pm       ,x        ,detonators,npropg   ,          &
-          numgeo   ,geo      ,ale_connectivity   ,nparg    ,                     &
-          iparg    ,nel      ,dtelem   ,nsigs    ,lsigi    ,sigi      ,          &
-          lskew    ,numskw   ,skew     ,npropgi  ,igeo     ,stifn     ,          &
-          npsav    ,npart    ,partsav  ,v        ,iparts   ,mss       ,          &
-          lipart1  ,ipart    ,glob_therm,nsigi   ,lsigsp   ,sigsp     ,          &
-          npropmi  ,ipm      ,iuser    ,volnod   ,bvolnod  ,vns       ,          &
-          bns      ,ptsol    ,sbufmat  ,bufmat   ,mcp      ,mcps      ,          &
-          temp     ,snpc     ,npf      ,stf      ,tf       ,strsglob  ,          &
-          straglob ,mssa     ,fail_ini ,sizloadp ,nloadp   ,iloadp    ,          &
-          lfacload ,facload  ,nperturb ,srnoise  ,rnoise   ,perturb   ,          &
-          mat_param,defaults_solid     ,numsol   ,i7stifs  ,isorth    ,          &
-          istrain  ,jthe     ,mtn      ,nft      )
+      subroutine s6zinit3(                                                     & 
+        elbuf_str,nixs     ,numels   ,ixs      ,numnod   ,mas       ,          &      
+        npropm   ,nummat   ,pm       ,x        ,detonators,npropg   ,          &
+        numgeo   ,geo      ,ale_connectivity   ,nparg    ,                     &
+        iparg    ,nel      ,dtelem   ,nsigs    ,lsigi    ,sigi      ,          &
+        lskew    ,numskw   ,skew     ,npropgi  ,igeo     ,stifn     ,          &
+        npsav    ,npart    ,partsav  ,v        ,iparts   ,mss       ,          &
+        lipart1  ,ipart    ,glob_therm,nsigi   ,lsigsp   ,sigsp     ,          &
+        npropmi  ,ipm      ,iuser    ,volnod   ,bvolnod  ,vns       ,          &
+        bns      ,ptsol    ,sbufmat  ,bufmat   ,mcp      ,mcps      ,          &
+        temp     ,snpc     ,npf      ,stf      ,tf       ,strsglob  ,          &
+        straglob ,mssa     ,fail_ini ,sizloadp ,nloadp   ,iloadp    ,          &
+        lfacload ,facload  ,nperturb ,srnoise  ,rnoise   ,perturb   ,          &
+        mat_param,defaults_solid     ,numsol   ,i7stifs  ,isorth    ,          &   
+        istrain  ,jthe     ,mtn      ,nft      ,ismstr)                       
 !-------------------------------------------------------------------------------
-!   M o d u l e s
+!   m o d u l e s
 !-------------------------------------------------------------------------------
-          use elbufdef_mod
-          use message_mod
-          use detonators_mod
-          use ale_connectivity_mod
-          use matparam_def_mod
-          use defaults_mod
-          use names_and_titles_mod, only : NCHARTITLE
-          use glob_therm_mod
-          use constant_mod
-          use precision_mod, only : wp
-          use eos_param_mod
-          use table_mat_vinterp_mod
+      use elbufdef_mod            
+      use message_mod
+      use detonators_mod      
+      use ale_connectivity_mod
+      use matparam_def_mod
+      use defaults_mod
+      use names_and_titles_mod, only : nchartitle
+      use glob_therm_mod
+      use constant_mod
+      use precision_mod, only : wp
+      use eos_param_mod 
+      use table_mat_vinterp_mod 
+      use s6zjacidp_mod
+      use s6zderi3_mod
+      use s6zcoor3_mod
+      use s6zrcoor3_mod
 !-------------------------------------------------------------------------------
-!    I m p l i c i t   t y p e s
+!    i m p l i c i t   t y p e s
 !-------------------------------------------------------------------------------
           implicit none
 ! ------------------------------------------------------------------------------
 #include      "units_c.inc"
 !-------------------------------------------------------------------------------
-!    D u m m y   a r g u m e n t s
+!    d u m m y   a r g u m e n t s
 ! ------------------------------------------------------------------------------
-          type(elbuf_struct_), target,                intent(inout) :: elbuf_str  !< Element buffer structure
-          integer,                                    intent(in)    :: nixs       !< Element connectivity array size
-          integer,                                    intent(in)    :: numels     !< Number of 3D solid elements
-          integer,       dimension(nixs,numels),      intent(inout) :: ixs        !< Element connectivity array
-          integer,                                    intent(in)    :: numnod     !< Total number of nodes
-          real(kind=wp), dimension(numnod),           intent(inout) :: mas        !< Element mass array
-          integer,                                    intent(in)    :: npropm     !< Number of material properties
-          integer,                                    intent(in)    :: nummat     !< Number of materials
-          real(kind=wp), dimension(npropm,nummat),    intent(inout) :: pm         !< Material property array
-          real(kind=wp), dimension(3,numnod),         intent(inout) :: x          !< Global coordinate array
-          type(detonators_struct_),                   intent(inout) :: detonators
-          integer,                                    intent(in)    :: npropg     !< Number of properties per geometric property
-          integer,                                    intent(in)    :: numgeo     !< Number of geometric properties
-          real(kind=wp), dimension(npropg,numgeo),    intent(inout) :: geo        !< Geometric properties array
-          type(t_ale_connectivity),                   intent(inout) :: ale_connectivity
-          integer,                                    intent(in)    :: nparg      !< Number of parameters per group
-          integer,       dimension(nparg),            intent(inout) :: iparg      !< Element group parameters
-          integer,                                    intent(inout) :: nel        !< Number of elements
-          real(kind=wp), dimension(numels),           intent(inout) :: dtelem     !< Element time step array
-          integer,                                    intent(in)    :: nsigs
-          integer,                                    intent(in)    :: lsigi
-          real(kind=wp), dimension(nsigs,lsigi),      intent(inout) :: sigi
-          integer,                                    intent(in)    :: lskew
-          integer,                                    intent(in)    :: numskw
-          real(kind=wp), dimension(lskew,numskw+1),   intent(inout) :: skew
-          integer,                                    intent(in)    :: npropgi    !< Number of geometric integer parameter
-          integer,       dimension(npropgi,numgeo),   intent(inout) :: igeo       !< Geometric property integer parameter
-          real(kind=wp), dimension(numnod),           intent(inout) :: stifn      !< Nodal stiffness array
-          integer,                                    intent(in)    :: npsav      !< Size of the part save array
-          integer,                                    intent(in)    :: npart      !< Number of parts
-          real(kind=wp), dimension(npsav,npart),      intent(inout) :: partsav    !< Part save array
-          real(kind=wp), dimension(3,numnod),         intent(inout) :: v          !< Nodal velocity array
-          integer,       dimension(numels),           intent(inout) :: iparts  !< Part array with the number of solid element
-          real(kind=wp), dimension(8,numels),         intent(inout) :: mss        !< Element mass array
-          integer,                                    intent(in)    :: lipart1    !< Logical flag for part 1
-          integer,       dimension(lipart1, npart),   intent(inout) :: ipart
-          type(glob_therm_),                          intent(in)    :: glob_therm
-          integer,                                    intent(in)    :: nsigi
-          integer,                                    intent(in)    :: lsigsp
-          real(kind=wp), dimension(nsigi,lsigsp),     intent(inout) :: sigsp
-          integer,                                    intent(in)    :: npropmi    !< Number of material integer parameter
-          integer,       dimension(npropmi,nummat),   intent(inout) :: ipm        !< Material property indices
-          integer,                                    intent(in)    :: iuser
-          real(kind=wp), dimension(numnod),           intent(inout) :: volnod
-          real(kind=wp), dimension(numnod),           intent(inout) :: bvolnod
-          real(kind=wp), dimension(8,numels),         intent(inout) :: vns
-          real(kind=wp), dimension(8,numels),         intent(inout) :: bns
-          integer,       dimension(numels),           intent(in)    :: ptsol
-          integer,                                    intent(in)    :: sbufmat
-          real(kind=wp), dimension(sbufmat),          intent(inout) :: bufmat
-          real(kind=wp), dimension(numnod),           intent(inout) :: mcp
-          real(kind=wp), dimension(8,numels),         intent(inout) :: mcps
-          real(kind=wp), dimension(numnod),           intent(inout) :: temp
-          integer,                                    intent(in)    :: snpc       !< Size of the function pointer array
-          integer,       dimension(snpc),             intent(inout) :: npf        !< Function pointer array
-          integer,                                    intent(in)    :: stf        !< Size of the time function array
-          real(kind=wp), dimension(stf),              intent(inout) :: tf         !< Time function array
-          integer,       dimension(numels),           intent(inout) :: strsglob
-          integer,       dimension(numels),           intent(inout) :: straglob
-          real(kind=wp), dimension(numels),           intent(inout) :: mssa
-          integer,       dimension(5),                intent(inout) :: fail_ini
-          integer,                                    intent(in)    :: sizloadp   !< Size of load parameter
-          integer,                                    intent(in)    :: nloadp     !< Number of load parameters
-          integer,       dimension(sizloadp,nloadp),  intent(in)    :: iloadp
-          integer,                                    intent(in)    :: lfacload
-          real(kind=wp), dimension(lfacload, nloadp), intent(in)    :: facload    !< Logical flag for shell elements
-          integer,                                    intent(in)    :: nperturb   !< Number of perturbations
-          integer,                                    intent(in)    :: srnoise    !< Size of the random noise array
-          real(kind=wp), dimension(nperturb,srnoise), intent(inout) :: rnoise
-          integer,       dimension(nperturb),         intent(in)    :: perturb
-          type(matparam_struct_), dimension(nummat),  intent(inout) :: mat_param
-          type(solid_defaults_),                      intent(in)    :: defaults_solid
-          integer,                                    intent(in)    :: numsol     !< Number of solutions
-          integer,                                    intent(inout) :: i7stifs    !< Stiffness matrix index
-          integer,                                    intent(inout) :: isorth     !< Orthogonality index
-          integer,                                    intent(inout) :: istrain    !< Strain index
-          integer,                                    intent(inout) :: jthe       !< Thermal index
-          integer,                                    intent(inout) :: mtn        !< Material type number
-          integer,                                    intent(inout) :: nft        !< Number of failure types
+      type(elbuf_struct_), target,                intent(inout) :: elbuf_str  !< element buffer structure
+      integer,                                    intent(in)    :: nixs       !< element connectivity array size
+      integer,                                    intent(in)    :: numels     !< number of 3d solid elements
+      integer,       dimension(nixs,numels),      intent(inout) :: ixs        !< element connectivity array
+      integer,                                    intent(in)    :: numnod     !< total number of nodes
+      real(kind=wp), dimension(numnod),           intent(inout) :: mas        !< element mass array
+      integer,                                    intent(in)    :: npropm     !< number of material properties
+      integer,                                    intent(in)    :: nummat     !< number of materials
+      real(kind=wp), dimension(npropm,nummat),    intent(inout) :: pm         !< material property array
+      real(kind=wp), dimension(3,numnod),         intent(inout) :: x          !< global coordinate array
+      type(detonators_struct_),                   intent(inout) :: detonators
+      integer,                                    intent(in)    :: npropg     !< number of properties per geometric property
+      integer,                                    intent(in)    :: numgeo     !< number of geometric properties
+      real(kind=wp), dimension(npropg,numgeo),    intent(inout) :: geo        !< geometric properties array
+      type(t_ale_connectivity),                   intent(inout) :: ale_connectivity
+      integer,                                    intent(in)    :: nparg      !< number of parameters per group
+      integer,       dimension(nparg),            intent(inout) :: iparg      !< element group parameters
+      integer,                                    intent(inout) :: nel        !< number of elements
+      real(kind=wp), dimension(numels),           intent(inout) :: dtelem     !< element time step array
+      integer,                                    intent(in)    :: nsigs    
+      integer,                                    intent(in)    :: lsigi     
+      real(kind=wp), dimension(nsigs,lsigi),      intent(inout) :: sigi
+      integer,                                    intent(in)    :: lskew
+      integer,                                    intent(in)    :: numskw
+      real(kind=wp), dimension(lskew,numskw+1),   intent(inout) :: skew
+      integer,                                    intent(in)    :: npropgi    !< number of geometric integer parameter
+      integer,       dimension(npropgi,numgeo),   intent(inout) :: igeo       !< geometric property integer parameter
+      real(kind=wp), dimension(numnod),           intent(inout) :: stifn      !< nodal stiffness array
+      integer,                                    intent(in)    :: npsav      !< size of the part save array
+      integer,                                    intent(in)    :: npart      !< number of parts
+      real(kind=wp), dimension(npsav,npart),      intent(inout) :: partsav    !< part save array
+      real(kind=wp), dimension(3,numnod),         intent(inout) :: v          !< nodal velocity array
+      integer,       dimension(numels),           intent(inout) :: iparts  !< part array with the number of solid element
+      real(kind=wp), dimension(8,numels),         intent(inout) :: mss        !< element mass array
+      integer,                                    intent(in)    :: lipart1    !< logical flag for part 1
+      integer,       dimension(lipart1, npart),   intent(inout) :: ipart
+      type(glob_therm_),                          intent(in)    :: glob_therm
+      integer,                                    intent(in)    :: nsigi
+      integer,                                    intent(in)    :: lsigsp
+      real(kind=wp), dimension(nsigi,lsigsp),     intent(inout) :: sigsp
+      integer,                                    intent(in)    :: npropmi    !< number of material integer parameter
+      integer,       dimension(npropmi,nummat),   intent(inout) :: ipm        !< material property indices
+      integer,                                    intent(in)    :: iuser
+      real(kind=wp), dimension(numnod),           intent(inout) :: volnod
+      real(kind=wp), dimension(numnod),           intent(inout) :: bvolnod
+      real(kind=wp), dimension(8,numels),         intent(inout) :: vns
+      real(kind=wp), dimension(8,numels),         intent(inout) :: bns
+      integer,       dimension(numels),           intent(in)    :: ptsol
+      integer,                                    intent(in)    :: sbufmat
+      real(kind=wp), dimension(sbufmat),          intent(inout) :: bufmat
+      real(kind=wp), dimension(numnod),           intent(inout) :: mcp
+      real(kind=wp), dimension(8,numels),         intent(inout) :: mcps
+      real(kind=wp), dimension(numnod),           intent(inout) :: temp
+      integer,                                    intent(in)    :: snpc       !< size of the function pointer array
+      integer,       dimension(snpc),             intent(inout) :: npf        !< function pointer array
+      integer,                                    intent(in)    :: stf        !< size of the time function array
+      real(kind=wp), dimension(stf),              intent(inout) :: tf         !< time function array
+      integer,       dimension(numels),           intent(inout) :: strsglob
+      integer,       dimension(numels),           intent(inout) :: straglob
+      real(kind=wp), dimension(numels),           intent(inout) :: mssa
+      integer,       dimension(5),                intent(inout) :: fail_ini
+      integer,                                    intent(in)    :: sizloadp   !< size of load parameter
+      integer,                                    intent(in)    :: nloadp     !< number of load parameters
+      integer,       dimension(sizloadp,nloadp),  intent(in)    :: iloadp
+      integer,                                    intent(in)    :: lfacload      
+      real(kind=wp), dimension(lfacload, nloadp), intent(in)    :: facload    !< logical flag for shell elements
+      integer,                                    intent(in)    :: nperturb   !< number of perturbations
+      integer,                                    intent(in)    :: srnoise    !< size of the random noise array
+      real(kind=wp), dimension(nperturb,srnoise), intent(inout) :: rnoise
+      integer,       dimension(nperturb),         intent(in)    :: perturb
+      type(matparam_struct_), dimension(nummat),  intent(inout) :: mat_param
+      type(solid_defaults_),                      intent(in)    :: defaults_solid
+      integer,                                    intent(in)    :: numsol     !< number of solutions
+      integer,                                    intent(inout) :: i7stifs    !< stiffness matrix index
+      integer,                                    intent(inout) :: isorth     !< orthogonality index
+      integer,                                    intent(inout) :: istrain    !< strain index
+      integer,                                    intent(inout) :: jthe       !< thermal index
+      integer,                                    intent(inout) :: mtn        !< material type number
+      integer,                                    intent(inout) :: nft        !< number of failure types
+      integer,                                    intent(in) :: ismstr        !< simulation type indicator
 !------------------------------------------------
-!    L o c a l   V a r i a b l e s
+!    l o c a l   v a r i a b l e s
 !------------------------------------------------
-          integer :: i, nf1, ibid, igtyp, irep, ip, ilay, nlay, nuvar, ncc, jhbe
-          integer ::  idef
-          integer ::  nptr, npts, nptt, l_pla, l_sigb, imas_ds
-          integer, dimension(nel) :: mat, pid, ngl
-          integer, dimension(nel) :: ix1, ix2, ix3, ix4, ix5, ix6
-          real(kind=wp) :: bid, fv, sti, zi, wi
-          real(kind=wp), dimension(nel) :: volu, dtx, vzl, rx, ry, rz
-          real(kind=wp), dimension(nel) :: sx, sy, sz, tx, ty, tz
-          real(kind=wp), dimension(nel) :: e1x, e1y, e1z, e2x, e2y, e2z, e3x, e3y, e3z
-          real(kind=wp), dimension(nel) :: f1x, f1y, f1z, f2x, f2y, f2z
-          real(kind=wp), dimension(nel) :: rhocp, temp0, deltax, aire
-          real(kind=wp), dimension(nel) :: tempel
-          real(kind=wp), dimension(nel) :: x1, x2, x3, x4, x5, x6
-          real(kind=wp), dimension(nel) :: y1, y2, y3, y4, y5, y6
-          real(kind=wp), dimension(nel) :: z1, z2, z3, z4, z5, z6
-          type(g_bufel_), pointer :: gbuf
-          type(buf_lay_), pointer :: bufly
-          type(l_bufel_), pointer :: lbuf
-          type(buf_mat_), pointer :: mbuf
+      integer :: i, nf1, ibid, igtyp, irep, ip, ilay, nlay, nuvar, ncc, jhbe
+      integer ::  idef
+      integer ::  nptr, npts, nptt, l_pla, l_sigb, imas_ds
+      integer, dimension(nel) :: mat, pid, ngl
+      integer, dimension(nel) :: ix1, ix2, ix3, ix4, ix5, ix6
+      real(kind=wp) :: bid, fv, sti, zi, wi
+      real(kind=wp), dimension(nel) :: volu, dtx, vzl, rx, ry, rz
+      real(kind=wp), dimension(nel) :: sx, sy, sz, tx, ty, tz
+      real(kind=wp), dimension(nel) :: e1x, e1y, e1z, e2x, e2y, e2z, e3x, e3y, e3z
+      real(kind=wp), dimension(nel) :: f1x, f1y, f1z, f2x, f2y, f2z
+      real(kind=wp), dimension(nel) :: rhocp, temp0, deltax, aire
+      real(kind=wp), dimension(nel) :: tempel
+      real(kind=wp), dimension(nel) :: x1, x2, x3, x4, x5, x6
+      real(kind=wp), dimension(nel) :: y1, y2, y3, y4, y5, y6
+      real(kind=wp), dimension(nel) :: z1, z2, z3, z4, z5, z6
+!c     ensure double-precision (64-bit) floating-point calculations, even when compiling in single-precision mode.  
+      real(kind=8),  dimension(nel) :: xd1, xd2, xd3, xd4, xd5, xd6
+      real(kind=8),  dimension(nel) :: yd1, yd2, yd3, yd4, yd5, yd6
+      real(kind=8),  dimension(nel) :: zd1, zd2, zd3, zd4, zd5, zd6    
+      type(g_bufel_), pointer :: gbuf
+      type(buf_lay_), pointer :: bufly
+      type(l_bufel_), pointer :: lbuf
+      type(buf_mat_), pointer :: mbuf
 !===============================================================================
-!     S o u r c e  l i n e s
+!     s o u r c e  l i n e s
 !===============================================================================
           gbuf => elbuf_str%gbuf
           lbuf  => elbuf_str%bufly(1)%lbuf(1,1,1)
@@ -215,43 +224,75 @@
           isorth = 0
           imas_ds = defaults_solid%imas
 !=======================================================================
-          do i = 1, nel
-            rhocp(i) = pm(69, ixs(1, nft+i))
-            temp0(i) = pm(79, ixs(1, nft+i))
-          end do
+      do i = 1, nel
+        rhocp(i) = pm(69, ixs(1, nft+i))
+        temp0(i) = pm(79, ixs(1, nft+i))
+      end do
+
+
 !
-          call s6ccoor3(                                                           &
-            x        ,ixs(1,nf1),geo     ,ngl      ,mat      ,pid      ,           &
+      if (ismstr==10) then
+          call s6zcoor3(                                                         &
+            x        ,ixs(1,nf1) ,ngl    ,mat      ,pid      ,                     &
             rx       ,ry       ,rz       ,sx       ,sy       ,sz       ,           &
-            tx       ,ty       ,tz       ,e1x      ,e1y      ,e1z      ,           &
+            tx       ,ty       ,tz       ,e1x      ,e1y      ,e1z      ,           & 
             e2x      ,e2y      ,e2z      ,e3x      ,e3y      ,e3z      ,           &
             f1x      ,f1y      ,f1z      ,f2x      ,f2y      ,f2z      ,           &
             temp0    ,temp     ,glob_therm%nintemp ,                               &
             ix1      ,ix2      ,ix3      ,ix4      ,ix5      ,ix6      ,           &
             x1       ,x2       ,x3       ,x4       ,x5       ,x6       ,           &
             y1       ,y2       ,y3       ,y4       ,y5       ,y6       ,           &
-            z1       ,z2       ,z3       ,z4       ,z5       ,z6       )
+            z1       ,z2       ,z3       ,z4       ,z5       ,z6       ,           &           
+            xd1      ,xd2      ,xd3      ,xd4      ,xd5      ,xd6      ,           &
+            yd1      ,yd2      ,yd3      ,yd4      ,yd5      ,yd6      ,           &
+            zd1      ,zd2      ,zd3      ,zd4      ,zd5      ,zd6      ,           &
+            nel      ,jthe     ,numnod) 
+
+          call s6zjacidp(                                &
+                     xd1  ,xd2  ,xd3  ,xd4  ,xd5  ,xd6  ,  &
+                     yd1  ,yd2  ,yd3  ,yd4  ,yd5  ,yd6  ,  &
+                     zd1  ,zd2  ,zd3  ,zd4  ,zd5  ,zd6  ,  &
+                     gbuf%jac_i ,nel)
+      endif 
+
+
+    call s6zrcoor3(                                                        &
+      x        ,ixs(1,nf1),ngl     ,mat      ,pid      ,                     &
+      rx       ,ry       ,rz       ,sx       ,sy       ,sz       ,           &
+      tx       ,ty       ,tz       ,e1x      ,e1y      ,e1z      ,           & 
+      e2x      ,e2y      ,e2z      ,e3x      ,e3y      ,e3z      ,           &
+      f1x      ,f1y      ,f1z      ,f2x      ,f2y      ,f2z      ,           &
+      temp0    ,temp     ,glob_therm%nintemp ,                               &
+      ix1      ,ix2      ,ix3      ,ix4      ,ix5      ,ix6      ,           &       
+      x1      ,x2      ,x3      ,x4      ,x5      ,x6      ,           &
+      y1      ,y2      ,y3      ,y4      ,y5      ,y6      ,           &
+      z1      ,z2      ,z3      ,z4      ,z5      ,z6      ,           &     
+      xd1      ,xd2      ,xd3      ,xd4      ,xd5      ,xd6      ,           &
+      yd1      ,yd2      ,yd3      ,yd4      ,yd5      ,yd6      ,           &
+      zd1      ,zd2      ,zd3      ,zd4      ,zd5      ,zd6      ,           &
+      nel      ,numnod   ,jthe)
+
+      call s6zderi3(                                               &
+        nel     ,gbuf%vol,vzl                                      , &
+        ngl     ,deltax  ,volu                                     , &
+        xd1      ,xd2      ,xd3       ,xd4     ,xd5      ,xd6      , &
+        yd1      ,yd2      ,yd3       ,yd4     ,yd5      ,yd6      , &
+        zd1      ,zd2      ,zd3       ,zd4     ,zd5      ,zd6      )    
+
+      !-------------------------------------------------------------------------
+      !< thermal initialization
+      if (jthe /= 0) call atheri(mat,pm,gbuf%temp)
+      !-------------------------------------------------------------------------
 !
-          call s6cderi3(                                                           &
-            nel      ,gbuf%vol ,geo      ,vzl      ,ngl      ,deltax   ,volu     , &
-            x1       ,x2       ,x3       ,x4       ,x5       ,x6       ,           &
-            y1       ,y2       ,y3       ,y4       ,y5       ,y6       ,           &
-            z1       ,z2       ,z3       ,z4       ,z5       ,z6       )
-!
-          !-------------------------------------------------------------------------
-          !< Thermal initialization
-          if (jthe /= 0) call atheri(mat,pm,gbuf%temp)
-          !-------------------------------------------------------------------------
-!
-          !-------------------------------------------------------------------------
-          !< Material initialization
-          !-------------------------------------------------------------------------
-          ilay   = 1
-          ip     = 0
-          lbuf   => elbuf_str%bufly(ilay)%lbuf(1,1,1)
-          mbuf   => elbuf_str%bufly(ilay)%mat(1,1,1)
-          l_pla  =  elbuf_str%bufly(ilay)%l_pla
-          l_sigb =  elbuf_str%bufly(ilay)%l_sigb
+      !-------------------------------------------------------------------------
+      !< material initialization
+      !-------------------------------------------------------------------------
+      ilay   = 1
+      ip     = 0
+      lbuf   => elbuf_str%bufly(ilay)%lbuf(1,1,1)
+      mbuf   => elbuf_str%bufly(ilay)%mat(1,1,1)
+      l_pla  =  elbuf_str%bufly(ilay)%l_pla
+      l_sigb =  elbuf_str%bufly(ilay)%l_sigb
 !
           zi = zero
           wi = two
@@ -299,50 +340,50 @@
             mat      ,lbuf%pla,l_pla    ,ptsol    ,lbuf%sigb,                      &
             l_sigb   ,ipm     ,bufmat   ,lbuf%vol0dp)
 !
-          !-------------------------------------------------------------------------
-          !< Mass initialization
-          !-------------------------------------------------------------------------
-          call s6mass3(                                                            &
-            gbuf%rho ,mas      ,partsav  ,x        ,v        ,iparts(nf1),         &
-            mss(1,nf1),rhocp   ,mcp      ,mcps(1,nf1),mssa(nf1),gbuf%fill,         &
-            volu     ,ix1      ,ix2      ,ix3      ,ix4      ,ix5        ,         &
-            ix6      ,imas_ds  )
+      !-------------------------------------------------------------------------
+      !< mass initialization
+      !-------------------------------------------------------------------------              
+      call s6mass3(                                                            &
+        gbuf%rho ,mas      ,partsav  ,x        ,v        ,iparts(nf1),         &
+        mss(1,nf1),rhocp   ,mcp      ,mcps(1,nf1),mssa(nf1),gbuf%fill,         &
+        volu     ,ix1      ,ix2      ,ix3      ,ix4      ,ix5        ,         &
+        ix6      ,imas_ds  )
 !
-          !-------------------------------------------------------------------------
-          !< Failure model initialization
-          !-------------------------------------------------------------------------
-          call failini(                                                            &
-            elbuf_str,nptr     ,npts     ,nptt     ,nlay     ,ipm      ,sigsp    , &
-            nsigi    ,fail_ini ,sigi     ,nsigs    ,ixs      ,nixs     ,ptsol    , &
-            rnoise   ,perturb  ,mat_param)
+      !-------------------------------------------------------------------------
+      !< failure model initialization
+      !-------------------------------------------------------------------------   
+      call failini(                                                            &
+        elbuf_str,nptr     ,npts     ,nptt     ,nlay     ,ipm      ,sigsp    , &
+        nsigi    ,fail_ini ,sigi     ,nsigs    ,ixs      ,nixs     ,ptsol    , &
+        rnoise   ,perturb  ,mat_param)
 !
-          !-------------------------------------------------------------------------
-          !< Assemble nodal volumes and moduli for interface stiffness
-          !  Warning : ix1, ix2 ... ix6 <=> nc(mvsiz,6)
-          !-------------------------------------------------------------------------
-          if (i7stifs /= 0) then
-            ncc = 6
-            call sbulk3(                                                           &
-              volu     ,ix1      ,ncc      ,mat      ,pm       ,volnod   ,         &
-              bvolnod  ,vns(1,nf1),bns(1,nf1),bid    ,bid      ,gbuf%fill)
-          endif
+      !-------------------------------------------------------------------------
+      !< assemble nodal volumes and moduli for interface stiffness
+      !  warning : ix1, ix2 ... ix6 <=> nc(mvsiz,6)
+      !------------------------------------------------------------------------- 
+      if (i7stifs /= 0) then
+        ncc = 6
+        call sbulk3(                                                           &
+          volu     ,ix1      ,ncc      ,mat      ,pm       ,volnod   ,         &
+          bvolnod  ,vns(1,nf1),bns(1,nf1),bid    ,bid      ,gbuf%fill)     
+      endif
 !
-          !-------------------------------------------------------------------------
-          !< Element time step
-          !-------------------------------------------------------------------------
-          aire(:) = zero
-          call dtmain(                                                             &
-            geo      ,pm       ,ipm      ,pid      ,mat      ,fv       ,lbuf%eint ,&
-            lbuf%temp,lbuf%deltax,lbuf%rk,lbuf%re  ,bufmat   ,deltax   ,aire      ,&
-            volu     ,dtx      ,igeo     ,igtyp    )
-          !------------------------------------------
+      !-------------------------------------------------------------------------
+      !< element time step 
+      !------------------------------------------------------------------------- 
+      aire(:) = zero
+      call dtmain(                                                             &
+        geo      ,pm       ,ipm      ,pid      ,mat      ,fv       ,lbuf%eint ,&
+        lbuf%temp,lbuf%deltax,lbuf%rk,lbuf%re  ,bufmat   ,deltax   ,aire      ,&
+        volu     ,dtx      ,igeo     ,igtyp    )
+      !------------------------------------------
 !
-          !-------------------------------------------------------------------------
-          !< Nodal stiffness initialization
-          !-------------------------------------------------------------------------
-          do i=1,nel
-            dtelem(nft+i)=dtx(i)
-            sti = fourth * gbuf%fill(i) * gbuf%rho(i) * volu(i) / &
+      !-------------------------------------------------------------------------
+      !< nodal stiffness initialization
+      !-------------------------------------------------------------------------      
+      do i=1,nel
+        dtelem(nft+i)=dtx(i)
+        sti = fourth * gbuf%fill(i) * gbuf%rho(i) * volu(i) / &
               max(em20,dtx(i)*dtx(i))
             stifn(ixs(2,i+nft))=stifn(ixs(2,i+nft))+sti
             stifn(ixs(3,i+nft))=stifn(ixs(3,i+nft))+sti
