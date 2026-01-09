@@ -2563,7 +2563,7 @@ C
                 ALLOCATE(NODES%FORCES(3,NUMNOD))
                 NODES%FORCES = ZERO
                 call coupling_set_interface(coupling, igrnod, ngrnod, igrsurf, nsurf,  nodes)
-                CALL COUPLING_INITIALIZE(coupling,NODES%X,NUMNOD,ISPMD,NSPMD)
+                CALL COUPLING_INITIALIZE(coupling,NODES,NUMNOD,ISPMD,NSPMD)
                 CALL COUPLING_ONGOING(coupling,ongoing)
               ENDIF
 
@@ -8787,6 +8787,7 @@ C===============================================================================
                 DT2MAX_COUPLING = DT2 
                 ! Read and write coupling positions
                 CALL COUPLING_SYNC(coupling,DT2,NODES,COUPLING_POSITIONS)
+                CALL COUPLING_SYNC(coupling,DT2,NODES,COUPLING_DISPLACEMENTS)
               ENDIF
 
               IF (ViperCoupling) THEN

@@ -64,6 +64,7 @@ int coupling_adapter_get_num_coupling_nodes(void* adapter);
 int coupling_adapter_get_group_node_id(void* adapter);
 int coupling_adapter_get_surface_id(void* adapter);
 int coupling_adapter_get_communicator(void* adapter);
+void coupling_adapter_get_coupled_data(void* adapter, int* rd, int* wd);
 
 
 #ifdef __cplusplus

@@ -206,6 +206,15 @@ int coupling_adapter_get_communicator(void* adapter) {
     return ca->getCommunicator();
 }
 
+void coupling_adapter_get_coupled_data(void* adapter, int* rd, int* wd)
+{
+    CouplingAdapter* ca = static_cast<CouplingAdapter*>(adapter);
+    ca->get_coupled_data(rd,wd);
+
+}
+
+
+
 
 // Sets the mesh connectivity for the coupling (only used for CWIPI).
 // - CWIPI: calls CwipiCouplingAdapter::setMesh(const int* elem_node_offsets, const int* elem_node_indices, int num_elements)
