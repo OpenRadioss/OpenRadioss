@@ -311,8 +311,22 @@ C----- w/o armature :--> isotropic
          G3(I,3)   = MAT_PARAM%SHEAR
         ENDDO
         CALL MSTIFORTHV(JFT    ,JLT   ,QC  ,QCG  ,QGC    ,
-     .                  QG     ,CC    ,G3  ,G33  ,CG     )       
-
+     .                  QG     ,CC    ,G3  ,G33  ,CG     ) 
+      ELSEIF (MTN == 130) THEN
+        DO I=JFT,JLT
+          MX = MAT(I)
+          CC(I,1,1) = MAT_PARAM%UPARAM(4)
+          CC(I,2,2) = MAT_PARAM%UPARAM(5)
+          CC(I,3,3) = MAT_PARAM%UPARAM(6)
+          CC(I,1,2) = ZERO 
+          CC(I,2,3) = ZERO
+          CC(I,1,3) = ZERO
+          G3(I,1)   = MAT_PARAM%UPARAM(7)
+          G3(I,2)   = MAT_PARAM%UPARAM(8)
+          G3(I,3)   = MAT_PARAM%UPARAM(9)
+        ENDDO
+        CALL MSTIFORTHV(JFT    ,JLT   ,QC  ,QCG  ,QGC    ,
+     .                  QG     ,CC    ,G3  ,G33  ,CG     ) 
        ELSE
 C----------warring out isotrope effective       
         DO I=JFT,JLT

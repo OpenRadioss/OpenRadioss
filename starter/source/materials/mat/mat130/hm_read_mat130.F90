@@ -306,6 +306,8 @@
           matparam%rho  = rho0
 !
           !< MTAG variable activation
+          mtag%g_pla  = 1
+          mtag%l_pla  = 1
           mtag%g_epsd = 1
           mtag%l_epsd = 1
 !
