@@ -138,10 +138,13 @@
 !||    thermbilan                      ../engine/source/constraints/thermic/thermbilan.F
 !||    viper_mod                       ../engine/source/coupling/viper/viper_interface_mod.F90
 !||--- uses       -----------------------------------------------------
+!||    get_mpi_operator_mod            ../engine/source/mpi/get_mpi_operator.F90
 !||    spmd_allgather_mod              ../engine/source/mpi/generic/spmd_allgather.F90
 !||    spmd_allgatherv_mod             ../engine/source/mpi/spmd_allgatherv.F90
+!||    spmd_allreduce_mod              ../engine/source/mpi/spmd_allreduce.F90
 !||    spmd_alltoall_mod               ../engine/source/mpi/generic/spmd_alltoall.F90
 !||    spmd_comm_world_mod             ../engine/source/mpi/spmd_comm_world.F90
+!||    spmd_iallreduce_mod             ../engine/source/mpi/spmd_iallreduce.F90
 !||    spmd_irecv_mod                  ../engine/source/mpi/spmd_irecv.F90
 !||    spmd_isend_mod                  ../engine/source/mpi/spmd_isend.F90
 !||    spmd_pack_mod                   ../engine/source/mpi/spmd_pack.F90

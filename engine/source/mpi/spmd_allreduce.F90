@@ -20,6 +20,15 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+!||====================================================================
+!||    spmd_allreduce_mod     ../engine/source/mpi/spmd_allreduce.F90
+!||--- called by ------------------------------------------------------
+!||    spmd_mod               ../engine/source/mpi/spmd_mod.F90
+!||--- uses       -----------------------------------------------------
+!||    get_mpi_operator_mod   ../engine/source/mpi/get_mpi_operator.F90
+!||    spmd_comm_world_mod    ../engine/source/mpi/spmd_comm_world.F90
+!||    spmd_error_mod         ../engine/source/mpi/spmd_error.F90
+!||====================================================================
       module spmd_allreduce_mod
         use get_mpi_operator_mod
         use spmd_comm_world_mod, only: SPMD_COMM_WORLD
@@ -43,9 +52,9 @@
         end interface spmd_reduce
       contains
 !||====================================================================
-!||    spmd_reduce_reals   ../engine/source/mpi/spmd_mod.F90
+!||    spmd_reduce_reals   ../engine/source/mpi/spmd_allreduce.F90
 !||--- calls      -----------------------------------------------------
-!||    get_mpi_operator    ../engine/source/mpi/spmd_mod.F90
+!||    get_mpi_operator    ../engine/source/mpi/get_mpi_operator.F90
 !||    spmd_in             ../engine/source/mpi/spmd_error.F90
 !||    spmd_out            ../engine/source/mpi/spmd_error.F90
 !||--- uses       -----------------------------------------------------
@@ -77,9 +86,9 @@
         end subroutine spmd_reduce_reals
 ! ======================================================================================================================
 !||====================================================================
-!||    spmd_reduce_ints   ../engine/source/mpi/spmd_mod.F90
+!||    spmd_reduce_ints   ../engine/source/mpi/spmd_allreduce.F90
 !||--- calls      -----------------------------------------------------
-!||    get_mpi_operator   ../engine/source/mpi/spmd_mod.F90
+!||    get_mpi_operator   ../engine/source/mpi/get_mpi_operator.F90
 !||    spmd_in            ../engine/source/mpi/spmd_error.F90
 !||    spmd_out           ../engine/source/mpi/spmd_error.F90
 !||--- uses       -----------------------------------------------------
@@ -113,9 +122,9 @@
         end subroutine spmd_reduce_ints
 ! ======================================================================================================================
 !||====================================================================
-!||    spmd_reduce_doubles   ../engine/source/mpi/spmd_mod.F90
+!||    spmd_reduce_doubles   ../engine/source/mpi/spmd_allreduce.F90
 !||--- calls      -----------------------------------------------------
-!||    get_mpi_operator      ../engine/source/mpi/spmd_mod.F90
+!||    get_mpi_operator      ../engine/source/mpi/get_mpi_operator.F90
 !||    spmd_in               ../engine/source/mpi/spmd_error.F90
 !||    spmd_out              ../engine/source/mpi/spmd_error.F90
 !||--- uses       -----------------------------------------------------
@@ -149,9 +158,9 @@
         end subroutine spmd_reduce_doubles
 
 !||====================================================================
-!||    spmd_allreduce_ints   ../engine/source/mpi/spmd_mod.F90
+!||    spmd_allreduce_ints   ../engine/source/mpi/spmd_allreduce.F90
 !||--- calls      -----------------------------------------------------
-!||    get_mpi_operator      ../engine/source/mpi/spmd_mod.F90
+!||    get_mpi_operator      ../engine/source/mpi/get_mpi_operator.F90
 !||    spmd_in               ../engine/source/mpi/spmd_error.F90
 !||    spmd_out              ../engine/source/mpi/spmd_error.F90
 !||--- uses       -----------------------------------------------------
@@ -185,9 +194,9 @@
         end subroutine spmd_allreduce_ints
 ! ======================================================================================================================
 !||====================================================================
-!||    spmd_allreduce_doubles   ../engine/source/mpi/spmd_mod.F90
+!||    spmd_allreduce_doubles   ../engine/source/mpi/spmd_allreduce.F90
 !||--- calls      -----------------------------------------------------
-!||    get_mpi_operator         ../engine/source/mpi/spmd_mod.F90
+!||    get_mpi_operator         ../engine/source/mpi/get_mpi_operator.F90
 !||    spmd_in                  ../engine/source/mpi/spmd_error.F90
 !||    spmd_out                 ../engine/source/mpi/spmd_error.F90
 !||--- uses       -----------------------------------------------------
@@ -221,9 +230,9 @@
         end subroutine spmd_allreduce_doubles
 ! ======================================================================================================================
 !||====================================================================
-!||    spmd_allreduce_reals   ../engine/source/mpi/spmd_mod.F90
+!||    spmd_allreduce_reals   ../engine/source/mpi/spmd_allreduce.F90
 !||--- calls      -----------------------------------------------------
-!||    get_mpi_operator       ../engine/source/mpi/spmd_mod.F90
+!||    get_mpi_operator       ../engine/source/mpi/get_mpi_operator.F90
 !||    spmd_in                ../engine/source/mpi/spmd_error.F90
 !||    spmd_out               ../engine/source/mpi/spmd_error.F90
 !||--- uses       -----------------------------------------------------
@@ -257,9 +266,9 @@
         end subroutine spmd_allreduce_reals
 ! ======================================================================================================================
 !||====================================================================
-!||    spmd_reduce_real   ../engine/source/mpi/spmd_mod.F90
+!||    spmd_reduce_real   ../engine/source/mpi/spmd_allreduce.F90
 !||--- calls      -----------------------------------------------------
-!||    get_mpi_operator   ../engine/source/mpi/spmd_mod.F90
+!||    get_mpi_operator   ../engine/source/mpi/get_mpi_operator.F90
 !||    spmd_in            ../engine/source/mpi/spmd_error.F90
 !||    spmd_out           ../engine/source/mpi/spmd_error.F90
 !||--- uses       -----------------------------------------------------
@@ -295,9 +304,9 @@
         end subroutine spmd_reduce_real
 ! ======================================================================================================================
 !||====================================================================
-!||    spmd_reduce_int    ../engine/source/mpi/spmd_mod.F90
+!||    spmd_reduce_int    ../engine/source/mpi/spmd_allreduce.F90
 !||--- calls      -----------------------------------------------------
-!||    get_mpi_operator   ../engine/source/mpi/spmd_mod.F90
+!||    get_mpi_operator   ../engine/source/mpi/get_mpi_operator.F90
 !||    spmd_in            ../engine/source/mpi/spmd_error.F90
 !||    spmd_out           ../engine/source/mpi/spmd_error.F90
 !||--- uses       -----------------------------------------------------
@@ -334,9 +343,9 @@
         end subroutine spmd_reduce_int
 ! ======================================================================================================================
 !||====================================================================
-!||    spmd_reduce_double   ../engine/source/mpi/spmd_mod.F90
+!||    spmd_reduce_double   ../engine/source/mpi/spmd_allreduce.F90
 !||--- calls      -----------------------------------------------------
-!||    get_mpi_operator     ../engine/source/mpi/spmd_mod.F90
+!||    get_mpi_operator     ../engine/source/mpi/get_mpi_operator.F90
 !||    spmd_in              ../engine/source/mpi/spmd_error.F90
 !||    spmd_out             ../engine/source/mpi/spmd_error.F90
 !||--- uses       -----------------------------------------------------
@@ -370,9 +379,9 @@
         end subroutine spmd_reduce_double
 ! ======================================================================================================================
 !||====================================================================
-!||    spmd_allreduce_int   ../engine/source/mpi/spmd_mod.F90
+!||    spmd_allreduce_int   ../engine/source/mpi/spmd_allreduce.F90
 !||--- calls      -----------------------------------------------------
-!||    get_mpi_operator     ../engine/source/mpi/spmd_mod.F90
+!||    get_mpi_operator     ../engine/source/mpi/get_mpi_operator.F90
 !||    spmd_in              ../engine/source/mpi/spmd_error.F90
 !||    spmd_out             ../engine/source/mpi/spmd_error.F90
 !||--- uses       -----------------------------------------------------
@@ -409,9 +418,9 @@
         end subroutine spmd_allreduce_int
 ! ======================================================================================================================
 !||====================================================================
-!||    spmd_allreduce_double   ../engine/source/mpi/spmd_mod.F90
+!||    spmd_allreduce_double   ../engine/source/mpi/spmd_allreduce.F90
 !||--- calls      -----------------------------------------------------
-!||    get_mpi_operator        ../engine/source/mpi/spmd_mod.F90
+!||    get_mpi_operator        ../engine/source/mpi/get_mpi_operator.F90
 !||    spmd_in                 ../engine/source/mpi/spmd_error.F90
 !||    spmd_out                ../engine/source/mpi/spmd_error.F90
 !||--- uses       -----------------------------------------------------
@@ -445,9 +454,9 @@
         end subroutine spmd_allreduce_double
 ! ======================================================================================================================
 !||====================================================================
-!||    spmd_allreduce_real   ../engine/source/mpi/spmd_mod.F90
+!||    spmd_allreduce_real   ../engine/source/mpi/spmd_allreduce.F90
 !||--- calls      -----------------------------------------------------
-!||    get_mpi_operator      ../engine/source/mpi/spmd_mod.F90
+!||    get_mpi_operator      ../engine/source/mpi/get_mpi_operator.F90
 !||    spmd_in               ../engine/source/mpi/spmd_error.F90
 !||    spmd_out              ../engine/source/mpi/spmd_error.F90
 !||--- uses       -----------------------------------------------------

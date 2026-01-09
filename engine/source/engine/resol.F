@@ -413,6 +413,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    spmd_rbcast                                  ../engine/source/mpi/generic/spmd_rbcast.F
 !||    spmd_sd_xv                                   ../engine/source/mpi/nodes/spmd_sd_xv.F
 !||    spmd_sort_sms                                ../engine/source/mpi/ams/spmd_sms.F
+!||    spmd_wait                                    ../engine/source/mpi/spmd_wait.F90
 !||    spmd_wiout                                   ../engine/source/mpi/generic/spmd_wiout.F
 !||    spmd_xv_inter_type1                          ../engine/source/mpi/nodes/spmd_sd_xv_inter1.F90
 !||    sponfv                                       ../engine/source/elements/sph/sponfv.F

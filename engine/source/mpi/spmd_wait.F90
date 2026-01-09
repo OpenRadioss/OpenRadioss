@@ -41,6 +41,7 @@
 !||    spmd_wait                       ../engine/source/mpi/spmd_wait.F90
 !||--- called by ------------------------------------------------------
 !||    init_ghost_shells               ../engine/source/engine/node_spliting/ghost_shells.F90
+!||    resol                           ../engine/source/engine/resol.F
 !||    spmd_e1vois                     ../engine/source/mpi/fluid/spmd_cfd.F
 !||    spmd_e4vois                     ../engine/source/mpi/fluid/spmd_cfd.F
 !||    spmd_e6vois                     ../engine/source/mpi/fluid/spmd_cfd.F

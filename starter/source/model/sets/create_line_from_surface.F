@@ -29,6 +29,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- calls      -----------------------------------------------------
 !||    create_line_from_surface_ext_all   ../starter/source/model/sets/create_line_from_ext_surface_ext_all.F
 !||--- uses       -----------------------------------------------------
+!||    surf_mod                           ../starter/share/modules1/surf_mod.F
 !||====================================================================
       SUBROUTINE CREATE_LINE_FROM_SURFACE(CLAUSE     ,KEYSET,OPT_A,OPT_E,DELBUF,
      .                                    GO_IN_ARRAY)

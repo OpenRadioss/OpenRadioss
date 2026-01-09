@@ -20,6 +20,11 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+!||====================================================================
+!||    spmd_constants_mod    ../engine/source/mpi/spmd_constants.F90
+!||--- called by ------------------------------------------------------
+!||    spmd_iallreduce_mod   ../engine/source/mpi/spmd_iallreduce.F90
+!||====================================================================
       module spmd_constants_mod
         implicit none
         integer, parameter, public :: TAG_BARRIER = -1

@@ -84,6 +84,7 @@
 !||    spmd_allgatherv_real            ../engine/source/mpi/spmd_allgatherv.F90
 !||    spmd_allgatherv_reals           ../engine/source/mpi/spmd_allgatherv.F90
 !||    spmd_allglob_isum9              ../engine/source/mpi/generic/spmd_allglob_isum9.F
+!||    spmd_allreduce_mod              ../engine/source/mpi/spmd_allreduce.F90
 !||    spmd_alltoall_double            ../engine/source/mpi/generic/spmd_alltoall.F90
 !||    spmd_alltoall_doubles           ../engine/source/mpi/generic/spmd_alltoall.F90
 !||    spmd_alltoall_int               ../engine/source/mpi/generic/spmd_alltoall.F90
@@ -299,6 +300,7 @@
 !||    spmd_i8_irtl                    ../engine/source/mpi/interfaces/spmd_i8tool.F
 !||    spmd_i8_reduce                  ../engine/source/mpi/interfaces/spmd_i8tool.F
 !||    spmd_i8_updbuf                  ../engine/source/mpi/interfaces/spmd_i8tool.F
+!||    spmd_iallreduce_mod             ../engine/source/mpi/spmd_iallreduce.F90
 !||    spmd_ibcast                     ../engine/source/mpi/generic/spmd_ibcast.F
 !||    spmd_icol                       ../engine/source/mpi/implicit/imp_spmd.F
 !||    spmd_ifc1                       ../engine/source/mpi/implicit/imp_spmd.F

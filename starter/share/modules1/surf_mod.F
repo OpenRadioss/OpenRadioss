@@ -23,6 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
 !||    surf_mod                      ../starter/share/modules1/surf_mod.F
 !||--- called by ------------------------------------------------------
+!||    create_line_from_surface      ../starter/source/model/sets/create_line_from_surface.F
 !||    create_surface_from_element   ../starter/source/model/sets/create_surface_from_element.F
 !||    deallocate_surf_elm           ../starter/source/groups/init_surf_elm.F
 !||    fill_igr                      ../starter/source/model/sets/fill_igr.F
