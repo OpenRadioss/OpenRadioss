@@ -637,6 +637,18 @@ C
      .                  PRMOD=MSG_CUMU)
           ENDIF
 C
+          !< Compatibility of ITET4 = 3 with /MAT/LAW88 is not supported
+          IF ((MLN == 88).AND.(ITET4 == 3)) THEN
+            ITET4 = 0
+            CALL ANCMSG(MSGID=3123,
+     .                  MSGTYPE=MSGWARNING,
+     .                  ANMODE=ANINFO_BLIND_2,
+     .                  I1=ID,
+     .                  C1=TITR,
+     .                  I2=MLN,
+     .                  PRMOD=MSG_CUMU)
+          ENDIF
+C
           IFAIL = 0
           NFAIL = 0
           IF (IGT == 22) THEN                   
@@ -1608,6 +1620,10 @@ c-----------
      .                  MSGTYPE=MSGWARNING,
      .                  ANMODE=ANINFO_BLIND_2,
      .                  PRMOD=MSG_PRINT)
+      CALL ANCMSG(MSGID=3123,
+     .                  MSGTYPE=MSGWARNING,
+     .                  ANMODE=ANINFO_BLIND_2,
+     .                  PRMOD=MSG_PRINT)     
       CALL ANCMSG(MSGID=1573,
      .                  MSGTYPE=MSGWARNING,
      .                  ANMODE=ANINFO_BLIND_2,
