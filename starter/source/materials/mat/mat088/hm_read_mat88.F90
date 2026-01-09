@@ -672,7 +672,7 @@
           call init_mat_keyword(matparam,"LARGE_STRAIN")
 !
           !< Properties compatibility
-          call init_mat_keyword(matparam,"SOLID_ISOTROPIC")
+          call init_mat_keyword(matparam,"SOLID_BRICK_ISOTROPIC")
           call init_mat_keyword(matparam,"SHELL_ISOTROPIC")
 !
           !< Table deallocation

@@ -194,12 +194,27 @@ c
               ! SOLID PROPERTIES
               ! ------------------------------------------------------------ 
               ! Isotropic solids property
-              CASE (14,20)
+              ! -> Brick and tetrahedral elements
+              CASE (14)
+                IF (MAT_PARAM(IMAT)%PROP_SOLID /= 1 .AND. 
+     .              MAT_PARAM(IMAT)%PROP_SOLID /= 5 .AND.
+     .              MAT_PARAM(IMAT)%PROP_SOLID /= 6 .AND.
+     .              MAT_PARAM(IMAT)%PROP_SOLID /= 7) COMPAT_PROP = .FALSE.
+              ! -> Thickshell elements
+              CASE (20)
                 IF (MAT_PARAM(IMAT)%PROP_SOLID /= 1 .AND. 
      .              MAT_PARAM(IMAT)%PROP_SOLID /= 5 .AND.
      .              MAT_PARAM(IMAT)%PROP_SOLID /= 6) COMPAT_PROP = .FALSE.
               ! Orthotropic solids property
-              CASE (6,21)
+              ! -> Brick and tetrahedral elements
+              CASE (6)
+                IF (MAT_PARAM(IMAT)%PROP_SOLID /= 1 .AND. 
+     .              MAT_PARAM(IMAT)%PROP_SOLID /= 2 .AND.               
+     .              MAT_PARAM(IMAT)%PROP_SOLID /= 6 .AND.
+     .              MAT_PARAM(IMAT)%PROP_SOLID /= 7 .AND.
+     .              MAT_PARAM(IMAT)%PROP_SOLID /= 8) COMPAT_PROP = .FALSE.
+              ! -> Thickshell elements
+              CASE (21)
                 IF (MAT_PARAM(IMAT)%PROP_SOLID /= 1 .AND. 
      .              MAT_PARAM(IMAT)%PROP_SOLID /= 2 .AND.               
      .              MAT_PARAM(IMAT)%PROP_SOLID /= 6) COMPAT_PROP = .FALSE.
@@ -212,7 +227,8 @@ c
               ! Cohesive solids property
               CASE (43)
                 IF (MAT_PARAM(IMAT)%PROP_SOLID /= 4 .AND.                   
-     .              MAT_PARAM(IMAT)%PROP_SOLID /= 6) COMPAT_PROP = .FALSE.
+     .              MAT_PARAM(IMAT)%PROP_SOLID /= 6 .AND.
+     .              MAT_PARAM(IMAT)%PROP_SOLID /= 7) COMPAT_PROP = .FALSE.
               ! Porous solids property
               CASE (15)          
                 IF (MAT_PARAM(IMAT)%PROP_SOLID /= 5) COMPAT_PROP = .FALSE.

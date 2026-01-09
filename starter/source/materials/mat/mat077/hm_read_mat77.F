@@ -291,7 +291,7 @@ c----------------
       ENDIF
       CALL INIT_MAT_KEYWORD(MATPARAM,"HOOK")
       ! Properties compatibility  
-      CALL INIT_MAT_KEYWORD(MATPARAM,"SOLID_ISOTROPIC")
+      CALL INIT_MAT_KEYWORD(MATPARAM,"SOLID_BRICK_ISOTROPIC")
 c--------------------------------------------------
 c     Starter output
 c--------------------------------------------------

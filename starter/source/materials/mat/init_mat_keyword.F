@@ -223,6 +223,12 @@ c
 c 
         CASE ("SOLID_ALL")         ! Compatibility with /PROP/TYPE 6/14/20/21/22/43
           MATPARAM%PROP_SOLID = 6     
+c 
+        CASE ("SOLID_BRICK_ISOTROPIC")  ! Compatibility with /PROP/TYPE 6/14/43
+          MATPARAM%PROP_SOLID = 7        
+c 
+        CASE ("SOLID_BRICK_ORTHOTROPIC")  ! Compatibility with /PROP/TYPE 6
+          MATPARAM%PROP_SOLID = 8                    
 c
         CASE ("SHELL_ISOTROPIC")   ! Compatibility with /PROP/TYPE 1/9/10/11/17/19/51/52
           MATPARAM%PROP_SHELL = 1          
