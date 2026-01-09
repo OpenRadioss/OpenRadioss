@@ -75,6 +75,7 @@ private:
     // Helper functions
     void extractNodeData(const double* globalValues, int totalNodes, int dataType);
     void injectNodeData(double* globalValues, int totalNodes, int dataType);
+
     
     // Static helper for bounds checking
     static constexpr int getDimensions() noexcept { return 3; }
@@ -84,6 +85,25 @@ private:
         const auto idx = nodeId - 1; // Convert to 0-based indexing
         return idx >= 0 && idx < totalNodes;
     }
+public:
+
+    void get_coupled_data(int* rd, int* wd) const { 
+        //rd is the readData_ status (1: active)
+        //wd is the writeData_status
+        for (size_t i = 0; i < 3; ++i) {
+            wd[i] = 0;
+            rd[i] = 0;
+        }
+        for (size_t i = 1; i < static_cast<size_t>(DataType::DATA_COUNT); ++i) {
+          if (readData_[i].isActive) {
+            rd[i-1] = 1;
+          }
+          if(writeData_[i].isActive){
+            wd[i-1] = 1;
+          }
+        }
+    }
+
 };
 
 #endif

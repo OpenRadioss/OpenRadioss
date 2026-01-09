@@ -25,6 +25,7 @@
 
 #include <string>
 #include <vector>
+#include <array>
 
 // Abstract base class for coupling adapters
 class CouplingAdapter {
@@ -64,6 +65,13 @@ public:
     int getSurfaceId() const { return surfaceId_; }
     void setSurfaceId(int id) { surfaceId_ = id; }
     virtual int getCommunicator() const { return 0; }
+    virtual void get_coupled_data(int* rd, int* wd) const { 
+        // Fill rd and wd fortran arrays with 4 zeros
+        for (int i = 0; i < 3; ++i) {
+            rd[i] = 0;
+            wd[i] = 0;
+        }
+    }
 
     // Data types that can be exchanged during the coupling process
     enum class DataType {
@@ -80,6 +88,7 @@ public:
          REPLACE = 1, // For positions, replace the existing data
          ADD = 2      // For forces, we add to the existing data
      };
+ 
 
      // Helper functions to convert between strings and DataType enums
     static DataType stringToDataType(const std::string& str) {
