@@ -2560,11 +2560,26 @@ C
 
               IF(coupling%active) THEN
               ! ALLOCATION AND INITIALIZATION OF COUPLING COUPLING
+#if defined(WITH_PRECICE) || defined(WITH_CWIPI)
+
                 ALLOCATE(NODES%FORCES(3,NUMNOD))
                 NODES%FORCES = ZERO
                 call coupling_set_interface(coupling, igrnod, ngrnod, igrsurf, nsurf,  nodes)
                 CALL COUPLING_INITIALIZE(coupling,NODES,NUMNOD,ISPMD,NSPMD)
+                if(.not. coupling%active) then
+                  CALL ANCMSG(MSGID=321,ANMODE=ANSTOP)
+                  CALL ARRET(2)
+                end if
                 CALL COUPLING_ONGOING(coupling,ongoing)
+#else
+                CALL ANCMSG(MSGID=321,ANMODE=ANSTOP)
+                CALL ARRET(2)
+#endif
+              ELSE
+#if defined(WITH_PRECICE) || defined(WITH_CWIPI)
+                 CALL ANCMSG(MSGID=321,ANMODE=ANSTOP)
+                 CALL ARRET(2)
+#endif
               ENDIF
 
               ! Node Splitting

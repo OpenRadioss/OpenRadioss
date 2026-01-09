@@ -55,8 +55,8 @@ bool PreciceCouplingAdapter::configure(const std::string& configFile) {
      // /PRECICE/GRNOD/grnodID
     std::ifstream file(configFile);
     if (!file.is_open()) {
-        std::cout << "No " << configFile << " file found in the current directory" << std::endl;
-        std::cout << "preCICE will not be active" << std::endl;
+        std::cout << "[preCICE adapter] "<< "No " << configFile << " file found in the current directory" << std::endl;
+        std::cout << "[preCICE adapter] "<< "preCICE will not be active" << std::endl;
         active_ = false;
         return false;
     }
@@ -101,7 +101,7 @@ bool PreciceCouplingAdapter::configure(const std::string& configFile) {
             } else if (key == "READ") {
                 const auto dataType = stringToDataType(value);
                 if (dataType == DataType::NOTHING) {
-                    std::cerr << "Error: Unknown read data type '" << value << "' in the preCICE adapter configuration file " << configFile << std::endl;
+                    std::cout << "[preCICE adapter] "<< "Error: Unknown read data type '" << value << "' in the preCICE adapter configuration file " << configFile << std::endl;
                     return false;
                 }
                 readData_[static_cast<size_t>(dataType)].isActive = true;
@@ -115,7 +115,7 @@ bool PreciceCouplingAdapter::configure(const std::string& configFile) {
             } else if (key == "WRITE") {
                 const auto dataType = stringToDataType(value);
                 if (dataType == DataType::NOTHING) {
-                    std::cerr << "Error: Unknown write data type '" << value << "' in the preCICE adapter configuration file " << configFile << std::endl;
+                    std::cout << "[preCICE adapter] "<< "Error: Unknown write data type '" << value << "' in the preCICE adapter configuration file " << configFile << std::endl;
                     return false;
                 }
                 writeData_[static_cast<size_t>(dataType)].isActive = true;
@@ -123,12 +123,12 @@ bool PreciceCouplingAdapter::configure(const std::string& configFile) {
                 try {
                     setGroupNodeId(std::stoi(value));
                 } catch (const std::exception& e) {
-                    std::cerr << "Error: Invalid nodes group GRNOD '" << value << "' in the preCICE adapter configuration file " << configFile << ": " << e.what() << std::endl;
+                    std::cout << "[preCICE adapter] "<< "Error: Invalid nodes group GRNOD '" << value << "' in the preCICE adapter configuration file " << configFile << ": " << e.what() << std::endl;
                     return false;
                 }
             }
         } else {
-            std::cout << "Warning: Ignoring malformed line: " << line << std::endl;
+            std::cout << "[preCICE adapter] "<< "Warning: Ignoring malformed line: " << line << std::endl;
         }
     }
     
@@ -162,11 +162,11 @@ void PreciceCouplingAdapter::setNodes(const std::vector<int>& nodeIds) {
 bool PreciceCouplingAdapter::initialize(const double* coordinates, int totalNodes, int mpiRank, int mpiSize) {
     if (!active_) return false;
     if (!coordinates) {
-        std::cerr << "Error: coordinates pointer is null" << std::endl;
+        std::cout << "[preCICE adapter] "<< "Error: coordinates pointer is null" << std::endl;
         return false;
     }
     if (totalNodes <= 0) {
-        std::cerr << "Error: totalNodes must be positive, got " << totalNodes << std::endl;
+        std::cout << "[preCICE adapter] "<< "Error: totalNodes must be positive, got " << totalNodes << std::endl;
         return false;
     }
     
@@ -180,7 +180,7 @@ bool PreciceCouplingAdapter::initialize(const double* coordinates, int totalNode
         
         for (const auto nodeId : couplingNodeIds_) {
             if (!isNodeIdValid(nodeId, totalNodes)) {
-                std::cerr << "Error: Node ID " << nodeId << " out of bounds [1, " << totalNodes << "]" << std::endl;
+                std::cout << "[preCICE adapter] "<< "Error: Node ID " << nodeId << " out of bounds [1, " << totalNodes << "]" << std::endl;
                 return false;
             }
             // Convert from 1-based Fortran indexing to 0-based C++ indexing
@@ -209,7 +209,7 @@ bool PreciceCouplingAdapter::initialize(const double* coordinates, int totalNode
         maxTimeStepSize_ = precice_->getMaxTimeStepSize();
         
     } catch (const std::exception& e) {
-        std::cerr << "Error initializing preCICE: " << e.what() << std::endl;
+        std::cout << "[preCICE adapter] "<< "Error initializing preCICE: " << e.what() << std::endl;
         return false;
     }
     
@@ -221,7 +221,7 @@ void PreciceCouplingAdapter::writeData(const double* values, int totalNodes, dou
     if (!precice_) return;
     if (!precice_->isCouplingOngoing()) return;
     if (!values) {
-        std::cerr << "Error: values pointer is null in writeData" << std::endl;
+        std::cout << "[preCICE adapter] "<< "Error: values pointer is null in writeData" << std::endl;
         return;
     }
 
@@ -240,7 +240,7 @@ void PreciceCouplingAdapter::readData(double* values, int totalNodes, double dt,
     if (!precice_) return;
     if (!precice_->isCouplingOngoing()) return;
     if (!values) {
-        std::cerr << "Error: values pointer is null in readData" << std::endl;
+        std::cout << "[preCICE adapter] "<< "Error: values pointer is null in readData" << std::endl;
         return;
     }
     
@@ -335,7 +335,7 @@ void PreciceCouplingAdapter::extractNodeData(const double* globalValues, int tot
     for (size_t i = 0; i < couplingNodeIds_.size(); ++i) {
         const auto nodeId = couplingNodeIds_[i];
         if (!isNodeIdValid(nodeId, totalNodes)) {
-            std::cerr << "Error: Node ID " << nodeId << " out of bounds in extractNodeData" << std::endl;
+            std::cout << "[preCICE adapter] "<< "Error: Node ID " << nodeId << " out of bounds in extractNodeData" << std::endl;
             continue;
         }
         const auto idx = nodeId - 1; // Convert to 0-based indexing
@@ -358,8 +358,6 @@ void PreciceCouplingAdapter::injectNodeData(double* globalValues, int totalNodes
         }
     }  else if (readData_[dataType].mode == Mode::REPLACE) {
         // write a debug message, with the name of the data type being injected and the participant name
-        std::cout << "READ " << dataTypeToString(static_cast<DataType>(dataType))
-                  << " for participant " << participantName_ << std::endl;
         for (size_t i = 0; i < couplingNodeIds_.size(); ++i) {
             int nodeId = couplingNodeIds_[i] - 1; // Convert to 0-based indexing
             globalValues[nodeId * 3] = readData_[dataType].buffer[i * 3];
@@ -367,7 +365,7 @@ void PreciceCouplingAdapter::injectNodeData(double* globalValues, int totalNodes
             globalValues[nodeId * 3 + 2] = readData_[dataType].buffer[i * 3 + 2];
         }
     } else {
-        std::cout << "Warning: Unknown mode for data type " << dataTypeToString(static_cast<DataType>(dataType))
+        std::cout << "[preCICE adapter] "<< "Warning: Unknown mode for data type " << dataTypeToString(static_cast<DataType>(dataType))
                   << ", skipping injection." << std::endl;
     }
 }
