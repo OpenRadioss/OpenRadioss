@@ -203,7 +203,7 @@
             write(fchecksum,"(a)") " **                                                                    **"
             write(fchecksum,"(a)") " ************************************************************************"
             write(fchecksum,"(a)") " ** OpenRadioss Software                                               **"
-            write(fchecksum,"(a)") " ** COPYRIGHT (C) 1986-2025 Altair Engineering, Inc.                   **"
+            write(fchecksum,"(a)") " ** COPYRIGHT (C) 1986-2026 Altair Engineering, Inc.                   **"
             write(fchecksum,"(a)") " ** Licensed under GNU Affero General Public License.                  **"
             write(fchecksum,"(a)") " ** See License file.                                                  **"
             write(fchecksum,"(a)") " ************************************************************************"
