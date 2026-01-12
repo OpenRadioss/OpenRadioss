@@ -501,7 +501,6 @@ C-----IMOD=4  STIFNM might be over_estimated but safe
           IMOD =IRBE3(8,N)
           IPEN =IRBE3(9,N)
           IF (NS==0.OR.IPEN<=0) CYCLE
-          IF (WEIGHT(NS)==1) THEN 
             N_P = N_P +1 
             AMP = ZERO
             STIFNMP = ZERO
@@ -519,6 +518,7 @@ C-----IMOD=4  STIFNM might be over_estimated but safe
      .           PEN%RRBE3PEN_F(1,N_P) ,PEN%RRBE3PEN_STF(1,N_P) ,         
      .           PEN%RRBE3PEN_FAC(N_P) ,PEN%RRBE3PEN_VI(N_P)    ,
      .           PEN%RRBE3PEN_M(1,N_P) ,ICOLINE )
+          IF (WEIGHT(NS)==1) THEN ! moved to here for a(,ns) compute  w/ WEIGHT(NS)=0
             CALL FOAT_TO_6_FLOAT(1  ,NML*3  ,AMP    ,RR_6 )
             CALL FOAT_TO_6_FLOAT(1  ,NML    ,STIFNMP,R2_6 )
             DO I=1,NML
@@ -694,7 +694,6 @@ C  MS(NS) = ZERO
         IMOD =IRBE3(8,N)
         IPEN =IRBE3(9,N)
         IF (NS==0.OR.IPEN<=0) CYCLE
-        IF (WEIGHT(NS)==1) THEN !STIFNM(k),STIFN(NS),AM(1:3,k)
             N_P = N_P +1 
             AMP = ZERO
             STIFNMP = ZERO
@@ -712,6 +711,7 @@ C  MS(NS) = ZERO
      .           PEN%RRBE3PEN_F(1,N_P) ,PEN%RRBE3PEN_STF(1,N_P) ,         
      .           PEN%RRBE3PEN_FAC(N_P) ,PEN%RRBE3PEN_VI(N_P)    ,
      .           PEN%RRBE3PEN_M(1,N_P) ,ICOLINE )
+        IF (WEIGHT(NS)==1) THEN !moved here as case p/on
             DO I=1,NML
                K = IADMP(IAD+I)
                AM(1:3,K) = AM(1:3,K)+AMP(1:3,I) 
