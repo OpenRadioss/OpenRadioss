@@ -190,8 +190,6 @@ bool PreciceCouplingAdapter::initialize(const double* coordinates, int totalNode
             meshVertices.push_back(coordinates[idx * dimensions + 1]);
             meshVertices.push_back(coordinates[idx * dimensions + 2]);
         }
-        // copy initial positions in meshVertices to x0_
-        x0_ = meshVertices;
         
         // Set mesh vertices
         precice_->setMeshVertices(meshName_, meshVertices, vertexIds_);
