@@ -112,6 +112,8 @@
         pthkf = em06
       elseif (ifail_sh == 4) then    ! fiber only failure
         pthkf = one
+      else
+        pthkf   = zero
       endif                  
 ! ----------------------------------------------------------------------------------------------------------------------
 !     Filling buffer tables
