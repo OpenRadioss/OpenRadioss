@@ -132,6 +132,8 @@
         pthkf = ratio
       elseif (ifail_sh == 3) then
         pthkf = one - em06
+      else
+        pthkf    = zero
       endif
 ! ----------------------------------------------------------------------------------------------------------------------
 !     Filling buffer tables

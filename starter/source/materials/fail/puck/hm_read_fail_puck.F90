@@ -114,6 +114,8 @@
         pthkf = em06
       elseif (ifail_sh == 2) tHEN
         pthkf =  one
+      else
+        pthkf = zero
       endif
       !< Stress tensor filtering frequency
       fcut = max(zero,fcut)        
