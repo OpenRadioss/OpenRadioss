@@ -20,6 +20,11 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+!||====================================================================
+!||    arezon_mod   ../engine/source/ale/arezon.F90
+!||--- called by ------------------------------------------------------
+!||    alethe       ../engine/source/ale/alethe.F
+!||====================================================================
       module arezon_mod
         implicit none
       contains
@@ -29,6 +34,33 @@
 !! \brief This subroutine fills the rezoning variable array "phi" for all the rezoned variables and for all the materials
 !!        from the element buffer structure "elbuf_tab" before calling the rezoning solver.
 !! \details
+!||====================================================================
+!||    arezon                     ../engine/source/ale/arezon.F90
+!||--- called by ------------------------------------------------------
+!||    alethe                     ../engine/source/ale/alethe.F
+!||--- calls      -----------------------------------------------------
+!||    arezo2                     ../engine/source/ale/ale2d/arezo2.F
+!||    arezo3                     ../engine/source/ale/ale3d/arezo3.F
+!||    brezo2                     ../engine/source/ale/ale2d/brezo2.F
+!||    initbuf                    ../engine/share/resol/initbuf.F
+!||    my_barrier                 ../engine/source/system/machine.F
+!||    startime                   ../engine/source/system/timer_mod.F90
+!||    stoptime                   ../engine/source/system/timer_mod.F90
+!||--- uses       -----------------------------------------------------
+!||    ale_connectivity_mod       ../common_source/modules/ale/ale_connectivity_mod.F
+!||    ale_mod                    ../common_source/modules/ale/ale_mod.F
+!||    arezo2_mod                 ../engine/source/ale/ale2d/arezo2.F
+!||    arezo3_mod                 ../engine/source/ale/ale3d/arezo3.F
+!||    array_mod                  ../common_source/modules/array_mod.F
+!||    constant_mod               ../common_source/modules/constant_mod.F
+!||    elbufdef_mod               ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    initbuf_mod                ../engine/share/resol/initbuf.F
+!||    multimat_param_mod         ../common_source/modules/multimat_param_mod.F90
+!||    precision_mod              ../common_source/modules/precision_mod.F90
+!||    spmd_exch_n_neighbor_mod   ../engine/source/mpi/ale/spmd_exch_n_neighbor.F90
+!||    spmd_mod                   ../engine/source/mpi/spmd_mod.F90
+!||    timer_mod                  ../engine/source/system/timer_mod.F90
+!||====================================================================
         subroutine arezon(n2d,numelq, &
                           trimat,nmult,mat_number, &      
                           ngroup,nparg,flag_mat_51,itask,nspmd, &

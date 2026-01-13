@@ -26,6 +26,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    afluxt                                   ../engine/source/ale/ale51/afluxt.F
 !||    ale51_gradient_reconstruction            ../engine/source/ale/alemuscl/ale51_gradient_reconstruction.F
 !||    ale_box_coloration                       ../starter/source/initial_conditions/inivol/ale_box_coloration.F
+!||    arezon                                   ../engine/source/ale/arezon.F90
 !||    check_remote_surface_state               ../engine/source/interfaces/interf/check_remote_surface_state.F
 !||    domain_decomposition_pcyl                ../starter/source/loads/general/load_pcyl/domain_decomposition_pcyl.F
 !||    get_neighbour_surface                    ../engine/source/interfaces/interf/get_neighbour_surface.F90

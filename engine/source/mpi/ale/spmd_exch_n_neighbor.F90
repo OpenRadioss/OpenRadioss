@@ -25,6 +25,7 @@
 !||--- called by ------------------------------------------------------
 !||    afluxt                          ../engine/source/ale/ale51/afluxt.F
 !||    ale51_gradient_reconstruction   ../engine/source/ale/alemuscl/ale51_gradient_reconstruction.F
+!||    arezon                          ../engine/source/ale/arezon.F90
 !||====================================================================
       module spmd_exch_n_neighbor_mod
         implicit none

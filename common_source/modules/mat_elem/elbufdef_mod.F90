@@ -69,7 +69,7 @@
 !||    aniofff                             ../engine/source/output/anim/generate/aniofff.F
 !||    anioffs                             ../engine/source/output/anim/generate/anioff6.F
 !||    aniskew                             ../engine/source/output/anim/generate/aniskew.F
-!||    arezon                              ../engine/source/ale/arezon.F
+!||    arezon                              ../engine/source/ale/arezon.F90
 !||    atherm                              ../engine/source/ale/atherm.F
 !||    bcs_nrf                             ../engine/source/boundary_conditions/bcs_nrf.F90
 !||    bforc2                              ../engine/source/ale/bimat/bforc2.F
@@ -338,6 +338,8 @@
 !||    inintr_thkvar                       ../starter/source/interfaces/interf1/inintr_thkvar.F
 !||    iniphase                            ../starter/source/initial_conditions/inivol/iniphase.F
 !||    inirig_mat                          ../starter/source/elements/initia/inirig_mat.F
+!||    init_ale                            ../engine/source/ale/init_ale.F90
+!||    init_ale_arezon_spmd                ../engine/source/ale/init_ale_arezon_spmd.F90
 !||    init_inivol                         ../starter/source/initial_conditions/inivol/init_inivol.F90
 !||    init_inivol_2d_polygons             ../starter/source/initial_conditions/inivol/init_inivol_2D_polygons.F90
 !||    init_rwall_penalty                  ../starter/source/constraints/general/rwall/init_rwall_penalty.F90

@@ -31,7 +31,7 @@
 !||    alemain                          ../engine/source/ale/alemain.F
 !||    alethe                           ../engine/source/ale/alethe.F
 !||    alewdx                           ../engine/source/ale/grid/alewdx.F
-!||    arezon                           ../engine/source/ale/arezon.F
+!||    arezon                           ../engine/source/ale/arezon.F90
 !||    bforc2                           ../engine/source/ale/bimat/bforc2.F
 !||    c3forc3                          ../engine/source/elements/sh3n/coque3n/c3forc3.F
 !||    c3forc3_crk                      ../engine/source/elements/xfem/c3forc3_crk.F
@@ -352,7 +352,7 @@
 !||    alemain                          ../engine/source/ale/alemain.F
 !||    alethe                           ../engine/source/ale/alethe.F
 !||    alewdx                           ../engine/source/ale/grid/alewdx.F
-!||    arezon                           ../engine/source/ale/arezon.F
+!||    arezon                           ../engine/source/ale/arezon.F90
 !||    c3forc3                          ../engine/source/elements/sh3n/coque3n/c3forc3.F
 !||    c3forc3_crk                      ../engine/source/elements/xfem/c3forc3_crk.F
 !||    cbaforc3                         ../engine/source/elements/shell/coqueba/cbaforc3.F
@@ -460,7 +460,7 @@
 !||    alemain                          ../engine/source/ale/alemain.F
 !||    alethe                           ../engine/source/ale/alethe.F
 !||    alewdx                           ../engine/source/ale/grid/alewdx.F
-!||    arezon                           ../engine/source/ale/arezon.F
+!||    arezon                           ../engine/source/ale/arezon.F90
 !||    c3forc3                          ../engine/source/elements/sh3n/coque3n/c3forc3.F
 !||    c3forc3_crk                      ../engine/source/elements/xfem/c3forc3_crk.F
 !||    cbaforc3                         ../engine/source/elements/shell/coqueba/cbaforc3.F

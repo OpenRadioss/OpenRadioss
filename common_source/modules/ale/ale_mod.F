@@ -45,6 +45,7 @@ C-----------------------------------------------
 !||    amomt2                          ../engine/source/ale/ale2d/amomt2.F
 !||    amomt3                          ../engine/source/elements/solid/solide/amomt3.F
 !||    amomtn3                         ../engine/source/elements/solid/solide/amomtn3.F
+!||    arezon                          ../engine/source/ale/arezon.F90
 !||    asspar4                         ../engine/source/assembly/asspar4.F
 !||    c3grtails                       ../starter/source/elements/sh3n/coque3n/c3grtails.F
 !||    contrl                          ../starter/source/starter/contrl.F
@@ -87,6 +88,7 @@ C-----------------------------------------------
 !||    ingrbric_nodes                  ../starter/source/interfaces/interf1/ingrbric_nodes.F
 !||    iniresa                         ../engine/source/output/restart/rdresa.F
 !||    init_ale                        ../engine/source/ale/init_ale.F90
+!||    init_ale_arezon_spmd            ../engine/source/ale/init_ale_arezon_spmd.F90
 !||    intti12a                        ../engine/source/interfaces/interf/intti12.F
 !||    lecint                          ../starter/source/interfaces/interf1/lecint.F
 !||    lectur                          ../engine/source/input/lectur.F

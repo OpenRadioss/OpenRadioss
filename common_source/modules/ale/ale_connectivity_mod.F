@@ -80,7 +80,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    amulf2                           ../engine/source/ale/bimat/amulf2.F
 !||    arezo2                           ../engine/source/ale/ale2d/arezo2.F
 !||    arezo3                           ../engine/source/ale/ale3d/arezo3.F
-!||    arezon                           ../engine/source/ale/arezon.F
+!||    arezon                           ../engine/source/ale/arezon.F90
 !||    atherm                           ../engine/source/ale/atherm.F
 !||    bconv2                           ../engine/source/ale/ale2d/bconv2.F
 !||    bcs_wall_trigger                 ../engine/source/boundary_conditions/bcs_wall_trigger.F90

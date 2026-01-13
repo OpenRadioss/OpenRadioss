@@ -28,8 +28,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    ancmsg                 ../starter/source/output/message/message.F
 !||    anodset                ../starter/source/output/analyse/analyse_node.c
 !||    fretitl2               ../starter/source/starter/freform.F
+!||    ifrbody_off            ../starter/source/constraints/general/rbody/ifrbody_off.F90
 !||    kinset                 ../starter/source/constraints/general/kinset.F
 !||--- uses       -----------------------------------------------------
+!||    ifrbody_off_mod        ../starter/source/constraints/general/rbody/ifrbody_off.F90
 !||    message_mod            ../starter/share/message_module/message_mod.F
 !||====================================================================
       SUBROUTINE CHECKRBY(RBY     ,NPBY    ,LPBY    ,ITAB    ,

@@ -20,6 +20,11 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+!||====================================================================
+!||    init_ale_arezon_spmd_mod   ../engine/source/ale/init_ale_arezon_spmd.F90
+!||--- called by ------------------------------------------------------
+!||    init_ale                   ../engine/source/ale/init_ale.F90
+!||====================================================================
       module init_ale_arezon_spmd_mod
         implicit none
       contains
@@ -29,6 +34,18 @@
 !! \brief This subroutine initializes the rezoning variable indexing arrays and allocates the phi_data arrays
 !!        used in the rezoning process depending on the material models and rezoning variables needed.
 !! \details
+!||====================================================================
+!||    init_ale_arezon_spmd   ../engine/source/ale/init_ale_arezon_spmd.F90
+!||--- called by ------------------------------------------------------
+!||    init_ale               ../engine/source/ale/init_ale.F90
+!||--- calls      -----------------------------------------------------
+!||    initbuf                ../engine/share/resol/initbuf.F
+!||--- uses       -----------------------------------------------------
+!||    ale_mod                ../common_source/modules/ale/ale_mod.F
+!||    elbufdef_mod           ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    initbuf_mod            ../engine/share/resol/initbuf.F
+!||    spmd_mod               ../engine/source/mpi/spmd_mod.F90
+!||====================================================================
         subroutine init_ale_arezon_spmd(n2d,numels,numelq,numeltg,nsvois,nqvois,ntgvois,trimat,nmult,ngroup,nparg, &
                                         nspmd,iparg,elbuf_tab)
 ! ----------------------------------------------------------------------------------------------------------------------

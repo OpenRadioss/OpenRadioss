@@ -23,7 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
 !||    brezo2                 ../engine/source/ale/ale2d/brezo2.F
 !||--- called by ------------------------------------------------------
-!||    arezon                 ../engine/source/ale/arezon.F
+!||    arezon                 ../engine/source/ale/arezon.F90
 !||--- uses       -----------------------------------------------------
 !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
 !||====================================================================

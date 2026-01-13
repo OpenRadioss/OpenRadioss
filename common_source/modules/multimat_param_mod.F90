@@ -37,7 +37,7 @@
 !||    ale51_gradient_reconstruction2   ../engine/source/ale/alemuscl/ale51_gradient_reconstruction2.F
 !||    ale51_upwind3_int22              ../engine/source/ale/alefvm/cut_cells/ale51_upwind3_int22.F
 !||    alemain                          ../engine/source/ale/alemain.F
-!||    arezon                           ../engine/source/ale/arezon.F
+!||    arezon                           ../engine/source/ale/arezon.F90
 !||    atherm                           ../engine/source/ale/atherm.F
 !||    dfunc0                           ../engine/source/output/anim/generate/dfunc0.F
 !||    dfuncc                           ../engine/source/output/anim/generate/dfuncc.F

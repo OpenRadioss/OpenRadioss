@@ -37,6 +37,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    animcale                                 ../engine/source/output/anim/generate/monvol_anim.F90
 !||    anivflow                                 ../engine/source/output/anim/generate/monvol_anim.F90
 !||    anivflowp                                ../engine/source/output/anim/generate/monvol_anim.F90
+!||    arezon                                   ../engine/source/ale/arezon.F90
 !||    arruda_boyce                             ../starter/source/materials/mat/mat092/law92_nlsqf.F90
 !||    arruda_boyce_dyda                        ../starter/source/materials/mat/mat092/law92_nlsqf.F90
 !||    bcs_nrf                                  ../engine/source/boundary_conditions/bcs_nrf.F90

@@ -45,6 +45,7 @@
 !||    animcale                                 ../engine/source/output/anim/generate/monvol_anim.F90
 !||    anivflow                                 ../engine/source/output/anim/generate/monvol_anim.F90
 !||    anivflowp                                ../engine/source/output/anim/generate/monvol_anim.F90
+!||    arezon                                   ../engine/source/ale/arezon.F90
 !||    arruda_boyce                             ../starter/source/materials/mat/mat092/law92_nlsqf.F90
 !||    arruda_boyce_dyda                        ../starter/source/materials/mat/mat092/law92_nlsqf.F90
 !||    bcs_mod                                  ../common_source/modules/boundary_conditions/bcs_mod.F90

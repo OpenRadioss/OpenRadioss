@@ -58,7 +58,7 @@ C=======================================================================
 !||    alew6                            ../engine/source/ale/grid/alew6.F
 !||    alew7                            ../engine/source/ale/grid/alew7.F
 !||    alewdx                           ../engine/source/ale/grid/alewdx.F
-!||    arezon                           ../engine/source/ale/arezon.F
+!||    arezon                           ../engine/source/ale/arezon.F90
 !||    asspar3                          ../engine/source/assembly/asspar3.F
 !||    asspar4                          ../engine/source/assembly/asspar4.F
 !||    asspart                          ../engine/source/assembly/asspart.F

@@ -36,7 +36,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    ale51_gradient_reconstruction    ../engine/source/ale/alemuscl/ale51_gradient_reconstruction.F
 !||    ale51_gradient_reconstruction2   ../engine/source/ale/alemuscl/ale51_gradient_reconstruction2.F
 !||    ale51_init                       ../engine/source/ale/ale51/ale51_init.F
-!||    arezon                           ../engine/source/ale/arezon.F
+!||    arezon                           ../engine/source/ale/arezon.F90
 !||    atherm                           ../engine/source/ale/atherm.F
 !||    bhol2                            ../engine/source/ale/ale2d/bhol2.F
 !||    my_barrier                       ../engine/source/system/machine.F
@@ -49,7 +49,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    ale_connectivity_mod             ../common_source/modules/ale/ale_connectivity_mod.F
 !||    ale_mod                          ../common_source/modules/ale/ale_mod.F
 !||    alemuscl_mod                     ../common_source/modules/ale/alemuscl_mod.F
-!||    arezon_mod                       ../engine/source/ale/arezon.F
+!||    arezon_mod                       ../engine/source/ale/arezon.F90
 !||    elbufdef_mod                     ../common_source/modules/mat_elem/elbufdef_mod.F90
 !||    element_mod                      ../common_source/modules/elements/element_mod.F90
 !||    glob_therm_mod                   ../common_source/modules/mat_elem/glob_therm_mod.F90

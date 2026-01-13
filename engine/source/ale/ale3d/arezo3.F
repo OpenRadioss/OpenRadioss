@@ -23,14 +23,14 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
 !||    arezo3_mod   ../engine/source/ale/ale3d/arezo3.F
 !||--- called by ------------------------------------------------------
-!||    arezon       ../engine/source/ale/arezon.F
+!||    arezon       ../engine/source/ale/arezon.F90
 !||====================================================================
       MODULE AREZO3_MOD
       CONTAINS
 !||====================================================================
 !||    arezo3                 ../engine/source/ale/ale3d/arezo3.F
 !||--- called by ------------------------------------------------------
-!||    arezon                 ../engine/source/ale/arezon.F
+!||    arezon                 ../engine/source/ale/arezon.F90
 !||--- uses       -----------------------------------------------------
 !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
 !||====================================================================

@@ -38,12 +38,15 @@
 !||--- called by ------------------------------------------------------
 !||    resol                             ../engine/source/engine/resol.F
 !||--- calls      -----------------------------------------------------
+!||    init_ale_arezon_spmd              ../engine/source/ale/init_ale_arezon_spmd.F90
 !||    init_ale_boundary_condition       ../engine/source/ale/init_ale_boundary_condition.F90
 !||    init_ale_spmd                     ../engine/source/ale/init_ale_spmd.F90
 !||--- uses       -----------------------------------------------------
 !||    ale_connectivity_mod              ../common_source/modules/ale/ale_connectivity_mod.F
 !||    ale_mod                           ../common_source/modules/ale/ale_mod.F
+!||    elbufdef_mod                      ../common_source/modules/mat_elem/elbufdef_mod.F90
 !||    element_mod                       ../common_source/modules/elements/element_mod.F90
+!||    init_ale_arezon_spmd_mod          ../engine/source/ale/init_ale_arezon_spmd.F90
 !||    init_ale_boundary_condition_mod   ../engine/source/ale/init_ale_boundary_condition.F90
 !||    init_ale_spmd_mod                 ../engine/source/ale/init_ale_spmd.F90
 !||====================================================================
