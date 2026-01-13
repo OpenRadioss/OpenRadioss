@@ -197,7 +197,6 @@ C-------------------------------------
      .                    ANMODE=ANINFO_BLIND_1,
      .                    I1=TABSL(1,INDEX(IFLAGI1)),
      .                    PRMOD=MSG_PRINT)
-              IFLAGDBL=0
             ELSEIF (IFOUND==0.AND.IACTI==0) THEN ! warning out sensor effect will be treated later
               DO J=IFLAGI1,I-1
                 IRB=TABSL(2,INDEX(J))
@@ -215,8 +214,8 @@ C-------------------------------------
      .                    ANMODE=ANINFO_BLIND_1,
      .                    I1=TABSL(1,INDEX(IFLAGI1)),
      .                    PRMOD=MSG_PRINT)
-              IFLAGDBL=0
             END IF ! (IFOUND==0.AND.IACTI>0)
+            IFLAGDBL=0
           END IF
         END IF
         IOLD=TABSL(1,INDEX(I))     

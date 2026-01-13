@@ -498,11 +498,11 @@ C----------------------------------------
            MX = IPARTS(1+NFT)
            IF(ONFELT == 1.AND.IGOF_OLD==1)THEN
              DO I=1,NEL
-               PARTSAV(24,MX) = PARTSAV(24,MX)- GBUF%EINT(I) - GBUF%EINT(I+NEL)
+               PARTSAV(24,MX) = PARTSAV(24,MX)- GBUF%EINT(I) 
              END DO
            ELSE IF(IGOF == 1.AND.ONFELT == 0)THEN
              DO I=1,NEL
-               PARTSAV(24,MX) = PARTSAV(24,MX)+ GBUF%EINT(I) + GBUF%EINT(I+NEL)
+               PARTSAV(24,MX) = PARTSAV(24,MX)+ GBUF%EINT(I) 
              END DO
            END IF !(ONFELT == 1)THEN
          END IF
@@ -541,11 +541,11 @@ C----------------------------------------
            MX = IPARTQ(1+NFT)
            IF(ONFELT == 1.AND.IGOF_OLD==1)THEN
              DO I=1,NEL
-               PARTSAV(24,MX) = PARTSAV(24,MX)- GBUF%EINT(I) - GBUF%EINT(I+NEL)
+               PARTSAV(24,MX) = PARTSAV(24,MX)- GBUF%EINT(I) 
              END DO
            ELSE IF(IGOF == 1.AND.ONFELT == 0)THEN
              DO I=1,NEL
-               PARTSAV(24,MX) = PARTSAV(24,MX)+ GBUF%EINT(I) + GBUF%EINT(I+NEL)
+               PARTSAV(24,MX) = PARTSAV(24,MX)+ GBUF%EINT(I) 
              END DO
            END IF !(ONFELT == 1)THEN
          END IF
@@ -707,11 +707,11 @@ C----------------------------------------
            MX = IPARTR(1+NFT)
            IF(ONFELT == 1.AND.IGOF_OLD==1)THEN
              DO I=1,NEL
-               PARTSAV(24,MX) = PARTSAV(24,MX)- GBUF%EINT(I) - GBUF%EINT(I+NEL)
+               PARTSAV(24,MX) = PARTSAV(24,MX)- GBUF%EINT(I) 
              END DO
            ELSE IF(IGOF == 1.AND.ONFELT == 0)THEN
              DO I=1,NEL
-               PARTSAV(24,MX) = PARTSAV(24,MX)+ GBUF%EINT(I) + GBUF%EINT(I+NEL)
+               PARTSAV(24,MX) = PARTSAV(24,MX)+ GBUF%EINT(I) 
              END DO
            END IF !(ONFELT == 1)THEN
          END IF
