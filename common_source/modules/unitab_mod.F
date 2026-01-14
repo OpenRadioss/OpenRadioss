@@ -104,7 +104,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_read_fail                    ../starter/source/materials/fail/hm_read_fail.F
 !||    hm_read_fail_alter              ../starter/source/materials/fail/windshield_alter/hm_read_fail_alter.F
 !||    hm_read_fail_biquad             ../starter/source/materials/fail/biquad/hm_read_fail_biquad.F
-!||    hm_read_fail_chang              ../starter/source/materials/fail/changchang/hm_read_fail_chang.F
+!||    hm_read_fail_chang              ../starter/source/materials/fail/changchang/hm_read_fail_chang.F90
 !||    hm_read_fail_cockcroft          ../starter/source/materials/fail/cockroft_latham/hm_read_fail_cockcroft.F
 !||    hm_read_fail_composite          ../starter/source/materials/fail/composite/hm_read_fail_composite.F90
 !||    hm_read_fail_connect            ../starter/source/materials/fail/connect/hm_read_fail_connect.F
@@ -114,7 +114,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_read_fail_fld                ../starter/source/materials/fail/fld/hm_read_fail_fld.F
 !||    hm_read_fail_gene1              ../starter/source/materials/fail/gene1/hm_read_fail_gene1.F
 !||    hm_read_fail_gurson             ../starter/source/materials/fail/gurson/hm_read_fail_gurson.F
-!||    hm_read_fail_hashin             ../starter/source/materials/fail/hashin/hm_read_fail_hashin.F
+!||    hm_read_fail_hashin             ../starter/source/materials/fail/hashin/hm_read_fail_hashin.F90
 !||    hm_read_fail_hc_dsse            ../starter/source/materials/fail/hc_dsse/hm_read_fail_hc_dsse.F
 !||    hm_read_fail_hoffman            ../starter/source/materials/fail/hoffman/hm_read_fail_hoffman.F
 !||    hm_read_fail_inievo             ../starter/source/materials/fail/inievo/hm_read_fail_inievo.F
@@ -126,7 +126,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_read_fail_orthbiquad         ../starter/source/materials/fail/orthbiquad/hm_read_fail_orthbiquad.F
 !||    hm_read_fail_orthenerg          ../starter/source/materials/fail/orthenerg/hm_read_fail_orthenerg.F
 !||    hm_read_fail_orthstrain         ../starter/source/materials/fail/orthstrain/hm_read_fail_orthstrain.F
-!||    hm_read_fail_puck               ../starter/source/materials/fail/puck/hm_read_fail_puck.F
+!||    hm_read_fail_puck               ../starter/source/materials/fail/puck/hm_read_fail_puck.F90
 !||    hm_read_fail_rtcl               ../starter/source/materials/fail/rtcl/hm_read_fail_rtcl.F
 !||    hm_read_fail_sahraei            ../starter/source/materials/fail/sahraei/hm_read_fail_sahraei.F
 !||    hm_read_fail_snconnect          ../starter/source/materials/fail/snconnect/hm_read_fail_snconnect.F

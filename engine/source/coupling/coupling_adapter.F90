@@ -503,6 +503,7 @@
 !||--- called by ------------------------------------------------------
 !||    resol                 ../engine/source/engine/resol.F
 !||--- uses       -----------------------------------------------------
+!||    nodal_arrays_mod      ../common_source/modules/nodal_arrays.F90
 !||    precision_mod         ../common_source/modules/precision_mod.F90
 !||====================================================================
         subroutine coupling_initialize(coupling, nodes, nb_nodes, mpi_rank, mpi_commsize)
@@ -632,15 +633,16 @@
 
 !! \brief main subroutine to create syncrhonization points from resol.F. It does both reading and writing
 !||====================================================================
-!||    coupling_sync                 ../engine/source/coupling/coupling_adapter.F90
+!||    coupling_sync                       ../engine/source/coupling/coupling_adapter.F90
 !||--- called by ------------------------------------------------------
-!||    resol                         ../engine/source/engine/resol.F
+!||    resol                               ../engine/source/engine/resol.F
 !||--- calls      -----------------------------------------------------
-!||    coupling_adapter_read_data    ../engine/source/coupling/coupling_c_interface.cpp
-!||    coupling_adapter_write_data   ../engine/source/coupling/coupling_c_interface.cpp
+!||    coupling_adapter_get_coupled_data   ../engine/source/coupling/coupling_c_interface.cpp
+!||    coupling_adapter_read_data          ../engine/source/coupling/coupling_c_interface.cpp
+!||    coupling_adapter_write_data         ../engine/source/coupling/coupling_c_interface.cpp
 !||--- uses       -----------------------------------------------------
-!||    nodal_arrays_mod              ../common_source/modules/nodal_arrays.F90
-!||    precision_mod                 ../common_source/modules/precision_mod.F90
+!||    nodal_arrays_mod                    ../common_source/modules/nodal_arrays.F90
+!||    precision_mod                       ../common_source/modules/precision_mod.F90
 !||====================================================================
         subroutine coupling_sync(coupling, dt, nodes, name_id)
           use precision_mod, only: WP

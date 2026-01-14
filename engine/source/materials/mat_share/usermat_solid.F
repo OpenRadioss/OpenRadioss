@@ -29,13 +29,13 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    arret                       ../engine/source/system/arret.F
 !||    epsf2u                      ../engine/source/materials/mat/mat033/sigeps33.F
 !||    fail_biquad_s               ../engine/source/materials/fail/biquad/fail_biquad_s.F
-!||    fail_changchang_s           ../engine/source/materials/fail/changchang/fail_changchang_s.F
+!||    fail_changchang_s           ../engine/source/materials/fail/changchang/fail_changchang_s.F90
 !||    fail_cockroft_s             ../engine/source/materials/fail/cockroft_latham/fail_cockroft_s.F
 !||    fail_composite_s            ../engine/source/materials/fail/composite/fail_composite_s.F90
 !||    fail_emc                    ../engine/source/materials/fail/emc/fail_emc.F
 !||    fail_energy_s               ../engine/source/materials/fail/energy/fail_energy_s.F
 !||    fail_gene1_s                ../engine/source/materials/fail/gene1/fail_gene1_s.F
-!||    fail_hashin_s               ../engine/source/materials/fail/hashin/fail_hashin_s.F
+!||    fail_hashin_s               ../engine/source/materials/fail/hashin/fail_hashin_s.F90
 !||    fail_hoffman_s              ../engine/source/materials/fail/hoffman/fail_hoffman_s.F
 !||    fail_inievo_s               ../engine/source/materials/fail/inievo/fail_inievo_s.F
 !||    fail_johnson                ../engine/source/materials/fail/johnson_cook/fail_johnson.F
@@ -45,7 +45,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    fail_orthbiquad_s           ../engine/source/materials/fail/orthbiquad/fail_orthbiquad_s.F
 !||    fail_orthenerg_s            ../engine/source/materials/fail/orthenerg/fail_orthenerg_s.F
 !||    fail_orthstrain             ../engine/source/materials/fail/orthstrain/fail_orthstrain_s.F
-!||    fail_puck_s                 ../engine/source/materials/fail/puck/fail_puck_s.F
+!||    fail_puck_s                 ../engine/source/materials/fail/puck/fail_puck_s.F90
 !||    fail_rtcl_s                 ../engine/source/materials/fail/rtcl/fail_rtcl_s.F
 !||    fail_sahraei_s              ../engine/source/materials/fail/sahraei/fail_sahraei_s.F
 !||    fail_spalling_s             ../engine/source/materials/fail/spalling/fail_spalling_s.F90
@@ -74,9 +74,12 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- uses       -----------------------------------------------------
 !||    dt_mod                      ../engine/source/modules/dt_mod.F
 !||    elbufdef_mod                ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    fail_changchang_s_mod       ../engine/source/materials/fail/changchang/fail_changchang_s.F90
 !||    fail_composite_s_mod        ../engine/source/materials/fail/composite/fail_composite_s.F90
+!||    fail_hashin_s_mod           ../engine/source/materials/fail/hashin/fail_hashin_s.F90
 !||    fail_lemaitre_s_mod         ../engine/source/materials/fail/lemaitre/fail_lemaitre_s.F90
 !||    fail_param_mod              ../common_source/modules/mat_elem/fail_param_mod.F90
+!||    fail_puck_s_mod             ../engine/source/materials/fail/puck/fail_puck_s.F90
 !||    fail_spalling_s_mod         ../engine/source/materials/fail/spalling/fail_spalling_s.F90
 !||    glob_therm_mod              ../common_source/modules/mat_elem/glob_therm_mod.F90
 !||    law_userso                  ../engine/source/user_interface/law_userso.F

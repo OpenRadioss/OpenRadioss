@@ -20,8 +20,23 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+!||====================================================================
+!||    fail_changchang_c_mod   ../engine/source/materials/fail/changchang/fail_changchang_c.F90
+!||--- called by ------------------------------------------------------
+!||    mulawc                  ../engine/source/materials/mat_share/mulawc.F90
+!||    usermat_shell           ../engine/source/materials/mat_share/usermat_shell.F
+!||====================================================================
       module fail_changchang_c_mod
       contains
+!||====================================================================
+!||    fail_changchang_c   ../engine/source/materials/fail/changchang/fail_changchang_c.F90
+!||--- called by ------------------------------------------------------
+!||    mulawc              ../engine/source/materials/mat_share/mulawc.F90
+!||    usermat_shell       ../engine/source/materials/mat_share/usermat_shell.F
+!||--- uses       -----------------------------------------------------
+!||    constant_mod        ../common_source/modules/constant_mod.F
+!||    precision_mod       ../common_source/modules/precision_mod.F90
+!||====================================================================
       subroutine fail_changchang_c(                                            &
         nel       ,nuparam   ,nuvar     ,uparam    ,uvar      ,                &
         time      ,ngl       ,ipg       ,ilay      ,ipt       ,                &                      

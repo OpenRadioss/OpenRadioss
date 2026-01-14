@@ -28,6 +28,7 @@
 !||    chkload                                  ../engine/source/interfaces/chkload.F
 !||    chkstfn3n                                ../engine/source/interfaces/interf/chkstfn3.F
 !||    count_remote_nb_elem_edge                ../engine/source/interfaces/interf/count_remote_nb_elem_edge.F
+!||    coupling_initialize                      ../engine/source/coupling/coupling_adapter.F90
 !||    coupling_set_interface                   ../engine/source/coupling/coupling_adapter.F90
 !||    coupling_set_mesh                        ../engine/source/coupling/coupling_adapter.F90
 !||    coupling_sync                            ../engine/source/coupling/coupling_adapter.F90
