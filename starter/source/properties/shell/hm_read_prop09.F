@@ -229,17 +229,6 @@ C-------to have DR----
           IF (ISMSTR==10.AND.ISROT>0.AND.IDROT==0) IDROT = 1
 
 
-        IF(N2D>0.AND.IHBE/=0.AND.IHBE/=2)THEN
-          IHBE_OLD=IHBE
-          IHBE=0
-          CALL ANCMSG(MSGID=321,
-     .                MSGTYPE=MSGWARNING,
-     .                ANMODE=ANINFO_BLIND_2,
-     .                I1=IG,
-     .                C1=IDTITL,
-     .                I2=IHBE_OLD,
-     .                I3=IHBE)
-        ENDIF
 C
 c        CALL FRETITL(IDTITL,IGEO(NPROPGI-LTITR+1),LTITR)
 c

@@ -119,17 +119,6 @@ C--------------------------------------------------
 C----------------------
 C
 C----------------------
-        IF(N2D>0.AND.IHBE/=0.AND.IHBE/=2)THEN
-          IHBE_OLD=IHBE
-          IHBE=0
-          CALL ANCMSG(MSGID=321,
-     .                MSGTYPE=MSGWARNING,
-     .                ANMODE=ANINFO_BLIND_2,
-     .                I1=IG,
-     .                C1=IDTITL,
-     .                I2=IHBE_OLD,
-     .                I3=IHBE)
-        ENDIF
 C
         GEO(3)=ISMSTR
         IF ((ISMSTR==3).OR.(ISMSTR==1)) GEO(5)=EP06
