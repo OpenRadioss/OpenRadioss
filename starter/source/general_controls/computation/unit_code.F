@@ -90,8 +90,8 @@ C        Read, skip trailing spaces
            CUNIT=FIELD(J3:J3)
            CFAC(1:2)=FIELD(J1:J2)
          ELSE          
-           J1 = -HUGE(J1)
-           J2 = -HUGE(J2)
+           J1 = 1
+           J2 = J3
            CUNIT=''
            CFAC(1:2)=''
            IERR1=0
