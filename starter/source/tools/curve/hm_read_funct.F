@@ -295,9 +295,9 @@ C-----------------------------------------------------------------
      .       '    -----------'/
      .       '    NUMBER OF LOAD CURVES. . . . . . . . =',I10/)
 2100  FORMAT(/'    LOAD CURVE ID . . . . . . . . . . . =',I10//
-     .        '    X                     Y               ')
+     .        '    X                   Y                   ')
 2200  FORMAT(/'    LOAD SMOOTH CURVE ID . . . . . .  . =',I10)
 2300  FORMAT(/'    XSCALE                YSCALE                XSHIFT
      .                YSHIFT              ')
-2400  FORMAT(/'    X                     Y               ')
+2400  FORMAT(/'    X                   Y                   ')
       END
