@@ -165,7 +165,7 @@ C-----------------------------------------------------------------
      . '      X SHIFT                    = ',E20.13/,                        
      . '      Y SHIFT                    = ',E20.13/,                        
      . '      TRANSFORMED VALUES :'/,
-     . '          X                     Y    ')
+     . '        X                     Y    ')
 2200  FORMAT(/
      . '    LOAD FUNCTION NUMBER. . . . . =',I10/
      . '      X SCALE                    = ',E20.13/,                        
