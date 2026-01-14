@@ -877,9 +877,6 @@ C
           XYZFLAG0(:) = XYZFLAG(:)
           !---------------------
           if(PFLAG == 0) PFLAG = 1 ! by default
-          if(XYZFLAG(1) == 0) XYZFLAG(1) = 1 ! by default
-          if(XYZFLAG(2) == 0) XYZFLAG(2) = 1 ! by default
-          if(XYZFLAG(3) == 0) XYZFLAG(3) = 1 ! by default
           !
           ISK = 0
           IF (ISK0 > 0) THEN
@@ -965,8 +962,7 @@ C
               CALL min_dist_grnod_to_surface(
      .                 IGRNOD(IGS)%ENTITY, IGRNOD(IGS)%NENTITY, INO   , NNO    ,X   ,
      .                 NUMNOD            , PFLAG              , IDIR  , GAP    ,ISK ,
-     .                 SKEW              , LSKEW              , SSKEW ,ID      ,TITR,
-     .                 NCHARTITLE        )
+     .                 SKEW              , LSKEW              , SSKEW )
             ELSE
               ! no surface defined - transform nodes by positioning them at XYZPOS
               ! with flags XYZFLAG

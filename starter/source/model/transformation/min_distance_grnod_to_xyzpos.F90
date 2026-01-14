@@ -208,18 +208,18 @@
             ! global translation of group nodes in all concerned directions
             do i=1, n_nodes
               igrnod = nodes(i)
-              if(xyzflag(1) > 0 .and. xyzpos(1) /= 0.0_WP) x(1,igrnod) = xn(1,i) - dist_x
-              if(xyzflag(2) > 0 .and. xyzpos(2) /= 0.0_WP) x(2,igrnod) = xn(2,i) - dist_y
-              if(xyzflag(3) > 0 .and. xyzpos(3) /= 0.0_WP) x(3,igrnod) = xn(3,i) - dist_z
+              if(xyzflag(1) > 0) x(1,igrnod) = xn(1,i) - dist_x
+              if(xyzflag(2) > 0) x(2,igrnod) = xn(2,i) - dist_y
+              if(xyzflag(3) > 0) x(3,igrnod) = xn(3,i) - dist_z
             end do
           else if (isk > 0) then
             ! skewed translation of group nodes in all concerned directions
             do i=1, n_nodes
               igrnod = nodes(i)
               ! translate in local system
-              if(xyzflag(1) > 0 .and. xyzpos(1) /= 0.0_WP) xn(1,i) = xn(1,i) - dist_x
-              if(xyzflag(2) > 0 .and. xyzpos(2) /= 0.0_WP) xn(2,i) = xn(2,i) - dist_y
-              if(xyzflag(3) > 0 .and. xyzpos(3) /= 0.0_WP) xn(3,i) = xn(3,i) - dist_z
+              if(xyzflag(1) > 0) xn(1,i) = xn(1,i) - dist_x
+              if(xyzflag(2) > 0) xn(2,i) = xn(2,i) - dist_y
+              if(xyzflag(3) > 0) xn(3,i) = xn(3,i) - dist_z
 
               ! local to global transformation after translation in local system
 
