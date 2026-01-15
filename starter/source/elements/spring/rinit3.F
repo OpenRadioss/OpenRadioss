@@ -476,22 +476,22 @@ C
                NKIN  = IKINE(I2)
                KCOND2 = IRB(NKIN)+IRB2(NKIN)          
                CALL FRETITL2(TITR,IGEO(NPROPGI-LTITR+1,I0),LTITR)
-               IF (((XMAS(I1) > ZERO).OR.(KCOND1 > 0)).AND.((XMAS(I2) > ZERO).OR.(KCOND1 > 0)).AND.(MTN == 108)) THEN
-C-               imass = 1 (mass per unit lenght) + null length accepted for law108
-C-               if nodes have masses are or connected to rbodies - only a warning is printed                              
+               IF (MTN == 108) THEN
+C-               imass = 1 (mass per unit lenght) + null length accepted for law108 - only a warning is printed  
+C.               mass checked later in rcheckmass                            
                  CALL ANCMSG(MSGID=3103,
      .                       MSGTYPE=MSGWARNING,
      .                       ANMODE=ANINFO_BLIND_1,
      .                       I1=ID,
      .                       C1=TITR,
-     .                       I2=IXR(NIXR,I))
+     .                       I2=IXR(NIXR,NFT+I))
                ELSE
                  CALL ANCMSG(MSGID=1664,
      .                       MSGTYPE=MSGERROR,
      .                       ANMODE=ANINFO_BLIND_1,
      .                       I1=ID,
      .                       C1=TITR,
-     .                       I2=IXR(NIXR,I))   
+     .                       I2=IXR(NIXR,NFT+I))   
                ENDIF   
              ENDIF
             ELSEIF(IMASS == 2) THEN
