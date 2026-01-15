@@ -126,26 +126,22 @@ C
             N2  =IXR(3,NR)
             IF((TAGSLV(N1)==0.AND.(MS(N1)==ZERO.OR.IN(N1)==ZERO)).OR.
      .         (TAGSLV(N2)==0.AND.(MS(N2)==ZERO.OR.IN(N2)==ZERO)))THEN
- 
-              IF(IP/=IPREV.AND.NERR/=0)THEN
+C 
+              IF(IP/=IPREV)THEN
+                IF (NERR /= 0) THEN  
+C                 Depile messages...
+                  CALL FRETITL2(TITL,IPART(LIPART1-LTITR+1,IP),LTITR)
+                  CALL ANCMSG(MSGID=1870,
+     .                       MSGTYPE=MSGERROR,
+     .                       ANMODE=ANINFO_BLIND_1,
+     .                       I1=IPART(4,IPREV),
+     .                       C1=TITL,
+     .                       PRMOD=MSG_PRINT) 
+                  NERR=0
+                ENDIF 
                 IPREV=IP
-C
-                CALL FRETITL2(TITL,IPART(LIPART1-LTITR+1,IP),LTITR)
-                CALL ANCMSG(MSGID=1870,
-     .                      MSGTYPE=MSGERROR,
-     .                      ANMODE=ANINFO_BLIND_1,
-     .                      I1=IPART(4,IP),
-     .                      C1=TITL)
-C
-C               Depile messages...
-                CALL ANCMSG(MSGID=1871,
-     .                      MSGTYPE=MSGERROR,
-     .                      ANMODE=ANINFO_BLIND_1,
-     .                      PRMOD=MSG_PRINT)
-C
-                NERR = 0
-C
               END IF
+C              
               XKM= MAX(UPARAM(IADBUF + K11 + 1)*UPARAM(IADBUF + K1 + 1),
      .                 UPARAM(IADBUF + K11 + 2)*UPARAM(IADBUF + K1 + 2),
      .                 UPARAM(IADBUF + K11 + 3)*UPARAM(IADBUF + K1 + 3))   ! /XL(I)
@@ -162,10 +158,10 @@ C
               END IF
             END IF
           END IF
-        END IF 
+        END IF         
         IF(IERR2/=0)THEN
           NERR=NERR+1
-          CALL ANCMSG(MSGID=1871,
+          CALL ANCMSG(MSGID=1870,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANINFO_BLIND_1,
      .                I1=IXR(NIXR,NR),
@@ -174,11 +170,16 @@ C
      .                PRMOD=MSG_CUMU)
         END IF
       END DO
-C
-      CALL ANCMSG(MSGID=1871,
-     .            MSGTYPE=MSGERROR,
-     .            ANMODE=ANINFO_BLIND_1,
-     .            PRMOD=MSG_PRINT)
+C     
+      IF (NERR /= 0) THEN
+        CALL FRETITL2(TITL,IPART(LIPART1-LTITR+1,IP),LTITR)
+        CALL ANCMSG(MSGID=1870,
+     .              MSGTYPE=MSGERROR,
+     .              ANMODE=ANINFO_BLIND_1,
+     .              I1=IPART(4,IP),
+     .              C1=TITL,
+     .             PRMOD=MSG_PRINT) 
+      END IF
 C
       DEALLOCATE(INDEX,ITRI,TAGSLV)
 C------------------------------------------
