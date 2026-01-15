@@ -668,8 +668,9 @@
           else
             call init_mat_keyword(matparam,"INCOMPRESSIBLE")
           endif
-          call init_mat_keyword(matparam,"INCREMENTAL")
+          call init_mat_keyword(matparam,"TOTAL")
           call init_mat_keyword(matparam,"LARGE_STRAIN")
+          call init_mat_keyword(matparam,"HOOK")
 !
           !< Properties compatibility
           call init_mat_keyword(matparam,"SOLID_BRICK_ISOTROPIC")
