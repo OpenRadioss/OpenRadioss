@@ -20,28 +20,6 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-!copyright>        openradioss
-!copyright>        copyright (c) 1986-2025 altair engineering inc.
-!copyright>
-!copyright>        this program is free software: you can redistribute it and/or modify
-!copyright>        it under the terms of the gnu affero general public license as published by
-!copyright>        the free software foundation, either version 3 of the license, or
-!copyright>        (at your option) any later version.
-!copyright>
-!copyright>        this program is distributed in the hope that it will be useful,
-!copyright>        but without any warranty; without even the implied warranty of
-!copyright>        merchantability or fitness for a particular purpose.  see the
-!copyright>        gnu affero general public license for more details.
-!copyright>
-!copyright>        you should have received a copy of the gnu affero general public license
-!copyright>        along with this program.  if not, see <https://www.gnu.org/licenses/>.
-!copyright>
-!copyright>
-!copyright>        commercial alternative: altair radioss software
-!copyright>
-!copyright>        as an alternative to this open-source version, altair also offers altair radioss
-!copyright>        software under a commercial license.  contact altair to discuss further if the
-!copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
 !||    fail_tab2_b_mod   ../engine/source/materials/fail/tabulated/fail_tab2_b.F90
 !||--- called by ------------------------------------------------------
