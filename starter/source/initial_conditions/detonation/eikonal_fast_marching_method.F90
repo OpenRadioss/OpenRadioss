@@ -363,7 +363,7 @@
           do ii=1,neldet
             ng = idx_ng(ii)
             i  = idx_i(ii)
-            tmp = -elbuf_tab(ng)%gbuf%tb(i)
+            tmp = abs(elbuf_tab(ng)%gbuf%tb(i)) ! Tdet was potentially already computed with standard detonator (no fast marching method), see m5in2 subroutine
             tmp = min (tmp, tdet(ii))
             elbuf_tab(ng)%gbuf%tb(i) = -tmp
           end do
