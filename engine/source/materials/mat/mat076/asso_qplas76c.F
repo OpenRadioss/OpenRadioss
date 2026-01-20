@@ -40,7 +40,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .     SIGNXX  ,SIGNYY  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,
      .     PLA     ,DPLA    ,OFF     ,GS      ,
      .     YLD     ,SOUNDSP ,DEZZ    ,INLOC   ,DPLANL  ,
-     .     NVARTMP, VARTMP  ,LOFF    )
+     .     NVARTMP, VARTMP  ,LOFF    ,DMG     )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -67,6 +67,7 @@ C-----------------------------------------------
      .   SIGOXX,SIGOYY,SIGOXY,SIGOYZ,SIGOZX
       TYPE(TABLE_4D_), DIMENSION(NUMTABL) ,INTENT(IN) :: TABLE
       my_real, DIMENSION(NEL), INTENT(IN) :: LOFF
+      my_real, DIMENSION(NEL), INTENT(IN) :: DMG
 C-----------------------------------------------
 C   O U T P U T   A r g u m e n t s
 C-----------------------------------------------
@@ -253,7 +254,7 @@ C
         SVM2(I) = THREE_HALF*(SXX(I)**2 + SYY(I)**2 + SZZ(I)**2) + THREE*SIGNXY(I)**2
         SVM(I)  = SQRT(SVM2(I))
         YLDS(I) = SVM2(I) - A0(I) - A1(I)*P(I) - A2(I)*P(I)*P(I)
-        IF (YLDS(I) > 0 .AND. OFF(I) == ONE) THEN
+        IF (YLDS(I) > 0 .AND. OFF(I) == ONE .AND. DMG(I) < ONE) THEN
           NINDX = NINDX + 1
           INDX(NINDX) = I
         ENDIF
@@ -332,12 +333,16 @@ C
 C                 
             DLAM    = YLDS(I)/FF(I)                          
             DPLA(I) = MAX(ZERO, DPLA(I) + TWO*DLAM*YLD_NORM )
+            DPLA(I) = MAX(DPLA(I),ZERO)
             PLA(I)  = PLA(I) + TWO*DLAM*YLD_NORM
+            PLA(I)  = MAX(PLA(I),ZERO)
             DPT = DLAM * YLD_NORM*BB
             DPS = DLAM * YLD_NORM*SQR3
             DPLAT(I) = DPLAT(I) + DPT
+            DPLAT(I) = MAX(DPLAT(I),ZERO)
             DPLAC(I) = DPLAT(I)
             DPLAS(I) = DPLAS(I) + DPS
+            DPLAS(I) = MAX(DPLAS(I),ZERO)
 c
             !  Plastic strains tensor update
             DPXX(I) = DLAM * NORMXX * NORM
@@ -352,8 +357,11 @@ C
 C            
             ! compute EPSPC(I), EPSPT(I), EPSPS(I)
             EPSPT(I) = EPSPT(I) + DPT
-            EPSPC(I) = EPSPC(I) + DPT                   
+            EPSPT(I) = MAX(EPSPT(I),ZERO)
+            EPSPC(I) = EPSPC(I) + DPT  
+            EPSPC(I) = MAX(EPSPC(I),ZERO)                 
             EPSPS(I) = EPSPS(I) + DPS 
+            EPSPS(I) = MAX(EPSPS(I),ZERO)
           ENDDO
 C            
           ! Update Yld values and criterion with new plastic strain and strain rate    

@@ -129,7 +129,7 @@ c
      3      DEPSXX ,DEPSYY ,DEPSZZ  ,DEPSXY  ,DEPSYZ  ,DEPSZX ,
      4      SIG0XX ,SIG0YY ,SIG0ZZ  ,SIG0XY  ,SIG0YZ  ,SIG0ZX ,
      5      SIGNXX ,SIGNYY ,SIGNZZ  ,SIGNXY  ,SIGNYZ  ,SIGNZX ,
-     6      SOUNDSP,UVAR   ,OFF     ,EPSD    ,YLD    )
+     6      SOUNDSP,UVAR   ,OFF     ,EPSD    ,YLD     ,DMG    )
       ELSE ! Non-associated plastic flow
         CALL NO_ASSO_PLAS76(
      1      NEL    ,NUPARAM,NUVAR   ,NFUNC   ,IFUNC   ,NVARTMP,
@@ -138,7 +138,7 @@ c
      3      DEPSXX ,DEPSYY ,DEPSZZ  ,DEPSXY  ,DEPSYZ  ,DEPSZX ,
      4      SIG0XX ,SIG0YY ,SIG0ZZ  ,SIG0XY  ,SIG0YZ  ,SIG0ZX ,
      5      SIGNXX ,SIGNYY ,SIGNZZ  ,SIGNXY  ,SIGNYZ  ,SIGNZX ,
-     6      SOUNDSP,UVAR   ,OFF     ,EPSD    ,YLD    )    
+     6      SOUNDSP,UVAR   ,OFF     ,EPSD    ,YLD     ,DMG    )    
       ENDIF
 c
       !====================================================================

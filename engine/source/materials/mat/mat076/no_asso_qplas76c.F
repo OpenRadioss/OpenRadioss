@@ -40,7 +40,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .     SIGNXX  ,SIGNYY  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,
      .     PLA     ,DPLA    ,OFF     ,GS      ,
      .     YLD     ,SOUNDSP ,DEZZ    ,INLOC   ,DPLANL  ,
-     .     NVARTMP, VARTMP  ,LOFF    )
+     .     NVARTMP, VARTMP  ,LOFF    ,DMG     )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -67,6 +67,7 @@ C-----------------------------------------------
      .   SIGOXX,SIGOYY,SIGOXY,SIGOYZ,SIGOZX
       TYPE(TABLE_4D_), DIMENSION(NUMTABL) ,INTENT(IN) :: TABLE
       my_real, DIMENSION(NEL), INTENT(IN) :: LOFF
+      my_real, DIMENSION(NEL), INTENT(IN) :: DMG
 C-----------------------------------------------
 C   O U T P U T   A r g u m e n t s
 C-----------------------------------------------
@@ -257,7 +258,7 @@ c
         SVM2(I) = THREE_HALF*(SXX(I)**2 + SYY(I)**2 + SZZ(I)**2) + THREE*SIGNXY(I)**2
         SVM(I)  = SQRT(SVM2(I))
         YLDS(I) = SVM2(I) - A0(I) - A1(I)*P(I) - A2(I)*P(I)*P(I)
-        IF (YLDS(I) > 0 .AND. OFF(I) == ONE) THEN
+        IF (YLDS(I) > 0 .AND. OFF(I) == ONE .AND. DMG(I) < ONE) THEN
           NINDX = NINDX + 1
           INDX(NINDX) = I
         ENDIF
@@ -356,14 +357,20 @@ c
 c            
             ! compute EPSPC(I), EPSPT(I), EPSPS(I)
             EPSPT(I) = EPSPT(I) + DLAM* YLD_NORM * BB 
+            EPSPT(I) = MAX(EPSPT(I),ZERO)
             EPSPC(I) = EPSPT(I)                 
             EPSPS(I) = EPSPS(I) + DLAM* YLD_NORM*SQR3/TWO
+            EPSPS(I) = MAX(EPSPS(I),ZERO)
 c
             PLA(I)  = PLA(I) + DLAM*YLD_NORM*OFF(I)
+            PLA(I)  = MAX(PLA(I),ZERO)
             DPLA(I) = DPLA(I) + DLAM *YLD_NORM
+            DPLA(I) = MAX(DPLA(I),ZERO)
             DPLAT(I) = DPLAT(I) + DLAM* YLD_NORM*BB 
+            DPLAT(I) = MAX(DPLAT(I),ZERO)
             DPLAC(I) = DPLAT(I)
             DPLAS(I) = DPLAS(I) + DLAM* YLD_NORM*SQR3/TWO
+            DPLAS(I) = MAX(DPLAS(I),ZERO)
 c
           ENDDO
 c            

@@ -138,7 +138,7 @@ c
      .       SIGNXX  ,SIGNYY  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,
      .       PLA     ,DPLA    ,OFF     ,GS      ,
      .       YLD     ,SOUNDSP ,DEZZ    ,INLOC   ,DPLANL  ,
-     .       NVARTMP ,VARTMP  ,LOFF    )
+     .       NVARTMP ,VARTMP  ,LOFF    ,DMG     )
 c
       ELSE   ! Non-associated plastic flow
         IF (IQUAD == 1) THEN ! Quadratic yield criterion
@@ -151,7 +151,7 @@ c
      .       SIGNXX  ,SIGNYY  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,
      .       PLA     ,DPLA    ,OFF     ,GS      ,
      .       YLD     ,SOUNDSP ,DEZZ    ,INLOC   ,DPLANL  ,
-     .       NVARTMP ,VARTMP  ,LOFF    )
+     .       NVARTMP ,VARTMP  ,LOFF    ,DMG     )
         ELSE                 ! Non-quadratic yield criterion
           CALL NO_ASSO_LPLAS76C(
      .       NEL     ,NUPARAM ,NUVAR   ,NFUNC   ,IFUNC   ,
@@ -162,7 +162,7 @@ c
      .       SIGNXX  ,SIGNYY  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,
      .       PLA     ,DPLA    ,OFF     ,GS      ,
      .       YLD     ,SOUNDSP ,DEZZ    ,INLOC   ,DPLANL  ,
-     .       NVARTMP ,VARTMP  ,LOFF    )
+     .       NVARTMP ,VARTMP  ,LOFF    ,DMG     )
         ENDIF
       ENDIF
 c
