@@ -24,9 +24,7 @@ jobs:
     # DEV ONLY # runs-on: ["${{ matrix.build }}","dev_pmci"]
     runs-on: ["${{ matrix.build }}","prmerge_ci"]
     container: 
-      image: fr-qafactorydev.europe.altair.com/build-linux64_gf:cos8-ompi411-devts11
-      # DEV ONLY #
-      # image: fr-qafactorydev.europe.altair.com/build-linux64_gf:cos8-ompi411-devts11-uid10000
+      image: fr-qafactorydev.europe.altair.com/rd-linux64-cos8-bld:ompi4.1.1-ts11
       credentials: 
         username: ${{secrets.DOCKER_REGISTRY_USER}}
         password: ${{secrets.DOCKER_REGISTRY_PASSWD}}
@@ -122,7 +120,7 @@ jobs:
           echo "--  BUILD ${{ matrix.build }} --"   
           echo "--  $cmd --"   
           echo "========================================="
-          source /home/adminqa/.bashrc
+          source /root/.bashrc
           chmod 755 Compiling_tools/script/*
           chmod 755 ${{ matrix.binary }}/build_script.sh 
 
@@ -226,7 +224,7 @@ jobs:
     # DEV ONLY # runs-on: ["qa_${{ matrix.os }}","dev"]
     runs-on: ["qa_${{ matrix.os }}","prmerge_ci"]
     container: 
-      image: fr-qafactorydev.europe.altair.com/qa-linux64_gf:cos8-ompi411
+      image: fr-qafactorydev.europe.altair.com/rd-linux64-cos8-qa:ompi4.1.1
       credentials: 
         username: ${{secrets.DOCKER_REGISTRY_USER}}
         password: ${{secrets.DOCKER_REGISTRY_PASSWD}}
@@ -236,7 +234,7 @@ jobs:
     env:
       hm_reader_extlib: ../../extlib/hm_reader
       hm_reader_cfgfiles: ../../hm_cfg_files
-      homeuser: /home/adminqa
+      homeuser: /root
       mpi: ompi
       STATUS_QA: 0
       SERVBOT_PAT: ${{ secrets.SERVBOT_PAT }}
@@ -310,9 +308,12 @@ jobs:
           rm -f QA.summary
           chmod 755 or_qa_script or_radioss.pl 
 
+          # Allow root to execute mpi command (we are in docker container as root)
+          export OMPI_ALLOW_RUN_AS_ROOT=1
+          export OMPI_ALLOW_RUN_AS_ROOT_CONFIRM=1
+
           source ${{ env.homeuser }}/.bashrc
           export LD_LIBRARY_PATH=${{ env.hm_reader_extlib }}/${{ matrix.os }}:$LD_LIBRARY_PATH
-
 
           cmd="./or_qa_script ../../exec/engine_${{ matrix.os }}_gf_${{ env.mpi }}${precision_ext} 1.0 --env:RAD_CFG_PATH=${{ env.hm_reader_cfgfiles }} --system_run --env:OMP_STACKSIZE=400m --exec_script_args='mpiexec -np ${{ env.QA_NB_PROC }}' --env:OMP_NUM_THREADS=${{ env.QA_NB_THREAD }} --output_failures_stdout --xtra_args='--timeoutscript=${{ env.QA_TIMEOUT_PER_TEST_LINUX }}' "
           echo "========================================="
@@ -755,7 +756,7 @@ jobs:
     if: ${{ github.repository_owner == 'OpenRadioss' }} 
     runs-on: delivery   
     container: 
-      image: fr-qafactorydev.europe.altair.com/common-linux64
+      image: fr-qafactorydev.europe.altair.com/rd-linux64-common:latest
       credentials: 
         username: ${{secrets.DOCKER_REGISTRY_USER}}
         password: ${{secrets.DOCKER_REGISTRY_PASSWD}}
