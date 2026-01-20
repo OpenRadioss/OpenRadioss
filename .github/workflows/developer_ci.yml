@@ -18,7 +18,7 @@ jobs:
   guard:
     runs-on: developer_ci   
     container: 
-      image: fr-qafactorydev.europe.altair.com/common-linux64
+      image: fr-qafactorydev.europe.altair.com/rd-linux64-common:latest
 
     steps:
       - uses: actions/checkout@v4
@@ -61,14 +61,14 @@ jobs:
             precision: dp
             os: linux64
             binary: starter
-            image_name: build-linux64_gf:cos8-ompi411-devts11
+            image_name: rd-linux64-cos8-bld:ompi4.1.1-ts11
 
           - build: engine_linux64_gf_ompi
             precision: dp
             os: linux64
             binary: engine
             mpi: ompi
-            image_name: build-linux64_gf:cos8-ompi411-devts11
+            image_name: rd-linux64-cos8-bld:ompi4.1.1-ts11
 
     container: 
       image: "fr-qafactorydev.europe.altair.com/${{ matrix.image_name }}"
@@ -103,7 +103,7 @@ jobs:
           echo "--  BUILD ${{ matrix.build }} --"   
           echo "--  $cmd --"   
           echo "========================================="
-          source /home/adminqa/.bashrc
+          source /root/.bashrc
           chmod 755 Compiling_tools/script/*
           chmod 755 ${{ matrix.binary }}/build_script.sh
 
@@ -154,27 +154,27 @@ jobs:
             precision: sp
             os: linux64
             binary: starter
-            image_name: linux64-cos10-bld:ompi4.1.1-ts15
+            image_name: rd-linux64-cos10-bld:ompi4.1.1-ts15
 
           - build: engine_linux64_gf_ompi_sp
             precision: sp
             os: linux64 
             binary: engine
             mpi: ompi
-            image_name: linux64-cos10-bld:ompi4.1.1-ts15
+            image_name: rd-linux64-cos10-bld:ompi4.1.1-ts15
 
           # Disabled since error would be seen in ompi version
           # - build: engine_linux64_gf
           #   precision: dp
           #   os: linux64
           #   binary: engine
-          #   image_name: build-linux64_gf:cos8-ompi411-devts11
+          #   image_name: rd-linux64-cos10-bld:ompi4.1.1-ts15
 
           # - build: engine_linux64_gf_sp
           #   precision: sp
           #   os: linux64 
           #   binary: engine
-          #   image_name: build-linux64_gf:cos8-ompi411-devts11
+          #   image_name: rd-linux64-cos10-bld:ompi4.1.1-ts15
 
     container: 
       image: "fr-qafactorydev.europe.altair.com/${{ matrix.image_name }}"
@@ -209,7 +209,7 @@ jobs:
           echo "--  BUILD ${{ matrix.build }} --"   
           echo "--  $cmd --"   
           echo "========================================="
-          source /home/adminqa/.bashrc
+          source /root/.bashrc
           chmod 755 Compiling_tools/script/*
           chmod 755 ${{ matrix.binary }}/build_script.sh
 
@@ -237,7 +237,7 @@ jobs:
     # DEV ONLY # runs-on: ["build","dev_devci"]
     runs-on: ["build","developer_ci"]
     container: 
-      image: fr-qafactorydev.europe.altair.com/build-linux64_gf:cos8-ompi411-devts11
+      image: fr-qafactorydev.europe.altair.com/rd-linux64-cos8-bld:ompi4.1.1-ts11
       volumes: 
         - /etc/localtime:/etc/localtime:ro
 
@@ -274,7 +274,7 @@ jobs:
 
       - name: Generate Fortran Signatures
         run: |
-          source /home/adminqa/.bashrc
+          source /root/.bashrc
           cd scripts/gcc_plugin
           sh build.sh          
           cd -
@@ -294,7 +294,7 @@ jobs:
           echo "--  BUILD & ANALYSE ${{ matrix.build }} --"   
           echo "--  $cmd --"   
           echo "========================================="
-          source /home/adminqa/.bashrc
+          source /root/.bashrc
           chmod 755 Compiling_tools/script/*
           chmod 755 ${{ matrix.binary }}/build_script.sh
 
@@ -309,14 +309,14 @@ jobs:
     # DEV ONLY # runs-on: ["qa_${{ matrix.os }}","dev"]
     runs-on: ["qa_${{ matrix.os }}","developer_ci"]
     container: 
-      image: fr-qafactorydev.europe.altair.com/qa-linux64_gf:cos8-ompi411
+      image: fr-qafactorydev.europe.altair.com/rd-linux64-cos8-qa:ompi4.1.1
       volumes: 
         - /etc/localtime:/etc/localtime:ro
 
     env:
       hm_reader_extlib: ../../extlib/hm_reader
       hm_reader_cfgfiles: ../../hm_cfg_files
-      homeuser: /home/adminqa
+      homeuser: /root
       mpi: ompi
       # DEV ONLY # QA_NB_PROC: 2
       QA_NB_PROC: 4
