@@ -38,7 +38,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      3     DEPSXX  ,DEPSYY ,DEPSZZ  ,DEPSXY  ,DEPSYZ  ,DEPSZX  ,
      4     SIGOXX  ,SIGOYY ,SIGOZZ  ,SIGOXY  ,SIGOYZ  ,SIGOZX  ,
      5     SIGNXX  ,SIGNYY ,SIGNZZ  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,
-     6     SOUNDSP ,UVAR   ,OFF     ,EPSD    ,YLD     )
+     6     SOUNDSP ,UVAR   ,OFF     ,EPSD    ,YLD     ,DMG     )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -63,6 +63,7 @@ C-----------------------------------------------
      .   RHO0,DEPSXX,DEPSYY,DEPSZZ,
      .   DEPSXY,DEPSYZ,DEPSZX,SIGOXX,SIGOYY,SIGOZZ,
      .   SIGOXY,SIGOYZ,SIGOZX 
+      my_real, DIMENSION(NEL), INTENT(IN) :: DMG
 C-----------------------------------------------
 C   O U T P U T   A r g u m e n t s
 C-----------------------------------------------
@@ -279,7 +280,7 @@ c
         ELSE
           PHI(I) = SVM(I) - A0(I) - A1(I)*P(I) - A2(I)*P(I)*P(I)
         ENDIF
-        IF (PHI(I) >= ZERO .AND. OFF(I) == ONE) THEN
+        IF (PHI(I) >= ZERO .AND. OFF(I) == ONE .AND. DMG(I) < ONE) THEN
           NINDX = NINDX + 1
           INDX(NINDX) = I
         ENDIF
@@ -459,14 +460,20 @@ c
 c          
             ! Cumulated plastic strains update       
             PLAT(I)  = PLAT(I) + DLAM*(SVM(I)/PSI(I))*THREE_HALF/(ONE + NUP(I))
+            PLAT(I)  = MAX(PLAT(I),ZERO)
             PLAC(I)  = PLAT(I)    
             PLAS(I)  = PLAS(I) + (SQR3/TWO)*(SVM(I)/PSI(I))*DLAM   
+            PLAS(I)  = MAX(PLAS(I),ZERO)
             PLA(I)   = PLA(I)  + (SVM(I)/PSI(I))*DLAM  
+            PLA(I)   = MAX(PLA(I),ZERO)
             ! Plastic strain increments update
             DPLAT(I) = DPLAT(I) + DLAM*(SVM(I)/PSI(I))*THREE_HALF/(ONE + NUP(I))
+            DPLAT(I) = MAX(DPLAT(I),ZERO)
             DPLAC(I) = DPLAT(I)
             DPLAS(I) = DPLAS(I) + (SQR3/TWO)*(SVM(I)/PSI(I))*DLAM   
+            DPLAS(I) = MAX(DPLAS(I),ZERO)
             DPLA(I)  = DPLA(I)  + (SVM(I)/PSI(I))*DLAM
+            DPLA(I)  = MAX(DPLA(I),ZERO)
 C
             ! Update pressure
             P(I) = -THIRD*(SIGNXX(I) + SIGNYY(I) + SIGNZZ(I))
