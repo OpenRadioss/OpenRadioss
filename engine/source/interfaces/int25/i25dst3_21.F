@@ -532,6 +532,7 @@ C
         IF(STIF(I) <= ZERO)CYCLE
 C
         IT = SUBTRIA(I)
+        IF(IT==0)CYCLE
         IF(PENT(I,IT) == ZERO)CYCLE
 C
         IF((IBCZ(I)==1.AND.ABS(ZN(I,IT)) > PREC).OR.
