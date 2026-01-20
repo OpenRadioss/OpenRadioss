@@ -913,16 +913,7 @@
 
             VQ0  = RHO(I)*QAL*MAX(ZERO,DD)
             VQ0  = VQ0 + (RHO1OLD*SSP1*V1OLD+RHO2OLD*SSP2*V2OLD+RHO3OLD*SSP3*V3OLD+RHO4OLD*SSP4*V4OLD)*QBL/(V1OLD+V2OLD+V3OLD+V4OLD)
-            VQ1  = VQ0
-            VQ2  = VQ0
-            VQ3  = VQ0
-            VQ4  = VQ0
-
             Q0   = VQ0*MAX(ZERO,DD)
-            Q1   = Q0
-            Q2   = Q0
-            Q3   = Q0
-            Q4   = Q0
 
             XL1  = V1OLD**THIRD
             XL2  = V2OLD**THIRD

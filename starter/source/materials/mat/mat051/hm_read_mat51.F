@@ -1114,9 +1114,9 @@ C     !============================!
           ENDDO
         ENDIF
         !============================!
-        IF(NITER  /= 10)THEN
-          WRITE(IOUT,901)NITER
-        ENDIF   
+        IF(NITER  /= 10) WRITE(IOUT,901)NITER
+        !============================!
+        WRITE(IOUT,5100) !blank lines
       ENDIF  
       
       PM(38)=VDET    
@@ -1406,5 +1406,8 @@ C======================================================================|
      & 5X,'|    PCJ  PRESSURE AT C-J STATE . . . .=',E12.4/
      & 5X,'|    VCJ  VOLUME AT C-J STATE . . . . .=',E12.4/
      & 5X,'|    FLAG FOR BURN FRACTION METHOD . . =',I10)
-      END
+ 5100 FORMAT(/,/)
+C-----------------------------------------------
+           END SUBROUTINE HM_READ_MAT51
+
 C======================================================================|
