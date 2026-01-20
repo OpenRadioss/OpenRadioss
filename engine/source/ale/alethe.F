@@ -355,7 +355,8 @@ C----------------------
      .                         itrimat,trimat,npropm,nummat,iparg,ixs,pm,alpha_mat,flux_mat,elbuf_tab,nb,int22,i22len,brick_list)
             enddo
           endif
-
+          
+          phi_data_s = trimat
           call my_barrier()
 
           call aconve(n2d,nv46,npropm,nummat,numels,numelq,numeltg, 
