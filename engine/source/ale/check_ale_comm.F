@@ -23,7 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
 !||    check_ale_comm   ../engine/source/ale/check_ale_comm.F
 !||--- called by ------------------------------------------------------
-!||    resol            ../engine/source/engine/resol.F
+!||    init_ale         ../engine/source/ale/init_ale.F90
 !||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod     ../common_source/modules/mat_elem/elbufdef_mod.F90

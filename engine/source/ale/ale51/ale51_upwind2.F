@@ -24,7 +24,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    ale51_upwind2          ../engine/source/ale/ale51/ale51_upwind2.F
 !||--- called by ------------------------------------------------------
 !||    afluxt                 ../engine/source/ale/ale51/afluxt.F
-!||    ale51_finish           ../engine/source/ale/ale51/ale51_finish.F
 !||    ale51_init             ../engine/source/ale/ale51/ale51_init.F
 !||--- uses       -----------------------------------------------------
 !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F

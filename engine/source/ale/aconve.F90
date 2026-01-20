@@ -20,6 +20,11 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+!||====================================================================
+!||    aconve_mod   ../engine/source/ale/aconve.F90
+!||--- called by ------------------------------------------------------
+!||    alethe       ../engine/source/ale/alethe.F
+!||====================================================================
       module aconve_mod
         implicit none
       contains
@@ -28,6 +33,40 @@
 ! ======================================================================================================================
 !! \brief Convection of variables
 !! \details This routine performs the ALE convection of all transported variables associated with elements
+!||====================================================================
+!||    aconve                     ../engine/source/ale/aconve.F90
+!||--- called by ------------------------------------------------------
+!||    alethe                     ../engine/source/ale/alethe.F
+!||--- calls      -----------------------------------------------------
+!||    a22conv3                   ../engine/source/ale/alefvm/cut_cells/a22conv3.F
+!||    a4conv3                    ../engine/source/ale/ale3d/a4conv3.F
+!||    aconv2                     ../engine/source/ale/ale2d/aconv2.F
+!||    aconv3                     ../engine/source/ale/ale3d/aconv3.F
+!||    bconv2                     ../engine/source/ale/ale2d/bconv2.F
+!||    initbuf                    ../engine/share/resol/initbuf.F
+!||    my_barrier                 ../engine/source/system/machine.F
+!||    startime                   ../engine/source/system/timer_mod.F90
+!||    stoptime                   ../engine/source/system/timer_mod.F90
+!||--- uses       -----------------------------------------------------
+!||    ale_connectivity_mod       ../common_source/modules/ale/ale_connectivity_mod.F
+!||    ale_mod                    ../common_source/modules/ale/ale_mod.F
+!||    alefvm_mod                 ../common_source/modules/ale/alefvm_mod.F
+!||    arezo2_mod                 ../engine/source/ale/ale2d/arezo2.F
+!||    arezo3_mod                 ../engine/source/ale/ale3d/arezo3.F
+!||    array_mod                  ../common_source/modules/array_mod.F
+!||    constant_mod               ../common_source/modules/constant_mod.F
+!||    debug_mod                  ../engine/share/modules/debug_mod.F
+!||    elbufdef_mod               ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod                ../common_source/modules/elements/element_mod.F90
+!||    i22bufbric_mod             ../common_source/modules/interfaces/cut-cell-search_mod.F
+!||    initbuf_mod                ../engine/share/resol/initbuf.F
+!||    multimat_param_mod         ../common_source/modules/multimat_param_mod.F90
+!||    precision_mod              ../common_source/modules/precision_mod.F90
+!||    segvar_mod                 ../engine/share/modules/segvar_mod.F
+!||    spmd_exch_n_neighbor_mod   ../engine/source/mpi/ale/spmd_exch_n_neighbor.F90
+!||    spmd_mod                   ../engine/source/mpi/spmd_mod.F90
+!||    timer_mod                  ../engine/source/system/timer_mod.F90
+!||====================================================================
         subroutine aconve(n2d,nv46,npropm,nummat,numels,numelq,numeltg, &
                           numnod, &
                           trimat,trimat0,nmult,mat_number, &      

@@ -21,9 +21,9 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    init_ale_boundary_condition_mod   ../engine/source/ale/init_ale_boundary_condition.F90
+!||    init_ale_aconve_mod   ../engine/source/ale/init_ale_aconve.F90
 !||--- called by ------------------------------------------------------
-!||    init_ale                          ../engine/source/ale/init_ale.F90
+!||    init_ale              ../engine/source/ale/init_ale.F90
 !||====================================================================
       module init_ale_aconve_mod
         implicit none
@@ -34,14 +34,16 @@
 !! \brief Initialize ALE boundary condition data structure
 !! \details This routine allocates and initializes the convection-related data structures used by the ALE solver.
 !||====================================================================
-!||    init_ale_boundary_condition   ../engine/source/ale/init_ale_boundary_condition.F90
+!||    init_ale_aconve   ../engine/source/ale/init_ale_aconve.F90
 !||--- called by ------------------------------------------------------
-!||    init_ale                      ../engine/source/ale/init_ale.F90
+!||    init_ale          ../engine/source/ale/init_ale.F90
 !||--- calls      -----------------------------------------------------
-!||    initbuf                       ../engine/share/resol/initbuf.F
+!||    initbuf           ../engine/share/resol/initbuf.F
+!||    varcondec         ../engine/source/interfaces/interf/varcondec.F
 !||--- uses       -----------------------------------------------------
-!||    initbuf_mod                   ../engine/share/resol/initbuf.F
-!||    mvsiz_mod                     ../engine/share/spe_inc/mvsiz_mod.F90
+!||    ale_mod           ../common_source/modules/ale/ale_mod.F
+!||    initbuf_mod       ../engine/share/resol/initbuf.F
+!||    spmd_mod          ../engine/source/mpi/spmd_mod.F90
 !||====================================================================
         subroutine init_ale_aconve(numels,numelq,numeltg,nsvois,nqvois,ntgvois, &
                                    trimat,nmult,ngroup,nparg,nsegflu,nspmd,iparg)

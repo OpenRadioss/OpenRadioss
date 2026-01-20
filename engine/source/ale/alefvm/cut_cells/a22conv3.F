@@ -23,7 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
 !||    a22conv3             ../engine/source/ale/alefvm/cut_cells/a22conv3.F
 !||--- called by ------------------------------------------------------
-!||    aconve               ../engine/source/ale/aconve.F
+!||    aconve               ../engine/source/ale/aconve.F90
 !||--- calls      -----------------------------------------------------
 !||    my_barrier           ../engine/source/system/machine.F
 !||--- uses       -----------------------------------------------------

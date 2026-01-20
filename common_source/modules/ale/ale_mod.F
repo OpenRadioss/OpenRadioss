@@ -25,7 +25,7 @@ C-----------------------------------------------
 !||    ale_mod                         ../common_source/modules/ale/ale_mod.F
 !||--- called by ------------------------------------------------------
 !||    a4momt3                         ../engine/source/elements/solid/solide4/a4momt3.F
-!||    aconve                          ../engine/source/ale/aconve.F
+!||    aconve                          ../engine/source/ale/aconve.F90
 !||    ale51_antidiff2                 ../engine/source/ale/ale51/ale51_antidiff2.F
 !||    ale51_antidiff3                 ../engine/source/ale/ale51/ale51_antidiff3.F
 !||    ale51_antidiff3_int22           ../engine/source/ale/alefvm/cut_cells/ale51_antidiff3_int22.F
@@ -88,7 +88,8 @@ C-----------------------------------------------
 !||    ingrbric_nodes                  ../starter/source/interfaces/interf1/ingrbric_nodes.F
 !||    iniresa                         ../engine/source/output/restart/rdresa.F
 !||    init_ale                        ../engine/source/ale/init_ale.F90
-!||    init_ale_arezon_spmd            ../engine/source/ale/init_ale_arezon_spmd.F90
+!||    init_ale_aconve                 ../engine/source/ale/init_ale_aconve.F90
+!||    init_ale_arezon                 ../engine/source/ale/init_ale_arezon.F90
 !||    intti12a                        ../engine/source/interfaces/interf/intti12.F
 !||    lecint                          ../starter/source/interfaces/interf1/lecint.F
 !||    lectur                          ../engine/source/input/lectur.F

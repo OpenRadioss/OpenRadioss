@@ -23,7 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
 !||    segvar_mod                       ../engine/share/modules/segvar_mod.F
 !||--- called by ------------------------------------------------------
-!||    aconve                           ../engine/source/ale/aconve.F
+!||    aconve                           ../engine/source/ale/aconve.F90
 !||    afluxt                           ../engine/source/ale/ale51/afluxt.F
 !||    ale51_antidiff2                  ../engine/source/ale/ale51/ale51_antidiff2.F
 !||    ale51_antidiff3                  ../engine/source/ale/ale51/ale51_antidiff3.F

@@ -27,7 +27,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    a4flux3                          ../engine/source/ale/ale3d/a4flux3.F
 !||    aconv2                           ../engine/source/ale/ale2d/aconv2.F
 !||    aconv3                           ../engine/source/ale/ale3d/aconv3.F
-!||    aconve                           ../engine/source/ale/aconve.F
+!||    aconve                           ../engine/source/ale/aconve.F90
 !||    adiff2                           ../engine/source/ale/ale2d/adiff2.F
 !||    adiff3                           ../engine/source/ale/ale3d/adiff3.F
 !||    aeturb                           ../engine/source/ale/turbulence/aeturb.F
@@ -48,7 +48,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    ale51_antidiff2                  ../engine/source/ale/ale51/ale51_antidiff2.F
 !||    ale51_antidiff3                  ../engine/source/ale/ale51/ale51_antidiff3.F
 !||    ale51_apply_remote_flux          ../engine/source/ale/ale51/ale51_apply_remote_flux.F90
-!||    ale51_finish                     ../engine/source/ale/ale51/ale51_finish.F
 !||    ale51_gradient_reconstruction    ../engine/source/ale/alemuscl/ale51_gradient_reconstruction.F
 !||    ale51_gradient_reconstruction2   ../engine/source/ale/alemuscl/ale51_gradient_reconstruction2.F
 !||    ale51_init                       ../engine/source/ale/ale51/ale51_init.F

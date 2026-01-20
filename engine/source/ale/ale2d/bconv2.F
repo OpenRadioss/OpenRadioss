@@ -23,7 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
 !||    bconv2                 ../engine/source/ale/ale2d/bconv2.F
 !||--- called by ------------------------------------------------------
-!||    aconve                 ../engine/source/ale/aconve.F
+!||    aconve                 ../engine/source/ale/aconve.F90
 !||--- uses       -----------------------------------------------------
 !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
 !||====================================================================

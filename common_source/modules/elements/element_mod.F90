@@ -27,7 +27,7 @@
 !||    a4flux3                             ../engine/source/ale/ale3d/a4flux3.F
 !||    aconv2                              ../engine/source/ale/ale2d/aconv2.F
 !||    aconv3                              ../engine/source/ale/ale3d/aconv3.F
-!||    aconve                              ../engine/source/ale/aconve.F
+!||    aconve                              ../engine/source/ale/aconve.F90
 !||    admbcs                              ../starter/source/model/remesh/admbcs.F
 !||    admbcs3                             ../starter/source/model/remesh/admbcs.F
 !||    admbcs4                             ../starter/source/model/remesh/admbcs.F
@@ -46,12 +46,12 @@
 !||    aeturb                              ../engine/source/ale/turbulence/aeturb.F
 !||    afimp2                              ../engine/source/ale/ale2d/afimp2.F
 !||    afimp3                              ../engine/source/ale/ale3d/afimp3.F
-!||    aflut_int22                         ../engine/source/ale/ale51/afluxt_int22.F90
 !||    aflux0                              ../engine/source/ale/aflux0.F
 !||    aflux2                              ../engine/source/ale/ale2d/aflux2.F
 !||    aflux3                              ../engine/source/ale/ale3d/aflux3.F
 !||    aflux3_int22_fvm                    ../engine/source/ale/alefvm/cut_cells/aflux3_int22_fvm.F
 !||    afluxt                              ../engine/source/ale/ale51/afluxt.F
+!||    afluxt_int22                        ../engine/source/ale/ale51/afluxt_int22.F90
 !||    agaug3                              ../engine/source/ale/agauge.F
 !||    agaug3q                             ../engine/source/ale/agaug3q.F
 !||    agaug3t                             ../engine/source/ale/agaug3t.F
@@ -63,7 +63,6 @@
 !||    akturb                              ../engine/source/ale/turbulence/akturb.F
 !||    ale51_antidiff3                     ../engine/source/ale/ale51/ale51_antidiff3.F
 !||    ale51_antidiff3_int22               ../engine/source/ale/alefvm/cut_cells/ale51_antidiff3_int22.F
-!||    ale51_finish                        ../engine/source/ale/ale51/ale51_finish.F
 !||    ale51_finish_int22                  ../engine/source/ale/ale51/ale51_finish_int22.F90
 !||    ale51_gradient_reconstruction       ../engine/source/ale/alemuscl/ale51_gradient_reconstruction.F
 !||    ale51_gradient_reconstruction2      ../engine/source/ale/alemuscl/ale51_gradient_reconstruction2.F

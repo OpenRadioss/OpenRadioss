@@ -21,9 +21,9 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    aflut_int22_mod   ../engine/source/ale/ale51/afluxt_int22.F90
+!||    afluxt_int22_mod   ../engine/source/ale/ale51/afluxt_int22.F90
 !||--- called by ------------------------------------------------------
-!||    alethe            ../engine/source/ale/alethe.F
+!||    alethe             ../engine/source/ale/alethe.F
 !||====================================================================
       module afluxt_int22_mod
         implicit none
@@ -34,7 +34,7 @@
 !! \brief 
 !! \details 
 !||====================================================================
-!||    aflut_int22             ../engine/source/ale/ale51/afluxt_int22.F90
+!||    afluxt_int22            ../engine/source/ale/ale51/afluxt_int22.F90
 !||--- called by ------------------------------------------------------
 !||    alethe                  ../engine/source/ale/alethe.F
 !||--- calls      -----------------------------------------------------
@@ -45,7 +45,6 @@
 !||    constant_mod            ../common_source/modules/constant_mod.F
 !||    elbufdef_mod            ../common_source/modules/mat_elem/elbufdef_mod.F90
 !||    element_mod             ../common_source/modules/elements/element_mod.F90
-!||    i22bufbric_mod          ../common_source/modules/interfaces/cut-cell-search_mod.F
 !||    i22tri_mod              ../common_source/modules/interfaces/cut-cell-search_mod.F
 !||    multimat_param_mod      ../common_source/modules/multimat_param_mod.F90
 !||    precision_mod           ../common_source/modules/precision_mod.F90

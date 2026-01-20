@@ -66,7 +66,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    bcsn                                         ../engine/source/constraints/general/bcs/bcsn.F
 !||    bmultn                                       ../engine/source/ale/bimat/bmultn.F
 !||    cfield_1                                     ../engine/source/loads/general/load_centri/cfield.F
-!||    check_ale_comm                               ../engine/source/ale/check_ale_comm.F
 !||    check_edge_state                             ../engine/source/interfaces/interf/check_edge_state.F
 !||    check_nan_acc                                ../engine/source/output/outfile/check_nan_acc.F
 !||    check_nodal_state                            ../engine/source/interfaces/interf/check_nodal_state.F
