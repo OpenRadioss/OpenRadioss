@@ -212,9 +212,9 @@ C-----------------------------------------------
       NUVAR     = 0 
       NFUNC     = 0 
       STIFINT   = E
-      PARMAT(1) = STIFINT/THREE !
-      PARMAT(2) = STIFINT
-      PARMAT(3) = NU
+      PARMAT(1) = E / three/(one - two*nu)  ! bulk
+      PARMAT(2) = E  ! young
+      PARMAT(3) = NU ! poisson
 c---------------------------   
       MTAG%G_PLA  = 1
       MTAG%L_PLA  = 1
