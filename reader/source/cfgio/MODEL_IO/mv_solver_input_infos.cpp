@@ -872,6 +872,10 @@ void SolverInputInfo::ProcessKeywordComments(std::vector<std::vector<string>>& c
             {
                 result[2].erase(result[2].begin(), std::find_if(result[2].begin(), result[2].end(), [](char c) {return c != ' ';}));
                 result[2].erase(std::find_if(result[2].rbegin(), result[2].rend(), [](char c) { return c != ' '; }).base(), result[2].end());
+                // Remove trailing carriage return if present
+                if (!result[2].empty() && result[2].back() == '\n') {
+                    result[2].pop_back();
+                }
                 //skwy_val.push_back(string("name=") + result[2]);
                 cfgkernel::Variant val(result[2]);
                 vallst.push_back(std::make_pair("name", val));
