@@ -494,6 +494,7 @@
 
           ! ------------
           if(int22>0) then
+            call my_barrier()
             do nm=1,mat_number ! loop over the material number (1 if jmult=0)
               nf1 = nft+1+(nm-1)*numels            
               do itrimat=1,trimat
@@ -517,6 +518,7 @@
                   if(nvar==1.and.flag_mat_51==1) iflg = 1        
                   call a22conv3( phi(1,phi_add),iflg,real_itrimat,nvar,itask, &
                                   elbuf_tab,ixs,iparg,brick_add)
+                  call my_barrier()
                 enddo
               enddo
             enddo
