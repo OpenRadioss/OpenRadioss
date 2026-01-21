@@ -114,17 +114,17 @@
 ! --------------------------------------------------------------------------------------------------
 !                                                   local variables
 ! --------------------------------------------------------------------------------------------------
-          integer :: i,ii,iter,niter,nindx,crp_law,isens,ndim
+          integer :: i,ii,iter,niter,nindx,crp_law,isens,sens_status,ndim
           integer ,dimension(nel) :: indx
           real(kind=WP) :: dpdt
-          real(kind=WP) :: epsp0,lame,ldav,epsc,p,rfact,seq
+          real(kind=WP) :: epsp0,lame,ldav,p,rfact,seq
           real(kind=WP) :: asrate,dtime,tstart
           real(kind=WP) :: cr1,cr2,cx1,cx2
           real(kind=WP) :: j2,g2,g3,rho0
           real(kind=WP) :: sig_crp,time_crp,tref
           real(kind=WP) :: dphi_dlam
           real(kind=WP) :: ca,n,m
-          real(kind=WP) :: fsig,ftime
+          real(kind=WP) :: fsig,ftime,fqt
           real(kind=WP) :: alpha0,crpa0
           real(kind=WP) ,dimension(nel)   :: pla0,dlam
           real(kind=WP) ,dimension(nel)   :: sxx,syy,szz,sxy,syz,szx !< deviatoric stress components
@@ -146,6 +146,7 @@
           real(kind=WP) ,dimension(:,:) ,pointer :: xvec1
           real(kind=WP) ,dimension(:,:) ,pointer :: xvec2
           type (table_4d_)        ,pointer :: itable
+          logical :: calc_creep
 ! --------------------------------------------------------------------------------------------------
 !   state  v a r i a b l e s (uvar)
 ! --------------------------------------------------------------------------------------------------
@@ -189,10 +190,18 @@
           alpha(1:nel) = alpha0
           crpa(1:nel)  = crpa0
 
-          if (crpa0 > zero .and. isens > zero) then
-            tstart = sensors%sensor_tab(isens)%tstart
-          else
-            tstart = infinity
+          calc_creep = .FALSE.
+          tstart = infinity
+          if (crpa0 > zero .and. time > zero) then
+            if (isens == zero) then
+              calc_creep = .TRUE.
+            else
+              sens_status = sensors%sensor_tab(isens)%status
+              if (sens_status == 1) then
+                calc_creep = .TRUE.
+                tstart = sensors%sensor_tab(isens)%tstart
+              end if
+            end if
           end if
 ! ---------------------------------------------------------------------------------------------
           ! check material parameters dependency on temperature and apply scale factors
@@ -449,56 +458,16 @@
           ! calculation of creep strain increment and total creep strain
           ! stop creep evolution if sensor is activated
 ! ---------------------------------------------------------------------------------------------
-          if (crpa0 > zero .and. time > zero .and. time < tstart) then
+!          if (crpa0 > zero .and. time > zero .and. time < tstart) then
+
+          if (calc_creep .eqv. .TRUE.) then
             niter = 20   ! number of iterations for creep
 !
             if (crp_law == 1) then           ! use transient Norton power law
-              if (mat_param%table(14)%notable > 0) then
-                xvec1(1,1:1) = time
-                call table_mat_vinterp(mat_param%table(14),1,1,vartmp(1,15),xvec1,fact,h)
-                ftime = fact(1) * dtime
-                do iter=1,niter
-                  do i=1,nel
-                    fsig  = (svm(i)/sig_crp)**crpn(i)
-                    depsc(i) = crpa(i) * fsig * ftime
-                    depsc(i) = max(depsc(i) ,zero)
-                    seq      = max(svm(i),   em20)
-                    rfact   = one / (one + three*depsc(i)*shear(i)/seq)
-                    sxx(i)  = stxx(i) * rfact
-                    syy(i)  = styy(i) * rfact
-                    szz(i)  = stzz(i) * rfact
-                    sxy(i)  = stxy(i) * rfact
-                    syz(i)  = styz(i) * rfact
-                    szx(i)  = stzx(i) * rfact
-                    j2 = (sxx(i)**2+syy(i)**2+szz(i)**2)*half + sxy(i)**2+syz(i)**2+szx(i)**2
-                    svm(i) = sqrt(three*j2)
-                  end do
-                end do
-              else
-                do iter=1,niter
-                  do i=1,nel
-                    fsig  = (svm(i)/sig_crp)**crpn(i)
-                    ftime = (time/time_crp)**crpm(i)
-                    depsc(i) = crpa(i) * fsig * ftime * dtime
-                    depsc(i) = max(depsc(i) ,zero)
-                    seq      = max(svm(i),   em20)
-                    rfact   = one / (one + three*depsc(i)*shear(i)/seq)
-                    sxx(i)  = stxx(i) * rfact
-                    syy(i)  = styy(i) * rfact
-                    szz(i)  = stzz(i) * rfact
-                    sxy(i)  = stxy(i) * rfact
-                    syz(i)  = styz(i) * rfact
-                    szx(i)  = stzx(i) * rfact
-                    j2 = (sxx(i)**2+syy(i)**2+szz(i)**2)*half + sxy(i)**2+syz(i)**2+szx(i)**2
-                    svm(i) = sqrt(three*j2)
-                  end do
-                end do
-              end if
-            else if (crp_law == 2) then           ! use Garfallo law
               do iter=1,niter
                 do i=1,nel
-                  fsig  = (sinh(svm(i)/sig_crp))**crpn(i)
-                  ftime = exp(-crpq(i)/max(temp(i),em20))
+                  fsig  = (svm(i)/sig_crp)**crpn(i)
+                  ftime = (time/time_crp)**crpm(i)
                   depsc(i) = crpa(i) * fsig * ftime * dtime
                   depsc(i) = max(depsc(i) ,zero)
                   seq      = max(svm(i),   em20)
@@ -513,20 +482,34 @@
                   svm(i) = sqrt(three*j2)
                 end do
               end do
-            else if (crp_law == 3) then           ! use transient Norton power law
-              svm(1:nel) = svm0(1:nel)
-              do i=1,nel
-                if (uvar(i,2) == zero) then
-                  depsc(i) = crpa(i)*(svm0(i)/sig_crp)**crpn(i)*(dtime/time_crp)**crpm(i)
-                end if
+            else if (crp_law == 2) then           ! use Garfallo law
+              do iter=1,niter
+                do i=1,nel
+                  fsig  = (sinh(svm(i)/sig_crp))**crpn(i)
+                  fqt   = exp(-crpq(i)/max(temp(i),em20))
+                  depsc(i) = crpa(i) * fsig * fqt * dtime
+                  depsc(i) = max(depsc(i) ,zero)
+                  seq      = max(svm(i),   em20)
+                  rfact   = one / (one + three*depsc(i)*shear(i)/seq)
+                  sxx(i)  = stxx(i) * rfact
+                  syy(i)  = styy(i) * rfact
+                  szz(i)  = stzz(i) * rfact
+                  sxy(i)  = stxy(i) * rfact
+                  syz(i)  = styz(i) * rfact
+                  szx(i)  = stzx(i) * rfact
+                  j2 = (sxx(i)**2+syy(i)**2+szz(i)**2)*half + sxy(i)**2+syz(i)**2+szx(i)**2
+                  svm(i) = sqrt(three*j2)
+                end do
               end do
+            else if (crp_law == 3) then           ! use strain hardening Norton law
+              svm(1:nel) = svm0(1:nel)
               do iter=1,niter
                 do i=1,nel
                   ca = crpa(i)
                   n  = crpn(i)
-                  m  = crpm(i)
-                  depsc(i) = m*ca**(one/m) * (svm(i)/sig_crp)**(n/m)   &
-                    * uvar(i,2)**((m-one)/m) * dtime/time_crp
+                  m  = one - one/crpm(i)
+                  fsig  = (svm(i)/sig_crp)**n
+                  depsc(i) = ca * fsig * dtime * uvar(i,2)**m
                   depsc(i) = max(depsc(i) ,zero)
                   seq      = max(svm(i),   em20)
                   rfact   = one / (one + three*depsc(i)*shear(i)/seq)
@@ -541,11 +524,8 @@
                 end do
               end do
             end if
-            do i=1,nel
-              epsc = uvar(i,2) + depsc(i)
-              uvar(i,2) = epsc
-            end do
-          end if
+            uvar(1:nel,2) = uvar(1:nel,2) + depsc(1:nel)  ! update cumulated creep strain
+          end if  ! calc_creep==TRUE
 ! ----------------------------------------------------------------------------------------------------------------------
           ! pressure correction with thermal expansion
           if (iexpan > 0) then

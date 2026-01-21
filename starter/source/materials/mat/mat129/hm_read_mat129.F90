@@ -68,7 +68,7 @@
           use unitab_mod
           use submodel_mod
           use constant_mod , only : pi,zero,half,three_half,one,two,three,four_over_3
-          use constant_mod , only : infinity,em20,em3
+          use constant_mod , only : infinity,em20,em3,em6
           use mat_table_table_copy_mod
           use func_table_copy_mod
           use precision_mod , only : WP
@@ -98,11 +98,10 @@
           integer :: func_qr,func_qx
           integer :: func_cc,func_cp
           integer :: func_a,func_n,func_q,func_m,func_alpha
-          integer :: func_t
           integer :: crp_law,sens_id
           real(kind=WP) :: rho0,young,shear,bulk,nu,sigy
           real(kind=WP) :: qr1,qr2,qx1,qx2,cr1,cr2,cx1,cx2
-          real(kind=WP) :: crpa,crpn,crpm,crpq,sig_crp,time_crp
+          real(kind=WP) :: crpa,crpn,crpm,crpq,sig_crp,time_crp,eps0
           real(kind=WP) :: cc,cp,fcut,asrate
           real(kind=WP) :: alpha,tref
           real(kind=WP) :: kboltz
@@ -165,9 +164,9 @@
           call hm_get_floatv('MAT_CRSIG'   ,sig_crp  ,is_available, lsubmodel, unitab)
           call hm_get_floatv('MAT_CRT'     ,time_crp ,is_available, lsubmodel, unitab)
           call hm_get_floatv('MAT_CRPQ'    ,crpq     ,is_available, lsubmodel, unitab)
+          call hm_get_floatv('MAT_EPS0'    ,eps0     ,is_available, lsubmodel, unitab)
           call hm_get_intv  ('MAT_fq'      ,func_q   ,is_available, lsubmodel)
           call hm_get_intv  ('ISENSOR'     ,sens_id  ,is_available, lsubmodel)
-          call hm_get_intv  ('MAT_ft'      ,func_t   ,is_available, lsubmodel)
 ! ----------------------------------------------------------------------------------------------------------------------
           ! stress and strain rate units
           call hm_get_floatv_dim('MAT_CC'   ,epsp_unit  ,is_available, lsubmodel, unitab)
@@ -181,6 +180,7 @@
 !
           if (sig_crp  == zero) sig_crp  = young
           if (time_crp == zero) time_crp = time_unit
+          if (eps0     == zero) eps0     = em6
           if (sigy     == zero) sigy     = infinity
           if (yfac     == zero) yfac     = pres_unit
           if (crp_law  == 0) crp_law     = 2       ! Garfallo steady state law by default
@@ -193,13 +193,13 @@
           fcut   = 1.044*unitab%fac_t_work
           asrate = two*pi*fcut
 ! ----------------------------------------------------------------------------------------------------------------------
-!     sensors are not yet read in lectur()
-!     => conversion of sensor_id to internal numbet is done in updmat()
+!         sensors are not yet read in lectur()
+!         => conversion of sensor_id to internal numbet is done in updmat()
 ! ----------------------------------------------------------------------------------------------------------------------
           nuvar   = 2
           nvartmp = 15
           mat_param%nfunc  = 0
-          mat_param%ntable = 14
+          mat_param%ntable = 13
           allocate (mat_param%table(mat_param%ntable))           ! allocate material table array
 !
           mat_param%table(1)%notable  = func_sig
@@ -215,7 +215,6 @@
           mat_param%table(11)%notable = func_m
           mat_param%table(12)%notable = func_q
           mat_param%table(13)%notable = func_alpha
-          mat_param%table(14)%notable = func_t
 ! ----------------------------------------------------------------------------------------------------------------------
           ! create local function table for tabulated yield hardening
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -324,16 +323,9 @@
               nfunc   ,ifunc   ,x2vect  ,x1scale ,x2scale  ,yscale  ,     &
               ntable  ,table   ,ierror    )
           end if
-          if (func_t > 0) then
-            ifunc(1)  = func_t
-            yscale(1) = one
-            call func_table_copy(mat_param%table(14),mat_param%title,mat_param%mat_id  ,     &
-              nfunc   ,ifunc   ,x2vect  ,x1scale ,x2scale  ,yscale  ,     &
-              ntable  ,table   ,ierror    )
-          end if
 ! ----------------------------------------------------------------------------------------------------------------------
           mat_param%niparam = 2
-          mat_param%nuparam = 20
+          mat_param%nuparam = 21
           allocate (mat_param%iparam(mat_param%niparam))
           allocate (mat_param%uparam(mat_param%nuparam))
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -360,6 +352,7 @@
           mat_param%uparam(18) = sig_crp
           mat_param%uparam(19) = time_crp
           mat_param%uparam(20) = asrate
+          mat_param%uparam(21) = eps0
 ! ----------------------------------------------------------------------------------------------------------------------
           ! mat_param common parameters
 
@@ -413,9 +406,9 @@
             else
               write(iout,1300) sigy,qr1,cr1,qr2,cr2,qx1,cx1,qx2,cx2,func_qr,func_qx
             endif
-            write(iout,1400) cc,cp,crp_law,crpa,crpn,crpm,crpq,sig_crp,time_crp
-            write(iout,1500) func_young,func_nu,func_yld,func_alpha,            &
-              func_cc,func_cp,func_a,func_n,func_m,func_q,func_t,sens_id
+            write(iout,1400) cc,cp,crp_law,crpa,crpn,crpm,crpq,sig_crp,time_crp,eps0
+            write(iout,1500) func_young,func_nu,func_yld,func_alpha,             &
+              func_cc,func_cp,func_a,func_n,func_m,func_q,sens_id
           endif
 ! ----------------------------------------------------------------------------------------------------------------------
           return
@@ -459,7 +452,8 @@
             5x,'CREEP EXPONENT M . . . . . . . . . . . . . . . . . .=',1pg20.13/,  &
             5x,'CREEP ACTIVATION ENERGY Q. . . . . . . . . . . . . .=',1pg20.13/,  &
             5x,'CREEP REFERENCE STRESS . . . . . . . . . . . . . . .=',1pg20.13/,  &
-            5x,'CREEP REFERENCE TIME . . . . . . . . . . . . . . . .=',1pg20.13/)
+            5x,'CREEP REFERENCE TIME . . . . . . . . . . . . . . . .=',1pg20.13/,  &
+            5x,'INITIAL CREEP STRAIN . . . . . . . . . . . . . . . .=',1pg20.13/)
 1500      format(                                                                  &
             5x,'FUNCTION OF YOUNG MODULUS VS TEMPERATURE . . . . . .=',i10     /   &
             5x,'FUNCTION OF POISSON RATIO VS TEMPERATURE . . . . . .=',i10     /   &
@@ -471,8 +465,7 @@
             5x,'FUNCTION OF CREEP EXPONENT N VS TEMPERATURE. . . . .=',i10     /   &
             5x,'FUNCTION OF CREEP EXPONENT M VS TEMPERATURE. . . . .=',i10     /   &
             5x,'FUNCTION OF CREEP ENERGY Q VS TEMPERATURE. . . . . .=',i10     /   &
-            5x,'TIME FACTOR FUNCTION FOR NEWTON CREEP LAW. . . . . .=',i10     /   &
-            5x,'SENSOR ID TO DEACTIVATE CREEP EVOLUTION. . . . . . .=',i10     /)
+            5x,'SENSOR ID. . . . . . . . . . . . . . . . . . . . . .=',i10     /)
 ! ----------------------------------------------------------------------------------------------------------------------
         end subroutine hm_read_mat129
 !
