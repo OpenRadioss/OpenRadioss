@@ -89,6 +89,7 @@ C-----------------------------------------------
       USE ALE_CONNECTIVITY_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
       USE M36INIT_MOD
+      USE LAW129_INIT_MOD
       USE MATPARAM_DEF_MOD , ONLY : MATPARAM_STRUCT_
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -134,7 +135,7 @@ C-----------------------------------------------
       CHARACTER(LEN=NCHARTITLE)::TITR
       INTEGER I,IADBUF,NPAR,NFUNC,NUVAR,IFORM,NUMEL
       INTEGER IFUNC(MAXFUNC)
-      INTEGER ID
+      INTEGER ID,IMAT
       my_real, DIMENSION(MVSIZ) :: RHO0,YLDFAC
       my_real, DIMENSION(MVSIZ) ,TARGET :: TMP,EPL,FILLO
       my_real, DIMENSION(:) ,POINTER ::
@@ -305,6 +306,7 @@ C=======================================================================
           IPARG(16)=1
         END IF
 
+        IMAT = MAT(1)
         NUVAR  = IPM(8,MAT(1))
         NPAR   = IPM(9,MAT(1))
         IADBUF = IPM(7,MAT(1))
@@ -384,6 +386,9 @@ C=======================================================================
      .                 NUVAR   ,MBUF%VAR  ,BUFMAT(IADBUF) ,X   ,
      .                 MAT     ,IPARG     ,IFORM          ,IX  ,NIX ,
      .                 BUFMAT  ,RHO0      ,TB)
+
+        ELSEIF (MTN == 129) THEN
+          CALL LAW129_INIT(MAT_PARAM(IMAT) ,NEL   ,NUVAR ,MBUF%VAR)
 
         ENDIF
       ENDIF
