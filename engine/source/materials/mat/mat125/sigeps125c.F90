@@ -549,7 +549,7 @@
               end if
               g12d = w12*g12
               signxy(i) = g12d*epsxy(i)
-              if(abs(signxy(i)) >= tau(i) .and. abs(signxy(i)) <  sc(i)) then
+              if(abs(signxy(i)) >= tau(i) .and. abs(signxy(i)) <  sc(i) .and. ems(i) > gamma(i)) then
                 scale =  (sc(i) - tau(i))/(ems(i) - gamma(i))
                 tauxy = tau(i) + scale*(abs(epsxy(i)) - gamma(i))
                 signxy(i) = sign(tauxy,signxy(i))
