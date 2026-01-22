@@ -25,25 +25,25 @@
 !!          for 6-node solid elements (pentahedral elements)
 
 !||====================================================================
-!||    s6zrcoor3_mod   ../engine/source/elements/solid/solide6z/s6zrcoor3.f90
+!||    s6zrcoor3_mod   ../engine/source/elements/solid/solide6z/s6zrcoor3.F90
 !||--- called by ------------------------------------------------------
-!||    s6zforc3        ../engine/source/elements/solid/solide6z/s6zforc3.f90
+!||    s6zforc3        ../engine/source/elements/solid/solide6z/s6zforc3.F90
 !||====================================================================
       module s6zrcoor3_mod
       contains
 !||====================================================================
-!||    s6zrcoor3        ../engine/source/elements/solid/solide6z/s6zrcoor3.f90
+!||    s6zrcoor3        ../engine/source/elements/solid/solide6z/s6zrcoor3.F90
 !||--- called by ------------------------------------------------------
-!||    s6zforc3         ../engine/source/elements/solid/solide6z/s6zforc3.f90
+!||    s6zforc3         ../engine/source/elements/solid/solide6z/s6zforc3.F90
 !||--- calls      -----------------------------------------------------
-!||    sorthdir3        ../engine/source/elements/solid/solide/sorthdir3.f
-!||    sortho3          ../engine/source/elements/solid/solide/sortho3.f
-!||    srepiso3         ../engine/source/elements/solid/solide/srepiso3.f
-!||    srrota3          ../engine/source/elements/solid/solide/srrota3.f
+!||    sorthdir3        ../engine/source/elements/solid/solide/sorthdir3.F
+!||    sortho3          ../engine/source/elements/solid/solide/sortho3.F
+!||    srepiso3         ../engine/source/elements/solid/solide/srepiso3.F
+!||    srrota3          ../engine/source/elements/solid/solide/srrota3.F
 !||--- uses       -----------------------------------------------------
-!||    constant_mod     ../common_source/modules/constant_mod.f
-!||    precision_mod    ../common_source/modules/precision_mod.f90
-!||    prop_param_mod   ../common_source/modules/mat_elem/prop_param_mod.f90
+!||    constant_mod     ../common_source/modules/constant_mod.F
+!||    precision_mod    ../common_source/modules/precision_mod.F90
+!||    prop_param_mod   ../common_source/modules/mat_elem/prop_param_mod.F90
 !||====================================================================
       subroutine s6zrcoor3(                                                   &
         numnod  , x       , ixs     , v       , gama0   , gama    ,           &

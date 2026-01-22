@@ -888,6 +888,8 @@
 !||    s6cke3                              ../engine/source/elements/thickshell/solide6c/s6cke3.F
 !||    s6rcoor3                            ../engine/source/elements/thickshell/solide6c/s6rcoor3.F
 !||    s6rcoork                            ../engine/source/elements/thickshell/solide6c/s6rcoork.F
+!||    s6zcoor3                            ../starter/source/elements/solid/solide6z/s6zcoor3.F90
+!||    s6zrcoor3                           ../engine/source/elements/solid/solide6z/s6zrcoor3.F90
 !||    s8cforc3                            ../engine/source/elements/thickshell/solide8c/s8cforc3.F
 !||    s8cinit3                            ../starter/source/elements/thickshell/solide8c/s8cinit3.F
 !||    s8cke3                              ../engine/source/elements/thickshell/solide8c/s8cke3.F

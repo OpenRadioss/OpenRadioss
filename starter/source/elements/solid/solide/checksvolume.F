@@ -126,6 +126,9 @@ C
 !||--- called by ------------------------------------------------------
 !||    hm_read_solid    ../starter/source/elements/reader/hm_read_solid.F
 !||    s6ccoor3         ../starter/source/elements/thickshell/solide6c/s6ccoor3.F
+!||    s6zcoor3         ../starter/source/elements/solid/solide6z/s6zcoor3.F90
+!||    s6zrcoor3        ../starter/source/elements/solid/solide6z/s6zrcoor3.F90
+!||    sgsavini         ../starter/source/elements/solid/solide/scoor3.F
 !||--- uses       -----------------------------------------------------
 !||====================================================================
       FUNCTION CHECKVOLUME_6N(X,IXS)

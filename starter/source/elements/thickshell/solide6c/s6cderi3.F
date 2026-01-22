@@ -25,7 +25,6 @@ C
 !||    s6cderi3      ../starter/source/elements/thickshell/solide6c/s6cderi3.F
 !||--- called by ------------------------------------------------------
 !||    s6cinit3      ../starter/source/elements/thickshell/solide6c/s6cinit3.F
-!||    s6zinit3      ../starter/source/elements/solid/solide6z/s6zinit3.F90
 !||--- calls      -----------------------------------------------------
 !||    ancmsg        ../starter/source/output/message/message.F
 !||    slen          ../starter/source/elements/solid/solide/slen.F

@@ -21,18 +21,22 @@
 !copyright>        software under a commercial license.  contact altair to discuss further if the
 !copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    s6ccoor3         ../starter/source/elements/thickshell/solide6c/s6ccoor3.f
+!||    s6zcoor3_mod   ../starter/source/elements/solid/solide6z/s6zcoor3.F90
 !||--- called by ------------------------------------------------------
-!||    s6cinit3         ../starter/source/elements/thickshell/solide6c/s6cinit3.f
-!||    s6zinit3         ../starter/source/elements/solid/solide6z/s6zinit3.f90
-!||--- calls      -----------------------------------------------------
-!||    checkvolume_6n   ../starter/source/elements/solid/solide/checksvolume.f
-!||    s6cortho3        ../starter/source/elements/thickshell/solide6c/s6cortho3.f
-!||--- uses       -----------------------------------------------------
-!||    message_mod      ../starter/share/message_module/message_mod.f
+!||    s6zinit3       ../starter/source/elements/solid/solide6z/s6zinit3.F90
 !||====================================================================
       module s6zcoor3_mod
       contains
+!||====================================================================
+!||    s6zcoor3         ../starter/source/elements/solid/solide6z/s6zcoor3.F90
+!||--- called by ------------------------------------------------------
+!||    s6zinit3         ../starter/source/elements/solid/solide6z/s6zinit3.F90
+!||--- calls      -----------------------------------------------------
+!||    checkvolume_6n   ../starter/source/elements/solid/solide/checksvolume.F
+!||    s6cortho3        ../starter/source/elements/thickshell/solide6c/s6cortho3.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod      ../starter/share/message_module/message_mod.F
+!||====================================================================
       subroutine s6zcoor3(x    ,ixs  ,ngl  ,mxt  ,ngeo ,      &
           rx   ,ry   ,rz   ,sx   ,sy   ,sz   ,tx   ,ty   ,tz   ,&
           r11  ,r21  ,r31  ,r12  ,r22  ,r32  ,r13  ,r23  ,r33  ,&

@@ -24,6 +24,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    sgcoor3       ../engine/source/elements/solid/solide/sgcoor3.F
 !||--- called by ------------------------------------------------------
 !||    s4forc3       ../engine/source/elements/solid/solide4/s4forc3.F
+!||    s6zforc3      ../engine/source/elements/solid/solide6z/s6zforc3.F90
 !||    s8eforc3      ../engine/source/elements/solid/solide8e/s8eforc3.F
 !||    s8zforc3      ../engine/source/elements/solid/solide8z/s8zforc3.F
 !||    sforc3        ../engine/source/elements/solid/solide/sforc3.F

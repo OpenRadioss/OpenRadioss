@@ -21,18 +21,18 @@
 !copyright>        software under a commercial license.  contact altair to discuss further if the
 !copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    s6zdefc3_mod   ../engine/source/elements/solid/solide6z/s6zdefc3.f90
+!||    s6zdefot3_mod   ../engine/source/elements/solid/solide6z/s6zdefot3.F90
 !||--- called by ------------------------------------------------------
-!||    s6zforc3       ../engine/source/elements/solid/solide6z/s6zforc3.f90
+!||    s6zforc3        ../engine/source/elements/solid/solide6z/s6zforc3.F90
 !||====================================================================
       module s6zdefot3_mod
       contains
 !||====================================================================
-!||    s6zdefc3        ../engine/source/elements/solid/solide6z/s6zdefc3.f90
+!||    s6zdefot3       ../engine/source/elements/solid/solide6z/s6zdefot3.F90
 !||--- called by ------------------------------------------------------
-!||    s6zforc3        ../engine/source/elements/solid/solide6z/s6zforc3.f90
+!||    s6zforc3        ../engine/source/elements/solid/solide6z/s6zforc3.F90
 !||--- uses       -----------------------------------------------------
-!||    precision_mod   ../common_source/modules/precision_mod.f90
+!||    precision_mod   ../common_source/modules/precision_mod.F90
 !||====================================================================
       subroutine s6zdefot3( &
         px1      , px2      , px3      , px4      , px5      , px6      ,      &

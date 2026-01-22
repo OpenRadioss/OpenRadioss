@@ -21,19 +21,24 @@
 !copyright>        software under a commercial license.  contact altair to discuss further if the
 !copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    s6ccoor3         ../starter/source/elements/thickshell/solide6c/s6ccoor3.f
+!||    s6zrcoor3_mod   ../starter/source/elements/solid/solide6z/s6zrcoor3.F90
 !||--- called by ------------------------------------------------------
-!||    s6cinit3         ../starter/source/elements/thickshell/solide6c/s6cinit3.f
-!||    s6zinit3         ../starter/source/elements/solid/solide6z/s6zinit3.f90
-!||--- calls      -----------------------------------------------------
-!||    checkvolume_6n   ../starter/source/elements/solid/solide/checksvolume.f
-!||    s6cortho3        ../starter/source/elements/thickshell/solide6c/s6cortho3.f
-!||--- uses       -----------------------------------------------------
-!||    message_mod      ../starter/share/message_module/message_mod.f
+!||    s6zinit3        ../starter/source/elements/solid/solide6z/s6zinit3.F90
 !||====================================================================
       module s6zrcoor3_mod
       contains
 
+!||====================================================================
+!||    s6zrcoor3        ../starter/source/elements/solid/solide6z/s6zrcoor3.F90
+!||--- called by ------------------------------------------------------
+!||    s6zinit3         ../starter/source/elements/solid/solide6z/s6zinit3.F90
+!||--- calls      -----------------------------------------------------
+!||    checkvolume_6n   ../starter/source/elements/solid/solide/checksvolume.F
+!||    s6zortho3        ../starter/source/elements/solid/solide6z/s6zortho3.F90
+!||--- uses       -----------------------------------------------------
+!||    message_mod      ../starter/share/message_module/message_mod.F
+!||    s6zortho3_mod    ../starter/source/elements/solid/solide6z/s6zortho3.F90
+!||====================================================================
       subroutine s6zrcoor3(x      ,ixs ,ngl  ,mxt  ,ngeo ,           &
            rx   ,ry   ,rz   ,sx   ,sy   ,sz   ,tx   ,ty   ,tz   ,    &
            r11  ,r21  ,r31  ,r12  ,r22  ,r32  ,r13  ,r23  ,r33  ,    &

@@ -24,6 +24,7 @@ C                                                                     12
 !||====================================================================
 !||    sordeft3   ../engine/source/elements/solid/solidez/sordeft3.F
 !||--- called by ------------------------------------------------------
+!||    s6zforc3   ../engine/source/elements/solid/solide6z/s6zforc3.F90
 !||    s8eforc3   ../engine/source/elements/solid/solide8e/s8eforc3.F
 !||    s8zforc3   ../engine/source/elements/solid/solide8z/s8zforc3.F
 !||    sforc3     ../engine/source/elements/solid/solide/sforc3.F

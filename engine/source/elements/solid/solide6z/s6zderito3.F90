@@ -21,23 +21,21 @@
 !copyright>        software under a commercial license.  contact altair to discuss further if the
 !copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    s6zderi3_mod   ../engine/source/elements/solid/solide6z/s6zderi3.f90
+!||    s6zderito3_mod   ../engine/source/elements/solid/solide6z/s6zderito3.F90
 !||--- called by ------------------------------------------------------
-!||    s6zforc3       ../engine/source/elements/solid/solide6z/s6zforc3.f90
+!||    s6zforc3         ../engine/source/elements/solid/solide6z/s6zforc3.F90
 !||====================================================================
       module s6zderito3_mod
       contains
 !||====================================================================
-!||    s6zderi3        ../engine/source/elements/solid/solide6z/s6zderi3.f90
+!||    s6zderito3      ../engine/source/elements/solid/solide6z/s6zderito3.F90
 !||--- called by ------------------------------------------------------
-!||    s6zforc3        ../engine/source/elements/solid/solide6z/s6zforc3.f90
-!||--- calls      -----------------------------------------------------
-!||    ancmsg          ../engine/source/output/message/message.f
+!||    s6zforc3        ../engine/source/elements/solid/solide6z/s6zforc3.F90
 !||--- uses       -----------------------------------------------------
-!||    constant_mod    ../common_source/modules/constant_mod.f
-!||    message_mod     ../engine/share/message_module/message_mod.f
-!||    mvsiz_mod       ../engine/share/spe_inc/mvsiz_mod.f90
-!||    precision_mod   ../common_source/modules/precision_mod.f90
+!||    constant_mod    ../common_source/modules/constant_mod.F
+!||    message_mod     ../engine/share/message_module/message_mod.F
+!||    mvsiz_mod       ../engine/share/spe_inc/mvsiz_mod.F90
+!||    precision_mod   ../common_source/modules/precision_mod.F90
 !||====================================================================
       subroutine s6zderito3(                                                   &
         det      ,                                         &

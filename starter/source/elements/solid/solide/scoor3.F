@@ -359,6 +359,7 @@ C-----------
 !||    initia           ../starter/source/elements/initia/initia.F
 !||--- calls      -----------------------------------------------------
 !||    checkvolume_4n   ../starter/source/elements/solid/solide/checksvolume.F
+!||    checkvolume_6n   ../starter/source/elements/solid/solide/checksvolume.F
 !||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE SGSAVINI(NPE,X,IXS,SAV,NEL)

@@ -21,20 +21,24 @@
 !copyright>        software under a commercial license.  contact altair to discuss further if the
 !copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !c
+!||====================================================================
+!||    s6zderi3_mod   ../starter/source/elements/solid/solide6z/s6zderi3.F90
+!||--- called by ------------------------------------------------------
+!||    s6zinit3       ../starter/source/elements/solid/solide6z/s6zinit3.F90
+!||====================================================================
       module s6zderi3_mod
       contains
-!||====================================================================
-!||    s6cderi3      ../starter/source/elements/thickshell/solide6c/s6cderi3.f
-!||--- called by ------------------------------------------------------
-!||    s6cinit3      ../starter/source/elements/thickshell/solide6c/s6cinit3.f
-!||    s6zinit3      ../starter/source/elements/solid/solide6z/s6zinit3.f90
-!||--- calls      -----------------------------------------------------
-!||    ancmsg        ../starter/source/output/message/message.f
-!||    slen          ../starter/source/elements/solid/solide/slen.f
-!||--- uses       -----------------------------------------------------
-!||    message_mod   ../starter/share/message_module/message_mod.f
-!||====================================================================
 
+!||====================================================================
+!||    s6zderi3        ../starter/source/elements/solid/solide6z/s6zderi3.F90
+!||--- called by ------------------------------------------------------
+!||    s6zinit3        ../starter/source/elements/solid/solide6z/s6zinit3.F90
+!||--- calls      -----------------------------------------------------
+!||    ancmsg          ../starter/source/output/message/message.F
+!||    slen            ../starter/source/elements/solid/solide/slen.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod     ../starter/share/message_module/message_mod.F
+!||====================================================================
       subroutine s6zderi3(nel ,vol ,vzl ,ngl ,deltax ,det ,   &
           x1, x2, x3, x4, x5, x6,        &
           y1, y2, y3, y4, y5, y6,        &

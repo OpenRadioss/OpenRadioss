@@ -23,6 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
 !||    sztorth3   ../engine/source/elements/solid/solidez/sztorth3.F
 !||--- called by ------------------------------------------------------
+!||    s6zforc3   ../engine/source/elements/solid/solide6z/s6zforc3.F90
 !||    s8zforc3   ../engine/source/elements/solid/solide8z/s8zforc3.F
 !||    szforc3    ../engine/source/elements/solid/solidez/szforc3.F
 !||====================================================================

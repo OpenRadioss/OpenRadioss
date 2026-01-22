@@ -40,6 +40,7 @@
 !||    s6for_distor                    ../engine/source/elements/thickshell/solide6c/s6for_distor.F90
 !||    s6get_xv                        ../engine/source/elements/thickshell/solide6c/s6get_xv.F90
 !||    s6zderi3                        ../engine/source/elements/solid/solide6z/s6zderi3.F90
+!||    s6zderito3                      ../engine/source/elements/solid/solide6z/s6zderito3.F90
 !||    s6zfint3                        ../engine/source/elements/solid/solide6z/s6zfint3.F90
 !||    s6zforc3                        ../engine/source/elements/solid/solide6z/s6zforc3.F90
 !||    s6zhour3                        ../engine/source/elements/solid/solide6z/s6zhourg3.F90

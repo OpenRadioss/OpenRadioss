@@ -21,15 +21,20 @@
 !copyright>        software under a commercial license.  contact altair to discuss further if the
 !copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    sjacidp       ../starter/source/elements/solid/solide/sjacidp.f
+!||    s6zjacidp_mod   ../starter/source/elements/solid/solide6z/s6zjacidp.F90
 !||--- called by ------------------------------------------------------
-!||    sinit3        ../starter/source/elements/solid/solide/sinit3.f
-!||--- uses       -----------------------------------------------------
-!||    message_mod   ../starter/share/message_module/message_mod.f
+!||    s6zinit3        ../starter/source/elements/solid/solide6z/s6zinit3.F90
 !||====================================================================
       module s6zjacidp_mod
       contains
 
+!||====================================================================
+!||    s6zjacidp       ../starter/source/elements/solid/solide6z/s6zjacidp.F90
+!||--- called by ------------------------------------------------------
+!||    s6zinit3        ../starter/source/elements/solid/solide6z/s6zinit3.F90
+!||--- uses       -----------------------------------------------------
+!||    message_mod     ../starter/share/message_module/message_mod.F
+!||====================================================================
       subroutine s6zjacidp(&
                    xd1  ,xd2  ,xd3  ,xd4  ,xd5  ,xd6 ,&
                    yd1  ,yd2  ,yd3  ,yd4  ,yd5  ,yd6 ,&

@@ -21,25 +21,26 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    s6zhour3_mod   ../engine/source/elements/solid/solide6z/s6zhourg3.f90
+!||    s6zhour3_mod   ../engine/source/elements/solid/solide6z/s6zhourg3.F90
 !||--- called by ------------------------------------------------------
-!||    s6zforc3       ../engine/source/elements/solid/solide6z/s6zforc3.f90
+!||    s6zforc3       ../engine/source/elements/solid/solide6z/s6zforc3.F90
 !||====================================================================
       module s6zhour3_mod
       contains
 
 !||====================================================================
-!||    s6zhour3        ../engine/source/elements/solid/solide6z/s6zhourg3.f90
+!||    s6zhour3        ../engine/source/elements/solid/solide6z/s6zhourg3.F90
 !||--- called by ------------------------------------------------------
-!||    s6zforc3        ../engine/source/elements/solid/solide6z/s6zforc3.f90
+!||    s6zforc3        ../engine/source/elements/solid/solide6z/s6zforc3.F90
 !||--- calls      -----------------------------------------------------
-!||    mdama24         ../engine/source/elements/solid/solidez/mdama24.f
-!||    szsvm           ../engine/source/elements/solid/solidez/szsvm.f
+!||    mdama24         ../engine/source/elements/solid/solidez/mdama24.F
+!||    szetfac         ../engine/source/elements/solid/solidez/szetfac.F
+!||    szsvm           ../engine/source/elements/solid/solidez/szsvm.F
 !||--- uses       -----------------------------------------------------
-!||    constant_mod    ../common_source/modules/constant_mod.f
-!||    elbufdef_mod    ../common_source/modules/mat_elem/elbufdef_mod.f90
-!||    mvsiz_mod       ../engine/share/spe_inc/mvsiz_mod.f90
-!||    precision_mod   ../common_source/modules/precision_mod.f90
+!||    constant_mod    ../common_source/modules/constant_mod.F
+!||    elbufdef_mod    ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    mvsiz_mod       ../engine/share/spe_inc/mvsiz_mod.F90
+!||    precision_mod   ../common_source/modules/precision_mod.F90
 !||====================================================================
       subroutine s6zhour3(                                                     &
         npropm  , nummat , pm      , rho     , vol     , ssp     ,             &

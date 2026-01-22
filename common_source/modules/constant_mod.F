@@ -311,12 +311,16 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    s6chour_ctl                              ../engine/source/elements/thickshell/solide6c/s6chour_ctl.F90
 !||    s6fint_reg                               ../engine/source/elements/solid/solide6z/s6fint_reg.F90
 !||    s6for_distor                             ../engine/source/elements/thickshell/solide6c/s6for_distor.F90
+!||    s6zcoor3                                 ../starter/source/elements/solid/solide6z/s6zcoor3.F90
 !||    s6zdefo3                                 ../engine/source/elements/solid/solide6z/s6zdefo3.F90
 !||    s6zderi3                                 ../engine/source/elements/solid/solide6z/s6zderi3.F90
+!||    s6zderito3                               ../engine/source/elements/solid/solide6z/s6zderito3.F90
 !||    s6zfint3                                 ../engine/source/elements/solid/solide6z/s6zfint3.F90
 !||    s6zforc3                                 ../engine/source/elements/solid/solide6z/s6zforc3.F90
 !||    s6zhour3                                 ../engine/source/elements/solid/solide6z/s6zhourg3.F90
 !||    s6zinit3                                 ../starter/source/elements/solid/solide6z/s6zinit3.F90
+!||    s6zjacidp                                ../starter/source/elements/solid/solide6z/s6zjacidp.F90
+!||    s6zortho3                                ../starter/source/elements/solid/solide6z/s6zortho3.F90
 !||    s6zrcoor3                                ../engine/source/elements/solid/solide6z/s6zrcoor3.F90
 !||    s6zsav3                                  ../engine/source/elements/solid/solide6z/s6zsav3.F90
 !||    sdistor_ini                              ../engine/source/elements/solid/solide/sdistror_ini.F90

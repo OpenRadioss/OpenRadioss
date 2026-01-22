@@ -21,13 +21,19 @@
 !copyright>        software under a commercial license.  contact altair to discuss further if the
 !copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    s6cortho3   ../starter/source/elements/thickshell/solide6c/s6cortho3.f
+!||    s6zortho3_mod   ../starter/source/elements/solid/solide6z/s6zortho3.F90
 !||--- called by ------------------------------------------------------
-!||    s6ccoor3    ../starter/source/elements/thickshell/solide6c/s6ccoor3.f
+!||    s6zrcoor3       ../starter/source/elements/solid/solide6z/s6zrcoor3.F90
 !||====================================================================
       module s6zortho3_mod
       contains
 
+!||====================================================================
+!||    s6zortho3       ../starter/source/elements/solid/solide6z/s6zortho3.F90
+!||--- called by ------------------------------------------------------
+!||    s6zrcoor3       ../starter/source/elements/solid/solide6z/s6zrcoor3.F90
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       subroutine s6zortho3(&
         x1   ,x2   ,x3   ,x4   ,x5   ,x6   ,&
         y1   ,y2   ,y3   ,y4   ,y5   ,y6   ,&

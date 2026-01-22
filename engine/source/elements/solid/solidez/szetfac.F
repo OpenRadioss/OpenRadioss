@@ -24,6 +24,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
 !||    szetfac      ../engine/source/elements/solid/solidez/szetfac.F
 !||--- called by ------------------------------------------------------
+!||    s6zhour3     ../engine/source/elements/solid/solide6z/s6zhourg3.F90
 !||    szhour3      ../engine/source/elements/solid/solidez/szhour3.F
 !||    szhour3_or   ../engine/source/elements/solid/solidez/szhour3_or.F
 !||====================================================================

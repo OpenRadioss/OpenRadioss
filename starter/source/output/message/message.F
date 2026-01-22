@@ -808,6 +808,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    s4refsta3                           ../starter/source/elements/solid/solide4/s4refsta3.F
 !||    s6cderi3                            ../starter/source/elements/thickshell/solide6c/s6cderi3.F
 !||    s6cinit3                            ../starter/source/elements/thickshell/solide6c/s6cinit3.F
+!||    s6zderi3                            ../starter/source/elements/solid/solide6z/s6zderi3.F90
 !||    s8cinit3                            ../starter/source/elements/thickshell/solide8c/s8cinit3.F
 !||    s8ederi3                            ../starter/source/elements/solid/solide8z/s8zderi3.F
 !||    s8zderi3                            ../starter/source/elements/solid/solide8z/s8zderi3.F
