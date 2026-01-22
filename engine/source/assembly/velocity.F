@@ -25,6 +25,14 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- called by ------------------------------------------------------
 !||    resol      ../engine/source/engine/resol.F
 !||====================================================================
+!! \brief Update nodal velocities using accelerations
+!! \details This routine updates nodal velocities using the computed accelerations
+!!          and a central difference time integration scheme:
+!!          V(t+dt/2) = V(t-dt/2) + dt * A(t)
+!!
+!!          After updating velocities, the acceleration array A is reset to zero
+!!          (or set to external forces FZERO if ISIGI==2 or 4) to prepare for the
+!!          next force assembly step.
       SUBROUTINE VELOCITY( A, AR, V, VR, FZERO, ITAB, NALE )
 C-----------------------------------------------
 C   M o d u l e s
@@ -55,9 +63,12 @@ C-----------------------------------------------
 
 !$OMP DO SCHEDULE(guided)
       DO N=1,NUMNOD! NODFT,NODLT
+        ! Update velocity: V(t+dt/2) = V(t-dt/2) + dt * A(t)
+        ! At this point A contains ACCELERATIONS (computed from forces/mass in ACCELE)
         V(1,N)=V(1,N)+DT12*A(1,N)
         V(2,N)=V(2,N)+DT12*A(2,N)
         V(3,N)=V(3,N)+DT12*A(3,N)
+        ! Reset acceleration to zero for next assembly cycle
         A(1,N)=ZERO
         A(2,N)=ZERO
         A(3,N)=ZERO

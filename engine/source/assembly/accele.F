@@ -25,6 +25,14 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- called by ------------------------------------------------------
 !||    resol    ../engine/source/engine/resol.F
 !||====================================================================
+!! \brief Convert nodal forces to accelerations by dividing by mass
+!! \details This routine performs the critical step of converting forces to accelerations.
+!!          Input: Array A contains nodal FORCES assembled from elements
+!!          Process: Divide forces by nodal mass (A = F/m) following Newton's second law
+!!          Output: Array A now contains nodal ACCELERATIONS for time integration
+!!
+!!          For nodes with zero mass, acceleration is set to zero (and velocity too if NMULT/=0).
+!!          Similar conversion is done for rotational degrees of freedom (AR = moment/inertia).
         SUBROUTINE ACCELE(
      1                  A       ,AR    ,V    ,MS      ,IN   ,
      2                  SIZE_NALE      ,NALE   ,MS_2D  ,
@@ -59,7 +67,9 @@ C   S o u r c e   L i n e s
 C-----------------------------------------------     
       
       !------------------------------------------------!
-      !       acceleration computation 
+      !       Acceleration computation: A = Force / Mass
+      !       At this point, A contains FORCES from assembly
+      !       After division by MS (mass), A contains ACCELERATIONS
       !------------------------------------------------!       
         IF(N2D == 0) THEN
 !$OMP DO SCHEDULE(guided)

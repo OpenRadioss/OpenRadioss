@@ -35,6 +35,13 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    nodal_arrays_mod   ../common_source/modules/nodal_arrays.F90
 !||    plyxfem_mod        ../engine/share/modules/plyxfem_mod.F
 !||====================================================================
+!! \brief Assembly of element forces into nodal forces
+!! \details This routine assembles the element forces from the skyline format (FSKY) 
+!!          into the nodal force array NODES%A. At this stage, NODES%A contains FORCES,
+!!          not accelerations. The forces will later be divided by nodal mass in the 
+!!          ACCELE subroutine to compute accelerations (F = ma, therefore a = F/m).
+!!
+!!          For 2D problems, mass is also stored in FSKY(1) and NODES%A(1) for accumulation.
       SUBROUTINE ASSPAR4(NODES,
      2  FSKY    ,FSKYV   ,ADSKY , FSKYM   ,
      3  MSNF    ,ISKY    ,FSKYI  ,FTHE    ,

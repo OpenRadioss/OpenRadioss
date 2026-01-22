@@ -4420,6 +4420,8 @@ C--- //------------------------------
 C       FORCE ASSEMBLY
 C-------------------------------------
              IF(coupling%active) THEN
+               ! Save assembled nodal forces for coupling before conversion to acceleration
+               ! At this point, nodes%A contains FORCES from element assembly
                NODES%FORCES(1:3,1:NUMNOD) = nodes%A(1:3,1:NUMNOD)
              ENDIF
 C========================================================================================
@@ -6621,9 +6623,12 @@ C===============================================================================
                 ENDIF
 
                 IF(coupling%active) THEN
-                  ! FORCES WAS INITIALIZED TO THE ACCELERTION, BEFORE ASSEMBLY
-                  ! BEFORE THE CALL TO ACCELE, A CONTAINS THE FORCES
-                  ! AFTER THE CALL TO ACCELE, A CONTAINS THE ACCELERATION
+                  ! Workflow of nodes%A array:
+                  ! 1. BEFORE ASSEMBLY: nodes%A initialized (typically to zero or external forces)
+                  ! 2. DURING ASSEMBLY: nodes%A accumulates FORCES from elements (asspar4, etc.)
+                  ! 3. BEFORE ACCELE: nodes%A contains total nodal FORCES
+                  ! 4. IN ACCELE: nodes%A is divided by mass (A = F/m) to compute accelerations
+                  ! 5. AFTER ACCELE: nodes%A contains nodal ACCELERATIONS for time integration
                   !NODES%FORCES(1:3,1:NUMNOD) = nodes%A(1:3,1:NUMNOD) - NODES%FORCES(1:3,1:NUMNOD) 
                   CALL COUPLING_SYNC(coupling,DT2,nodes,COUPLING_FORCES)
                 ENDIF

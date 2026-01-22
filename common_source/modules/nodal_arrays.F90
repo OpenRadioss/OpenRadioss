@@ -121,8 +121,11 @@
           integer, dimension(:), allocatable :: nodglob !<global internal id (starter id?)
           integer, dimension(:), allocatable :: KINET
 
-          real(kind=wp), dimension(:,:), allocatable :: A !< accelerations: 3 x numnod (x nthreads if parith/off)
-          real(kind=wp), dimension(:,:), allocatable :: AR !< accelerations
+          real(kind=wp), dimension(:,:), allocatable :: A !< Working array for nodal forces/accelerations: 3 x numnod (x nthreads if parith/off)
+                                                                !< During assembly (asspar4): accumulates nodal FORCES from elements
+                                                                !< In accele subroutine: forces are divided by mass to compute ACCELERATIONS (A = F/m)
+                                                                !< After accele: contains nodal accelerations for time integration
+          real(kind=wp), dimension(:,:), allocatable :: AR !< Angular accelerations (similar workflow as A for rotational DOF)
           real(kind=wp), dimension(:,:), allocatable :: V !< velocities
           real(kind=wp), dimension(:,:), allocatable :: X !< coordinates 3*(NUMNOD+NRCVVOIS)
           real(kind=wp), dimension(:,:), allocatable :: X0 !< initial coordinates 3*NUMNOD
