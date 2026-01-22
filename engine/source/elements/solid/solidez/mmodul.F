@@ -280,7 +280,35 @@ C----- w/o armature :--> isotropic
           G3(I,3)   = UPARAM(12)
         ENDDO
         CALL MSTIFORTHV(JFT    ,JLT   ,QC  ,QCG  ,QGC    ,
-     .                  QG     ,CC    ,G3  ,G33  ,CG     )   
+     .                  QG     ,CC    ,G3  ,G33  ,CG     )  
+      ELSEIF (MTN == 123) THEN     
+         DO I=JFT,JLT
+          CC(I,1,1) = mat_param%uparam(31)
+          CC(I,2,2) = mat_param%uparam(32)
+          CC(I,3,3) = mat_param%uparam(33)
+          CC(I,1,2) = mat_param%uparam(34)
+          CC(I,2,3) = mat_param%uparam(36)
+          CC(I,1,3) = mat_param%uparam(35)
+          G3(I,1)   = mat_param%uparam(4)
+          G3(I,2)   = mat_param%uparam(5)
+          G3(I,3)   = mat_param%uparam(6)
+        ENDDO
+        CALL MSTIFORTHV(JFT    ,JLT   ,QC  ,QCG  ,QGC    ,
+     .                  QG     ,CC    ,G3  ,G33  ,CG     )  
+      ELSEIF (MTN == 125) THEN     
+         DO I=JFT,JLT
+          CC(I,1,1) = mat_param%uparam(81)
+          CC(I,2,2) = mat_param%uparam(82)
+          CC(I,3,3) = mat_param%uparam(83)
+          CC(I,1,2) = mat_param%uparam(84)
+          CC(I,2,3) = mat_param%uparam(86)
+          CC(I,1,3) = mat_param%uparam(85)
+          G3(I,1)   = mat_param%uparam(4)
+          G3(I,2)   = mat_param%uparam(5)
+          G3(I,3)   = mat_param%uparam(6)
+        ENDDO
+        CALL MSTIFORTHV(JFT    ,JLT   ,QC  ,QCG  ,QGC    ,
+     .                  QG     ,CC    ,G3  ,G33  ,CG     ) 
       ELSEIF (MTN == 127) THEN     
         DO I=JFT,JLT
           CC(I,1,1) = mat_param%uparam(41)

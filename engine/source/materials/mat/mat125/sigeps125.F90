@@ -601,17 +601,17 @@
               signzx(i) = w13*g13*epszx(i)
               signyz(i) = w23*g23*epsyz(i)
               ! shear treatement
-              if(abs(signxy(i)) >= tau(i) ) then
+              if(abs(signxy(i)) >= tau(i) .and. ems(i) > gamma(i) ) then
                 scale =  (sc(i) - tau(i))/(ems(i)- gamma(i))
                 tauxy = tau(i) + scale*(abs(epsxy(i)) - gamma(i))
                 signxy(i) = sign(tauxy,signxy(i))
               end if
-              if(abs(signzx(i)) >= tau1(i) ) then
+              if(abs(signzx(i)) >= tau1(i) .and. ems13 (i) > gamma1(i) ) then
                 scale =  (sc13(i) - tau1(i))/(ems13 (i)- gamma1(i))
                 tauzx = tau1(i) + scale*(abs(epszx(i)) - gamma1(i))
                 signzx(i) = sign(tauzx,signzx(i))
               end if
-              if(abs(signyz(i)) >= tau2(i) ) then
+              if(abs(signyz(i)) >= tau2(i) .and. ems23(i) > gamma2(i) ) then
                 scale =  (sc23(i)- tau2(i))/(ems23(i) - gamma2(i))
                 tauyz = tau2(i) + scale*(abs(epsyz(i)) - gamma2(i))
                 signyz(i) = sign(tauyz,signyz(i))

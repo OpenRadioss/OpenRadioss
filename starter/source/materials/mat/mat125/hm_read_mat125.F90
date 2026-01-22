@@ -213,6 +213,7 @@
 
           if(nu31 == zero) nu31 = nu21
           if(nu32 == zero) nu32 = nu21
+          if(fs /= -1) fs = -1  ! only this formulation implemented
 ! ----------------------------------------------------------------------------------------------------------------------
           !     check and default values
           !-----------------------------
@@ -290,7 +291,7 @@
           !     filling buffer tables
           !--------------------------
           ! number of material parameters
-          matparam%nuparam = 80
+          matparam%nuparam = 86
           allocate (matparam%uparam(matparam%nuparam))
           matparam%uparam(1:matparam%nuparam) = zero 
           ! number of functions
@@ -424,6 +425,7 @@
           if(ems <= gamma) ems = two*gamma
           if(ems13 <= gamma2) ems13 = two*gamma2
           if(ems23 <= gamma3) ems23 = two*gamma3
+          !
           if(sc == zero ) sc = ep10
           if(sc13 == zero) sc13 = ep10
           if(sc23 == zero) sc23 = ep10
@@ -528,6 +530,13 @@
           matparam%uparam(78)  = nu21
           matparam%uparam(79)  = nu31
           matparam%uparam(80)  = nu32
+          ! 3D Orthotropic for Isolid=24
+          matparam%uparam(81)  = d11
+          matparam%uparam(82)  = d22
+          matparam%uparam(83)  = d33
+          matparam%uparam(84)  = d12
+          matparam%uparam(85)  = d13
+          matparam%uparam(86)  = d23
           ! function ids
           ifunc(1)  = ifem11t
           ifunc(2)  = ifxt
