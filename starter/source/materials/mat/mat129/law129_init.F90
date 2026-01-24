@@ -22,18 +22,19 @@
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
 !||====================================================================
-!||    law129_init_mod   ../starter/source/materials/mat/mat036/law129_init.F90
+!||    law129_init_mod   ../starter/source/materials/mat/mat129/law129_init.F90
 !||--- called by ------------------------------------------------------
-!||    matini        ../starter/source/materials/mat_share/matini.F
+!||    matini            ../starter/source/materials/mat_share/matini.F
 !||====================================================================
       module law129_init_mod
 
       contains
 !! \brief initialize state variables (UVAR) in material law36
 !||====================================================================
-!||    law129_init         ../starter/source/materials/mat/mat129/law129_init.F90
+!||    law129_init        ../starter/source/materials/mat/mat129/law129_init.F90
 !||--- called by ------------------------------------------------------
-!||    matini          ../starter/source/materials/mat_share/matini.F
+!||    matini             ../starter/source/materials/mat_share/matini.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
         subroutine law129_init(mat_param,nel    ,nuvar  ,uvar   ) 
 ! ------------------------------------------------------------------------------

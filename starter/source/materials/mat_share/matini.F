@@ -50,6 +50,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    arret                  ../starter/source/system/arret.F
 !||    athlen                 ../starter/source/ale/athlen.F
 !||    fretitl2               ../starter/source/starter/freform.F
+!||    law129_init            ../starter/source/materials/mat/mat129/law129_init.F90
 !||    m105init               ../starter/source/materials/mat/mat105/m105init.F
 !||    m24in2                 ../starter/source/materials/mat/mat024/m24in2.F
 !||    m24in3                 ../starter/source/materials/mat/mat024/m24in3.F
@@ -69,6 +70,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    mating                 ../starter/source/materials/mat_share/mating.F
 !||--- uses       -----------------------------------------------------
 !||    detonators_mod         ../starter/share/modules1/detonators_mod.F
+!||    law129_init_mod        ../starter/source/materials/mat/mat129/law129_init.F90
 !||    m36init_mod            ../starter/source/materials/mat/mat036/m36init.F90
 !||    message_mod            ../starter/share/message_module/message_mod.F
 !||====================================================================
