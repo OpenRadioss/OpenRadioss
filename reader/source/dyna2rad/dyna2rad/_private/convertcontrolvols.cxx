@@ -3260,6 +3260,8 @@ void sdiD2R::ConvertControlVolume::ConvertAirbagReferenceGeometry()
         double lsdSY = 0.0;
         double lsdSZ = 0.0;
         double lsdBirth = 0.0;
+        sdiTriple NID0Pos(0.0, 0.0, 0.0);
+        int optID = 0;
 
         int tablecount = GetValue<int>(*selAirbagRefGeom, "table_count");
         sdiUIntList lsdrefnodlist;
@@ -3270,6 +3272,7 @@ void sdiD2R::ConvertControlVolume::ConvertAirbagReferenceGeometry()
 
         if (keyWord.find("_ID") != keyWord.npos)
         {
+            optID = 1;
             sdiValueEntity nodeNID0 = GetValue<sdiValueEntity>(*selAirbagRefGeom, "NID0");
             NID0ID = nodeNID0.GetId();
             if (NID0ID == 0)
@@ -3278,6 +3281,11 @@ void sdiD2R::ConvertControlVolume::ConvertAirbagReferenceGeometry()
                 sdiValueEntity nodeNID0 = GetValue<sdiValueEntity>(*selAirbagRefGeom, "nodes_table_node",0);
                 NID0ID = nodeNID0.GetId();
             }
+
+            HandleRead nodeHRead;
+            p_lsdynaModel->FindById(p_lsdynaModel->GetEntityType("*NODE"), NID0ID, nodeHRead);
+            NodeRead NID0Read(p_lsdynaModel, nodeHRead);
+            NID0Pos = NID0Read.GetPosition();
 
             lsdSX = GetValue<double>(*selAirbagRefGeom, "SX");
             lsdSY = GetValue<double>(*selAirbagRefGeom, "SY");
@@ -3306,6 +3314,14 @@ void sdiD2R::ConvertControlVolume::ConvertAirbagReferenceGeometry()
             double lsdXcoor = GetValue<double>(*selAirbagRefGeom, "X",i);
             double lsdYcoor = GetValue<double>(*selAirbagRefGeom, "Y",i);
             double lsdZcoor = GetValue<double>(*selAirbagRefGeom, "Z",i);
+            
+            // airbag nodes scaling
+            if (optID == 1 && flagTransform == 1)
+            {
+                lsdXcoor = NID0Pos[0] + (lsdXcoor - NID0Pos[0]) * lsdSX;
+                lsdYcoor = NID0Pos[1] + (lsdYcoor - NID0Pos[1]) * lsdSY;
+                lsdZcoor = NID0Pos[2] + (lsdZcoor - NID0Pos[2]) * lsdSZ;
+            }
 
             sdiTriple refNodeoffCoord(lsdXcoor, lsdYcoor, lsdZcoor) ;
 
@@ -3420,50 +3436,6 @@ void sdiD2R::ConvertControlVolume::ConvertAirbagReferenceGeometry()
                     }
                 }
             }
-        }
-        //-------------------
-        //   +  /TRANSFORM/SCA
-        //-------------------
-        if(flagTransform > 0)
-        {
-            HandleEdit transformHEdit;
-            p_radiossModel->CreateEntity(transformHEdit, "/TRANSFORM/SCA", "TRANSFORM_SCA_AIRBAG_SHELL_REFERENCE_GEOMETRY_" + to_string(selAirbagRefGeom->GetId()));
-            EntityEdit transformEdit(p_radiossModel, transformHEdit);
-            transformEdit.SetValue(sdiIdentifier("scalefactor_x"), sdiValue(lsdSX));
-            transformEdit.SetValue(sdiIdentifier("scalefactor_y"), sdiValue(lsdSY));
-            transformEdit.SetValue(sdiIdentifier("scalefactor_z"), sdiValue(lsdSZ));
-
-            if(NID0ID > 0)
-            {
-               transformEdit.SetValue(sdiIdentifier("node1"), sdiValue(sdiValueEntity(1, NID0ID)));
-            }
-            else // create node
-            {
-              HandleNodeEdit nodeHEdit;
-              sdiTriple centroid(0.0, 0.0, 0.0);
-              p_radiossModel->CreateNode(nodeHEdit, "/NODE", centroid);
-              if (nodeHEdit.IsValid())
-              {
-                transformEdit.SetValue(sdiIdentifier("node1"), sdiValue(sdiValueEntity(sdiValueEntityType(radNode), nodeHEdit.GetId(p_radiossModel))));
-              }
-            }
-            sdiConvert::SDIHandlReadList sourceAIRBAG = { {selAirbagRefGeom->GetHandle()} };
-            if (transformHEdit.IsValid())
-                sdiConvert::Convert::PushToConversionLog(std::make_pair(transformHEdit, sourceAIRBAG));
-
-            // node SET for /TRANSFORM/SCA node group
-            HandleEdit setHEdit;
-            p_radiossModel->CreateEntity(setHEdit, "/SET/GENERAL", "SET_GENERAL_AIRBAG_REFERENCE_GEOMETRY_" + to_string(selAirbagRefGeom->GetId()));
-            EntityEdit SetEntityEdit(p_radiossModel, setHEdit);
-
-            SetEntityEdit.SetValue(sdiIdentifier("clausesmax"), sdiValue(1));
-            SetEntityEdit.SetValue(sdiIdentifier("KEY_type", 0, 0), sdiValue(sdiString("NODE")));
-            SetEntityEdit.SetValue(sdiIdentifier("idsmax", 0, 0), sdiValue((int)lsdrefnodlist.size())); 
-            SetEntityEdit.SetValue(sdiIdentifier("ids", 0, 0), sdiValue(sdiValueEntityList(1, lsdrefnodlist))); 
-            transformEdit.SetEntityHandle(sdiIdentifier("grnod_ID"), setHEdit);
-
-            if (setHEdit.IsValid())
-                sdiConvert::Convert::PushToConversionLog(std::make_pair(setHEdit, sourceAIRBAG));
         }
     } // while (selAirbagRefGeom.Next())
 }

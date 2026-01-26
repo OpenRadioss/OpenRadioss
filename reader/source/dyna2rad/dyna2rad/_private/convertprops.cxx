@@ -325,6 +325,51 @@ void ConvertProp::p_ConvertPropBasedOnCard(const EntityRead& dynaProp, const sdi
                     destCard = "/PROP/TYPE14";
                     isolid = 1;
                 }
+                else if (elform == 13 && (
+                          (matCard.find("*MAT_ELASTIC") != string::npos || matCard.find("*MAT_001") != string::npos) ||
+                          (matCard.find("*MAT_PLASTIC_KINEMATIC") != string::npos || matCard.find("*MAT_003") != string::npos) ||
+                          (matCard.find("*MAT_USER_DEFINED_MATERIAL_MODELS") != string::npos || matCard.find("*MAT_041-050") != string::npos) ||
+                          (matCard.find("*MAT_PLASTICITY_WITH_DAMAGE_ORTHO") != string::npos || matCard.find("*MAT_082") != string::npos) ||
+                          (matCard.find("*MAT_PLASTICITY_POLYMER") != string::npos || matCard.find("*MAT_089") != string::npos) ||
+                          (matCard.find("*MAT_SOFT_TISSUE_VISCO") != string::npos || matCard.find("*MAT_092") != string::npos) ||
+                          (matCard.find("*MAT_ANISOTROPIC_VISCOPLASTIC") != string::npos || matCard.find("*MAT_103") != string::npos) ||
+                          (matCard.find("*MAT_ELASTIC_VISCOPLASTIC_THERMAL") != string::npos || matCard.find("*MAT_106") != string::npos) ||
+                          (matCard.find("*MAT_HEART_TISSUE") != string::npos || matCard.find("*MAT_128") != string::npos) ||
+                          (matCard.find("*MAT_LUNG_TISSUE") != string::npos || matCard.find("*MAT_129") != string::npos) ||
+                          (matCard.find("*MAT_BARLAT_YLD2000") != string::npos || matCard.find("*MAT_133") != string::npos) ||
+                          (matCard.find("*MAT_ANISOTROPIC_ELASTIC_PLASTIC") != string::npos || matCard.find("*MAT_157")!= string::npos) ||
+                          (matCard.find("*MAT_SIMPLIFIED_RUBBER/FOAM") != string::npos || matCard.find("*MAT_181")!= string::npos) ||
+                          (matCard.find("*MAT_SIMPLIFIED_RUBBER_WITH_DAMAGE") != string::npos || matCard.find("*MAT_183")!= string::npos) ||
+                          (matCard.find("*MAT_BARLAT_YLD2004") != string::npos || matCard.find("*MAT_199")!= string::npos) ||
+                          (matCard.find("*MAT_VISCOPLASTIC_MIXED_HARDENING") != string::npos || matCard.find("*MAT_225")!= string::npos) ||
+                          (matCard.find("*MAT_CAZACU_BARLAT") != string::npos || matCard.find("*MAT_233")!= string::npos) ||
+                          (matCard.find("*MAT_UHS_STEEL") != string::npos || matCard.find("*MAT_244")!= string::npos) ||
+                          (matCard.find("*MAT_LOU-YOON_ANISOTROPIC_PLASTICITY") != string::npos || matCard.find("*MAT_263")!= string::npos) ||
+                          (matCard.find("*MAT_TISSUE_DISPERSED") != string::npos || matCard.find("*MAT_266")!= string::npos) ||
+                          (matCard.find("*MAT_BERGSTROM_BOYCE_RUBBER") != string::npos || matCard.find("*MAT_269")!= string::npos) ||
+                          (matCard.find("*MAT_POWDER") != string::npos || matCard.find("*MAT_271")!= string::npos) ||
+                          (matCard.find("*MAT_RHT") != string::npos || matCard.find("*MAT_272")!= string::npos) ||
+                          (matCard.find("*MAT_CONCRETE_DAMAGE_PLASTIC_MODEL") != string::npos || matCard.find("*MAT_273")!= string::npos) ||
+                          (matCard.find("*MAT_VISCOELASTIC") != string::npos || matCard.find("*MAT_006") != string::npos) ||
+                          (matCard.find("*MAT_BLATZ-KO_RUBBER") != string::npos || matCard.find("*MAT_007") != string::npos) ||
+                          (matCard.find("*MAT_JOHNSON_COOK") != string::npos || matCard.find("*MAT_015") != string::npos) ||
+                          (matCard.find("*MAT_PIECEWISE_LINEAR_PLASTICITY") != string::npos || matCard.find("*MAT_024") != string::npos) ||
+                          (matCard.find("*MAT_MOONEY-RIVLIN_RUBBER") != string::npos || matCard.find("*MAT_027") != string::npos) ||
+                          (matCard.find("*MAT_OGDEN_RUBBER") != string::npos || matCard.find("*MAT_077_O") != string::npos) ||
+                          (matCard.find("*MAT_PLASTICITY_WITH_DAMAGE") != string::npos || matCard.find("*MAT_081") != string::npos)  ||
+                          (matCard.find("MAT_SOFT_TISSUE") != string::npos || matCard.find("*MAT_091") != string::npos) ||
+                          (matCard.find("*MAT_SIMPLIFIED_JOHNSON_COOK") != string::npos || matCard.find("*MAT_098") != string::npos) ||
+                          (matCard.find("*MAT_GURSON") != string::npos || matCard.find("*MAT_120") != string::npos) ||
+                          (matCard.find("*MAT_HILL_3R") != string::npos || matCard.find("*MAT_122") != string::npos) ||
+                          (matCard.find("*MAT_MODIFIED_PIECEWISE_LINEAR_PLASTICITY") != string::npos || matCard.find("*MAT_123") != string::npos) ||
+                          (matCard.find("*MAT_PLASTICITY_COMPRESSION_TENSION") != string::npos || matCard.find("*MAT_124") != string::npos) ||
+                          (matCard.find("*MAT_SAMP-1") != string::npos || matCard.find("*MAT_187") != string::npos) ||
+                          (matCard.find("*MAT_TABULATED_JOHNSON_COOK_LOG_INTERPOLATION") != string::npos || matCard.find("*MAT_224") != string::npos) )
+                        )
+                {
+                    destCard = "/PROP/TYPE14";
+                    isolid = 24;
+                }
                 else if ((matCard.find("*MAT_SPOTWELD") != string::npos) || 
                          (matCard.find("*MAT_ARUP_ADHESIVE") != string::npos) ||
                          (matCard.find("*MAT_COHESIVE_MIXED_MODE_ELASTOPLASTIC_RATE") != string::npos) ||
@@ -454,6 +499,51 @@ void ConvertProp::p_ConvertPropBasedOnCard(const EntityRead& dynaProp, const sdi
                     {
                         radPropEdit.SetValue(sdiIdentifier("Ismstr"), sdiValue(10));
                     }
+                }
+                else if (elform == 13 && ( 
+                                           (matCard.find("*MAT_ELASTIC") != string::npos || matCard.find("*MAT_001") != string::npos) ||
+                                           (matCard.find("*MAT_PLASTIC_KINEMATIC") != string::npos || matCard.find("*MAT_003") != string::npos) ||
+                                           (matCard.find("*MAT_USER_DEFINED_MATERIAL_MODELS") != string::npos || matCard.find("*MAT_041-050") != string::npos) ||
+                                           (matCard.find("*MAT_PLASTICITY_WITH_DAMAGE_ORTHO") != string::npos || matCard.find("*MAT_082") != string::npos) ||
+                                           (matCard.find("*MAT_PLASTICITY_POLYMER") != string::npos || matCard.find("*MAT_089") != string::npos) ||
+                                           (matCard.find("*MAT_SOFT_TISSUE_VISCO") != string::npos || matCard.find("*MAT_092") != string::npos) ||
+                                           (matCard.find("*MAT_ANISOTROPIC_VISCOPLASTIC") != string::npos || matCard.find("*MAT_103") != string::npos) ||
+                                           (matCard.find("*MAT_ELASTIC_VISCOPLASTIC_THERMAL") != string::npos || matCard.find("*MAT_106") != string::npos) ||
+                                           (matCard.find("*MAT_HEART_TISSUE") != string::npos || matCard.find("*MAT_128") != string::npos) ||
+                                           (matCard.find("*MAT_LUNG_TISSUE") != string::npos || matCard.find("*MAT_129") != string::npos) ||
+                                           (matCard.find("*MAT_BARLAT_YLD2000") != string::npos || matCard.find("*MAT_133") != string::npos) ||
+                                           (matCard.find("*MAT_ANISOTROPIC_ELASTIC_PLASTIC") != string::npos || matCard.find("*MAT_157")!= string::npos) ||
+                                           (matCard.find("*MAT_SIMPLIFIED_RUBBER/FOAM") != string::npos || matCard.find("*MAT_181")!= string::npos) ||
+                                           (matCard.find("*MAT_SIMPLIFIED_RUBBER_WITH_DAMAGE") != string::npos || matCard.find("*MAT_183")!= string::npos) ||
+                                           (matCard.find("*MAT_BARLAT_YLD2004") != string::npos || matCard.find("*MAT_199")!= string::npos) ||
+                                           (matCard.find("*MAT_VISCOPLASTIC_MIXED_HARDENING") != string::npos || matCard.find("*MAT_225")!= string::npos) ||
+                                           (matCard.find("*MAT_CAZACU_BARLAT") != string::npos || matCard.find("*MAT_233")!= string::npos) ||
+                                           (matCard.find("*MAT_UHS_STEEL") != string::npos || matCard.find("*MAT_244")!= string::npos) ||
+                                           (matCard.find("*MAT_LOU-YOON_ANISOTROPIC_PLASTICITY") != string::npos || matCard.find("*MAT_263")!= string::npos) ||
+                                           (matCard.find("*MAT_TISSUE_DISPERSED") != string::npos || matCard.find("*MAT_266")!= string::npos) ||
+                                           (matCard.find("*MAT_BERGSTROM_BOYCE_RUBBER") != string::npos || matCard.find("*MAT_269")!= string::npos) ||
+                                           (matCard.find("*MAT_POWDER") != string::npos || matCard.find("*MAT_271")!= string::npos) ||
+                                           (matCard.find("*MAT_RHT") != string::npos || matCard.find("*MAT_272")!= string::npos) ||
+                                           (matCard.find("*MAT_CONCRETE_DAMAGE_PLASTIC_MODEL") != string::npos || matCard.find("*MAT_273")!= string::npos) ||
+                                           (matCard.find("*MAT_VISCOELASTIC") != string::npos || matCard.find("*MAT_006") != string::npos) ||
+                                           (matCard.find("*MAT_BLATZ-KO_RUBBER") != string::npos || matCard.find("*MAT_007") != string::npos) ||
+                                           (matCard.find("*MAT_JOHNSON_COOK") != string::npos || matCard.find("*MAT_015") != string::npos) ||
+                                           (matCard.find("*MAT_PIECEWISE_LINEAR_PLASTICITY") != string::npos || matCard.find("*MAT_024") != string::npos) ||
+                                           (matCard.find("*MAT_MOONEY-RIVLIN_RUBBER") != string::npos || matCard.find("*MAT_027") != string::npos) ||
+                                           (matCard.find("*MAT_OGDEN_RUBBER") != string::npos || matCard.find("*MAT_077_O") != string::npos) ||
+                                           (matCard.find("*MAT_PLASTICITY_WITH_DAMAGE") != string::npos || matCard.find("*MAT_081") != string::npos)  ||
+                                           (matCard.find("MAT_SOFT_TISSUE") != string::npos || matCard.find("*MAT_091") != string::npos) ||
+                                           (matCard.find("*MAT_SIMPLIFIED_JOHNSON_COOK") != string::npos || matCard.find("*MAT_098") != string::npos) ||
+                                           (matCard.find("*MAT_GURSON") != string::npos || matCard.find("*MAT_120") != string::npos) ||
+                                           (matCard.find("*MAT_HILL_3R") != string::npos || matCard.find("*MAT_122") != string::npos) ||
+                                           (matCard.find("*MAT_MODIFIED_PIECEWISE_LINEAR_PLASTICITY") != string::npos || matCard.find("*MAT_123") != string::npos) ||
+                                           (matCard.find("*MAT_PLASTICITY_COMPRESSION_TENSION") != string::npos || matCard.find("*MAT_124") != string::npos) ||
+                                           (matCard.find("*MAT_SAMP-1") != string::npos || matCard.find("*MAT_187") != string::npos) ||
+                                           (matCard.find("*MAT_TABULATED_JOHNSON_COOK_LOG_INTERPOLATION") != string::npos || matCard.find("*MAT_224") != string::npos)
+                                         )
+                        )
+                {
+                    radPropEdit.SetValue(sdiIdentifier("Itetra4"), sdiValue(3));
                 }
             }
             else if (keyword == "*SECTION_SEATBELT")
