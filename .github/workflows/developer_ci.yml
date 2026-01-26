@@ -19,7 +19,7 @@ jobs:
     runs-on: developer_ci   
     container: 
       # Registry variable can't be a secret but can be a simple variable defined at organization level
-      image: "${{ vars.DOCKER_REGISTRY }}/rd-linux64-common:latest"
+      image: "fr-qafactory.europe.altair.com/rd-linux64-common:latest"
       # credentials: 
       #   username: ${{ secrets.DOCKER_REGISTRY_USER }}
       #   password: ${{ secrets.DOCKER_REGISTRY_PASSWD }}
@@ -75,7 +75,7 @@ jobs:
 
     container: 
       # Registry variable can't be a secret but can be a simple variable defined at organization level
-      image: "${{ vars.DOCKER_REGISTRY }}/${{ matrix.image_name }}"
+      image: "fr-qafactory.europe.altair.com/${{ matrix.image_name }}"
       # credentials: 
         # username: ${{ secrets.DOCKER_REGISTRY_USER }}
         # password: ${{ secrets.DOCKER_REGISTRY_PASSWD }}      
@@ -185,7 +185,7 @@ jobs:
 
     container: 
       # Registry variable can't be a secret but can be a simple variable defined at organization level
-      image: "${{ vars.DOCKER_REGISTRY }}/${{ matrix.image_name }}"
+      image: "fr-qafactory.europe.altair.com/${{ matrix.image_name }}"
       # credentials: 
       #   username: ${{ secrets.DOCKER_REGISTRY_USER }}
       #   password: ${{ secrets.DOCKER_REGISTRY_PASSWD }}      
@@ -249,7 +249,7 @@ jobs:
     runs-on: ["build","developer_ci"]
     container: 
       # Registry variable can't be a secret but can be a simple variable defined at organization level
-      image: "${{ vars.DOCKER_REGISTRY }}/rd-linux64-cos8-bld:ompi4.1.1-ts11"
+      image: "fr-qafactory.europe.altair.com/rd-linux64-cos8-bld:ompi4.1.1-ts11"
       # credentials: 
       #   username: ${{ secrets.DOCKER_REGISTRY_USER }}
       #   password: ${{ secrets.DOCKER_REGISTRY_PASSWD }}      
@@ -325,7 +325,7 @@ jobs:
     runs-on: ["qa_${{ matrix.os }}","developer_ci"]
     container: 
       # Registry variable can't be a secret but can be a simple variable defined at organization level
-      image: "${{ vars.DOCKER_REGISTRY }}/rd-linux64-cos8-qa:ompi4.1.1"
+      image: "fr-qafactory.europe.altair.com/rd-linux64-cos8-qa:ompi4.1.1"
       # credentials: 
       #   username: ${{ secrets.DOCKER_REGISTRY_USER }}
       #   password: ${{ secrets.DOCKER_REGISTRY_PASSWD }}      
