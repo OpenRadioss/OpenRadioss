@@ -193,13 +193,13 @@
                          jthe,jlag,jmult,jhbe,jivf,nvaux,jpor,jcvt,jclose,jplasol, &
                          irep,iint,igtp,israt,isrot,icsen,isorth,isorthg,ifailure,jsms)
             nel = llt
-            if(jmult/=0) mtn = iparg(24+nm,ng)
             if(jale+jeul==0) cycle
             if(iparg(8,ng)==1) cycle
             isilent = iparg(64,ng)
             if(flag_mat_51==1.and.mtn/=51) cycle
 
             do nm=1,mat_number ! loop over the material number (1 if jmult=0)
+              if(jmult/=0) mtn = iparg(24+nm,ng)
               if(max(1,jmult)<nm) cycle
               do itrimat=1,trimat ! loop over the sub-material of law 51 (=1 if mtn/=51)
                 if(flag_mat_51==0) then 
@@ -542,6 +542,7 @@
             if(flag_mat_51==1.and.mtn/=51) cycle
 
             do nm=1,mat_number ! loop over the material number (1 if jmult=0)
+              if(jmult/=0) mtn = iparg(24+nm,ng)
               if(max(1,jmult)<nm) cycle
               do itrimat=1,trimat ! loop over the sub-material of law 51 (=1 if mtn/=51)
                 if(flag_mat_51==0) then 
