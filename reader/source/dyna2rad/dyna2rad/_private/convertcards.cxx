@@ -234,9 +234,34 @@ void sdiD2R::ConvertCard::p_ConvertCtrlTimeStep()
             dtAmsHandleEdit.SetValue(p_radiossModel, sdiIdentifier("Tmin"), sdiValue(abs(lsdDT2MS)));
         }
         
-
-        if (lsdTSLIMIT > 0.0)
+        SelectionRead selectCtrlTerm(p_lsdynaModel, "*CONTROL_TERMINATION");
+        double lsdDTMIN = 0.0;
+        double lsdTSMIN = 0.0;
+        while (selectCtrlTerm.Next())
         {
+            lsdDTMIN = GetValue<double>(*selectCtrlTerm, "DTMIN");
+            break;
+        }
+        if (lsdDTMIN == 0.0) lsdDTMIN = 1.0; // by default
+
+        lsdTSMIN =abs(lsdDT2MS)*lsdDTMIN;
+        if (lsdTSMIN > 0.0)
+        {
+            // ERODE == 0 -> /DT/BRICK/STOP
+            if (lsdERODE == 0)
+            {
+                HandleEdit dtBrickDelHandleEdit;
+                p_radiossModel->CreateEntity(dtBrickDelHandleEdit, "/DT/BRICK");
+                if (dtBrickDelHandleEdit.IsValid())
+                {
+                    EntityEdit dtBrickEdit(p_radiossModel, dtBrickDelHandleEdit);
+                    dtBrickEdit.SetValue(sdiIdentifier("ENG_DT_BRICK_STOP"), sdiValue(1));
+                    dtBrickEdit.SetValue(sdiIdentifier("FScale11"), sdiValue(lsdTSSFAC));
+                    dtBrickEdit.SetValue(sdiIdentifier("Tmin1"), sdiValue(lsdTSMIN));
+                    sdiConvert::Convert::PushToConversionLog(std::make_pair(dtBrickDelHandleEdit, sourceCards));
+                }
+            }
+
             // ERODE == 1 -> /DT/BRICK/DEL
             if (lsdERODE == 1)
             {
@@ -247,7 +272,7 @@ void sdiD2R::ConvertCard::p_ConvertCtrlTimeStep()
                     EntityEdit dtBrickEdit(p_radiossModel, dtBrickDelHandleEdit);
                     dtBrickEdit.SetValue(sdiIdentifier("ENG_DT_BRICK_DEL"), sdiValue(1));
                     dtBrickEdit.SetValue(sdiIdentifier("FScale22"), sdiValue(lsdTSSFAC));
-                    dtBrickEdit.SetValue(sdiIdentifier("Tmin2"), sdiValue(lsdTSLIMIT));
+                    dtBrickEdit.SetValue(sdiIdentifier("Tmin2"), sdiValue(lsdTSMIN));
                     sdiConvert::Convert::PushToConversionLog(std::make_pair(dtBrickDelHandleEdit, sourceCards));
                 }
             }
@@ -262,7 +287,7 @@ void sdiD2R::ConvertCard::p_ConvertCtrlTimeStep()
                     EntityEdit dtShellEdit(p_radiossModel, dtShellDelHandleEdit);
                     dtShellEdit.SetValue(sdiIdentifier("ENG_DT_SHELL_DEL"), sdiValue(1));
                     dtShellEdit.SetValue(sdiIdentifier("FScale22"), sdiValue(lsdTSSFAC));
-                    dtShellEdit.SetValue(sdiIdentifier("Tmin2"), sdiValue(lsdTSLIMIT));
+                    dtShellEdit.SetValue(sdiIdentifier("Tmin2"), sdiValue(lsdTSMIN));
                     sdiConvert::Convert::PushToConversionLog(std::make_pair(dtShellDelHandleEdit, sourceCards));
                 }
             }
@@ -277,7 +302,7 @@ void sdiD2R::ConvertCard::p_ConvertCtrlTimeStep()
                     EntityEdit dtBrickEdit(p_radiossModel, dtBrickDelHandleEdit);
                     dtBrickEdit.SetValue(sdiIdentifier("ENG_DT_BRICK_DEL"), sdiValue(1));
                     dtBrickEdit.SetValue(sdiIdentifier("FScale22"), sdiValue(lsdTSSFAC));
-                    dtBrickEdit.SetValue(sdiIdentifier("Tmin2"), sdiValue(lsdTSLIMIT));
+                    dtBrickEdit.SetValue(sdiIdentifier("Tmin2"), sdiValue(lsdTSMIN));
                     sdiConvert::Convert::PushToConversionLog(std::make_pair(dtBrickDelHandleEdit, sourceCards));
                 }
 
@@ -288,7 +313,7 @@ void sdiD2R::ConvertCard::p_ConvertCtrlTimeStep()
                     EntityEdit dtShellEdit(p_radiossModel, dtShellDelHandleEdit);
                     dtShellEdit.SetValue(sdiIdentifier("ENG_DT_SHELL_DEL"), sdiValue(1));
                     dtShellEdit.SetValue(sdiIdentifier("FScale22"), sdiValue(lsdTSSFAC));
-                    dtShellEdit.SetValue(sdiIdentifier("Tmin2"), sdiValue(lsdTSLIMIT));
+                    dtShellEdit.SetValue(sdiIdentifier("Tmin2"), sdiValue(lsdTSMIN));
                     sdiConvert::Convert::PushToConversionLog(std::make_pair(dtShellDelHandleEdit, sourceCards));
                 }
             }

@@ -668,6 +668,7 @@ void ConvertMat::p_ConvertMatL3 (const EntityRead& dynaMat, sdiString& destCard,
     radmatEntityEdit.SetValue(sdiIdentifier("F_CUT"), sdiValue(0.0));
     radmatEntityEdit.SetValue(sdiIdentifier("EPST1"), sdiValue(0.0));
     radmatEntityEdit.SetValue(sdiIdentifier("EPST2"), sdiValue(0.0));
+    radmatEntityEdit.SetValue(sdiIdentifier("Iflag"), sdiValue(0));
 }
 
 void ConvertMat::p_ConvertMatL6(const EntityRead& dynaMat, sdiString& destCard, multimap<string, string>& attribMap, HandleEdit& radMat)
@@ -7340,7 +7341,7 @@ void ConvertMat::p_ConvertMatAddErosion()
                     selMatAddErosion->GetValue(sdiIdentifier("MID"), tempValue);
                     tempValue.GetValue(lsdMIDEntity);
 
-                    p_radiossModel->CreateEntity(failInievoHEdit, "/FAIL/INIEVO", matAddErosionName,lsdMIDEntity.GetId());
+                    p_radiossModel->CreateEntity(failInievoHEdit, "/FAIL/INIEVO", matAddErosionName,radMatConvertedHandles[i].GetId(p_radiossModel));
                     failInievoHEdit.SetValue(p_radiossModel, sdiIdentifier("ID_CARD_EXIST"), sdiValue(true));
 
                     EntityEdit failInievoEdit(p_radiossModel, failInievoHEdit);
@@ -8196,7 +8197,7 @@ void ConvertMat::p_ConvertMatAddErosion()
                     selMatAddErosion->GetValue(sdiIdentifier("MID"), tempValue);
                     tempValue.GetValue(lsdMIDEntity);
 
-                    p_radiossModel->CreateEntity(failInievoHEdit, "/FAIL/INIEVO", matAddErosionName,lsdMIDEntity.GetId());
+                    p_radiossModel->CreateEntity(failInievoHEdit, "/FAIL/INIEVO", matAddErosionName,radMatConvertedHandles[i].GetId(p_radiossModel));
                     failInievoHEdit.SetValue(p_radiossModel, sdiIdentifier("ID_CARD_EXIST"), sdiValue(true));
 
                     EntityEdit failInievoEdit(p_radiossModel, failInievoHEdit);
