@@ -18,8 +18,11 @@ jobs:
   guard:
     runs-on: developer_ci   
     container: 
-      image: fr-qafactorydev.europe.altair.com/rd-linux64-common:latest
-
+      # Registry variable can't be a secret but can be a simple variable defined at organization level
+      image: "${{ vars.DOCKER_REGISTRY }}/rd-linux64-common:latest"
+      credentials: 
+        username: ${{ secrets.DOCKER_REGISTRY_USER }}
+        password: ${{ secrets.DOCKER_REGISTRY_PASSWD }}
     steps:
       - uses: actions/checkout@v4
       - name: Detect workflow changes
@@ -71,7 +74,11 @@ jobs:
             image_name: rd-linux64-cos8-bld:ompi4.1.1-ts11
 
     container: 
-      image: "fr-qafactorydev.europe.altair.com/${{ matrix.image_name }}"
+      # Registry variable can't be a secret but can be a simple variable defined at organization level
+      image: "${{ vars.DOCKER_REGISTRY }}/${{ matrix.image_name }}"
+      credentials: 
+        username: ${{ secrets.DOCKER_REGISTRY_USER }}
+        password: ${{ secrets.DOCKER_REGISTRY_PASSWD }}      
       volumes: 
         - /etc/localtime:/etc/localtime:ro
 
@@ -177,7 +184,11 @@ jobs:
           #   image_name: rd-linux64-cos10-bld:ompi4.1.1-ts15
 
     container: 
-      image: "fr-qafactorydev.europe.altair.com/${{ matrix.image_name }}"
+      # Registry variable can't be a secret but can be a simple variable defined at organization level
+      image: "${{ vars.DOCKER_REGISTRY }}/${{ matrix.image_name }}"
+      credentials: 
+        username: ${{ secrets.DOCKER_REGISTRY_USER }}
+        password: ${{ secrets.DOCKER_REGISTRY_PASSWD }}      
       volumes: 
         - /etc/localtime:/etc/localtime:ro
 
@@ -237,7 +248,11 @@ jobs:
     # DEV ONLY # runs-on: ["build","dev_devci"]
     runs-on: ["build","developer_ci"]
     container: 
-      image: fr-qafactorydev.europe.altair.com/rd-linux64-cos8-bld:ompi4.1.1-ts11
+      # Registry variable can't be a secret but can be a simple variable defined at organization level
+      image: "${{ vars.DOCKER_REGISTRY }}/rd-linux64-cos8-bld:ompi4.1.1-ts11"
+      credentials: 
+        username: ${{ secrets.DOCKER_REGISTRY_USER }}
+        password: ${{ secrets.DOCKER_REGISTRY_PASSWD }}      
       volumes: 
         - /etc/localtime:/etc/localtime:ro
 
@@ -309,7 +324,11 @@ jobs:
     # DEV ONLY # runs-on: ["qa_${{ matrix.os }}","dev"]
     runs-on: ["qa_${{ matrix.os }}","developer_ci"]
     container: 
-      image: fr-qafactorydev.europe.altair.com/rd-linux64-cos8-qa:ompi4.1.1
+      # Registry variable can't be a secret but can be a simple variable defined at organization level
+      image: "${{ vars.DOCKER_REGISTRY }}/rd-linux64-cos8-qa:ompi4.1.1"
+      credentials: 
+        username: ${{ secrets.DOCKER_REGISTRY_USER }}
+        password: ${{ secrets.DOCKER_REGISTRY_PASSWD }}      
       volumes: 
         - /etc/localtime:/etc/localtime:ro
 

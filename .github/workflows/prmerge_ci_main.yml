@@ -24,10 +24,11 @@ jobs:
     # DEV ONLY # runs-on: ["${{ matrix.build }}","dev_pmci"]
     runs-on: ["${{ matrix.build }}","prmerge_ci"]
     container: 
-      image: fr-qafactorydev.europe.altair.com/rd-linux64-cos8-bld:ompi4.1.1-ts11
+      # Registry variable can't be a secret but can be a simple variable defined at organization level
+      image: "${{ vars.DOCKER_REGISTRY }}/rd-linux64-cos8-bld:ompi4.1.1-ts11"
       credentials: 
-        username: ${{secrets.DOCKER_REGISTRY_USER}}
-        password: ${{secrets.DOCKER_REGISTRY_PASSWD}}
+        username: ${{ secrets.DOCKER_REGISTRY_USER }}
+        password: ${{ secrets.DOCKER_REGISTRY_PASSWD }}
       volumes: 
         - /etc/localtime:/etc/localtime:ro
 
@@ -224,10 +225,11 @@ jobs:
     # DEV ONLY # runs-on: ["qa_${{ matrix.os }}","dev"]
     runs-on: ["qa_${{ matrix.os }}","prmerge_ci"]
     container: 
-      image: fr-qafactorydev.europe.altair.com/rd-linux64-cos8-qa:ompi4.1.1
+      # Registry variable can't be a secret but can be a simple variable defined at organization level
+      image: "${{ vars.DOCKER_REGISTRY }}/rd-linux64-cos8-qa:ompi4.1.1"
       credentials: 
-        username: ${{secrets.DOCKER_REGISTRY_USER}}
-        password: ${{secrets.DOCKER_REGISTRY_PASSWD}}
+        username: ${{ secrets.DOCKER_REGISTRY_USER }}
+        password: ${{ secrets.DOCKER_REGISTRY_PASSWD }}
       volumes: 
         - /etc/localtime:/etc/localtime:ro
 
@@ -756,10 +758,11 @@ jobs:
     if: ${{ github.repository_owner == 'OpenRadioss' }} 
     runs-on: delivery   
     container: 
-      image: fr-qafactorydev.europe.altair.com/rd-linux64-common:latest
+      # Registry variable can't be a secret but can be a simple variable defined at organization level
+      image: "${{ vars.DOCKER_REGISTRY }}/rd-linux64-common:latest"
       credentials: 
-        username: ${{secrets.DOCKER_REGISTRY_USER}}
-        password: ${{secrets.DOCKER_REGISTRY_PASSWD}}
+        username: ${{ secrets.DOCKER_REGISTRY_USER }}
+        password: ${{ secrets.DOCKER_REGISTRY_PASSWD }}
       volumes: 
          - /etc/localtime:/etc/localtime:ro
          # DEV ONLY # - /github_download_counter_dev:/github_download_counter 
