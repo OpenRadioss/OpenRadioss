@@ -194,7 +194,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      N                  PRELOAD_A  ,FAIL_FRACTAL  ,FAIL_BROKMANN    ,DEFAULTS       ,NDAMP_FREQ_RANGE,
      O                  DAMPR      ,IBEAM_VECTOR  ,RBEAM_VECTOR     ,IKINE          ,LSIGI     ,
      P                  LSIGSP     ,SRNOISE       ,NPRW             ,LPRW           , RWSTIF_PEN,
-     M                  SLN_PEN )
+     M                  SLN_PEN    ,ROOTLEN       ,ROOTNAM )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------                     
@@ -238,6 +238,7 @@ C-----------------------------------------------
       use init_inivol_mod , only : INIT_INIVOL
       use element_mod , only : nixs,nixq,nixc,nixt,nixp,nixr,nixtg
       use init_rwall_penalty_mod , only : init_rwall_penalty
+      use ush_init_mod , only : ush_init
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -351,6 +352,8 @@ C
       INTEGER, DIMENSION(NNPRW*NRWALL),INTENT(IN) :: NPRW
       INTEGER, DIMENSION(SLPRW),INTENT(IN)        :: LPRW
       my_real, DIMENSION(SLN_PEN), INTENT(INOUT)  :: RWSTIF_PEN
+      INTEGER,INTENT(IN) :: ROOTLEN
+      CHARACTER (LEN=ROOTLEN), INTENT(IN) :: ROOTNAM
 C
       TYPE (ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB
       TYPE (ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP,NXEL) :: XFEM_TAB
@@ -451,8 +454,8 @@ C                   1 2 3 4 5 6 7 8 9 10
      4              0,0,1,0,0,0,0,0,0,0/
       DATA COQPID/1,1,0,0,0,0,0,1,0,1,1,
      1              1,0,0,0,0,1,1,0,1,0,
-     2              0,0,0,0,0,0,0,0,0,0,
-     3              0,0,0,0,0,0,0,0,0,0,
+     2              0,0,0,0,0,0,0,0,1,1,
+     3              1,0,0,0,0,0,0,0,0,0,
      4              0,0,0,0,0,0,0,0,0,0,
      5              1,1/
       DATA TRUPID/0,0,1,0,0,0,0,0,0,0,0,
@@ -1406,6 +1409,14 @@ C 2D multifluid law
      E             IGEO_STACK ,STRC   ,PERTURB            ,IYLDINI ,ELE_AREA,
      F             NLOC_DMG   ,NG        ,GROUP_PARAM_TAB(NG),IDRAPE,DRAPEG,
      G             MAT_PARAM  ,FAIL_FRACTAL,FAIL_BROKMANN,GLOB_THERM)
+          ELSEIF (IGTYP>=29) THEN
+            CALL USH_INIT(ELBUF_TAB(NG),                                         
+     1             NUMNOD,   NPART,   NUMMAT,      NEL,       PM,                
+     2        IPARG(1,NG),  NUMELC,   NIXC,      IXC,IPART(I15C),                  
+     3            I7STIFS,USERL_AVAIL,ROOTLEN,ROOTNAM,  NSHNOD,                  
+     4                  X,      V,      VR,    STIFN,    STIFR,                  
+     5             DTELEM,THK(1+NFT), PARTSAV,   MSC,     INC ,                  
+     6                STC)
           ELSE
             NULLIFY(ptr_ITAGE)
             IF (SITAGE>0) ptr_ITAGE => ITAGE(1)       
@@ -1505,6 +1516,15 @@ C 2D multifluid law
      .            IGEO, IPART, IPART(I15H), IPM, PTSH3N, NPC, ILOADP, 
      .            X, PM, GEO, SIGI, SKEW, PLD, BUFMAT, FACLOAD, MULTI_FVM, ERROR_THROWN, DETONATORS,
      .            MAT_PARAM)
+          ELSEIF (IGTYP>=29) THEN
+            CALL USH_INIT(ELBUF_TAB(NG),                                         
+     1             NUMNOD,   NPART,   NUMMAT,      NEL,       PM,
+     2        IPARG(1,NG),NUMELTG,   NIXTG,     IXTG,IPART(I15H),                  
+     3            I7STIFS,USERL_AVAIL,ROOTLEN,ROOTNAM,  NSHNOD,                  
+     4                  X,      V,      VR,    STIFN,    STIFR,                  
+     5             DTELEM,THK(1+NFT+NUMELC), PARTSAV,   MSTG,     INTG ,                  
+     6               STTG)
+            PTG(1:3,NF1:NFT+NEL) = ONE
           ELSE
            NULLIFY(ptr_ITAGE)
            IF (SITAGE > 0) ptr_ITAGE => ITAGE(NUMELC+1)  

@@ -85,7 +85,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      S    DRAPE_SH4N  ,DRAPE_SH3N  ,SUBSET    ,XDP       ,VPINCH,
      T    APINCH    ,STIFPINCH ,DRAPEG,OUTPUT ,DT        ,
      Y    SNPC      ,  STF, USERL_AVAIL,MAXFUNC,
-     U    SBUFMAT)
+     U    SBUFMAT   ,IPARIT    ,LSKY      ,NODADT )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -106,6 +106,7 @@ C-----------------------------------------------
       USE DT_MOD
       use glob_therm_mod
       use element_mod , only : nixc,nixtg
+      use ush_force3_mod , only : ush_force3
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -141,6 +142,7 @@ C-----------------------------------------------
       INTEGER,INTENT(IN)    :: SBUFMAT     ! Size of Bufmat
       INTEGER,INTENT(IN)    :: STF         ! Size of TF
       INTEGER,INTENT(IN)    :: SNPC        ! Size of NPC
+      INTEGER,INTENT(IN)    :: IPARIT, LSKY, NODADT
       INTEGER IXC(NIXC,*), IXTG(NIXTG,*), IGEO(NPROPGI,*), IPM(NPROPMI,*),
      .   NPC(*), IPARG(NPARG,*), IPARI(NPARI,*), 
      .   NSTRF(*), IPART(LIPART1,*), IPARTC(*), IPARTTG(*),
@@ -312,7 +314,17 @@ C--      Reduction factor computation for seatbelts in sliprings
 C
          IF (ISENS_ENERGY == 1 .AND. IPRI == 0)
      .    CALL SENSOR_ENERGY_PART(IPARTC(NF1) ,SUBSET ,IPRI,SENSORS,ITASK)
-          IF (JHBE >= 11.AND.JHBE <= 19) THEN
+          IF (IGTYP >= 29) THEN  !user prop
+            CALL USH_FORCE3(ELBUF_TAB(NG),                          
+     1             NUMNOD,  NPARG,   NPART,   NUMMAT,    NPSAV, 
+     2        IPARG(1,NG),   NIXC,IXC(1,NF1),IPARTC(NF1),    4, 
+     3              ITASK,   IPRI,USERL_AVAIL,   PM ,      NEL, 
+     4                  X,      V,      VR,        A,       AR, 
+     5                  D,  STIFN,   STIFR,THKE(NF1),IADC(1,NF1), 
+     6               FSKY,PARTSAV,     DT1,     DT2T,      TT , 
+     7           FX(1:MVSIZ,1:4),FY(1:MVSIZ,1:4),FZ(1:MVSIZ,1:4),MX(1:MVSIZ,1:4), MY(1:MVSIZ,1:4), 
+     8           MZ(1:MVSIZ,1:4),SENSORS,IPARIT,LSKY,  NODADT)
+          ELSE IF (JHBE >= 11.AND.JHBE <= 19) THEN
               
             CALL CBAFORC3(TIMERS,
      1        ELBUF_TAB(NG),      JFT,                JLT,                NFT,          
@@ -523,7 +535,17 @@ C----6---------------------------------------------------------------7--
           IOFC = 0
           IF (ISENS_ENERGY == 1 .AND. IPRI == 0)
      .       CALL SENSOR_ENERGY_PART(IPARTTG(NF1) ,SUBSET ,IPRI,SENSORS,ITASK)
-          IF (ICNOD == 6) THEN
+          IF (IGTYP >= 29) THEN  !user prop
+            CALL USH_FORCE3(ELBUF_TAB(NG),                          
+     1             NUMNOD,  NPARG,   NPART,   NUMMAT,    NPSAV, 
+     2        IPARG(1,NG),  NIXTG,IXTG(1,NF1),IPARTTG(NF1),  3, 
+     3              ITASK,    IPRI,USERL_AVAIL,   PM,      NEL, 
+     4                  X,      V,      VR,        A,       AR, 
+     5                  D,  STIFN,   STIFR,THKE(NUMELC+NF1),IADTG(1,NF1), 
+     6               FSKY,PARTSAV,     DT1,     DT2T,      TT , 
+     7           FX(1:MVSIZ,1:3),FY(1:MVSIZ,1:3),FZ(1:MVSIZ,1:3),MX(1:MVSIZ,1:3), MY(1:MVSIZ,1:3), 
+     8           MZ(1:MVSIZ,1:3),SENSORS,IPARIT,LSKY,  NODADT)
+          ELSEIF (ICNOD == 6) THEN
             NFT1 = NF1-NUMELTG+NUMELTG6
             CALL CDK6FORC3(TIMERS,
      1        ELBUF_TAB(NG),   JFT,                  JLT,             PM,

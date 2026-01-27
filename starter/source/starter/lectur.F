@@ -8824,7 +8824,7 @@ C
      &            NPRELOAD_A , PRELOAD_A      , FAIL_FRACTAL     ,FAIL_BROKMANN       ,DEFAULTS  ,
      &            NDAMP_FREQ_RANGE,DAMPR      , IBEAM_VECTOR     , RBEAM_VECTOR       ,D         ,
      &            LSIGI      ,LSIGSP          , SRNOISE2         ,NPRW               ,LPRW       ,
-     &            RWSTIF_PEN ,SLN_PEN )
+     &            RWSTIF_PEN ,SLN_PEN         ,ROOTLEN           ,ROOTNAM )
 
 
       IF(NINTER>0.AND.NUMELIG3D>0) THEN
