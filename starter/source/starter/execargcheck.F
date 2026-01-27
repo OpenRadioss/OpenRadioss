@@ -318,11 +318,13 @@ C------------------------------------------------
             CASE ( '-CHECKSUM_READ')
                 OUTPUT%CHECKSUM%ST_CHECKSUM_READ = 1
                 IF (PCHECKSUMI==0) PCHECKSUMI = I
+            CASE ( '-METIS_SEED') 
+               ! nothing here, called again in grid2mat
             CASE DEFAULT
             ! ------------------------------------------------
             ! unknown command line argument
                 ERR = 0
-
+! 
                 IF (I == 1)THEN
                    ERR = 1
                 ELSE
@@ -336,7 +338,7 @@ C------------------------------------------------
      *                 ARGP == '-NT' .OR. ARGP =='-NTHREAD'.OR.
      *                 ARGP == '-TIMER' .OR. ARGP =='-DYLIB'.OR.
      *                 ARGP == '-DYNAMIC_LIB' .OR. ARGP == '-DD_TUNING'.OR.
-     *                 ARGP == '-RSEED' .OR. ARGP == '-RXALEA'.OR.
+     *                 ARGP == '-RSEED' .OR. ARGP == '-RXALEA'.OR. ARGP== "-METIS_SEED" .OR.
      *                 ARGP == '-GRP_SIZE' .OR. ARGP == '-MDS_LIBPATH' .OR. ARGP == '-MDSDIR' .OR. ARGP == '-CHECKSUM_READ' )THEN 
                        ERR = 0
                    ELSE

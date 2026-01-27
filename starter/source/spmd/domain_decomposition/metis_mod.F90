@@ -64,7 +64,7 @@
             integer(c_int), dimension(*) :: cep
           end function Wrap_METIS_PartGraphRecursive
 
-          function Wrap_METIS_PartGraphKway_part(nelem, ncond, xadj, adjncy, iwd, nnode, ubvec, options, nec, cep, part) &
+          function Wrap_METIS_part(nelem, ncond, xadj, adjncy, iwd, nnode, ubvec, options, nec, cep, part, coords) &
               bind(C, name="wrap_metis_partgraphkway_part") result(ierr)
             use iso_c_binding, only : c_int, c_float
             integer(c_int) :: ierr
@@ -79,7 +79,8 @@
             integer(c_int) :: nec
             integer(c_int), dimension(*) :: cep
             integer(c_int), dimension(*) :: part
-          end function Wrap_METIS_PartGraphKway_part
+            real(c_float), dimension(3,*) :: coords
+          end function Wrap_METIS_part
 
           function Wrap_METIS_PartGraphRecursive_part(nelem, ncond, xadj, adjncy, iwd, nnode, ubvec, options, nec, cep,part) &
               bind(C, name="wrap_metis_partgraphrecursive_part") result(ierr)
