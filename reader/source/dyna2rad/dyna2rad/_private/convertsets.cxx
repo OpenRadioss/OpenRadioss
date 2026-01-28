@@ -25,6 +25,7 @@
 #include <dyna2rad/convertsets.h>
 #include <dyna2rad/dyna2rad.h>
 #include <dyna2rad/sdiUtils.h>
+#include <cstdint>
 
 using namespace std;
 using namespace sdi;

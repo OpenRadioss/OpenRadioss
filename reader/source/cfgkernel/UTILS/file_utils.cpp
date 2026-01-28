@@ -30,6 +30,7 @@
 #endif
 #include <sys/types.h>  // For stat().
 #include <sys/stat.h>   // For stat().
+#include <array> 
 
 #ifdef WIN32
 #include <direct.h>
