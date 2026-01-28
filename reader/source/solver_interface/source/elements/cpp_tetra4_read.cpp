@@ -54,6 +54,9 @@ CDECL void cpp_tetra4_read_(int *IXS, int *NIXS, int *NUMBRICK, int *IPARTS, int
     while(elems.Next())
     {
 // Get Submodel Id
+        if((int)elems->GetId() <= 0 ) {
+             continue;
+        }
         submodelId=0;
         includeId=0;
         HandleRead hInclude(elems->GetInclude());

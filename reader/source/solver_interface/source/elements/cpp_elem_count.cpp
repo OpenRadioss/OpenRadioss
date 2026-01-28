@@ -101,13 +101,18 @@ CDECL void cpp_elem_count_(char *elemType, int *s_elemType, int *nbElems, int *i
         config = Element::HW_ELEMENT_CONFIG_QUAD4;   
         SelectionElementRead elems(g_pModelView,FilterElementConfig(config));
         *nbElems = elems.Count();
-    }
-    else if (strncmp(cname,"/TETRA4",7) == 0 )   
-    {    
-        config = Element::HW_ELEMENT_CONFIG_TETRA4;   
-        SelectionElementRead elems(g_pModelView,FilterElementConfig(config));
-        *nbElems = elems.Count();
-    }      
+    }*/
+    if (strncmp(cname,"/TETRA4",7) == 0 )   
+    {     
+        SelectionElementRead elems(g_pModelViewSDI, "/TETRA4"); 
+        *nbElems = 0;
+        while(elems.Next())
+        {
+            if ((int)elems->GetId() > 0) {
+                (*nbElems)++;
+            }
+        }
+    }/*  
     else if (strncmp(cname,"/PENTA6",7) == 0  && *isDyna == 0)   
     {    
         config = Element::HW_ELEMENT_CONFIG_PENTA6;  
@@ -118,7 +123,7 @@ CDECL void cpp_elem_count_(char *elemType, int *s_elemType, int *nbElems, int *i
         fflush(stdout);
     }   
 */  
-    if (strncmp(cname,"/BRICK20",8) == 0  && *isDyna == 0)   
+    else if (strncmp(cname,"/BRICK20",8) == 0  && *isDyna == 0)   
     {    
         SelectionElementRead elems(g_pModelViewSDI, "/BRIC20"); 
         *nbElems = elems.Count();

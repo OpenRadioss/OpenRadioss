@@ -103,6 +103,9 @@ void GlobalModelSDIIsGroupUsed(char *type,int *id, bool *isUsed);
 
 void GlobalEntitySDIdeleteEntity();
 void GlobalEntitySDIRbodiesCreateMainNode(int *addedNodeId);
+void GlobalEntitySDICreateNode(double *x, double *y, double *z, int *newNodeId);
+void GlobalEntitySDIConvertTetra4ToTetra10(int *itetra4toconsider);
+
 
 
 #endif /* !defined(GlobalModelSDI__INCLUDED_) */
