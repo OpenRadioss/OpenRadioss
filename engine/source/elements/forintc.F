@@ -40,6 +40,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    sensor_energy_part          ../engine/source/tools/sensor/sensor_energy_part.F
 !||    startimeg                   ../engine/source/system/timer.F
 !||    stoptimeg                   ../engine/source/system/timer.F
+!||    ush_force3                  ../engine/source/user_interface/ushforce3.F90
 !||--- uses       -----------------------------------------------------
 !||    crackxfem_mod               ../engine/share/modules/crackxfem_mod.F
 !||    drape_mod                   ../engine/share/modules/drape_mod.F
@@ -58,6 +59,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    stack_mod                   ../engine/share/modules/stack_mod.F
 !||    table_mod                   ../engine/share/modules/table_mod.F
 !||    timer_mod                   ../engine/source/system/timer_mod.F90
+!||    ush_force3_mod              ../engine/source/user_interface/ushforce3.F90
 !||====================================================================
       SUBROUTINE FORINTC(TIMERS,
      1    PM        ,GEO       ,X         ,A         ,AR        ,

@@ -21,6 +21,11 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !=======================================================================================================================
+!||====================================================================
+!||    ush_init_mod   ../starter/source/elements/elbuf_init/ush_init.F90
+!||--- called by ------------------------------------------------------
+!||    initia         ../starter/source/elements/initia/initia.F
+!||====================================================================
       module ush_init_mod
 
       implicit none
@@ -29,6 +34,13 @@
 !=======================================================================================================================
 !!\brief This subroutine does the initialization of user shell property
 !=======================================================================================================================
+!||====================================================================
+!||    ush_init             ../starter/source/elements/elbuf_init/ush_init.F90
+!||--- called by ------------------------------------------------------
+!||    initia               ../starter/source/elements/initia/initia.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||====================================================================
         subroutine ush_init(elbuf_tab,                                           &
                    numnod,   npart, nummat,      nel,       pm,                  &
                     iparg,  numelx,   nixx,      ixx,   ipartx,                  &

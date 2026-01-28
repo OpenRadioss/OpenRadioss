@@ -42,6 +42,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    sr8bilan              ../engine/source/elements/solid/solide8/sr8bilan.F
 !||    srbilan               ../engine/source/elements/solid/solide/srbilan.F
 !||    tbilan                ../engine/source/elements/truss/tbilan.F
+!||    ush_output            ../engine/source/user_interface/ushforce3.F90
 !||--- calls      -----------------------------------------------------
 !||    sum_6_float           ../engine/source/system/parit.F
 !||--- uses       -----------------------------------------------------

@@ -36,6 +36,8 @@
 !||    sboltlaw                     ../engine/source/elements/solid/solide/sboltlaw.F
 !||    sigeps51                     ../engine/source/materials/mat/mat051/sigeps51.F90
 !||    sigeps51_boundary_material   ../engine/source/materials/mat/mat051/sigeps51_boundary_material.F90
+!||    ush_force3                   ../engine/source/user_interface/ushforce3.F90
+!||    ush_init                     ../starter/source/elements/elbuf_init/ush_init.F90
 !||--- uses       -----------------------------------------------------
 !||    names_and_titles_mod         ../common_source/modules/names_and_titles_mod.F
 !||    ply_param_mod                ../common_source/modules/mat_elem/ply_param_mod.F90

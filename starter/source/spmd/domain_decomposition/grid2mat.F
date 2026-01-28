@@ -48,6 +48,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    front_mod                       ../starter/share/modules1/front_mod.F
 !||    inter_cand_mod                  ../starter/share/modules1/inter_cand_mod.F
 !||    message_mod                     ../starter/share/message_module/message_mod.F
+!||    metis_mod                       ../starter/source/spmd/domain_decomposition/metis_mod.F90
 !||    mid_pid_mod                     ../starter/share/modules1/mid_pid_mod.F
 !||    monvol_struct_mod               ../starter/share/modules1/monvol_struct_mod.F
 !||    r2r_mod                         ../starter/share/modules1/r2r_mod.F
@@ -2631,6 +2632,7 @@ C
 !||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
 !||    format_mod   ../starter/share/modules1/format_mod.F90
+!||    metis_mod    ../starter/source/spmd/domain_decomposition/metis_mod.F90
 !||====================================================================
       SUBROUTINE SPDOMETIS(KXSP, IXSP, NOD2SP, CEPSP, RESERVEP,
      .                     SPH2SOL, CEP)

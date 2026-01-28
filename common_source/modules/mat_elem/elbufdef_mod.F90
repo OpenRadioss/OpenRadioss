@@ -692,6 +692,8 @@
 !||    upxfem_tagxp                        ../engine/source/elements/xfem/upxfem_tagxp.F
 !||    usermat_shell                       ../engine/source/materials/mat_share/usermat_shell.F
 !||    usermat_solid                       ../engine/source/materials/mat_share/usermat_solid.F
+!||    ush_force3                          ../engine/source/user_interface/ushforce3.F90
+!||    ush_init                            ../starter/source/elements/elbuf_init/ush_init.F90
 !||    velvecc22                           ../engine/source/output/anim/generate/velvec.F
 !||    velvecz22                           ../engine/source/output/anim/generate/velvecz22.F
 !||    viper_mod                           ../engine/source/coupling/viper/viper_interface_mod.F90

@@ -391,6 +391,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    tillotson                                ../common_source/eos/tillotson.F
 !||    update_neighbour_segment                 ../engine/source/interfaces/interf/update_neighbour_segment.F90
 !||    updfail                                  ../starter/source/materials/updfail.F90
+!||    ush_force3                               ../engine/source/user_interface/ushforce3.F90
+!||    ush_init                                 ../starter/source/elements/elbuf_init/ush_init.F90
+!||    ush_output                               ../engine/source/user_interface/ushforce3.F90
 !||    velrot_explicit                          ../engine/source/constraints/general/rbody/velrot_explicit.F90
 !||    visc_plas                                ../engine/source/materials/visc/visc_plas.F90
 !||    xyz16                                    ../engine/source/output/anim/generate/monvol_anim.F90

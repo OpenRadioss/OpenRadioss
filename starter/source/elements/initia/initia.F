@@ -111,6 +111,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    suinit3                         ../starter/source/elements/elbuf_init/suinit3.F
 !||    tinit3                          ../starter/source/elements/truss/tinit3.F
 !||    uel2sys                         ../starter/source/initial_conditions/inista/yctrl.F
+!||    ush_init                        ../starter/source/elements/elbuf_init/ush_init.F90
 !||    xinit3                          ../starter/source/elements/xelem/xinit3.F
 !||--- uses       -----------------------------------------------------
 !||    bpreload_mod                    ../starter/share/modules1/bpreload_mod.F
@@ -133,6 +134,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    s6zinit3_mod                    ../starter/source/elements/solid/solide6z/s6zinit3.F90
 !||    stack_mod                       ../starter/share/modules1/stack_mod.F
 !||    submodel_mod                    ../starter/share/modules1/submodel_mod.F
+!||    ush_init_mod                    ../starter/source/elements/elbuf_init/ush_init.F90
 !||====================================================================
       SUBROUTINE INITIA(IPARG      ,ELBUF         ,MS               ,IN             ,V         ,
      1                  X          ,IXS           ,IXQ              ,IXC            ,IXT       ,
