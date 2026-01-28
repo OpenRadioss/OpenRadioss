@@ -83,7 +83,7 @@ C-----------------------------------------------
      . IPANG,MAT_LY(MVSIZ),IT,ILAY,NPTT,MAX_NPTT,IPT,JMLY,IINT,
      . IPT_ALL,MAT_LAY,IE,NSLICE,IP,IDRAPE,IPOS
       my_real
-     .   ZSHIFT,THK_NPTT,THICKT_DRAPE,
+     .   ZSHIFT,THK_NPTT,THICKT_DRAPE,THKPLY_DRAPE ,THK_IT0,
      . POS_0,THICKT,THINNING,THK_LY(MVSIZ),POS_LY(MVSIZ)
       my_real , DIMENSION(:,:),ALLOCATABLE ::  THK_IT
 C-----------------------------------------------
@@ -421,8 +421,8 @@ cc                  IPID_LY = STACK%IGEO(IPPID + ILAY,ISUBSTACK)  ! layer PID (i
                           MAT_LY(I)  = STACK%IGEO(IPMAT + ILAY,ISUBSTACK)  ! layer material                         
                           THICKT     = STACK%GEO(1,ISUBSTACK)                                                         
                           THK_LY(I)  = STACK%GEO(IPTHK  + ILAY,ISUBSTACK)*THICKT ! layer thickness ratio            
-                          POS_LY(I)  = STACK%GEO(IPPOS  + ILAY,ISUBSTACK)*THICKT   ! layer position ratio           
-                          RATIO_THKLY(I,ILAY) = THK_LY(I)/THICKT                                                   
+                          POS_LY(I)  = STACK%GEO(IPPOS  + ILAY,ISUBSTACK)*THICKT   ! layer position ratio w/o drape          
+                          RATIO_THKLY(I,ILAY) = THK_LY(I)/THICKT   ! w/o drape                                          
                           JMLY = (ILAY-1)*JLT + I         
                           IE = INDX_DRAPE(NFT + I)
                           IF(IE == 0) THEN                                                          
@@ -436,7 +436,7 @@ cc                  IPID_LY = STACK%IGEO(IPPID + ILAY,ISUBSTACK)  ! layer PID (i
                                   POSLY(I,IPT) = POSLY(I,IPT - 1)           ! integr. point "IT" position ratio       
      .                                 + HALF*(THK_IT(IPT,I) + THK_IT(IPT-1,I))                                     
                               ENDIF ! IF (ILAY == 1)                                                                
-                              THKLY(J) = THK_IT(IPT,I)                                                              
+                              THKLY(J) = THK_IT(IPT,I)                                     
                             ENDDO     
                           ELSE 
                              IP = DRAPE(IE)%INDX_PLY(ILAY)
@@ -444,12 +444,15 @@ cc                  IPID_LY = STACK%IGEO(IPPID + ILAY,ISUBSTACK)  ! layer PID (i
                              IF(IP > 0) THEN
                                DRAPE_PLY => DRAPE(IE)%DRAPE_PLY(IP)
                                NSLICE = DRAPE_PLY%NSLICE ! = NPTT
+                               THKPLY_DRAPE = ZERO
                                DO IT=1,NPTT                                                                         
                                  IPT = IPT_ALL + IT                                                                  
                                  J = (IPT-1)*JLT + I 
                                  THINNING = DRAPE_PLY%RDRAPE(IT,1) 
-                                 THK_IT(IPT,I) = THINNING*THK_LY(I)/NPTT
-                                 THK_IT(IPT,I) =  THK_IT(IPT,I)/THICKT_DRAPE ! uniform distribution of NPTT through layer                                  
+                                 THK_IT0 = THK_LY(I)/NPTT
+                                 THK_IT(IPT,I) = THINNING*THK_IT0
+                                 THK_IT(IPT,I) =  THK_IT(IPT,I)/THICKT_DRAPE ! uniform distribution of NPTT through layer
+                                 THKPLY_DRAPE = THKPLY_DRAPE + THK_IT(IPT,I)
                                  IF (IPT  == 1)  THEN                                                                
                                      POSLY(I,IPT) = ZSHIFT + HALF*THK_IT(IPT,I) ! integr. point "IT" position ratio  
                                  ELSE                                                                                
@@ -457,12 +460,15 @@ cc                  IPID_LY = STACK%IGEO(IPPID + ILAY,ISUBSTACK)  ! layer PID (i
      .                                    + HALF*(THK_IT(IPT,I) + THK_IT(IPT-1,I))                                   
                                  ENDIF ! IF (ILAY == 1) 
                                   THKLY(J) = THK_IT(IPT,I)                                                          
-                               ENDDO                           
+                               ENDDO   
+                               RATIO_THKLY(I,ILAY) = THKPLY_DRAPE                       
                              ELSE 
+                               THKPLY_DRAPE = ZERO
                                DO IT=1,NPTT                                                                         
                                  IPT = IPT_ALL + IT                                                                  
                                  J = (IPT-1)*JLT + I                                                                 
                                  THK_IT(IPT,I) = THK_LY(I)/THICKT_DRAPE/NPTT  ! uniform distribution of NPTT through layer 
+                                 THKPLY_DRAPE  = THKPLY_DRAPE  + THK_IT(IPT,I)
                                  IF (IPT  == 1)  THEN                                                                
                                      POSLY(I,IPT) = ZSHIFT + HALF*THK_IT(IPT,I) ! integr. point "IT" position ratio  
                                  ELSE                                                                                
@@ -471,6 +477,7 @@ cc                  IPID_LY = STACK%IGEO(IPPID + ILAY,ISUBSTACK)  ! layer PID (i
                                  ENDIF ! IF (ILAY == 1)                                                              
                                  THKLY(J) = THK_IT(IPT,I)                                                      
                                ENDDO 
+                                RATIO_THKLY(I,ILAY) = THKPLY_DRAPE
                              ENDIF  ! IP 
                          ENDIF ! IE                                                               
                           MATLY(JMLY) = MAT_LY(I)    ! layer defined 
@@ -482,7 +489,7 @@ cc                  IPID_LY = STACK%IGEO(IPPID + ILAY,ISUBSTACK)  ! layer PID (i
                           THICKT   = STACK%GEO(1,ISUBSTACK)                                                         
                           THK_LY(I)  = STACK%GEO(IPTHK  + ILAY,ISUBSTACK)*THICKT ! layer thickness ratio            
                           POS_LY(I)  = STACK%GEO(IPPOS  + ILAY,ISUBSTACK)*THICKT   ! layer position ratio           
-                          RATIO_THKLY(I,ILAY) = THK_LY(I)/THICKT_DRAPE                                                  
+                          RATIO_THKLY(I,ILAY) = THK_LY(I)/THICKT  ! w/o drape                                                  
                           JMLY = (ILAY-1)*JLT + I         
                           IE = INDX_DRAPE(NFT + I)
                           IF(IE == 0) THEN                                                          
@@ -500,15 +507,18 @@ cc                  IPID_LY = STACK%IGEO(IPPID + ILAY,ISUBSTACK)  ! layer PID (i
                             ENDDO     
                           ELSE 
                              IP = DRAPE(IE)%INDX_PLY(ILAY)
+                             THICKT_DRAPE = DRAPE(IE)%THICK
                              IF(IP > 0) THEN
                                DRAPE_PLY => DRAPE(IE)%DRAPE_PLY(IP)
                                NSLICE = DRAPE_PLY%NSLICE ! = NPTT
+                               THKPLY_DRAPE = ZERO 
                                DO IT=1,NPTT                                                                         
                                  IPT = IPT_ALL + IT                                                                  
                                  J = (IPT-1)*JLT + I 
                                  THINNING = DRAPE_PLY%RDRAPE(IT,1) 
                                  THK_IT(IPT,I) = THINNING*HALF*THK_LY(I)*W_GAUSS(IT,NPTT) ! uniform distribution of NPTT through layer                                                           
                                  THK_IT(IPT,I) =  THK_IT(IPT,I)/THICKT_DRAPE
+                                 THKPLY_DRAPE   = THKPLY_DRAPE + THK_IT(IPT,I) 
                                  IF (IPT  == 1)  THEN                                                                
                                      POSLY(I,IPT) = ZSHIFT + HALF*THK_IT(IPT,I) ! integr. point "IT" position ratio  
                                  ELSE                                                                                
@@ -516,13 +526,16 @@ cc                  IPID_LY = STACK%IGEO(IPPID + ILAY,ISUBSTACK)  ! layer PID (i
      .                                    + HALF*(THK_IT(IPT,I) + THK_IT(IPT-1,I))                                   
                                  ENDIF ! IF (ILAY == 1)                                                              
                                  THKLY(J) = THK_IT(IPT,I)                                                            
-                               ENDDO                           
+                               ENDDO   
+                                RATIO_THKLY(I,ILAY) =   THKPLY_DRAPE                      
                              ELSE 
+                               THKPLY_DRAPE = ZERO 
                                DO IT=1,NPTT                                                                         
                                  IPT = IPT_ALL + IT                                                                  
                                  J = (IPT-1)*JLT + I                                                                 
                                  THK_IT(IPT,I) = HALF*THK_LY(I)*W_GAUSS(IT,NPTT)  ! uniform distribution of NPTT through layer                                                           
                                  THK_IT(IPT,I) =  THK_IT(IPT,I)/THICKT_DRAPE
+                                 THKPLY_DRAPE = THKPLY_DRAPE + THK_IT(IPT,I)
                                  IF (IPT  == 1)  THEN                                                                
                                      POSLY(I,IPT) = ZSHIFT + HALF*THK_IT(IPT,I) ! integr. point "IT" position ratio  
                                  ELSE                                                                                
@@ -531,6 +544,7 @@ cc                  IPID_LY = STACK%IGEO(IPPID + ILAY,ISUBSTACK)  ! layer PID (i
                                  ENDIF ! IF (ILAY == 1)                                                              
                                  THKLY(J) = THK_IT(IPT,I)                                                            
                                ENDDO 
+                                RATIO_THKLY(I,ILAY) =   THKPLY_DRAPE     
                              ENDIF  ! IP 
                          ENDIF ! IE                                                                                
                           MATLY(JMLY) = MAT_LY(I)    ! layer defined                      
