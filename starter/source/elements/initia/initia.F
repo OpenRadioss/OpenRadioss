@@ -1411,7 +1411,7 @@ C 2D multifluid law
      E             IGEO_STACK ,STRC   ,PERTURB            ,IYLDINI ,ELE_AREA,
      F             NLOC_DMG   ,NG        ,GROUP_PARAM_TAB(NG),IDRAPE,DRAPEG,
      G             MAT_PARAM  ,FAIL_FRACTAL,FAIL_BROKMANN,GLOB_THERM)
-          ELSEIF (IGTYP>=29) THEN
+          ELSEIF (IGTYP>=29.AND.IGTYP<=31) THEN
             CALL USH_INIT(ELBUF_TAB(NG),                                         
      1             NUMNOD,   NPART,   NUMMAT,      NEL,       PM,                
      2        IPARG(1,NG),  NUMELC,   NIXC,      IXC,IPART(I15C),                  
@@ -1518,7 +1518,7 @@ C 2D multifluid law
      .            IGEO, IPART, IPART(I15H), IPM, PTSH3N, NPC, ILOADP, 
      .            X, PM, GEO, SIGI, SKEW, PLD, BUFMAT, FACLOAD, MULTI_FVM, ERROR_THROWN, DETONATORS,
      .            MAT_PARAM)
-          ELSEIF (IGTYP>=29) THEN
+          ELSEIF (IGTYP>=29.AND.IGTYP<=31) THEN
             CALL USH_INIT(ELBUF_TAB(NG),                                         
      1             NUMNOD,   NPART,   NUMMAT,      NEL,       PM,
      2        IPARG(1,NG),NUMELTG,   NIXTG,     IXTG,IPART(I15H),                  
