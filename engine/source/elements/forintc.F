@@ -316,7 +316,7 @@ C--      Reduction factor computation for seatbelts in sliprings
 C
          IF (ISENS_ENERGY == 1 .AND. IPRI == 0)
      .    CALL SENSOR_ENERGY_PART(IPARTC(NF1) ,SUBSET ,IPRI,SENSORS,ITASK)
-          IF (IGTYP >= 29) THEN  !user prop
+          IF (IGTYP >= 29.AND.IGTYP<=31) THEN  !user prop
             CALL USH_FORCE3(ELBUF_TAB(NG),                          
      1             NUMNOD,  NPARG,   NPART,   NUMMAT,    NPSAV, 
      2        IPARG(1,NG),   NIXC,IXC(1,NF1),IPARTC(NF1),    4, 
@@ -537,7 +537,7 @@ C----6---------------------------------------------------------------7--
           IOFC = 0
           IF (ISENS_ENERGY == 1 .AND. IPRI == 0)
      .       CALL SENSOR_ENERGY_PART(IPARTTG(NF1) ,SUBSET ,IPRI,SENSORS,ITASK)
-          IF (IGTYP >= 29) THEN  !user prop
+          IF (IGTYP >= 29.AND.IGTYP<=31) THEN  !user prop
             CALL USH_FORCE3(ELBUF_TAB(NG),                          
      1             NUMNOD,  NPARG,   NPART,   NUMMAT,    NPSAV, 
      2        IPARG(1,NG),  NIXTG,IXTG(1,NF1),IPARTTG(NF1),  3, 
