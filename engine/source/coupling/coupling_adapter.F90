@@ -688,7 +688,7 @@
             endif
           else if(name_id == coupling_forces) THEN
             ! Write forces
-            NODES%FORCES(1:3,1:NUMNOD) = nodes%A(1:3,1:NUMNOD) - NODES%FORCES(1:3,1:NUMNOD)
+            NODES%FORCES(1:3,1:NUMNOD) = nodes%A(1:3,1:NUMNOD) 
             call coupling_adapter_write_data(coupling%adapter_ptr, nodes%FORCES, numnod, &
               real(dt, c_double), coupling_forces)
             ! Read forces into nodes%A
