@@ -84,6 +84,7 @@ C-----------------------------------------------
       USE EOS_PARAM_MOD , ONLY : ANALY_TEMP
       USE RWALL_MOD
       USE SFEM_MOD
+      USE SEATBELT_MOD , ONLY : NGUIDED_CABLE,NGUIDED_CABLE_G
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1771,9 +1772,13 @@ C-----Seatbelts - slipring / retractors
       NEXT       = NEXT + 1
       NRETRACTOR = TABVINT(NEXT)
       NEXT       = NEXT + 1
+      NGUIDED_CABLE = TABVINT(NEXT)
+      NEXT       = NEXT + 1
       NSLIPRING_G  = TABVINT(NEXT)
       NEXT       = NEXT + 1
       NRETRACTOR_G = TABVINT(NEXT)
+      NEXT       = NEXT + 1
+      NGUIDED_CABLE_G = TABVINT(NEXT)
       NEXT       = NEXT + 1
       N_ANCHOR_REMOTE  = TABVINT(NEXT)
       NEXT       = NEXT + 1

@@ -1200,6 +1200,7 @@ C Assembling normals INTERFACE TYPE25
 C time varying gap T25
               my_real MAXDGAP(NINTER)
               INTEGER :: FLAG_SLIPRING_UPDATE,FLAG_RETRACTOR_UPDATE
+              INTEGER :: FLAG_GUIDED_CABLE_UPDATE
 C-----------------------------------------------------------------------------------
 C Multidomains
               INTEGER IDEL7NOK_R2R,IDEL7NOK_SAV,NUMSPH_GLO_R2R,FLG_SPHINOUT_R2R
@@ -1255,7 +1256,7 @@ C IMPVEL/FGEO
 C----------------------------------------------------------------------------------
 C /DAMP/VREL
               INTEGER SIZE_RBY6_C,FL_VREL
-              my_real DAMP_A(3)
+              my_real DAMP_A(3)         
 C----------------------------------------------------------------------------------
 C /VIPER/ON
               type(viper_coupling_) :: VIPER
@@ -1405,6 +1406,7 @@ C exit flag for MaDyMo coupling
               LSKYI_COUNT = 0
               FLAG_SLIPRING_UPDATE = 0
               FLAG_RETRACTOR_UPDATE = 0
+              FLAG_GUIDED_CABLE_UPDATE = 0
               FLG_DTNODAMP = 0
               IF ((NODADT==1).AND.(IDAMP_RDOF==NDAMP .OR. NDAMP>0 .OR. ISTAT==3)) FLG_DTNODAMP = 1
               FLG_DAMP_FUNCT = 0
@@ -3977,11 +3979,14 @@ C
               T1SH=TT
 C
 C-----------------------------------------------------
-C     UPDATE OF SLIPRING AND RETRACTOR
+C     UPDATE OF SLIPRING AND RETRACTOR AND GUIDED_CABLE
 C-----------------------------------------------------
-
-              IF (NSLIPRING + NRETRACTOR> 0) CALL UPDATE_SLIPRING(IXR,ELEMENT%SHELL%IXC,IPARG,ELBUF_TAB,FLAG_SLIPRING_UPDATE,
-     .                                                            FLAG_RETRACTOR_UPDATE,NODES%X,NPBY)
+C
+              IF (NSLIPRING + NRETRACTOR + NGUIDED_CABLE > 0) THEN
+                CALL UPDATE_SLIPRING(IXR,ELEMENT%SHELL%IXC,IPARG,ELBUF_TAB,FLAG_SLIPRING_UPDATE,
+     .                               FLAG_RETRACTOR_UPDATE,NODES%X,NPBY,IGRPART,IXT,IXP,
+     .                               IPART(I15D),IPART(I15E),IPART(I15F),FLAG_GUIDED_CABLE_UPDATE)
+              ENDIF                       
 C
 C---- // GROUPS ----------------
 C     INTERNAL FORCES OF SHELLS, 3-NODE SHELLS
@@ -5262,13 +5267,14 @@ C-----------------------------------------------------
               ENDIF
 
 C-----------------------------------------------------
-C         KINEMATIC CONDITIONS FOR SEATBELTS
+C         KINEMATIC CONDITIONS FOR SEATBELTS AND PENALTY FORCE FOR GUIDED CABLE
 C-----------------------------------------------------
-
-              IF (NSLIPRING + NRETRACTOR + N_ANCHOR_REMOTE > 0) THEN
-                CALL KINE_SEATBELT_FORCE(NODES%A,NODES%STIFN,FLAG_SLIPRING_UPDATE,FLAG_RETRACTOR_UPDATE)
+              IF (NSLIPRING + NRETRACTOR + NGUIDED_CABLE + N_ANCHOR_REMOTE > 0) THEN
+                CALL KINE_SEATBELT_FORCE(NODES%A,NODES%STIFN,FLAG_SLIPRING_UPDATE,FLAG_RETRACTOR_UPDATE,
+     .                                   IRESP,NODES%X,NODES%XDP,NODES%V,DT1,NODES%MS0,NUMNOD,
+     .                                   FLAG_GUIDED_CABLE_UPDATE)
               ENDIF
-
+C
 C-----------------------------------------------------
 C         INTERFACES 18 KINE
 C-----------------------------------------------------

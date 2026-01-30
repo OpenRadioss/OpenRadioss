@@ -30,12 +30,15 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    elbufdef_mod           ../common_source/modules/mat_elem/elbufdef_mod.F90
 !||    seatbelt_mod           ../common_source/modules/seatbelt_mod.F
 !||====================================================================
-      SUBROUTINE KINE_SEATBELT_FORCE(A,STIFN,FLAG_SLIPRING_UPDATE,FLAG_RETRACTOR_UPDATE)
+      SUBROUTINE KINE_SEATBELT_FORCE(A,STIFN,FLAG_SLIPRING_UPDATE,FLAG_RETRACTOR_UPDATE,
+     .                               IRESP,X,XDP,V,DT1,MS0,NUMNOD,
+     .                               FLAG_GUIDED_CABLE_UPDATE)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE ELBUFDEF_MOD
       USE SEATBELT_MOD
+      USE GUIDED_CABLE_FORCE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -49,7 +52,16 @@ C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER FLAG_SLIPRING_UPDATE,FLAG_RETRACTOR_UPDATE
-      my_real A(3,*),STIFN(*)
+      INTEGER, INTENT(IN) ::  IRESP
+      INTEGER, INTENT(IN) ::  NUMNOD
+      INTEGER, INTENT(INOUT) :: FLAG_GUIDED_CABLE_UPDATE
+      my_real, INTENT(INOUT) :: A(3,NUMNOD)
+      my_real, INTENT(INOUT) :: STIFN(NUMNOD)
+      my_real, INTENT(IN) :: X(3,NUMNOD)
+      my_real, INTENT(IN) :: V(3,NUMNOD)
+      my_real, INTENT(IN) :: MS0(NUMNOD)
+      my_real, INTENT(IN) :: DT1
+      double precision, INTENT(IN) :: XDP(3,NUMNOD)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -63,7 +75,6 @@ C----------------------------------------------------------
 C-    KINEMATIC CONDITION OF SLIPRING - FORCE TRANSFER
 C----------------------------------------------------------      
 C
-
       DO I=1,NSLIPRING
         DO J=1,SLIPRING(I)%NFRAM
           SLIPRING(I)%FRAM(J)%MATERIAL_FLOW_OLD = SLIPRING(I)%FRAM(J)%MATERIAL_FLOW
@@ -112,12 +123,23 @@ C--        Contribution stored to be exchanged to remote anchor node
          A(2,NODE2)=ZERO
          A(3,NODE2)=ZERO    
       ENDDO
+C
+C----------------------------------------------------------
+C-    PENALTY FORCE FOR GUIDED_CABLE
+C----------------------------------------------------------
+
+      IF (NGUIDED_CABLE > 0) THEN
+        CALL GUIDED_CABLE_FORCE(A,STIFN,IRESP,NUMNOD,X,XDP,
+     .                          V,DT1,MS0,N_ANCHOR_REMOTE_SEND,
+     .                          FLAG_GUIDED_CABLE_UPDATE,BUF_EXCH)     
+      ENDIF 
 
 C----------------------------------------------------------
-C-    EXCHANGE OF CONTRIBUTION FOR REMOTE ANCHOR NODES
+C-    EXCHANGE OF CONTRIBUTION FOR REMOTE NODES
 C----------------------------------------------------------
 C
 C--   PARITH/ON is ensured because anchor node can only be on one slipring or retractor
+C--   PARITH/ON is ensured for anchor node and nodes of cables also
 C
       IF (NSPMD > 1) THEN
         CALL SPMD_EXCH_A_SEATBELT(A,STIFN,BUF_EXCH)

@@ -1432,7 +1432,7 @@ C--------------------------------------
          CALL EIGRREST()
       ENDIF
 C--------------------------------------
-C   SEATBELTS - SLIPRING / RETRACTOR-
+C   SEATBELTS - SLIPRING / RETRACTOR / GUIDE-
 C--------------------------------------
       DO I = 1, NSLIPRING
 C
@@ -1533,6 +1533,38 @@ C
           ENDIF
         ENDDO
       ENDDO
+C      
+      DO I = 1, NGUIDED_CABLE
+C
+        CALL READ_I_C(GUIDE(I)%ID, 1)
+        CALL READ_I_C(GUIDE(I)%ISTIFF, 1)
+        CALL READ_I_C(GUIDE(I)%NODE_SET, 1)
+        CALL READ_I_C(GUIDE(I)%PART_SET, 1)
+        CALL READ_I_C(GUIDE(I)%NCONT, 1)  
+        CALL READ_I_C(GUIDE(I)%ELTYPE, 1)
+        CALL READ_I_C(GUIDE(I)%N_REMOTE_PROC, 1)
+C        
+        CALL READ_DB(GUIDE(I)%STFAC, 1)
+        CALL READ_DB(GUIDE(I)%FRIC, 1)
+C
+        ALLOCATE(GUIDE(I)%CONT(GUIDE(I)%NCONT))        
+C        
+        DO J=1,GUIDE(I)%NCONT
+C
+          CALL READ_I_C(GUIDE(I)%CONT(J)%UPDATE, 1)
+          CALL READ_I_C(GUIDE(I)%CONT(J)%ACTIVE_SEGMENT, 1)
+          CALL READ_I_C(GUIDE(I)%CONT(J)%ANCHOR_NODE, 1)
+          CALL READ_I_C(GUIDE(I)%CONT(J)%NODE, 3)
+          CALL READ_I_C(GUIDE(I)%CONT(J)%NODE_NEXT, 2)
+          CALL READ_I_C(GUIDE(I)%CONT(J)%NODE_IREMOTE, 4)
+C
+          CALL READ_DB(GUIDE(I)%CONT(J)%FORC, 3)
+          CALL READ_DB(GUIDE(I)%CONT(J)%FORC_AD, 3)
+          CALL READ_DB(GUIDE(I)%CONT(J)%DIST, 1)
+C
+        ENDDO
+C
+      ENDDO      
 C
       IF (N_ANCHOR_REMOTE > 0) THEN
         CALL READ_I_C(ANCHOR_REMOTE%ADD_PROC, NSPMD+1)
