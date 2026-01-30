@@ -75,6 +75,7 @@ C-----------------------------------------------
       USE EOS_PARAM_MOD , ONLY : ANALY_TEMP
       use element_mod , only : nixs,nixq,nixc,nixt,nixr,nixp,nixtg
       use sfem_mod
+      USE SEATBELT_MOD , ONLY : NGUIDED_CABLE,NGUIDED_CABLE_G
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1685,9 +1686,13 @@ C-----Seatbelts - slipring / retractors
       LVARINT=LVARINT+1
       TABVINT(LVARINT)=NRETRACTOR
       LVARINT=LVARINT+1
+      TABVINT(LVARINT)=NGUIDED_CABLE
+      LVARINT=LVARINT+1
       TABVINT(LVARINT)=NSLIPRING_G
       LVARINT=LVARINT+1
       TABVINT(LVARINT)=NRETRACTOR_G
+      LVARINT=LVARINT+1
+      TABVINT(LVARINT)=NGUIDED_CABLE_G
       LVARINT=LVARINT+1
       TABVINT(LVARINT)=N_ANCHOR_REMOTE
       LVARINT=LVARINT+1

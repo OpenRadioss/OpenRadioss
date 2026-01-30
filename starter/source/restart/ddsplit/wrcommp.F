@@ -70,7 +70,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      4   N_ANCHOR_REMOTE_SEND_L,N_SEATBELT_L,N_SEATBELT_2D_L,DYNAIN_DATA,
      5   NUMSH4N_L,NUMSH3N_L,INTER_PARAMETERS,SENSORS,NLOAD_CYL,
      6   NCLOAD_L,NPLOAD_L,NDAMP_VREL_L, UNITAB,
-     7   LWAMP_L,LWANMP_L,NINIVELT_L,GLOB_THERM,PBLAST,NE_SFEM_L)
+     7   LWAMP_L,LWANMP_L,NINIVELT_L,GLOB_THERM,PBLAST,NE_SFEM_L,
+     8   NGUIDED_CABLE,N_GUIDED_CABLE_L)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -144,6 +145,7 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: NCLOAD_L,NPLOAD_L,NE_SFEM_L
       INTEGER, INTENT(IN) :: LWAMP_L     !< Size of Engine work array (WA)
       INTEGER, INTENT(IN) :: LWANMP_L    !< Size of Engine work array (WA)
+      INTEGER, INTENT(IN) :: NGUIDED_CABLE, N_GUIDED_CABLE_L
       TYPE(MULTI_FVM_STRUCT) :: MULTI_FVM
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECTIVITY
       TYPE (DYNAIN_DATABASE), INTENT(INOUT) :: DYNAIN_DATA
@@ -1860,9 +1862,13 @@ C-----Seatbelts - slipring / retractors
       LVARINT=LVARINT+1
       TABVINT(LVARINT)=N_RETRACTOR_L
       LVARINT=LVARINT+1
+      TABVINT(LVARINT)=N_GUIDED_CABLE_L
+      LVARINT=LVARINT+1
       TABVINT(LVARINT)=NSLIPRING
       LVARINT=LVARINT+1
       TABVINT(LVARINT)=NRETRACTOR
+      LVARINT=LVARINT+1
+      TABVINT(LVARINT)=NGUIDED_CABLE
       LVARINT=LVARINT+1
       TABVINT(LVARINT)=N_ANCHOR_REMOTE_L
       LVARINT=LVARINT+1

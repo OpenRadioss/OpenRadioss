@@ -175,6 +175,56 @@ C
 C
       ENDDO
 C
+      DO I = 1, NGUIDED_CABLE
+C
+        IF (NLOCAL(GUIDE(I)%CONT(1)%NODE(2),P)==1) THEN
+C
+          CALL WRITE_I_C(GUIDE(I)%ID, 1)
+          CALL WRITE_I_C(GUIDE(I)%ISTIFF, 1)
+          CALL WRITE_I_C(GUIDE(I)%NODE_SET, 1)
+          CALL WRITE_I_C(GUIDE(I)%PART_SET, 1)
+          CALL WRITE_I_C(GUIDE(I)%NCONT, 1)
+          CALL WRITE_I_C(GUIDE(I)%ELTYPE, 1)
+          CALL WRITE_I_C(GUIDE(I)%N_REMOTE_PROC, 1)
+          LEN_IA = LEN_IA + 7
+C
+          CALL WRITE_DB(GUIDE(I)%STFAC, 1)
+          CALL WRITE_DB(GUIDE(I)%FRIC, 1)
+          LEN_AM = LEN_AM + 2
+C
+          DO J=1,GUIDE(I)%NCONT
+C
+            CALL WRITE_I_C(GUIDE(I)%CONT(J)%UPDATE, 1)
+            CALL WRITE_I_C(GUIDE(I)%CONT(J)%ACTIVE_SEGMENT, 1)
+            CALL WRITE_I_C(NODLOCAL(GUIDE(I)%CONT(J)%ANCHOR_NODE), 1)      
+            DO K=1,3
+              IF (GUIDE(I)%CONT(J)%NODE(K) > 0) THEN
+                CALL WRITE_I_C(NODLOCAL(GUIDE(I)%CONT(J)%NODE(K)), 1)              
+              ELSE
+                CALL WRITE_I_C(0, 1)
+              ENDIF
+            ENDDO
+            DO K=1,2
+              IF (GUIDE(I)%CONT(J)%NODE_NEXT(K) > 0) THEN
+                CALL WRITE_I_C(NODLOCAL(GUIDE(I)%CONT(J)%NODE_NEXT(K)), 1)
+              ELSE
+                CALL WRITE_I_C(0, 1)
+              ENDIF
+            ENDDO
+            CALL WRITE_I_C(GUIDE(I)%CONT(J)%NODE_IREMOTE, 4)        
+            LEN_IA = LEN_IA + 12
+C
+            CALL WRITE_DB(GUIDE(I)%CONT(J)%FORC, 3)
+            CALL WRITE_DB(GUIDE(I)%CONT(J)%FORC_AD, 3)
+            CALL WRITE_DB(GUIDE(I)%CONT(J)%DIST, 1)
+            LEN_AM = LEN_AM + 7
+C
+          ENDDO
+C
+        ENDIF
+C
+      ENDDO      
+C
       IF (N_ANCHOR_REMOTE_L > 0) THEN
         CALL WRITE_I_C(ANCHOR_REMOTE_L%ADD_PROC, NSPMD+1)
         CALL WRITE_I_C(ANCHOR_REMOTE_L%NODE, N_ANCHOR_REMOTE_L)
