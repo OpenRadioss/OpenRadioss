@@ -30,7 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
       SUBROUTINE C_SEATBELTS(N_SLIPRING_L,N_RETRACTOR_L,P,NODLOCAL,ELBUF_TAB,
      .                       IPARG,N_ANCHOR_REMOTE_L,N_ANCHOR_REMOTE_SEND_L,ANCHOR_REMOTE_L,ANCHOR_REMOTE_SEND_L,
-     .                       N_SEATBELT_L,N_SEATBELT_2D_L,CEP,OFF)     
+     .                       N_SEATBELT_L,N_SEATBELT_2D_L,CEP,OFF,N_GUIDED_CABLE_L)     
 C---------------------------------------------     
       USE SEATBELT_MOD
       USE ELBUFDEF_MOD     
@@ -44,7 +44,8 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER N_SLIPRING_L,N_RETRACTOR_L,P,IPARG(NPARG,*),NODLOCAL(*),N_ANCHOR_REMOTE_L,
-     .        N_ANCHOR_REMOTE_SEND_L,N_SEATBELT_L,N_SEATBELT_2D_L,CEP(*),OFF
+     .        N_ANCHOR_REMOTE_SEND_L,N_SEATBELT_L,N_SEATBELT_2D_L,CEP(*),OFF,
+     .        N_GUIDED_CABLE_L
       TYPE(ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP)  :: ELBUF_TAB
       TYPE(SEATBELT_REMOTE_NODES_STRUCT) ANCHOR_REMOTE_L,ANCHOR_REMOTE_SEND_L
 C-----------------------------------------------
@@ -55,9 +56,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,NN,PROC,ITY,MTN,NEL,NG,LOCAL_SLIP(NSLIPRING),LOCAL_RETR(NRETRACTOR),PP
+      INTEGER I,J,K,L,NN,PROC,ITY,MTN,NEL,NG,LOCAL_SLIP(NSLIPRING),LOCAL_RETR(NRETRACTOR),PP
      .        N_ANCHOR_REMOTE_SEND,PP,N_REC_PROC(NSPMD),N_SEND_PROC(NSPMD),COMPT,TAG_PROC(2,NSPMD),
-     .        ISEATBELT
+     .        ISEATBELT,FLAG_REMOTE
       TYPE(G_BUFEL_)     , POINTER :: GBUF
 C-----------------------------------------------
 C
@@ -137,6 +138,36 @@ C--           Count of remote anchor node per main proc
         ENDIF
       ENDDO
 C
+      DO I = 1, NGUIDED_CABLE   
+C
+        IF (P == GUIDE(I)%PROC) THEN
+C--       Proc main of guide
+          N_GUIDED_CABLE_L = N_GUIDED_CABLE_L + 1   
+C         Loop on nodes (anchor + cable nodes)    
+          DO J=1,GUIDE(I)%NB_NODES
+            DO PP=1,NSPMD 
+              IF ((PP /= P).AND.(NLOCAL(GUIDE(I)%NODES(J),PP)==1)) THEN
+C--             Count of remote anchor node on cable(send)
+                N_ANCHOR_REMOTE_SEND_L = N_ANCHOR_REMOTE_SEND_L + 1
+                GUIDE(I)%N_REMOTE_PROC = GUIDE(I)%N_REMOTE_PROC + 1
+                N_SEND_PROC(PP) = N_SEND_PROC(PP) + 1
+              ENDIF
+            ENDDO
+          ENDDO               
+        ELSE
+C         Loop on nodes (anchor + cable nodes)    
+          DO J=1,GUIDE(I)%NB_NODES            
+            IF (NLOCAL(GUIDE(I)%NODES(J),P)==1) THEN
+C--           Count of remote anchor node on cable (receive)
+              N_ANCHOR_REMOTE_L = N_ANCHOR_REMOTE_L + 1
+C--           Count of remote cable node per main proc
+              N_REC_PROC(GUIDE(I)%PROC) = N_REC_PROC(GUIDE(I)%PROC) + 1
+            ENDIF
+          ENDDO
+        ENDIF  
+C
+      ENDDO      
+C
 C---  Pass 2 : construction of arrays for remote anchor nodes-------------------------
 C
       ALLOCATE(ANCHOR_REMOTE_L%ADD_PROC(NSPMD+1))
@@ -194,7 +225,7 @@ C--         Proc main of retractor
               IF ((PP /= P).AND.(NLOCAL(RETRACTOR(I)%ANCHOR_NODE,PP)==1)) THEN
 C--             remote anchor node (send)
                 ANCHOR_REMOTE_SEND_L%NODE(ANCHOR_REMOTE_SEND_L%ADD_PROC(PP)+N_SEND_PROC(PP)) = NN
-                N_SEND_PROC(PP) = N_SEND_PROC(PP) + 1              
+                N_SEND_PROC(PP) = N_SEND_PROC(PP) + 1            
               ENDIF
             ENDDO
           ENDIF
@@ -204,6 +235,46 @@ C--       Proc remote of slipring
           ANCHOR_REMOTE_L%NODE(COMPT) = NODLOCAL(RETRACTOR(I)%ANCHOR_NODE)
         ENDIF
       ENDDO
+
+      DO I = 1, NGUIDED_CABLE
+        IF (P == GUIDE(I)%PROC) THEN         
+C--       Proc main of guide          
+          IF (GUIDE(I)%N_REMOTE_PROC > 0) THEN
+C--         Loop on nodes (anchor + cable nodes)
+            DO J=1,GUIDE(I)%NB_NODES   
+              FLAG_REMOTE = 0   
+              DO PP=1,NSPMD 
+                IF ((PP /= P).AND.(NLOCAL(GUIDE(I)%NODES(J),PP)==1)) FLAG_REMOTE = 1
+              ENDDO    
+              IF (FLAG_REMOTE == 1) THEN
+                NN = NN + 1              
+                DO PP=1,NSPMD 
+                  IF ((PP /= P).AND.(NLOCAL(GUIDE(I)%NODES(J),PP)==1)) THEN
+C--                 remote anchor node (send)
+                    ANCHOR_REMOTE_SEND_L%NODE(ANCHOR_REMOTE_SEND_L%ADD_PROC(PP)+N_SEND_PROC(PP)) = NN
+                    N_SEND_PROC(PP) = N_SEND_PROC(PP) + 1    
+                  ENDIF
+                ENDDO
+C..             Store position of nodes 1,2,and 3 and anchor node in remote node array                
+                DO K=1,GUIDE(I)%NCONT
+                  DO L=1,3
+                    IF (GUIDE(I)%NODES(J) == GUIDE(I)%CONT(K)%NODE(L)) GUIDE(I)%CONT(K)%NODE_IREMOTE(L) = NN
+                  ENDDO
+                  IF (GUIDE(I)%NODES(J) == GUIDE(I)%CONT(K)%ANCHOR_NODE) GUIDE(I)%CONT(K)%NODE_IREMOTE(4) = NN
+                ENDDO             
+              ENDIF
+            ENDDO
+          ENDIF
+        ELSE
+C         Loop on nodes (anchor + cable nodes)          
+          DO J=1,GUIDE(I)%NB_NODES            
+            IF (NLOCAL(GUIDE(I)%NODES(J),P)==1) THEN
+              COMPT = COMPT + 1
+              ANCHOR_REMOTE_L%NODE(COMPT) = NODLOCAL(GUIDE(I)%NODES(J))
+            ENDIF
+          ENDDO
+        ENDIF
+      ENDDO 
 C
 C---  COnstruction of arrays for spmd exchange of TH on proc 0
       IF ((NSPMD > 1).AND.(P == 1)) THEN

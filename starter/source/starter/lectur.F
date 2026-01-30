@@ -654,6 +654,7 @@ C-----------------------------------------------
       use hm_preread_skw_mod, ONLY : hm_preread_skw
       use hierarchy_rbody_mod
       use sfem_exclude_mod
+      use hm_read_guided_cable_mod, ONLY : hm_read_guided_cable
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -4281,6 +4282,16 @@ C
       IF(NRETRACTOR > 0) CALL HM_READ_RETRACTOR(
      1                                           LSUBMODEL,ITABM1,IXR,ITAB,UNITAB,
      2                                           X,NPC1,NOM_OPT(LNOPT1*INOM_OPT(32)+1),ALEA,IPM)
+C   
+      IF(NGUIDED_CABLE > 0) WRITE(ISTDO,'(A)')' .. GUIDED CABLE'  
+      IF(NGUIDED_CABLE > 0) CALL HM_READ_GUIDED_CABLE(
+     1                                        LSUBMODEL,IGRNOD,NGRNOD,IGRPART,NGRPART,
+     2                                        NPART,UNITAB,NUMELR,IPARTR,IXR,
+     3                                        NIXR,NUMELP,IPARTP,IXP,NIXP,
+     4                                        NUMELT,IPARTT,IXT,NIXT,NSPMD,
+     5                                        KNOD2EL1D,NOD2EL1D,S_NOD2EL1D,NUMNOD,X,
+     6                                        NUMELS,NUMELQ,NUMELC)
+C      
       CALL TRACE_OUT1()
 C--------------------------------------------
 C     READING BOUNDARY CONDITIONS
@@ -8824,7 +8835,7 @@ C
      &            NPRELOAD_A , PRELOAD_A      , FAIL_FRACTAL     ,FAIL_BROKMANN       ,DEFAULTS  ,
      &            NDAMP_FREQ_RANGE,DAMPR      , IBEAM_VECTOR     , RBEAM_VECTOR       ,D         ,
      &            LSIGI      ,LSIGSP          , SRNOISE2         ,NPRW               ,LPRW       ,
-     &            RWSTIF_PEN ,SLN_PEN         ,ROOTLEN           ,ROOTNAM )
+     &            RWSTIF_PEN ,SLN_PEN         ,ROOTLEN           ,ROOTNAM            ,NGUIDED_CABLE)
 
 
       IF(NINTER>0.AND.NUMELIG3D>0) THEN
@@ -11342,6 +11353,15 @@ C
             ENDDO
             DEALLOCATE(RETRACTOR)
           ENDIF
+C
+          IF (NGUIDED_CABLE > 0) THEN
+            DO I=1,NGUIDED_CABLE
+               DEALLOCATE(GUIDE(I)%NODES)
+               DEALLOCATE(GUIDE(I)%CONT)      
+            ENDDO
+            DEALLOCATE(GUIDE)
+          ENDIF
+C          
           IF((IPART_STACK > 0 .OR. IPART_PCOMPP > 0) .AND. NDRAPE > 0) DEALLOCATE(IWORK_T)
 
           IF(ALLOCATED(MPARAM_R2R))THEN

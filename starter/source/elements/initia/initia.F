@@ -196,7 +196,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      N                  PRELOAD_A  ,FAIL_FRACTAL  ,FAIL_BROKMANN    ,DEFAULTS       ,NDAMP_FREQ_RANGE,
      O                  DAMPR      ,IBEAM_VECTOR  ,RBEAM_VECTOR     ,IKINE          ,LSIGI     ,
      P                  LSIGSP     ,SRNOISE       ,NPRW             ,LPRW           , RWSTIF_PEN,
-     M                  SLN_PEN    ,ROOTLEN       ,ROOTNAM )
+     M                  SLN_PEN    ,ROOTLEN       ,ROOTNAM          ,NGUIDED_CABLE)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------                     
@@ -241,6 +241,7 @@ C-----------------------------------------------
       use element_mod , only : nixs,nixq,nixc,nixt,nixp,nixr,nixtg
       use init_rwall_penalty_mod , only : init_rwall_penalty
       use ush_init_mod , only : ush_init
+      use ini_guided_cable_mod, ONLY : ini_guided_cable 
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -356,6 +357,7 @@ C
       my_real, DIMENSION(SLN_PEN), INTENT(INOUT)  :: RWSTIF_PEN
       INTEGER,INTENT(IN) :: ROOTLEN
       CHARACTER (LEN=ROOTLEN), INTENT(IN) :: ROOTNAM
+      INTEGER,INTENT(IN) :: NGUIDED_CABLE
 C
       TYPE (ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB
       TYPE (ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP,NXEL) :: XFEM_TAB
@@ -845,6 +847,10 @@ C--------------------------------------------
       IF (N_SEATBELT > 0) CALL INI_SEATBELT(IPARG,ELBUF_TAB,KNOD2EL1D,NOD2EL1D,IXR,
      .                                      X,ITAB,IPM,ALEA,KNOD2ELC,
      .                                      NOD2ELC,IXC)
+C--------------------------------------------
+C Guide initialization :
+C--------------------------------------------     
+      IF ((NGUIDED_CABLE > 0).AND.(NSPMD > 1)) CALL INI_GUIDED_CABLE(NSPMD)
 C-----------------------------------------------------
 C     INITIALIZATION OF ELEMENT BUFFERS
 C     INITIALIZATION OF MASSES AND INERTIAS
