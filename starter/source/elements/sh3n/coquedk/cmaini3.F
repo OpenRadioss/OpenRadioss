@@ -49,7 +49,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                   X1  ,X2  ,X3  ,X4  ,Y1  ,Y2  ,
      .                   Y3  ,Y4  ,Z1  ,Z2  ,Z3  ,Z4  ,
      .                   E1X, E2X, E3X, E1Y, E2Y, E3Y ,E1Z, E2Z, E3Z ,X  ,
-     .                   NPT_ALL  ,IDRAPE   ,NUMEL_DRAPE , INDX)
+     .                   NPT_ALL  ,IDRAPE   ,NUMEL_DRAPE , INDX,LTITR )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -77,7 +77,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ,INTENT(IN) :: NUMMAT
       INTEGER NEL,NLAY,NIX,NSIGSH,NUMEL,IGTYP,PROPID,IR,IS,IREP,IGMAT,IMAT,IPROP,
-     .        IDRAPE ,NPT_ALL,NUMEL_DRAPE
+     .        IDRAPE ,NPT_ALL,NUMEL_DRAPE,LTITR
       INTEGER IGEO(NPROPGI,*),IX(NIX,*),PTSH(*),IORTHLOC(MVSIZ),
      .        IPM(NPROPMI,*),ISUBSTACK,IGEO_STACK(*)
       INTEGER , DIMENSION(NUMEL_DRAPE) :: INDX
@@ -136,7 +136,7 @@ C----
      .                X1  ,X2  ,X3  ,X4  ,Y1  ,Y2  ,
      .                Y3  ,Y4  ,Z1  ,Z2  ,Z3  ,Z4  ,
      .                E1X, E2X, E3X, E1Y, E2Y, E3Y ,E1Z, E2Z, E3Z ,
-     .                NPT_ALL  ,IDRAPE)
+     .                NPT_ALL  ,IDRAPE,LTITR, NIX,IX)
      
       ELSEIF (MTN == 27) THEN
         CALL CM27IN3(ELBUF_STR,
@@ -159,7 +159,7 @@ c
      .                X1  ,X2  ,X3  ,X4  ,Y1  ,Y2  ,
      .                Y3  ,Y4  ,Z1  ,Z2  ,Z3  ,Z4  ,
      .                E1X, E2X, E3X, E1Y, E2Y, E3Y ,E1Z, E2Z, E3Z ,
-     .                NPT_ALL  ,IDRAPE )
+     .                NPT_ALL  ,IDRAPE ,LTITR, NIX, IX)
       ENDIF
 C-----
       IF ((MTN == 58 .or. MTN == 158) .AND. 

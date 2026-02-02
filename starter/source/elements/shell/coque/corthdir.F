@@ -38,12 +38,14 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                    X1  ,X2  ,X3  ,X4  ,Y1  ,Y2  ,
      .                    Y3  ,Y4  ,Z1  ,Z2  ,Z3  ,Z4  ,
      .                    E1X, E2X, E3X, E1Y, E2Y, E3Y ,E1Z, E2Z, E3Z ,
-     .                    NPT_ALL, IDRAPE)
+     .                    NPT_ALL, IDRAPE,LTITR, NIX,IX)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE ELBUFDEF_MOD  
-      USE STACK_MOD          
+      USE STACK_MOD    
+      USE MESSAGE_MOD   
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE   
 C-----------------------------------------------
 C initializes local coordinates of orthotropy axes
 C initializes thicknesses and materials of layers
@@ -63,7 +65,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NLAY,IREP,ISUBSTACK,IS,IR,NEL,IMAT,IPROP,NPT_ALL,IDRAPE
+      INTEGER NLAY,IREP,ISUBSTACK,IS,IR,NEL,IMAT,IPROP,NPT_ALL,IDRAPE,NIX,LTITR
+      INTEGER  IX(NIX,NEL)
       INTEGER IGEO(NPROPGI,*),IORTHLOC(*),IGEO_STACK(NPROPGI,*)
       my_real, DIMENSION(MVSIZ), INTENT(IN) :: E1X,E2X,E3X,E1Y,E2Y,E3Y,E1Z,E2Z,E3Z,
      .                                         X1,X2,X3,X4,Y1,Y2,Y3,Y4,Z1,Z2,Z3,Z4
@@ -78,12 +81,14 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,II,J,I1,I2,I3,IL,IGTYP,IPTHK,IPMAT,ILAW,L_DMG,NPTT,
-     .        IPT ,IPT_ALL,IT,IPID_PLY,IRP
+     .        IPT ,IPT_ALL,IT,IPID_PLY,IRP,PID
       my_real R,S,D1,D2,D11,D12,D21,D22,U1X,U1Y,U2X,U2Y,
-     .        DET,W1X,W2X,W1Y,W2Y,CSP,SNP
+     .        DET,W1X,W2X,W1Y,W2Y,CSP,SNP,VNR
       my_real,  DIMENSION(MVSIZ)      :: E11,E12,E13,E21,E22,E23,VR,VS
       my_real,  DIMENSION(:), POINTER :: DIR1,DIR2,DIR_DMG 
-C      
+      !
+      CHARACTER(LEN=NCHARTITLE)::TITR1
+      !
       TYPE(BUF_LAY_) ,POINTER :: BUFLY
       TYPE(L_BUFEL_) ,POINTER :: LBUF
       TYPE(L_BUFEL_DIR_) ,POINTER :: LBUF_DIR
@@ -136,6 +141,17 @@ C---    projection vector in element reference frame
            DO I=LFT,LLT
                VR(I)=VX(I)*E1X(I)+VY(I)*E1Y(I)+VZ(I)*E1Z(I)
                VS(I)=VX(I)*E2X(I)+VY(I)*E2Y(I)+VZ(I)*E2Z(I)
+               VNR = SQRT(VR(I)**2 + VS(I)**2)
+               IF(VNR < EM3)THEN
+                PID = IX(NIX-1,I)
+                CALL FRETITL2(TITR1,IGEO(NPROPGI-LTITR+1,PID),LTITR)
+                CALL ANCMSG(MSGID=197,
+     .                      MSGTYPE=MSGERROR,
+     .                      ANMODE=ANINFO,
+     .                      I1=IGEO(1,PID),
+     .                      C1=TITR1,
+     .                      I2=IX(NIX,I))
+              ENDIF
            ENDDO
         ENDIF   
 C-------

@@ -367,7 +367,7 @@ c
      .                 X1  ,X2  ,X3  ,X4  ,Y1  ,Y2  ,
      .                 Y3  ,Y4  ,Z1  ,Z2  ,Z3  ,Z4  ,
      .                 E1X ,E2X ,E3X ,E1Y ,E2Y ,E3Y ,E1Z ,E2Z ,E3Z ,X ,
-     .                 NPT_ALL,IDRAPE ,SCDRAPE , DRAPEG%INDX)
+     .                 NPT_ALL,IDRAPE ,SCDRAPE , DRAPEG%INDX,LTITR )
 c
           IF (( ISIGSH/=0 .OR. ITHKSHEL == 2) .and. IHBE == 11) THEN
             IF (MPT>0) 

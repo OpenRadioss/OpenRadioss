@@ -357,7 +357,7 @@ c
      .                X1  ,X2  ,X3  ,X4  ,Y1  ,Y2  ,
      .                Y3  ,Y4  ,Z1  ,Z2  ,Z3  ,Z4  ,
      .                E1X ,E2X ,E3X ,E1Y ,E2Y ,E3Y ,E1Z ,E2Z ,E3Z ,
-     .                NPT_ALL  ,IDRAPE)
+     .                NPT_ALL  ,IDRAPE,LTITR ,NIXC      ,IXC(1,NFT+1))
 c
       ELSEIF (MTN == 27) THEN
         CALL CM27IN3(ELBUF_STR,
@@ -386,7 +386,7 @@ c
      .                X1  ,X2  ,X3  ,X4  ,Y1  ,Y2  ,
      .                Y3  ,Y4  ,Z1  ,Z2  ,Z3  ,Z4  ,
      .                E1X, E2X, E3X, E1Y, E2Y, E3Y ,E1Z, E2Z, E3Z ,
-     .                NPT_ALL  ,IDRAPE)
+     .                NPT_ALL  ,IDRAPE,LTITR ,NIXC      ,IXC(1,NFT+1))
       ENDIF
 c
       IF ((MTN == 58 .or. MTN == 158) .AND. 

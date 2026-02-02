@@ -63,7 +63,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      C                   SH3TRIM,ISUBSTACK,STACK,RNOISE ,DRAPE,
      D                   SH3ANG,GEO_STACK,IGEO_STACK,STRTG,
      E                   PERTURB,IYLDINI,ELE_AREA,NLOC_DMG,
-     G                   IDRAPE ,DRAPEG,MAT_PARAM,GLOB_THERM)
+     G                   IDRAPE ,DRAPEG,MAT_PARAM,GLOB_THERM,
+     H                   LTITR )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -100,7 +101,7 @@ C-----------------------------------------------
      .   ISH3N,NSIGSH,NLAY,NPTR,NPTS,NPTT,IL,IR,IS,IT,IYLDINI,
      .   IGEO(NPROPGI,*),IPM(NPROPMI,*),IUSER, NSHNOD(*),NPF(*),
      .   PTSH3N(*), SH3TREE(*),IPARG(*),CPT_ELTENS,SH3TRIM(*),
-     .   ISUBSTACK,IGEO_STACK(*),PERTURB(NPERTURB),IDRAPE
+     .   ISUBSTACK,IGEO_STACK(*),PERTURB(NPERTURB),IDRAPE,LTITR
       my_real
      .   PM(NPROPM,*),X(*),GEO(NPROPG,*),XMAS(*),
      .   IN(*),DTELEM(*), XREFTG(3,3,*),THK(*),SIGSH(NSIGSH,*),
@@ -300,7 +301,7 @@ c
      .               X1  ,X2  ,X3  ,X4  ,Y1  ,Y2  ,
      .               Y3  ,Y4  ,Z1  ,Z2  ,Z3  ,Z4  ,
      .               E1X ,E2X ,E3X ,E1Y ,E2Y ,E3Y ,E1Z ,E2Z ,E3Z ,X ,
-     .               NPT_ALL  ,IDRAPE   ,STDRAPE ,INDX)
+     .               NPT_ALL  ,IDRAPE   ,STDRAPE ,INDX,LTITR)
 C-----------------------------------------------------------------------
 C       CALCULATION OF INITIAL STRESSES
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
