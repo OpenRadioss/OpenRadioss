@@ -802,7 +802,13 @@ C-----------------------------------------------
                   CALL CREATE_LINE_FROM_SURFACE(CLAUSE,KEYSET,OPT_A,OPT_E,DELBUF    ,
      .                                          .FALSE.)
 
-
+                  ! Node from ELEMENT
+                  ! 1D - only, otherwise from SURFACE
+                  CALL CREATE_NODE_FROM_ELEMENT(
+     .                            IXS   ,IXS10  ,IXS20  ,IXS16  ,IXQ    ,
+     .                            IXC   ,IXTG   ,IXT    ,IXP    ,IXR    ,
+     .                            IXX   ,KXX    ,KXSP   ,CLAUSE ,GEO,
+     .                            DUMMY_ARRAY   ,DSZ    ,.FALSE.)
 
               CASE ( 'RBODY' )
 
