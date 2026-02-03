@@ -20,6 +20,9 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+!||====================================================================
+!||    hm_convert_tetra4_to_tetra10_mod   ../starter/source/devtools/hm_reader/hm_convert_tetra4_to_tetra10.F90
+!||====================================================================
       module hm_convert_tetra4_to_tetra10_mod
         implicit none
       contains
@@ -28,6 +31,10 @@
 ! ======================================================================================================================
 !! \brief convert TETRA4 elements to TETRA10 elements in case PROPERTY card with ITETRA4=1 is used
 !! \details This routine reads all TETRA4 elements and convert them to TETRA10 elements by adding mid-side nodes.
+!||====================================================================
+!||    hm_convert_tetra4_to_tetra10    ../starter/source/devtools/hm_reader/hm_convert_tetra4_to_tetra10.F90
+!||--- calls      -----------------------------------------------------
+!||====================================================================
         subroutine hm_convert_tetra4_to_tetra10(itetra4toconsider)
 ! ----------------------------------------------------------------------------------------------------------------------
 ! ----------------------------------------------------------------------------------------------------------------------
