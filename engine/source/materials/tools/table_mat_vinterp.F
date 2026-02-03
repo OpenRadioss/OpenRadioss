@@ -215,7 +215,11 @@ C-----------------------------------------------
           DO J=1,NINDX_1
             I = INDX_1(J)
             M = IPOS(I,K)
-            DX = TABLE%X(K)%VALUES(M) - TABLE%X(K)%VALUES(M-1)
+            IF (M > 1) THEN
+              DX = TABLE%X(K)%VALUES(M) - TABLE%X(K)%VALUES(M-1)
+            ELSE
+              DX = TABLE%X(K)%VALUES(2) - TABLE%X(K)%VALUES(1)
+            ENDIF
             IF (DX > ZERO) THEN
               IPOS(I,K) = INT( (XX(I,K) - TABLE%X(K)%VALUES(1)) / DX ) + 1
               IPOS(I,K) = MAX(1,MIN(IPOS(I,K),LDIM(K)-1))
@@ -227,7 +231,11 @@ C-----------------------------------------------
           DO J=1,NINDX_2
             I = INDX_2(J)
             M = IPOS(I,K)
-            DX = TABLE%X(K)%VALUES(M+1) - TABLE%X(K)%VALUES(M)
+            IF (M < LDIM(K)) THEN
+              DX = TABLE%X(K)%VALUES(M+1) - TABLE%X(K)%VALUES(M)
+            ELSE
+              DX = TABLE%X(K)%VALUES(LDIM(K)) - TABLE%X(K)%VALUES(LDIM(K)-1)
+            ENDIF
             IF (DX > ZERO) THEN
               IPOS(I,K) = INT( (XX(I,K) - TABLE%X(K)%VALUES(1)) / DX ) + 1
               IPOS(I,K) = MAX(1,MIN(IPOS(I,K),LDIM(K)-1))
@@ -373,4 +381,4 @@ c-----------
       RETURN
       END SUBROUTINE TABLE_MAT_VINTERP
 c-----------
-      END MODULE TABLE_MAT_VINTERP_MOD     
+      END MODULE TABLE_MAT_VINTERP_MOD

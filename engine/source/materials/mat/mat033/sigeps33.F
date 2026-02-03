@@ -96,24 +96,12 @@ C----------------------------------------------------------------
       my_real 
      . EY,C1,C2,ET,VMU,VMU0
      . , A,B,C,VAR
-     . 
-     . 
-     . 
-     . 
      . , P0,PHI,GAMA0,FAC,FAC1
      . , S(3,3),SIGPR(3),DIRPR(3,3)
      . ,SIGT_CUTOFF,SIGC_CUTOFF
       my_real  
      .   E(MVSIZ),EDOT(MVSIZ),DAV,E1,E2,E3,E4,E5,E6,EPSP
      . , EPET(MVSIZ),EMET(MVSIZ),EPETS(MVSIZ),EMETS(MVSIZ)
-     . 
-     .  
-     . 
-     . 
-     . 
-     . 
-     . 
-     . 
      . , SIGAIR(MVSIZ),GAMA(MVSIZ),SYIELD(MVSIZ)
      . , SIGSXX(MVSIZ),SIGSYY(MVSIZ),SIGSZZ(MVSIZ)
      . , SIGSXY(MVSIZ),SIGSYZ(MVSIZ),SIGSZX(MVSIZ)
@@ -474,9 +462,6 @@ C--------------------------
            SYIELD(I)=FAC*FINTER(IFUNC(1),GAMA(I),NPF,TF,B*C)
          ELSE
            SYIELD(I) = ABS(A+B*(ONE+C*GAMA(I)))
-         ENDIF
-         IF(GAMA(I) > ZERO) THEN
-           IF (GAMA(I)-UVAR(I,1) < ZERO) SIGC_CUTOFF = ZERO
          ENDIF
          IF(IFUNC(2)/=0)THEN
             DAV = (EPSPXX(I)+EPSPYY(I)+EPSPZZ(I))*THIRD
