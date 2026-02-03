@@ -114,8 +114,11 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           nelem = mvsiz * ngroup
           allocate(user_id(nelem))
+          user_id = -1
           allocate(local_id(nelem))
+          local_id = -1
           allocate(group_id(nelem))
+          group_id = -1
           allocate(character(kind=c_char, len=max_code_length) :: code)
 
           ierror = 0 ! if python error = 1 => python_initialize will do nothing, because python is not available

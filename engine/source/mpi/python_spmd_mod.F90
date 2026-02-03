@@ -78,6 +78,7 @@
           ! Find the local elements requested by python functions
           call c_new_hash(map_id, n)
           do i = 1, n
+            if(user_ids(i) < 0) cycle
             call c_hash_insert(map_id, user_ids(i), i)
           end do
           local_n = 0
