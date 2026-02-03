@@ -159,6 +159,7 @@ C-----------------------------------------------
      .   FSCAL_ALPHA,ETH(MVSIZ),DEINTTH,ALPHA,DF,VL12(MVSIZ),DTINV
 C
       my_real ::  KC,PHIX, CA,CB, AREA, FPHI(MVSIZ,2),DIE(MVSIZ)
+      my_real ::  SSP
       my_real ,DIMENSION(NEL) ::  SIGX,SAPT,VECNUL
       my_real ,DIMENSION(:) ,POINTER :: UVAR
       my_real ,DIMENSION(:) ,POINTER :: EL_TEMP
@@ -180,6 +181,7 @@ C-----------------------------------------------
      5   Z3,      NEL)
       IGTYP = IGEO(11,PID(1))
       IMAT  = MAT(1)
+      SSP   = PM(27,IMAT)
 
       CALL PEVEC3(
      1   GBUF%SKEW,R,        AL,       NC1,
@@ -191,13 +193,12 @@ C-----------------------------------------------
      7   E2X,      E2Y,      E2Z,      E3X,
      8   E3Y,      E3Z,      NEL)
       IF (ISMSTR /= 0) CALL PPXPY3(GBUF%LENGTH,AL,NEL)
-      CALL PDLEN3(
-     1   JFT,      JLT,      PM,       GEO,
+      CALL PDLEN3(MAT_PARAM(IMAT),
+     1   NEL,      GEO,
      2   GBUF%OFF, DT2T,     NELTST,   ITYPTST,
      3   STI,      STIR,     MSP,      DMELP,
-     4   GBUF%G_DT,GBUF%DT,  AL,       MAT,
-     5   PID,      NGL,      NEL,      IGTYP,
-     6   JSMS)
+     4   GBUF%G_DT,GBUF%DT,  AL,       SSP  ,   
+     5   PID,      NGL,      IGTYP,    JSMS)
       CALL PDEFO3(
      1   V,       EXX,     EXY,     EXZ,
      2   AL,      NC1,     NC2,     NC3,
