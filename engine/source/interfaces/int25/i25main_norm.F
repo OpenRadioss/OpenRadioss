@@ -83,6 +83,7 @@ C     REAL
       my_real
      .   TS, STARTT, STOPT
       REAL*4 RZERO
+      INTEGER :: SIZE_NODNOR_E2S_RECV, SIZE_NODNOR_E2S_SEND
 C-----------------------------------------------
       RZERO = 0.
 C
@@ -126,30 +127,39 @@ C
             SOL_EDGE =0
             IF(IEDGE /= 0) SOL_EDGE =IEDGE/10 ! solids
   
+            SIZE_NODNOR_E2S_RECV = 0
+            SIZE_NODNOR_E2S_SEND = 0
+
             IF(SOL_EDGE/=0)THEN
              DO I = 1, NSPMD
-               IF(IAD_FRNOR(NI25,I+1)-IAD_FRNOR(NI25,I)>0) THEN
-                 DO J=IAD_FRNOR(NI25,I),IAD_FRNOR(NI25,I+1)-1
-                   NOD = ISHIFT + FR_NOR(J)
-                   DO CC = ADDCSRECT(NOD),ADDCSRECT(NOD+1)-1
-                     IF(PROCNOR(CC)==I) THEN
-                       SIZE_NODNOR_E2S = SIZE_NODNOR_E2S + 6
-                     ENDIF
+               IF(I /= ISPMD+1) THEN
+                 IF(IAD_FRNOR(NI25,I+1)-IAD_FRNOR(NI25,I)>0) THEN
+                   DO J=IAD_FRNOR(NI25,I),IAD_FRNOR(NI25,I+1)-1
+                     NOD = ISHIFT + FR_NOR(J)
+                     DO CC = ADDCSRECT(NOD),ADDCSRECT(NOD+1)-1
+                       IF(PROCNOR(CC)==I) THEN
+                         SIZE_NODNOR_E2S_RECV = SIZE_NODNOR_E2S_RECV + 3
+                       ENDIF
+                       IF(PROCNOR(CC)==ISPMD+1) THEN
+                         SIZE_NODNOR_E2S_SEND = SIZE_NODNOR_E2S_SEND + 3
+                       ENDIF
+                     END DO
                    END DO
-                 END DO
-                ENDIF
+                 ENDIF
+               ENDIF
              ENDDO
             ENDIF
-
 
              ALLOCATE(BUFFERS(NI25)%SEND_BUF(   3*(IAD_FREDG(NI25,NSPMD+1)-IAD_FREDG(NI25,1))
      .                                    +2*3*(IAD_FRNOR(NI25,NSPMD+1)-IAD_FRNOR(NI25,1))
      .                                    +    (IAD_FRNOR(NI25,NSPMD+1)-IAD_FRNOR(NI25,1))
-     .                                    +     SIZE_NODNOR_E2S))
+     .                                    +     SIZE_NODNOR_E2S_SEND))
              ALLOCATE(BUFFERS(NI25)%RECV_BUF(   3*(IAD_FREDG(NI25,NSPMD+1)-IAD_FREDG(NI25,1))
      .                                    +2*3*(IAD_FRNOR(NI25,NSPMD+1)-IAD_FRNOR(NI25,1))
      .                                    +    (IAD_FRNOR(NI25,NSPMD+1)-IAD_FRNOR(NI25,1))
-     .                                    +     SIZE_NODNOR_E2S))
+     .                                    +     SIZE_NODNOR_E2S_RECV))
+
+
 
              ALLOCATE(BUFFERS(NI25)%ISINDEX(NSPMD))
              ALLOCATE(BUFFERS(NI25)%IRINDEX(NSPMD))
