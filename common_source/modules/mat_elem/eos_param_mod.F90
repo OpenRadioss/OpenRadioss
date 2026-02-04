@@ -98,12 +98,12 @@
         integer :: ntable                        !< number of local function tables
         integer :: isfluid                       !< indicated if EoS is designed for fluid
         integer :: eostype                       !< eos model type
-        real(kind=WP) :: cv                      !< specific heat capacity (constant volume)
-        real(kind=WP) :: cp                      !< specific heat capacity (constant pressure)
-        real(kind=WP) :: psh                     !< pressure shift
-        real(kind=WP) :: e0                      !< initial internal energy
-        real(kind=WP) :: p0                      !< initial pressure
-        real(kind=WP) :: pmin                    !< minimum pressure
+        real(kind=WP) :: cv    = HUGE(1.0)        !< specific heat capacity (constant volume)
+        real(kind=WP) :: cp    = HUGE(1.0)        !< specific heat capacity (constant pressure)
+        real(kind=WP) :: psh   = HUGE(1.0)        !< pressure shift
+        real(kind=WP) :: e0    = HUGE(1.0)        !< initial internal energy
+        real(kind=WP) :: p0    = HUGE(1.0)        !< initial pressure
+        real(kind=WP) :: pmin  = HUGE(1.0)        !< minimum pressure
 
         real(kind=WP)  ,dimension(:) ,allocatable :: uparam  !< real value eos parameter table
         integer        ,dimension(:) ,allocatable :: iparam  !< int  value eos parameter table
