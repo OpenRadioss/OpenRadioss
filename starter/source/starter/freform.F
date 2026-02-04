@@ -667,6 +667,7 @@ C-----------------------------------------------
 !||    cinmas                        ../starter/source/elements/shell/coque/cinmas.F
 !||    cm27in3                       ../starter/source/materials/mat/mat027/cm27in3.F
 !||    cmatini4                      ../starter/source/materials/mat_share/cmatini4.F
+!||    corthdir                      ../starter/source/elements/shell/coque/corthdir.F
 !||    corthini                      ../starter/source/elements/shell/coque/corthini.F
 !||    csigini                       ../starter/source/elements/shell/coque/csigini.F
 !||    csigini4                      ../starter/source/elements/shell/coqueba/scigini4.F

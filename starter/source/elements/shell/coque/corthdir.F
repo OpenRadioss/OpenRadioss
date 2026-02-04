@@ -21,13 +21,17 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    corthdir       ../starter/source/elements/shell/coque/corthdir.F
+!||    corthdir               ../starter/source/elements/shell/coque/corthdir.F
 !||--- called by ------------------------------------------------------
-!||    c3init3        ../starter/source/elements/sh3n/coque3n/c3init3.F
-!||    cinit3         ../starter/source/elements/shell/coque/cinit3.F
-!||    cmaini3        ../starter/source/elements/sh3n/coquedk/cmaini3.F
+!||    c3init3                ../starter/source/elements/sh3n/coque3n/c3init3.F
+!||    cinit3                 ../starter/source/elements/shell/coque/cinit3.F
+!||    cmaini3                ../starter/source/elements/sh3n/coquedk/cmaini3.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                 ../starter/source/output/message/message.F
+!||    fretitl2               ../starter/source/starter/freform.F
 !||--- uses       -----------------------------------------------------
-!||    stack_mod      ../starter/share/modules1/stack_mod.F
+!||    message_mod            ../starter/share/message_module/message_mod.F
+!||    stack_mod              ../starter/share/modules1/stack_mod.F
 !||====================================================================
       SUBROUTINE CORTHDIR(ELBUF_STR,
      .                    IGEO   ,GEO       ,VX        ,VY     ,VZ       ,

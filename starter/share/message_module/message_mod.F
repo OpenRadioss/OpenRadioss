@@ -99,6 +99,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    cmatini4                            ../starter/source/materials/mat_share/cmatini4.F
 !||    cnloc_matini                        ../starter/source/materials/mat_share/cnloc_matini.F
 !||    contrl                              ../starter/source/starter/contrl.F
+!||    corthdir                            ../starter/source/elements/shell/coque/corthdir.F
 !||    corthini                            ../starter/source/elements/shell/coque/corthini.F
 !||    create_box_clause                   ../starter/source/model/sets/create_box_clause.F
 !||    create_child                        ../starter/source/coupling/rad2rad/r2r_fork.F
