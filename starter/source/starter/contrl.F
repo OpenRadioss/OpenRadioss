@@ -114,6 +114,7 @@ C-----------------------------------------------
       use ascii_encoding_mu_letter_mod, only : ascii_encoding_mu_letter
       USE EOS_PARAM_MOD , ONLY : ANALY_TEMP
       use element_mod , only : nixs
+      use SEATBELT_MOD, only : NGUIDED_CABLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -801,6 +802,7 @@ C     SEATBELT TOOLS
 C---------------------------------------------------
       CALL HM_OPTION_COUNT('/SLIPRING', NSLIPRING)
       CALL HM_OPTION_COUNT('/RETRACTOR', NRETRACTOR)
+      CALL HM_OPTION_COUNT('/GUIDED_CABLE', NGUIDED_CABLE)
 C---------------------------------------------------
 C     MONITORED VOLUMES
 C---------------------------------------------------

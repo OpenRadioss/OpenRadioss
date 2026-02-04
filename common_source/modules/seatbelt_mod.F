@@ -195,5 +195,41 @@ C
 C
         my_real  , DIMENSION(:,:), ALLOCATABLE:: TH_SLIPRING,TH_RETRACTOR
 C
-c---------------
+c=======================================================================
+c define structure for guided cable
+c=======================================================================
+c
+        TYPE GUIDE_CONT_STRUCT
+          INTEGER  UPDATE   
+          INTEGER  ANCHOR_NODE   
+          INTEGER  NODE(3) 
+          INTEGER  NODE_NEXT(2)  
+          INTEGER  NODE_IREMOTE(4)
+          INTEGER  ACTIVE_SEGMENT
+          my_real  FORC(3)   
+          my_real  FORC_AD(3)     
+          my_real  DIST
+        END TYPE GUIDE_CONT_STRUCT
+c
+        TYPE GUIDE_STRUCT
+          INTEGER  ID
+          INTEGER  ISTIFF
+          INTEGER  NODE_SET
+          INTEGER  PART_SET
+          INTEGER  NCONT
+          INTEGER  ELTYPE
+          INTEGER  N_REMOTE_PROC
+          INTEGER  NB_NODES
+          INTEGER  PROC
+          INTEGER, DIMENSION(:), ALLOCATABLE :: NODES
+          my_real  STFAC
+          my_real  FRIC
+          TYPE(GUIDE_CONT_STRUCT),ALLOCATABLE,DIMENSION(:) :: CONT
+        END TYPE GUIDE_STRUCT
+C
+        TYPE(GUIDE_STRUCT),ALLOCATABLE,DIMENSION(:) :: GUIDE
+c
+        INTEGER  NGUIDED_CABLE
+        INTEGER  NGUIDED_CABLE_G
+
       END MODULE  SEATBELT_MOD

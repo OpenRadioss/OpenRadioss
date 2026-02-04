@@ -1519,7 +1519,7 @@ C--------------------------------------
          CALL EIGWREST(EIGIPM, EIGIBUF, EIGRPM)
       ENDIF
 C--------------------------------------
-C SEATBELTS - SLIPRING / RETRACTOR
+C SEATBELTS - SLIPRING / RETRACTOR / GUIDE
 C--------------------------------------
       DO I = 1, NSLIPRING
         CALL WRITE_I_C(SLIPRING(I)%ID, 1)
@@ -1611,6 +1611,34 @@ C
           ENDIF  
         ENDDO
       ENDDO
+c
+      DO I = 1, NGUIDED_CABLE
+C
+        CALL WRITE_I_C(GUIDE(I)%ID, 1)
+        CALL WRITE_I_C(GUIDE(I)%ISTIFF, 1)
+        CALL WRITE_I_C(GUIDE(I)%NODE_SET, 1)
+        CALL WRITE_I_C(GUIDE(I)%PART_SET, 1)
+        CALL WRITE_I_C(GUIDE(I)%NCONT, 1)  
+        CALL WRITE_I_C(GUIDE(I)%ELTYPE, 1)
+        CALL WRITE_I_C(GUIDE(I)%N_REMOTE_PROC, 1)
+C        
+        CALL WRITE_DB(GUIDE(I)%STFAC, 1)
+        CALL WRITE_DB(GUIDE(I)%FRIC, 1)
+C        
+        DO J=1,GUIDE(I)%NCONT
+          CALL WRITE_I_C(GUIDE(I)%CONT(J)%UPDATE, 1)
+          CALL WRITE_I_C(GUIDE(I)%CONT(J)%ACTIVE_SEGMENT, 1)
+          CALL WRITE_I_C(GUIDE(I)%CONT(J)%ANCHOR_NODE, 1)
+          CALL WRITE_I_C(GUIDE(I)%CONT(J)%NODE, 3)
+          CALL WRITE_I_C(GUIDE(I)%CONT(J)%NODE_NEXT, 2)
+          CALL WRITE_I_C(GUIDE(I)%CONT(J)%NODE_IREMOTE, 4)          
+C
+          CALL WRITE_DB(GUIDE(I)%CONT(J)%FORC, 3)
+          CALL WRITE_DB(GUIDE(I)%CONT(J)%FORC_AD, 3)
+          CALL WRITE_DB(GUIDE(I)%CONT(J)%DIST, 1)
+        ENDDO
+C
+      ENDDO      
 C
       IF (N_ANCHOR_REMOTE > 0) THEN
         CALL WRITE_I_C(ANCHOR_REMOTE%ADD_PROC, NSPMD+1)

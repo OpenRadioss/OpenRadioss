@@ -36,14 +36,17 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    seatbelt_mod         ../common_source/modules/seatbelt_mod.F
 !||====================================================================
       SUBROUTINE UPDATE_SLIPRING(IXR,IXC,IPARG,ELBUF_TAB,FLAG_SLIPRING_UPDATE,
-     .                           FLAG_RETRACTOR_UPDATE,X,NPBY)
+     .                           FLAG_RETRACTOR_UPDATE,X,NPBY,IGRPART,IXT,IXP,
+     .                           IPARTT,IPARTP,IPARTR,FLAG_GUIDED_CABLE_UPDATE)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE ELBUFDEF_MOD
       USE SEATBELT_MOD
       USE MESSAGE_MOD
-      use element_mod , only : nixc,nixr
+      USE GROUPDEF_MOD
+      USE DEBUG_MOD
+      use element_mod , only : nixc,nixr,nixp,nixt
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -59,8 +62,12 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ,INTENT(IN) :: IXC(NIXC,NUMELC),IPARG(NPARG,NGROUP),NPBY(NNPBY,NRBODY)
       INTEGER ,INTENT(INOUT) :: IXR(NIXR,NUMELR),FLAG_SLIPRING_UPDATE,FLAG_RETRACTOR_UPDATE
+      INTEGER ,INTENT(IN) :: IXT(NIXT,NUMELT),IXP(NIXP,NUMELP)
+      INTEGER ,INTENT(IN) :: IPARTP(NUMELP),IPARTT(NUMELT),IPARTR(NUMELR)
+      INTEGER ,INTENT(INOUT) :: FLAG_GUIDED_CABLE_UPDATE
       my_real ,INTENT(IN) :: X(3,NUMNOD)
       TYPE(ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB
+      TYPE(GROUP_)   ,DIMENSION(NGRPART) ,INTENT(IN) :: IGRPART(NGRPART)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -71,8 +78,11 @@ C-----------------------------------------------
      .        ISEATBELT,FRA1,FRA2,L_DIRA,NLAY,ISMSTR,STRAND,NODE_CORES_DIR2(4),
      .        NPTR,NPTS,NPTT,IR,IS,IT,S_SLIPRING,L_SMSTR,ORIENT,POS_B,RET,COMPTR,
      .        FLAG_SLIPRING_L
+      INTEGER IPART,GUI,CONT,S_GUIDED_CABLE,GUIDE_UPDATE,GRPART_ID,COMPTG,SIDE
+      INTEGER FLAG_GUIDE_PART
 C
       INTEGER, DIMENSION(:), ALLOCATABLE :: TAG_NOD,CORES_SLIP,CORES_FRAM,CORES_RET
+      INTEGER, DIMENSION(:), ALLOCATABLE :: CORES_GUIDE,CORES_CONT,TAG_PART_GUI
 C
       my_real 
      .        XL2,YL2,XL3,YL3,XL4,YL4,L0FRAM1,L0FRAM2,DIST,DISTB,OFFSET,N_DIR2(2),
@@ -92,7 +102,7 @@ C
       FLOW_DIRECTION = -HUGE(FLOW_DIRECTION)
       FLAG_SLIPRING_L = FLAG_SLIPRING_UPDATE
       IF (((N_SEATBELT_2D > 0).AND.(NCYCLE==0)).OR.(FLAG_SLIPRING_UPDATE /= 0).OR.
-     .     (FLAG_RETRACTOR_UPDATE /= 0)) THEN
+     .     (FLAG_RETRACTOR_UPDATE /= 0).OR.(FLAG_GUIDED_CABLE_UPDATE /= 0)) THEN
         S_SLIPRING = 0
         DO SLIP=1,NSLIPRING
           S_SLIPRING = S_SLIPRING + SLIPRING(SLIP)%NFRAM
@@ -109,19 +119,30 @@ C         Check of rbody status
         ALLOCATE(CORES_SLIP(S_SLIPRING))
         ALLOCATE(CORES_FRAM(S_SLIPRING))
         ALLOCATE(CORES_RET(NRETRACTOR))
+        S_GUIDED_CABLE = 0
+        DO GUI=1,NGUIDED_CABLE
+          S_GUIDED_CABLE = S_GUIDED_CABLE + GUIDE(GUI)%NCONT
+        ENDDO
+        ALLOCATE(CORES_GUIDE(S_GUIDED_CABLE))
+        ALLOCATE(CORES_CONT(S_GUIDED_CABLE))
+        ALLOCATE(TAG_PART_GUI(NPART))
       ENDIF
 C
 C----------------------------------------------------------
 C----------------------------------------------------------
-C--   Loop on springs for slipring update
+C--   Loop on elements for slipring / retractore  / gudied cable update
 C----------------------------------------------------------
 C----------------------------------------------------------
 C
-      IF ((FLAG_SLIPRING_UPDATE /= 0).OR.(FLAG_RETRACTOR_UPDATE /= 0)) THEN
+      IF ((FLAG_SLIPRING_UPDATE /= 0).OR.(FLAG_RETRACTOR_UPDATE /= 0).OR.(FLAG_GUIDED_CABLE_UPDATE /= 0)) THEN
 C
         TAG_NOD(1:NUMNOD) = 0
         CORES_SLIP(1:S_SLIPRING) = 0
         CORES_FRAM(1:S_SLIPRING) = 0
+        CORES_RET(1:NRETRACTOR) = 0
+        CORES_GUIDE(1:S_GUIDED_CABLE) = 0
+        CORES_CONT(1:S_GUIDED_CABLE) = 0
+        TAG_PART_GUI(1:NPART) = 0
 C-----> Tag of nodes of updated sliprings -------
         COMPT = 0
         DO SLIP=1,NSLIPRING 
@@ -151,16 +172,67 @@ C-----> Tag of nodes of updated retractors -------
             CORES_RET(COMPTR) = RET
           ENDIF
         ENDDO
+C-----> Tag of nodes and parts of updated guided_cables --- ----
+        COMPTG = 0
+        DO GUI=1,NGUIDED_CABLE
+          GUIDE_UPDATE = 0
+          DO CONT=1,GUIDE(GUI)%NCONT
+            IF (GUIDE(GUI)%CONT(CONT)%UPDATE /= 0) THEN
+              COMPTG = COMPTG + 1 
+              GUIDE_UPDATE = 1
+C             Side where new next nod has to be found          
+              SIDE = GUIDE(GUI)%CONT(CONT)%UPDATE
+              IF (SIDE == 1) THEN
+                TAG_NOD(GUIDE(GUI)%CONT(CONT)%NODE(1)) = NSLIPRING + COMPTG
+              ELSE
+                TAG_NOD(GUIDE(GUI)%CONT(CONT)%NODE(3)) = NSLIPRING + COMPTG                
+              ENDIF  
+              CORES_GUIDE(COMPTG) = GUI
+              CORES_CONT(COMPTG) = CONT
+            ENDIF
+          ENDDO
+          IF (GUIDE_UPDATE > 0) THEN
+            GRPART_ID = GUIDE(GUI)%PART_SET
+            IF (GRPART_ID > 0) THEN
+              DO J=1,IGRPART(GRPART_ID)%NENTITY
+                IPART = IGRPART(GRPART_ID)%ENTITY(J)
+                TAG_PART_GUI(IPART) = 1
+              ENDDO
+            ENDIF
+          ENDIF
+        ENDDO
 C      
         DO NG=1,NGROUP
 C
           ITYP = IPARG(5,NG)
-            MTN = IPARG(1,NG)
-            NEL = IPARG(2,NG)
-            NFT = IPARG(3,NG) 
-            JFT = 1
-            JLT = MIN(NVSIZ,NEL)  
+          MTN = IPARG(1,NG)
+          NEL = IPARG(2,NG)
+          NFT = IPARG(3,NG) 
+          JFT = 1
+          JLT = MIN(NVSIZ,NEL)  
           GBUF => ELBUF_TAB(NG)%GBUF
+!          
+          FLAG_GUIDE_PART = 0
+          IF (FLAG_GUIDED_CABLE_UPDATE /= 0) THEN
+            IF (ITYP==4) THEN
+              DO I=JFT,JLT
+                IPART = IPARTT(NFT+I)
+                IF (TAG_PART_GUI(IPART) > 0) FLAG_GUIDE_PART = 1
+              ENDDO
+            ENDIF
+            IF (ITYP==5) THEN
+              DO I=JFT,JLT
+                IPART = IPARTP(NFT+I)
+                IF (TAG_PART_GUI(IPART) > 0) FLAG_GUIDE_PART = 1
+              ENDDO
+            ENDIF
+            IF (ITYP==6) THEN
+              DO I=JFT,JLT
+                IPART = IPARTR(NFT+I)
+                IF (TAG_PART_GUI(IPART) > 0) FLAG_GUIDE_PART = 1
+              ENDDO
+            ENDIF
+          ENDIF      
 C
           DO I=1,6
             II(I) = (I-1)*NEL + 1
@@ -172,16 +244,17 @@ C
 C--------> Loop over seatbelt spring elements-------
             DO I=JFT,JLT
 C
-                J = I + NFT    
+              J = I + NFT    
               N1 = IXR(2,J)
               N2 = IXR(3,J)
               SLIP = 0
               RET = 0
+              FRA = 0
 C
-              IF (TAG_NOD(N1) > 0) THEN
+              IF ((TAG_NOD(N1) > 0).AND.(TAG_NOD(N1) <= NSLIPRING)) THEN
                 SLIP =  CORES_SLIP(TAG_NOD(N1))
                 FRA = CORES_FRAM(TAG_NOD(N1))
-              ELSEIF (TAG_NOD(N2) > 0) THEN
+              ELSEIF ((TAG_NOD(N2) > 0).AND.(TAG_NOD(N2) <= NSLIPRING)) THEN
                 SLIP =  CORES_SLIP(TAG_NOD(N2))
                 FRA = CORES_FRAM(TAG_NOD(N2))
               ELSEIF (TAG_NOD(N1) < 0) THEN
@@ -190,6 +263,7 @@ C
                 RET = CORES_RET(ABS(TAG_NOD(N2)))
               ENDIF
 C
+C              Update of slipring -------
               IF (SLIP > 0) THEN
                 NN1 = SLIPRING(SLIP)%FRAM(FRA)%NODE_NEXT(1)
                 NN2 = SLIPRING(SLIP)%FRAM(FRA)%NODE_NEXT(2)
@@ -254,6 +328,7 @@ C             -> Storage of current fram ref length in slipring buffer -------
                 ENDIF
               ENDIF
 C
+C             Update of retractors -------
               IF (RET > 0) THEN
                 NN1 = RETRACTOR(RET)%NODE_NEXT(1)
                 NN2 = RETRACTOR(RET)%NODE_NEXT(2)
@@ -279,7 +354,55 @@ C                   Element deactivated - X0 updated in r23l114def3 for consiste
                   ENDIF
                 ENDIF
               ENDIF 
-C   
+C                  
+            ENDDO
+C
+          ELSEIF(FLAG_GUIDE_PART > 0) THEN   
+C-------->  Loop over all 1D elemens for guided cables -------
+            DO I=JFT,JLT
+C                     
+              J = I + NFT    
+              IF(ITYP==4) THEN           !   truss
+                N1 = IXT(2,J)
+                N2 = IXT(3,J)
+              ELSEIF(ITYP==5) THEN       !   beam
+                N1 = IXP(2,J)
+                N2 = IXP(3,J)
+              ELSEIF(ITYP==6) THEN       !   spring
+                N1 = IXR(2,J)
+                N2 = IXR(3,J)
+              ENDIF
+              GUI = 0
+              CONT = 0
+C
+              IF (TAG_NOD(N1) > NSLIPRING) THEN
+                GUI = CORES_GUIDE(TAG_NOD(N1)-NSLIPRING)
+                CONT = CORES_CONT(TAG_NOD(N1)-NSLIPRING)
+              ELSEIF (TAG_NOD(N2) > NSLIPRING) THEN
+                GUI = CORES_GUIDE(TAG_NOD(N2)-NSLIPRING)
+                CONT = CORES_CONT(TAG_NOD(N2)-NSLIPRING)
+              ENDIF
+C
+C             Update of guided cables -------
+              IF ((GUI > 0).AND.(CONT > 0)) THEN
+C               Side where new next nod has to be found          
+                SIDE = GUIDE(GUI)%CONT(CONT)%UPDATE
+                IF (SIDE==1) THEN
+                  NN1 = GUIDE(GUI)%CONT(CONT)%NODE(1) 
+                  NN2 = GUIDE(GUI)%CONT(CONT)%NODE(2)                   
+                ELSE
+                  NN1 = GUIDE(GUI)%CONT(CONT)%NODE(3) 
+                  NN2 = GUIDE(GUI)%CONT(CONT)%NODE(2)                     
+                ENDIF
+                IF ((N1==NN1).AND.(N2/=NN2)) THEN
+                  GUIDE(GUI)%CONT(CONT)%UPDATE = 0
+                  GUIDE(GUI)%CONT(CONT)%NODE_NEXT(SIDE) = N2
+                ELSEIF ((N2==NN1).AND.(N1/=NN2)) THEN
+                  GUIDE(GUI)%CONT(CONT)%UPDATE = 0
+                  GUIDE(GUI)%CONT(CONT)%NODE_NEXT(SIDE) = N1
+                ENDIF
+              ENDIF
+C
             ENDDO
 C
           ENDIF
@@ -316,6 +439,8 @@ C
         ENDDO
         FLAG_RETRACTOR_UPDATE = 0
       ENDIF
+C
+      IF (FLAG_GUIDED_CABLE_UPDATE /= 0) FLAG_GUIDED_CABLE_UPDATE = 0  
 C
 C----------------------------------------------------------
 C----------------------------------------------------------
@@ -555,7 +680,7 @@ C
       ENDIF
 C
       IF (((N_SEATBELT_2D > 0).AND.(NCYCLE==0)).OR.(FLAG_SLIPRING_UPDATE /= 0)) THEN
-        DEALLOCATE(TAG_NOD,CORES_SLIP,CORES_FRAM)
+        DEALLOCATE(TAG_NOD,CORES_SLIP,CORES_FRAM,CORES_RET,CORES_GUIDE,CORES_CONT)
       ENDIF
 C
 C----------------------------------------------------------
