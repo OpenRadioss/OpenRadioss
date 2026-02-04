@@ -40,7 +40,7 @@ CDECL void cpp_node_sub_tag_(int *TAGNODSUB)
     SelectionRead nodes(g_pModelViewSDI,"/NODE");
     unsigned int submodelId=0;
     unsigned int includeId=0;
-    int i=0;
+    int cptNode=0;
 //
 // Nodes loop
 //
@@ -61,8 +61,33 @@ CDECL void cpp_node_sub_tag_(int *TAGNODSUB)
             hInclude.GetValue(g_pModelViewSDI, sdiIdentifier("shadow_submodelid"), value);
             value.GetValue(submodelId);
         }
-        TAGNODSUB[i] = includeId;
-        i++;
+        TAGNODSUB[cptNode] = includeId;
+        cptNode++;
+    }
+
+    SelectionRead cnodes(g_pModelViewSDI,"/CNODE");
+//
+// Nodes loop
+//
+    while(cnodes.Next())
+    {
+// Get Submodel Id
+        sdiValue value;
+        HandleRead hInclude(cnodes->GetInclude());
+        unsigned int submodelId = 0;
+        includeId = hInclude.GetId(g_pModelViewSDI);
+        hInclude.GetValue(g_pModelViewSDI, sdiIdentifier("shadow_submodelid"), value);
+        value.GetValue(submodelId);
+        while(0 == submodelId && hInclude.IsValid())
+        {
+            EntityRead include(g_pModelViewSDI, hInclude);
+            hInclude = include.GetInclude();
+            includeId = hInclude.GetId(g_pModelViewSDI);
+            hInclude.GetValue(g_pModelViewSDI, sdiIdentifier("shadow_submodelid"), value);
+            value.GetValue(submodelId);
+        }
+        TAGNODSUB[cptNode] = includeId;
+        cptNode++;
     }
 }
 
