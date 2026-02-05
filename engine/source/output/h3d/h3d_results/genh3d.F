@@ -863,6 +863,7 @@ c
           ENDIF
 C
           ALLOCATE(ITAB_P_PART(NUMNOD_H3DPART))
+          ITAB_P_PART(1:NUMNOD_H3DPART) = 0!Initialization needed, otherwise it may be used uninitialized in sysfus2 call
           ALLOCATE(ITABM1_P(2*NUMNODG))
 C
           IF(NSPMD > 1) THEN
