@@ -2805,6 +2805,11 @@ C
       DO N = 1, NUMSPHA
         IWD(N) = 1
       END DO
+      IF(NUMSPH > NUMSPHA) THEN
+        DO N = NUMSPHA+1, NUMSPH
+          IWD(N) = 0
+        END DO
+      END IF
 C
       IWFLG=2
       NFLAG=1
