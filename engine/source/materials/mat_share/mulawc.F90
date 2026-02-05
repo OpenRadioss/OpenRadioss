@@ -639,6 +639,7 @@
             &            igtyp == 51 .or. igtyp == 52) then
               if (ilaw == 58 .or. ilaw == 158 .or. ilaw == 88) nfunc = ipm(10,imat)+ipm(6,imat)
             endif
+            ifunc(1) = 0 ! ifunc(1) may be used even when nfunc=0 (see sigeps78c)
             do i=1,nfunc
               ifunc(i)=ipm(10+i,imat)
             enddo
