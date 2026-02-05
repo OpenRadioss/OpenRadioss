@@ -200,6 +200,7 @@ C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
       XI    =UPARAM(15)
       ETA   =UPARAM(16)
       EOSTYP = MAT_PARAM(MXS)%IEOS  ! LAW 75 uses /EOS defined in another law !!!
+      IPLA(1:NEL)=0
 C
       DO I=1,NEL
          ALPHAOLD(I)= UVAR(I,3)
