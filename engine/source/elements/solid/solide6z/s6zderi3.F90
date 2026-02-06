@@ -53,9 +53,10 @@
           px1      ,px2      ,px3      ,px4      ,px5      ,px6      ,           &
           py1      ,py2      ,py3      ,py4      ,py5      ,py6      ,           &
           pz1      ,pz2      ,pz3      ,pz4      ,pz5      ,pz6      ,           &
-          jacob5   ,jacob6   ,jacob4   ,jacob8   ,jacob9   ,jacob7   ,           &
+          jacob1   ,jacob2   ,jacob3   ,jacob4   ,jacob5   ,jacob6   ,           &
+          jacob9   ,                                                             &
           vzl      ,volg     ,sav      ,offg     ,nel      ,ismstr   ,           &
-          idel7nok ,ineg_v   ,mstop    ,volmin   ,idtmin   ,voldp    ,           &
+          voldp    ,           &
           jlag    )
 !
 !-------------------------------------------------------------------------------
@@ -100,8 +101,9 @@
           real(kind=wp), dimension(nel), intent(out)   :: jacob4      !< Jacobian matrix component J12
           real(kind=wp), dimension(nel), intent(out)   :: jacob5      !< Jacobian matrix component J22
           real(kind=wp), dimension(nel), intent(out)   :: jacob6      !< Jacobian matrix component J32
-          real(kind=wp), dimension(nel), intent(out)   :: jacob7      !< Jacobian matrix component J13
-          real(kind=wp), dimension(nel), intent(out)   :: jacob8      !< Jacobian matrix component J23
+          real(kind=wp), dimension(nel), intent(out)   :: jacob1      !< Jacobian matrix component J13
+          real(kind=wp), dimension(nel), intent(out)   :: jacob2     !< Jacobian matrix component J23
+          real(kind=wp), dimension(nel), intent(out)   :: jacob3      !< Jacobian matrix component J33
           real(kind=wp), dimension(nel), intent(out)   :: jacob9      !< Jacobian matrix component J33
           real(kind=wp), dimension(nel), intent(out)   :: vzl         !< Local volume change rate
           real(kind=wp), dimension(nel), intent(out)   :: volg        !< Global element volume
@@ -127,10 +129,6 @@
           real(kind=8), dimension(nel), intent(inout) :: zd6          !< Z coordinate of node 6
           real(kind=8), dimension(nel),  intent(out)   :: voldp        !< Global element volume
           real(kind=8), intent(in)                     :: sav(nel,15) !< Saved nodal coordinates for negative volume recovery sav must be in double precision, so kind = 8
-          integer, intent(inout)                       :: idel7nok
-          integer, intent(inout)                       :: ineg_v
-          integer, intent(inout)                       :: mstop
-          real(kind=wp), intent(in)                    :: volmin
           integer,dimension(102)                       :: idtmin
 !-------------------------------------------------------------------------------
 !    L o c a l   v a r i a b l e s
@@ -140,6 +138,7 @@
 !C     ENSURE DOUBLE-PRECISION (64-BIT) FLOATING-POINT CALCULATIONS, EVEN WHEN COMPILING IN SINGLE-PRECISION MODE.
           real(kind=8) :: dett(nel)                              !< Inverse determinant
           real(kind=8) :: jac1(nel), jac2(nel), jac3(nel)        !< Jacobian matrix components
+          real(kind=wp) :: jacob7(nel), jacob8(nel)
           real(kind=8) :: jac4(nel), jac5(nel), jac6(nel)        !< Jacobian matrix components
           real(kind=8) :: jac7(nel), jac8(nel), jac9(nel)        !< Jacobian matrix components
           real(kind=8) :: jaci1, jaci2, jaci3                    !< Jacobian inverse components
@@ -192,11 +191,12 @@
 !
           !< Store Jacobian components for output
           do i=1,nel
+            jacob1(i) = jac1(i)
+            jacob2(i) = jac2(i)
+            jacob3(i) = jac3(i)
             jacob4(i) = jac4(i)
             jacob5(i) = jac5(i)
             jacob6(i) = jac6(i)
-            jacob7(i) = jac7(i)
-            jacob8(i) = jac8(i)
             jacob9(i) = jac9(i)
           enddo
 !
@@ -212,170 +212,42 @@
             voldp(i) = one_over_8*(jac1(i) * jac_59_68(i) + jac2(i) * jac_67_49(i) + jac3(i) * jac_48_57(i))
             det(i) = voldp(i)
           end do
-!
-          !< Check for minimum volume conditions and handle negative volumes
-          nnega = 0
-          if (jlag/=0) then
-!--- case total strain switched to small due to nega_v before
-            if(ismstr==10.or.(ismstr==12.and.idtmin(1)/=3)) then
-              do i=1,nel
-                if(offg(i) > one)then
-                  nnega=nnega+1
-                  index(nnega)=i
-                end if
-              enddo
-            end if
-            icor = 0
-            do i=1,nel
-              if(off(i) ==zero)then
-                det(i)=one
-              elseif(offg(i) > one)then
-!
-              elseif(det(i)<=zero)then
-                icor = 1
-              endif
-            enddo
-            if (icor>0) then
-              if (ineg_v==0) then
-                do i=1,nel
-                  if(det(i)<=zero.and.offg(i) <= one.and.offg(i) /= zero)then
-                    det(i)=one
-                    off(i)=zero
-                    offg(i)=zero
-!$OMP CRITICAL
-                    call ancmsg(msgid=280,anmode=aninfo,i1=ngl(i))
-!$OMP END CRITICAL
-                  end if
-                end do
-                mstop = 1
-              else if (ineg_v==2) then  !deletion
-                do i=1,nel
-                  if(det(i)<=zero.and.offg(i) <= one.and.offg(i) /= zero)then
-                    det(i)=one
-                    off(i)=zero
-                    offg(i)=zero
-!$OMP CRITICAL
-                    call ancmsg(msgid=318,anmode=aninfo,i1=ngl(i))
-!$OMP END CRITICAL
-                    idel7nok = 1
-                  end if
-                end do
-              else ! switch to small strain
-                do i=1,nel
-                  if(det(i)<=zero.and.offg(i) <= one.and.offg(i) /= zero)then
-                    nnega=nnega+1
-                    index(nnega)=i
-!$OMP CRITICAL
-                    if(ismstr<10) then
-                      call ancmsg(msgid=259,anmode=aninfo,i1=ngl(i))
-                    else
-                      call ancmsg(msgid=261,anmode=aninfo,i1=ngl(i))
-                    end if
-!$OMP END CRITICAL
-                  end if
-                end do
-              end if
-            end if !(icor>0.and.imconv==1) then
-          else
-            if (idtmin(1) == 1) then
-              icor = 0
-              do i = 1, nel
-                if (off(i) == zero) then
-                  det(i) = one
-                elseif ((det(i) <= volmin) .or. (det(i) <= zero)) then
-                  icor = 1
-                endif
-              enddo
-              if (icor > 0) then
-                do i = 1, nel
-                  if (off(i) /= zero) then
-                    if (det(i) <= volmin) then
-                      det(i) = one
-                      off(i) = zero
-                      write(istdo, 2000) ngl(i)
-                      write(iout , 2000) ngl(i)
-                    elseif (det(i) <= zero) then
-                      call ancmsg(msgid=166, anmode=aninfo, i1=ngl(i))
-                      mstop = 1
-                    endif
-                  endif
-                enddo
-              endif
-            elseif (idtmin(1) == 2) then
-              icor = 0
-              do i = 1, nel
-                if (off(i) == zero) then
-                  det(i) = one
-                elseif ((det(i) <= volmin) .or. (det(i) <= zero)) then
-                  icor = 1
-                endif
-              enddo
-              if (icor > 0) then
-                do i = 1, nel
-                  if ((off(i) /= zero) .and. (det(i) <= volmin .or. det(i) <= zero)) then
-                    det(i) = one
-                    off(i) = zero
-                    write(istdo, 2000) ngl(i)
-                    write(iout, 2000) ngl(i)
-                    idel7nok = 1
-                  endif
-                enddo
-              endif
-            elseif (ismstr /= 4) then
-              icor = 0
-              do i = 1, nel
-                if (off(i) == zero) then
-                  det(i) = one
-                elseif ((det(i) <= volmin) .or. (det(i) <= zero)) then
-                  icor = 1
-                endif
-              enddo
-              if (icor > 0) then
-                do i = 1, nel
-                  if (off(i) == zero) then
-                    det(i) = one
-                  elseif (offg(i) > one) then
-                    !< Element already flagged - skip processing
-                  elseif ((det(i) <= volmin) .or. (det(i) <= zero)) then
-                    nnega = nnega + 1
-                    index(nnega) = i
-                    write(istdo, 3000) ngl(i)
-                    write(iout, 3000) ngl(i)
-                  endif
-                enddo
-                if (ineg_v == 0) then
-                  i = index(nnega)
-                  call ancmsg(msgid=280, anmode=aninfo,i1=ngl(i))
-                  mstop = 1
-                endif
-              end if
-            else
-              !< Handle case where ismstr == 4
-              icor = 0
-              do i = 1, nel
-                if (off(i) == zero) then
-                  det(i) = one
-                elseif (det(i) <= zero) then
-                  icor = 1
-                endif
-              enddo
-              if (icor > 0) then
-                do i = 1, nel
-                  if (off(i) /= zero) then
-                    if (det(i) <= zero) then
-                      call ancmsg(msgid=166, anmode=aninfo, i1=ngl(i))
-                      mstop = 1
-                    endif
-                  endif
-                enddo
-              endif
-            endif !idtmin(1) == 1
-          end if !jlag /=0
-!
-          !< Process elements with negative volumes for coordinate recovery
-          if (nnega > 0) then
-            do j = 1, nnega
-              i = index(j)
+     CALL SCHKJABT3(                      &
+        OFF,     DET,     NGL,     OFFG,  &
+        NNEGA,   INDEX,   NEL,     ISMSTR,&
+        JLAG)
+      IF (NNEGA>0) THEN
+        IF (ISMSTR==10.OR.ISMSTR==12) THEN
+#include "vectorize.inc"
+         DO J=1,NNEGA
+          I = INDEX(J)
+            XD1(I)=SAV(I,1)
+            YD1(I)=SAV(I,6)
+            ZD1(I)=SAV(I,11)
+
+            XD2(I)=SAV(I,2)
+            YD2(I)=SAV(I,7)
+            ZD2(I)=SAV(I,12)
+
+            XD3(I)=SAV(I,3)
+            YD3(I)=SAV(I,8)
+            ZD3(I)=SAV(I,13)
+
+            XD4(I)=SAV(I,4)
+            YD4(I)=SAV(I,9)
+            ZD4(I)=SAV(I,14)
+
+            XD5(I)=SAV(I,5)
+            YD5(I)=SAV(I,10)
+            ZD5(I)=SAV(I,15)
+
+            XD6(I)=ZERO
+            YD6(I)=ZERO
+            ZD6(I)=ZERO
+         ENDDO
+        ELSE
+         DO J=1,NNEGA
+          I = INDEX(J)
               xd1(i) = sav(i,1)
               yd1(i) = sav(i,2)
               zd1(i) = sav(i,3)
@@ -394,6 +266,11 @@
               xd6(i) = zero
               yd6(i) = zero
               zd6(i) = zero
+         ENDDO
+        END IF
+#include "vectorize.inc"
+         DO J=1,NNEGA
+              i = index(j)
 !
               x21(i) = xd2(i) - xd1(i)
               x31(i) = xd3(i) - xd1(i)
@@ -435,9 +312,11 @@
 !
               det(i) = one_over_8 * (jac1(i) * jac_59_68(i) + jac2(i) * jac_67_49(i) + jac3(i) * jac_48_57(i))
               offg(i) = two
-            enddo
-          endif
-!
+          
+         ENDDO
+      END IF
+
+    
           !< Jacobian inverse matrix
           do i = 1, nel
             dett(i) = one_over_8 / det(i)
