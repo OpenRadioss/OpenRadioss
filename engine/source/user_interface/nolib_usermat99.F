@@ -26,7 +26,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    usermat_shell          ../engine/source/materials/mat_share/usermat_shell.F
 !||    usermat_solid          ../engine/source/materials/mat_share/usermat_solid.F
 !||--- uses       -----------------------------------------------------
-!||    law_usersh             ../engine/source/user_interface/law_usersh.F
 !||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
 !||====================================================================
       SUBROUTINE NOLIB_USERMAT99(ILAW_USER, IUSER_KEY)
@@ -45,7 +44,6 @@ C
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE LAW_USERSH
       USE NAMES_AND_TITLES_MOD, ONLY: NCHARLINE100
 C-----------------------------------------------
 C   C o m m o n   B l o c k s

@@ -87,7 +87,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    fail_param_mod               ../common_source/modules/mat_elem/fail_param_mod.F90
 !||    fail_puck_c_mod              ../engine/source/materials/fail/puck/fail_puck_c.F90
 !||    failwave_mod                 ../common_source/modules/failwave_mod.F
-!||    law_usersh                   ../engine/source/user_interface/law_usersh.F
 !||    mat_elem_mod                 ../common_source/modules/mat_elem/mat_elem_mod.F90
 !||    message_mod                  ../engine/share/message_module/message_mod.F
 !||    names_and_titles_mod         ../common_source/modules/names_and_titles_mod.F
@@ -117,9 +116,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE MVSIZ_MOD, ONLY: MVSIZ
       USE TIMER_MOD
       USE NAMES_AND_TITLES_MOD, ONLY: NCHARLINE100
-      USE LAW_USERSH
       USE TABLE_MOD
       USE MAT_ELEM_MOD
       USE FAIL_PARAM_MOD
@@ -242,8 +241,7 @@ C
       INTEGER , DIMENSION(MVSIZ) :: ADDITIONAL_INT_PARAMETERS
       my_real , DIMENSION(MVSIZ) :: ADDITIONAL_FLT_PARAMETERS
 c----
-      TYPE(TTABLE) TABLE(*)
-      TYPE(ULAWCINTBUF) :: USERBUF     
+      TYPE(TTABLE) TABLE(*)   
       TYPE(BUF_LAY_) ,POINTER :: BUFLY
       TYPE(L_BUFEL_) ,POINTER :: LBUF     
       TYPE(G_BUFEL_) ,POINTER :: GBUF
@@ -688,20 +686,6 @@ C------------------------------------------
      A          SSP    ,VISCMX ,THKN    ,COPY_PLA ,UVAR   ,
      B          OFF    ,NGL    ,SHF     )
             ELSE
-!              CALL SIGEPS29C(
-!     1          JLT    ,NUPARAM,NUVAR   ,NFUNC    ,IFUNC   ,
-!     2          NPF    ,NPT    ,IPT     ,IFLAG    ,
-!     2          TF     ,TT     ,DT1C    ,UPARAM   ,RHO,
-!     3          AREA   ,EINT_LOC,THKLYL ,
-!     4          EPSPXX ,EPSPYY ,EPSPXY  ,EPSPYZ   ,EPSPZX ,
-!     5          DEPSXX ,DEPSYY ,DEPSXY  ,DEPSYZ   ,DEPSZX ,
-!     6          EPSXX  ,EPSYY  ,EPSXY   ,EPSYZ    ,EPSZX  ,
-!     7          SIGOXX ,SIGOYY ,SIGOXY  ,SIGOYZ   ,SIGOZX ,
-!     8          SIGNXX ,SIGNYY ,SIGNXY  ,SIGNYZ   ,SIGNZX ,
-!     9          SIGVXX ,SIGVYY ,SIGVXY  ,SIGVYZ   ,SIGVZX ,
-!     A          SSP    ,VISCMX ,THKN    ,COPY_PLA ,UVAR   ,
-!     B          OFF    ,NGL    ,SHF     )
-!
 !!!
               ! ----------------
               ! ERROR to be printed & exit
@@ -755,19 +739,6 @@ C------------------------------------------
      A          SSP    ,VISCMX ,THKN    ,COPY_PLA ,UVAR   ,
      B          OFF    ,NGL    ,SHF     )
             ELSE
-!              CALL SIGEPS30C(
-!     1          JLT    ,NUPARAM,NUVAR   ,NFUNC    ,IFUNC  ,
-!     2          NPF    ,NPT    ,IPT     ,IFLAG    ,
-!     2          TF     ,TT     ,DT1C    ,UPARAM   ,RHO    ,
-!     3          AREA   ,EINT_LOC,THKLYL ,
-!     4          EPSPXX ,EPSPYY ,EPSPXY  ,EPSPYZ   ,EPSPZX ,
-!     5          DEPSXX ,DEPSYY ,DEPSXY  ,DEPSYZ   ,DEPSZX ,
-!     6          EPSXX  ,EPSYY  ,EPSXY   ,EPSYZ    ,EPSZX  ,
-!     7          SIGOXX ,SIGOYY ,SIGOXY  ,SIGOYZ   ,SIGOZX ,
-!     8          SIGNXX ,SIGNYY ,SIGNXY  ,SIGNYZ   ,SIGNZX ,
-!     9          SIGVXX ,SIGVYY ,SIGVXY  ,SIGVYZ   ,SIGVZX ,
-!     A          SSP    ,VISCMX ,THKN    ,COPY_PLA ,UVAR   ,
-!     B          OFF    ,NGL    ,SHF     )
 !!!
               ! ----------------
               ! ERROR to be printed & exit
@@ -821,19 +792,6 @@ C------------------------------------------
      A          SSP    ,VISCMX ,THKN    ,COPY_PLA ,UVAR   ,
      B          OFF    ,NGL    ,SHF     )
             ELSE
-!              CALL SIGEPS31C(
-!     1          JLT    ,NUPARAM,NUVAR   ,NFUNC    ,IFUNC   ,
-!     2          NPF    ,NPT    ,IPT     ,IFLAG    ,
-!     2          TF     ,TT     ,DT1C    ,UPARAM   ,RHO    ,
-!     3          AREA   ,EINT_LOC,THKLYL ,
-!     4          EPSPXX ,EPSPYY ,EPSPXY  ,EPSPYZ   ,EPSPZX ,
-!     5          DEPSXX ,DEPSYY ,DEPSXY  ,DEPSYZ   ,DEPSZX ,
-!     6          EPSXX  ,EPSYY  ,EPSXY   ,EPSYZ    ,EPSZX  ,
-!     7          SIGOXX ,SIGOYY ,SIGOXY  ,SIGOYZ   ,SIGOZX ,
-!     8          SIGNXX ,SIGNYY ,SIGNXY  ,SIGNYZ   ,SIGNZX ,
-!     9          SIGVXX ,SIGVYY ,SIGVXY  ,SIGVYZ   ,SIGVZX ,
-!     A          SSP    ,VISCMX ,THKN    ,COPY_PLA ,UVAR   ,
-!     B          OFF    ,NGL    ,SHF     )
 !!!
               ! ----------------
               ! ERROR to be printed & exit
@@ -982,96 +940,6 @@ c            Retrieve Results
              ENDIF
 
             ELSE
-              USERBUF%NCYCLE = NCYCLE
-              USERBUF%ID     = IMAT
-              USERBUF%ILAYER = IPT
-              USERBUF%NPTA   = NPT 
-              USERBUF%IFLAG  = IFLAG(1) 
-C
-              USERBUF%R11    = R11
-              USERBUF%R12    = R12
-              USERBUF%R13    = R13 
-C
-              USERBUF%R21    = R21
-              USERBUF%R22    = R22
-              USERBUF%R23    = R23 
-C
-              USERBUF%R31    = R31
-              USERBUF%R32    = R32
-              USERBUF%R33    = R33 
-C
-!               USERBUF%DIR_A  = DIR_A
-!               USERBUF%DIR_B  = DIR_B
-C
-              USERBUF%SIGOXX = SIGOXX
-              USERBUF%SIGOYY = SIGOYY
-              USERBUF%SIGOXY = SIGOXY
-              USERBUF%SIGOYZ = SIGOYZ
-              USERBUF%SIGOZX = SIGOZX
-C
-              USERBUF%EPSPXX = EPSPXX
-              USERBUF%EPSPYY = EPSPYY
-              USERBUF%EPSPXY = EPSPXY
-              USERBUF%EPSPYZ = EPSPYZ
-              USERBUF%EPSPZX = EPSPZX
-C                   
-              USERBUF%EPSXX = EPSXX
-              USERBUF%EPSYY = EPSYY
-              USERBUF%EPSXY = EPSXY
-              USERBUF%EPSYZ = EPSYZ
-              USERBUF%EPSZX = EPSZX          
-              IF (ISMSTR == 10) THEN
-C
-                DO I=JFT,JLT 
-                 ZT=ZZ(I)*THK0(I)
-                 USERBUF%FPSXX(I) = F_DEF(I,1)+ZT*F_DEF(I,6) + ONE
-                 USERBUF%FPSYY(I) = F_DEF(I,2)+ZT*F_DEF(I,7) + ONE
-                 USERBUF%FPSXY(I) = F_DEF(I,3)+ZT*F_DEF(I,8) 
-                 USERBUF%FPSYX(I) = F_DEF(I,4)+ZT*F_DEF(I,5) 
-                 USERBUF%FPSZZ(I) = THKN(I)/GBUF%THK_I(I)
-                END DO
-                IF (IGTYP /= 1 .AND.IGTYP /= 16) THEN
-                 CALL ROTOS4(JFT,JLT,USERBUF%FPSXX,USERBUF%FPSYY,
-     +                       USERBUF%FPSXY,USERBUF%FPSYX,DIR_A(JDIR),NEL)
-                END IF
-              ELSE            
-                 USERBUF%FPSXX = ZERO
-                 USERBUF%FPSYY = ZERO
-                 USERBUF%FPSXY = ZERO
-                 USERBUF%FPSYX = ZERO
-                 USERBUF%FPSZZ = ZERO
-              END IF
-C                
-              USERBUF%DEPSXX = DEPSXX
-              USERBUF%DEPSYY = DEPSYY
-              USERBUF%DEPSXY = DEPSXY
-              USERBUF%DEPSYZ = DEPSYZ           
-              USERBUF%DEPSZX = DEPSZX                     
-C
-              USERBUF%THKLYL = THKLYL          
-              USERBUF%THKN   = THKN
-              USERBUF%TEMP   = EL_TEMP
-c
-              USERBUF%SIGNXX = SIGNXX
-              USERBUF%SIGNYY = SIGNYY
-              USERBUF%SIGNXY = SIGNXY
-              USERBUF%SIGNYZ = SIGNYZ
-              USERBUF%SIGNZX = SIGNZX
-c
-              USERBUF%SIGVXX = SIGVXX
-              USERBUF%SIGVYY = SIGVYY
-              USERBUF%SIGVXY = SIGVXY
-              USERBUF%SIGVYZ = SIGVYZ
-              USERBUF%SIGVZX = SIGVZX
-           
-              USERBUF%DPLA = DPLA                  
-C                   
-!              CALL SIGEPS99C(
-!     1        JLT       ,NUPARAM       ,NUVAR   ,ILAW_USER ,NFUNC   ,
-!     2        IFUNC     ,NPF           ,NGL     ,TF        ,TT      ,
-!     3        DT1C      ,UPARAM        ,RHO     ,AREA      ,EINT_LOC,
-!     4        SHF       ,SSP           ,VISCMX  ,COPY_PLA  ,UVAR    ,
-!     5        OFF       ,SIGY          ,USERBUF ,IUSER_KEY)
 !!!
               ! ----------------
               ! ERROR to be printed & exit
@@ -1082,22 +950,6 @@ C
                 CALL ARRET(2)
               ! ----------------
 !!!
-C
-              SIGNXX = USERBUF%SIGNXX
-              SIGNYY = USERBUF%SIGNYY
-              SIGNXY = USERBUF%SIGNXY
-              SIGNYZ = USERBUF%SIGNYZ 
-              SIGNZX = USERBUF%SIGNZX
-C               
-              SIGVXX = USERBUF%SIGVXX
-              SIGVYY = USERBUF%SIGVYY
-              SIGVXY = USERBUF%SIGVXY
-              SIGVYZ = USERBUF%SIGVYZ 
-              SIGVZX = USERBUF%SIGVZX 
-              DPLA   = USERBUF%DPLA
-              ETSE   = USERBUF%ETSE
-              THKN   = USERBUF%THKN
-              IF (JTHE == 0) EL_TEMP = USERBUF%TEMP ! otherwise it's read only in user law
             ENDIF
 c
 ! EINT_LOC REPOPY IN EINT (Buffer)

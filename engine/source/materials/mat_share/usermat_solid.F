@@ -82,7 +82,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    fail_puck_s_mod             ../engine/source/materials/fail/puck/fail_puck_s.F90
 !||    fail_spalling_s_mod         ../engine/source/materials/fail/spalling/fail_spalling_s.F90
 !||    glob_therm_mod              ../common_source/modules/mat_elem/glob_therm_mod.F90
-!||    law_userso                  ../engine/source/user_interface/law_userso.F
 !||    mat_elem_mod                ../common_source/modules/mat_elem/mat_elem_mod.F90
 !||    matparam_def_mod            ../common_source/modules/mat_elem/matparam_def_mod.F90
 !||    message_mod                 ../engine/share/message_module/message_mod.F
@@ -134,8 +133,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE MVSIZ_MOD, ONLY: MVSIZ
       USE NAMES_AND_TITLES_MOD, ONLY: NCHARLINE100
-      USE LAW_USERSO
       USE TABLE_MOD
       USE MAT_ELEM_MOD   
       USE MATPARAM_DEF_MOD
@@ -261,7 +260,6 @@ C----
      .                                   YLDFAC,DAM,EL_LEN,EL_PLA,DAMINI
       my_real, DIMENSION(MVSIZ)       :: EL_BFRAC,EL_TB
       INTEGER :: SIZBFRAC,SIZTB
-      TYPE(ULAWINTBUF)                :: USERBUF
       TYPE(L_BUFEL_)  ,POINTER        :: LBUF, LBUF1, LBUF2    
       TYPE(G_BUFEL_)  ,POINTER        :: GBUF     
       TYPE (FAIL_PARAM_), POINTER     :: FAILPARAM
