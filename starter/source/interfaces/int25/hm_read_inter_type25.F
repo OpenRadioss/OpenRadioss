@@ -371,6 +371,9 @@ C
         IF(IGAP==2) THEN
            FLAGREMNOD = 2
         ENDIF
+        IF(IGAP==5) THEN
+           FLAGREMNOD = 2
+        ENDIF
         IF (FLAGREMNOD == 0) FLAGREMNOD = 1
 
 C.....* Storage IPARI FRIGAP *........
