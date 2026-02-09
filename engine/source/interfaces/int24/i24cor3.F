@@ -978,9 +978,10 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I ,J  ,L, NN, IG,JFT, IX,  NI
       my_real
-     .   STIF_S,STIF_R(MVSIZ),F_PFIT,FA,FB,FAB
+     .   STIF_S,STIF_R(MVSIZ),F_PFIT,FA,FB,FAB,R_MIN
 C-----------------------------------------------
 C--- fixing min(stif) with Inacti=-1
+      R_MIN = ONE
       IF (INACTI==-1)THEN
          DO I=1,JLT
           L  = CAND_E(I)
@@ -993,6 +994,7 @@ C--- fixing min(stif) with Inacti=-1
           END IF
           STIF(I) = MIN(STIF_S,STF(L))
           STIF_R(I) = STIF(I)/MAX(STIF_S,STF(L))
+          R_MIN = MIN(R_MIN,STIF_R(I))
           IF(IGSTI==2) STIF(I) = HALF*(STIF_S+STF(L)) !option Inacti=-2
          ENDDO
       ELSEIF (IGSTI==-1)THEN
@@ -1013,14 +1015,12 @@ C--- fixing min(stif) with Inacti=-1
          FA = MIN(ONE,THREE*TNCY)
          FAB= MAX(ZERO,THREE*TNCY-ONE)
          FB = MAX(ZERO,THREE*TNCY-TWO)
-         F_PFIT = EM04*(FA+FAB)+FB
-         DO I=1,JLT
-           IF (STIF_R(I)>ZEP05) THEN
-             STIF(I)=TWENTY*F_PFIT*STIF(I)
-           ELSE
-             STIF(I)=F_PFIT*STIF(I)
-           END IF
-         ENDDO
+         IF (IGSTI==2.AND.R_MIN>ZEP05) THEN
+           F_PFIT = EM04*FA+EM02*FAB+FB
+         ELSE
+           F_PFIT = EM04*(FA+FAB)+FB
+         END IF
+         STIF(1:JLT)=F_PFIT*STIF(1:JLT)
          IF (FB >ZERO.AND.IGSTI/=2) THEN 
            DO I=1,JLT
              IF (STIF_R(I)<ZEP05) IKNON(I) = 1 
