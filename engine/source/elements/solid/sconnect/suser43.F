@@ -44,7 +44,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    stoptime                  ../engine/source/system/timer_mod.F90
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod              ../common_source/modules/mat_elem/elbufdef_mod.F90
-!||    law_userso                ../engine/source/user_interface/law_userso.F
 !||    mat_elem_mod              ../common_source/modules/mat_elem/mat_elem_mod.F90
 !||    sigeps169_connect_mod     ../engine/source/materials/mat/mat169/sigeps169_connect.F90
 !||    table_mod                 ../engine/share/modules/table_mod.F
@@ -74,9 +73,9 @@ C-----------------------------------------------
       USE TIMER_MOD
       USE TABLE_MOD
       USE MAT_ELEM_MOD            
-      USE LAW_USERSO
       USE SIGEPS169_CONNECT_MOD
       USE ELBUFDEF_MOD
+      use MVSIZ_MOD,only : MVSIZ
 C-------------------------------------------------------------------------
 C     This subroutine compute user 8 nodes solids forces and moments.
 C----------+---------+---+---+--------------------------------------------
