@@ -13,6 +13,9 @@ project (Radioss_Starter)
 # --------------------------
 if (arch STREQUAL "win64")
    set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+   set(PYTHON_EXEC "python")
+else()
+   set(PYTHON_EXEC "python3")
 endif()
 
 # Language settings & Compiler Settings
@@ -185,7 +188,7 @@ message (" dir : ${Build_includes_directory} added")
 # Load external libraries
 add_custom_target(
     extlib ALL
-    COMMAND python ${source_directory}/../Compiling_tools/script/load_extlib.py
+    COMMAND ${PYTHON_EXEC} ${source_directory}/../Compiling_tools/script/load_extlib.py
     COMMENT "Loading extlib libraries"
 )
 
@@ -194,9 +197,9 @@ add_custom_command(
          OUTPUT 
             ${Build_includes_directory}/starter_message_description.inc
          COMMAND 
-            python ${source_directory}/../Compiling_tools/script/merge_files.py -file1=${source_directory}/source/output/message/starter_message_description.txt -file2=${source_directory}/../hm_cfg_files/messages/CONFIG/msg_hw_radioss_reader.txt -outfile=${Build_includes_directory}/fullstarter_message_description.txt
+            ${PYTHON_EXEC} ${source_directory}/../Compiling_tools/script/merge_files.py -file1=${source_directory}/source/output/message/starter_message_description.txt -file2=${source_directory}/../hm_cfg_files/messages/CONFIG/msg_hw_radioss_reader.txt -outfile=${Build_includes_directory}/fullstarter_message_description.txt
          COMMAND
-            python ${source_directory}/../Compiling_tools/script/build_message.py -inputfile=${Build_includes_directory}/fullstarter_message_description.txt -outfile=${Build_includes_directory}/starter_message_description.inc
+            ${PYTHON_EXEC} ${source_directory}/../Compiling_tools/script/build_message.py -inputfile=${Build_includes_directory}/fullstarter_message_description.txt -outfile=${Build_includes_directory}/starter_message_description.inc
          DEPENDS 
               ${source_directory}/source/output/message/starter_message_description.txt ${source_directory}/../hm_cfg_files/messages/CONFIG/msg_hw_radioss_reader.txt
          )
@@ -209,7 +212,7 @@ add_custom_command(
          ${Build_includes_directory}/__foo.inc
          ${Build_includes_directory}/build_info.inc
          COMMAND
-            python ${source_directory}/../Compiling_tools/script/or_build_info.py -arch=${arch} -outfile=${Build_includes_directory}/build_info.inc
+            ${PYTHON_EXEC} ${source_directory}/../Compiling_tools/script/or_build_info.py -arch=${arch} -outfile=${Build_includes_directory}/build_info.inc
          DEPENDS 
          )
 else()
@@ -219,7 +222,7 @@ add_custom_command(
             ${Build_includes_directory}/__foo.inc 
             ${Build_includes_directory}/build_info.inc
          COMMAND 
-            python ${source_directory}/../Compiling_tools/script/build_info.py -version=${version} -titlevers=${titlevers} -arch=${arch} -solver=S -outfile=${Build_includes_directory}/build_info.inc
+            ${PYTHON_EXEC} ${source_directory}/../Compiling_tools/script/build_info.py -version=${version} -titlevers=${titlevers} -arch=${arch} -solver=S -outfile=${Build_includes_directory}/build_info.inc
          DEPENDS 
          )
 endif()
