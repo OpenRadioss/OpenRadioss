@@ -4,6 +4,12 @@ cmake_minimum_required (VERSION 3.15)
 project (solver_interface)
 enable_language (CXX)
 
+if (arch STREQUAL "win64")
+   set(PYTHON_EXEC "python")
+else()
+   set(PYTHON_EXEC "python3")
+endif()
+
 set (library_name "solver_interface_${arch}" )
 
 #set source directory
@@ -39,7 +45,7 @@ list (APPEND include_dir_list ${Build_includes_directory} )
 
 add_custom_target(    
             chglt_id ALL
-            COMMAND python ${open_reader_root_dir}/../Compiling_tools/script/reader_info.py -outfile=${Build_includes_directory}/chglt_id.h
+            COMMAND ${PYTHON_EXEC} ${open_reader_root_dir}/../Compiling_tools/script/reader_info.py -outfile=${Build_includes_directory}/chglt_id.h
 )
 
 
@@ -75,7 +81,7 @@ add_dependencies(${library_name}  chglt_id)
 
 add_custom_command(TARGET ${library_name}
                    PRE_BUILD
-                   COMMAND python ${open_reader_root_dir}/../Compiling_tools/script/reader_info.py -outfile=${Build_includes_directory}/chglt_id.h
+                   COMMAND ${PYTHON_EXEC} ${open_reader_root_dir}/../Compiling_tools/script/reader_info.py -outfile=${Build_includes_directory}/chglt_id.h
                    )
 
 
