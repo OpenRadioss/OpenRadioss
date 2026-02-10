@@ -58,6 +58,7 @@ namespace sdiD2R
         ConvertUtils p_ConvertUtils;
         Units p_CurrentUnitSyst;
         std::map<unsigned int, std::map<unsigned int, sdi::HandleEdit>> mapMatIdVsMapPropIdNewMatHandle;
+        int m_maxFailId;
 
         void ConvertEntities() override;
 

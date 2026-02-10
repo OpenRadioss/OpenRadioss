@@ -90,6 +90,7 @@ void ConvertMat::ConvertMaterials()
 
 void ConvertMat::ConvertEntities()
 {
+    m_maxFailId = 1;
     p_ConvertAllMatsAssociatedWithParts();
     p_ConvertMatAddErosion();
     p_ConvertMatAddDamageDiem();
@@ -1036,6 +1037,7 @@ void ConvertMat::p_ConvertMatL15(const EntityRead& dynaMat, sdiString& destCard,
         {
             p_radiossModel->CreateEntity(failGene1HEdit, "/FAIL/GENE1", dynaMatName);
             failGene1HEdit.SetValue(p_radiossModel, sdiIdentifier("ID_CARD_EXIST"), sdiValue(true));
+            failGene1HEdit.SetId(p_radiossModel, m_maxFailId++);
             if (failGene1HEdit.IsValid())
             {
                 failGene1HEdit.SetEntityHandle(p_radiossModel, sdiIdentifier("mat_id"), radMat);
@@ -1054,6 +1056,7 @@ void ConvertMat::p_ConvertMatL15(const EntityRead& dynaMat, sdiString& destCard,
         HandleEdit failEdit;
         p_radiossModel->CreateEntity(failEdit, "/FAIL/JOHNSON", dynaMatName);
         failEdit.SetValue(p_radiossModel, sdiIdentifier("ID_CARD_EXIST"), sdiValue(true));
+        failEdit.SetId(p_radiossModel, m_maxFailId++);
         if (failEdit.IsValid())
         {
             failEdit.SetEntityHandle(p_radiossModel, sdiIdentifier("mat_id"), radMat);
@@ -1128,6 +1131,7 @@ void ConvertMat::p_ConvertMatL15EOS(const EntityRead& dynaMat, sdiString& destCa
         HandleEdit failEdit;
         p_radiossModel->CreateEntity(failEdit, "/FAIL/JOHNSON", dynaMatName);
         failEdit.SetValue(p_radiossModel, sdiIdentifier("ID_CARD_EXIST"), sdiValue(true));
+        failEdit.SetId(p_radiossModel, m_maxFailId++);
         if (failEdit.IsValid())
         {
             failEdit.SetEntityHandle(p_radiossModel, sdiIdentifier("mat_id"), radMat);
@@ -1187,6 +1191,7 @@ void ConvertMat::p_ConvertMatL18(const sdi::EntityRead& dynaMat, sdiString& dest
     {
         p_radiossModel->CreateEntity(failJohnsonEdit, "/FAIL/JOHNSON", dynaMatName);
         failJohnsonEdit.SetValue(p_radiossModel, sdiIdentifier("ID_CARD_EXIST"), sdiValue(true));
+        failJohnsonEdit.SetId(p_radiossModel, m_maxFailId++);
 
         failJohnsonEdit.SetEntityHandle(p_radiossModel, sdiIdentifier("mat_id"), radMat);
         failJohnsonEdit.SetValue(p_radiossModel, sdiIdentifier("D1"), sdiValue(lsdEPSF));
@@ -1479,7 +1484,8 @@ void ConvertMat::p_ConvertMatL24(const EntityRead& dynaMat,sdiString& destCard, 
             if (lsdFAIL > 0.0 && matLawNum == 24)
             {
                 p_radiossModel->CreateEntity(failJohnsonHEdit, "/FAIL/JOHNSON", dynaMatName);
-                //failJohnsonHEdit.SetValue(p_radiossModel, sdiIdentifier("ID_CARD_EXIST"), sdiValue(true));
+                failJohnsonHEdit.SetValue(p_radiossModel, sdiIdentifier("ID_CARD_EXIST"), sdiValue(true));
+                failJohnsonHEdit.SetId(p_radiossModel, m_maxFailId++);
                 EntityEdit failJohnsonEntEdit(p_radiossModel, failJohnsonHEdit);
                 failJohnsonEntEdit.SetEntityHandle(sdiIdentifier("mat_id"), radMat);
                 p_ConvertUtils.CopyValue(dynaMat, failJohnsonEntEdit, "FAIL", "D1");
@@ -1523,7 +1529,8 @@ void ConvertMat::p_ConvertMatL24(const EntityRead& dynaMat,sdiString& destCard, 
         if (lsdFAIL > 0.0 && matLawNum == 24)
         {
             p_radiossModel->CreateEntity(failJohnsonHEdit, "/FAIL/JOHNSON", dynaMatName);
-            //failJohnsonHEdit.SetValue(p_radiossModel, sdiIdentifier("ID_CARD_EXIST"), sdiValue(true));
+            failJohnsonHEdit.SetValue(p_radiossModel, sdiIdentifier("ID_CARD_EXIST"), sdiValue(true));
+            failJohnsonHEdit.SetId(p_radiossModel, m_maxFailId++);
             EntityEdit failJohnsonEntEdit(p_radiossModel, failJohnsonHEdit);
             failJohnsonEntEdit.SetEntityHandle(sdiIdentifier("mat_id"), radMat);
             p_ConvertUtils.CopyValue(dynaMat, failJohnsonEntEdit, "FAIL", "D1");
@@ -1602,7 +1609,8 @@ void ConvertMat::p_ConvertMatL24(const EntityRead& dynaMat,sdiString& destCard, 
                     if (lsdFAIL > 0.0 && matLawNum == 24)
                     {
                          p_radiossModel->CreateEntity(failJohnsonHEdit, "/FAIL/JOHNSON", dynaMatName);
-                         //failJohnsonHEdit.SetValue(p_radiossModel, sdiIdentifier("ID_CARD_EXIST"), sdiValue(true));
+                         failJohnsonHEdit.SetValue(p_radiossModel, sdiIdentifier("ID_CARD_EXIST"), sdiValue(true));
+                         failJohnsonHEdit.SetId(p_radiossModel, m_maxFailId++);
                          EntityEdit failJohnsonEntEdit(p_radiossModel, failJohnsonHEdit);
                          failJohnsonEntEdit.SetEntityHandle(sdiIdentifier("mat_id"), radMat);
                          p_ConvertUtils.CopyValue(dynaMat, failJohnsonEntEdit, "FAIL", "D1");
@@ -1672,7 +1680,8 @@ void ConvertMat::p_ConvertMatL24(const EntityRead& dynaMat,sdiString& destCard, 
             if (lsdFAIL > 0.0 && matLawNum == 24)
             {
                 p_radiossModel->CreateEntity(failJohnsonHEdit, "/FAIL/JOHNSON", dynaMatName);
-                //failJohnsonHEdit.SetValue(p_radiossModel, sdiIdentifier("ID_CARD_EXIST"), sdiValue(true));
+                failJohnsonHEdit.SetValue(p_radiossModel, sdiIdentifier("ID_CARD_EXIST"), sdiValue(true));
+                failJohnsonHEdit.SetId(p_radiossModel, m_maxFailId++);
                 EntityEdit failJohnsonEntEdit(p_radiossModel, failJohnsonHEdit);
                 failJohnsonEntEdit.SetEntityHandle(sdiIdentifier("mat_id"), radMat);
                 p_ConvertUtils.CopyValue(dynaMat, failJohnsonEntEdit, "FAIL", "D1");
@@ -1705,7 +1714,8 @@ void ConvertMat::p_ConvertMatL24(const EntityRead& dynaMat,sdiString& destCard, 
             if (lsdFAIL > 0.0 && matLawNum == 24)
             {
                 p_radiossModel->CreateEntity(failJohnsonHEdit, "/FAIL/JOHNSON", dynaMatName);
-                //failJohnsonHEdit.SetValue(p_radiossModel, sdiIdentifier("ID_CARD_EXIST"), sdiValue(true));
+                failJohnsonHEdit.SetValue(p_radiossModel, sdiIdentifier("ID_CARD_EXIST"), sdiValue(true));
+                failJohnsonHEdit.SetId(p_radiossModel, m_maxFailId++);
                 EntityEdit failJohnsonEntEdit(p_radiossModel, failJohnsonHEdit);
                 failJohnsonEntEdit.SetEntityHandle(sdiIdentifier("mat_id"), radMat);
                 p_ConvertUtils.CopyValue(dynaMat, failJohnsonEntEdit, "FAIL", "D1");
@@ -4746,6 +4756,7 @@ void ConvertMat::p_ConvertMatL81(const sdi::EntityRead& dynaMat, sdiString& dest
         {
             p_radiossModel->CreateEntity(failTab1Edit, "/FAIL/TAB1", matName);
             failTab1Edit.SetValue(p_radiossModel, sdiIdentifier("ID_CARD_EXIST"), sdiValue(true));
+            failTab1Edit.SetId(p_radiossModel, m_maxFailId++);
         }
 
         EntityEdit failTab1EntEdit(p_radiossModel, failTab1Edit);
@@ -4769,6 +4780,7 @@ void ConvertMat::p_ConvertMatL81(const sdi::EntityRead& dynaMat, sdiString& dest
         {
             p_radiossModel->CreateEntity(failTab1Edit, "/FAIL/TAB1", matName);
             failTab1Edit.SetValue(p_radiossModel, sdiIdentifier("ID_CARD_EXIST"), sdiValue(true));
+            failTab1Edit.SetId(p_radiossModel, m_maxFailId++);
         }
 
         EntityEdit failTab1EntEdit(p_radiossModel, failTab1Edit);
@@ -5482,6 +5494,7 @@ void ConvertMat::p_ConvertMatL99(const EntityRead& dynaMat, sdiString& destCard,
         {
             p_radiossModel->CreateEntity(failFldEdit, "/FAIL/FLD", dynaMatName);
             failFldEdit.SetValue(p_radiossModel, sdiIdentifier("ID_CARD_EXIST"), sdiValue(true));
+            failFldEdit.SetId(p_radiossModel, m_maxFailId++);
 
             double ordinateVal = lsdPSFAIL + (lsdA / lsdE);
 
@@ -5613,6 +5626,7 @@ void ConvertMat::p_ConvertMatL100(const EntityRead& dynaMat,sdiString& destCard,
         HandleEdit failHandlEdit;
         p_radiossModel->CreateEntity(failHandlEdit, "/FAIL/CONNECT", dynaMatName);
         failHandlEdit.SetValue(p_radiossModel, sdiIdentifier("ID_CARD_EXIST"), sdiValue(true));
+        failHandlEdit.SetId(p_radiossModel, m_maxFailId++);
         failHandlEdit.SetValue(p_radiossModel, sdiIdentifier("EPSILON_MAXN"), sdiValue(lsdEFAIL));
         failHandlEdit.SetValue(p_radiossModel, sdiIdentifier("EPSILON_MAXT"), sdiValue(lsdEFAIL));
         failHandlEdit.SetValue(p_radiossModel, sdiIdentifier("mat_id"), sdiValue(sdiValueEntity(destEntityType, createdRadiossMatId)));
@@ -6181,6 +6195,7 @@ void ConvertMat::p_ConvertMatL123(const EntityRead& dynaMat, sdiString& destCard
 
         p_radiossModel->CreateEntity(failTab1Edit, "/FAIL/TAB1", matName);
         failTab1Edit.SetValue(p_radiossModel, sdiIdentifier("ID_CARD_EXIST"), sdiValue(true));
+        failTab1Edit.SetId(p_radiossModel, m_maxFailId++);
         if (failTab1Edit.IsValid())
         {
             EntityEdit failTab1EntEdit(p_radiossModel, failTab1Edit);
@@ -6211,6 +6226,7 @@ void ConvertMat::p_ConvertMatL123(const EntityRead& dynaMat, sdiString& destCard
         lsdEPSMAJ = abs(lsdEPSMAJ);
         p_radiossModel->CreateEntity(failFldEdit, "/FAIL/FLD", matName);
         failFldEdit.SetValue(p_radiossModel, sdiIdentifier("ID_CARD_EXIST"), sdiValue(true));
+        failFldEdit.SetId(p_radiossModel, m_maxFailId++);
         if (failFldEdit.IsValid())
         {
             failFldEdit.SetValue(p_radiossModel, sdiIdentifier("IFAIL_SH"), sdiValue(2));
@@ -6879,6 +6895,7 @@ void ConvertMat::p_ConvertMatAddErosion()
                 {
                     p_radiossModel->CreateEntity(failGene1HEdit, "/FAIL/GENE1", matAddErosionName);
                     failGene1HEdit.SetValue(p_radiossModel, sdiIdentifier("ID_CARD_EXIST"), sdiValue(true));
+                    failGene1HEdit.SetId(p_radiossModel, m_maxFailId++);
 
                     EntityEdit failGene1Edit(p_radiossModel, failGene1HEdit);
                     p_ConvertUtils.CopyValue(*selMatAddErosion, failGene1Edit, "MXPRES", "Pmax");
@@ -7133,8 +7150,9 @@ void ConvertMat::p_ConvertMatAddErosion()
                 if (!faiTab2HEdit.IsValid())
                 {
 //---------------------
-                    p_radiossModel->CreateEntity(faiTab2HEdit, "/FAIL/TAB2", matAddErosionName);
+                    p_radiossModel->CreateEntity(faiTab2HEdit, "/FAIL/TAB2", matAddErosionName,lsdMIDEntity.GetId());
                     faiTab2HEdit.SetValue(p_radiossModel, sdiIdentifier("ID_CARD_EXIST"), sdiValue(true));
+                    faiTab2HEdit.SetId(p_radiossModel, m_maxFailId++);
 
                     EntityEdit faiTab2Edit(p_radiossModel, faiTab2HEdit);
 
@@ -7343,6 +7361,7 @@ void ConvertMat::p_ConvertMatAddErosion()
 
                     p_radiossModel->CreateEntity(failInievoHEdit, "/FAIL/INIEVO", matAddErosionName,radMatConvertedHandles[i].GetId(p_radiossModel));
                     failInievoHEdit.SetValue(p_radiossModel, sdiIdentifier("ID_CARD_EXIST"), sdiValue(true));
+                    failInievoHEdit.SetId(p_radiossModel, m_maxFailId++);
 
                     EntityEdit failInievoEdit(p_radiossModel, failInievoHEdit);
 
@@ -7734,8 +7753,9 @@ void ConvertMat::p_ConvertMatAddErosion()
                 if (!faiTab2HEdit.IsValid())
                 {
 //---------------------
-                    p_radiossModel->CreateEntity(faiTab2HEdit, "/FAIL/TAB2", matAddErosionName);
+                    p_radiossModel->CreateEntity(faiTab2HEdit, "/FAIL/TAB2", matAddErosionName,lsdMIDEntity.GetId());
                     faiTab2HEdit.SetValue(p_radiossModel, sdiIdentifier("ID_CARD_EXIST"), sdiValue(true));
+                    faiTab2HEdit.SetId(p_radiossModel, m_maxFailId++);
 
                     EntityEdit faiTab2Edit(p_radiossModel, faiTab2HEdit);
 
@@ -7930,6 +7950,7 @@ void ConvertMat::p_ConvertMatAddErosion()
                 {
                     p_radiossModel->CreateEntity(failGene1HEdit, "/FAIL/GENE1", matAddErosionName);
                     failGene1HEdit.SetValue(p_radiossModel, sdiIdentifier("ID_CARD_EXIST"), sdiValue(true));
+                    failGene1HEdit.SetId(p_radiossModel, m_maxFailId++);
 
                     EntityEdit failGene1Edit(p_radiossModel, failGene1HEdit);
                     p_ConvertUtils.CopyValue(*selMatAddErosion, failGene1Edit, "MXPRES", "Pmax");
@@ -8199,6 +8220,7 @@ void ConvertMat::p_ConvertMatAddErosion()
 
                     p_radiossModel->CreateEntity(failInievoHEdit, "/FAIL/INIEVO", matAddErosionName,radMatConvertedHandles[i].GetId(p_radiossModel));
                     failInievoHEdit.SetValue(p_radiossModel, sdiIdentifier("ID_CARD_EXIST"), sdiValue(true));
+                    failInievoHEdit.SetId(p_radiossModel, m_maxFailId++);
 
                     EntityEdit failInievoEdit(p_radiossModel, failInievoHEdit);
 
@@ -8585,6 +8607,7 @@ void ConvertMat::p_ConvertMatAddErosion()
                 {
                     p_radiossModel->CreateEntity(failGene1HEdit, "/FAIL/GENE1", matAddErosionName);
                     failGene1HEdit.SetValue(p_radiossModel, sdiIdentifier("ID_CARD_EXIST"), sdiValue(true));
+                    failGene1HEdit.SetId(p_radiossModel, m_maxFailId++);
 
                     EntityEdit failGene1Edit(p_radiossModel, failGene1HEdit);
                     p_ConvertUtils.CopyValue(*selMatAddErosion, failGene1Edit, "MXPRES", "Pmax");
@@ -10019,6 +10042,7 @@ void ConvertMat::p_ConvertMatL124(const EntityRead& dynaMat, sdiString& destCard
         HandleEdit failJohnsonHEdit;
         p_radiossModel->CreateEntity(failJohnsonHEdit, "/FAIL/JOHNSON", dynaMatName, radMatId);
         failJohnsonHEdit.SetValue(p_radiossModel, sdiIdentifier("ID_CARD_EXIST"), sdiValue(true));
+        failJohnsonHEdit.SetId(p_radiossModel, m_maxFailId++);
         if (failJohnsonHEdit.IsValid())
         {
 
@@ -10055,6 +10079,7 @@ void ConvertMat::p_ConvertMatL124(const EntityRead& dynaMat, sdiString& destCard
           HandleEdit failTensStrainHEdit;
           p_radiossModel->CreateEntity(failTensStrainHEdit, "/FAIL/TENSSTRAIN", dynaMatName, radMatId);
           failTensStrainHEdit.SetValue(p_radiossModel, sdiIdentifier("ID_CARD_EXIST"), sdiValue(true));
+          failTensStrainHEdit.SetId(p_radiossModel, m_maxFailId++);
           if (failTensStrainHEdit.IsValid())
           {
               failTensStrainHEdit.SetEntityHandle(p_radiossModel, sdiIdentifier("mat_id"), radMat);
@@ -10103,6 +10128,7 @@ void ConvertMat::p_ConvertMatAddDamageDiem()
         HandleEdit failInievoHEdit; // /FAIL/INIEVO/ //
         p_radiossModel->CreateEntity(failInievoHEdit, "/FAIL/INIEVO", matAddDamageDiemName,lsdMIDEntity.GetId());
         failInievoHEdit.SetValue(p_radiossModel, sdiIdentifier("ID_CARD_EXIST"), sdiValue(true));
+        failInievoHEdit.SetId(p_radiossModel, m_maxFailId++);
 
         selMatAddDamageDiem->GetEntityHandle(sdiIdentifier("MID"), matHandle);
         sdiConvert::SDIHandlReadList radMatConvertedHandles;
@@ -10673,7 +10699,8 @@ void ConvertMat::p_ConvertMatL105(const EntityRead& dynaMat,sdiString& destCard,
                 if (lsdFAIL > 0.0)
                 {
                     p_radiossModel->CreateEntity(failJohnsonHEdit, "/FAIL/JOHNSON", dynaMatName);
-                    //failJohnsonHEdit.SetValue(p_radiossModel, sdiIdentifier("ID_CARD_EXIST"), sdiValue(true));
+                    failJohnsonHEdit.SetValue(p_radiossModel, sdiIdentifier("ID_CARD_EXIST"), sdiValue(true));
+                    failJohnsonHEdit.SetId(p_radiossModel, m_maxFailId++);
                     EntityEdit failJohnsonEntEdit(p_radiossModel, failJohnsonHEdit);
                     failJohnsonEntEdit.SetEntityHandle(sdiIdentifier("mat_id"), radMat);
                     p_ConvertUtils.CopyValue(dynaMat, failJohnsonEntEdit, "FAIL", "D1");
@@ -10717,7 +10744,8 @@ void ConvertMat::p_ConvertMatL105(const EntityRead& dynaMat,sdiString& destCard,
             if(lsdFAIL > 0.0)
             {
                 p_radiossModel->CreateEntity(failJohnsonHEdit, "/FAIL/JOHNSON", dynaMatName);
-                //failJohnsonHEdit.SetValue(p_radiossModel, sdiIdentifier("ID_CARD_EXIST"), sdiValue(true));
+                failJohnsonHEdit.SetValue(p_radiossModel, sdiIdentifier("ID_CARD_EXIST"), sdiValue(true));
+                failJohnsonHEdit.SetId(p_radiossModel, m_maxFailId++);
                 EntityEdit failJohnsonEntEdit(p_radiossModel, failJohnsonHEdit);
                 failJohnsonEntEdit.SetEntityHandle(sdiIdentifier("mat_id"), radMat);
                 p_ConvertUtils.CopyValue(dynaMat, failJohnsonEntEdit, "FAIL", "D1");
@@ -10795,7 +10823,8 @@ void ConvertMat::p_ConvertMatL105(const EntityRead& dynaMat,sdiString& destCard,
                         if(lsdFAIL > 0.0)
                         {
                             p_radiossModel->CreateEntity(failJohnsonHEdit, "/FAIL/JOHNSON", dynaMatName);
-                            //failJohnsonHEdit.SetValue(p_radiossModel, sdiIdentifier("ID_CARD_EXIST"), sdiValue(true));
+                            failJohnsonHEdit.SetValue(p_radiossModel, sdiIdentifier("ID_CARD_EXIST"), sdiValue(true));
+                            failJohnsonHEdit.SetId(p_radiossModel, m_maxFailId++);
                             EntityEdit failJohnsonEntEdit(p_radiossModel, failJohnsonHEdit);
                             failJohnsonEntEdit.SetEntityHandle(sdiIdentifier("mat_id"), radMat);
                             p_ConvertUtils.CopyValue(dynaMat, failJohnsonEntEdit, "FAIL", "D1");
@@ -10866,7 +10895,8 @@ void ConvertMat::p_ConvertMatL105(const EntityRead& dynaMat,sdiString& destCard,
                 if(lsdFAIL > 0.0)               
                 {
                      p_radiossModel->CreateEntity(failJohnsonHEdit, "/FAIL/JOHNSON", dynaMatName);
-                    //failJohnsonHEdit.SetValue(p_radiossModel, sdiIdentifier("ID_CARD_EXIST"), sdiValue(true));
+                    failJohnsonHEdit.SetValue(p_radiossModel, sdiIdentifier("ID_CARD_EXIST"), sdiValue(true));
+                    failJohnsonHEdit.SetId(p_radiossModel, m_maxFailId++);
                     EntityEdit failJohnsonEntEdit(p_radiossModel, failJohnsonHEdit);
                     failJohnsonEntEdit.SetEntityHandle(sdiIdentifier("mat_id"), radMat);
                     p_ConvertUtils.CopyValue(dynaMat, failJohnsonEntEdit, "FAIL", "D1");
@@ -10898,7 +10928,8 @@ void ConvertMat::p_ConvertMatL105(const EntityRead& dynaMat,sdiString& destCard,
                 if (lsdFAIL > 0.0)
                 {
                     p_radiossModel->CreateEntity(failJohnsonHEdit, "/FAIL/JOHNSON", dynaMatName);
-                    //failJohnsonHEdit.SetValue(p_radiossModel, sdiIdentifier("ID_CARD_EXIST"), sdiValue(true));
+                    failJohnsonHEdit.SetValue(p_radiossModel, sdiIdentifier("ID_CARD_EXIST"), sdiValue(true));
+                    failJohnsonHEdit.SetId(p_radiossModel, m_maxFailId++);
                     EntityEdit failJohnsonEntEdit(p_radiossModel, failJohnsonHEdit);
                     failJohnsonEntEdit.SetEntityHandle(sdiIdentifier("mat_id"), radMat);
                     p_ConvertUtils.CopyValue(dynaMat, failJohnsonEntEdit, "FAIL", "D1");
@@ -11327,8 +11358,9 @@ void ConvertMat::p_ConvertMatL224(const EntityRead& dynaMat, sdiString& destCard
 
     HandleEdit faiTab2HEdit;
 
-    p_radiossModel->CreateEntity(faiTab2HEdit, "/FAIL/TAB2", dynaMatName);
+    p_radiossModel->CreateEntity(faiTab2HEdit, "/FAIL/TAB2", dynaMatName,radmatEntityEdit.GetId());
     faiTab2HEdit.SetValue(p_radiossModel, sdiIdentifier("ID_CARD_EXIST"), sdiValue(true));
+    faiTab2HEdit.SetId(p_radiossModel, m_maxFailId++);
 
     EntityEdit faiTab2Edit(p_radiossModel, faiTab2HEdit);
 
@@ -11998,6 +12030,7 @@ void ConvertMat::p_ConvertMatL187(const EntityRead& dynaMat, sdiString& destCard
 
                 p_radiossModel->CreateEntity(faiTab2HEdit, "/FAIL/TAB2", dynaMatName);
                 faiTab2HEdit.SetValue(p_radiossModel, sdiIdentifier("ID_CARD_EXIST"), sdiValue(true));
+                faiTab2HEdit.SetId(p_radiossModel, m_maxFailId++);
 
                 EntityEdit faiTab2Edit(p_radiossModel, faiTab2HEdit);
 
@@ -12037,6 +12070,7 @@ void ConvertMat::p_ConvertMatL187(const EntityRead& dynaMat, sdiString& destCard
 
                 p_radiossModel->CreateEntity(failtensstrainHEdit, "/FAIL/TENSSTRAIN", dynaMatName);
                 failtensstrainHEdit.SetValue(p_radiossModel, sdiIdentifier("ID_CARD_EXIST"), sdiValue(true));
+                failtensstrainHEdit.SetId(p_radiossModel, m_maxFailId++);
 
                 EntityEdit failtensstrainEdit(p_radiossModel, failtensstrainHEdit);
 
@@ -12223,7 +12257,7 @@ void ConvertMat::p_ConvertMatAddThermalExpansion()
 
                     EntityEdit thermStressEdit(p_radiossModel, thermStressHEdit);
                     thermStressHEdit.SetValue(p_radiossModel, sdiIdentifier("ID_CARD_EXIST"), sdiValue(true));
-                                 
+
                     p_ConvertUtils.CopyValue(*selMatAddThermalExpansion, thermStressEdit, "MULT", "Fscale_x");
                     p_ConvertUtils.CopyValue(*selMatAddThermalExpansion, thermStressEdit, "MULTY", "Fscale_y");
                     p_ConvertUtils.CopyValue(*selMatAddThermalExpansion, thermStressEdit, "MULTZ", "Fscale_z");
@@ -12263,6 +12297,7 @@ void ConvertMat::p_ConvertMatAddDamageGissmo()
         HandleEdit failTAB2HEdit;
         p_radiossModel->CreateEntity(failTAB2HEdit, "/FAIL/TAB2", matAddDamageGissmoName,lsdMIDEntity.GetId());
         failTAB2HEdit.SetValue(p_radiossModel, sdiIdentifier("ID_CARD_EXIST"), sdiValue(true));
+        failTAB2HEdit.SetId(p_radiossModel, m_maxFailId++);
         EntityEdit failTAB2Edit(p_radiossModel, failTAB2HEdit);
 
         if(radMatConvertedHandles.size() == 0 ) return;

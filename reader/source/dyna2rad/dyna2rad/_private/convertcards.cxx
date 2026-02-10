@@ -242,7 +242,6 @@ void sdiD2R::ConvertCard::p_ConvertCtrlTimeStep()
             lsdDTMIN = GetValue<double>(*selectCtrlTerm, "DTMIN");
             break;
         }
-        if (lsdDTMIN == 0.0) lsdDTMIN = 1.0; // by default
 
         lsdTSMIN =abs(lsdDT2MS)*lsdDTMIN;
         if (lsdTSMIN > 0.0)
