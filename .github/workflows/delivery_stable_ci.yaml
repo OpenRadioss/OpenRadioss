@@ -106,6 +106,9 @@ jobs:
     container: 
       # Registry variable can't be a secret but can be a simple variable defined at organization level
       image: "${{ vars.DOCKER_REGISTRY }}/${{ matrix.image_name }}"
+      credentials: 
+        username: ${{ secrets.DOCKER_REGISTRY_USER }}
+        password: ${{ secrets.DOCKER_REGISTRY_PASSWD }}  
       volumes: 
         - /etc/localtime:/etc/localtime:ro
 
@@ -437,6 +440,9 @@ jobs:
     container: 
       # Registry variable can't be a secret but can be a simple variable defined at organization level
       image: "${{ vars.DOCKER_REGISTRY }}/rd-linux64-common:latest"
+      credentials: 
+        username: ${{ secrets.DOCKER_REGISTRY_USER }}
+        password: ${{ secrets.DOCKER_REGISTRY_PASSWD }}  
       volumes: 
          - /etc/localtime:/etc/localtime:ro
          # DEV ONLY # - /github_download_counter_dev:/github_download_counter
