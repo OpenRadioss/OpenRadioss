@@ -25,6 +25,7 @@
 #include <dyna2rad/dyna2rad.h>
 #include <typedef.h>
 #include <dyna2rad/convertelements.h>
+#include <dyna2rad/sdiUtils.h>
 
 using namespace sdi;
 using namespace std;
@@ -39,6 +40,8 @@ void sdiD2R::ConvertInitialStress::ConvertEntities()
     ConvertInitialStressesShell();
 
     ConvertInitialStressesSolid();
+
+    ConvertInitialStressSection();
 }
 
 void sdiD2R::ConvertInitialStress::ConvertInitialStressesShell()
@@ -723,5 +726,167 @@ void sdiD2R::ConvertInitialStress::ConvertInitialStressesSolid()
           } // for (int i = 0; i < nrows; ++i)
         } // if(inistressHEdit.IsValid())
     //--------------------------------------------
+    } // while
+}
+
+void sdiD2R::ConvertInitialStress::ConvertInitialStressSection()
+{
+    SelectionRead selIniStressSection(p_lsdynaModel, "*INITIAL_STRESS_SECTION");
+
+    EntityType radFunctType = p_radiossModel->GetEntityType("/FUNCT");
+    EntityType radSetType = p_radiossModel->GetEntityType("/SET/GENERAL");
+
+    while (selIniStressSection.Next())
+    {
+        sdiString keyWord = selIniStressSection->GetKeyword();
+        sdiString TITLE = " ";
+        if(keyWord.find("INITIAL_STRESS_SECTION_TITLE") != keyWord.npos)
+        {
+            TITLE = selIniStressSection->GetName();
+        }
+        else
+        {
+            TITLE = "DEFAULT_TITLE_" + to_string(selIniStressSection->GetId());
+        }
+
+        sdiValueEntity lsdCSID = GetValue<sdiValueEntity>(*selIniStressSection, "CSID");
+        unsigned int CSID=lsdCSID.GetId();
+
+        sdiValueEntity lsdLCID = GetValue<sdiValueEntity>(*selIniStressSection, "LCID");
+        unsigned int LCID=lsdLCID.GetId();
+
+        sdiValueEntity lsdPSID = GetValue<sdiValueEntity>(*selIniStressSection, "PSID");
+        unsigned int PSID=lsdPSID.GetId();
+        
+        //----------------------------
+        HandleRead lsdLCIDHandle;
+        selIniStressSection->GetEntityHandle(sdiIdentifier("LCID"), lsdLCIDHandle);
+
+        if (lsdLCIDHandle.IsValid())
+        {
+            sdiValue tempValue,tempSetValue;
+            EntityRead lsdLCIDEntRead(p_lsdynaModel, lsdLCIDHandle);
+
+            int nPnts = 0;
+            sdiDoubleList crvPoints;
+            tempValue = sdiValue(crvPoints);
+            lsdLCIDEntRead.GetValue(sdiIdentifier("points"), tempValue);
+            tempValue.GetValue(crvPoints);
+
+            tempValue = sdiValue(nPnts);
+            lsdLCIDEntRead.GetValue(sdiIdentifier("numberofpoints"), tempValue);
+            tempValue.GetValue(nPnts);
+            crvPoints.reserve(2 * nPnts + 2);
+
+            double radTstop  = 0.0;
+            for (size_t j = 0; j < crvPoints.size(); j += 2)
+            {
+                if(crvPoints[j] > 0.0 && crvPoints[j+1] > 0.0)
+                {
+                    radTstop = crvPoints[j];
+                }
+                else if(radTstop != 0.0 && crvPoints[j] > 0.0 && crvPoints[j+1] == 0.0)
+                {
+                    radTstop = crvPoints[j];
+                    break;
+                }  
+            }
+        
+            HandleEdit radPRELOADHEdit;
+            p_radiossModel->CreateEntity(radPRELOADHEdit, "/PRELOAD", selIniStressSection->GetName(), selIniStressSection->GetId());
+            if(radPRELOADHEdit.IsValid())
+            {
+                EntityEdit radPRELOADEdit(p_radiossModel, radPRELOADHEdit);
+                radPRELOADEdit.SetValue(sdiIdentifier("preload_title"), sdiValue(TITLE));
+                radPRELOADEdit.SetValue(sdiIdentifier("Fct_ID"), sdiValue(sdiValueEntity(radFunctType, LCID)));
+                p_ConvertUtils.CopyValue(*selIniStressSection, radPRELOADEdit, "CSID", "sect_ID");
+                radPRELOADEdit.SetValue(sdiIdentifier("sens_ID"), sdiValue(sdiValueEntity(p_radiossModel->GetEntityType("/SENSOR"), 0)));
+                radPRELOADEdit.SetValue(sdiIdentifier("Itype"), sdiValue(2));
+                radPRELOADEdit.SetValue(sdiIdentifier("Preload"), sdiValue(0.0));
+                radPRELOADEdit.SetValue(sdiIdentifier("Tstart"), sdiValue(0.0));
+                radPRELOADEdit.SetValue(sdiIdentifier("Tstop"), sdiValue(radTstop));
+            }
+
+            if(radPRELOADHEdit.IsValid())
+            {
+                // create the SET/GENERAL to link to PRELOAD
+                int createSET = 0;
+                HandleEdit radSetHEdit;
+                sdiUIntList IniStressSectPartSetList, SectionPartSetList;
+                sdiString setType = "*SET_PART_LIST_TITLE";
+                sdiValueEntity partSet,partSetSection;
+
+                sdiValueEntity psidIniEntity = GetValue<sdiValueEntity>(*selIniStressSection, "PSID");
+                unsigned int psidini = psidIniEntity.GetId();
+
+                p_ConvertUtils.GetPartIdsFromPartSet(setType, psidini, IniStressSectPartSetList);
+                sdiVectorSort(IniStressSectPartSetList);
+                sdiVectorUnique(IniStressSectPartSetList);
+
+                SelectionEdit selCrossSection(p_radiossModel, "/SECT");
+                while (selCrossSection.Next())
+                {
+                    if(selCrossSection->GetId() == CSID)
+                    {
+                        sdiValueEntity psidcrossdEntity = GetValue<sdiValueEntity>(*selCrossSection, "grbrick_id");
+                        unsigned int psidcross=psidcrossdEntity.GetId();
+
+                        if (psidini != psidcross) createSET = 1;
+                        if (createSET == 1)
+                        {
+                            p_ConvertUtils.GetPartIdsFromPartSet(setType, psidcross, SectionPartSetList);
+                            if (SectionPartSetList.size() == 0)
+                            {
+                                // SET clause ALL parts in Radioss model
+                                SectionPartSetList.clear();
+                                SelectionRead partsSelect(p_radiossModel, "/PART");
+                                while (partsSelect.Next())
+                                {
+                                    sdiString partName = partsSelect->GetName();
+                                    SectionPartSetList.push_back(partsSelect->GetId());
+                                }
+                            }
+
+                            sdiVectorSort(SectionPartSetList);
+                            sdiVectorUnique(SectionPartSetList);
+                            //---------------
+                            // intersection of both part sets
+                            sdiUIntList intersectedPartList;
+                            vector<int> result;
+                            set_intersection(IniStressSectPartSetList.begin(), IniStressSectPartSetList.end(),
+                                              SectionPartSetList.begin(), SectionPartSetList.end(),
+                                              back_inserter(intersectedPartList));
+
+                            HandleEdit radSetHEdit;
+                            p_radiossModel->CreateEntity(radSetHEdit, "/SET/GENERAL", "INITIAL_STRESS_SECTION ID " + to_string(selIniStressSection->GetId()));
+                            if(radSetHEdit.IsValid())
+                            {
+                                EntityEdit radSetEdit(p_radiossModel, radSetHEdit);
+                                radSetEdit.SetValue(sdiIdentifier("clausesmax"), sdiValue(1));
+                                radSetEdit.SetValue(sdiIdentifier("KEY_type", 0, 0), sdiValue(sdiString("PART")));
+                                radSetEdit.SetValue(sdiIdentifier("idsmax", 0, 0), sdiValue(int(intersectedPartList.size())));
+                                radSetEdit.SetValue(sdiIdentifier("ids", 0, 0), sdiValue(sdiValueEntityList(radSetType, intersectedPartList)));
+
+                                EntityEdit radgrbricEdit(p_radiossModel, selCrossSection->GetHandle());
+                                sdiValueEntity grbricEntity = GetValue<sdiValueEntity>(*selCrossSection, "grbric_ID");
+                                unsigned int grbric=grbricEntity.GetId();
+                                radgrbricEdit.SetValue(sdiIdentifier("grbric_ID"), sdiValue(sdiValueEntity(radSetType, radSetHEdit.GetId(p_radiossModel))));
+                                radgrbricEdit.SetValue(sdiIdentifier("grshel_ID"), sdiValue(sdiValueEntity(radSetType, radSetHEdit.GetId(p_radiossModel))));
+                                radgrbricEdit.SetValue(sdiIdentifier("grtria_ID"), sdiValue(sdiValueEntity(radSetType, radSetHEdit.GetId(p_radiossModel))));
+
+                                sdiConvert::SDIHandlReadList sourceInitialStressSection = { {selIniStressSection->GetHandle()} };
+                                sdiConvert::Convert::PushToConversionLog(std::make_pair(radSetHEdit, sourceInitialStressSection));
+                            }
+                            //---------------
+                            break;
+                        }
+                    }
+                } // while selCrossSection
+                //--------------------
+                sdiConvert::SDIHandlReadList sourceInitialStressSection = { {selIniStressSection->GetHandle()} };
+                sdiConvert::Convert::PushToConversionLog(std::make_pair(radPRELOADHEdit, sourceInitialStressSection));
+                //--------------------
+            }
+        }
     } // while
 }

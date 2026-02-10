@@ -58,6 +58,8 @@ namespace sdiD2R
         void ConvertInitialStressesShell();
 
         void ConvertInitialStressesSolid();
+
+        void ConvertInitialStressSection();
     };
 }
 
