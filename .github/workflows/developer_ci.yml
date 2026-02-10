@@ -19,10 +19,7 @@ jobs:
     runs-on: developer_ci   
     container: 
       # Registry variable can't be a secret but can be a simple variable defined at organization level
-      image: "${{ vars.DOCKER_REGISTRY }}/rd-linux64-common:latest"
-      credentials: 
-        username: ${{ secrets.DOCKER_REGISTRY_USER }}
-        password: ${{ secrets.DOCKER_REGISTRY_PASSWD }}           
+      image: "${{ vars.DOCKER_REGISTRY }}/rd-linux64-common:latest"          
     steps:
       - uses: actions/checkout@v4
       - name: Detect workflow changes
@@ -75,10 +72,7 @@ jobs:
 
     container: 
       # Registry variable can't be a secret but can be a simple variable defined at organization level
-      image: "${{ vars.DOCKER_REGISTRY }}/${{ matrix.image_name }}"  
-      credentials: 
-        username: ${{ secrets.DOCKER_REGISTRY_USER }}
-        password: ${{ secrets.DOCKER_REGISTRY_PASSWD }}  
+      image: "${{ vars.DOCKER_REGISTRY }}/${{ matrix.image_name }}"   
       volumes: 
         - /etc/localtime:/etc/localtime:ro
 
@@ -185,10 +179,7 @@ jobs:
 
     container: 
       # Registry variable can't be a secret but can be a simple variable defined at organization level
-      image: "${{ vars.DOCKER_REGISTRY }}/${{ matrix.image_name }}"   
-      credentials: 
-        username: ${{ secrets.DOCKER_REGISTRY_USER }}
-        password: ${{ secrets.DOCKER_REGISTRY_PASSWD }}  
+      image: "${{ vars.DOCKER_REGISTRY }}/${{ matrix.image_name }}"    
       volumes: 
         - /etc/localtime:/etc/localtime:ro
 
@@ -249,10 +240,7 @@ jobs:
     runs-on: ["build","developer_ci"]
     container: 
       # Registry variable can't be a secret but can be a simple variable defined at organization level
-      image: "${{ vars.DOCKER_REGISTRY }}/rd-linux64-cos8-bld:ompi4.1.1-ts11"    
-      credentials: 
-        username: ${{ secrets.DOCKER_REGISTRY_USER }}
-        password: ${{ secrets.DOCKER_REGISTRY_PASSWD }}  
+      image: "${{ vars.DOCKER_REGISTRY }}/rd-linux64-cos8-bld:ompi4.1.1-ts11"     
       volumes: 
         - /etc/localtime:/etc/localtime:ro
 
@@ -325,10 +313,7 @@ jobs:
     runs-on: ["qa_${{ matrix.os }}","developer_ci"]
     container: 
       # Registry variable can't be a secret but can be a simple variable defined at organization level
-      image: "${{ vars.DOCKER_REGISTRY }}/rd-linux64-cos8-qa:ompi4.1.1"
-      credentials: 
-        username: ${{ secrets.DOCKER_REGISTRY_USER }}
-        password: ${{ secrets.DOCKER_REGISTRY_PASSWD }}      
+      image: "${{ vars.DOCKER_REGISTRY }}/rd-linux64-cos8-qa:ompi4.1.1"     
       volumes: 
         - /etc/localtime:/etc/localtime:ro
 
