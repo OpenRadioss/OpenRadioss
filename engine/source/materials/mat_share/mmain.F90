@@ -801,7 +801,7 @@
           eostyp = mat_elem%mat_param(imat)%ieos
           pnew(:) = zero
           nvartmp_eos = elbuf_tab(ng)%bufly(ilay)%nvartmp_eos
-          if (eostyp > 0 .and. mtn /= 12 ) then
+          if (eostyp > 0 .and. mtn /= 12 .and. mtn /= 105) then
             call eosmain(0         ,nel      ,eostyp  ,pm        ,off      ,lbuf%eint,&
               lbuf%rho  ,rho0     ,amu     ,amu2      ,espe     ,&
               dvol      ,df       ,voln    ,mat       ,psh      ,&
@@ -1965,7 +1965,7 @@
           end if
 
           eostyp = mat_elem%mat_param(imat)%ieos
-          if (eostyp > 0 .and. mtn /=12 ) then
+          if (eostyp > 0 .and. mtn /=12 .and. mtn /= 105) then
             l_eos_called = .true.
             nvartmp_eos = elbuf_tab(ng)%bufly(ilay)%nvartmp_eos
             call eosmain(1         ,nel         ,eostyp     ,pm       ,off      ,lbuf%eint,&

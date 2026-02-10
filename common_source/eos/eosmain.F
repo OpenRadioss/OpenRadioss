@@ -219,7 +219,7 @@ C-----------------------------------------------
             !COLLOCATED SCHEME (LAW151 ONLY)
             DO I = 1, NEL
               IF (VNEW(I) > ZERO) THEN
-                MU2(I)=MAX(ZERO,MU(I))**2
+                MU2(I)=MAX(ZERO,MU(I))*MU(I)
               ENDIF
               ESPE(I) =  DF(I) * EINT(I)                   !law151 : EINT=rho.e
             ENDDO

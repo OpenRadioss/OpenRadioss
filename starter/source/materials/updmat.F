@@ -88,6 +88,7 @@ C-----------------------------------------------
       USE LAW19_UPD_MOD  , ONLY : LAW19_UPD
       USE LAW81_UPD_MOD  , ONLY : LAW81_UPD
       USE LAW87_UPD_MOD  , ONLY : LAW87_UPD
+      USE LAW105_UPD_MOD , ONLY : LAW105_UPD
       USE LAW123_UPD_MOD , ONLY : LAW123_UPD
       USE LAW129_UPD_MOD , ONLY : LAW129_UPD
       USE LAW133_UPD_MOD , ONLY : LAW133_UPD
@@ -111,7 +112,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NPC(SNPC), FUNC_ID(NFUNCT)
+      INTEGER NPC(SNPC)
+      INTEGER :: FUNC_ID(NFUNCT) ! user ids
       INTEGER, DIMENSION(NPROPMI,NUMMAT) ,INTENT(INOUT) :: IPM
       my_real PM(NPROPM,NUMMAT), PLD(STF),BUFMAT(SBUFMAT)
       TARGET IPM,BUFMAT
@@ -254,7 +256,7 @@ c-------------------------
           CASE (36) 
             MTAG => MLAW_TAG(IMAT)
             CALL LAW36_UPD(IOUT   ,TITR   ,MAT_ID ,NPARAM,UPARAM ,
-     .                    NFUNC  ,IFUNC  ,FUNC_ID,NPC    ,PLD  ,
+     .                    NFUNC  ,IFUNC  ,FUNC_ID ,NPC    ,PLD  ,
      .                    MTAG   ,NFUNCT )        
 c-------------------------
           CASE (42) 
@@ -344,7 +346,12 @@ c
               CALL LAW104_UPD(IFAILG  ,NPARAM,NUPARF,UPARAM,UPARF   ,
      .                        NLOC_DMG,IMAT   ,MLAW_TAG(IMAT),IPM    ,
      .                        MAT_PARAM(IMAT))
-            ENDIF 
+            ENDIF
+c------------------
+          CASE (105)    ! Powder-Burn
+           ! IMAT   : internatl ID
+           ! MAT_ID : user ID
+            CALL LAW105_UPD(MAT_PARAM(IMAT), PM(1,IMAT), NPROPM ,MAT_ID , NFUNC, IFUNC, NPC, PLD, UPARAM(3))
 c------------------
           CASE (108)    ! Spring material------------------
             CALL LAW108_UPD(IOUT,TITR,UPARAM,NPC,PLD,

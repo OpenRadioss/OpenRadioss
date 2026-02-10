@@ -174,7 +174,7 @@ c     /EOS : Equations of State P=P(µ,E)
 c-------------------------------------------------------------------
       CALL HM_READ_EOS(MAT_ELEM%MAT_PARAM ,IPM      ,PM       ,BUFMAT   ,NUMMAT, NFUNCT,
      .                 BUFLEN   ,IADBUF   ,EOS_TAG  ,UNITAB   ,LSUBMODEL,
-     .                 MLAW_TAG ,NPC      ,TF       ,SNPC     ,NPTS     ,SBUFMAT,
+     .                 NPC     ,TF        ,SNPC     ,NPTS     ,SBUFMAT,
      .                 NTABLE   ,TABLE)
 
 c-------------------------------------------------------------------
@@ -206,7 +206,7 @@ c-------------------------------------------------------------------
         CALL READ_EULER_MAT(LSUBMODEL, UNITAB, IPM, PM)
         
 c-------------------------------------------------------------------
-c     /MAT/LAW51 - FILL BUFFER (modern input)
+c     ALE MULTIMAT (51)
 c-------------------------------------------------------------------
       CALL FILL_BUFFER_51_0(MAT_ELEM%MAT_PARAM, IPM, PM, BUFMAT, MAT_ELEM%MAT_PARAM, MLAW_TAG )
 

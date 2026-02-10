@@ -36,7 +36,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_read_eos_compaction                 ../starter/source/materials/eos/hm_read_eos_compaction.F90
 !||    hm_read_eos_compaction2                ../starter/source/materials/eos/hm_read_eos_compaction2.F90
 !||    hm_read_eos_compaction_tab             ../starter/source/materials/eos/hm_read_eos_compaction_tab.F90
-!||    hm_read_eos_powderburn                 ../starter/source/materials/eos/hm_read_eos_powderburn.F90
 !||    hm_read_eos_tillotson                  ../starter/source/materials/eos/hm_read_eos_tillotson.F
 !||    hm_read_fail                           ../starter/source/materials/fail/hm_read_fail.F
 !||    hm_read_fail_alter                     ../starter/source/materials/fail/windshield_alter/hm_read_fail_alter.F
