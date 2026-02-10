@@ -92,7 +92,7 @@
 !                                                   Local Variables
 ! ----------------------------------------------------------------------------------------------------------------------
           real(kind=WP) :: P0, E0, PSH
-          real(kind=WP) :: C1,C2,BULK,Gr,DD,EG,c,alpha,MU0,FSCALE_g, FSCALE_rho, FSCALE_b, FSCALE_P
+          real(kind=WP) :: C1,C2,BULK,Gr,DD,EG,rhoref_eg,c,alpha,MU0,FSCALE_g, FSCALE_rho, FSCALE_b, FSCALE_P
           real(kind=WP) :: fscale_b_unit, fscale_g_unit, fscale_p_unit, fscale_rho_unit
           real(kind=WP) :: rho0, rhor
           integer :: funcb, funcg
@@ -107,7 +107,7 @@
           call hm_option_is_encrypted(is_encrypted)
 
           !======== MATERIAL BUFFER ALLOCATION SIZES
-          nuvar   = 7
+          nuvar   = 8
           nuparam = 15
           nfunc   = 2
           uparam(1:nuparam) = zero
@@ -129,7 +129,7 @@
           call hm_get_floatv("MAT_PSH"          ,psh             ,is_available, lsubmodel, unitab)
 
           call hm_get_floatv("GAS_D"            ,dd               ,is_available, lsubmodel, unitab)
-          call hm_get_floatv("GAS_EG"           ,eg              ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("GAS_EG"           ,rhoref_eg        ,is_available, lsubmodel, unitab)
 
           call hm_get_floatv("POWDER_Gr"        ,gr              ,is_available, lsubmodel, unitab)
           call hm_get_floatv("POWDER_C"         ,c               ,is_available, lsubmodel, unitab)
@@ -170,8 +170,8 @@
             CALL ANCMSG(MSGID=856, MSGTYPE=MSGERROR, ANMODE=ANINFO, I1=133, I2=MAT_ID, C1="ERROR", C2=TITR, C3=mtl_msg)
           end if
 
-          if(eg <= zero)then
-            mtl_msg = "GAS EOS PARAMETER EG MUST BE DEFINED"
+          if(rhoref_eg <= zero)then
+            mtl_msg = "GAS EOS PARAMETER RHO_REF*EG MUST BE DEFINED"
             CALL ANCMSG(MSGID=856, MSGTYPE=MSGERROR, ANMODE=ANINFO, I1=133, I2=MAT_ID, C1="ERROR", C2=TITR, C3=mtl_msg)
           end if
 
@@ -185,15 +185,12 @@
             CALL ANCMSG(MSGID=856, MSGTYPE=MSGERROR, ANMODE=ANINFO, I1=133, I2=MAT_ID, C1="ERROR", C2=TITR, C3=mtl_msg)
           end if
 
-          !rhor = rho0
-          !mu0  = rho0/rhor-one
-          !e0   = p0/(one+mu0)/exp((one+mu0)*rho0/dd)
-          e0 = eg * rho0  ! use initial assumed compaction to exclude initial void ?
+          eg = rhoref_eg/rho0
 
           uparam(01) = bulk
           uparam(02) = p0
           uparam(03) = psh
-          uparam(04) = e0
+          uparam(04) = zero !unused
           uparam(05) = dd
           uparam(06) = eg
           uparam(07) = gr
@@ -209,13 +206,14 @@
           ifunc(2)   = funcg
 
           !NUVAR = 7
-          !UVAR(,1) :  !PP
-          !UVAR(,2) :  !PG
-          !UVAR(,3) :  !RHO_P
+          !UVAR(,1) :  !M0
+          !UVAR(,2) :  !F
+          !UVAR(,3) :  !RHO_S
           !UVAR(,4) :  !RHO_G
-          !UVAR(,5) :  !POLD
-          !UVAR(,6) :  !F(t)
-          !UVAR(,7) :  !Mass0
+          !UVAR(,5) :  !V_S
+          !UVAR(,6) :  !V_g
+          !UVAR(,7) :  !P
+          !UVAR(,8) :  !EG = eg.Mg
 
           !======== MATPARAM KEYWORDS
           ! EOS/Thermo keyword
@@ -230,6 +228,7 @@
           pm(1) = rho0
           pm(38) = c1
           pm(88) = psh
+          pm(23) = zero !e0
 
           write(iout,1000)
 

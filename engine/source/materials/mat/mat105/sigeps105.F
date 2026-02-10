@@ -26,8 +26,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    mulaw            ../engine/source/materials/mat_share/mulaw.F90
 !||--- calls      -----------------------------------------------------
 !||    finter           ../engine/source/tools/curve/finter.F
-!||--- uses       -----------------------------------------------------
-!||    elbufdef_mod     ../common_source/modules/mat_elem/elbufdef_mod.F90
 !||====================================================================
       SUBROUTINE SIGEPS105 (
      1     NEL    ,NUPARAM,NUVAR   ,NFUNC   ,IFUNC    ,TBURN  ,
@@ -103,7 +101,6 @@ C-----------------------------------------------
      .   VDY(*)       ,VDZ(*)     ,SSP        ,
      .   VOLN(*)
       my_real,intent(inout) :: PSH(NEL)
-      TYPE (ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB
 C-----------------------------------------------
 C   O U T P U T   A r g u m e n t s
 C-----------------------------------------------
@@ -138,16 +135,23 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       my_real :: POLD, EINC, PNEW
-      my_real :: BULK, D, EG, Gr, C, ALPHA, C1, C2, FSCALE_G, FSCALE_B, FSCALE_P, FSCALE_RHO
-      my_real :: P0, XL, ESPE, E0, TOTAL_BFRAC, DELTA_BF, BRATE
+      my_real :: BULK, D, EG, EG_PROD, Gr, C, ALPHA, C1, C2, FSCALE_G, FSCALE_B, FSCALE_P, FSCALE_RHO
+      my_real :: P0, XL, ESPE, TOTAL_BFRAC, DELTA_BF, BRATE
       my_real :: PG, PG_, PS, RHO_G, RHO_S, RHO_Si
       my_real :: E ! rho0.e or EINT/V0 where V0 such as rho0.v0 = rho.v ;   EINT = rho.e.V = rho/rho0 * E.V
-      my_real :: V_g, V_s
-      my_real :: RHOE_g ! rho_g * eg = EINT/V_g
+      my_real :: V_g, V_s, V_g_prev
       INTEGER :: funcb, funcg
       INTEGER :: I
-      my_real :: MASS, TB, DIFF, SSP_G, SSP_S, MASS_G, MASS_S
+      my_real :: MASS, TB, DIFF, SSP_G, SSP_S, M_G, M_S
       my_real :: compac
+      my_real :: rhos0,rho_ref ! same meaning
+      my_real :: mu_s
+      my_real :: EINT_g ! Eintg = eg.Mg
+      my_real :: fP, dfP, Pk, RESIDUE
+      my_real :: M0, P, F, dEINT_chem, dEint_W, dM_s, dV_g
+      my_real :: ALPHa_s, ALPHA_g, SSP_S2, SSP_G2
+      INTEGER :: ITER, MAX_ITER
+
 
 C-----------------------------------------------
 C   S o u r c e   L i n e s
@@ -156,9 +160,9 @@ C-----------------------------------------------
       BULK       = UPARAM(01)  ! solid bulk modulus for linear EoS
       P0         = UPARAM(02)  ! initial pressure
       PSH(:)     = UPARAM(03)  ! optionnal pressure shift (to get in output relative pressure dP instead of total pressure P)
-      E0         = UPARAM(04)  ! initial internal energy
+      !unused      UPARAM(04)
       D          = UPARAM(05)  ! exponential coefficient for gas EOS
-      EG         = UPARAM(06)  ! exponential coefficient for gas EOS
+      EG_PROD    = UPARAM(06)  ! exponential coefficient for gas EOS
       Gr         = UPARAM(07)  ! grain shape factor for burn rate
       C          = UPARAM(08)  ! exponent for burn rate regarding grain burn fraction F(t)
       ALPHA      = UPARAM(09)  ! exponent for burn rate regarding grain burn fraction F(t)
@@ -167,27 +171,31 @@ C-----------------------------------------------
       FSCALE_G   = UPARAM(12)  ! function scale factor
       FSCALE_B   = UPARAM(13)  ! function scale factor
       FSCALE_P   = UPARAM(14)  ! function scale factor
-      FSCALE_RHO = UPARAM(15)  ! function scale factor
+      FSCALE_RHO = UPARAM(15)  ! function scale factorl
       funcb      = IFUNC(1)    ! user function identifier
       funcg      = IFUNC(2)    ! user function identifier
       
-      compac=0.93 ! assumed initial compaction
+      compac = 0.93 ! assumed initial compaction
+      rhos0 = rho0(1)
+      rho_ref = rho0(1)
                  
       ! initialization at time = 0 : set initial internal energy, pressure, density, burn fraction, etc...
       IF(DT1 == ZERO)THEN
         DO I=1,NEL
-          EINT(I) = E0*VOLUME(I)
-          UVAR(I,1) = P0-PSH(I)          !PS
-          UVAR(I,2) = P0-PSH(I)          !PG
-          UVAR(I,3) = RHO0(I)/compac     !RHO_S          
-          UVAR(I,4) = ZERO               !RHO_G          
-          UVAR(I,5) = P0-PSH(I)          !POLD
-          UVAR(I,6) = ZERO               !F(t_old)        
-          UVAR(I,7) = RHO0(I)*VOLUME(I)  !Mass0             
+          EINT(I)   = ZERO
+          RHO(I)    = compac*RHO0(I)
+          UVAR(I,1) = RHO0(I)*compac*VOLUME(I)  !M0   !rho0 is rhos(0)=rho_ref  not rho(0)=compac*rho_ref
+          UVAR(I,2) = ZERO                      !F
+          UVAR(I,3) = RHO0(I)                   !RHO_S
+          UVAR(I,4) = zero                      !RHO_G
+          UVAR(I,5) = compac*VOLUME(I)          !V_s
+          UVAR(I,6) = ZERO                      !V_g
+          UVAR(I,7) = P0                        !P (total pressure, not relative pressure)
+          UVAR(I,8) = ZERO                      !EINTg = eg.M_g
         ENDDO
-        SIGNXX(1:NEL) = - (P0-PSH(I))
-        SIGNYY(1:NEL) = - (P0-PSH(I))
-        SIGNZZ(1:NEL) = - (P0-PSH(I))
+        SIGNXX(1:NEL) = -(P0-PSH(1:NEL))
+        SIGNYY(1:NEL) = -(P0-PSH(1:NEL))
+        SIGNZZ(1:NEL) = -(P0-PSH(1:NEL))
         SIGNXY(1:NEL) = ZERO 
         SIGNYZ(1:NEL) = ZERO 
         SIGNZX(1:NEL) = ZERO 
@@ -206,14 +214,16 @@ C-----------------------------------------------
         !--------------------------------!
         ! INIT.                          !
         !--------------------------------!
-        MASS  = RHO(I)*VOLUME(I)
-        XL    = DELTAX(I)
-        ESPE  = EINT(I)/MASS
-        PS    = UVAR(I,1)
-        PG    = UVAR(I,2)
-        RHO_S = UVAR(I,3)
-        RHO_G = UVAR(I,4)
-        POLD  = UVAR(I,5)
+        XL     = DELTAX(I)
+        M0     = UVAR(I,1)
+        F      = UVAR(I,2)
+        RHO_S  = UVAR(I,3)
+        RHO_G  = UVAR(I,4)
+        V_s    = UVAR(I,5)
+        V_g    = UVAR(I,6)
+        POLD   = UVAR(I,7)
+        EINT_g = UVAR(I,8)
+        V_g_prev = V_g
                         
         !--------------------------------!
         ! IGNITION FRACTION              !
@@ -237,57 +247,121 @@ C-----------------------------------------------
         !  UVAR(6): burn fraction (grain burn evolution) !
         !------------------------------------------------!
         IF(BFRAC(I) <= ZERO)THEN
+          ! no ignition, no burn (so far)
           TOTAL_BFRAC = ZERO
-          UVAR(I,6) = ZERO
-        ELSEIF(UVAR(I,6) /= ONE)THEN  ! F < 1  flamme has already reached the current element, but grain are still burning
-            BRATE       = FSCALE_B*FINTER(funcb,(PG)/FSCALE_P,NPF,TF,DIFF)
-            DELTA_BF    = Gr*EXP(C*LOG((ONE-ALPHA*UVAR(I,6))))*BRATE*TIMESTEP  !F_dot * DT           
-            UVAR(I,6)   = UVAR(I,6) + DELTA_BF  !F
-            UVAR(I,6)   = MAX(MIN(ONE,UVAR(I,6)),ZERO)
-            TOTAL_BFRAC = BFRAC(I)*UVAR(I,6)
+          F = ZERO
+          DELTA_BF = ZERO
+        ELSEIF(F /= ONE)THEN
+            ! F < 1  flamme has already reached the current element, but grain are still burning
+            BRATE       = FSCALE_B*FINTER(funcb,POLD/FSCALE_P,NPF,TF,DIFF)
+            DELTA_BF    = Gr*EXP(C*LOG((ONE-ALPHA*F)))*BRATE*TIMESTEP  !F_dot * DT
+            F           = F + DELTA_BF
+            F           = MAX(MIN(ONE,F),ZERO)
+            TOTAL_BFRAC = BFRAC(I)*F  !BFRAC(I) = ONE
         ELSE
-            ! avoid LOG(0)
-            TOTAL_BFRAC = BFRAC(I)*UVAR(I,6)
+            ! complete burn, flamme has already reached the current element and grain are fully burned
+            TOTAL_BFRAC = ONE
+            BFRAC(I) = ONE
+            DELTA_BF = ZERO
         ENDIF       
 
         !--------------------------------!
         ! EOS SOLVING                    !
         !--------------------------------!
-        MASS_S=(ONE-UVAR(I,6))*UVAR(I,7)    !(1-F)*M0
-        MASS_G=UVAR(I,7)-MASS_S            !Mass_Gas=F(t)*Mass
-        
-        RHO_S=(ONE-UVAR(I,6))*RHO(I)   !MASS_S/VOLN(I)
-        RHO_G=ZERO
-
-        V_g = compac*VOLUME(I) + UVAR(I,6) * VOLUME(I)  ! V_g = F.VOLUME
-
-        RHO_Si=RHO0(I)/compac*(UVAR(I,2)/BULK+ONE) !Solid Linear EoS : Ps = Bulk*(rho_s/rho0-1) + P0
-        
-        IF(MASS_G > ZERO)RHO_G=MASS_G/V_g
-        RHOE_g = EINT(I) / V_g
-        PG = P0+RHOE_g*EXP(RHO_G/D)
-        PS = PG
-        SSP_S = SQRT(BULK/RHO0(I))
-        IF(RHO_G > ZERO)THEN
-          SSP_G = RHO0(I)/D*Pg + EXP(RHO_G/D)* Pg / (RHO_G/RHO0(I))**2
-          SSP_G = SQRT(ONE/RHO_G * SSP_G)
+        M_S = (ONE-F)*M0
+        M_G = M0-M_S
+        dM_s = DELTA_BF*M0   ! mass of solid burned during the time step
+        dEint_chem = EG_PROD * dM_s  ! chemical released
+        EINT_g = EINT_g + dEint_chem  ! gaz internal energy increase due to chemical energy release
+        IF(M_g > 0) THEN
+          Eg = EINT_G / M_g
         ELSE
-          SSP_G = ZERO
+          Eg = zero
         ENDIF
 
+        IF( F == ONE)THEN
+
+           !trivial solving
+            V_g   = VOLUME(I)
+            V_s   = ZERO
+            RHO_G = M_g / VOLUME(I)
+            RHO_S = zero
+            P = RHO_G*Eg*exp(RHO_G/D)
+            Pk = P
+
+        ELSE
+
+          ! numerical solving
+          MAX_ITER = 20
+          ITER = 0
+          RESIDUE = EP20
+          Pk = POLD
+          !solving P=Ps=Pg with Newton-Raphson method, where Ps is given by linear EOS and Pg by exponential EOS + chemical energy release
+          !  f(P) = P - Pg(RHO_G(P), eg)
+          !  P[k+1] = P[k] - f(P[k])/f'(P[k])
+
+          DO WHILE (RESIDUE > EM08 .AND. ITER < MAX_ITER)
+
+            RHO_S = rho_ref * (one + (Pk-P0)/BULK)  ! solid density from Linear EOS
+            V_s   = M_S / RHO_S
+            V_s = MIN(V_s, VOLUME(I)*(ONE-EM10))
+            V_g = MAX(EM20, VOLUME(I) - V_s)
+            RHO_G = M_g / V_g
+            Pg   = RHO_G*Eg*exp(RHO_G/D)
+            fP = Pk - RHO_G*Eg*exp(RHO_G/D)
+            dfP = 1 - (Eg*exp(RHO_G/D)*(one+RHO_G/D)) * (-M_g*M_s/V_g/V_g*rho_ref/BULK/RHO_S/RHO_S)  ! derivative of f(P) regarding P, with RHO_G and RHO_S depending on P
+            Pk = Pk - fP/dfP
+            Pk = MAX(P0, Pk)  ! avoid negative pressure
+
+            RESIDUE = ABS(fP/(EM20+Pk))
+            ITER = ITER + 1
+          END DO
+
+        END IF
+
+        PNEW = Pk
+
+        ! SOLID DOES NOT DEPEND ON ENERGY, SO NO NEED TO UPDATE SOLID INTERNAL ENERGY DUE TO PHASE CHANGE, ONLY GAS INTERNAL ENERGY INCREASE DUE TO CHEMICAL ENERGY RELEASE
+        !dV_g = V_g - V_g_prev
+        !dEint_W = -HALF*(POLD+PNEW)*dV_g  ! chemical released + work (phase change)
+        !EINT_g = EINT_g + dEint_W  ! gaz internal energy increase due to chemical energy release
+        !IF(M_G > ZERO) EG = EINT_G / M_G
+
+        !--------------------------------!
+        ! Cell Internal Energy           !
+        !--------------------------------!
+        ! total energy for output (mixture, linear eos does not depend on energy)
+        EINT(I) = EINT(I) + dEint_chem
+        EINT(I)= EINT(I) - HALF*(PNEW+POLD)*DVOL(I)  ! mechanical work due to volume change of the full cell
+        EINT(I) = EINT(I)/MAX(EM20,VOLUME(I))  ! J/m3 for output
+
+        POLD = PNEW
+        PNEW = PNEW - PSH(I)
+
+        print *, "V,Vs,Vg=", VOLUME(I), V_s, V_g
+        print *, "M,Ms,Mg=", M0, M_S, M_G
+        print *, "rho,RHO_S,RHO_G=", RHO(I), RHO_S, RHO_G
+        print *, "F, P=", F, PNEW
+        print *, "EINT(I), Eg", EINT(I), Eg
+        print *, "______________________________________"
 
         !--------------------------------!
         ! Global Pressure & SoundSpeed   !
-        !--------------------------------! 
-        SSP   = TOTAL_BFRAC*SSP_G + (ONE-TOTAL_BFRAC)*SSP_S        
-        PNEW  = TOTAL_BFRAC*PG    + (ONE-TOTAL_BFRAC)*PS
-        PNEW  = (PNEW-PSH(I))*OFF(I)
-
         !--------------------------------!
-        ! Internal Energy                !
-        !--------------------------------!
-        EINT(I)= EINT(I) - HALF*(PNEW+PSH(I)+POLD+PSH(I))*DVOL(I)  ! J   (integration with total pressure, not relative pressure)
-        EINT(I) = EINT(I)/MAX(EM20,VOLUME(I))  ! J/m3 for output
+        SSP = ZERO
+        ALPHA_S = V_s / VOLUME(I)
+        IF(RHO_S > ZERO)THEN
+          SSP_S2 = BULK/RHO_REF
+          SSP = ALPHA_S/RHO_S/SSP_S2
+        ENDIF
+        IF(RHO_G > ZERO)THEN
+          SSP_G2 = Pg/RHO_G*(one+RHO_G/D)
+          ALPHA_g = ONE - ALPHA_s
+          SSP = SSP + ALPHA_g/RHO_G/SSP_G2
+        ENDIF
+        SSP = MAX(SSP, EM20)
+        SSP = ONE/SSP/RHO(I)  ! Wood's formula for sound speed in a mixture
+        SSP = SQRT(SSP)
 
         !--------------------------------!
         ! Returning values               !
@@ -306,13 +380,14 @@ C-----------------------------------------------
         SIGVZX(I)  = ZERO   
         SOUNDSP(I) = SSP
         
-        UVAR(I,1)=PS
-        UVAR(I,2)=PG
-        UVAR(I,3)=RHO_S                
-        UVAR(I,4)=RHO_G        
-        UVAR(I,5)=PNEW        
-       !UVAR(I,6) -> F(t)
-       !UVAR(I,7) -> Mass0  
+        ! M0     = UVAR(I,1)
+        UVAR(I,2) = F
+        UVAR(I,3) = RHO_S
+        UVAR(I,4) = RHO_G
+        UVAR(I,5) = V_s
+        UVAR(I,6) = V_g
+        UVAR(I,7) = POLD
+        UVAR(I,8) = EINT_g
        
         ! --- verification output
         if(time == ZERO)then
@@ -327,7 +402,7 @@ C-----------------------------------------------
           open(UNIT=4,FILE='Ifrac.txt',position="append")
         endif
 
-        WRITE(1,*)TIME,UVAR(I,6)
+        WRITE(1,*)TIME,F
         WRITE(2,*)TIME,Pg
         WRITE(3,*)TIME,RHO_S
         WRITE(4,*)BFRAC(I)
@@ -335,6 +410,7 @@ C-----------------------------------------------
         CLOSE(1)
         CLOSE(2)
         CLOSE(3)
+        CLOSE(4)
 
       ENDDO! next I   
 
