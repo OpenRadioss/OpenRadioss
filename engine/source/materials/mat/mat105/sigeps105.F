@@ -28,8 +28,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    finter           ../engine/source/tools/curve/finter.F
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod     ../common_source/modules/mat_elem/elbufdef_mod.F90
-!||    i22bufbric_mod   ../common_source/modules/interfaces/cut-cell-search_mod.F
-!||    i22tri_mod       ../common_source/modules/interfaces/cut-cell-search_mod.F
 !||====================================================================
       SUBROUTINE SIGEPS105 (
      1     NEL    ,NUPARAM,NUVAR   ,NFUNC   ,IFUNC    ,TBURN  ,
@@ -43,10 +41,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      9     SIGVXX ,SIGVYY ,SIGVZZ  ,SIGVXY  ,SIGVYZ   ,SIGVZX ,
      A     SOUNDSP,VISCMAX,UVAR    ,OFF     ,NFT      ,V      ,
      B     W      ,X      ,IX      ,NIX      ,JTHE   ,
-     C     GEO    ,PID    ,ILAY    ,NG      ,ELBUF_TAB,PM     , 
+     C     GEO    ,PID    ,ILAY    ,NG      ,PM     ,
      D     IPARG  ,BUFVOIS ,IPM    ,BUFMAT  ,STIFN    ,
      E     VD2    ,VDX    ,VDY     ,VDZ     ,MAT      ,VOLN   ,
-     F     QNEW   ,DDVOL  ,QOLD    ,PSH)
+     F     QNEW   ,DVOL  ,QOLD    ,PSH)
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -66,9 +64,7 @@ C
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD   
-      USE I22BUFBRIC_MOD
-      USE I22TRI_MOD       
+!
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -92,7 +88,7 @@ C-----------------------------------------------
      . SIGY(NEL) ,
      .   RHO(NEL)     ,RHO0(NEL)  ,VOLUME(NEL),
      .   EINT(NEL)    ,BUFVOIS(*) ,QNEW(NEL)    ,
-     .   DDVOL(NEL)   ,QOLD(NEL)  ,
+     .   DVOL(NEL)    ,QOLD(NEL)  ,
      .   EPSPXX(NEL)  ,EPSPYY(NEL),EPSPZZ(NEL),
      .   EPSPXY(NEL)  ,EPSPYZ(NEL),EPSPZX(NEL),
      .   DEPSXX(NEL)  ,DEPSYY(NEL),DEPSZZ(NEL),
@@ -145,47 +141,42 @@ C-----------------------------------------------
       my_real :: BULK, D, EG, Gr, C, ALPHA, C1, C2, FSCALE_G, FSCALE_B, FSCALE_P, FSCALE_RHO
       my_real :: P0, XL, ESPE, E0, TOTAL_BFRAC, DELTA_BF, BRATE
       my_real :: PG, PG_, PS, RHO_G, RHO_S, RHO_Si
+      my_real :: E ! rho0.e or EINT/V0 where V0 such as rho0.v0 = rho.v ;   EINT = rho.e.V = rho/rho0 * E.V
+      my_real :: V_g, V_s
+      my_real :: RHOE_g ! rho_g * eg = EINT/V_g
       INTEGER :: funcb, funcg
       INTEGER :: I
       my_real :: MASS, TB, DIFF, SSP_G, SSP_S, MASS_G, MASS_S
       my_real :: compac
- 
-      
-      TYPE(G_BUFEL_)  ,POINTER :: GBUF
-      TYPE(L_BUFEL_)  ,POINTER :: LBUF      
-      TYPE(BUF_LAY_)  ,POINTER :: BUFLY  
+
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
-      GBUF   => ELBUF_TAB(NG)%GBUF           
-      LBUF   => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(1,1,1)
-      BUFLY  => ELBUF_TAB(NG)%BUFLY(ILAY)      
-C-----------------------------------------------
-C   S t a n d a r d   J W L   E O S 
-C-----------------------------------------------  
-      BULK       = UPARAM(01)   
-      P0         = UPARAM(02)          
-      PSH(:)     = UPARAM(03)
-      E0         = UPARAM(04)   
-      D          = UPARAM(05)   
-      EG         = UPARAM(06)   
-      Gr         = UPARAM(07)   
-      C          = UPARAM(08)   
-      ALPHA      = UPARAM(09)  
-      C1         = UPARAM(10)  
-      C2         = UPARAM(11)         
-      FSCALE_G   = UPARAM(12)  
-      FSCALE_B   = UPARAM(13)  
-      FSCALE_P   = UPARAM(14)  
-      FSCALE_RHO = UPARAM(15)  
-      funcb      = IFUNC(1)  
-      funcg      = IFUNC(2)
+
+      BULK       = UPARAM(01)  ! solid bulk modulus for linear EoS
+      P0         = UPARAM(02)  ! initial pressure
+      PSH(:)     = UPARAM(03)  ! optionnal pressure shift (to get in output relative pressure dP instead of total pressure P)
+      E0         = UPARAM(04)  ! initial internal energy
+      D          = UPARAM(05)  ! exponential coefficient for gas EOS
+      EG         = UPARAM(06)  ! exponential coefficient for gas EOS
+      Gr         = UPARAM(07)  ! grain shape factor for burn rate
+      C          = UPARAM(08)  ! exponent for burn rate regarding grain burn fraction F(t)
+      ALPHA      = UPARAM(09)  ! exponent for burn rate regarding grain burn fraction F(t)
+      C1         = UPARAM(10)  ! coefficient for ignition fraction regarding flamme position and time
+      C2         = UPARAM(11)  ! coefficient for ignition fraction regarding flamme position and time
+      FSCALE_G   = UPARAM(12)  ! function scale factor
+      FSCALE_B   = UPARAM(13)  ! function scale factor
+      FSCALE_P   = UPARAM(14)  ! function scale factor
+      FSCALE_RHO = UPARAM(15)  ! function scale factor
+      funcb      = IFUNC(1)    ! user function identifier
+      funcg      = IFUNC(2)    ! user function identifier
       
-      compac=0.93
+      compac=0.93 ! assumed initial compaction
                  
+      ! initialization at time = 0 : set initial internal energy, pressure, density, burn fraction, etc...
       IF(DT1 == ZERO)THEN
         DO I=1,NEL
-          EINT(I) = EG*RHO0(I)*VOLUME(I)
+          EINT(I) = E0*VOLUME(I)
           UVAR(I,1) = P0-PSH(I)          !PS
           UVAR(I,2) = P0-PSH(I)          !PG
           UVAR(I,3) = RHO0(I)/compac     !RHO_S          
@@ -228,16 +219,17 @@ C-----------------------------------------------
         ! IGNITION FRACTION              !
         !--------------------------------!
           !--> valid for const flamme velocity
-        IF(BFRAC(I) < ONE) THEN
-         TB = - TBURN(I)
-         BFRAC(I) = ZERO
-         IF(TIME > TB) BFRAC(I) = C1*(TIME-TB)*TWO_THIRD/XL 
-         IF(BFRAC(I) < EM04) THEN
-           BFRAC(I) = ZERO
-         ELSEIF(BFRAC(I) > ONE) THEN
-           BFRAC(I) = ONE
-         ENDIF
-        ENDIF
+        !IF(BFRAC(I) < ONE) THEN
+        ! TB = - TBURN(I)
+        ! BFRAC(I) = ZERO
+        ! IF(TIME > TB) BFRAC(I) = C1*(TIME-TB)*TWO_THIRD/XL
+        ! IF(BFRAC(I) < EM04) THEN
+        !   BFRAC(I) = ZERO
+        ! ELSEIF(BFRAC(I) > ONE) THEN
+        !   BFRAC(I) = ONE
+        ! ENDIF
+        !ENDIF
+        BFRAC(I) = ONE  ! instantaneous ignition (infinite flamme velocity)
 
         !------------------------------------------------!
         ! BURN FRACTION                                  !
@@ -247,10 +239,8 @@ C-----------------------------------------------
         IF(BFRAC(I) <= ZERO)THEN
           TOTAL_BFRAC = ZERO
           UVAR(I,6) = ZERO
-        ELSEIF(UVAR(I,6) /= ONE)THEN  ! F<1
-            PG_=PG 
-            !PG_=PG*(ONE-MASS_S/VOLN(I)/RHO_S)  !effective gaz pressure Pg*(1-RHO_S_/rhop)
-            BRATE       = FSCALE_B*FINTER(funcb,(PG_)/FSCALE_P,NPF,TF,DIFF)
+        ELSEIF(UVAR(I,6) /= ONE)THEN  ! F < 1  flamme has already reached the current element, but grain are still burning
+            BRATE       = FSCALE_B*FINTER(funcb,(PG)/FSCALE_P,NPF,TF,DIFF)
             DELTA_BF    = Gr*EXP(C*LOG((ONE-ALPHA*UVAR(I,6))))*BRATE*TIMESTEP  !F_dot * DT           
             UVAR(I,6)   = UVAR(I,6) + DELTA_BF  !F
             UVAR(I,6)   = MAX(MIN(ONE,UVAR(I,6)),ZERO)
@@ -268,15 +258,15 @@ C-----------------------------------------------
         
         RHO_S=(ONE-UVAR(I,6))*RHO(I)   !MASS_S/VOLN(I)
         RHO_G=ZERO
+
+        V_g = compac*VOLUME(I) + UVAR(I,6) * VOLUME(I)  ! V_g = F.VOLUME
+
+        RHO_Si=RHO0(I)/compac*(UVAR(I,2)/BULK+ONE) !Solid Linear EoS : Ps = Bulk*(rho_s/rho0-1) + P0
         
-        !in case of compressible solid (linear EOS)
-        RHO_Si=RHO0(I)/compac*(UVAR(I,2)/BULK+ONE)
-        !in case of constant solid density
-        !rho_si=rho0(I)/compac
-        
-        IF(MASS_G > ZERO)RHO_G=MASS_G/(VOLN(I)-MASS_S/ max(EM10,RHO_Si))
-        PG = P0+RHO_G*EG*EXP(RHO_G/D)
-        PS = P0+BULK*(RHO_Si/RHO0(I)-ONE)
+        IF(MASS_G > ZERO)RHO_G=MASS_G/V_g
+        RHOE_g = EINT(I) / V_g
+        PG = P0+RHOE_g*EXP(RHO_G/D)
+        PS = PG
         SSP_S = SQRT(BULK/RHO0(I))
         IF(RHO_G > ZERO)THEN
           SSP_G = RHO0(I)/D*Pg + EXP(RHO_G/D)* Pg / (RHO_G/RHO0(I))**2
@@ -285,12 +275,20 @@ C-----------------------------------------------
           SSP_G = ZERO
         ENDIF
 
+
         !--------------------------------!
         ! Global Pressure & SoundSpeed   !
         !--------------------------------! 
         SSP   = TOTAL_BFRAC*SSP_G + (ONE-TOTAL_BFRAC)*SSP_S        
         PNEW  = TOTAL_BFRAC*PG    + (ONE-TOTAL_BFRAC)*PS
         PNEW  = (PNEW-PSH(I))*OFF(I)
+
+        !--------------------------------!
+        ! Internal Energy                !
+        !--------------------------------!
+        EINT(I)= EINT(I) - HALF*(PNEW+PSH(I)+POLD+PSH(I))*DVOL(I)  ! J   (integration with total pressure, not relative pressure)
+        EINT(I) = EINT(I)/MAX(EM20,VOLUME(I))  ! J/m3 for output
+
         !--------------------------------!
         ! Returning values               !
         !--------------------------------!     

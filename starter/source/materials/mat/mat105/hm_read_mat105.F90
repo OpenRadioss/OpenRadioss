@@ -185,9 +185,10 @@
             CALL ANCMSG(MSGID=856, MSGTYPE=MSGERROR, ANMODE=ANINFO, I1=133, I2=MAT_ID, C1="ERROR", C2=TITR, C3=mtl_msg)
           end if
 
-          rhor = rho0
-          mu0  = rho0/rhor-one
-          e0   = p0/(one+mu0)/exp((one+mu0)*rho0/dd)
+          !rhor = rho0
+          !mu0  = rho0/rhor-one
+          !e0   = p0/(one+mu0)/exp((one+mu0)*rho0/dd)
+          e0 = eg * rho0  ! use initial assumed compaction to exclude initial void ?
 
           uparam(01) = bulk
           uparam(02) = p0

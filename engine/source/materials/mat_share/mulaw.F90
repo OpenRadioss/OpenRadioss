@@ -1889,21 +1889,22 @@
               lbuf%seq,inloc ,jlag   ,fheat  ,voln )
 !
           else if (mtn == 105) then
-            call sigeps105(nel       ,npar   ,nuvar    ,nfunc      ,ifunc           ,lbuf%tb   ,&
-            &npf       ,tf     ,tt       ,dt1        ,uparam0  ,lbuf%bfrac,&
-            &rho0      ,rho    ,vol      ,eint       ,sigy            ,deltax    ,&
-            &ep1       ,ep2    ,ep3      ,ep4        ,ep5             ,ep6       ,&
-            &de1       ,de2    ,de3      ,de4        ,de5             ,de6       ,&
-            &es1       ,es2    ,es3      ,es4        ,es5             ,es6       ,&
-            &so1       ,so2    ,so3      ,so4        ,so5             ,so6       ,&
-            &s1        ,s2     ,s3       ,s4         ,s5              ,s6        ,&
-            &sv1       ,sv2    ,sv3      ,sv4        ,sv5             ,sv6       ,&
-            &ssp       ,vis    ,uvar     ,off        ,nft             ,v         ,&
-            &w         ,x      ,ix       ,nix        ,jthe      ,&
-            &geo       ,pid    ,ilay     ,ng         ,elbuf_tab       ,pm        ,&
-            &iparg     ,bufvois  ,ipm        ,bufmat          ,stifn     ,&
-            &vd2       ,vdx    ,vdy      ,vdz        ,mat             ,voln      ,&
-            &gbuf%qvis ,dvol   ,qold     ,psh)
+            call sigeps105(&
+            &nel       ,npar    ,nuvar  ,nfunc  ,ifunc   ,lbuf%tb   ,&
+            &npf       ,tf      ,tt     ,dt1    ,uparam0 ,lbuf%bfrac,&
+            &rho0      ,rho     ,vol    ,eint   ,sigy    ,deltax    ,&
+            &ep1       ,ep2     ,ep3    ,ep4    ,ep5     ,ep6       ,&
+            &de1       ,de2     ,de3    ,de4    ,de5     ,de6       ,&
+            &es1       ,es2     ,es3    ,es4    ,es5     ,es6       ,&
+            &so1       ,so2     ,so3    ,so4    ,so5     ,so6       ,&
+            &s1        ,s2      ,s3     ,s4     ,s5      ,s6        ,&
+            &sv1       ,sv2     ,sv3    ,sv4    ,sv5     ,sv6       ,&
+            &ssp       ,vis     ,uvar   ,off    ,nft     ,v         ,&
+            &w         ,x       ,ix     ,nix    ,jthe    ,&
+            &geo       ,pid     ,ilay   ,ng     ,pm      ,&
+            &iparg     ,bufvois ,ipm    ,bufmat ,stifn   ,&
+            &vd2       ,vdx     ,vdy    ,vdz    ,mat     ,voln      ,&
+            &gbuf%qvis ,dvol    ,qold   ,psh)
 !
           else if (mtn == 106) then
             idev = matparam%iparam(2) - 2
