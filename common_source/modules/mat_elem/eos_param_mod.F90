@@ -41,7 +41,6 @@
 !||    hm_read_eos_compaction2      ../starter/source/materials/eos/hm_read_eos_compaction2.F90
 !||    hm_read_eos_compaction_tab   ../starter/source/materials/eos/hm_read_eos_compaction_tab.F90
 !||    hm_read_eos_exponential      ../starter/source/materials/eos/hm_read_eos_exponential.F90
-!||    hm_read_eos_powderburn       ../starter/source/materials/eos/hm_read_eos_powderburn.F90
 !||    hm_read_eos_tabulated        ../starter/source/materials/eos/hm_read_eos_tabulated.F
 !||    idealgas                     ../common_source/eos/idealgas.F
 !||    idealgas_vt                  ../common_source/eos/idealgas_vt.F
