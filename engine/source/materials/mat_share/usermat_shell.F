@@ -89,6 +89,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    failwave_mod                 ../common_source/modules/failwave_mod.F
 !||    mat_elem_mod                 ../common_source/modules/mat_elem/mat_elem_mod.F90
 !||    message_mod                  ../engine/share/message_module/message_mod.F
+!||    mvsiz_mod                    ../engine/share/spe_inc/mvsiz_mod.F90
 !||    names_and_titles_mod         ../common_source/modules/names_and_titles_mod.F
 !||    nlocal_reg_mod               ../common_source/modules/nlocal_reg_mod.F
 !||    stack_mod                    ../engine/share/modules/stack_mod.F

@@ -45,6 +45,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod              ../common_source/modules/mat_elem/elbufdef_mod.F90
 !||    mat_elem_mod              ../common_source/modules/mat_elem/mat_elem_mod.F90
+!||    mvsiz_mod                 ../engine/share/spe_inc/mvsiz_mod.F90
 !||    sigeps169_connect_mod     ../engine/source/materials/mat/mat169/sigeps169_connect.F90
 !||    table_mod                 ../engine/share/modules/table_mod.F
 !||    timer_mod                 ../engine/source/system/timer_mod.F90

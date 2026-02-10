@@ -53,7 +53,10 @@
 !||    sigeps130                       ../engine/source/materials/mat/mat130/sigeps130.F90
 !||    sigeps88                        ../engine/source/materials/mat/mat088/sigeps88.F90
 !||    sigeps88c                       ../engine/source/materials/mat/mat088/sigeps88c.F90
+!||    suser43                         ../engine/source/elements/solid/sconnect/suser43.F
 !||    sz_dt1                          ../engine/source/elements/solid/solidez/sz_dt1.F90
+!||    usermat_shell                   ../engine/source/materials/mat_share/usermat_shell.F
+!||    usermat_solid                   ../engine/source/materials/mat_share/usermat_solid.F
 !||====================================================================
       module mvsiz_mod
       implicit none
