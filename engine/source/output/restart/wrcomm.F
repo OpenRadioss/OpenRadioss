@@ -254,6 +254,7 @@ C   sizes of integer arrays
       TABVINT(95)  = SLBVEL
       TABVINT(96)  = SIACTIV
       TABVINT(97)  = SIBMPC
+      SKINET = 0
       TABVINT(98)  = SKINET
       TABVINT(99)  = SIPARI
       TABVINT(100) = 0 !SINBUF
