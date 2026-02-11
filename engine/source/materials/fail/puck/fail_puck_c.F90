@@ -90,7 +90,7 @@
       integer :: i,j,nindx,ifail_sh
       integer, dimension(nel) :: indx
       real(kind=WP) :: sigt1,sigt2, sigc1,sigc2,fsig12,f1,fa,fb,fc,            &
-        pn12,pp12,pn22,fac,tmax,dammx,fcut,asrate,sxx(nel),syy(nel),sxy(nel)
+        pn12,pp12,pn22,fac,tmax,fcut,asrate,sxx(nel),syy(nel),sxy(nel)
 !-----------------------------------------------
 !   S o u r c e   L i n e s
 !-----------------------------------------------

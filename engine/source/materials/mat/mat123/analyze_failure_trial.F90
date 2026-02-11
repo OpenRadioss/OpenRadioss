@@ -73,9 +73,8 @@
 !-----------------------------------------------------------------------------------------------------------------------
 !                                              L o c a l   V a r i a b l e s
 !-----------------------------------------------------------------------------------------------------------------------
-       integer :: status ! status of the minimization
-       integer :: maxiter,i,n_trials
-       real(kind=wp) :: a, b, tol, fmin,f_kink,sigma_n,tau_T,tau_L,phi
+      integer :: i, n_trials
+      real(kind=wp) :: f_kink, sigma_n, tau_T, tau_L, phi
        real(kind=wp) :: cos2p,sin2p,cosp,sinp,denom_T,denom_L,f_matrix
 ! ----------------------------------------------------------------------------------------------------------------------  
 

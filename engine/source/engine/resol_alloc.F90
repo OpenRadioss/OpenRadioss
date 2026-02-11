@@ -188,9 +188,6 @@
           integer, intent(inout) :: inod_pxfem(*)
 
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer :: i,j,cc,nod
-          integer :: loc_proc
-          integer :: lsd, lrc
 ! ----------------------------------------------------------------------------------------------------------------------
 
           call assinit(element%pon%adsky,nodes%boundary_add,nodes%boundary,element%pon%procne,lisendp,lirecvp)

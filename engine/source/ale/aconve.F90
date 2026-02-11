@@ -161,7 +161,7 @@
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------  
           integer :: itrimat,real_itrimat
-          integer :: nm,ijk,nvar,idx_nb,ng,idx,j
+          integer :: nm,ijk,nvar,ng,idx,j
           integer :: mtn,llt,nel,nft,iad,ity,npt,jale,ismstr,jeul,jtur
           integer :: jthe,jlag,jmult,jhbe,jivf,nvaux,jpor,jcvt,jclose,jplasol
           integer :: irep,iint,igtp,israt,isrot,icsen,isorth,isorthg,ifailure,jsms
@@ -174,7 +174,7 @@
           integer :: iflg ! flag tu update qmv array, 1 --> qmv update for nvar=1 & mtn=51, O --> nothing          
           integer, dimension(nspmd) :: s_index,r_index
           integer, dimension(nspmd) :: s_req,r_req          
-          integer :: nvar_index,conv_size,local_index
+          integer :: conv_size
           type(array_type_my_real_2d), dimension(:), allocatable :: s_buffer !< send buffer
           type(array_type_my_real_2d), dimension(:), allocatable :: r_buffer !< rcv buffer             
           real(kind=WP), dimension(:), pointer :: var,pvol,peint,prho,piad22

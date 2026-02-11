@@ -193,7 +193,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   L o c a l   V a r i a b l e s
 ! ----------------------------------------------------------------------------------------------------------------------   
-        real(kind=wp) :: local_tol, a_local, b_local, c, d, e, etemp
+        real(kind=wp) :: local_tol, a_local, b_local, d, e, etemp
         real(kind=wp) :: fu, fv, fw, fx, p, q, r, tol1, tol2, u, v, w, x, xm
         integer :: local_maxiter, iter
         real(kind=wp), parameter :: golden_ratio = (three- sqrt(five)) * half

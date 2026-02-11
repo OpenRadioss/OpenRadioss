@@ -809,7 +809,7 @@ C
            AS(3) = USDT*(VS(3)+DT05*(VG(1)*VS(2)-VG(2)*VS(1)))
            A(1:3,NS)= A(1:3,NS)+AS(1:3)*JT(1:3)
           ENDDO 
-		ELSE
+        ELSE
           DO I=1,NSL
            NS = ISL(I)
            V1X2=VG(1)*(X(2,NS)-X(2,M))

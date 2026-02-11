@@ -118,15 +118,15 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer :: i,j,n,imid,mtn,pid,ity,nf1,ip,igtyp,nuvar
+          integer :: i,j,ity,ip,igtyp,nuvar
           integer, dimension(6)  :: ii
           integer, dimension(nel)  :: iprop,sid,imat
           integer, dimension(nel,4)  :: ncj
           real(kind=WP),dimension(mvsiz,8) :: xx,yy,zz,ux,uy,uz,vx,vy,vz,vrx,vry,vrz,fx,fy,fz,mx,my,mz
-          real(kind=WP),dimension(mvsiz)   :: area,mass,dtx,iner,sti,stir,viscm,viscr,masm,inm,rx,ry,rz,sx,sy,sz
+          real(kind=WP),dimension(mvsiz)   :: area,mass,dtx,iner,sti,stir,viscm,viscr,rx,ry,rz,sx,sy,sz
           real(kind=WP),dimension(nel)     :: eint_loc,vol_loc,off_loc,rho_loc,thk,fr_w_e
           real(kind=WP),dimension(6,nel)   :: sig_loc
-          real(kind=WP) :: lx,ly,lz,sxx,syy,szz,sxy,szx,syz,svx,svy,svz,sv2,dt2,visn,visr,ex,ey,ez,a2,off_l,dum,rho0
+          real(kind=WP) :: dt2,visn,visr,ex,ey,ez,a2,off_l,dum,rho0
           type(g_bufel_) , pointer :: gbuf     
           real(kind=WP), dimension(:), pointer :: uvar     
 

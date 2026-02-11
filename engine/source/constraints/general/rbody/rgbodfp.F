@@ -613,7 +613,7 @@ C
             VI(2)=RBY(4)*VR(1,M)+RBY(5)*VR(2,M)+RBY(6)*VR(3,M)
             VI(3)=RBY(7)*VR(1,M)+RBY(8)*VR(2,M)+RBY(9)*VR(3,M)
             CALL ROTBMR(VI,RBY,DT1)
-		      ELSE
+          ELSE
             WA1=AM(1,M)
             WA2=AM(2,M)
             WA3=AM(3,M)

@@ -56,10 +56,10 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           integer, intent (in   )                          :: send_size            !< number of elements to send
           integer, intent (in),dimension(send_size)        :: isend_buffer         !< integer buffer to send
-          real, intent (in),dimension(send_size)           :: isend_buffer_real    !< float buffer to send
+          real(kind=4), intent (in),dimension(send_size)   :: isend_buffer_real    !< float buffer to send
           integer , intent (in   )                         :: recv_size            !< total size of elements to receive
           integer, intent (inout  ),dimension(recv_size)   :: irecv_buffer         !< integer buffer to receive
-          real, intent (inout  ),dimension(recv_size)      :: irec_buffer_real     !< float buffer to receive
+          real(kind=4), intent (inout  ),dimension(recv_size) :: irec_buffer_real  !< float buffer to receive
           integer, intent(inout)                           :: shell_stacksize_p0   !< Size of stack after gather
           integer, intent (in   ),dimension(nspmd)         :: p0_sizes             !< size to receive from each mpi domain
           integer, intent (in   ),dimension(nspmd+1)       :: p0_offsets           !< offset to apply on integer buffer
@@ -161,9 +161,9 @@
         implicit none
 #include "mpif.h"
         integer,dimension(10) :: isend
-        real,dimension(10) :: isend_real
+        real(kind=4),dimension(10) :: isend_real
         integer,dimension(:),allocatable :: irecv_buffer
-        real,dimension(:),allocatable :: irec_buffer_real
+        real(kind=4),dimension(:),allocatable :: irec_buffer_real
         integer,dimension(:),allocatable :: p0_sizes
         integer,dimension(:),allocatable :: p0_offsets
         integer,dimension(:),allocatable :: it_spmd

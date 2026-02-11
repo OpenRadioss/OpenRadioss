@@ -186,7 +186,7 @@
       real(kind=wp) :: jaci12, jaci45, jaci78
       real(kind=wp) :: x_17_46, x_28_35, y_17_46, y_28_35, z_17_46, z_28_35
       real(kind=wp) :: hx, hy, hz, h1x, h1y, h1z, h2x, h2y, h2z, h3x, h3y, h3z, h4x, h4y, h4z
-      real(kind=wp) :: rho0, g0, c1, nuu
+      real(kind=wp) :: rho0, nuu
       real(kind=wp) :: vx3478, vx2358, vx1467, vx1256
       real(kind=wp) :: vy3478, vy2358, vy1467, vy1256
       real(kind=wp) :: vz3478, vz2358, vz1467, vz1256
@@ -221,14 +221,13 @@
       real(kind=wp), dimension(nel) :: gg
       real(kind=wp), dimension(nel) :: caq
       real(kind=wp), dimension(nel) :: g_3dt, e0
-      real(kind=wp), dimension(nel) :: nu1, nu2, nu3, nu4, nus
+      real(kind=wp), dimension(nel) :: nu2, nu4, nus
       real(kind=wp), dimension(nel) :: hgx1, hgx2, hgx3, hgx4
       real(kind=wp), dimension(nel) :: hgy1, hgy2, hgy3, hgy4
       real(kind=wp), dimension(nel) :: hgz3, hgz4
       real(kind=wp), dimension(nel) :: jr_1, js_1, jt_1
       real(kind=wp), dimension(nel) :: jr0, js0, jt0
       real(kind=wp), dimension(nel) :: h11, h22, h33, h12, h13, h23
-      real(kind=wp), dimension(3,4) :: fhourt
       real(kind=wp), dimension(6) :: dsig
       real(kind=wp) :: ds,de
       real(kind=wp), dimension(nel) :: f11_hgl, f12_hgl, f13_hgl, f14_hgl, f15_hgl, f16_hgl

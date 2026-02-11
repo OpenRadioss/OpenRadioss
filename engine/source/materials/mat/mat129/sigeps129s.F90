@@ -140,7 +140,6 @@
           real(kind=WP) ,dimension(nel)   :: sigm                    !< pressure
           real(kind=WP) ,dimension(nel)   :: fscale                  !< scale factor
           real(kind=WP) ,dimension(nel)   :: alpha                   !< thermal expansion coeff
-          real(kind=WP) ,dimension(1)     :: fact                    !< time factor
           real(kind=WP) ,dimension(nel)   :: depsth,depsc
           real(kind=WP) ,dimension(nel)   :: qr1,qr2,qx1,qx2
           real(kind=WP) ,dimension(:,:) ,pointer :: xvec1

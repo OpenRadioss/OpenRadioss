@@ -124,8 +124,7 @@ C-----------------------------------------------
      .     S11,S22,S33,S4,S5,S6,VONM,GAMA(6),
      .     T11,T21,T31,T12,T22,T32,T13,T23,T33,
      .     PHI,THETA,PSI,DAMMAX,VEL(0:3),VFRAC(MVSIZ,1:21),
-     .     CUMUL(3),VX,VY,VZ,NX,NY,NZ,SURF,TMP_2(MVSIZ,3),
-     .     VOLFRAC,BFRAC
+     .     CUMUL(3),VX,VY,VZ,NX,NY,NZ,SURF,TMP_2(MVSIZ,3)
         my_real
      .     G1(MVSIZ,3),G2(MVSIZ,3),G3(MVSIZ,3),VOLN(MVSIZ),AREAM(MVSIZ),
      .     RHO0,DET(MVSIZ),EZZ(MVSIZ),MAXDAMINI,E33
@@ -134,13 +133,12 @@ C-----------------------------------------------
      .          N,K,JTURB,MT,IALEL,
      .          NLAY_FAIL,
      .          OFFSET, IPT,
-     .          IUVAR,IPOS,ITRIMAT,
+     .          IUVAR,IPOS,
      .          IALEFVM_FLG, IMAT,IADBUF,NUPARAM,ICSIG,NC(8),IEOS,NMOD,MAT_ID,FAIL_ID
         INTEGER
      .          ISOLNOD,IVISC,NPTG,TSHELL,TSH_ORT,
      .          IOK_PART(MVSIZ),JJ(6),IRUPT,IOK,NPG_PLANE,IIR,
-     .          IS_WRITTEN_VALUE(MVSIZ),NFRAC,IU(4),IV,NB_FACE,KFACE,IS_EULER,IS_ALE,IAD2,
-     .          SUBMATLAW
+     .          IS_WRITTEN_VALUE(MVSIZ),NFRAC,IU(4),IV,NB_FACE,KFACE,IS_EULER,IS_ALE,IAD2
         LOGICAL DETECTED
         CHARACTER*5 BUFF
         TYPE(G_BUFEL_)  ,POINTER :: GBUF
