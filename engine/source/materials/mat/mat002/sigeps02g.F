@@ -146,7 +146,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       Z3     = mat_param%uparam(10)
       Z4     = mat_param%uparam(11)                 
       ASRATE = mat_param%uparam(9)
-      ASRATE = MIN(ONE,ASRATE*DT1C(I))
+      ASRATE = MIN(ONE,ASRATE*DT1C(JFT))
 
       TREF  = mat_param%therm%tref                  
       TMELT = mat_param%therm%tmelt                 
