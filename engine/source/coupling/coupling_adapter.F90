@@ -101,11 +101,12 @@
             integer(c_int), intent(in) :: node_ids(*)
             integer(c_int), value :: num_nodes
           end subroutine coupling_adapter_set_nodes
-          function coupling_adapter_initialize(adapter, coordinates, total_nodes, mpi_rank, mpi_size) &
+          function coupling_adapter_initialize(adapter, coordinates, n2d, total_nodes, mpi_rank, mpi_size) &
             bind(c, name="coupling_adapter_initialize")
             use, intrinsic :: iso_c_binding
             type(c_ptr), value :: adapter
             real(c_double), intent(in) :: coordinates(*)
+            integer(c_int), value :: n2d ! n2d == 0 for 3D case, n2d == 1 for axisymmetric, n2d == 3 for plane strain (yz plane) 
             integer(c_int), value :: total_nodes, mpi_rank, mpi_size
             integer(c_int) :: coupling_adapter_initialize
           end function coupling_adapter_initialize
@@ -523,6 +524,7 @@
           integer :: result
           real(c_double) :: coordinates(3 * nb_nodes)
           integer :: i, j, k
+          integer :: n2d
 !------------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 !------------------------------------------------------------------------------------------------------------------------
@@ -537,8 +539,10 @@
             end do
           end do
           nodes%X0 = nodes%X
+          n2d = nodes%n2d
 
-          result = coupling_adapter_initialize(coupling%adapter_ptr, coordinates, nb_nodes, mpi_rank, mpi_commsize)
+
+          result = coupling_adapter_initialize(coupling%adapter_ptr, coordinates, n2d, nb_nodes, mpi_rank, mpi_commsize)
 
           if (result == 1) then
             coupling%dt_limit = coupling_adapter_get_max_time_step_size(coupling%adapter_ptr)

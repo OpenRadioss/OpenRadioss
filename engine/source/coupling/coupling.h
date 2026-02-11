@@ -32,6 +32,8 @@ class CouplingAdapter {
 private:
     int groupNodeId_; // the group node ID for this adapter. 
     int surfaceId_; // the surface ID for this adapter, not used yet
+    int n2d_; // 0 for 3D, 1 for axisymmetric, 2 for plane strain
+    int dimensions_; // dimension of the interface mesh
 
 public:
     virtual ~CouplingAdapter() = default;
@@ -40,8 +42,9 @@ public:
     virtual bool configure(const std::string& configFile) = 0;
     virtual void setNodes(const std::vector<int>& nodeIds) = 0;
     
-    // Initialization
-    virtual bool initialize(const double* coordinates, int totalNodes, int mpiRank, int mpiSize) = 0;
+    // Initialization ; n2d = 0 for 3D, n2d = 2 for plane strain ; n2d = 1 for axi-symmetric
+    virtual bool initialize(const double* coordinates, int n2d, int totalNodes, int mpiRank, int mpiSize) = 0;
+
     
     // Data exchange
     virtual void writeData(const double* values, int totalNodes, double dt, int dataType) = 0;
@@ -72,6 +75,10 @@ public:
             wd[i] = 0;
         }
     }
+    int getN2D() const { return n2d_; }
+    void setN2D(int n2d) { n2d_ = n2d; }
+    int getDimensions() const { return dimensions_; }
+    void setDimensions(int dimensions) { dimensions_ = dimensions; }
 
     // Data types that can be exchanged during the coupling process
     enum class DataType {

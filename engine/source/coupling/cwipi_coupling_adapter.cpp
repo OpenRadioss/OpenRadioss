@@ -190,8 +190,14 @@ void CwipiCouplingAdapter::setMesh(const int* elem_node_offsets, const int* elem
     eltsConnec_.assign(elem_node_indices, elem_node_indices + elem_node_offsets[num_elements]);
 }
 
-bool CwipiCouplingAdapter::initialize(const double* coordinates, int totalNodes, int mpiRank, int mpiSize) {
+bool CwipiCouplingAdapter::initialize(const double* coordinates, int n2d, int totalNodes, int mpiRank, int mpiSize) {
     if (!active_) return false;
+    if (n2d >0) { 
+        // For now, only support 3D coupling with CWIPI. Support for 2D and axisymmetric cases can be added later if needed.
+        std::cout << "Error: CWIPI coupling adapter currently only supports 3D coupling" << std::endl;
+        return false;
+
+    }
     
     try {
         // 1. Initialize CWIPI
