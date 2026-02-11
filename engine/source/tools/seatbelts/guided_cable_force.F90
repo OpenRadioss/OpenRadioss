@@ -53,7 +53,6 @@
           use constant_mod,                         only : zero, one, em10, em20, half
           use precision_mod,                        only : WP
           use seatbelt_mod,                         only : nguided_cable, guide, anchor_remote_send
-          use debug_mod,                            only : itab_debug
           use compute_contact_force_guide_mod,      only : compute_contact_force_guide
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
@@ -88,7 +87,7 @@
           real(kind=WP) :: fric
           real(kind=WP) :: x1(3), x2(3), xa(3), x3(3)
           real(kind=WP) :: seg_vec(3), veca(3), seg_len2, alpha, alpha1, alpha2
-          real(kind=WP) :: xproj(3), dist1, dist2, dist3, alpha3
+          real(kind=WP) :: xproj(3), dist1, dist2
           real(kind=WP) :: forc_norm, forc_tan, forc_tan_ad, forc_ad(3)
           real(kind=WP) :: mass_harm, stfac, stiff_stab, adamp
           real(kind=WP) :: one_over_dt1          

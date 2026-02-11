@@ -90,27 +90,15 @@ C-----------------------------------------------
       my_real
      .   EVAR(6,MVSIZ),EVAR_CORNER(6,20,MVSIZ)
       my_real
-     .   OFF, P,VONM2,S1,S2,S12,S3,VALUE,DMGMX,FAC,
-     .   DIR1_1,DIR1_2,DIR2_1,DIR2_2,AA,BB,V1,V2,V3,X21,X32,X34,
-     .   X41,Y21,Y32,Y34,Y41,Z21,Z32,Z34,Z41,SUMA,VR,VS,X31,Y31,
-     .   Z31,E11,E12,E13,E21,E22,E23,SUM,AREA,X2L,VAR,
-     .   E1X,E1Y,E1Z,E2X,E2Y,E2Z,E3X,E3Y,E3Z,RX,RY,RZ,SX,SY,SZ,
-     .   VG(5),VLY(5),VE(5),S11,S22,S33,S4,S5,S6,VONM, GAMA(6),EVAR_TMP(6),
-     .   A1
+     .   GAMA(6),EVAR_TMP(6)
       my_real 
      .   XN(8*MVSIZ) , YN(8*MVSIZ) , ZN(8*MVSIZ), 
-     .   DXN(8*MVSIZ) ,DYN(8*MVSIZ) , DZN(8*MVSIZ),STRAIN(6,MVSIZ) 
+     .   DXN(8*MVSIZ) ,DYN(8*MVSIZ) , DZN(8*MVSIZ) 
       INTEGER I, II, J, NEL, NPTR, NPTS, NPTT, NLAY, ILAY, 
-     .        IR,IS,IT,IL,MLW, NUVAR,IUS,LENF,PTF,PTM,PTS,NFAIL,
-     .        N,NN,K,K1,K2,JTURB,MT,IMID,IALEL,IPID,ISH3N,NNI,
-     .        NN1,NN2,NN3,NN4,NN5,NN6,NN9,NF,BUF,NVARF,
-     .        IHBE,NPTM,NPG, MPT,IPT,IADD,IADR,IPMAT,IFAILT,
-     .        IIGEO,IADI,ISUBSTACK,ITHK,
-     .        ID_PLY,NB_PLYOFF
+     .        IR,IS,IT,IL,MLW, NUVAR,IALEL,IPID,NNI
       INTEGER PID(MVSIZ), 
-     .        PTE(4),PTP(4),PTMAT(4),PTVAR(4),NPT_ALL,IPLY,
-     .        ID_ELEM_TMP(MVSIZ),NIX,ISOLNOD,IVISC,NPTG,TSHELL,TSH_ORT,
-     .        ISTRAIN,KCVT,IOR_TSH,MT1,ICSIG,PTI,IOK,IPRT,IOK_PART(MVSIZ),
+     .        ISOLNOD,IVISC,NPTG,TSHELL,TSH_ORT,IPT,N,
+     .        ISTRAIN,KCVT,IOR_TSH,MT1,ICSIG,IOK,IOK_PART(MVSIZ),
      .        JJ(6),IS_WRITTEN_TENSOR(MVSIZ),KK(8)
 
  
@@ -4881,7 +4869,7 @@ C     REAL
       INTEGER I
       my_real
      .   X41, Y41, Z41, X42, Y42, Z42, X43, Y43, Z43,
-     .   A1, A2, A3, A4, D, AREAMX2, 
+     .   D, 
      .   B1(NEL), B2(NEL), B3(NEL), B4(NEL), 
      .   C1(NEL), C2(NEL), C3(NEL), C4(NEL),
      .   D1(NEL), D2(NEL), D3(NEL), D4(NEL)
@@ -5106,8 +5094,7 @@ C     REAL
      .   AJI4, AJI5, AJI6,
      .   AJI7, AJI8, AJI9,
      .   JAC_59_68, JAC_67_49, JAC_48_57,
-     .   AJ12, AJ45, AJ78,
-     .   FAC
+     .   AJ12, AJ45, AJ78
 C-----------------------------------------------
 C
       DO I=1,NEL
@@ -5196,7 +5183,7 @@ C-----------------------------------------------
       my_real
      .   ES1(MVSIZ), ES2(MVSIZ), ES3(MVSIZ), 
      .   ES4(MVSIZ), ES5(MVSIZ), ES6(MVSIZ),
-     .   SV(3),EV(MVSIZ,3),DIRPRV(MVSIZ,3,3)
+     .   EV(MVSIZ,3),DIRPRV(MVSIZ,3,3)
 C-----------------------------------------------
       DO I=1,NEL
         ES1(I)=F(1,1,I)*(TWO+F(1,1,I))+F(1,2,I)*F(1,2,I)+F(1,3,I)*F(1,3,I)

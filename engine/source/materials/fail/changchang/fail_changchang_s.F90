@@ -90,7 +90,7 @@
 !-----------------------------------------------
 !   L o c a l   V a r i a b l e s
 !-----------------------------------------------
-      integer :: i,j,jj,nindx,nindx2,failip
+      integer :: i,j,nindx,nindx2,failip
       integer ,dimension(nel) :: indx,indx2
       real(kind=WP) :: sigt1,sigt2,sigt12,sigc1,sigc2,beta,tmax,fcut,asrate,   &
         damft,damfc,dammt1,dammc1,dammt2,dammc2

@@ -90,12 +90,11 @@
 !-----------------------------------------------
 !   L o c a l   V a r i a b l e s
 !-----------------------------------------------
-      integer :: i,j,jj,nindx,ifail_sh,imodel
+      integer :: i,j,nindx,ifail_sh,imodel
       integer ,dimension(nel) :: indx
       real(kind=WP) :: sigt1,sigt2,sigc1,sigc2,csig,fsig12,msig12,msig23,      &
-        msig13,angle,sdel,tmax,ratio,f1,f2,f3,f4,f5,sig,p,f6,f7,               &
-        tsig12,xsig12,xsig23,dammx, telem,k2m,k0,k1,k2,                        &
-        dtinv,km,epspref,filt,alpha,asrate,fcut
+        msig13,angle,sdel,tmax,f1,f2,f3,f4,f5,sig,p,f6,f7,                     &
+        tsig12,xsig12,xsig23,asrate,fcut
       real(kind=WP), dimension(nel) :: sxx,syy,sxy,syz,szx
 !-----------------------------------------------
 !   S o u r c e   L i n e s

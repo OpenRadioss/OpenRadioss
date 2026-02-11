@@ -84,20 +84,11 @@
 !-------------------------------------------------------------------------------
 !    l o c a l   v a r i a b l e s
 !-------------------------------------------------------------------------------
-      integer :: i, j, icor, nnega                            !< loop counters and flags
-      integer :: index(nel)                                   !< index array for negative volume elements  
-      real(kind=wp) :: jac1(nel), jac2(nel), jac3(nel)        !< jacobian matrix components
-      real(kind=wp) :: jac4(nel), jac5(nel), jac6(nel)        !< jacobian matrix components
-      real(kind=wp) :: jac7(nel), jac8(nel), jac9(nel)        !< jacobian matrix components    
+      integer :: i                                            !< loop counters and flags
       real(kind=wp) :: jaci1, jaci2, jaci3                    !< jacobian inverse components
       real(kind=wp) :: jaci4, jaci5, jaci6                    !< jacobian inverse components
       real(kind=wp) :: jaci7, jaci8, jaci9                    !< jacobian inverse components
       real(kind=wp) :: jaci12, jaci45, jaci78                 !< combined inverse components 
-      real(kind=wp) :: x21(nel), x31(nel), x54(nel), x64(nel) !< coordinate differences
-      real(kind=wp) :: y21(nel), y31(nel), y54(nel), y64(nel) !< coordinate differences
-      real(kind=wp) :: z21(nel), z31(nel), z54(nel), z64(nel) !< coordinate differences
-      real(kind=wp) :: x41(nel), y41(nel), z41(nel)           !< coordinate differences
-      real(kind=wp) :: jac_59_68(nel), jac_67_49(nel), jac_48_57(nel) !< cross products
 !-------------------------------------------------------------------------------
 !
 
