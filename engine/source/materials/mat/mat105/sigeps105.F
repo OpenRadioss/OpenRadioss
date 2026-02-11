@@ -136,7 +136,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       my_real :: POLD, EINC, PNEW
       my_real :: BULK, D, EG, EG_PROD, Gr, C, ALPHA, C1, C2, FSCALE_G, FSCALE_B, FSCALE_P, FSCALE_RHO
-      my_real :: P0, XL, ESPE, TOTAL_BFRAC, DELTA_BF, BRATE
+      my_real :: P0, XL, ESPE, DELTA_BF, BRATE
       my_real :: PG, PG_, PS, RHO_G, RHO_S, RHO_Si
       my_real :: E ! rho0.e or EINT/V0 where V0 such as rho0.v0 = rho.v ;   EINT = rho.e.V = rho/rho0 * E.V
       my_real :: V_g, V_s, V_g_prev
@@ -182,14 +182,14 @@ C-----------------------------------------------
       ! initialization at time = 0 : set initial internal energy, pressure, density, burn fraction, etc...
       IF(DT1 == ZERO)THEN
         DO I=1,NEL
-          EINT(I)   = ZERO
-          RHO(I)    = compac*RHO0(I)
-          UVAR(I,1) = RHO0(I)*compac*VOLUME(I)  !M0   !rho0 is rhos(0)=rho_ref  not rho(0)=compac*rho_ref
+          EINT(I)   = ZERO                      !no chemical release
+          RHO(I)    = RHO0(I)                   !rho_ref
+          UVAR(I,1) = RHO0(I)*VOLUME(I)         !M0
           UVAR(I,2) = ZERO                      !F
-          UVAR(I,3) = RHO0(I)                   !RHO_S
+          UVAR(I,3) = RHO0(I)/compac            !RHO_S
           UVAR(I,4) = zero                      !RHO_G
           UVAR(I,5) = compac*VOLUME(I)          !V_s
-          UVAR(I,6) = ZERO                      !V_g
+          UVAR(I,6) = (one-compac)*VOLUME(I)    !V_g
           UVAR(I,7) = P0                        !P (total pressure, not relative pressure)
           UVAR(I,8) = ZERO                      !EINTg = eg.M_g
         ENDDO
@@ -228,18 +228,20 @@ C-----------------------------------------------
         !--------------------------------!
         ! IGNITION FRACTION              !
         !--------------------------------!
-          !--> valid for const flamme velocity
-        !IF(BFRAC(I) < ONE) THEN
-        ! TB = - TBURN(I)
-        ! BFRAC(I) = ZERO
-        ! IF(TIME > TB) BFRAC(I) = C1*(TIME-TB)*TWO_THIRD/XL
-        ! IF(BFRAC(I) < EM04) THEN
-        !   BFRAC(I) = ZERO
-        ! ELSEIF(BFRAC(I) > ONE) THEN
-        !   BFRAC(I) = ONE
-        ! ENDIF
-        !ENDIF
-        BFRAC(I) = ONE  ! instantaneous ignition (infinite flamme velocity)
+        !--> valid for const flamme velocity
+
+        IF(BFRAC(I) < ONE) THEN
+         TB = - TBURN(I)
+         TB=0.1  !hardcoded for current closed bomb testing
+         BFRAC(I) = ZERO
+         IF(TIME > TB) BFRAC(I) = C1*(TIME-TB)/XL
+         IF(BFRAC(I) < EM03) THEN
+           BFRAC(I) = ZERO
+         ELSEIF(BFRAC(I) > ONE) THEN
+           BFRAC(I) = ONE
+         ENDIF
+        ENDIF
+        ! BFRAC(I) = ONE  ! instantaneous ignition (infinite flamme velocity)
 
         !------------------------------------------------!
         ! BURN FRACTION                                  !
@@ -248,19 +250,18 @@ C-----------------------------------------------
         !------------------------------------------------!
         IF(BFRAC(I) <= ZERO)THEN
           ! no ignition, no burn (so far)
-          TOTAL_BFRAC = ZERO
           F = ZERO
           DELTA_BF = ZERO
         ELSEIF(F /= ONE)THEN
             ! F < 1  flamme has already reached the current element, but grain are still burning
+
             BRATE       = FSCALE_B*FINTER(funcb,POLD/FSCALE_P,NPF,TF,DIFF)
             DELTA_BF    = Gr*EXP(C*LOG((ONE-ALPHA*F)))*BRATE*TIMESTEP  !F_dot * DT
+            DELTA_BF = MIN(DELTA_BF, ONE-F)
             F           = F + DELTA_BF
             F           = MAX(MIN(ONE,F),ZERO)
-            TOTAL_BFRAC = BFRAC(I)*F  !BFRAC(I) = ONE
         ELSE
             ! complete burn, flamme has already reached the current element and grain are fully burned
-            TOTAL_BFRAC = ONE
             BFRAC(I) = ONE
             DELTA_BF = ZERO
         ENDIF       
@@ -284,10 +285,16 @@ C-----------------------------------------------
            !trivial solving
             V_g   = VOLUME(I)
             V_s   = ZERO
-            RHO_G = M_g / VOLUME(I)
+            RHO_G = M_g / V_g      ! gas density in gas volume
             RHO_S = zero
             P = RHO_G*Eg*exp(RHO_G/D)
             Pk = P
+
+        ELSEIF (F== ZERO)THEN
+          Pk = P0
+          V_g = (1-compac)*VOLUME(I)
+          V_s = (compac)*VOLUME(I)
+
 
         ELSE
 
@@ -302,30 +309,41 @@ C-----------------------------------------------
 
           DO WHILE (RESIDUE > EM08 .AND. ITER < MAX_ITER)
 
-            RHO_S = rho_ref * (one + (Pk-P0)/BULK)  ! solid density from Linear EOS
-            V_s   = M_S / RHO_S
-            V_s = MIN(V_s, VOLUME(I)*(ONE-EM10))
-            V_g = MAX(EM20, VOLUME(I) - V_s)
+            ! Intrinsic solid density from Linear EOS
+            RHO_S = rho_ref/compac * ((Pk-P0)/BULK + one)
+
+            ! Volume occupied by solid (using intrinsic density)
+            V_s = M_S / RHO_S
+            V_s = MIN(V_s, VOLUME(I)*(ONE-EM10))  ! safety limit
+
+            ! Volume occupied by the gas
+            V_g = VOLUME(I) - V_s
+            V_g = MAX(EM20, V_g) !safety limit
+
+            ! Gas pressure
             RHO_G = M_g / V_g
-            Pg   = RHO_G*Eg*exp(RHO_G/D)
+            Pg = RHO_G*Eg*exp(RHO_G/D)
+
+            ! Newton f(P) = P-Pg(P) = 0
             fP = Pk - RHO_G*Eg*exp(RHO_G/D)
-            dfP = 1 - (Eg*exp(RHO_G/D)*(one+RHO_G/D)) * (-M_g*M_s/V_g/V_g*rho_ref/BULK/RHO_S/RHO_S)  ! derivative of f(P) regarding P, with RHO_G and RHO_S depending on P
+            dfP = 1
             Pk = Pk - fP/dfP
             Pk = MAX(P0, Pk)  ! avoid negative pressure
 
             RESIDUE = ABS(fP/(EM20+Pk))
             ITER = ITER + 1
           END DO
+          print *, "ITER=----------------",ITER
 
         END IF
 
         PNEW = Pk
 
         ! SOLID DOES NOT DEPEND ON ENERGY, SO NO NEED TO UPDATE SOLID INTERNAL ENERGY DUE TO PHASE CHANGE, ONLY GAS INTERNAL ENERGY INCREASE DUE TO CHEMICAL ENERGY RELEASE
-        !dV_g = V_g - V_g_prev
-        !dEint_W = -HALF*(POLD+PNEW)*dV_g  ! chemical released + work (phase change)
-        !EINT_g = EINT_g + dEint_W  ! gaz internal energy increase due to chemical energy release
-        !IF(M_G > ZERO) EG = EINT_G / M_G
+        ! dV_g = V_g - V_g_prev
+        ! dEint_W = -HALF*(POLD+PNEW)*dV_g  ! chemical released + work (phase change)
+        ! EINT_g = EINT_g + dEint_W  ! gaz internal energy increase due to chemical energy release
+        ! IF(M_G > ZERO) EG = EINT_G / M_G
 
         !--------------------------------!
         ! Cell Internal Energy           !
@@ -343,6 +361,7 @@ C-----------------------------------------------
         print *, "rho,RHO_S,RHO_G=", RHO(I), RHO_S, RHO_G
         print *, "F, P=", F, PNEW
         print *, "EINT(I), Eg", EINT(I), Eg
+        print *, "XL=",XL
         print *, "______________________________________"
 
         !--------------------------------!
@@ -355,7 +374,7 @@ C-----------------------------------------------
           SSP = ALPHA_S/RHO_S/SSP_S2
         ENDIF
         IF(RHO_G > ZERO)THEN
-          SSP_G2 = Pg/RHO_G*(one+RHO_G/D)
+          SSP_G2 = PNEW/RHO_G*(one+RHO_G/D)
           ALPHA_g = ONE - ALPHA_s
           SSP = SSP + ALPHA_g/RHO_G/SSP_G2
         ENDIF
@@ -391,26 +410,54 @@ C-----------------------------------------------
        
         ! --- verification output
         if(time == ZERO)then
-          open(UNIT=1,FILE='F.txt'    )
-          open(UNIT=2,FILE='Pg.txt'   )
-          open(UNIT=3,FILE='rhoS.txt' )
-          open(UNIT=4,FILE='Ifrac.txt' )
+          open(UNIT=111,FILE='F.txt'    )
+          open(UNIT=112,FILE='Pg.txt'   )
+          open(UNIT=113,FILE='rhoS.txt' )
+          open(UNIT=114,FILE='Ifrac.txt' )
+          open(UNIT=115,FILE='eg.txt' )
+          open(UNIT=116,FILE='rhog.txt' )
+          open(UNIT=117,FILE='eintg.txt' )
+          open(UNIT=118,FILE='vg.txt' )
+          open(UNIT=119,FILE='vs.txt' )
+          open(UNIT=120,FILE='mg.txt' )
+          open(UNIT=121,FILE='ms.txt' )
         else
-          open(UNIT=1,FILE='F.txt'   , position="append")
-          open(UNIT=2,FILE='Pg.txt'  , position="append")
-          open(UNIT=3,FILE='rhoS.txt', position="append")
-          open(UNIT=4,FILE='Ifrac.txt',position="append")
+          open(UNIT=111,FILE='F.txt'   , position="append")
+          open(UNIT=112,FILE='Pg.txt'  , position="append")
+          open(UNIT=113,FILE='rhoS.txt', position="append")
+          open(UNIT=114,FILE='Ifrac.txt',position="append")
+          open(UNIT=115,FILE='eg.txt'   ,position="append")
+          open(UNIT=116,FILE='rhog.txt' ,position="append")
+          open(UNIT=117,FILE='eintg.txt',position="append")
+          open(UNIT=118,FILE='vg.txt'   ,position="append")
+          open(UNIT=119,FILE='vs.txt'   ,position="append")
+          open(UNIT=120,FILE='mg.txt'   ,position="append")
+          open(UNIT=121,FILE='ms.txt'   ,position="append")
         endif
 
-        WRITE(1,*)TIME,F
-        WRITE(2,*)TIME,Pg
-        WRITE(3,*)TIME,RHO_S
-        WRITE(4,*)BFRAC(I)
+        WRITE(111,*)TIME,F
+        WRITE(112,*)TIME,PNEW
+        WRITE(113,*)TIME,RHO_S
+        WRITE(114,*)BFRAC(I)
+        WRITE(115,*)TIME,EG
+        WRITE(116,*)TIME,RHO_G
+        WRITE(117,*)TIME,EINT_G
+        WRITE(118,*)TIME,V_G
+        WRITE(119,*)TIME,V_S
+        WRITE(120,*)TIME,M_G
+        WRITE(121,*)TIME,M_S
 
-        CLOSE(1)
-        CLOSE(2)
-        CLOSE(3)
-        CLOSE(4)
+        CLOSE(111)
+        CLOSE(112)
+        CLOSE(113)
+        CLOSE(114)
+        CLOSE(115)
+        CLOSE(116)
+        CLOSE(117)
+        CLOSE(118)
+        CLOSE(119)
+        CLOSE(120)
+        CLOSE(121)
 
       ENDDO! next I   
 
