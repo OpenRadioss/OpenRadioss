@@ -436,7 +436,7 @@ C
             ALLOCATE(IMPBUF_TAB%X_C(S_X_C))
             ALLOCATE(IMPBUF_TAB%DD(S_DD))
             ALLOCATE(IMPBUF_TAB%DDR(S_DDR))
-            ALLOCATE(IMPBUF_TAB%X_A(S_X_A))   
+            ALLOCATE(IMPBUF_TAB%X_A(3,S_X_A/3))   
             ALLOCATE(IMPBUF_TAB%FEXT(S_FEXT))  
             ALLOCATE(IMPBUF_TAB%DG(S_DG))    
             ALLOCATE(IMPBUF_TAB%DGR(S_DGR))   

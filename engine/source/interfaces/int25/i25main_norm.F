@@ -38,7 +38,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      1                   INTLIST25,IPARI   ,INTBUF_TAB ,JTASK    ,X       ,
      2                   ITAB    ,NSENSOR  ,SENSOR_TAB,IAD_FRNOR    ,FR_NOR   ,
      3                   IAD_FREDG,FR_EDG,IAD_ELEM,FR_ELEM,FSKYN25,
-     4                   ADDCSRECT,PROCNOR)
+     4                   ADDCSRECT,PROCNOR,nodes)
 C=======================================================================
 C-----------------------------------------------
 C   M o d u l e s
@@ -46,6 +46,7 @@ C-----------------------------------------------
       USE MPI_COMMOD
       USE INTBUFDEF_MOD
       USE SENSOR_MOD
+      use nodal_arrays_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -72,6 +73,7 @@ C     REAL
       TYPE(MPI_COMM_NOR_STRUCT) , DIMENSION(NINTER25) :: BUFFERS
       REAL*4 FSKYN25(3,*)
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) ,INTENT(IN) :: SENSOR_TAB
+      type(nodal_arrays_), intent(inout) :: nodes !< nodal arrays
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -195,7 +197,7 @@ C
      7               INTBUF_TAB(N)%CANDM_E2S,INTBUF_TAB(N)%CANDS_E2S,INTBUF_TAB(N)%MVOISIN,
      8               INTBUF_TAB(N)%E2S_ACTNOR,NADMSR,INTBUF_TAB(N)%STFM,
      8               INTBUF_TAB(N)%NUMBER_EDGE_TYPE1,INTBUF_TAB(N)%NUMBER_EDGE_TYPE1_0,
-     .               INTBUF_TAB(N)%EDGE_TYPE1,INTBUF_TAB(N)%EDGE_TYPE1_0 )
+     .               INTBUF_TAB(N)%EDGE_TYPE1,INTBUF_TAB(N)%EDGE_TYPE1_0 ,nodes)
 
 
 C

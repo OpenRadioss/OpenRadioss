@@ -197,6 +197,7 @@ C-----------------------------------------------
         use glob_therm_mod
         use python_funct_mod, only: python_
         use element_mod , only : nixs,nixq,nixc,nixt,nixp,nixr,nixtg
+        use precision_mod, only : WP
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -335,7 +336,8 @@ C
      .                                        IKINW,W_DDL,IKUDN,NDOFI,IDDLI,IKUD
         my_real, DIMENSION(:) ,POINTER     :: DIAG_K,LT_K,DIAG_M,LT_M,LB,
      .                                        LB0,BKUD,D_IMP,ELBUF_C,BUFMAT_C,
-     .                                        DR_IMP,X_C,DD,DDR,X_A,R_IMP
+     .                                        DR_IMP,X_C,DD,DDR,R_IMP
+        real(kind=WP), dimension(:,:), pointer :: x_a
         my_real, DIMENSION(:) ,POINTER     :: FEXT,DG,DGR,DG0,DGR0,BUFIN_C,AC,ACR
 c sb
         character*1 anew_stif
@@ -630,7 +632,7 @@ C-------------(IKC(I)=4->IMCONV=1 to avoid rebound-------
           ENDIF
 
           IF (ISMDISP > 0 .AND. ILINE == 0) THEN
-            CALL RGWAL0_IMP(
+            CALL RGWAL0_IMP( 
      1       X_A         ,D_IMP    ,V               ,RWBUF            ,LPRW    ,
      2       NPRW        ,MS       ,FSAV(1,NINTER+1),FR_WALL          ,
      3       FOPT        ,RWSAV    ,WEIGHT          ,FSAVD(1,NINTER+1),
@@ -649,7 +651,7 @@ C
             CALL FV_RW(IDDL   ,IKC   ,NDOF  ,D_IMP  ,V )
           ENDIF
           IF (IMON>0) CALL STOPTIME(TIMERS,4)
-        ENDIF
+        ENDIF 
 C
         IFDIS=NT_RW+NFXV_G
         IF(IFDIS>0.AND.IMCONV==1) THEN

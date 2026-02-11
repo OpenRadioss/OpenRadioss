@@ -174,7 +174,7 @@ C=======================================================================
           my_real, DIMENSION(:) , ALLOCATABLE ::   X_C
           my_real, DIMENSION(:) , ALLOCATABLE ::   DD
           my_real, DIMENSION(:) , ALLOCATABLE ::   DDR
-          my_real, DIMENSION(:) , ALLOCATABLE ::   X_A
+          my_real, DIMENSION(:,:) , ALLOCATABLE ::   X_A
           my_real, DIMENSION(:) , ALLOCATABLE ::   FEXT
           my_real, DIMENSION(:) , ALLOCATABLE ::   DG
           my_real, DIMENSION(:) , ALLOCATABLE ::   DGR

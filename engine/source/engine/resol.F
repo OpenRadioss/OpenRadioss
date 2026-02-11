@@ -772,6 +772,7 @@ C-----------------------------------------------
               use resol_alloc_mod
               use init_ale_mod , only : init_ale
               use sfem_mod
+              use init_global_boundary_list_mod , only : init_global_boundary_list
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1702,9 +1703,9 @@ C===============================================================================
               ENDIF
 
               IF (SH_OFFSET_TAB%NNSH_OSET > 0) THEN
-                CALL ASSIGN_PTRX(ptrX,XYZ,NUMNOD)
+                CALL ASSIGN_PTR(ptrX,XYZ,3,NUMNOD)
               ELSE
-                CALL ASSIGN_PTRX(ptrX,NODES%X,NUMNOD)
+                CALL ASSIGN_PTR(ptrX,NODES%X,3,NUMNOD)
               ENDIF
 
 
@@ -1767,6 +1768,8 @@ C E2E Fictive Node Position, Velocity, Mass
                 ALLOCATE(IAD_I24(1,1))
               ENDIF
 
+              call init_global_boundary_list(numnod,nspmd,nodes)
+              
               CALL INIT_I25_EDGE(NLEDGE,NINTER,NPARI,IPARI,INTERFACES%INTBUF_TAB )
               IF(NINTER25 /= 0)THEN
                 ALLOCATE(IAD_I25(NBINTC+1,NSPMD))
@@ -1934,9 +1937,9 @@ C------------IF adaptive Mesh : check if there are elements eroded after trimmin
                 ENDIF
                 CHECK_NEIGH_FLAG_RES = 0
                 IF (SH_OFFSET_TAB%NNSH_OSET > 0) THEN
-                  CALL ASSIGN_PTRX(ptrX,XYZ,NUMNOD)
+                  CALL ASSIGN_PTR(ptrX,XYZ,3,NUMNOD)
                 ELSE
-                  CALL ASSIGN_PTRX(ptrX,NODES%X,NUMNOD)
+                  CALL ASSIGN_PTR(ptrX,NODES%X,3,NUMNOD)
                 ENDIF
 c         allocate(nodes%deleted_node(2*numnod)) ! working array to mark nodes connected to deleted element
 c         allocate(nodes%work_array_node(nthread*numnod)) ! working array to mark nodes (connected to active element or deleted element)
@@ -3031,9 +3034,9 @@ C Airbags
 C
                 N=1+NINTER+NRWALL+NRBODY+NSECT+NJOINT+NRBAG
                 IF (IMPL_S > 0 .AND. ISMDISP >0) THEN
-                  CALL ASSIGN_PTRX(ptrX,IMPBUF_TAB%X_A,NUMNOD)
+                  CALL ASSIGN_PTR(ptrX,IMPBUF_TAB%X_A,3,numnod)
                 ELSE
-                  CALL ASSIGN_PTRX(ptrX,NODES%X,NUMNOD)
+                  CALL ASSIGN_PTR(ptrX,NODES%X,3,NUMNOD)
                 ENDIF
                 CALL MONVOL0(
      1            MONVOL          ,VOLMON             ,ptrX               ,NODES%A   ,
@@ -3148,11 +3151,11 @@ C===============================================================================
 C                                     PARALLEL SECTION (SMP)
 C========================================================================================
                 IF (SH_OFFSET_TAB%NNSH_OSET > 0) THEN
-                  CALL ASSIGN_PTRX(ptrX,XYZ,NUMNOD)
+                  CALL ASSIGN_PTR(ptrX,XYZ,3,NUMNOD)
                 ELSEIF (IMPL_S > 0 .AND. ISMDISP >0) THEN
-                  CALL ASSIGN_PTRX(ptrX,IMPBUF_TAB%X_A,NUMNOD)
+                  CALL ASSIGN_PTR(ptrX,IMPBUF_TAB%X_A,3,numnod)
                 ELSE
-                  CALL ASSIGN_PTRX(ptrX,NODES%X,NUMNOD)
+                  CALL ASSIGN_PTR(ptrX,NODES%X,3,NUMNOD)
                 ENDIF
                 INTER_ERRORS = 0
 
@@ -3162,31 +3165,30 @@ C===============================================================================
                 ITYPTSTT= ITYPTST
                 ITSK = OMP_GET_THREAD_NUM()
                 CALL INTTRI(OUTPUT ,TIMERS,
-     1             IPARI   ,ptrX     ,W     , INTER_ERRORS,
-     2             NODES%V       ,NODES%MS      ,NODES%IN      ,NODES%BOUNDARY_ADD  ,
-     3             NODES%BOUNDARY ,NODES%VR      ,ISENDTO ,IRCVFROM  ,
+     1             IPARI   ,ptrX,NODES%V,W,INTER_ERRORS,
+     3             ISENDTO ,IRCVFROM  ,
      4             NEWFRONT  ,ITSK    ,WA      ,DT2TT     ,
-     5             NODES%ITAB      ,NELTSTT ,ITYPTSTT,NODES%WEIGHT    ,
-     6             INTLIST ,NBINTC  ,NODES%KINET   ,DRETRI    ,
+     5             NELTSTT ,ITYPTSTT,
+     6             INTLIST ,NBINTC  ,DRETRI    ,
      7             ISLEN7  ,IRLEN7  ,ISLEN11 ,IRLEN11   ,
-     8             NODES%TEMP    ,IGRBRIC ,IGRSH3N ,EMINX     ,
+     8             IGRBRIC ,IGRSH3N ,EMINX     ,
      9             IXS     ,IXS(L3) ,IXS(L2) ,ISLEN17   ,
      A             IRLEN17 ,IRLEN7T ,ISLEN7T ,NUM_IMP1  ,
      B             IND_IMP ,INTSTAMP,THKNOD  ,IRLEN20   ,
      C             ISLEN20 ,IRLEN20T,ISLEN20T,IRLEN20E  ,
      D             ISLEN20E  ,RENUM   ,NSNFIOLD,XSLV      ,
      E             XMSR      ,VSLV    ,VMSR    ,SIZE_T    ,
-     F             NATIV_SMS ,DXANCG  ,NODES%IKINE   ,DIAG_SMS  ,
+     F             NATIV_SMS ,DXANCG  ,DIAG_SMS  ,
      G             COUNT_REMSLV,COUNT_REMSLVE  ,ALE_CONNECTIVITY,
      H             IXTG      ,SENSORS,DELTA_PMAX_GAP,INTERFACES%INTBUF_TAB,
      I             DELTA_PMAX_GAP_NODE,IAD_FRNOR,FR_NOR,
      J             NB25_CANDT,NB25_IMPCT,NB25_DST1,NB25_DST2,INTLIST25,
-     K             INTERFACES%SPMD_ARRAYS%IAD_FREDG,INTERFACES%SPMD_ARRAYS%FR_EDG,NODES%MAIN_PROC,NATIV_SMS,I_OPT_STOK ,
+     K             INTERFACES%SPMD_ARRAYS%IAD_FREDG,INTERFACES%SPMD_ARRAYS%FR_EDG,NATIV_SMS,I_OPT_STOK ,
      L             MULTI_FVM,IPARG  ,ELBUF_TAB, H3D_DATA, T2MAIN_SMS,
      M             LSKYI_SMS_NEW    ,FORNEQS  ,INT7ITIED,IDEL7NOK_SAV,MAXDGAP,
-     N             T2FAC_SMS,NODES%ICODT,NODES%ISKEW ,FSKYN25  ,ADDCSRECT,PROCNOR,
+     N             T2FAC_SMS,FSKYN25  ,ADDCSRECT,PROCNOR,
      O             INTER_STRUCT,SORT_COMM,RNUM_SIZ,NATIV_SMS_SIZ,TEMP_SIZ,
-     P             INTERFACES,GLOB_THERM,component)
+     P             INTERFACES,GLOB_THERM,component,nodes)
 C
 #include "lockon.inc"
                 IF(DT2TT<DT2T)THEN
@@ -3585,11 +3587,11 @@ C----------------------------------------
                   IADISK   = 1
                 ENDIF
                 IF (SH_OFFSET_TAB%NNSH_OSET > 0) THEN
-                  CALL ASSIGN_PTRX(ptrX,XYZ,NUMNOD)
+                  CALL ASSIGN_PTR(ptrX,XYZ,3,NUMNOD)
                 ELSEIF (IMPL_S > 0 .AND. ISMDISP >0) THEN
-                  CALL ASSIGN_PTRX(ptrX,IMPBUF_TAB%X_A,NUMNOD)
+                  CALL ASSIGN_PTR(ptrX,IMPBUF_TAB%X_A,3,numnod)
                 ELSE
-                  CALL ASSIGN_PTRX(ptrX,NODES%X,NUMNOD)
+                  CALL ASSIGN_PTR(ptrX,NODES%X,3,NUMNOD)
                 ENDIF
                 CALL INTFOP8(OUTPUT,
      1              IPARI  ,ptrX ,NODES%A ,
@@ -3705,11 +3707,11 @@ C===============================================================================
                   NTMP = NT_IMP5 + NT_IMP1
                 ENDIF
                 IF (SH_OFFSET_TAB%NNSH_OSET > 0) THEN
-                  CALL ASSIGN_PTRX(ptrX,XYZ,NUMNOD)
+                  CALL ASSIGN_PTR(ptrX,XYZ,3,NUMNOD)
                 ELSEIF (IMPL_S > 0 .AND. ISMDISP >0) THEN
-                  CALL ASSIGN_PTRX(ptrX,IMPBUF_TAB%X_A,NUMNOD)
+                  CALL ASSIGN_PTR(ptrX,IMPBUF_TAB%X_A,3,numnod)
                 ELSE
-                  CALL ASSIGN_PTRX(ptrX,NODES%X,NUMNOD)
+                  CALL ASSIGN_PTR(ptrX,NODES%X,3,NUMNOD)
                 ENDIF
                 CALL PYTHON_BEGIN_OPENMP(PYTHON)
 !$OMP PARALLEL
@@ -4303,9 +4305,9 @@ C
      .                      IPARG    , IGROUPTG,IGROUPC,     ELBUF_TAB,           NODA_FEXT,
      .                      2        , H3D_DATA,NODES%ITAB, NODES%WEIGHT, OUTPUT%TH%WFEXT, PYTHON)
                 IF (IMPL_S > 0 .AND. ISMDISP >0) THEN
-                  CALL ASSIGN_PTRX(ptrx,IMPBUF_TAB%X_A,NUMNOD)
+                  CALL ASSIGN_PTR(ptrX,IMPBUF_TAB%X_A,3,numnod)
                 ELSE
-                  CALL ASSIGN_PTRX(ptrx,NODES%X,NUMNOD)
+                  CALL ASSIGN_PTR(ptrx,NODES%X,3,NUMNOD)
                 ENDIF
                 CALL MONVOL0(
      1            MONVOL            ,VOLMON             ,ptrX               ,NODES%A   ,
@@ -4518,11 +4520,11 @@ C====== Nitsche equivalent nodal force computation FORNEQS ===========
 
                 IF (INT24USE == 1)THEN
                   IF (SH_OFFSET_TAB%NNSH_OSET > 0) THEN
-                    CALL ASSIGN_PTRX(ptrX,XYZ,NUMNOD)
+                    CALL ASSIGN_PTR(ptrX,XYZ,3,NUMNOD)
                   ELSEIF (IMPL_S > 0 .AND. ISMDISP >0) THEN
-                    CALL ASSIGN_PTRX(ptrX,IMPBUF_TAB%X_A,NUMNOD)
+                    CALL ASSIGN_PTR(ptrX,IMPBUF_TAB%X_A,3,numnod)
                   ELSE
-                    CALL ASSIGN_PTRX(ptrX,NODES%X,NUMNOD)
+                    CALL ASSIGN_PTR(ptrX,NODES%X,3,NUMNOD)
                   ENDIF
                   CALL  I24NITSCHFOR3 (IPARI   ,INTERFACES%INTBUF_TAB,IPARIT  ,STRESSMEAN ,
      2                                INTLIST ,NBINTC     ,ptrX,ELEMENT%PON%IADS,
@@ -8177,14 +8179,14 @@ C Regular animation
                 ENDIF
 
                 IF(SH_OFFSET_TAB%NNSH_OSET > 0) THEN
-                  CALL ASSIGN_PTRX(PTRX, NODES%X,NUMNOD)
-                  CALL ASSIGN_PTRX(PTRX_OFFSET, XYZ,NUMNOD)
+                  CALL ASSIGN_PTR(PTRX, NODES%X,3,NUMNOD)
+                  CALL ASSIGN_PTR(PTRX_OFFSET, XYZ,3,NUMNOD)
                 ELSEIF (IMPL_S > 0 .AND. ISMDISP >0) THEN
-                  CALL ASSIGN_PTRX(PTRX, IMPBUF_TAB%X_A,NUMNOD)
-                  CALL ASSIGN_PTRX(PTRX_OFFSET, XYZ ,NUMNOD)
+                  CALL ASSIGN_PTR(ptrX,IMPBUF_TAB%X_A,3,numnod)
+                  CALL ASSIGN_PTR(PTRX_OFFSET, XYZ ,3,NUMNOD)
                 ELSE
-                  CALL ASSIGN_PTRX(PTRX, NODES%X,NUMNOD)
-                  CALL ASSIGN_PTRX(PTRX_OFFSET, NODES%X,NUMNOD)
+                  CALL ASSIGN_PTR(PTRX, NODES%X,3,NUMNOD)
+                  CALL ASSIGN_PTR(PTRX_OFFSET, NODES%X,3,NUMNOD)
                 ENDIF
 
                 CALL SORTIE_MAIN(TIMERS,
@@ -8470,9 +8472,9 @@ C Modes buckling
 C
 #if defined(MUMPS5) && defined(DNC)
                   IF (IMPL_S > 0 .AND. ISMDISP >0) THEN
-                    call assign_ptrX(ptrX,IMPBUF_TAB%X_A,NUMNOD)
+                    CALL ASSIGN_PTR(ptrX,IMPBUF_TAB%X_A,3,numnod)
                   ELSE
-                    call assign_ptrX(ptrX,NODES%X,NUMNOD)
+                    call assign_ptr(ptrX,NODES%X,3,NUMNOD)
                   ENDIF
                   CALL IMP_BUCK(
      2            PM,             GEO,             IPM,       IGEO,           ELBUF,
@@ -9024,11 +9026,11 @@ C mass & velocity
                 L3 = L2+12*NUMELS20
 
                 IF (SH_OFFSET_TAB%NNSH_OSET > 0) THEN
-                  CALL ASSIGN_PTRX(ptrX,XYZ,NUMNOD)
+                  CALL ASSIGN_PTR(ptrX,XYZ,3,NUMNOD)
                 ELSEIF (IMPL_S > 0 .AND. ISMDISP >0) THEN
-                  CALL ASSIGN_PTRX(ptrX,IMPBUF_TAB%X_A,NUMNOD)
+                  CALL ASSIGN_PTR(ptrX,IMPBUF_TAB%X_A,3,numnod)
                 ELSE
-                  CALL ASSIGN_PTRX(ptrX,NODES%X,NUMNOD)
+                  CALL ASSIGN_PTR(ptrX,NODES%X,3,NUMNOD)
                 ENDIF
 
                 CALL SPMD_I7XVCOM2(
