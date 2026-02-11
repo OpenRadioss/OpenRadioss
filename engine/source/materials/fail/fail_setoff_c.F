@@ -81,7 +81,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,II,IEL,IPOS,IL,IFL,IPT,NPTT,
-     .        NINDXLY,NFAIL,IPWEIGHT,IPTHKLY,IMAT,ID_PLY
+     .        NINDXLY,NFAIL,IPWEIGHT,IPTHKLY,IMAT,ID_PLY,IPT_ALL,IT
       my_real
      .        P_THICKG,FAIL_EXP,DFAIL
       INTEGER, DIMENSION(NEL)        :: INDXLY
@@ -301,6 +301,7 @@ c
         ENDDO ! |-> IL
 c
         ! Check layer failure
+        IPT_ALL = 0 
         DO IL=1,NLAY
           NPTT = ELBUF_STR%BUFLY(IL)%NPTT
           NINDXLY = 0
@@ -313,12 +314,13 @@ c
             THFACT(1:NEL) = ZERO
             NPFAIL(1:NEL) = ZERO
             DO IPT = 1,NPTT
+              IT  = IPT_ALL + IPT       ! count all nptt through all layers
               FOFF => ELBUF_STR%BUFLY(IL)%FAIL(1,1,IPT)%FLOC(IFL)%OFF
-              DO IEL=1,NEL                                                        
+              DO IEL=1,NEL   
+                IPOS =  (IT - 1)*NEL + IEL                                                      
                 IF (OFF(IEL) == ONE) THEN
                   IF (LAY_OFF(IEL) == 1) THEN
                     IF (FOFF(IEL) < ONE) THEN
-                      IPOS = II + IEL
                       THFACT(IEL) = THFACT(IEL) + THKLY(IPOS)/THK_LY(IEL,IL) ! -> Percentage of broken thickness
                       NPFAIL(IEL) = NPFAIL(IEL) + ONE/NPTT                   ! -> Ratio of broken integration points
                     ENDIF
@@ -326,6 +328,7 @@ c
                 ENDIF
               ENDDO ! |-> IEL
             ENDDO ! |-> IPT
+           
             ! Comparison with critical value PTHICKFAIL
             DO IEL=1,NEL
               IF (OFF(IEL) == ONE) THEN
@@ -343,6 +346,7 @@ c
               ENDIF
             ENDDO ! |-> IEL
           ENDDO ! |-> IFL
+          IPT_ALL =IPT_ALL + NPTT ! count all nptt through all layers
           ! Printing out ply failure message
           IF (NINDXLY > 0) THEN  
             IF (IGTYP == 51) THEN 
