@@ -2476,9 +2476,9 @@
                 &off      ,dfmax    ,tdel     ,deltax   ,nvarf    ,uvarf    )
               else if (irupt == 30) then
 !  --- biquadratic failure model
-                call fail_biquad_s(&
-                &nel      ,nparf    ,nvarf    ,nfunc    ,ifunc    ,el_len   ,&
-                &npf      ,tf       ,tt       ,uparf  ,tdel     ,&
+                call fail_biquad_s(mat_elem%mat_param(imat)%fail(ir),&
+                &nel      ,nvarf    ,nfunc    ,ifunc    ,el_len   ,&
+                &npf      ,tf       ,tt       ,tdel     ,&
                 &ngl      ,dpla     ,uvarf    ,off      ,dfmax    ,lbuf%dmgscl,&
                 &s1       ,s2       ,s3       ,s4       ,s5       ,s6       )
               else if (irupt == 33 .and. mtn /= 100 .and. mtn /= 95 ) then

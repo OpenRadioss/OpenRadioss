@@ -1399,9 +1399,9 @@ c ---   MIT Wierzbicki Sahraei electric battery failure
      5        NVARF    ,UVARF    ) 
           ELSEIF (IRUPT == 30) THEN                                      
 c  --- Biquadratic failure model                                  
-              CALL FAIL_BIQUAD_S(
-     1        LLT      ,NPAR     ,NVARF    ,NFUNC    ,IFUNC    ,EL_LEN   ,
-     2        NPF      ,TF       ,TT       ,UPARAMF  ,TDEL     ,
+              CALL FAIL_BIQUAD_S(mat_elem%mat_param(imat)%fail(ir),
+     1        LLT      ,NVARF    ,NFUNC    ,IFUNC    ,EL_LEN   ,
+     2        NPF      ,TF       ,TT       ,TDEL     ,
      3        NGL      ,DPLA     ,UVARF    ,OFF      ,DFMAX    ,LBUF%DMGSCL,                   
      4        S1       ,S2       ,S3       ,S4       ,S5       ,S6       )    
           ELSEIF (IRUPT == 33) THEN                                

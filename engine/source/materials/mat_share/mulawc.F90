@@ -2356,9 +2356,9 @@
                     endif
 !
                    case (30)     !    biquadratic failure model
-                    call fail_biquad_c(&
+                    call fail_biquad_c(mat_elem%mat_param(imat)%fail(ifl),&
                     &jlt      ,nvarf   ,&
-                    &tt       ,uparamf ,ngl      ,ipt      ,mpt      ,&
+                    &tt       ,ngl      ,ipt      ,mpt      ,&
                     &signxx   ,signyy  ,signxy   ,signyz   ,signzx   ,&
                     &dpla     ,uvarf   ,uelr1    ,&
                     &off      ,offl    ,dfmax    ,tdel     ,nfunc_fail   ,&

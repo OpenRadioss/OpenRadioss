@@ -31,11 +31,18 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- calls      -----------------------------------------------------
 !||    finter          ../engine/source/tools/curve/finter.F
 !||====================================================================
-      SUBROUTINE FAIL_BIQUAD_S(
-     1  NEL      ,NUPARAM  ,NUVAR    ,MFUNC    ,KFUNC    ,ALDT     ,
-     2  NPF      ,TF       ,TIME     ,UPARAM   ,TDELE    ,
+      SUBROUTINE FAIL_BIQUAD_S(FAIL  ,
+     1  NEL      ,NUVAR    ,MFUNC    ,KFUNC    ,ALDT     ,
+     2  NPF      ,TF       ,TIME     ,TDELE    ,
      3  NGL      ,DPLA     ,UVAR     ,OFF      ,DFMAX    ,DMGSCL   ,
      4  SIGNXX   ,SIGNYY   ,SIGNZZ   ,SIGNXY   ,SIGNYZ   ,SIGNZX   )
+C-----------------------------------------------
+C    Biquadratic failure model for solids
+! --------------------------------------------------------------------------------------------------
+!         Modules
+! --------------------------------------------------------------------------------------------------
+          use fail_param_mod
+          use table_mat_vinterp_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -50,13 +57,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I N P U T   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER, INTENT(IN) :: NEL,NUPARAM,NUVAR,NGL(NEL)
-      my_real, INTENT(IN) :: TIME,UPARAM(NUPARAM),
+      INTEGER, INTENT(IN) :: NEL,NUVAR,NGL(NEL)
+      my_real, INTENT(IN) :: TIME,
      .   SIGNXX(NEL),SIGNYY(NEL),SIGNZZ(NEL),
      .   SIGNXY(NEL),SIGNYZ(NEL),SIGNZX(NEL),
      .   DPLA(NEL),ALDT(NEL)
       my_real, INTENT(INOUT) :: UVAR(NEL,NUVAR),DFMAX(NEL),
      .   TDELE(NEL),OFF(NEL),DMGSCL(NEL)
+      type (fail_param_) ,target ,intent(inout) :: fail    !< failure model data structure
 C!-----------------------------------------------
 C!   VARIABLES FOR FUNCTION INTERPOLATION 
 C!-----------------------------------------------
@@ -66,53 +74,67 @@ C!-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,INDX(NEL),NINDX,SEL,FLAG_PERTURB,ICOUP
+      INTEGER I,J,INDX(NEL),NINDX,SFLAG,FLAG_PERTURB,ICOUP
+      INTEGER IREG
+      INTEGER ,DIMENSION(NEL,1) :: IPOS
+      my_real ,DIMENSION(NEL,1) :: ETA
+      my_real ,DIMENSION(NEL)   :: REG_FAC,regf_eta,DERI
       my_real 
-     .  DF,P,TRIAXS,SVM,SXX,SYY,SZZ,EPS_FAIL,P1X,P1Y,S1X,S1Y,
-     .  A1,B1,C1,REF_EL_LEN,LAMBDA,FAC,X_1(3),X_2(3),DCRIT,EXP
-C
-      !=======================================================================
-      ! - INITIALISATION OF COMPUTATION ON TIME STEP
-      !=======================================================================
-      ! Recovering failure criterion parameters
-      X_1(1) = UPARAM(1)
-      X_1(2) = UPARAM(2)
-      X_1(3) = UPARAM(3)
-      X_2(1) = UPARAM(4)
-      X_2(2) = UPARAM(5)
-      X_2(3) = UPARAM(6)
-            FLAG_PERTURB = UPARAM(8)
-      SEL    = INT(UPARAM(11)+0.0001)
-      IF (SEL == 3) SEL = 2
-      REF_EL_LEN = UPARAM(13)
-      ICOUP = NINT(UPARAM(14))
-      DCRIT = UPARAM(15)
-      EXP   = UPARAM(16)
+     .  DF,PRESSURE,SVM,TRIAX,SXX,SYY,SZZ,EPS_FAIL,P1X,P1Y,S1X,S1Y,
+     .  A1,B1,C1,REF_EL_LEN,LAMBDA,X_1(3),X_2(3),DCRIT,EXP
+C===================================================================================================
+      IREG  = FAIL%IPARAM(1)
+      SFLAG = FAIL%IPARAM(3)
+      ICOUP = FAIL%IPARAM(4)
+      IF (SFLAG == 3) SFLAG = 2
+!
+      X_1(1) = FAIL%UPARAM(1)
+      X_1(2) = FAIL%UPARAM(2)
+      X_1(3) = FAIL%UPARAM(3)
+      X_2(1) = FAIL%UPARAM(4)
+      X_2(2) = FAIL%UPARAM(5)
+      X_2(3) = FAIL%UPARAM(6)
+      FLAG_PERTURB = NINT(FAIL%UPARAM(8))
+      REF_EL_LEN = FAIL%UPARAM(13)
+      DCRIT = FAIL%UPARAM(15)
+      EXP   = FAIL%UPARAM(16)
       EPS_FAIL = ZERO
-
-C
+!---------------------------------------------------------------------------------------------------
       ! At initial time, compute the element size regularization factor
       IF (MFUNC > 0) THEN 
         IF (NUVAR == 3) THEN 
           IF (UVAR(1,3) == ZERO) THEN 
             DO I = 1,NEL
-              UVAR(I,3) = ALDT(I) 
-              LAMBDA = UVAR(I,3) / REF_EL_LEN
-              FAC = FINTER(KFUNC(1),LAMBDA,NPF,TF,DF) 
-              UVAR(I,3) = FAC
+              LAMBDA = ALDT(I) / REF_EL_LEN
+              UVAR(I,3) = FINTER(KFUNC(1),LAMBDA,NPF,TF,DF) 
             ENDDO
           ENDIF
+          REG_FAC(1:NEL) = UVAR(1:NEL,3)
         ELSEIF (NUVAR == 9) THEN 
           IF (UVAR(1,9) == ZERO) THEN 
             DO I = 1,NEL
-              UVAR(I,9) = ALDT(I) 
-              LAMBDA = UVAR(I,9) / REF_EL_LEN
-              FAC = FINTER(KFUNC(1),LAMBDA,NPF,TF,DF) 
-              UVAR(I,9) = FAC
+              LAMBDA = ALDT(I) / REF_EL_LEN
+              UVAR(I,9) = FINTER(KFUNC(1),LAMBDA,NPF,TF,DF) 
             ENDDO
           ENDIF
+          REG_FAC(1:NEL) = UVAR(1:NEL,9)
         ENDIF
       ENDIF
+!---------------------------------------------------------------------------------------------------
+       IF (IREG == 2) THEN
+         ipos(1:nel,1) = 1
+         do i=1,nel
+           pressure = (SIGNXX(I)+ SIGNYY(I)) * THIRD
+           svm      = sqrt((SIGNXX(I)**2)+(SIGNYY(I)**2)-(SIGNXX(I)*SIGNYY(I))+(THREE*SIGNXY(I)**2))
+           triax    = pressure / max(em20,svm)
+           eta(i,1) = triax
+         end do
+!
+         ! calculate triaxiality dependent scaling factor on failure limits
+         call table_mat_vinterp(fail%table4d(1),nel,nel,ipos,eta,regf_eta,deri)
+         reg_fac(1:nel) = (one - regf_eta(1:nel)) + regf_eta(1:nel)*reg_fac(1:nel)
+       END IF
+!---------------------------------------------------------------------------------------------------
 C
       ! Update element deletion flag
       DO I = 1,NEL
@@ -131,35 +153,35 @@ C
         DO I = 1,NEL
           IF (OFF(I) == ONE .AND. DPLA(I) /= ZERO) THEN
             ! Compute hydrostatic stress
-            P = THIRD*(SIGNXX(I) + SIGNYY(I) + SIGNZZ(I))
+            PRESSURE = THIRD*(SIGNXX(I) + SIGNYY(I) + SIGNZZ(I))
 C
             ! Compute Von Mises stress
-            SXX = SIGNXX(I) - P
-            SYY = SIGNYY(I) - P
-            SZZ = SIGNZZ(I) - P
+            SXX = SIGNXX(I) - PRESSURE
+            SYY = SIGNYY(I) - PRESSURE
+            SZZ = SIGNZZ(I) - PRESSURE
             SVM = HALF*(SXX**2 + SYY**2 + SZZ**2)
      .          + SIGNXY(I)**2 + SIGNZX(I)**2 + SIGNYZ(I)**2
             SVM = SQRT(THREE*SVM)
 C
             ! Compute stress triaxiality
-            TRIAXS = P/MAX(EM20,SVM)
-            IF (TRIAXS < -TWO_THIRD) TRIAXS = -TWO_THIRD
-            IF (TRIAXS >  TWO_THIRD) TRIAXS =  TWO_THIRD
+            TRIAX = PRESSURE/MAX(EM20,SVM)
+            IF (TRIAX < -TWO_THIRD) TRIAX = -TWO_THIRD
+            IF (TRIAX >  TWO_THIRD) TRIAX =  TWO_THIRD
 C
             ! Compute the corresponding plastic strain at failure 
             !   -> Low stress triaxialities parabolic curve
-            IF (TRIAXS <= THIRD) THEN
-              EPS_FAIL = X_1(1) +  X_1(2)*TRIAXS + X_1(3)*TRIAXS**2
-              IF ((NUVAR == 3).AND.(MFUNC > 0)) EPS_FAIL = EPS_FAIL*UVAR(I,3)
+            IF (TRIAX <= THIRD) THEN
+              EPS_FAIL = X_1(1) +  X_1(2)*TRIAX + X_1(3)*TRIAX**2
+              IF (IREG > 0) EPS_FAIL = EPS_FAIL*UVAR(I,3)
             !   -> High stress triaxiality parabolic curve
             ELSE
               ! Raw curve is used
-              IF (SEL == 1) THEN 
-                EPS_FAIL = X_2(1) +  X_2(2)*TRIAXS + X_2(3)*TRIAXS**2
-                IF ((NUVAR == 3).AND.(MFUNC > 0)) EPS_FAIL = EPS_FAIL*UVAR(I,3)
+              IF (SFLAG == 1) THEN 
+                EPS_FAIL = X_2(1) +  X_2(2)*TRIAX + X_2(3)*TRIAX**2
+                IF (IREG > 0) EPS_FAIL = EPS_FAIL*REG_FAC(I)
               ! Plain strain is global minimum
-              ELSEIF (SEL == 2) THEN 
-                IF (TRIAXS <= ONE/SQR3) THEN                     ! triax < 0.57735
+              ELSEIF (SFLAG == 2) THEN 
+                IF (TRIAX <= ONE/SQR3) THEN                     ! triax < 0.57735
                   P1X = THIRD
                   P1Y = X_1(1) + X_1(2)*P1X + X_1(3)*P1X**2
                   S1X = ONE/SQR3
@@ -167,8 +189,8 @@ C
                   A1  = (P1Y - S1Y)/(P1X - S1X)**2
                   B1  = -TWO*A1*S1X
                   C1  = A1*S1X**2 + S1Y 
-                  EPS_FAIL = C1 + B1*TRIAXS + A1*TRIAXS**2
-                  IF ((NUVAR == 3).AND.(MFUNC > 0)) EPS_FAIL = EPS_FAIL*UVAR(I,3)
+                  EPS_FAIL = C1 + B1*TRIAX + A1*TRIAX**2
+                  IF (IREG > 0) EPS_FAIL = EPS_FAIL*REG_FAC(I)
                 ELSE                                             ! triax > 0.57735
                   P1X = TWO*THIRD
                   P1Y = X_2(1) + X_2(2)*P1X + X_2(3)*P1X**2
@@ -177,8 +199,8 @@ C
                   A1  = (P1Y - S1Y)/(P1X - S1X)**2
                   B1  = -TWO*A1*S1X
                   C1  = A1*S1X**2 + S1Y 
-                  EPS_FAIL = C1 + B1*TRIAXS + A1*TRIAXS**2
-                  IF ((NUVAR == 3).AND.(MFUNC > 0)) EPS_FAIL = EPS_FAIL*UVAR(I,3)
+                  EPS_FAIL = C1 + B1*TRIAX + A1*TRIAX**2
+                  IF (IREG > 0) EPS_FAIL = EPS_FAIL*REG_FAC(I)
                 ENDIF
               ENDIF
             ENDIF
@@ -200,35 +222,35 @@ C
         DO I = 1,NEL
           IF (OFF(I) == ONE .AND. DPLA(I) /= ZERO) THEN
             ! Compute hydrostatic stress
-            P = THIRD*(SIGNXX(I) + SIGNYY(I) + SIGNZZ(I))
+            PRESSURE = THIRD*(SIGNXX(I) + SIGNYY(I) + SIGNZZ(I))
 C
             ! Compute Von Mises stress
-            SXX = SIGNXX(I) - P
-            SYY = SIGNYY(I) - P
-            SZZ = SIGNZZ(I) - P
+            SXX = SIGNXX(I) - PRESSURE
+            SYY = SIGNYY(I) - PRESSURE
+            SZZ = SIGNZZ(I) - PRESSURE
             SVM = HALF*(SXX**2 + SYY**2 + SZZ**2)
      .          + SIGNXY(I)**2 + SIGNZX(I)**2 + SIGNYZ(I)**2
             SVM = SQRT(THREE*SVM)
 C
             ! Compute stress triaxiality
-            TRIAXS = P/MAX(EM20,SVM)
-            IF (TRIAXS < -TWO_THIRD) TRIAXS = -TWO_THIRD
-            IF (TRIAXS >  TWO_THIRD) TRIAXS =  TWO_THIRD
+            TRIAX = PRESSURE/MAX(EM20,SVM)
+            IF (TRIAX < -TWO_THIRD) TRIAX = -TWO_THIRD
+            IF (TRIAX >  TWO_THIRD) TRIAX =  TWO_THIRD
 C
             ! Compute the corresponding plastic strain at failure 
             !   -> Low stress triaxialities parabolic curve
-            IF (TRIAXS <= THIRD) THEN
-              EPS_FAIL = UVAR(I,3) + UVAR(I,4)*TRIAXS + UVAR(I,5)*TRIAXS**2
-              IF ((NUVAR == 9).AND.(MFUNC > 0)) EPS_FAIL = EPS_FAIL*UVAR(I,9)
+            IF (TRIAX <= THIRD) THEN
+              EPS_FAIL = UVAR(I,3) + UVAR(I,4)*TRIAX + UVAR(I,5)*TRIAX**2
+              IF (IREG > 0) EPS_FAIL = EPS_FAIL*REG_FAC(I)
             !   -> High stress triaxiality parabolic curve
             ELSE
               ! Raw curve is used
-              IF (SEL == 1) THEN 
-                EPS_FAIL = UVAR(I,6) +  UVAR(I,7)*TRIAXS + UVAR(I,8)*TRIAXS**2
-                IF ((NUVAR == 9).AND.(MFUNC > 0)) EPS_FAIL = EPS_FAIL*UVAR(I,9)
+              IF (SFLAG == 1) THEN 
+                EPS_FAIL = UVAR(I,6) +  UVAR(I,7)*TRIAX + UVAR(I,8)*TRIAX**2
+                IF (IREG > 0) EPS_FAIL = EPS_FAIL*REG_FAC(I)
               ! Plain strain is global minimum
-              ELSEIF (SEL == 2) THEN 
-                IF (TRIAXS <= ONE/SQR3) THEN                     ! triax < 0.57735
+              ELSEIF (SFLAG == 2) THEN 
+                IF (TRIAX <= ONE/SQR3) THEN                     ! triax < 0.57735
                   P1X = THIRD
                   P1Y = UVAR(I,3) + UVAR(I,4)*P1X + UVAR(I,5)*P1X**2
                   S1X = ONE/SQR3
@@ -236,8 +258,8 @@ C
                   A1  = (P1Y - S1Y)/(P1X - S1X)**2
                   B1  = -TWO*A1*S1X
                   C1  = A1*S1X**2 + S1Y 
-                  EPS_FAIL = C1 + B1*TRIAXS + A1*TRIAXS**2
-                  IF ((NUVAR == 9).AND.(MFUNC > 0)) EPS_FAIL = EPS_FAIL*UVAR(I,9)
+                  EPS_FAIL = C1 + B1*TRIAX + A1*TRIAX**2
+                  IF (IREG > 0) EPS_FAIL = EPS_FAIL*REG_FAC(I)
                 ELSE                                             ! triax > 0.57735
                   P1X = TWO*THIRD
                   P1Y = UVAR(I,3) + UVAR(I,4)*P1X + UVAR(I,5)*P1X**2
@@ -246,8 +268,8 @@ C
                   A1  = (P1Y - S1Y)/(P1X - S1X)**2
                   B1  = -TWO*A1*S1X
                   C1  = A1*S1X**2 + S1Y 
-                  EPS_FAIL = C1 + B1*TRIAXS + A1*TRIAXS**2
-                  IF ((NUVAR == 9).AND.(MFUNC > 0)) EPS_FAIL = EPS_FAIL*UVAR(I,9)
+                  EPS_FAIL = C1 + B1*TRIAX + A1*TRIAX**2
+                  IF (IREG > 0) EPS_FAIL = EPS_FAIL*REG_FAC(I)
                 ENDIF
               ENDIF
             ENDIF

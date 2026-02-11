@@ -1436,9 +1436,9 @@ c
                 ENDIF
 c
               CASE (30)     !    Biquadratic failure model
-                CALL FAIL_BIQUAD_C(
+                CALL FAIL_BIQUAD_C(mat_elem%mat_param(imat)%fail(ifl),
      1          JLT      ,NVARF   ,
-     2          TT       ,UPARAMF ,NGL      ,IPT      ,MPT      ,
+     2          TT       ,NGL      ,IPT      ,MPT      ,
      3          SIGNXX   ,SIGNYY  ,SIGNXY   ,SIGNYZ   ,SIGNZX   ,
      4          DPLA     ,UVARF   ,UELR1    ,
      5          OFF      ,OFFL    ,DFMAX    ,TDEL     ,NFUNC_FAIL,
