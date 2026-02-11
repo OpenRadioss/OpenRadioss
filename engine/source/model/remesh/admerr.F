@@ -82,6 +82,7 @@ C-----------------------------------------------
 C     REAL
 C-----------------------------------------------
 C
+      IERROR = 0
       IF(IERROR/=0) THEN
         CALL ANCMSG(MSGID=153,ANMODE=ANINFO_BLIND,
      .            I1=IERROR)
