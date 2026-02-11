@@ -370,7 +370,7 @@ C
               ELSEIF(ITYP==5) THEN       !   beam
                 N1 = IXP(2,J)
                 N2 = IXP(3,J)
-              ELSEIF(ITYP==6) THEN       !   spring
+              ELSE !IF(ITYP==6) THEN       !   spring
                 N1 = IXR(2,J)
                 N2 = IXR(3,J)
               ENDIF
