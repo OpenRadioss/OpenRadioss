@@ -166,6 +166,7 @@ C   -----------------------------------------------
 C             Entirere Allowances 
 C   -----------------------------------------------
 
+        NODES%N2D = N2D
         CALL ALLOCATE_NODAL_ARRAYS(NODES, NUMNOD, NTHREAD, IRODDL, IPARIT, 
      .      ISECUT, IISROTS, IMPOSE_DR, IDROT, NRCVVOIS, SICODT, GLOB_THERM%ITHERM_FE)
 

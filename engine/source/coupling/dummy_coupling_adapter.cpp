@@ -32,7 +32,7 @@ void DummyCouplingAdapter::setNodes(const std::vector<int>& nodeIds) {
     // Do nothing
 }
 
-bool DummyCouplingAdapter::initialize(const double* coordinates, int totalNodes, int mpiRank, int mpiSize) {
+bool DummyCouplingAdapter::initialize(const double* coordinates, int n2d, int totalNodes, int mpiRank, int mpiSize) {
 //    std::cout << "Dummy coupling adapter initialized (no actual coupling)" << std::endl;
     return true;
 }

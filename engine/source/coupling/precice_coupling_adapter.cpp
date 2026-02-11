@@ -140,7 +140,7 @@ void PreciceCouplingAdapter::setNodes(const std::vector<int>& nodeIds) {
     couplingNodeIds_ = nodeIds;
     
     // Allocate buffers for 3D data
-    constexpr auto dimensions = getDimensions();
+    int dimensions = 3; // to do: allow scalar (like temperature) or 2d data in the future, for now we assume all data is 3D vector data
     const auto bufferSize = couplingNodeIds_.size() * dimensions;
     vertexIds_.resize(couplingNodeIds_.size());
     
@@ -159,7 +159,7 @@ void PreciceCouplingAdapter::setNodes(const std::vector<int>& nodeIds) {
     }
 }
 
-bool PreciceCouplingAdapter::initialize(const double* coordinates, int totalNodes, int mpiRank, int mpiSize) {
+bool PreciceCouplingAdapter::initialize(const double* coordinates, int n2d, int totalNodes, int mpiRank, int mpiSize) {
     if (!active_) return false;
     if (!coordinates) {
         std::cout << "[preCICE adapter] "<< "Error: coordinates pointer is null" << std::endl;
@@ -169,14 +169,21 @@ bool PreciceCouplingAdapter::initialize(const double* coordinates, int totalNode
         std::cout << "[preCICE adapter] "<< "Error: totalNodes must be positive, got " << totalNodes << std::endl;
         return false;
     }
+
     
     try {
         // Create preCICE participant
         precice_ = std::make_unique<precice::Participant>(participantName_, configFile_, mpiRank, mpiSize);
+        const int dimensions = precice_->getMeshDimensions(meshName_);
+        std::cout << "[preCICE adapter] "<< "preCICE mesh dimension: " << dimensions << std::endl;
+        this->setDimensions(dimensions);
+        this->setN2D(n2d);
+
         
         // Set up mesh vertices
         std::vector<double> meshVertices;
-        meshVertices.reserve(couplingNodeIds_.size() * 3);
+        meshVertices.reserve(couplingNodeIds_.size() * dimensions);
+
         
         for (const auto nodeId : couplingNodeIds_) {
             if (!isNodeIdValid(nodeId, totalNodes)) {
@@ -185,10 +192,22 @@ bool PreciceCouplingAdapter::initialize(const double* coordinates, int totalNode
             }
             // Convert from 1-based Fortran indexing to 0-based C++ indexing
             const auto idx = nodeId - 1;
-            constexpr auto dimensions = getDimensions();
-            meshVertices.push_back(coordinates[idx * dimensions]);
-            meshVertices.push_back(coordinates[idx * dimensions + 1]);
-            meshVertices.push_back(coordinates[idx * dimensions + 2]);
+            if(dimensions == 3 && n2d == 0) { // 3D case
+                meshVertices.push_back(coordinates[idx * 3]);
+                meshVertices.push_back(coordinates[idx * 3+ 1]);
+                meshVertices.push_back(coordinates[idx * 3+ 2]);
+            } else if (dimensions == 2 && n2d == 0) { // z is ignored
+                meshVertices.push_back(coordinates[idx * 3]);
+                meshVertices.push_back(coordinates[idx * 3+ 1]);
+            }
+            else if (dimensions == 2 && n2d == 2) { // x is ignored, plane strain case
+                meshVertices.push_back(coordinates[idx * 3+ 1]);
+                meshVertices.push_back(coordinates[idx * 3+ 2]);
+            } else {
+                std::cout << "[preCICE adapter] "<< "Error: Unsupported number of dimensions: " << dimensions;
+                std::cout <<" with n2d = " << n2d << std::endl;
+                return false;
+            }
         }
         
         // Set mesh vertices
@@ -207,6 +226,7 @@ bool PreciceCouplingAdapter::initialize(const double* coordinates, int totalNode
         // Initialize preCICE
         precice_->initialize();
         maxTimeStepSize_ = precice_->getMaxTimeStepSize();
+        
         
     } catch (const std::exception& e) {
         std::cout << "[preCICE adapter] "<< "Error initializing preCICE: " << e.what() << std::endl;
@@ -331,43 +351,103 @@ void PreciceCouplingAdapter::extractNodeData(const double* globalValues, int tot
     if (!writeData_[dataType].isActive) {
         return;
     }
-    constexpr auto dimensions = getDimensions();
+    int meshDimensions = getDimensions();
+    int n2d = getN2D();
+
     for (size_t i = 0; i < couplingNodeIds_.size(); ++i) {
         const auto nodeId = couplingNodeIds_[i];
         if (!isNodeIdValid(nodeId, totalNodes)) {
-            std::cout << "[preCICE adapter] "<< "Error: Node ID " << nodeId << " out of bounds in extractNodeData" << std::endl;
+            std::cout << "[preCICE adapter] "
+                      << "Error: Node ID " << nodeId << " out of bounds in extractNodeData" << std::endl;
             continue;
         }
         const auto idx = nodeId - 1; // Convert to 0-based indexing
-        writeData_[dataType].buffer[i * dimensions] = globalValues[idx * dimensions];
-        writeData_[dataType].buffer[i * dimensions + 1] = globalValues[idx * dimensions + 1];
-        writeData_[dataType].buffer[i * dimensions + 2] = globalValues[idx * dimensions + 2];
+
+        if (meshDimensions == 3 && n2d == 0) {
+            // 3D case: direct mapping
+            writeData_[dataType].buffer[i * 3]     = globalValues[idx * 3];
+            writeData_[dataType].buffer[i * 3 + 1] = globalValues[idx * 3 + 1];
+            writeData_[dataType].buffer[i * 3 + 2] = globalValues[idx * 3 + 2];
+        } else if (meshDimensions == 2 && n2d == 0) {
+            // 2D, z ignored: buffer is (x, y)
+            writeData_[dataType].buffer[i * 2]     = globalValues[idx * 3];
+            writeData_[dataType].buffer[i * 2 + 1] = globalValues[idx * 3 + 1];
+        } else if (meshDimensions == 2 && n2d == 2) {
+            // 2D, x ignored (plane strain): buffer is (y, z)
+            writeData_[dataType].buffer[i * 2]     = globalValues[idx * 3 + 1];
+            writeData_[dataType].buffer[i * 2 + 1] = globalValues[idx * 3 + 2];
+        } else {
+            std::cout << "[preCICE adapter] "
+                      << "Error: Unsupported (dimensions, n2d) = (" << meshDimensions << ", " << n2d << ") in extractNodeData"
+                      << std::endl;
+        }
     }
 }
-
+// ...existing code...
 void PreciceCouplingAdapter::injectNodeData(double* globalValues, int totalNodes, int dataType) {
     if (!readData_[dataType].isActive) {
         return;
     }
+
+    const int meshDimensions = getDimensions();
+    const int n2d = getN2D();
+
     if (readData_[dataType].mode == Mode::ADD) {
         for (size_t i = 0; i < couplingNodeIds_.size(); ++i) {
             int nodeId = couplingNodeIds_[i] - 1; // Convert to 0-based indexing
-            globalValues[nodeId * 3] += readData_[dataType].buffer[i * 3];
-            globalValues[nodeId * 3 + 1] += readData_[dataType].buffer[i * 3 + 1];
-            globalValues[nodeId * 3 + 2] += readData_[dataType].buffer[i * 3 + 2];
+
+            if (meshDimensions == 3 && n2d == 0) {
+                // 3D case: direct mapping
+                globalValues[nodeId * 3]     += readData_[dataType].buffer[i * 3];
+                globalValues[nodeId * 3 + 1] += readData_[dataType].buffer[i * 3 + 1];
+                globalValues[nodeId * 3 + 2] += readData_[dataType].buffer[i * 3 + 2];
+            } else if (meshDimensions == 2 && n2d == 0) {
+                // 2D, z ignored: buffer is (x, y), global is (x, y, z)
+                globalValues[nodeId * 3]     += readData_[dataType].buffer[i * 2];
+                globalValues[nodeId * 3 + 1] += readData_[dataType].buffer[i * 2 + 1];
+                globalValues[nodeId * 3 + 2] += 0.0;
+            } else if (meshDimensions == 2 && n2d == 2) {
+                // 2D, x ignored (plane strain): buffer is (y, z), global is (x, y, z)
+                globalValues[nodeId * 3]     += 0.0;
+                globalValues[nodeId * 3 + 1] += readData_[dataType].buffer[i * 2];
+                globalValues[nodeId * 3 + 2] += readData_[dataType].buffer[i * 2 + 1];
+            } else {
+                std::cout << "[preCICE adapter] "
+                          << "Error: Unsupported (dimensions, n2d) = (" << meshDimensions << ", " << n2d << ") in injectNodeData"
+                          << std::endl;
+            }
         }
-    }  else if (readData_[dataType].mode == Mode::REPLACE) {
-        // write a debug message, with the name of the data type being injected and the participant name
+    } else if (readData_[dataType].mode == Mode::REPLACE) {
+        // Debug message with data type and participant name
+        std::cout << "[preCICE adapter] "
+                  << "Injecting data type '" << dataTypeToString(static_cast<DataType>(dataType))
+                  << "' for participant '" << participantName_ << "' in REPLACE mode." << std::endl;
         for (size_t i = 0; i < couplingNodeIds_.size(); ++i) {
             int nodeId = couplingNodeIds_[i] - 1; // Convert to 0-based indexing
-            globalValues[nodeId * 3] = readData_[dataType].buffer[i * 3];
-            globalValues[nodeId * 3 + 1] = readData_[dataType].buffer[i * 3 + 1];
-            globalValues[nodeId * 3 + 2] = readData_[dataType].buffer[i * 3 + 2];
+
+            if (meshDimensions == 3 && n2d == 0) {
+                globalValues[nodeId * 3]     = readData_[dataType].buffer[i * 3];
+                globalValues[nodeId * 3 + 1] = readData_[dataType].buffer[i * 3 + 1];
+                globalValues[nodeId * 3 + 2] = readData_[dataType].buffer[i * 3 + 2];
+            } else if (meshDimensions == 2 && n2d == 0) {
+                globalValues[nodeId * 3]     = readData_[dataType].buffer[i * 2];
+                globalValues[nodeId * 3 + 1] = readData_[dataType].buffer[i * 2 + 1];
+                globalValues[nodeId * 3 + 2] = 0.0;
+            } else if (meshDimensions == 2 && n2d == 2) {
+                globalValues[nodeId * 3]     = 0.0;
+                globalValues[nodeId * 3 + 1] = readData_[dataType].buffer[i * 2];
+                globalValues[nodeId * 3 + 2] = readData_[dataType].buffer[i * 2 + 1];
+            } else {
+                std::cout << "[preCICE adapter] "
+                          << "Error: Unsupported (dimensions, n2d) = (" << meshDimensions << ", " << n2d << ") in injectNodeData"
+                          << std::endl;
+            }
         }
     } else {
-        std::cout << "[preCICE adapter] "<< "Warning: Unknown mode for data type " << dataTypeToString(static_cast<DataType>(dataType))
+        std::cout << "[preCICE adapter] "
+                  << "Warning: Unknown mode for data type " << dataTypeToString(static_cast<DataType>(dataType))
                   << ", skipping injection." << std::endl;
     }
 }
-
+// ...existing code...
 #endif

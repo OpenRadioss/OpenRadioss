@@ -39,7 +39,7 @@ int coupling_adapter_configure(void* adapter, const char* filename);
 void coupling_adapter_set_nodes(void* adapter, const int* nodeIds, int numNodes);
 
 // Initialization
-int coupling_adapter_initialize(void* adapter, const double* coordinates, 
+int coupling_adapter_initialize(void* adapter, const double* coordinates,int n2d, 
                                int totalNodes, int mpiRank, int mpiSize);
 
 // Data exchange

@@ -93,11 +93,11 @@ extern "C"
     //     cwipi_define_mesh() or cwipi_ho_define_mesh()
     //     cwipi_locate()
     //     cwipi_get_n_not_located_points()
-    int coupling_adapter_initialize(void *adapter, const double *coordinates,
+    int coupling_adapter_initialize(void *adapter, const double *coordinates, int n2d,
                                     int totalNodes, int mpiRank, int mpiSize)
     {
         CouplingAdapter *ca = static_cast<CouplingAdapter *>(adapter);
-        return ca->initialize(coordinates, totalNodes, mpiRank, mpiSize) ? 1 : 0;
+        return ca->initialize(coordinates, n2d,  totalNodes, mpiRank, mpiSize) ? 1 : 0;
     }
 
     // Writes data (e.g., displacements, forces, positions) to the coupling interface.

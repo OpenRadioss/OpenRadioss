@@ -38,7 +38,7 @@ public:
     // Implement abstract interface
     bool configure(const std::string& configFile) override;
     void setNodes(const std::vector<int>& nodeIds) override;
-    bool initialize(const double* coordinates, int totalNodes, int mpiRank, int mpiSize) override;
+    bool initialize(const double* coordinates, int n2d,  int totalNodes, int mpiRank, int mpiSize) override;
     void writeData(const double* values, int totalNodes, double dt, int dataType) override;
     void readData(double* values, int totalNodes, double dt, int dataType) override;
     void advance(double& dt) override;
@@ -76,9 +76,6 @@ private:
     void extractNodeData(const double* globalValues, int totalNodes, int dataType);
     void injectNodeData(double* globalValues, int totalNodes, int dataType);
 
-    
-    // Static helper for bounds checking
-    static constexpr int getDimensions() noexcept { return 3; }
     
 private:
     static bool isNodeIdValid(int nodeId, int totalNodes) noexcept {

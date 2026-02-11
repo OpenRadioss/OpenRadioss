@@ -99,6 +99,7 @@
           integer :: max_uid !< maximum user id
           integer :: itherm_fe
           integer :: numnod0
+          integer :: n2d
 
 
           integer :: numnod
