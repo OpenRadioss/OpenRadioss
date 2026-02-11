@@ -406,7 +406,7 @@ C Barrier comm spmd_tri7vox + bminma + return i7buce
 C      
       CALL MY_BARRIER
 C
-      IF (IMONM > 0) CALL STARTIME(TIMERS,30)
+      IF (IMONM > 0.and.itask==0) CALL STARTIME(TIMERS,30)
 C
 C     NCONT additional candidates (if all secondary nodes are already impacted, cf i25optcd)
       MULTIMP = IPARI(23,NIN)
@@ -446,7 +446,7 @@ C New barrier needed for Dynamic MultiMP
         GOTO 40
       ENDIF
 
-      IF (IMONM > 0) CALL STOPTIME(TIMERS,30)
+      IF (IMONM > 0.and.itask==0) CALL STOPTIME(TIMERS,30)
 C--------------------------------------------------------------
 C     Edges
 C--------------------------------------------------------------
@@ -486,7 +486,7 @@ C Barrier comm spmd_tri7vox + bminma + return i7buce
 C      
       CALL MY_BARRIER
 C
-      IF (IMONM > 0) CALL STARTIME(TIMERS,30)
+      IF (IMONM > 0.and.itask==0) CALL STARTIME(TIMERS,30)
 C
       MULNSNE = INTBUF_TAB%S_CANDM_E2E
       MULNSNS = INTBUF_TAB%S_CANDM_E2S
@@ -547,7 +547,7 @@ C New barrier needed for Dynamic MultiMP
 C
       IF(ITASK==0)DEALLOCATE(INTBUF_TAB%I25_CAND_A,INTBUF_TAB%I25_CAND_B)
 C
-      IF (IMONM > 0) CALL STOPTIME(TIMERS,30)
+      IF (IMONM > 0.and.itask==0) CALL STOPTIME(TIMERS,30)
 C--------------------------------------------------------------
  200  CONTINUE
 C--------------------------------------------------------------

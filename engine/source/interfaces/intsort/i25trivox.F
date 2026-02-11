@@ -129,7 +129,7 @@ C     REAL
 c 
       INTEGER  IX,IY,IZ,M1,M2,M3,M4,
      .         IX1,IY1,IZ1,IX2,IY2,IZ2
-      INTEGER,  DIMENSION(:),ALLOCATABLE :: LAST_NOD
+      INTEGER,  DIMENSION(:),ALLOCATABLE,save :: LAST_NOD
       INTEGER,  DIMENSION(:),ALLOCATABLE :: IIX,IIY,IIZ
       my_real
      .   XMINB,YMINB,ZMINB,XMAXB,YMAXB,ZMAXB,
@@ -137,15 +137,22 @@ c
       INTEGER FIRST,LAST
       SAVE IIX,IIY,IIZ
       INTEGER, DIMENSION(:),ALLOCATABLE :: TAG
+
+      integer :: node_id
+      integer, dimension(:), allocatable, save :: local_nb_cand
+      integer, dimension(:), allocatable :: local_cand
 C-----------------------------------------------
       CALL MY_ALLOC(TAG,NUMNOD)
-      CALL MY_ALLOC(LAST_NOD,NSN+NSNR)
+      
       IF(ITASK == 0)THEN
         ALLOCATE(NEXT_NOD(NSN+NSNR))
         ALLOCATE(IIX(NSN+NSNR))
         ALLOCATE(IIY(NSN+NSNR))
         ALLOCATE(IIZ(NSN+NSNR))
+        allocate(local_nb_cand(nthread))
+        allocate(last_nod(nsn+nsnr))
       END IF
+      allocate(local_cand(nsn))
 C Barrier to wait init voxel and allocation NEX_NOD
       CALL MY_BARRIER
 C initial construction phase of bpe and bpn moved from i7buce => i7tri
@@ -165,90 +172,94 @@ c     Dev Future: xminb larger than Xmin ...
       YMAXB = YMAX
       ZMAXB = ZMAX
 
-C=======================================================================
-C 1   placing nodes into boxes
-C=======================================================================
-      IF(ITASK == 0)THEN
-        DO I=1,NSN
-          IIX(I)=0
-          IIY(I)=0
-          IIZ(I)=0
-          IF(STFN(I) <= ZERO)CYCLE
-          J=NSV(I)
-C optimization // search for nodes within xmin xmax of the
-C processor elements
-          IF(X(1,J) < XMIN)  CYCLE
-          IF(X(1,J) > XMAX)  CYCLE
-          IF(X(2,J) < YMIN)  CYCLE
-          IF(X(2,J) > YMAX)  CYCLE
-          IF(X(3,J) < ZMIN)  CYCLE
-          IF(X(3,J) > ZMAX)  CYCLE
+      local_nb_cand(itask+1) = 0
+!$omp do schedule(guided)      
+      do i=1,nsn
+        iix(i) = 0
+        iiy(i) = 0
+        iiz(i) = 0
+        if(stfn(i) <= zero) cycle
+        node_id = nsv(i)
+        if(x(1,node_id)<xmin) cycle
+        if(x(1,node_id)>xmax) cycle
+        if(x(2,node_id)<ymin) cycle
+        if(x(2,node_id)>ymax) cycle
+        if(x(3,node_id)<zmin) cycle
+        if(x(3,node_id)>zmax) cycle
+        local_nb_cand(itask+1) = local_nb_cand(itask+1) + 1
+        local_cand(local_nb_cand(itask+1)) = i
+        iix(i) = int(nbx*(x(1,node_id)-xminb)/(xmaxb-xminb))
+        iiy(i) = int(nby*(x(2,node_id)-yminb)/(ymaxb-yminb))
+        iiz(i) = int(nbz*(x(3,node_id)-zminb)/(zmaxb-zminb))
 
-          IIX(I)=INT(NBX*(X(1,J)-XMINB)/(XMAXB-XMINB))
-          IIY(I)=INT(NBY*(X(2,J)-YMINB)/(YMAXB-YMINB))
-          IIZ(I)=INT(NBZ*(X(3,J)-ZMINB)/(ZMAXB-ZMINB))
-
-          IIX(I)=MAX(1,2+MIN(NBX,IIX(I)))
-          IIY(I)=MAX(1,2+MIN(NBY,IIY(I)))
-          IIZ(I)=MAX(1,2+MIN(NBZ,IIZ(I)))
-
-          FIRST = VOXEL(IIX(I),IIY(I),IIZ(I))
-          IF(FIRST == 0)THEN
+        iix(i) = max(1,2+min(nbx,iix(i)))
+        iiy(i) = max(1,2+min(nby,iiy(i)))
+        iiz(i) = max(1,2+min(nbz,iiz(i)))
+      enddo
+!$omp end do
+      call my_barrier( )     
+!$omp single
+      do i=1,nsn
+        if(iix(i)==0) cycle
+        first = voxel(iix(i),iiy(i),iiz(i))
+        if(first==0)then
 c         Empty Cell
-            VOXEL(IIX(I),IIY(I),IIZ(I)) = I ! first
-            NEXT_NOD(I)                 = 0 ! last one
-            LAST_NOD(I)                 = 0 ! no last
-          ELSEIF(LAST_NOD(FIRST) == 0)THEN
+          voxel(iix(i),iiy(i),iiz(i)) = i ! first
+          next_nod(i)                 = 0 ! last one
+          last_nod(i)                 = 0 ! no last
+        elseif(last_nod(first)==0)then
 c         cell containing one node
 c         add as next node
-            NEXT_NOD(FIRST) = I ! next
-            LAST_NOD(FIRST) = I ! last
-            NEXT_NOD(I)     = 0 ! last one
-          ELSE
-c
+          next_nod(first) = i ! next
+          last_nod(first) = i ! last
+          next_nod(i)     = 0 ! last one
+        else
 c         jump to the last node of the cell
-            LAST = LAST_NOD(FIRST) ! last node in this voxel
-            NEXT_NOD(LAST)  = I ! next
-            LAST_NOD(FIRST) = I ! last
-            NEXT_NOD(I)     = 0 ! last one
-          ENDIF
-        ENDDO
-C=======================================================================
-C 2   placing nodes into boxes
-C     non -local candidates in SPMD
-C=======================================================================
-        DO J = 1, NSNR
-          IIX(NSN+J)=INT(NBX*(XREM(1,J)-XMINB)/(XMAXB-XMINB))
-          IIY(NSN+J)=INT(NBY*(XREM(2,J)-YMINB)/(YMAXB-YMINB))
-          IIZ(NSN+J)=INT(NBZ*(XREM(3,J)-ZMINB)/(ZMAXB-ZMINB))
-          IIX(NSN+J)=MAX(1,2+MIN(NBX,IIX(NSN+J)))
-          IIY(NSN+J)=MAX(1,2+MIN(NBY,IIY(NSN+J)))
-          IIZ(NSN+J)=MAX(1,2+MIN(NBZ,IIZ(NSN+J)))
+          last = last_nod(first) ! last node in this voxel
+          next_nod(last)  = i ! next
+          last_nod(first) = i ! last
+          next_nod(i)     = 0 ! last one
+        endif
+      enddo
+!$omp end single no wait      
 
-          FIRST = VOXEL(IIX(NSN+J),IIY(NSN+J),IIZ(NSN+J))
-          IF(FIRST == 0)THEN
+!$omp do schedule(guided)
+      do i=1,nsnr
+        iix(nsn+i) = int(nbx*(xrem(1,i)-xminb)/(xmaxb-xminb))
+        iiy(nsn+i) = int(nby*(xrem(2,i)-yminb)/(ymaxb-yminb))
+        iiz(nsn+i) = int(nbz*(xrem(3,i)-zminb)/(zmaxb-zminb))
+        iix(nsn+i) = max(1,2+min(nbx,iix(nsn+i)))
+        iiy(nsn+i) = max(1,2+min(nby,iiy(nsn+i)))
+        iiz(nsn+i) = max(1,2+min(nbz,iiz(nsn+i)))
+      enddo
+!$omp end do
+
+      call my_barrier( )
+
+!$omp single
+      do j = 1, nsnr
+        first = voxel(iix(nsn+j),iiy(nsn+j),iiz(nsn+j))
+        if(first==0)then
 c         Empty Cell
-            VOXEL(IIX(NSN+J),IIY(NSN+J),IIZ(NSN+J)) = NSN+J ! first
-            NEXT_NOD(NSN+J)     = 0 ! last one
-            LAST_NOD(NSN+J)     = 0 ! no last
-          ELSEIF(LAST_NOD(FIRST) == 0)THEN
+          voxel(iix(nsn+j),iiy(nsn+j),iiz(nsn+j)) = nsn+j ! first
+          next_nod(nsn+j)     = 0 ! last one
+          last_nod(nsn+j)     = 0 ! no last
+        elseif(last_nod(first)==0)then
 c         cell containing one node
 c         add as next node
-            NEXT_NOD(FIRST) = NSN+J  ! next
-            LAST_NOD(FIRST) = NSN+J  ! last
-            NEXT_NOD(NSN+J)  = 0     ! last one
-          ELSE
-c
+          next_nod(first) = nsn+j  ! next
+          last_nod(first) = nsn+j  ! last
+          next_nod(nsn+j)  = 0     ! last one
+        else
 c         jump to the last node of the cell
-            LAST = LAST_NOD(FIRST)  ! last node in this voxel
-            NEXT_NOD(LAST)  = NSN+J ! next
-            LAST_NOD(FIRST) = NSN+J ! last
-            NEXT_NOD(NSN+J)     = 0 ! last one
-          ENDIF
-        ENDDO
-      END IF
-C Barrier to wait task0 treatment
-      CALL MY_BARRIER
+          last = last_nod(first)  ! last node in this voxel
+          next_nod(last)  = nsn+j ! next
+          last_nod(first) = nsn+j ! last
+          next_nod(nsn+j)     = 0 ! last one
+        endif
+      enddo
+!$omp end single      
+
 C=======================================================================
 C 3 Searching boxes concerning each facet
 C     and creation of candidates
@@ -670,10 +681,11 @@ C
         DEALLOCATE(IIX)
         DEALLOCATE(IIY)
         DEALLOCATE(IIZ)
+        deallocate(local_nb_cand)
+        deallocate(last_nod)
       ENDIF
 
       DEALLOCATE(TAG)
-      DEALLOCATE(LAST_NOD)
       RETURN
       END
 

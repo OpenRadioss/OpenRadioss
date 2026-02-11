@@ -94,8 +94,8 @@ C
 C=======================================================================
       IF(NSN+NMN < NUMNOD)THEN
 C
-#include "vectorize.inc"
-        DO I=NSNF,NSNL
+!$omp do schedule(guided)
+        DO I=1,nsn
           J=NSV(I)
           IF(STFN(I)/=ZERO .AND. J<=NUMNOD) THEN
 
@@ -114,8 +114,10 @@ C
             VSLV(6)=MIN(VSLV(6),V(3,J))
           ENDIF
         END DO
-#include "vectorize.inc"
-        DO I=NMNF,NMNL
+!$omp end do no wait
+
+!$omp do schedule(guided)
+        DO I=1,nmn
           II = I+NSN
           J=MSR(I)
           IF(J>0) THEN
@@ -135,10 +137,11 @@ C
             VMSR(6)=MIN(VMSR(6),V(3,J))
           ENDIF
         END DO
+!$omp end do no wait        
       ELSE
 C
-#include "vectorize.inc"
-        DO I=NSNF,NSNL
+!$omp do schedule(guided)
+        DO I=1,nsn
           J=NSV(I)
           IF(STFN(I)/=ZERO .AND. J<=NUMNOD) THEN
 
@@ -159,8 +162,10 @@ C
            
           ENDIF
         END DO
-#include "vectorize.inc"
-        DO I=NMNF,NMNL
+!$omp end do no wait
+
+!$omp do schedule(guided)
+        DO I=1,nmn
           J=MSR(I)
           IF(J>0) THEN
 
@@ -179,6 +184,7 @@ C
             VMSR(6)=MIN(VMSR(6),V(3,J))
           ENDIF
         ENDDO
+!$omp end do no wait        
       ENDIF       
 C dist is calculated once for all interfaces in comcrit (see below)
 C

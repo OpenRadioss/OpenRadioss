@@ -152,6 +152,9 @@
           INTEGER :: BOUNDARY_SIZE !< size of BOUNDARY
           integer, dimension(:), allocatable :: BOUNDARY
           integer, dimension(:,:), allocatable :: BOUNDARY_ADD
+
+          integer :: global_boundary_nb
+          integer, dimension(:), allocatable :: global_boundary
         end type nodal_arrays_
         ! break towards checkstfn
 !       type animation_buffers
@@ -163,6 +166,14 @@
 !           real(kind=wp), dimension(:), allocatable :: ANIN
 !           real(kind=wp), dimension(:), allocatable :: TANI
 !       end type
+
+        interface assign_ptr
+          module procedure assign_ptr_int_1d
+          module procedure assign_ptr_int_2d
+          module procedure assign_ptr_real_1d
+          module procedure assign_ptr_real_2d
+        end interface assign_ptr
+        public :: assign_ptr
       contains
 ! ======================================================================================================================
 !                                                   procedures
@@ -173,7 +184,7 @@
 !||--- called by ------------------------------------------------------
 !||    resol         ../engine/source/engine/resol.F
 !||====================================================================
-        subroutine assign_ptrX(ptrX, X, numnod)
+        subroutine assign_ptr_int_1d(ptr,array,dim1)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -181,14 +192,67 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
-          real(kind=wp), pointer, dimension(:,:), contiguous, intent(inout) :: ptrX
-          integer, intent(in) :: numnod
-          real(kind=wp), target , dimension(3,numnod), intent(in) :: X
+          integer, pointer, dimension(:), contiguous, intent(inout) :: ptr
+          integer, intent(in) :: dim1
+          integer, target , dimension(dim1), intent(inout) :: array
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
-          ptrX => X
-        end subroutine assign_ptrX
+          ptr => array
+        end subroutine assign_ptr_int_1d
+
+        subroutine assign_ptr_int_2d(ptr,array,dim1,dim2)
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Modules
+! ----------------------------------------------------------------------------------------------------------------------
+          implicit none
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Arguments
+! ----------------------------------------------------------------------------------------------------------------------
+          integer, pointer, dimension(:,:), contiguous, intent(inout) :: ptr
+          integer, intent(in) :: dim1
+          integer, intent(in) :: dim2
+          integer, target , dimension(dim1,dim2), intent(inout) :: array
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Body
+! ----------------------------------------------------------------------------------------------------------------------
+          ptr => array
+        end subroutine assign_ptr_int_2d
+        
+        subroutine assign_ptr_real_1d(ptr,array,dim1)
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Modules
+! ----------------------------------------------------------------------------------------------------------------------
+          implicit none
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Arguments
+! ----------------------------------------------------------------------------------------------------------------------
+          real(kind=wp), pointer, dimension(:), contiguous, intent(inout) :: ptr
+          integer, intent(in) :: dim1
+          real(kind=wp), target , dimension(dim1), intent(inout) :: array
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Body
+! ----------------------------------------------------------------------------------------------------------------------
+          ptr => array
+        end subroutine assign_ptr_real_1d
+
+      subroutine assign_ptr_real_2d(ptr,array,dim1,dim2)
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Modules
+! ----------------------------------------------------------------------------------------------------------------------
+          implicit none
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Arguments
+! ----------------------------------------------------------------------------------------------------------------------
+          real(kind=wp), pointer, dimension(:,:), contiguous, intent(inout) :: ptr
+          integer, intent(in) :: dim1
+          integer, intent(in) :: dim2
+          real(kind=wp), target , dimension(dim1,dim2), intent(inout) :: array
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Body
+! ----------------------------------------------------------------------------------------------------------------------
+          ptr => array
+        end subroutine assign_ptr_real_2d     
 
 
 !! \brief Allocate nodal arrays

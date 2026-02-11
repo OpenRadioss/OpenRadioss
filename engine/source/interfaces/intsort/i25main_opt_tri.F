@@ -80,10 +80,7 @@ C-----------------------------------------------------------
 C     Prepare IRTLM 
 C         - IRTLM/=0 <=> at the beginning of CAND_OPT
 C-----------------------------------------------------------
-!$OMP SINGLE
-      CALL I25IRTLM(
-     1  IPARI   ,INTBUF_TAB ,ITAB    ,NIN     )
-!$OMP END SINGLE
+      CALL I25IRTLM(IPARI,INTBUF_TAB,ITAB,NIN,itask)     
 C-----------------------------------------------------------
       STARTT=INTBUF_TAB%VARIABLES(3)
       STOPT =INTBUF_TAB%VARIABLES(11)
