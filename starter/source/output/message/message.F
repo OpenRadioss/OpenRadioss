@@ -239,6 +239,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_read_fxb1                        ../starter/source/constraints/fxbody/hm_read_fxb.F
 !||    hm_read_gauge                       ../starter/source/output/gauge/hm_read_gauge.F
 !||    hm_read_grav                        ../starter/source/loads/general/grav/hm_read_grav.F
+!||    hm_read_guided_cable                ../starter/source/tools/seatbelts/hm_read_guided_cable.F90
 !||    hm_read_impacc                      ../starter/source/constraints/general/impvel/hm_read_impacc.F
 !||    hm_read_impflux                     ../starter/source/constraints/thermic/hm_read_impflux.F
 !||    hm_read_imptemp                     ../starter/source/constraints/thermic/hm_read_imptemp.F

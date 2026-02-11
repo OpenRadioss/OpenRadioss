@@ -317,6 +317,7 @@
 !||    s4voln_m                            ../engine/source/elements/solid/solide4_sfem/s4voln_m.F
 !||    s6cinit3                            ../starter/source/elements/thickshell/solide6c/s6cinit3.F
 !||    s6zforc3                            ../engine/source/elements/solid/solide6z/s6zforc3.F90
+!||    s6zhour3_or                         ../engine/source/elements/solid/solide6z/s6zhourg3_or.F90
 !||    s6zinit3                            ../starter/source/elements/solid/solide6z/s6zinit3.F90
 !||    s8cinit3                            ../starter/source/elements/thickshell/solide8c/s8cinit3.F
 !||    s8etherm                            ../engine/source/elements/solid/solide8e/s8etherm.F

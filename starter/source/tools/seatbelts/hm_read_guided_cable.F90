@@ -21,9 +21,9 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    hm_read_bcs_wall_mod   ../starter/source/boundary_conditions/hm_read_bcs_wall.F90
+!||    hm_read_guided_cable_mod   ../starter/source/tools/seatbelts/hm_read_guided_cable.F90
 !||--- called by ------------------------------------------------------
-!||    lectur                 ../starter/source/starter/lectur.F
+!||    lectur                     ../starter/source/starter/lectur.F
 !||====================================================================
       module hm_read_guided_cable_mod
         implicit none
@@ -36,18 +36,23 @@
 !||====================================================================
 !||    hm_read_guided_cable       ../starter/source/tools/seatbelts/hm_read_guided_cable.F90
 !||--- called by ------------------------------------------------------
-!||    lectur                 ../starter/source/starter/lectur.F
+!||    lectur                     ../starter/source/starter/lectur.F
 !||--- calls      -----------------------------------------------------
-!||    ancmsg                 ../starter/source/output/message/message.F
-!||    hm_get_floatv          ../starter/source/devtools/hm_reader/hm_get_floatv.F
-!||    hm_get_intv            ../starter/source/devtools/hm_reader/hm_get_intv.F
-!||    hm_option_read_key     ../starter/source/devtools/hm_reader/hm_option_read_key.F
-!||    hm_option_start        ../starter/source/devtools/hm_reader/hm_option_start.F
-!||    nodgrnr5               ../starter/source/starter/freform.F
+!||    ancmsg                     ../starter/source/output/message/message.F
+!||    c_prevent_decomposition    ../starter/source/spmd/domain_decomposition/c_domain_decomposition.cpp
+!||    dist_node_segment          ../starter/source/tools/seatbelts/dist_node_segment.F90
+!||    find_prev_next_nodes       ../starter/source/tools/seatbelts/find_prev_next_nodes.F90
+!||    hm_get_floatv              ../starter/source/devtools/hm_reader/hm_get_floatv.F
+!||    hm_get_intv                ../starter/source/devtools/hm_reader/hm_get_intv.F
+!||    hm_option_read_key         ../starter/source/devtools/hm_reader/hm_option_read_key.F
+!||    hm_option_start            ../starter/source/devtools/hm_reader/hm_option_start.F
+!||    ngr2usr                    ../starter/source/system/nintrr.F
 !||--- uses       -----------------------------------------------------
-!||    hm_option_read_mod     ../starter/share/modules1/hm_option_read_mod.F
-!||    message_mod            ../starter/share/message_module/message_mod.F
-!||    submodel_mod           ../starter/share/modules1/submodel_mod.F
+!||    dist_node_segment_mod      ../starter/source/tools/seatbelts/dist_node_segment.F90
+!||    find_prev_next_nodes_mod   ../starter/source/tools/seatbelts/find_prev_next_nodes.F90
+!||    hm_option_read_mod         ../starter/share/modules1/hm_option_read_mod.F
+!||    message_mod                ../starter/share/message_module/message_mod.F
+!||    submodel_mod               ../starter/share/modules1/submodel_mod.F
 !||====================================================================
         subroutine hm_read_guided_cable(lsubmodel, igrnod , ngrnod, igrpart, ngrpart,   &
                                         npart    , unitab , numelr, ipartr , ixr    ,   &

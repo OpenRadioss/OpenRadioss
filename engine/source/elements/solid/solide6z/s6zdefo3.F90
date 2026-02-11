@@ -32,6 +32,7 @@
 !||--- called by ------------------------------------------------------
 !||    s6zforc3        ../engine/source/elements/solid/solide6z/s6zforc3.F90
 !||--- uses       -----------------------------------------------------
+!||    aleanim_mod     ../common_source/modules/aleanim_mod.F
 !||    constant_mod    ../common_source/modules/constant_mod.F
 !||    precision_mod   ../common_source/modules/precision_mod.F90
 !||====================================================================

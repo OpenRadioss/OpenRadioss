@@ -38,7 +38,7 @@
 !||--- called by ------------------------------------------------------
 !||    s6zforc3        ../engine/source/elements/solid/solide6z/s6zforc3.F90
 !||--- calls      -----------------------------------------------------
-!||    ancmsg          ../engine/source/output/message/message.F
+!||    schkjabt3       ../engine/source/elements/solid/solide4/schkjabt3.F
 !||--- uses       -----------------------------------------------------
 !||    constant_mod    ../common_source/modules/constant_mod.F
 !||    message_mod     ../engine/share/message_module/message_mod.F

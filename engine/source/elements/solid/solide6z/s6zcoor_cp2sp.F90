@@ -21,24 +21,19 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    s6zcoor_cp2sp_mod   ../engine/source/elements/solid/solide6z/s6zcoor_cp2sp.f90
+!||    s6zcoor_cp2sp_mod   ../engine/source/elements/solid/solide6z/s6zcoor_cp2sp.F90
 !||--- called by ------------------------------------------------------
-!||    s6zforc3            ../engine/source/elements/solid/solide6z/s6zforc3.f90
+!||    s6zforc3            ../engine/source/elements/solid/solide6z/s6zforc3.F90
 !||====================================================================
       module s6zcoor_cp2sp_mod
       contains
 !||====================================================================
-!||
-!||    s6zcoor_cp2sp
-!||
+!||    s6zcoor_cp2sp   ../engine/source/elements/solid/solide6z/s6zcoor_cp2sp.F90
 !||--- called by ------------------------------------------------------
-!||
-!||    s6zforc3
-!||
+!||    s6zforc3        ../engine/source/elements/solid/solide6z/s6zforc3.F90
 !||--- uses       -----------------------------------------------------
-!||
-!||    mvsiz_mod       ../engine/share/spe_inc/mvsiz_mod.f90
-!||    precision_mod   ../common_source/modules/precision_mod.f90
+!||    mvsiz_mod       ../engine/share/spe_inc/mvsiz_mod.F90
+!||    precision_mod   ../common_source/modules/precision_mod.F90
 !||====================================================================
         subroutine s6zcoor_cp2sp(                       &
           x0       ,y0       ,z0       ,x1       ,      &

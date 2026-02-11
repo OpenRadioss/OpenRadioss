@@ -21,15 +21,22 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    sjacidp       ../starter/source/elements/solid/solide/sjacidp.f
+!||    s6zjac_i_mod   ../engine/source/elements/solid/solide6z/s6zjac_i.F90
 !||--- called by ------------------------------------------------------
-!||    sinit3        ../starter/source/elements/solid/solide/sinit3.f
-!||--- uses       -----------------------------------------------------
-!||    message_mod   ../starter/share/message_module/message_mod.f
+!||    s6zupd11t12    ../engine/source/elements/solid/solide6z/s6zupd11t12.F90
 !||====================================================================
       module s6zjac_i_mod
       contains
 
+!||====================================================================
+!||    s6zjac_i        ../engine/source/elements/solid/solide6z/s6zjac_i.F90
+!||--- called by ------------------------------------------------------
+!||    s6zupd11t12     ../engine/source/elements/solid/solide6z/s6zupd11t12.F90
+!||--- uses       -----------------------------------------------------
+!||    constant_mod    ../common_source/modules/constant_mod.F
+!||    message_mod     ../engine/share/message_module/message_mod.F
+!||    precision_mod   ../common_source/modules/precision_mod.F90
+!||====================================================================
       subroutine s6zjac_i(&
                    xd1  ,xd2  ,xd3  ,xd4  ,xd5  ,xd6 ,&
                    yd1  ,yd2  ,yd3  ,yd4  ,yd5  ,yd6 ,&

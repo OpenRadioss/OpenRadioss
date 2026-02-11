@@ -21,29 +21,18 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    s6zrrotadp_mod   ../engine/source/elements/solid/solide/s6zrrotadp.f90
+!||    s6zrrotadp_mod   ../engine/source/elements/solid/solide6z/s6zrrotadp.F90
 !||--- called by ------------------------------------------------------
-!||    s8eforc3      ../engine/source/elements/solid/solide8e/s8eforc3.f
-!||    s8zforc3      ../engine/source/elements/solid/solide8z/s8zforc3.f
-!||    sforc3        ../engine/source/elements/solid/solide/sforc3.f
-!||    szforc3       ../engine/source/elements/solid/solidez/szforc3.f
+!||    s6zforc3         ../engine/source/elements/solid/solide6z/s6zforc3.F90
 !||====================================================================
       module s6zrrotadp_mod
       contains
 !||====================================================================
-!||
-!||    s6zrrotadp
-!||
+!||    s6zrrotadp      ../engine/source/elements/solid/solide6z/s6zrrotadp.F90
 !||--- called by ------------------------------------------------------
-!||
-!||    s8eforc3
-!||    s8zforc3
-!||    sforc3
-!||    szforc3
-!||
+!||    s6zforc3        ../engine/source/elements/solid/solide6z/s6zforc3.F90
 !||--- uses       -----------------------------------------------------
-!||
-!||    precision_mod   ../common_source/modules/precision_mod.f90
+!||    precision_mod   ../common_source/modules/precision_mod.F90
 !||====================================================================
         subroutine s6zrrotadp( &
           r11      ,r12      ,r13      ,r21      ,      &

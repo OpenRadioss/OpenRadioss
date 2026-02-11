@@ -30,8 +30,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    shell_loc_cor        ../engine/source/tools/seatbelts/shell_loc_cor.F
 !||    shell_reactivation   ../engine/source/tools/seatbelts/shell_reactivation.F
 !||--- uses       -----------------------------------------------------
+!||    debug_mod            ../engine/share/modules/debug_mod.F
 !||    elbufdef_mod         ../common_source/modules/mat_elem/elbufdef_mod.F90
 !||    element_mod          ../common_source/modules/elements/element_mod.F90
+!||    groupdef_mod         ../common_source/modules/groupdef_mod.F
 !||    message_mod          ../engine/share/message_module/message_mod.F
 !||    seatbelt_mod         ../common_source/modules/seatbelt_mod.F
 !||====================================================================

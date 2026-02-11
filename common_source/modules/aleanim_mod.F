@@ -34,6 +34,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    output_mod                     ../common_source/modules/output/output_mod.F90
 !||    resol                          ../engine/source/engine/resol.F
 !||    restalloc                      ../engine/source/output/restart/arralloc.F
+!||    s6zdefo3                       ../engine/source/elements/solid/solide6z/s6zdefo3.F90
 !||    sdefo3                         ../engine/source/elements/solid/solide/sdefo3.F
 !||====================================================================
       MODULE ALEANIM_MOD

@@ -46,6 +46,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    ig3dinit3                       ../starter/source/elements/ige3d/ig3dinit3.F
 !||    ini_fvminivel                   ../starter/source/elements/initia/ini_fvminivel.F
 !||    ini_fxbody                      ../starter/source/constraints/fxbody/ini_fxbody.F
+!||    ini_guided_cable                ../starter/source/tools/seatbelts/ini_guided_cable.F90
 !||    ini_inimap1d                    ../starter/source/initial_conditions/inimap/ini_inimap1d.F
 !||    ini_inimap2d                    ../starter/stub/ini_inimap2d.F
 !||    ini_seatbelt                    ../starter/source/tools/seatbelts/ini_seatbelt.F
@@ -122,6 +123,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    drape_mod                       ../starter/share/modules1/drape_mod.F
 !||    eikonal_solver_mod              ../starter/source/initial_conditions/detonation/eikonal_solver.F90
 !||    func2d_mod                      ../starter/share/modules1/func2d_mod.F
+!||    ini_guided_cable_mod            ../starter/source/tools/seatbelts/ini_guided_cable.F90
 !||    inimap1d_mod                    ../starter/share/modules1/inimap1d_mod.F
 !||    inimap2d_mod                    ../starter/share/modules1/inimap2d_mod.F
 !||    init_bcs_nrf_mod                ../starter/source/boundary_conditions/init_bcs_nrf.F90

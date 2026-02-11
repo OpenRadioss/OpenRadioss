@@ -21,26 +21,19 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    s6zrmalla11_mod   ../engine/source/elements/solid/solide/s6zrmalla11.f90
+!||    s6zrmalla11_mod   ../engine/source/elements/solid/solide6z/s6zrmalla11.F90
 !||--- called by ------------------------------------------------------
-!||    sforc3            ../engine/source/elements/solid/solide/sforc3.f
-!||    szforc3           ../engine/source/elements/solid/solidez/szforc3.f
+!||    s6zforc3          ../engine/source/elements/solid/solide6z/s6zforc3.F90
 !||====================================================================
       module s6zrmalla11_mod
       contains
 !||====================================================================
-!||
-!||    s6zrmalla11
-!||
+!||    s6zrmalla11     ../engine/source/elements/solid/solide6z/s6zrmalla11.F90
 !||--- called by ------------------------------------------------------
-!||
-!||    sforc3
-!||    szforc3
-!||
+!||    s6zforc3        ../engine/source/elements/solid/solide6z/s6zforc3.F90
 !||--- uses       -----------------------------------------------------
-!||
-!||    constant_mod    ../common_source/modules/constant_mod.f
-!||    precision_mod   ../common_source/modules/precision_mod.f90
+!||    constant_mod    ../common_source/modules/constant_mod.F
+!||    precision_mod   ../common_source/modules/precision_mod.F90
 !||====================================================================
         subroutine s6zrmalla11( &
           sav      ,offg     ,wxx      ,wyy      ,      &

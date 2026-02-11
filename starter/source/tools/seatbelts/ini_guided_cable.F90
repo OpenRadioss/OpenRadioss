@@ -21,9 +21,9 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    hm_read_bcs_wall_mod   ../starter/source/boundary_conditions/hm_read_bcs_wall.F90
+!||    ini_guided_cable_mod   ../starter/source/tools/seatbelts/ini_guided_cable.F90
 !||--- called by ------------------------------------------------------
-!||    lectur                 ../starter/source/starter/lectur.F
+!||    initia                 ../starter/source/elements/initia/initia.F
 !||====================================================================
       module ini_guided_cable_mod
         implicit none
@@ -34,20 +34,14 @@
 !! \brief Reader subroutine for option /GUIDE
 !! \details
 !||====================================================================
-!||    hm_read_guide       ../starter/source/tools/seatbelts/hm_read_guide.F90
+!||    ini_guided_cable   ../starter/source/tools/seatbelts/ini_guided_cable.F90
 !||--- called by ------------------------------------------------------
-!||    lectur                 ../starter/source/starter/lectur.F
+!||    initia             ../starter/source/elements/initia/initia.F
 !||--- calls      -----------------------------------------------------
-!||    ancmsg                 ../starter/source/output/message/message.F
-!||    hm_get_floatv          ../starter/source/devtools/hm_reader/hm_get_floatv.F
-!||    hm_get_intv            ../starter/source/devtools/hm_reader/hm_get_intv.F
-!||    hm_option_read_key     ../starter/source/devtools/hm_reader/hm_option_read_key.F
-!||    hm_option_start        ../starter/source/devtools/hm_reader/hm_option_start.F
-!||    nodgrnr5               ../starter/source/starter/freform.F
+!||    ifrontplus         ../starter/source/spmd/node/frontplus.F
+!||    nlocal             ../starter/source/spmd/node/ddtools.F
 !||--- uses       -----------------------------------------------------
-!||    hm_option_read_mod     ../starter/share/modules1/hm_option_read_mod.F
-!||    message_mod            ../starter/share/message_module/message_mod.F
-!||    submodel_mod           ../starter/share/modules1/submodel_mod.F
+!||    message_mod        ../starter/share/message_module/message_mod.F
 !||====================================================================
         subroutine ini_guided_cable(nspmd)
 ! ----------------------------------------------------------------------------------------------------------------------

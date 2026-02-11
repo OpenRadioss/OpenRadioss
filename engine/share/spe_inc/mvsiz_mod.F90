@@ -39,11 +39,17 @@
 !||    s6fint_reg                      ../engine/source/elements/solid/solide6z/s6fint_reg.F90
 !||    s6for_distor                    ../engine/source/elements/thickshell/solide6c/s6for_distor.F90
 !||    s6get_xv                        ../engine/source/elements/thickshell/solide6c/s6get_xv.F90
+!||    s6zcoor_cp2sp                   ../engine/source/elements/solid/solide6z/s6zcoor_cp2sp.F90
 !||    s6zderi3                        ../engine/source/elements/solid/solide6z/s6zderi3.F90
+!||    s6zderit3                       ../engine/source/elements/solid/solide6z/s6zderit3.F90
 !||    s6zderito3                      ../engine/source/elements/solid/solide6z/s6zderito3.F90
 !||    s6zfint3                        ../engine/source/elements/solid/solide6z/s6zfint3.F90
 !||    s6zforc3                        ../engine/source/elements/solid/solide6z/s6zforc3.F90
 !||    s6zhour3                        ../engine/source/elements/solid/solide6z/s6zhourg3.F90
+!||    s6zhour3_or                     ../engine/source/elements/solid/solide6z/s6zhourg3_or.F90
+!||    s6zrcoor3                       ../engine/source/elements/solid/solide6z/s6zrcoor3.F90
+!||    s6zsav12                        ../engine/source/elements/solid/solide6z/s6zsav12.F90
+!||    s6zupd11t12                     ../engine/source/elements/solid/solide6z/s6zupd11t12.F90
 !||    sdistor_ini                     ../engine/source/elements/solid/solide/sdistror_ini.F90
 !||    sfor_3n2s3                      ../engine/source/elements/solid/solide/sfor_4n2s4.F90
 !||    sfor_4n2s4                      ../engine/source/elements/solid/solide/sfor_4n2s4.F90

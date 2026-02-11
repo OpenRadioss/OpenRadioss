@@ -21,9 +21,17 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    retractor_table_inv_mod   ../engine/source/tools/seatbelts/retractor_table_inv.F90
+!||    guided_cable_force_mod            ../engine/source/tools/seatbelts/guided_cable_force.F90
 !||--- called by ------------------------------------------------------
-!||    material_flow             ../engine/source/tools/seatbelts/material_flow.F
+!||    kine_seatbelt_force               ../engine/source/tools/seatbelts/kine_seatbelt_force.F
+!||--- calls      -----------------------------------------------------
+!||    compute_contact_force_guide       ../engine/source/tools/seatbelts/compute_contact_force_guide.F90
+!||--- uses       -----------------------------------------------------
+!||    compute_contact_force_guide_mod   ../engine/source/tools/seatbelts/compute_contact_force_guide.F90
+!||    constant_mod                      ../common_source/modules/constant_mod.F
+!||    debug_mod                         ../engine/share/modules/debug_mod.F
+!||    precision_mod                     ../common_source/modules/precision_mod.F90
+!||    seatbelt_mod                      ../common_source/modules/seatbelt_mod.F
 !||====================================================================
       module guided_cable_force_mod
       implicit none
@@ -36,19 +44,6 @@
 !!\brief This suborutine compute penalty forces for guided cable
 !=======================================================================================================================
 !
-!||====================================================================
-!||    retractor_table_inv   ../engine/source/tools/seatbelts/retractor_table_inv.F90
-!||--- called by ------------------------------------------------------
-!||    material_flow         ../engine/source/tools/seatbelts/material_flow.F
-!||--- calls      -----------------------------------------------------
-!||    ancmsg                ../engine/source/output/message/message.F
-!||    arret                 ../engine/source/system/arret.F
-!||--- uses       -----------------------------------------------------
-!||    constant_mod          ../common_source/modules/constant_mod.F
-!||    message_mod           ../engine/share/message_module/message_mod.F
-!||    precision_mod         ../common_source/modules/precision_mod.F90
-!||    table_mod             ../engine/share/modules/table_mod.F
-!||====================================================================
   subroutine guided_cable_force(a, stifn, iresp, numnod, x, xdp, &
                                 v, dt1, ms0, n_anchor_remote_send, &
                                 flag_guided_cable_update,buf_exch)

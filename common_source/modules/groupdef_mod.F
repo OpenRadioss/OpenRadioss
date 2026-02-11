@@ -236,6 +236,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_read_friction_orientations     ../starter/source/interfaces/friction/reader/hm_read_friction_orientations.F
 !||    hm_read_grav                      ../starter/source/loads/general/grav/hm_read_grav.F
 !||    hm_read_grpart                    ../starter/source/groups/hm_read_grpart.F
+!||    hm_read_guided_cable              ../starter/source/tools/seatbelts/hm_read_guided_cable.F90
 !||    hm_read_impacc                    ../starter/source/constraints/general/impvel/hm_read_impacc.F
 !||    hm_read_impflux                   ../starter/source/constraints/thermic/hm_read_impflux.F
 !||    hm_read_imptemp                   ../starter/source/constraints/thermic/hm_read_imptemp.F
@@ -641,6 +642,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    th_surf_load_pressure             ../starter/source/output/th/th_surf_load_pressure.F
 !||    thprin_sub                        ../starter/source/output/th/thprin.F
 !||    tsurftag                          ../starter/source/groups/tsurftag.F
+!||    update_slipring                   ../engine/source/tools/seatbelts/update_slipring.F
 !||    updfail                           ../starter/source/materials/updfail.F90
 !||    velvecz22                         ../engine/source/output/anim/generate/velvecz22.F
 !||    volpvgb                           ../engine/source/airbag/volpvg.F

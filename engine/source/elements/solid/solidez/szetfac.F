@@ -22,11 +22,12 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
 !||====================================================================
-!||    szetfac      ../engine/source/elements/solid/solidez/szetfac.F
+!||    szetfac       ../engine/source/elements/solid/solidez/szetfac.F
 !||--- called by ------------------------------------------------------
-!||    s6zhour3     ../engine/source/elements/solid/solide6z/s6zhourg3.F90
-!||    szhour3      ../engine/source/elements/solid/solidez/szhour3.F
-!||    szhour3_or   ../engine/source/elements/solid/solidez/szhour3_or.F
+!||    s6zhour3      ../engine/source/elements/solid/solide6z/s6zhourg3.F90
+!||    s6zhour3_or   ../engine/source/elements/solid/solide6z/s6zhourg3_or.F90
+!||    szhour3       ../engine/source/elements/solid/solidez/szhour3.F
+!||    szhour3_or    ../engine/source/elements/solid/solidez/szhour3_or.F
 !||====================================================================
       SUBROUTINE SZETFAC(LFT,LLT,IKT,MTN,ET,G  )
 C-----------------------------------------------

@@ -21,29 +21,20 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    s6zsav12_mod   ../engine/source/elements/solid/solide/s6zsav12.F90
+!||    s6zsav12_mod   ../engine/source/elements/solid/solide6z/s6zsav12.F90
 !||--- called by ------------------------------------------------------
-!||    s8eforc3      ../engine/source/elements/solid/solide8e/s8eforc3.F
-!||    s8zforc3      ../engine/source/elements/solid/solide8z/s8zforc3.F
-!||    sforc3        ../engine/source/elements/solid/solide/sforc3.F
-!||    szforc3       ../engine/source/elements/solid/solidez/szforc3.F
+!||    s6zforc3       ../engine/source/elements/solid/solide6z/s6zforc3.F90
 !||====================================================================
       module s6zsav12_mod
       contains
 !||====================================================================
-!||
-!||    s6zsav12
-!||
+!||    s6zsav12        ../engine/source/elements/solid/solide6z/s6zsav12.F90
 !||--- called by ------------------------------------------------------
-!||
-!||    sforc3
-!||    szforc3
-!||
+!||    s6zforc3        ../engine/source/elements/solid/solide6z/s6zforc3.F90
 !||--- uses       -----------------------------------------------------
-!||
 !||    constant_mod    ../common_source/modules/constant_mod.F
-!||    precision_mod   ../common_source/modules/precision_mod.F90
 !||    mvsiz_mod       ../engine/share/spe_inc/mvsiz_mod.F90
+!||    precision_mod   ../common_source/modules/precision_mod.F90
 !||====================================================================
         subroutine s6zsav12( &
           offg     ,offg0    ,sav      ,x        ,      &

@@ -21,9 +21,10 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    init_guide_mod   ../starter/source/tools/seatbelts/init_guide.F90
+!||    dist_node_segment_mod   ../starter/source/tools/seatbelts/dist_node_segment.F90
 !||--- called by ------------------------------------------------------
-!||    initia                      ../starter/source/elements/initia/initia.F
+!||    find_prev_next_nodes    ../starter/source/tools/seatbelts/find_prev_next_nodes.F90
+!||    hm_read_guided_cable    ../starter/source/tools/seatbelts/hm_read_guided_cable.F90
 !||====================================================================
       module dist_node_segment_mod
         implicit none
@@ -33,13 +34,11 @@
 ! ======================================================================================================================
 !! \routine to search for rbodies that are referenced by slipring and fill slipring data_structure with
 !||====================================================================
-!||    init_seatbelt_rbodies   ../starter/source/tools/seatbelts/init_seatbelt_rbodies.F90
+!||    dist_node_segment      ../starter/source/tools/seatbelts/dist_node_segment.F90
 !||--- called by ------------------------------------------------------
-!||    initia                  ../starter/source/elements/initia/initia.F
-!||--- calls      -----------------------------------------------------
-!||    ancmsg                  ../starter/source/output/message/message.F
+!||    find_prev_next_nodes   ../starter/source/tools/seatbelts/find_prev_next_nodes.F90
+!||    hm_read_guided_cable   ../starter/source/tools/seatbelts/hm_read_guided_cable.F90
 !||--- uses       -----------------------------------------------------
-!||    message_mod             ../starter/share/message_module/message_mod.F
 !||====================================================================
         subroutine dist_node_segment(node1,node2,anchor_node,numnod,x,dist)
 ! ----------------------------------------------------------------------------------------------------------------------

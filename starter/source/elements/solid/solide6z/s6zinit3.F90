@@ -24,9 +24,9 @@
 ! \brief   initiation of penta solid element
 ! ======================================================================================================================
 !||====================================================================
-!||    s6zinit3_mod   ../starter/source/elements/solid/solide6z/s6zinit3.f90
+!||    s6zinit3_mod   ../starter/source/elements/solid/solide6z/s6zinit3.F90
 !||--- called by ------------------------------------------------------
-!||    initia         ../starter/source/elements/initia/initia.f
+!||    initia         ../starter/source/elements/initia/initia.F
 !||====================================================================
       module s6zinit3_mod
       contains
@@ -35,30 +35,31 @@
       ! \details initializes element variables, material model, mass, etc ... for 6-node solid elements
       ! ======================================================================================================================
 !||====================================================================
-!||    s6zinit3                ../starter/source/elements/solid/solide6z/s6zinit3.f90
+!||    s6zinit3                ../starter/source/elements/solid/solide6z/s6zinit3.F90
 !||--- called by ------------------------------------------------------
-!||    initia                  ../starter/source/elements/initia/initia.f
+!||    initia                  ../starter/source/elements/initia/initia.F
 !||--- calls      -----------------------------------------------------
-!||    atheri                  ../starter/source/ale/atheri.f
-!||    dtmain                  ../starter/source/materials/time_step/dtmain.f
-!||    failini                 ../starter/source/elements/solid/solide/failini.f
-!||    matini                  ../starter/source/materials/mat_share/matini.f
-!||    s6mass3                 ../starter/source/elements/thickshell/solide6c/s6mass3.f
-!||    s6zcoor3                ../starter/source/elements/solid/solide6z/s6zcoor3.f90
-!||    s6zderi3                ../starter/source/elements/solid/solide6z/s6zderi3.f90
-!||    s6zjacidp               ../starter/source/elements/solid/solide6z/s6zjacidp.f90
-!||    s6zrcoor3               ../starter/source/elements/solid/solide6z/s6zrcoor3.f90
-!||    sbulk3                  ../starter/source/elements/solid/solide/sbulk3.f
-!||    sigin20b                ../starter/source/elements/solid/solide20/s20mass3.f
+!||    atheri                  ../starter/source/ale/atheri.F
+!||    dtmain                  ../starter/source/materials/time_step/dtmain.F
+!||    failini                 ../starter/source/elements/solid/solide/failini.F
+!||    matini                  ../starter/source/materials/mat_share/matini.F
+!||    s6mass3                 ../starter/source/elements/thickshell/solide6c/s6mass3.F
+!||    s6zcoor3                ../starter/source/elements/solid/solide6z/s6zcoor3.F90
+!||    s6zderi3                ../starter/source/elements/solid/solide6z/s6zderi3.F90
+!||    s6zjacidp               ../starter/source/elements/solid/solide6z/s6zjacidp.F90
+!||    s6zrcoor3               ../starter/source/elements/solid/solide6z/s6zrcoor3.F90
+!||    sbulk3                  ../starter/source/elements/solid/solide/sbulk3.F
+!||    sigin20b                ../starter/source/elements/solid/solide20/s20mass3.F
+!||    smorth3                 ../starter/source/elements/solid/solide/smorth3.F
 !||--- uses       -----------------------------------------------------
-!||    defaults_mod            ../starter/source/modules/defaults_mod.f90
-!||    detonators_mod          ../starter/share/modules1/detonators_mod.f
-!||    message_mod             ../starter/share/message_module/message_mod.f
-!||    s6zcoor3_mod            ../starter/source/elements/solid/solide6z/s6zcoor3.f90
-!||    s6zderi3_mod            ../starter/source/elements/solid/solide6z/s6zderi3.f90
-!||    s6zjacidp_mod           ../starter/source/elements/solid/solide6z/s6zjacidp.f90
-!||    s6zrcoor3_mod           ../starter/source/elements/solid/solide6z/s6zrcoor3.f90
-!||    table_mat_vinterp_mod   ../starter/source/materials/tools/table_mat_vinterp.f
+!||    defaults_mod            ../starter/source/modules/defaults_mod.F90
+!||    detonators_mod          ../starter/share/modules1/detonators_mod.F
+!||    message_mod             ../starter/share/message_module/message_mod.F
+!||    s6zcoor3_mod            ../starter/source/elements/solid/solide6z/s6zcoor3.F90
+!||    s6zderi3_mod            ../starter/source/elements/solid/solide6z/s6zderi3.F90
+!||    s6zjacidp_mod           ../starter/source/elements/solid/solide6z/s6zjacidp.F90
+!||    s6zrcoor3_mod           ../starter/source/elements/solid/solide6z/s6zrcoor3.F90
+!||    table_mat_vinterp_mod   ../starter/source/materials/tools/table_mat_vinterp.F
 !||====================================================================
       subroutine s6zinit3(                                                     & 
         elbuf_str,nixs     ,numels   ,ixs      ,numnod   ,mas       ,          &      

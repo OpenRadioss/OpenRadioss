@@ -21,9 +21,9 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    retractor_table_inv_mod   ../engine/source/tools/seatbelts/retractor_table_inv.F90
+!||    compute_contact_force_guide_mod   ../engine/source/tools/seatbelts/compute_contact_force_guide.F90
 !||--- called by ------------------------------------------------------
-!||    material_flow             ../engine/source/tools/seatbelts/material_flow.F
+!||    guided_cable_force_mod            ../engine/source/tools/seatbelts/guided_cable_force.F90
 !||====================================================================
       module compute_contact_force_guide_mod
       implicit none
@@ -37,17 +37,12 @@
 !=======================================================================================================================
 !
 !||====================================================================
-!||    retractor_table_inv   ../engine/source/tools/seatbelts/retractor_table_inv.F90
+!||    compute_contact_force_guide   ../engine/source/tools/seatbelts/compute_contact_force_guide.F90
 !||--- called by ------------------------------------------------------
-!||    material_flow         ../engine/source/tools/seatbelts/material_flow.F
-!||--- calls      -----------------------------------------------------
-!||    ancmsg                ../engine/source/output/message/message.F
-!||    arret                 ../engine/source/system/arret.F
+!||    guided_cable_force_mod        ../engine/source/tools/seatbelts/guided_cable_force.F90
 !||--- uses       -----------------------------------------------------
-!||    constant_mod          ../common_source/modules/constant_mod.F
-!||    message_mod           ../engine/share/message_module/message_mod.F
-!||    precision_mod         ../common_source/modules/precision_mod.F90
-!||    table_mod             ../engine/share/modules/table_mod.F
+!||    constant_mod                  ../common_source/modules/constant_mod.F
+!||    precision_mod                 ../common_source/modules/precision_mod.F90
 !||====================================================================
         subroutine compute_contact_force_guide(alpha,anchor_node,node1,node2,seg_vec,numnod,x,v,stiff,visc,           &
                                                fric,dt1,forc,forc_norm,forc_t,cont_type)

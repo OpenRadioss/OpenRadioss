@@ -23,7 +23,7 @@
 !||====================================================================
 !||    s6zderit3_mod   ../engine/source/elements/solid/solide6z/s6zderit3.F90
 !||--- called by ------------------------------------------------------
-!||    s6zforc3       ../engine/source/elements/solid/solide6z/s6zforc3.F90
+!||    s6zforc3        ../engine/source/elements/solid/solide6z/s6zforc3.F90
 !||====================================================================
       module s6zderit3_mod
       contains
@@ -34,11 +34,11 @@
         !          negative volume detection and correction.
         ! ======================================================================================================================
 !||====================================================================
-!||    s6zderit3        ../engine/source/elements/solid/solide6z/s6zderit3.F90
+!||    s6zderit3       ../engine/source/elements/solid/solide6z/s6zderit3.F90
 !||--- called by ------------------------------------------------------
 !||    s6zforc3        ../engine/source/elements/solid/solide6z/s6zforc3.F90
 !||--- calls      -----------------------------------------------------
-!||    ancmsg          ../engine/source/output/message/message.F
+!||    schkjab3        ../engine/source/elements/solid/solide/schkjab3.F
 !||--- uses       -----------------------------------------------------
 !||    constant_mod    ../common_source/modules/constant_mod.F
 !||    message_mod     ../engine/share/message_module/message_mod.F

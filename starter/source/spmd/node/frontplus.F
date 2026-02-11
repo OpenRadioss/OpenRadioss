@@ -74,6 +74,7 @@ C-----------------------------------------------------
 !||    hm_read_rivet               ../starter/source/elements/reader/hm_read_rivet.F
 !||    i24setnodes                 ../starter/source/interfaces/inter3d1/i24setnodes.F
 !||    igrsurf_split               ../starter/source/spmd/igrsurf_split.F
+!||    ini_guided_cable            ../starter/source/tools/seatbelts/ini_guided_cable.F90
 !||    ini_seatbelt                ../starter/source/tools/seatbelts/ini_seatbelt.F
 !||    iniend                      ../starter/source/interfaces/inter3d1/iniend.F
 !||    iniend2d                    ../starter/source/interfaces/inter3d1/iniend.F

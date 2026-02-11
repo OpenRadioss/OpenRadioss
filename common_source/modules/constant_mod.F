@@ -57,6 +57,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    compaction2                              ../common_source/eos/compaction2.F90
 !||    compaction_tab                           ../common_source/eos/compaction_tab.F90
 !||    compaction_tab_init                      ../common_source/eos/compaction_tab.F90
+!||    compute_contact_force_guide              ../engine/source/tools/seatbelts/compute_contact_force_guide.F90
 !||    compute_voxel_dimensions                 ../engine/source/interfaces/intsort/voxel_dimensions.F90
 !||    conjugate_gradient_vec                   ../engine/source/ale/alemuscl/conjugate_gradient_vec.F90
 !||    construct_multimat_eos                   ../common_source/modules/multimat_param_mod.F90
@@ -79,6 +80,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    detach_node_from_shells                  ../engine/source/engine/node_spliting/detach_node.F90
 !||    detonation_times_printout                ../starter/source/initial_conditions/detonation/detonation_times_printout.F90
 !||    dim_shell_offsetp                        ../starter/source/elements/shell/shell_offset/dim_shell_offsetp.F90
+!||    dist_node_segment                        ../starter/source/tools/seatbelts/dist_node_segment.F90
 !||    dttherm                                  ../engine/source/time_step/dttherm.F90
 !||    ebcs11_propellant                        ../engine/source/boundary_conditions/ebcs/ebcs11_propellant.F90
 !||    ebcs12_cyclic                            ../engine/source/boundary_conditions/ebcs/ebcs12_cyclic.F90
@@ -121,6 +123,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    fill_voxel_local                         ../engine/source/interfaces/intsort/fill_voxel.F90
 !||    fill_voxel_local_partial                 ../engine/source/interfaces/intsort/fill_voxel.F90
 !||    fill_voxel_remote                        ../engine/source/interfaces/intsort/fill_voxel.F90
+!||    find_prev_next_nodes                     ../starter/source/tools/seatbelts/find_prev_next_nodes.F90
 !||    find_segment_in_list                     ../engine/source/engine/node_spliting/detach_node.F90
 !||    force                                    ../engine/source/loads/general/force.F90
 !||    fpcont2_max_output                       ../engine/source/output/h3d/h3d_results/fpcont2_max_output.F90
@@ -142,6 +145,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    glob_therm_init                          ../starter/source/constraints/thermic/glob_therm_init.F90
 !||    gradient_reconstruction_new              ../engine/source/ale/alemuscl/gradient_reconstruction.F90
 !||    granular51                               ../engine/source/materials/mat/mat051/granular51.F90
+!||    guided_cable_force_mod                   ../engine/source/tools/seatbelts/guided_cable_force.F90
 !||    h3d_oned_scalar                          ../engine/source/output/h3d/h3d_results/h3d_oned_scalar.F90
 !||    h3d_quad_scalar_1                        ../engine/source/output/h3d/h3d_results/h3d_quad_scalar_1.F90
 !||    hm_preread_inivel                        ../starter/source/initial_conditions/general/inivel/hm_preread_inivel.F90
@@ -163,6 +167,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_read_fail_puck                        ../starter/source/materials/fail/puck/hm_read_fail_puck.F90
 !||    hm_read_fail_spalling                    ../starter/source/materials/fail/spalling/hm_read_fail_spalling.F90
 !||    hm_read_fractal_dmg                      ../starter/source/materials/fail/fractal/hm_read_fractal_dmg.F90
+!||    hm_read_guided_cable                     ../starter/source/tools/seatbelts/hm_read_guided_cable.F90
 !||    hm_read_inivol                           ../starter/source/initial_conditions/inivol/hm_read_inivol.F90
 !||    hm_read_mat                              ../starter/source/materials/mat/hm_read_mat.F90
 !||    hm_read_mat02_jc                         ../starter/source/materials/mat/mat002/hm_read_mat02_jc.F90
@@ -197,6 +202,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    i8rstn                                   ../engine/source/interfaces/int16/i8lagm.F
 !||    idealgas                                 ../common_source/eos/idealgas.F
 !||    idealgas_vt                              ../common_source/eos/idealgas_vt.F
+!||    ini_guided_cable                         ../starter/source/tools/seatbelts/ini_guided_cable.F90
 !||    iniebcs_propellant_get_cp                ../starter/source/boundary_conditions/ebcs/iniebcs_propellant.F90
 !||    iniphase                                 ../starter/source/initial_conditions/inivol/iniphase.F
 !||    init                                     ../common_source/modules/ale/ale_mod.F
@@ -314,15 +320,21 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    s6zcoor3                                 ../starter/source/elements/solid/solide6z/s6zcoor3.F90
 !||    s6zdefo3                                 ../engine/source/elements/solid/solide6z/s6zdefo3.F90
 !||    s6zderi3                                 ../engine/source/elements/solid/solide6z/s6zderi3.F90
+!||    s6zderit3                                ../engine/source/elements/solid/solide6z/s6zderit3.F90
 !||    s6zderito3                               ../engine/source/elements/solid/solide6z/s6zderito3.F90
 !||    s6zfint3                                 ../engine/source/elements/solid/solide6z/s6zfint3.F90
 !||    s6zforc3                                 ../engine/source/elements/solid/solide6z/s6zforc3.F90
 !||    s6zhour3                                 ../engine/source/elements/solid/solide6z/s6zhourg3.F90
+!||    s6zhour3_or                              ../engine/source/elements/solid/solide6z/s6zhourg3_or.F90
 !||    s6zinit3                                 ../starter/source/elements/solid/solide6z/s6zinit3.F90
+!||    s6zjac_i                                 ../engine/source/elements/solid/solide6z/s6zjac_i.F90
 !||    s6zjacidp                                ../starter/source/elements/solid/solide6z/s6zjacidp.F90
 !||    s6zortho3                                ../starter/source/elements/solid/solide6z/s6zortho3.F90
 !||    s6zrcoor3                                ../engine/source/elements/solid/solide6z/s6zrcoor3.F90
+!||    s6zrmalla11                              ../engine/source/elements/solid/solide6z/s6zrmalla11.F90
+!||    s6zsav12                                 ../engine/source/elements/solid/solide6z/s6zsav12.F90
 !||    s6zsav3                                  ../engine/source/elements/solid/solide6z/s6zsav3.F90
+!||    s6zupd11t12                              ../engine/source/elements/solid/solide6z/s6zupd11t12.F90
 !||    sdistor_ini                              ../engine/source/elements/solid/solide/sdistror_ini.F90
 !||    segvar_create                            ../engine/share/modules/segvar_mod.F
 !||    select_s2s                               ../starter/source/interfaces/inter3d1/select_s2s.F90

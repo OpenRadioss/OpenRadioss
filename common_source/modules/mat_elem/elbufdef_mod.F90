@@ -516,6 +516,7 @@
 !||    s6fint_reg                          ../engine/source/elements/solid/solide6z/s6fint_reg.F90
 !||    s6zforc3                            ../engine/source/elements/solid/solide6z/s6zforc3.F90
 !||    s6zhour3                            ../engine/source/elements/solid/solide6z/s6zhourg3.F90
+!||    s6zhour3_or                         ../engine/source/elements/solid/solide6z/s6zhourg3_or.F90
 !||    s6zinit3                            ../starter/source/elements/solid/solide6z/s6zinit3.F90
 !||    s8_is17jac_i                        ../engine/source/elements/solid/solide8e/s8_is17jac_i.F
 !||    s8cfint_reg                         ../engine/source/elements/thickshell/solide8c/s8cfint_reg.F

@@ -21,23 +21,24 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    s6zrcoor3_mod   ../starter/source/elements/solid/solide6z/s6zrcoor3.f90
+!||    s6zrcoor3_mod   ../starter/source/elements/solid/solide6z/s6zrcoor3.F90
 !||--- called by ------------------------------------------------------
-!||    s6zinit3        ../starter/source/elements/solid/solide6z/s6zinit3.f90
+!||    s6zinit3        ../starter/source/elements/solid/solide6z/s6zinit3.F90
 !||====================================================================
       module s6zrcoor3_mod
       contains
 
 !||====================================================================
-!||    s6zrcoor3        ../starter/source/elements/solid/solide6z/s6zrcoor3.f90
+!||    s6zrcoor3        ../starter/source/elements/solid/solide6z/s6zrcoor3.F90
 !||--- called by ------------------------------------------------------
-!||    s6zinit3         ../starter/source/elements/solid/solide6z/s6zinit3.f90
+!||    s6zinit3         ../starter/source/elements/solid/solide6z/s6zinit3.F90
 !||--- calls      -----------------------------------------------------
-!||    checkvolume_6n   ../starter/source/elements/solid/solide/checksvolume.f
-!||    s6zortho3        ../starter/source/elements/solid/solide6z/s6zortho3.f90
+!||    checkvolume_6n   ../starter/source/elements/solid/solide/checksvolume.F
+!||    sortho3          ../starter/source/elements/solid/solide/sortho3.F
+!||    srepiso3         ../starter/source/elements/solid/solide/srepiso3.F
 !||--- uses       -----------------------------------------------------
-!||    message_mod      ../starter/share/message_module/message_mod.f
-!||    s6zortho3_mod    ../starter/source/elements/solid/solide6z/s6zortho3.f90
+!||    message_mod      ../starter/share/message_module/message_mod.F
+!||    s6zortho3_mod    ../starter/source/elements/solid/solide6z/s6zortho3.F90
 !||====================================================================
       subroutine s6zrcoor3(x      ,ixs ,ngl  ,mxt  ,ngeo ,           &
            rx   ,ry   ,rz   ,sx   ,sy   ,sz   ,tx   ,ty   ,tz   ,    &

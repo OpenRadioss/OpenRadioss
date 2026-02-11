@@ -21,30 +21,23 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    s6zupd11t12_mod   ../engine/source/elements/solid/solide/s6zupd11t12.f90
+!||    s6zupd11t12_mod   ../engine/source/elements/solid/solide6z/s6zupd11t12.F90
 !||--- called by ------------------------------------------------------
-!||    sforc3            ../engine/source/elements/solid/solide/sforc3.f
-!||    szforc3           ../engine/source/elements/solid/solidez/szforc3.f
-!||--- calls      -----------------------------------------------------
-!||    s8jac_i           ../engine/source/elements/solid/solide/s8jac_i.f
+!||    s6zforc3          ../engine/source/elements/solid/solide6z/s6zforc3.F90
 !||====================================================================
       module s6zupd11t12_mod
       contains
 !||====================================================================
-!||
-!||    s6zupd11t12
-!||
+!||    s6zupd11t12     ../engine/source/elements/solid/solide6z/s6zupd11t12.F90
 !||--- called by ------------------------------------------------------
-!||
-!||    sforc3
-!||    szforc3
-!||
+!||    s6zforc3        ../engine/source/elements/solid/solide6z/s6zforc3.F90
+!||--- calls      -----------------------------------------------------
+!||    s6zjac_i        ../engine/source/elements/solid/solide6z/s6zjac_i.F90
 !||--- uses       -----------------------------------------------------
-!||
-!||    constant_mod      ../common_source/modules/constant_mod.f
-!||    mvsiz_mod         ../engine/share/spe_inc/mvsiz_mod.f90
-!||    precision_mod     ../common_source/modules/precision_mod.f90
-!||    s6zjac_i_mod      ../engine/source/elements/solid/solide6z/s6zjac_i_mod.f90
+!||    constant_mod    ../common_source/modules/constant_mod.F
+!||    mvsiz_mod       ../engine/share/spe_inc/mvsiz_mod.F90
+!||    precision_mod   ../common_source/modules/precision_mod.F90
+!||    s6zjac_i_mod    ../engine/source/elements/solid/solide6z/s6zjac_i.F90
 !||====================================================================
         subroutine s6zupd11t12( &
           offg     ,offg0    ,x        ,xdp      ,      &

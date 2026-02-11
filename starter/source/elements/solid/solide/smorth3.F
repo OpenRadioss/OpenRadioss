@@ -26,6 +26,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    multifluid_init3       ../starter/source/multifluid/multifluid_init3.F
 !||    s10init3               ../starter/source/elements/solid/solide10/s10init3.F
 !||    s4init3                ../starter/source/elements/solid/solide4/s4init3.F
+!||    s6zinit3               ../starter/source/elements/solid/solide6z/s6zinit3.F90
 !||    s8zinit3               ../starter/source/elements/solid/solide8z/s8zinit3.F
 !||    sinit3                 ../starter/source/elements/solid/solide/sinit3.F
 !||--- calls      -----------------------------------------------------

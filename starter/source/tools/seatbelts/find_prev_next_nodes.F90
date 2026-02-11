@@ -21,9 +21,9 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    init_guide_mod   ../starter/source/tools/seatbelts/init_guide.F90
+!||    find_prev_next_nodes_mod   ../starter/source/tools/seatbelts/find_prev_next_nodes.F90
 !||--- called by ------------------------------------------------------
-!||    initia                      ../starter/source/elements/initia/initia.F
+!||    hm_read_guided_cable       ../starter/source/tools/seatbelts/hm_read_guided_cable.F90
 !||====================================================================
       module find_prev_next_nodes_mod
         implicit none
@@ -33,13 +33,13 @@
 ! ======================================================================================================================
 !! \routine to search for the previous and next nodes connected to a given segment
 !||====================================================================
-!||    init_seatbelt_rbodies   ../starter/source/tools/seatbelts/init_seatbelt_rbodies.F90
+!||    find_prev_next_nodes    ../starter/source/tools/seatbelts/find_prev_next_nodes.F90
 !||--- called by ------------------------------------------------------
-!||    initia                  ../starter/source/elements/initia/initia.F
+!||    hm_read_guided_cable    ../starter/source/tools/seatbelts/hm_read_guided_cable.F90
 !||--- calls      -----------------------------------------------------
-!||    ancmsg                  ../starter/source/output/message/message.F
+!||    dist_node_segment       ../starter/source/tools/seatbelts/dist_node_segment.F90
 !||--- uses       -----------------------------------------------------
-!||    message_mod             ../starter/share/message_module/message_mod.F
+!||    dist_node_segment_mod   ../starter/source/tools/seatbelts/dist_node_segment.F90
 !||====================================================================
         subroutine find_prev_next_nodes(ig,node1,node2,anchor_node,numnod,offset_1d,                  &
                                         snod2el1d,knod2el1d,nod2el1d,numel_1d,nix,                    &

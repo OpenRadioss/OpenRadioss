@@ -65,6 +65,7 @@
 !||    compaction2                              ../common_source/eos/compaction2.F90
 !||    compaction_tab                           ../common_source/eos/compaction_tab.F90
 !||    compaction_tab_init                      ../common_source/eos/compaction_tab.F90
+!||    compute_contact_force_guide              ../engine/source/tools/seatbelts/compute_contact_force_guide.F90
 !||    compute_voxel_dimensions                 ../engine/source/interfaces/intsort/voxel_dimensions.F90
 !||    conjugate_gradient_vec                   ../engine/source/ale/alemuscl/conjugate_gradient_vec.F90
 !||    connectivity_mod                         ../common_source/modules/connectivity.F90
@@ -91,6 +92,7 @@
 !||    defbeam_sect_new                         ../starter/source/properties/beam/defbeam_sect_new.F90
 !||    detonation_times_printout                ../starter/source/initial_conditions/detonation/detonation_times_printout.F90
 !||    dim_shell_offsetp                        ../starter/source/elements/shell/shell_offset/dim_shell_offsetp.F90
+!||    dist_node_segment                        ../starter/source/tools/seatbelts/dist_node_segment.F90
 !||    double_to_my_real                        ../common_source/modules/cast_mod.F90
 !||    dttherm                                  ../engine/source/time_step/dttherm.F90
 !||    ebcs11_propellant                        ../engine/source/boundary_conditions/ebcs/ebcs11_propellant.F90
@@ -139,6 +141,7 @@
 !||    fill_voxel_local                         ../engine/source/interfaces/intsort/fill_voxel.F90
 !||    fill_voxel_local_partial                 ../engine/source/interfaces/intsort/fill_voxel.F90
 !||    fill_voxel_remote                        ../engine/source/interfaces/intsort/fill_voxel.F90
+!||    find_prev_next_nodes                     ../starter/source/tools/seatbelts/find_prev_next_nodes.F90
 !||    finter_mixed_mod                         ../engine/source/tools/finter_mixed.F90
 !||    fix_principal_dirs                       ../engine/source/materials/mat/mat130/sigeps130.F90
 !||    force                                    ../engine/source/loads/general/force.F90
@@ -164,6 +167,7 @@
 !||    granular51                               ../engine/source/materials/mat/mat051/granular51.F90
 !||    group_param_mod                          ../common_source/modules/mat_elem/group_param_mod.F90
 !||    gruneisen                                ../common_source/eos/gruneisen.F
+!||    guided_cable_force_mod                   ../engine/source/tools/seatbelts/guided_cable_force.F90
 !||    h3d_oned_scalar                          ../engine/source/output/h3d/h3d_results/h3d_oned_scalar.F90
 !||    h3d_quad_scalar_1                        ../engine/source/output/h3d/h3d_results/h3d_quad_scalar_1.F90
 !||    hierarchy_rbody                          ../starter/source/constraints/general/rbody/hierarchy_rbody.F90
@@ -188,6 +192,7 @@
 !||    hm_read_fail_spalling                    ../starter/source/materials/fail/spalling/hm_read_fail_spalling.F90
 !||    hm_read_fractal_dmg                      ../starter/source/materials/fail/fractal/hm_read_fractal_dmg.F90
 !||    hm_read_funct_python                     ../starter/source/tools/curve/hm_read_funct_python.F90
+!||    hm_read_guided_cable                     ../starter/source/tools/seatbelts/hm_read_guided_cable.F90
 !||    hm_read_inivol                           ../starter/source/initial_conditions/inivol/hm_read_inivol.F90
 !||    hm_read_mat                              ../starter/source/materials/mat/hm_read_mat.F90
 !||    hm_read_mat02_jc                         ../starter/source/materials/mat/mat002/hm_read_mat02_jc.F90
@@ -220,6 +225,7 @@
 !||    i2_surfi_dim                             ../starter/source/interfaces/inter3d1/i2_surfi_dim.F90
 !||    i2trivox                                 ../starter/source/interfaces/inter3d1/i2trivox.F90
 !||    imp_intbufdef                            ../engine/share/modules/imp_mod_def.F90
+!||    ini_guided_cable                         ../starter/source/tools/seatbelts/ini_guided_cable.F90
 !||    iniebcs_propellant                       ../starter/source/boundary_conditions/ebcs/iniebcs_propellant.F90
 !||    iniebcs_propellant_get_cp                ../starter/source/boundary_conditions/ebcs/iniebcs_propellant.F90
 !||    init_bcs_nrf                             ../starter/source/boundary_conditions/init_bcs_nrf.F90
@@ -358,20 +364,28 @@
 !||    s6for_distor                             ../engine/source/elements/thickshell/solide6c/s6for_distor.F90
 !||    s6get_xv                                 ../engine/source/elements/thickshell/solide6c/s6get_xv.F90
 !||    s6zcoor3                                 ../starter/source/elements/solid/solide6z/s6zcoor3.F90
+!||    s6zcoor_cp2sp                            ../engine/source/elements/solid/solide6z/s6zcoor_cp2sp.F90
 !||    s6zdefc3                                 ../engine/source/elements/solid/solide6z/s6zdefc3.F90
 !||    s6zdefo3                                 ../engine/source/elements/solid/solide6z/s6zdefo3.F90
 !||    s6zdefot3                                ../engine/source/elements/solid/solide6z/s6zdefot3.F90
 !||    s6zderi3                                 ../engine/source/elements/solid/solide6z/s6zderi3.F90
+!||    s6zderit3                                ../engine/source/elements/solid/solide6z/s6zderit3.F90
 !||    s6zderito3                               ../engine/source/elements/solid/solide6z/s6zderito3.F90
 !||    s6zfint3                                 ../engine/source/elements/solid/solide6z/s6zfint3.F90
 !||    s6zforc3                                 ../engine/source/elements/solid/solide6z/s6zforc3.F90
 !||    s6zhour3                                 ../engine/source/elements/solid/solide6z/s6zhourg3.F90
+!||    s6zhour3_or                              ../engine/source/elements/solid/solide6z/s6zhourg3_or.F90
 !||    s6zinit3                                 ../starter/source/elements/solid/solide6z/s6zinit3.F90
+!||    s6zjac_i                                 ../engine/source/elements/solid/solide6z/s6zjac_i.F90
 !||    s6zjacidp                                ../starter/source/elements/solid/solide6z/s6zjacidp.F90
 !||    s6zortho3                                ../starter/source/elements/solid/solide6z/s6zortho3.F90
 !||    s6zrcoor3                                ../engine/source/elements/solid/solide6z/s6zrcoor3.F90
+!||    s6zrmalla11                              ../engine/source/elements/solid/solide6z/s6zrmalla11.F90
 !||    s6zrrota3                                ../engine/source/elements/solid/solide6z/s6zrrota3.F90
+!||    s6zrrotadp                               ../engine/source/elements/solid/solide6z/s6zrrotadp.F90
+!||    s6zsav12                                 ../engine/source/elements/solid/solide6z/s6zsav12.F90
 !||    s6zsav3                                  ../engine/source/elements/solid/solide6z/s6zsav3.F90
+!||    s6zupd11t12                              ../engine/source/elements/solid/solide6z/s6zupd11t12.F90
 !||    sdistor_ini                              ../engine/source/elements/solid/solide/sdistror_ini.F90
 !||    select_s2s                               ../starter/source/interfaces/inter3d1/select_s2s.F90
 !||    sensor_mod                               ../common_source/modules/sensor_mod.F90

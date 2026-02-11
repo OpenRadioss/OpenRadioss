@@ -42,6 +42,7 @@
 !||    srrota3          ../engine/source/elements/solid/solide/srrota3.F
 !||--- uses       -----------------------------------------------------
 !||    constant_mod     ../common_source/modules/constant_mod.F
+!||    mvsiz_mod        ../engine/share/spe_inc/mvsiz_mod.F90
 !||    precision_mod    ../common_source/modules/precision_mod.F90
 !||    prop_param_mod   ../common_source/modules/mat_elem/prop_param_mod.F90
 !||====================================================================

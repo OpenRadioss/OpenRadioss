@@ -408,6 +408,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_read_gjoint                      ../starter/source/constraints/general/gjoint/hm_read_gjoint.F
 !||    hm_read_grav                        ../starter/source/loads/general/grav/hm_read_grav.F
 !||    hm_read_grpart                      ../starter/source/groups/hm_read_grpart.F
+!||    hm_read_guided_cable                ../starter/source/tools/seatbelts/hm_read_guided_cable.F90
 !||    hm_read_impacc                      ../starter/source/constraints/general/impvel/hm_read_impacc.F
 !||    hm_read_impflux                     ../starter/source/constraints/thermic/hm_read_impflux.F
 !||    hm_read_imptemp                     ../starter/source/constraints/thermic/hm_read_imptemp.F
@@ -822,6 +823,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    ini_diff                            ../starter/source/tools/lagmul/ini_diff.F
 !||    ini_fxbody                          ../starter/source/constraints/fxbody/ini_fxbody.F
 !||    ini_gear                            ../starter/source/tools/lagmul/ini_gear.F
+!||    ini_guided_cable                    ../starter/source/tools/seatbelts/ini_guided_cable.F90
 !||    ini_h3dtmax_engine                  ../starter/source/starter/contrl.F
 !||    ini_inimap1d                        ../starter/source/initial_conditions/inimap/ini_inimap1d.F
 !||    ini_inimap2d                        ../starter/stub/ini_inimap2d.F
