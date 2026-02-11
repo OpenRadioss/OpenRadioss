@@ -53,9 +53,9 @@
 !||    table_mod                 ../starter/share/modules1/table_mod.F
 !||====================================================================
         subroutine updfail(mat_param ,nummat ,nfunct ,ntable ,func_id ,table ,      &
-          fail_fractal,ngrshel   ,ngrsh3n,igrsh4n,igrsh3n,                 &
-          nixc   ,ixc    ,nixtg  ,ixtg   ,numelc ,numeltg ,                &
-          iworksh,stack,igeo,npropgi,numgeo,fail_brokmann)
+          fail_fractal,ngrshel   ,ngrsh3n,igrsh4n,igrsh3n,                          &
+          nixc   ,ixc    ,nixtg  ,ixtg   ,numelc ,numeltg ,                         &
+          iworksh,stack,igeo,npropgi,numgeo,fail_brokmann )
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                        Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -68,6 +68,7 @@
           use random_walk_dmg_mod
           use brokmann_random_def_mod
           use brokmann_random_mod
+          use biquad_upd_mod
           use constant_mod, only : zero
 ! ----------------------------------------------------------------------------------------------------------------------
           implicit none
@@ -100,13 +101,20 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                              L o c a l v a r i a b l e s
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer :: imat,ir,nfail,ifail,flag_brokmann,nfail_fractal,nfail_brokmann
+          integer :: imat,ir,nfail,ifail
+          integer :: mat_id
+          integer :: flag_brokmann,swift_reg_flag,nfail_fractal,nfail_brokmann,nfail_biquad
+          character(len=nchartitle) :: title
 ! ======================================================================================================================
           nfail_fractal  = 0
           nfail_brokmann = 0
+          nfail_biquad   = 0
 !
           do imat=1,nummat
             nfail  = mat_param(imat)%nfail
+            mat_id = mat_param(imat)%mat_id
+            title  = mat_param(imat)%title
+!
             if (nfail > 0) then
               do ir = 1,nfail
 !
@@ -126,54 +134,68 @@
                     mat_param(imat)%fail(ir)%ntable ,                            &
                     mat_param(imat)%fail(ir)%table  )
                 end if
+                !-----------------------------------------------------------------------------------
+                !  Additional treatments in failure models
+                !-----------------------------------------------------------------------------------
+                select case (mat_param(imat)%fail(ir)%irupt)   ! select failure model                
 !
-                ! /fail/tab2 temperature dependency check
-                if (mat_param(imat)%fail(ir)%irupt == 41) then
-                  ! check if temperature dependency is defined twice: in epsf table and fct_TEMP
-                  if ((table(mat_param(imat)%fail(ir)%table(1))%ndim == 3) .and.            &
-                    (mat_param(imat)%fail(ir)%ifunc(4) > 0)) then
-                    call ancmsg(msgid=3055, msgtype=msgwarning, anmode=aninfo_blind,        &
-                      i1=mat_param(imat)%mat_id,                                            &
-                      c1=mat_param(imat)%title)
-                  end if
-                  ! check if temperature dependency is defined twice: in inst table and fct_TEMP
-                  if (mat_param(imat)%fail(ir)%table(2) > 0) then
-                    if ((table(mat_param(imat)%fail(ir)%table(2))%ndim == 3) .and.          &
+                  case(12)      !    /fail/fractal_dmg
+                    nfail_fractal = nfail_fractal + 1
+
+                  case(28)      !    /fail/alter + Brokmann
+                    flag_brokmann = nint(mat_param(imat)%fail(ir)%uparam(22))
+                    if (flag_brokmann == 1) nfail_brokmann = nfail_brokmann + 1
+
+                  case(30)      !    /fail/biquad
+                    swift_reg_flag = mat_param(imat)%fail(ir)%iparam(1)
+                    if (swift_reg_flag == 2) then
+                      call biquad_upd(mat_param(imat)%fail(ir))
+                    end if
+
+                   !!! commented code will be used in future update
+!                  case(38)      !    /fail/orthbiquad
+!                    swift_reg_flag = mat_param(imat)%fail(ir)%iparam(1)
+!                    if (swift_reg_flag == 2) then
+!                      call orthbiquad_upd(mat_param(imat)%fail(ir))
+!                    end if
+
+                  case(41)      !    /fail/tab2 
+                    ! check if temperature dependency is defined twice: in epsf table and fct_temp
+                    if ((table(mat_param(imat)%fail(ir)%table(1))%ndim == 3) .and.            &
                       (mat_param(imat)%fail(ir)%ifunc(4) > 0)) then
-                      call ancmsg(msgid=3056, msgtype=msgwarning, anmode=aninfo_blind,      &
-                        i1=mat_param(imat)%mat_id,                                          &
+                      call ancmsg(msgid=3055, msgtype=msgwarning, anmode=aninfo_blind,        &
+                        i1=mat_param(imat)%mat_id,                                            &
                         c1=mat_param(imat)%title)
                     end if
-                  end if
-                  ! check if strain rate dependency tables are in logarithmic scale
-                  if (nint(mat_param(imat)%fail(ir)%uparam(9)) == 1) then
-                    if (mat_param(imat)%fail(ir)%table(3) > 0) then
-                      if (table(mat_param(imat)%fail(ir)%table(3))%ndim == 2) then
-                        if (table(mat_param(imat)%fail(ir)%table(3))%x(2)%values(1) < zero) then
-                          mat_param(imat)%fail(ir)%uparam(21) = 1
+                    ! check if temperature dependency is defined twice: in inst table and fct_temp
+                    if (mat_param(imat)%fail(ir)%table(2) > 0) then
+                      if ((table(mat_param(imat)%fail(ir)%table(2))%ndim == 3) .and.          &
+                        (mat_param(imat)%fail(ir)%ifunc(4) > 0)) then
+                        call ancmsg(msgid=3056, msgtype=msgwarning, anmode=aninfo_blind,      &
+                          i1=mat_param(imat)%mat_id,                                          &
+                          c1=mat_param(imat)%title)
+                      end if
+                    end if
+                    ! check if strain rate dependency tables are in logarithmic scale
+                    if (nint(mat_param(imat)%fail(ir)%uparam(9)) == 1) then
+                      if (mat_param(imat)%fail(ir)%table(3) > 0) then
+                        if (table(mat_param(imat)%fail(ir)%table(3))%ndim == 2) then
+                          if (table(mat_param(imat)%fail(ir)%table(3))%x(2)%values(1) < zero) then
+                            mat_param(imat)%fail(ir)%uparam(21) = 1
+                          end if
                         end if
                       end if
                     end if
-                  end if
-                  if (mat_param(imat)%fail(ir)%ifunc(2) > 0) then
-                    if (table(mat_param(imat)%fail(ir)%ifunc(2))%x(1)%values(1) < zero) then
-                      mat_param(imat)%fail(ir)%uparam(22) = 1
+                    if (mat_param(imat)%fail(ir)%ifunc(2) > 0) then
+                      if (table(mat_param(imat)%fail(ir)%ifunc(2))%x(1)%values(1) < zero) then
+                        mat_param(imat)%fail(ir)%uparam(22) = 1
+                      end if
                     end if
-                  end if
-                end if
-                ! count number of /fail/fractal_dmg models
-                if (mat_param(imat)%fail(ir)%irupt == 12) then
-                  nfail_fractal = nfail_fractal + 1
-                end if
-                ! count number of /fail/alter + Brokmann models
-                if (mat_param(imat)%fail(ir)%irupt == 28) then
-                  flag_brokmann = nint(mat_param(imat)%fail(ir)%uparam(22))
-                  if (flag_brokmann == 1) nfail_brokmann = nfail_brokmann + 1
-                end if
-!
-              end do
-            end if
-          end do
+
+                end select
+              end do    ! ifail
+            end if      ! nfail > 0
+          end do        ! imat = 1... nummat
 ! ----------------------------------------------------------------------------------------------------------------------
 !     fractal damage model initialization
 ! ----------------------------------------------------------------------------------------------------------------------

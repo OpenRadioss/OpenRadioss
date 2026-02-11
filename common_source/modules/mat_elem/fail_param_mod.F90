@@ -107,22 +107,24 @@
 
         type fail_param_
           character(len=nchartitle) :: keyword  !< failure model name
-          integer     :: irupt                  !< failure model type (number)
-          integer     :: fail_id                !< failure model Id
-          integer     :: nuparam                !< number of real value paraameters
-          integer     :: niparam                !< number of int value parameters
-          integer     :: nuvar                  !< number of internal state variables
-          integer     :: nfunc                  !< number of local functions
-          integer     :: ntable                 !< number of local function tables
-          integer     :: nmod                   !< number of rupture/damage modes
-          integer     :: fail_ip                !< ruputure criterion (integration point based)
-          real(kind=WP)     :: pthk                   !< ruputure criterion (layer thickness based)
+          integer       :: irupt                !< failure model type (number)
+          integer       :: fail_id              !< failure model Id
+          integer       :: nuparam              !< number of real value paraameters
+          integer       :: niparam              !< number of int value parameters
+          integer       :: nuvar                !< number of internal state variables
+          integer       :: nfunc                !< number of functions
+          integer       :: ntable               !< number of function tables
+          integer       :: ntable4d             !< number of local function tables
+          integer       :: nmod                 !< number of rupture/damage modes
+          integer       :: fail_ip              !< ruputure criterion (integration point based)
+          real(kind=WP) :: pthk                 !< ruputure criterion (layer thickness based)
 
           character(len=nchartitle) ,dimension(:) ,allocatable :: mode   !< damage mode table
           real(kind=WP) ,dimension(:) ,allocatable :: uparam  !< real value failure parameter table
           integer ,dimension(:) ,allocatable :: iparam  !< int  value failure parameter table
-          integer ,dimension(:) ,allocatable :: ifunc   !< function table in failure models
-          integer ,dimension(:) ,allocatable :: table   !< local function tables
+          integer ,dimension(:) ,allocatable :: ifunc   !< functions in failure models
+          integer ,dimension(:) ,allocatable :: table   !< function tables in failure models
+          type (table_4d_),dimension(:) ,allocatable :: table4d  !< local function tables
 
         contains
           procedure :: destruct => destruct_fail_param

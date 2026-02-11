@@ -78,7 +78,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER   :: MFLAG,SFLAG,REG_FUNC,ICOUP,NFUNC,NUVAR,NUPARAM,FAILIP 
+      INTEGER   :: MFLAG,SFLAG,REG_FUNC,ICOUP,IREG,NFUNC,NUVAR,NUPARAM,FAILIP 
       my_real   :: C1,C2,C3,C4,C5,E1,E2,E3,E4,PTHK,INST,REF_LEN,REF_SIZ_UNIT
       my_real   :: X_1(2)
       my_real   :: X_2(3)
@@ -109,6 +109,7 @@ c
       CALL HM_GET_INTV   ('M_Flag'      ,MFLAG       ,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_INTV   ('S_Flag'      ,SFLAG       ,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_FLOATV ('Inst_start'  ,INST        ,IS_AVAILABLE,LSUBMODEL,UNITAB)  
+      CALL HM_GET_INTV   ('Ireg'        ,IREG        ,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_INTV   ('fct_IDel'    ,REG_FUNC    ,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_FLOATV ('EI_ref'      ,REF_LEN     ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       IF (REG_FUNC > 0 .AND. REF_LEN == ZERO) THEN 
@@ -140,6 +141,11 @@ c
       ! Check SFLAG formulation parameter
       IF (SFLAG == 0)   SFLAG = 2
 c
+      IF (REG_FUNC == 0) THEN
+        IREG = 0
+      ELSE IF (IREG == 0) THEN
+        IREG = 1
+      END IF
 c---------------------------------------------------
 c     pre definition for user-input data when only 
 c     tension test data are provided
@@ -233,7 +239,7 @@ c-------------------------
       FAIL%IRUPT   = IRUPT 
       FAIL%FAIL_ID = FAIL_ID 
       FAIL%NUPARAM = NUPARAM
-      FAIL%NIPARAM = 0
+      FAIL%NIPARAM = 4
       FAIL%NUVAR   = NUVAR
       FAIL%NFUNC   = NFUNC
       FAIL%NTABLE  = 0
@@ -246,6 +252,11 @@ c
       ALLOCATE (FAIL%IFUNC (FAIL%NFUNC))
       ALLOCATE (FAIL%TABLE (FAIL%NTABLE))
       
+      FAIL%IPARAM(1)  = IREG
+      FAIL%IPARAM(2)  = MFLAG
+      FAIL%IPARAM(3)  = SFLAG
+      FAIL%IPARAM(4)  = ICOUP
+
       IF (NFUNC == 1) FAIL%IFUNC(1) = REG_FUNC
 
       FAIL%UPARAM(1)  = C2
@@ -257,14 +268,14 @@ c
       FAIL%UPARAM(7)  = PTHK
       FAIL%UPARAM(8)  = 0
       FAIL%UPARAM(9)  = C3
-      FAIL%UPARAM(10) = MFLAG
-      FAIL%UPARAM(11) = SFLAG
+      FAIL%UPARAM(10) = MFLAG ! del
+      FAIL%UPARAM(11) = SFLAG ! del
       FAIL%UPARAM(12) = INST
       FAIL%UPARAM(13) = REF_LEN  
-      FAIL%UPARAM(14) = ICOUP
+      FAIL%UPARAM(14) = ICOUP ! del
       FAIL%UPARAM(15) = DCRIT 
       FAIL%UPARAM(16) = EXP  
-      FAIL%UPARAM(17)= FAILIP
+      FAIL%UPARAM(17) = FAILIP
 c---------------------------------------------------
       IF (IS_ENCRYPTED)THEN
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
@@ -276,7 +287,7 @@ c---------------------------------------------------
         WRITE(IOUT,1400) X_2(3),X_2(2),X_2(1)
         WRITE(IOUT,1500) SFLAG
         IF (SFLAG == 3) WRITE(IOUT,1600) INST
-        IF (REG_FUNC > 0) WRITE(IOUT, 1700) REG_FUNC,REF_LEN
+        IF (REG_FUNC > 0) WRITE(IOUT, 1700) IREG,REG_FUNC,REF_LEN
         IF (ICOUP > 0) THEN 
           WRITE(IOUT,1800) ICOUP,DCRIT,EXP
         ENDIF
@@ -330,8 +341,9 @@ c-----------------------------------------------------------------------
  1700 FORMAT(
      & 5X,'ELEMENT LENGTH REGULARIZATION:                 ',/,
      & 5X,'------------------------------                 ',/,
+     & 5X,'REGULARIZATION FUNCTION FLAG . . . . . . . . .=',I10,/
      & 5X,'REGULARIZATION FUNCTION ID . . . . . . . . . .=',I10,/
-     & 5X,'REFERENZE ELEMENT LENGTH . . . . . . . . . . .=',1PG20.13,/)
+     & 5X,'REFERENCE ELEMENT LENGTH . . . . . . . . . . .=',1PG20.13,/)
  1800 FORMAT(
      & 5X,'STRESS SOFTENING:                              ',/,
      & 5X,'-----------------                              ',/,

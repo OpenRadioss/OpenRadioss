@@ -54,7 +54,7 @@ C-----------------------------------------------
       INTEGER ,DIMENSION(:) ,ALLOCATABLE :: IBUF
       my_real ,DIMENSION(:) ,ALLOCATABLE :: RBUF
 C=======================================================================
-      LENI = 9
+      LENI = 10
       ALLOCATE (IBUF(LENI))
       CALL READ_I_C(IBUF,LENI)
 c
@@ -65,8 +65,9 @@ c
       FAIL%NUVAR   = IBUF(5)
       FAIL%NFUNC   = IBUF(6)
       FAIL%NTABLE  = IBUF(7)
-      FAIL%NMOD    = IBUF(8)
-      FAIL%FAIL_IP = IBUF(9)
+      FAIL%NTABLE4D= IBUF(8)
+      FAIL%NMOD    = IBUF(9)
+      FAIL%FAIL_IP = IBUF(10)
 c
       DEALLOCATE(IBUF)
 c
@@ -122,6 +123,14 @@ c
       ALLOCATE (FAIL%TABLE(NUMTABL))
       IF (NUMTABL > 0) THEN
         CALL READ_I_C(FAIL%TABLE,NUMTABL)
+      END IF
+c      
+c     read local function tables4d
+c
+      NUMTABL = FAIL%NTABLE4D
+      IF (NUMTABL > 0) THEN
+        ALLOCATE (FAIL%TABLE4D(NUMTABL))
+        CALL READ_MAT_TABLE(FAIL%TABLE4D, NUMTABL)
       END IF
 c-----------
       RETURN
