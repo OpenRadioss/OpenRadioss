@@ -220,13 +220,8 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer :: i,j,k,m,iad,nhier,p,nsn,ns
-          logical :: changed,is_hier
-          integer, dimension(nrbykin) :: index,nlev
-          integer, dimension(:,:), allocatable :: npby_copy
-          integer, dimension(:), allocatable :: itag,lpby_copy
-          integer, dimension(nrbykin) :: parent_of    !< parent index for each rbody (0 = no parent)
-          real(kind=WP),dimension(:,:),allocatable   :: rby_copy
+          integer :: i,j,m,iad,nhier,p,nsn,ns
+          integer, dimension(:), allocatable :: itag
 ! ======================================================================================================================
           nhier = 0
           do i=1,nrbykin

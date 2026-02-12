@@ -90,17 +90,17 @@
  !-----------------------------------------------
  !   L o c a l   V a r i a b l e s
  !-----------------------------------------------
-      integer ifxc,ifxt,ifyc,ifyt,ifsc,ilaw,func_sc,func_ena,         &
+      integer ilaw,func_sc,func_ena,         &
       func_enkink,func_enb,func_ent,func_enl,func_sl,func_xt,func_xc, &
       func_yt,func_yc,nfunc,i
       integer , dimension(maxfunc) :: ifunc,func
       real(kind=WP)                                                         &
-         rho0,e1,e2,e3,g12,g23,g13,nu12,nu21,nu23,nu31,nu13,soft,     &
+         rho0,e1,e2,e3,g12,g23,g13,nu12,nu21,nu23,nu31,nu13,     &
          xc,xt,yc,yt,sl,nu32, enkink,ena,enb,ent,enl,st,mut,mul,      &
          a11,a22,a12,c11,c22,c33,c12,c13,c23, detc,scale ,            &
          d11,d22,d33,d12,d13,d23,dmn,dmx,g31, fcut ,c1,gmax,ssp,nu,   &
-         young,asrate,fac,ang0,sigy,beta,epsc1,epst1,epst2,epsc2,     &
-         gammal,yscale(1),x1scale,x2scale,y1scale,y2scale,            &
+         young,asrate,fac,ang0,sigy,beta,            &
+         yscale(1),x1scale,x2scale,            &
          x2vect(maxfunc),thetac,efs,ratio
       !   
       logical :: is_available,is_encrypted

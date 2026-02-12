@@ -160,7 +160,6 @@
       real(kind=wp), dimension(nel) :: xdl1, xdl2, xdl3, xdl4, xdl5, xdl6, xdl7, xdl8
       real(kind=wp), dimension(nel) :: ydl1, ydl2, ydl3, ydl4, ydl5, ydl6, ydl7, ydl8
       real(kind=wp), dimension(nel) :: zdl1, zdl2, zdl3, zdl4, zdl5, zdl6, zdl7, zdl8
-      real(kind=wp) :: xl_t,yl_t,zl_t
 !c-----------------------------------------------
 !c   e x t e r n a l  f u n c t i o n s
 !c-----------------------------------------------
