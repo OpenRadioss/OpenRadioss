@@ -50,7 +50,9 @@ CDECL void cpp_beam_read_(int *IXP, int *NIXP, int *IPARTP, int *SUBID_BEAM, dou
     sdiIdentifier identifier_vx("Vx");
     sdiIdentifier identifier_vy("Vy");
     sdiIdentifier identifier_vz("Vz");
-    double dvx, dvy, dvz;
+    double dvx= 0.0;
+    double dvy= 0.0;
+    double dvz= 0.0;
 //
 // Elem loop
 //
