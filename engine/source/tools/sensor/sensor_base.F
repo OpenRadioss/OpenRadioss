@@ -313,7 +313,7 @@ c--------------------------------------------------
         DO ISENS = 1,NSENSOR
           TYP = SENSORS%SENSOR_TAB(ISENS)%TYPE
           IF (TYP == SENSOR_TYPE_PYTHON) THEN
-            CALL SENSOR_PYTHON(SENSORS%SENSOR_TAB(ISENS))
+            CALL SENSOR_PYTHON(SENSORS%SENSOR_TAB(ISENS),TIME)
           ENDIF  ! TYP 
         END DO  ! ISENS
       ENDIF
