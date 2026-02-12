@@ -94,14 +94,13 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer :: i,j,n,imid,mtn,pid,ity,nft,nf1,nnod,ip,nuvar,igtyp
+          integer :: i,j,imid,ity,nft,nf1,nnod,ip,nuvar,igtyp
           integer, dimension(6)  :: ii
           integer, dimension(nel)  :: iprop,sid,imat
           integer, dimension(nel,4)  :: ncj
       real(kind=WP),dimension(mvsiz,8) :: mas,inn,xx,yy,zz,vx,vy,vz,vrx,vry,vrz
       real(kind=WP),dimension(mvsiz)   :: area,mass,dtx,iner,sti,stir,viscm,viscr,masm,inm,rx,ry,rz,sx,sy,sz
       real(kind=WP) :: sig_loc(6,nel),lx,ly,lz,sxx,syy,szz,sxy,szx,syz,svx,svy,svz,sv2,dt2,visn,visr,ex,ey,ez,a2
-      character(len=50) ::option
       type(g_bufel_) ,pointer :: gbuf     
 !
 ! ----------------------------------------------------------------------------------------------------------------------

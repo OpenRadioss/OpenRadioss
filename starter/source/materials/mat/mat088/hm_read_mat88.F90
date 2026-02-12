@@ -105,7 +105,7 @@
             sigf,kfail,gam1,gam2,eh,areafac,lengthfac,beta,xscale,yscale,        &
             lambda(maxfunc+1),sigpeak,ssp
           integer ::                                                             &
-            i,nd,nl,ifunc(maxfunc+1),ifunc_unload,itens,iunl_for,                &
+            i,nl,ifunc(maxfunc+1),ifunc_unload,itens,iunl_for,                &
             ifunc_out(maxfunc+1),npt,npt2,ndim,rtype,j,failip,nv_base
           logical :: is_available,is_encrypted,found
           type(table_4d_), dimension(:), pointer :: table_mat

@@ -72,7 +72,7 @@
 !   L o c a l   V a r i a b l e s
 !-----------------------------------------------
       integer :: ifail_sh,imodel,ifail_so
-      real(kind=WP) :: sigt1,sigt2,sigt3,sigc1,sigc2,soft1,fsig12,msig12,      &
+      real(kind=WP) :: sigt1,sigt2,sigt3,sigc1,sigc2,fsig12,msig12,      &
         msig23,msig13,angle,sdelam,csig,pthkf,tmax,ratio,fcut
       logical  :: is_available,is_encrypted
 !--------------------------------------------------
