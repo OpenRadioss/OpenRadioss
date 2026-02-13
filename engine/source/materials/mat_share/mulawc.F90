@@ -658,8 +658,8 @@
                 do ifl = 1, nfail      ! loop over fail models in current layer
                   irupt  =  fbuf%floc(ifl)%ilawf
                   if(irupt== 4.or.irupt== 5.or.irupt== 6.or.irupt==7.or.   &
-                  &                 irupt==10.or.irupt==24.or.irupt==34.or.irupt==39.or.  &
-                  &                 irupt==43.or.irupt==47 ) flag_eps=.true.
+                  &  irupt==10.or.irupt==24.or.irupt==34.or.irupt==36.or.  &
+                  &  irupt==39.or.irupt==43.or.irupt==47 ) flag_eps=.true.
                 enddo
               enddo
             endif
