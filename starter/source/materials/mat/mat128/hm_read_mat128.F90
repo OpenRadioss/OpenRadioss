@@ -120,7 +120,7 @@
           call hm_get_floatv("LAW128_SIGY"    ,sigy    ,is_available, lsubmodel, unitab)
           call hm_get_floatv("LAW128_KIN"     ,fisokin ,is_available, lsubmodel, unitab)
           ! line 3
-          call hm_get_intv  ("LAW128_ITAB"    ,func_id ,is_available, lsubmodel)
+          call hm_get_intv  ("LAW128_TAB_ID"  ,func_id ,is_available, lsubmodel)
           call hm_get_floatv("LAW128_FACY"    ,yfac    ,is_available, lsubmodel, unitab)
           call hm_get_floatv("LAW128_FACX"    ,xfac    ,is_available, lsubmodel, unitab)
           ! line 4
