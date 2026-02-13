@@ -1888,11 +1888,10 @@ void GlobalEntitySDIConvert2dElementSeatbelt(int *PART_MAT119,int *PART_MAXID,in
 // create first spring
     *ELEM_MAXID = *ELEM_MAXID + 1;
     HandleElementEdit radElem0;
-    g_pModelViewSDI->CreateElement(radElem0, destElem, *ELEM_MAXID); 
+    
     elemNodes[0] = first;
     elemNodes[1] = second;
-    radElem0.SetValue(g_pModelViewSDI, sdiIdentifier("node_ID"), sdiValue(sdiValueEntityList(radnodeType, elemNodes)));
-    radElem0.SetValue(g_pModelViewSDI, sdiIdentifier("part_ID"), sdiValue(sdiValueEntity(radPartType, newPartId)));
+    g_pModelViewSDI->CreateElement(radElem0,"/SPRING",elemNodes,radpartHEdit,0);
 
     for(int i = 1; i < nbElems ; i = i + 1)    
     { 
@@ -1901,11 +1900,9 @@ void GlobalEntitySDIConvert2dElementSeatbelt(int *PART_MAT119,int *PART_MAXID,in
 // create other spring elements
             *ELEM_MAXID = *ELEM_MAXID + 1;
             HandleElementEdit radElem;
-            g_pModelViewSDI->CreateElement(radElem, destElem, *ELEM_MAXID); 
             elemNodes[0] = tmpNodes[i].first;
             elemNodes[1] = tmpNodes[i].second;
-            radElem.SetValue(g_pModelViewSDI, sdiIdentifier("node_ID"), sdiValue(sdiValueEntityList(radnodeType, elemNodes)));
-            radElem.SetValue(g_pModelViewSDI, sdiIdentifier("part_ID"), sdiValue(sdiValueEntity(radPartType, newPartId)));
+            g_pModelViewSDI->CreateElement(radElem,"/SPRING",elemNodes,radpartHEdit,*ELEM_MAXID);
         }
         first = tmpNodes[i].first;
         second = tmpNodes[i].second;
@@ -2432,11 +2429,9 @@ void GlobalEntitySDIConvert2dElementsSeatbelt(int *PART_MAT119,int *PART_MAXID,i
 // create first spring
     *ELEM_MAXID = *ELEM_MAXID + 1;
     HandleElementEdit radElem0;
-    g_pModelViewSDI->CreateElement(radElem0, destElem, *ELEM_MAXID); 
     elemNodes[0] = first;
     elemNodes[1] = second;
-    radElem0.SetValue(g_pModelViewSDI, sdiIdentifier("node_ID"), sdiValue(sdiValueEntityList(radnodeType, elemNodes)));
-    radElem0.SetValue(g_pModelViewSDI, sdiIdentifier("part_ID"), sdiValue(sdiValueEntity(radPartType, newPartId)));
+    g_pModelViewSDI->CreateElement(radElem0,"/SPRING",elemNodes,radpartHEdit,0);
 //
     tmpShelltoSprings.push_back( make_pair(tmpIdShells[0] + *OFFSET,*ELEM_MAXID + *OFFSET) );
     int nbCreatedSprings = 1;
@@ -2451,11 +2446,9 @@ void GlobalEntitySDIConvert2dElementsSeatbelt(int *PART_MAT119,int *PART_MAXID,i
                 nbCreatedSprings = nbCreatedSprings + 1;
                 *ELEM_MAXID = *ELEM_MAXID + 1;
                 HandleElementEdit radElem;
-                g_pModelViewSDI->CreateElement(radElem, destElem, *ELEM_MAXID); 
                 elemNodes[0] = tmpNodes[index[i]].first;
                 elemNodes[1] = tmpNodes[index[i]].second;
-                radElem.SetValue(g_pModelViewSDI, sdiIdentifier("node_ID"), sdiValue(sdiValueEntityList(radnodeType, elemNodes)));
-                radElem.SetValue(g_pModelViewSDI, sdiIdentifier("part_ID"), sdiValue(sdiValueEntity(radPartType, newPartId)));
+                g_pModelViewSDI->CreateElement(radElem,"/SPRING",elemNodes,radpartHEdit,*ELEM_MAXID);
                 //
                 tmpShelltoSprings.push_back( make_pair(tmpIdShells[index[i]] + *OFFSET,*ELEM_MAXID + *OFFSET) );
                 //
@@ -2880,7 +2873,6 @@ void GlobalEntitySDIConvertTetra4ToTetra10(int *Itetra4ToConsider)
 
                 // Create TETRA10 element with same ID
                 HandleElementEdit radTetra10HEdit;
-                g_pModelViewSDI->CreateElement(radTetra10HEdit, "/TETRA10", elemId);
                 
                 // Set all 10 nodes (4 corner + 6 mid-edge)
                 sdiUIntList tetra10Nodes;
@@ -2890,10 +2882,7 @@ void GlobalEntitySDIConvertTetra4ToTetra10(int *Itetra4ToConsider)
                 for(int i = 0; i < 6; i++)
                     tetra10Nodes[i+4] = midNodeIds[i];
                 
-                radTetra10HEdit.SetValue(g_pModelViewSDI, sdiIdentifier("node_ID"), 
-                                         sdiValue(sdiValueEntityList(radnodeType, tetra10Nodes)));
-                radTetra10HEdit.SetValue(g_pModelViewSDI, sdiIdentifier("part_ID"), 
-                                         sdiValue(sdiValueEntity(radPartType, partHread.GetId(g_pModelViewSDI))));
+                g_pModelViewSDI->CreateElement(radTetra10HEdit,"/TETRA10",tetra10Nodes,partHread,elemId);
 
                 // Delete the original TETRA4 element
                 HandleRead tetra4HRead = tetElements->GetHandle();
