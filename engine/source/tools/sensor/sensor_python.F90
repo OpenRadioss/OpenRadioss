@@ -38,6 +38,7 @@
 !||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
 !||    constant_mod                      ../common_source/modules/constant_mod.F
+!||    precision_mod                     ../common_source/modules/precision_mod.F90
 !||    python_funct_mod                  ../common_source/modules/python_mod.F90
 !||    sensor_mod                        ../common_source/modules/sensor_mod.F90
 !||====================================================================

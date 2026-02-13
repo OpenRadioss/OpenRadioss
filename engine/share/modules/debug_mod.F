@@ -27,7 +27,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    ale51_antidiff3                       ../engine/source/ale/ale51/ale51_antidiff3.F
 !||    ebcs8_inlet                           ../engine/source/boundary_conditions/ebcs/ebcs8_inlet.F90
 !||    get_hashtable_for_neighbour_segment   ../engine/source/interfaces/interf/get_hashtable_for_neighbour_segment.F90
-!||    guided_cable_force_mod                ../engine/source/tools/seatbelts/guided_cable_force.F90
 !||    i24ass2                               ../engine/source/interfaces/int24/i24for3.F
 !||    i24cor3                               ../engine/source/interfaces/int24/i24cor3.F
 !||    i24ispt2_ini_opttri                   ../engine/source/interfaces/int24/i24cor3.F

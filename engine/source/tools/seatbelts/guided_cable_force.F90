@@ -29,7 +29,6 @@
 !||--- uses       -----------------------------------------------------
 !||    compute_contact_force_guide_mod   ../engine/source/tools/seatbelts/compute_contact_force_guide.F90
 !||    constant_mod                      ../common_source/modules/constant_mod.F
-!||    debug_mod                         ../engine/share/modules/debug_mod.F
 !||    precision_mod                     ../common_source/modules/precision_mod.F90
 !||    seatbelt_mod                      ../common_source/modules/seatbelt_mod.F
 !||====================================================================
