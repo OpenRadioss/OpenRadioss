@@ -10989,7 +10989,7 @@ c         start CPU timer for ddsplit
           ENDIF
           ! -----------------------------------------
           ! reverse connectivity for FVM solver : useful to ensure the parith/on
-          IF(IALE+IEULER+GLOB_THERM%ITHERM+IALELAG/=0) THEN
+          IF((IALE+IEULER+GLOB_THERM%ITHERM+IALELAG/=0).OR.(DETONATORS%IS_SHADOWING_REQUIRED)) THEN
                 ALLOCATE( INDX_S(NUMELS) )
                 ALLOCATE( INDX_Q(NUMELQ) )
                 ALLOCATE( INDX_TG(NUMELTG) )
