@@ -119,6 +119,8 @@ C----
       K4 = KRX
       K5 = KRY
       K6 = KRZ
+
+
       IF (IFKNX/=0) THEN
         XF = GET_U_FUNC(IFKNX,ZERO,DERI)
         K1  = MAX(KXX*DERI, EM20)

@@ -174,8 +174,8 @@ C
         KRX(I) = UVAR(31,I)
         KRY(I) = UVAR(32,I)
         KRZ(I) = UVAR(33,I)
-          KNN(I) = UVAR(17,I)
-          KRR(I) = UVAR(18,I)
+        KNN(I) = UVAR(17,I)
+        KRR(I) = UVAR(18,I)
         IF ((IGTYP==45).AND.(ISENS==1)) THEN
             DO K=1,6
             DXSK(K) = UVAR(4+K-1,I)      
@@ -258,6 +258,8 @@ C
         XCR(I) = ZERO
       ENDDO
 C--------      ELASTIC
+
+
        CALL XDDL33(NEL, DX,   FX, KNX, IFUN_XX, XKM,FAC_X)
        CALL XDDL33(NEL, DY,   FY, KNY, IFUN_YY, XKM,FAC_X)
        CALL XDDL33(NEL, DZ,   FZ, KNZ, IFUN_ZZ, XKM,FAC_X)

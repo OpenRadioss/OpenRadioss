@@ -74,6 +74,7 @@ C-----------------------------------------------
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
       USE FORMAT_MOD , ONLY : FMT_10I
       use element_mod , only : nixr
+      use r2buf3_law135_mod 
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -322,9 +323,9 @@ c      CALL ANCNTS(IDS, CNT2)
            NSPRG23 = NSPRG23 + 1
            IMAT  = IXR(5,I+NFT)
            IADBUF = IPM(7,IMAT) - 1
-           ILENG = NINT(UPARAM(IADBUF + 2))
-           IMASS =  IGEO(4,I0)
            MTN   = IPM(2,IMAT)
+           IF (MTN /= 135) ILENG = NINT(UPARAM(IADBUF + 2)) !ILENG is not used for MTN 108 and MTN 135
+           IMASS =  IGEO(4,I0)
            IF(MTN == 114) THEN
              IMASS = 1
              LMIN = MAX(UPARAM(IADBUF + 119),UPARAM(IADBUF + 126))
@@ -359,8 +360,8 @@ c      CALL ANCNTS(IDS, CNT2)
      .                   C1=TITR,
      .                   I2=IXR(NIXR,J))
           ENDIF
-        ELSE
-          XL(I)=ONE
+        ELSE         
+          XL(I)=ONE  !XL(I) is set to ONE for MTN108
         ENDIF
       ENDDO
 C
@@ -436,16 +437,16 @@ C
         ELSEIF(IGTYP  == 23) THEN
             IMAT  = IXR(5,I+NFT)
             IADBUF = IPM(7,IMAT) - 1
-            ILENG = NINT(UPARAM(IADBUF + 2))
+            MTN   = IPM(2,IMAT)
+            IF (MTN /= 135) ILENG = NINT(UPARAM(IADBUF + 2))
             RHO = PM(1,IMAT)
             IMASS = IGEO(4,I0)
-            MTN   = IPM(2,IMAT)
             UINER(I) = ZERO
 C---- For mat law108 skew per element is used if available
             IF ((MTN == 108).AND.( R_SKEW(I+NFT) > 0)) THEN
               GBUF%SKEW_ID(I) = R_SKEW(I+NFT)
-            ELSEIF (MTN == 108) THEN
-C---- For mat law108 skew of property 23 is used if no skew per element
+            ELSEIF (MTN == 108 .OR. MTN == 135) THEN
+C---- For mat law108 or law135 skew of property 23 is used if no skew per element
               GBUF%SKEW_ID(I) = IGEO(2,I0)
             ELSEIF (MTN == 114) THEN
 C---- For mat law114 lmin is used for mass setting of element with null length
@@ -476,7 +477,7 @@ C
                NKIN  = IKINE(I2)
                KCOND2 = IRB(NKIN)+IRB2(NKIN)          
                CALL FRETITL2(TITR,IGEO(NPROPGI-LTITR+1,I0),LTITR)
-               IF (MTN == 108) THEN
+               IF (MTN == 108 .OR. MTN == 135) THEN
 C-               imass = 1 (mass per unit lenght) + null length accepted for law108 - only a warning is printed  
 C.               mass checked later in rcheckmass                            
                  CALL ANCMSG(MSGID=3103,
@@ -499,8 +500,8 @@ C.               mass checked later in rcheckmass
             ENDIF
 C
 
-          XM = GBUF%MASS(I)
-          XINE = GEO(2,I0)
+          XM = GBUF%MASS(I) !MASS for type 23
+          XINE = GEO(2,I0)  !INERTIA for type 23
 
 C
           RATIO = XM * LENGTH * LENGTH
@@ -558,9 +559,10 @@ C------------------------------------------
             I2=IXR(3,J)
             IMAT  = IXR(5,I+NFT)
             IADBUF = IPM(7,IMAT) - 1
-            KX   = UPARAM(IADBUF + K11 + 1)
-            KXY  = UPARAM(IADBUF + K11 + 2)
-            KXZ  = UPARAM(IADBUF + K11 + 3)
+            MTN   = IPM(2,IMAT)
+            IF (MTN /= 135) KX   = UPARAM(IADBUF + K11 + 1)
+            IF (MTN /= 135) KXY  = UPARAM(IADBUF + K11 + 2)
+            IF (MTN /= 135) KXZ  = UPARAM(IADBUF + K11 + 3)
             STI = MAX(KX,KXY,KXZ)/MAX(EM30,XL(I))
             STR(I)=STI
           ENDDO
@@ -705,11 +707,12 @@ C=======================================================================
      2               X           ,V   ,IPART(NFT+1),XL ,MSR(1,NFT+1),
      3               INR(1,NFT+1),MSRT,EMS      ,GBUF%MASS   ,UINER,MTN)
        IF(MTN == 108) THEN
-C     
+C                
            CALL R2BUF3(GBUF%OFF ,GEO      ,X        ,GBUF%LENGTH(II(1)) ,GBUF%LENGTH(II(2)),
      2                 GBUF%LENGTH(II(3)) ,IXR      ,SKEW     ,GBUF%POSX,GBUF%POSY,
      3                 GBUF%POSZ       ,GBUF%POSXX,GBUF%POSYY,GBUF%POSZZ,IGEO     ,
      4                 GBUF%SKEW_ID)
+     
 C----
        ELSEIF (MTN==113) THEN  
           CALL R4BUF3(
@@ -726,8 +729,17 @@ C----
      3         GBUF%POSY         ,GBUF%POSZ ,GBUF%POSXX,GBUF%POSYY        ,GBUF%POSZZ, 
      4         ITAB              ,GBUF%E6   ,IGEO      ,IPM)
            NSPRG = NSPRG + CNT2
-       ENDIF ! MTN
+      ELSEIF(MTN == 135) THEN
 
+            CALL R2BUF3_LAW135(
+     1         GBUF%OFF            ,X         ,GBUF%LENGTH(II(1):II(1)+NEL-1) ,GBUF%LENGTH(II(2):II(2)+NEL-1),
+     2         GBUF%LENGTH(II(3):II(3)+NEL-1) ,IXR       ,SKEW                ,GBUF%POSX,
+     3         GBUF%POSY           ,GBUF%POSZ ,GBUF%POSXX          ,GBUF%POSYY,
+     4         GBUF%POSZZ          ,IGEO      ,GBUF%SKEW_ID        ,GBUF%G_NUVAR,
+     5         GBUF%VAR            ,LSKEW     ,NUMSKW              ,NPROPGI,
+     6         NUMGEO              ,NEL       ,NFT                 ,NUMELR,
+     7         NUMNOD)
+       ENDIF ! MTN
        IF (INISPRI /= 0) 
      .      CALL R8INI(
      2    IGTYP                  ,NEL                    ,SIGRS                  ,IXR                    ,NSIGRS                 ,
@@ -1385,7 +1397,7 @@ C
           IMAT   = IXR(5,I+NFT)
           IADBUF = IPM(7,IMAT) - 1
           MTN    = IPM(2,IMAT)
-          IF(MTN == 108) THEN
+          IF(MTN == 108 ) THEN 
               XKM= MAX(UPARAM(IADBUF + K11 + 1)*UPARAM(IADBUF + K1 + 1),
      .                 UPARAM(IADBUF + K11 + 2)*UPARAM(IADBUF + K1 + 2),
      .                 UPARAM(IADBUF + K11 + 3)*UPARAM(IADBUF + K1 + 3))/XL(I)
@@ -1508,6 +1520,24 @@ C
               DT = MIN(DT,DTC)
               GEO(4,I0)= MIN(GEO(4,I0),DT)
               DTELEM(NDEPAR+I)= DT
+
+            ELSEIF (MTN == 135) THEN
+              XKM= ZERO
+              XCM= ZERO
+              XKR= ZERO
+              XCR= ZERO
+              XM  = GBUF%MASS(I) !MASS OF ELEMENT
+              XINE= GEO(2,I0) 
+              IF (XCM+XKM<EM15) XM  =ONE
+              IF (XCR+XKR<EM15) XINE=ONE
+              XKM= MAX(EM15,XKM)
+              XKR= MAX(EM15,XKR)
+              DT =XM/MAX(EM15,SQRT(XKM*XM))
+              DTC=XINE/MAX(EM15,SQRT(XINE*XKR))
+              DTELEM(NDEPAR+I)=MIN(DT,DTC)
+              GEO(4,I0)= MIN(GEO(4,I0),DT,DTC)  
+              MAS2 = TWO*MSR(1,J)
+              INE2 = TWO*INR(1,J)
            ENDIF   
            IF (MAS2>ZERO) THEN
             STI = (SQRT(XCM**2+XKM*MAS2)+XCM)**2/MAS2

@@ -319,7 +319,7 @@ C
         IF (GBUF%G_ROT_IN_TENS == 0) GBUF%G_ROT_IN_TENS  = MTAG%G_ROT_IN_TENS
         IF (GBUF%G_ROT_IN_COMP == 0) GBUF%G_ROT_IN_COMP  = MTAG%G_ROT_IN_COMP
         IF (GBUF%G_POSX        == 0) GBUF%G_POSX         = MTAG%G_POSX
-        IF (GBUF%G_POSY        == 0) GBUF%G_POSY         = MTAG%G_POSY
+        IF (GBUF%G_POSY        == 0) GBUF%G_POSY         = MTAG%G_POSY  
         IF (GBUF%G_POSZ        == 0) GBUF%G_POSZ         = MTAG%G_POSZ
         IF (GBUF%G_POSXX       == 0) GBUF%G_POSXX        = MTAG%G_POSXX
         IF (GBUF%G_POSYY       == 0) GBUF%G_POSYY        = MTAG%G_POSYY

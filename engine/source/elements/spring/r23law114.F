@@ -274,7 +274,7 @@ C
              GBUF%OFF(I) = OFF(I)
           ENDIF
         ENDDO
-C
+C  
         CALL R2LEN3(
      1   JFT,      JLT,      GBUF%OFF, DT2T,
      2   NELTST,   ITYPTST,  STI,      STIR,
@@ -292,6 +292,7 @@ C
      1   GBUF%FOR(II(1)),GBUF%FOR(II(2)),GBUF%FOR(II(3)),GBUF%MOM(II(1)),
      2   GBUF%MOM(II(2)),GBUF%MOM(II(3)),TANI,           AL,
      3   H3D_DATA,       NEL)
+
         IF (IPARIT == 0) THEN
           CALL R4CUM3(
      1   F,              GBUF%FOR(II(1)),GBUF%FOR(II(2)),GBUF%FOR(II(3)),

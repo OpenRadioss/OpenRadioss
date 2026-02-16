@@ -61,7 +61,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,M1,M2,IG,IGTYP,ITYP,NG,JFT,JLT,NEL,
-     .        NFT,NUVAR,IRB,NV
+     .        NFT,NUVAR,IRB,NV,ILAW
       my_real DTRB1,DTRB2,DT
       TYPE(G_BUFEL_),POINTER :: GBUF
 C----------------------------------------------------------      
@@ -74,17 +74,18 @@ C
           NFT = IPARG(3,NG) 
           JFT = 1
           JLT = MIN(NVSIZ,NEL)  
-        GBUF => ELBUF_TAB(NG)%GBUF
+          GBUF => ELBUF_TAB(NG)%GBUF
           IF (ITYP == 6) THEN
 C
 C--------> Loop over spring elements -------
           DO I=JFT,JLT
               J = I + NFT    
             IG = IPART(2,IPARTR(J))
+            ILAW = IPARG(1,NG)
             IGTYP =  IGEO(11,IG)
               NUVAR =  NINT(GEO(25,IG))
             NV = NUVAR*(I-1) + 1
-            IF (IGTYP==45) THEN    
+            IF (IGTYP==45 .OR. (IGTYP==23 .AND. ILAW == 135)) THEN    
 C           
 C--------> Calcul pas de temps nodal RB1 -------         
                 IRB = NINT(GBUF%VAR(NV + 37))
@@ -93,7 +94,7 @@ C--------> Calcul pas de temps nodal RB1 -------
               ELSE
                 M1 = IXR(2,J)
               ENDIF 
-                DTRB1 = DTFAC1(11)*SQRT(TWO*MS(M1)/MAX(EM20,STIFN(M1)))
+                DTRB1 = DTFAC1(11)*SQRT(TWO*MS(M1)/MAX(EM20,STIFN(M1))) !NORMALLY NODAL DT > ELEMENT DT
               IF (IN(M1) > 0) THEN
                   DTRB1 = MIN(DTRB1,DTFAC1(11)*SQRT(TWO*IN(M1)/MAX(EM20,STIFR(M1))))
               ENDIF                               

@@ -244,6 +244,7 @@ C-----------------------------------------------
       use init_rwall_penalty_mod , only : init_rwall_penalty
       use ush_init_mod , only : ush_init
       use ini_guided_cable_mod, ONLY : ini_guided_cable 
+      use rini135_rb_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -2123,6 +2124,16 @@ C------------------------------------------------------
             CALL RINI45_RB(NEL,NUVAR,IPROP,IXR,NPBY,
      .                     LPBY,RBY,STIFR,GBUF%VAR,ITAB,
      .                     IGEO(1,IPROP),IXR_KJ,GBUF%MASS,MS,IN)
+          ELSEIF (IGTYP==23 .AND. MTN ==135) THEN
+            NUVAR = GBUF%G_NUVAR
+            FLAG_KJ = 1
+      CALL RINI135_RB(
+     .   NEL         ,NUVAR       ,IXR         ,NPBY        ,
+     .   LPBY        ,RBY         ,GBUF%VAR    ,ITAB        ,
+     .   IGEO(1,IPROP),MS         ,IN          ,NFT         ,
+     .   NUMELR      ,NNPBY       ,NRBODY                   ,
+     .   SLPBY       ,NUMNOD      ,NPROPGI     ,NRBY        ,
+     .   LTITR) 
           ENDIF
         ENDIF
       ENDDO

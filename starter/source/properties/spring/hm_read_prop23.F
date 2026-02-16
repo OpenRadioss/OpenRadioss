@@ -130,13 +130,13 @@ C
 C      
       IF (ISFLAG == 1) ID_SENS=-ID_SENS
 C      
-      IGEO(2)= ID_SKEW
-      IGEO(3)= ID_SENS 
-      IGEO(4)= ITYPE
-      IGEO(5)= ISFLAG
+      IGEO(2)= ID_SKEW !SKEW
+      IGEO(3)= ID_SENS !SENSOR
+      IGEO(4)= ITYPE   !23 
+      IGEO(5)= ISFLAG !FLAG
 C      
-      GEO(1) = VOL_AIR
-      GEO(2) = INERTIA
+      GEO(1) = VOL_AIR   !VOLUME or AREA
+      GEO(2) = INERTIA   !INERTIA
 C
       PROP_TAG(IGTYP)%G_EINT = 1
       PROP_TAG(IGTYP)%G_FOR  = 3
