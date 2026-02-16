@@ -1963,7 +1963,11 @@ c INT24
                 DO J = 1, NB
                   I = INDEX(J)
                   NOD = NSV(I)
-                  RBUF(P)%p(L+RSHIFT)    =INTAREAN(NOD)
+                  if(NOD <= NUMNOD) THEN
+                    RBUF(P)%p(L+RSHIFT)    =INTAREAN(NOD)
+                  ELSE
+                    RBUF(P)%p(L+RSHIFT)    =0.0
+                  ENDIF
                   L = L + RSIZ
                 END DO 
                   RSHIFT = RSHIFT + 1
