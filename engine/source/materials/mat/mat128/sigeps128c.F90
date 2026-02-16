@@ -107,7 +107,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !         Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer :: i,ii,iter,niter,nindx,ifunc,ndim
+          integer :: i, ii, iter, niter, nindx, ndim
           integer ,dimension(nel) :: indx
           real(kind=WP) :: sigy,young,shear,bulk,nu,nu21,a11,a12,rho0
           real(kind=WP) :: dlam,ddep,sig_dfdsig,dsig_dlam,dpdt,seq

@@ -87,7 +87,7 @@
 !-----------------------------------------------
 !   L o c a l   V a r i a b l e s
 !-----------------------------------------------
-      integer :: i,j,jj,nindx,ifail_sh
+      integer :: i,j,nindx,ifail_sh
       integer ,dimension(nel) :: indx
       real(kind=WP) :: sigt1,sigt2,sigt12,sigc1,sigc2,beta,tmax,fcut,asrate,   &
         damft,damfc,dammt,dammc

@@ -721,12 +721,18 @@ public:
 
             sdiString kernelFullType = this->p_pre_obj_lst->at(i)->GetKernelFullType();
 
-            bool isSame = true;
-            if (kernelFullType.find("/ELEMS") == 0) {
-                kernelFullType.erase(0, 6); // Remove "/ELEMS"
-                if (!(strcmp(this->p_keyword.c_str(), kernelFullType.c_str()) == 0)) {
-                    isSame = false;
+            sdiString inputFullType = this->p_pre_obj_lst->at(i)->GetInputFullType();
+            if (inputFullType.find('/') != std::string::npos) {
+                size_t secondSlashPos = inputFullType.find('/', inputFullType.find('/') + 1);
+                if (secondSlashPos != std::string::npos) {
+                    inputFullType = inputFullType.substr(0, secondSlashPos);
                 }
+            }
+
+            bool isSame = true;
+            
+            if (!(strcmp(this->p_keyword.c_str(), inputFullType.c_str()) == 0)) {
+                isSame = false;
             }
 
             if(this->p_pre_obj_lst->at(i) != nullptr && isSame)

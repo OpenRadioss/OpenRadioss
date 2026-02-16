@@ -75,7 +75,6 @@
           integer :: surf_iid(1:2)
           integer :: nod(6)
           integer :: ebcs_uid
-          integer :: i
           real(kind=WP) :: v12(3),v12_(3)
           real(kind=WP) :: v13(3),v13_(3)
           real(kind=WP) :: d12,d12_,d13,d13_ !< vector length

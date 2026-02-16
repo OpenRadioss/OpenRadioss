@@ -126,30 +126,30 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   L o c a l   V a r i a b l e s
 ! ----------------------------------------------------------------------------------------------------------------------          
-      integer :: i,nfail,nkey,ipos1(1,1),ipos(nel,1),type,ndx,n,int_ratio,nfunc
-      integer :: indx(nel),ndx_print,indx_print(nel)
+      integer :: i,ipos(nel,1),type,ndx,n,int_ratio,nfunc
+      integer :: indx(nel)
       integer, parameter :: debug = 0  ! debug flag for checking failure plane
       !
       real(kind=wp) :: e1, e2, nu12, nu21, xt, xc,ratio
-      real(kind=wp) :: yt, yc, sc, d, scale,eps_failure, eps_eq
-      real(kind=wp) :: invd, aa, bb, phi0, beta,cos2p,cos2t,sin2p,sin2t,cosp,sinp,cost,sint
-      real(kind=wp) :: g12, a11, g13, g23, dam, dfiber, dkink, dmat, dmac
-      real(kind=wp) :: enkink, ena, enb, enl, ent, gammal
+      real(kind=wp) :: yt, yc, d, eps_failure, eps_eq
+      real(kind=wp) :: invd, aa, phi0, beta,cos2p,sin2p,cosp,sinp
+      real(kind=wp) :: g12, a11, g13, g23, dam, dfiber, dkink, dmat
+      real(kind=wp) :: enkink, ena, enb, enl, ent
       real(kind=wp) :: sigma_a, sigma_b, tau_ab, tau_ca, tau_bc,sigma_c,sigma_a_m,sigma_b_m
-      real(kind=wp) :: fkink, fmat, fmac, ffiber, mul, mut, twophi,theta
+      real(kind=wp) :: mul, mut, theta
       real(kind=wp) :: sl, st, tau_t, tau_l, yld, phi, en_mat
       real(kind=wp) :: eps0, sig0, eps_mat, sig_mat, epsa, epsb, epsc
       real(kind=wp) :: epsn, gamal, gamat, epsf, gam_mat, gamab, gambc, gamca
       real(kind=wp) :: lamda, nu13, nu23, omega, psi,sigma_b_psi,sigma_c_psi
-      real(kind=wp) :: sigma_c_phi, sigma_n_p,sigma_n,twopsi,bidon,eps_matf
-      real(kind=wp) :: tau_bc_m, tau_bc_phi, tau_bc_psi, tau_ca_m, tau_ca_phi, tau_ca_psi
+      real(kind=wp) :: sigma_n_p, sigma_n, eps_matf
+      real(kind=wp) :: tau_bc_psi, tau_ca_psi
       real(kind=wp) :: tau_mat,tau_ab_psi,tau_ab_m ,thetai,tau_bm_cpsi,tau_cpsi_am
-      real(kind=wp) :: gamai,eps_kink,sigb_psi,fac,gama_inel,xx(1,1),max_f,critical_phi
-      real(kind=wp) :: c,s,c2,s2,cs,phi_deg,psi_deg,theta_deg, la_m,lb_psi,lc_psi,l_car
-      real(kind=wp) :: denom,deint,eint,thetac,eps0_kink,sig0_kink,epsf_kink
+      real(kind=wp) :: gamai,eps_kink,fac,gama_inel,max_f,critical_phi
+      real(kind=wp) :: c,s,c2,s2,cs,phi_deg,psi_deg,theta_deg, la_m,lb_psi,l_car
+      real(kind=wp) :: deint,eint,thetac,eps0_kink,sig0_kink,epsf_kink
 
       real(kind=wp), dimension(nel) ::  dezz,check
-      real(kind=wp), dimension(nel) ::  epsfc1,epsfc2,epsf12,epsf13, yy,dydx 
+      real(kind=wp), dimension(nel) ::  yy,dydx 
       real(kind=wp), dimension(nel) ::  xt_1, xc_1, yt_1, yc_1, sl_1
       real(kind=wp), dimension(nel) ::  thetai_1,mul_1,st_1
       real(kind=wp), dimension(nel) ::  enkink_1, ena_1, enb_1, ent_1, enl_1

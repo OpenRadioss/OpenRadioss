@@ -129,11 +129,10 @@
           real(kind=8), dimension(nel), intent(inout) :: zd6          !< Z coordinate of node 6
           real(kind=8), dimension(nel),  intent(out)   :: voldp        !< Global element volume
           real(kind=8), intent(in)                     :: sav(nel,15) !< Saved nodal coordinates for negative volume recovery sav must be in double precision, so kind = 8
-          integer,dimension(102)                       :: idtmin
 !-------------------------------------------------------------------------------
 !    L o c a l   v a r i a b l e s
 !-------------------------------------------------------------------------------
-          integer :: i, j, icor, nnega                            !< Loop counters and flags
+          integer :: i, j, nnega                                  !< Loop counters and flags
           integer :: index(nel)                                   !< Index array for negative volume elements
 !C     ENSURE DOUBLE-PRECISION (64-BIT) FLOATING-POINT CALCULATIONS, EVEN WHEN COMPILING IN SINGLE-PRECISION MODE.
           real(kind=8) :: dett(nel)                              !< Inverse determinant
@@ -370,8 +369,5 @@
             volg(i) = det(i)
           enddo
 !
-2000      format(/' zero or negative volume : delete 3d-element nb',i10/)
-3000      format(/' zero or negative volume : 3d-element nb:', i10, /, &
-            'solid-shell element is switched to small strain option'/)
         end subroutine s6zderi3
       end module s6zderi3_mod

@@ -205,7 +205,6 @@
       integer :: i                                                   !< loop counter
       real(kind=wp) :: off_l                                         !< local offset flag
 !c    force wp = 8 to ensure double-precision (64-bit) floating-point calculations, even when compiling in single-precision mode.
-      real(kind=8) :: xl, yl, zl                                    !< local centroid coordinates
       real(kind=8), dimension(nel) :: xdl1, xdl2, xdl3, xdl4         !< local degenerated x-coordinates 1-4 double precision
       real(kind=8), dimension(nel) :: xdl5, xdl6, xdl7, xdl8         !< local degenerated x-coordinates 5-8 double precision
       real(kind=8), dimension(nel) :: ydl1, ydl2, ydl3, ydl4         !< local degenerated y-coordinates 1-4 double precision

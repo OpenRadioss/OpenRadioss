@@ -372,22 +372,19 @@
       real(kind=wp), dimension(mvsiz) :: dxy,dyx,dyz,dzy,dzx,dxz,divde
       real(kind=wp), dimension(mvsiz) :: r11,r12,r13,r21,r22,r23,r31,r32,r33
       real(kind=wp), dimension(mvsiz) ::  g1x, g1y, g1z, g2x, g2y, g2z, g3x, g3y, g3z
-      real(kind=wp), dimension(mvsiz,6) :: gama, dd, them
+      real(kind=wp), dimension(mvsiz,6) :: gama, them
       real(kind=wp), dimension(mvsiz,6) ::vx0,vy0,vz0  
       real(kind=wp), dimension(mvsiz) ::offg0
       real(kind=wp), dimension(nel,6) :: sigo,sign
       real(kind=wp), dimension(mvsiz) :: nu, volg, sigy
  
       real(kind=wp), dimension(mvsiz) :: dcxx,dcxy,dcxz,dcyx,dcyy
-      real(kind=wp), dimension(mvsiz) :: dcyz,dczx,dczy,dczz,dc4
+      real(kind=wp), dimension(mvsiz) :: dcyz,dczx,dczy,dczz
       real(kind=wp), dimension(mvsiz) :: mfxx,mfxy,mfxz,mfyx,mfyy
       real(kind=wp), dimension(mvsiz) :: mfyz,mfzx,mfzy,mfzz
-      real(kind=wp), dimension(mvsiz) :: dc5,dc6,vzl,jaci33
-      real(kind=wp), dimension(mvsiz) :: dhxx,dhxy,dhyx,dhyy,dhyz
-      real(kind=wp), dimension(mvsiz) :: dhzx,dhzy,dhzz,dh4,dhxz
-      real(kind=wp), dimension(mvsiz) :: dh5,dh6,eintm,ddhv
-      real(kind=wp), dimension(mvsiz) :: et,r1_free,r3_free,r4_free
-      real(kind=wp), dimension(mvsiz) :: stin,bid,dsv,alpha_e,llsh
+      real(kind=wp), dimension(mvsiz) :: vzl
+      real(kind=wp), dimension(mvsiz) :: et, r1_free, r3_free
+      real(kind=wp), dimension(mvsiz) :: stin, bid, dsv, alpha_e
 !   
       integer :: pid, ioffs, nn_del, ipres, isctl
       integer, dimension(mvsiz) :: istab

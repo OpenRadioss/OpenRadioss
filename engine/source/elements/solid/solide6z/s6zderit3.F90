@@ -123,8 +123,7 @@
 !-------------------------------------------------------------------------------
 !    L o c a l   v a r i a b l e s
 !-------------------------------------------------------------------------------
-          integer :: i, j, icor, nnega                            !< Loop counters and flags
-          integer :: index(nel)                                   !< Index array for negative volume elements
+          integer :: i                                            !< Loop counters and flags
 !C     ENSURE DOUBLE-PRECISION (64-BIT) FLOATING-POINT CALCULATIONS, EVEN WHEN COMPILING IN SINGLE-PRECISION MODE.
           real(kind=8) :: dett(nel)                              !< Inverse determinant
           real(kind=8) :: jac1(nel), jac2(nel), jac3(nel)        !< Jacobian matrix components

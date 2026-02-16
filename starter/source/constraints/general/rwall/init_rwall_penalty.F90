@@ -101,7 +101,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer :: i,j,n,ii,mid,mtn,pid,icontr,ity,nn1,nsl,ns,isolnod,ipen,nel,k,n_p,ng,nft,lspen
+          integer :: i,j,n,ii,mid,mtn,ity,nn1,nsl,ns,isolnod,ipen,nel,k,n_p,ng,nft,lspen
           integer, dimension(20,mvsiz)  :: nc
           integer, dimension(:)  ,        allocatable :: imnt
           real(kind=WP), dimension(:)  ,  allocatable :: noda_l

@@ -519,7 +519,7 @@ C             Fixed velocity in moving frame (transl)
               A0 = XFRAME(K1,IFM)*A(1,I)
      .           + XFRAME(K2,IFM)*A(2,I)
      .           + XFRAME(K3,IFM)*A(3,I)
-              YC(II)=(YC(II)-VV+VF)/DT12
+              IF (IBFV(7,N) >= 1) YC(II)=(YC(II)-VV+VF)/DT12
               AA = YC(II) - A0
               A(1,I)=A(1,I)+XFRAME(K1,IFM)*AA
               A(2,I)=A(2,I)+XFRAME(K2,IFM)*AA
@@ -722,38 +722,36 @@ C             Fixed velocity in moving frame (rota)
               K2=3*J-1
               K3=3*J
               IF (IBFV(7,N) == 2) THEN
-                QF0(1:9) = XFRAME(19:27,IFM)
-                EJ(1) = QF0(K1)
-                EJ(2) = QF0(K2)
-                EJ(3) = QF0(K3)
+                EJ(1) = XFRAME(K1,IFM)
+                EJ(2) = XFRAME(K2,IFM)
+                EJ(3) = XFRAME(K3,IFM)
                 DDR = EJ(1)*DR(1,I) +EJ(2)*DR(2,I) + EJ(3)*DR(3,I)
-                DDF= EJ(1)*XFRAME(13,IFM)+EJ(2)*XFRAME(14,IFM)+EJ(3)*XFRAME(15,IFM) 
+                DDF= EJ(1)*XFRAME(37,IFM)+EJ(2)*XFRAME(38,IFM)+EJ(3)*XFRAME(39,IFM) 
                 IF (NSENS(II) > 0 .and. TS(II) > ZERO) THEN
                   YC(II) = (YC(II)-YC0(II))/DT2_DOUBLE
                 ELSE
-                  YC(II) = (YC(II)-DDR)/DT2_DOUBLE + DDF
+                  YC(II) = (YC(II)-DDR+DDF)/DT2_DOUBLE 
                 ENDIF
-                VF = ZERO
-              ELSE
-                VF = XFRAME(K1,IFM)*XFRAME(13,IFM)
+              ENDIF
+              VF =   XFRAME(K1,IFM)*XFRAME(13,IFM)
      .             + XFRAME(K2,IFM)*XFRAME(14,IFM)
      .             + XFRAME(K3,IFM)*XFRAME(15,IFM)
-              ENDIF
               VV = XFRAME(K1,IFM)*VR(1,I)
      .           + XFRAME(K2,IFM)*VR(2,I)
-     .           + XFRAME(K3,IFM)*VR(3,I)
+     .           + XFRAME(K3,IFM)*VR(3,I) 
+              IF(IBFV(7,N)>=1) YC(II)=(YC(II)-VV+VF)/DT12
               A0 = XFRAME(K1,IFM)*AR(1,I)
      .           + XFRAME(K2,IFM)*AR(2,I)
      .           + XFRAME(K3,IFM)*AR(3,I)
-              AA = (YC(II)-VV+VF)/DT12 - A0
+              AA = YC(II) - A0
               AR(1,I)=AR(1,I)+XFRAME(K1,IFM)*AA
               AR(2,I)=AR(2,I)+XFRAME(K2,IFM)*AA
               AR(3,I)=AR(3,I)+XFRAME(K3,IFM)*AA
               IF(IBFV(6,N) == 0)THEN
-                DW= FOURTH*(YC(II)+VV)*IN(I)*AA*WEIGHT(I)
+                DW= FOURTH*(YC(II)*DT12+TWO*VV)*IN(I)*AA*WEIGHT(I)
               ELSE
                 NR = IBFV(6,N)
-                DW= FOURTH*(YC(II)+VV)*WEIGHT(I)*AA*
+                DW= FOURTH*(YC(II)*DT12+TWO*VV)*WEIGHT(I)*AA*
      .             ((RBY(17,NR)*XFRAME(K1,IFM)
      .              +RBY(18,NR)*XFRAME(K2,IFM)
      .              +RBY(19,NR)*XFRAME(K3,IFM))*XFRAME(K1,IFM) +

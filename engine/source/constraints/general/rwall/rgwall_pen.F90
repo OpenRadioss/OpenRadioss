@@ -91,8 +91,8 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer :: i,n, ifq, j, k,nsn,ipen,n_p,ns,msr,itype,itied,ncont,nm,isl,pmain,iparsens,isect,npen
-          real(kind=WP) :: stif_max,stf
+          integer :: n, ifq, k, nsn, ipen, n_p, msr, itype, itied, nm, isl, pmain, iparsens, isect, npen
+          real(kind=WP) :: stif_max
           real(kind=8 ), dimension(12,6) :: dummy
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
@@ -264,12 +264,12 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer :: i, n, nindex, ifq, j, k, jj,index(nsn),ipri
-          real(kind=WP) :: dp, dv, da, dvt,fndfn, ftdft, fric,                       &
+          integer :: i, n, nindex, ifq, j, k, index(nsn), ipri
+          real(kind=WP) :: dp, dvt, fndfn, ftdft, fric,                               &
             fric2,fcoe,msw,fac,alpha,alphi,                            &
             x_rw(3),v_rw(3),vsm(3),dsm(3),vt(3),fsn(3),fst(3),         &
-            nor(3),x1_rw(3),x2_rw(3),n3_rw(3),p_a2,vpn,dd1,dd,ra2,     &
-            dsm1(3),cm1(3),ps,cm1_a2,cm2(3),cm2_a2,stf_maxi,stf,       &
+            nor(3),x1_rw(3),x2_rw(3),n3_rw(3),p_a2,dd1,dd,ra2,         &
+            dsm1(3),cm1(3),ps,cm1_a2,cm2(3),cm2_a2,stf_maxi,           &
             g11,g12,g22,detg,inv11,inv12,inv22,ksi,eta,tol,            &
             dsm_x1,dsm_x2,stf_vi,damp,fact,stf_av,                     &
             p_min,penref,pendr,fmax,fnon,dffac,damp2

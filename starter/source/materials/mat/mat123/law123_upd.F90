@@ -59,10 +59,9 @@
 !-----------------------------------------------
 !   L o c a l   V a r i a b l e s
 !-----------------------------------------------
-          real(kind=WP) :: nu,g,bulk,lam
-          real(kind=WP) :: youngmin,youngini,youngmax,r,thetac,theta,xc
-          real(kind=WP) :: xmax,xvec(1,1),yy(1),dydx(1)
-          integer :: ipos(1,1),i
+          real(kind=WP) :: r,thetac,theta,xc
+          real(kind=WP) :: xvec(1,1),yy(1),dydx(1)
+          integer :: ipos(1,1)
 !--------------------------------------------------------------------------
 !     copy global functions/tables to matparam data structure
 !--------------------------------------------------------------------------

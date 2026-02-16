@@ -389,6 +389,7 @@
 !||    sdistor_ini                              ../engine/source/elements/solid/solide/sdistror_ini.F90
 !||    select_s2s                               ../starter/source/interfaces/inter3d1/select_s2s.F90
 !||    sensor_mod                               ../common_source/modules/sensor_mod.F90
+!||    sensor_python                            ../engine/source/tools/sensor/sensor_python.F90
 !||    sfem_mod                                 ../common_source/modules/elements/sfem_mod.F90
 !||    sfor_3n2s3                               ../engine/source/elements/solid/solide/sfor_4n2s4.F90
 !||    sfor_4n2s4                               ../engine/source/elements/solid/solide/sfor_4n2s4.F90

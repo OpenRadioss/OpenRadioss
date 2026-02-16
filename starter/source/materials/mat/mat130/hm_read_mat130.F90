@@ -92,10 +92,9 @@
           real(kind=WP) ::                                                     &
             rho0,young,nu,sigy,vf,mu,eaau,ebbu,eccu,gabu,gbcu,gcau,shear,bulk, &
             x1scale,x2scale,x3scale,x4scale,x2vect(14),x3vect(14),x4vect(14),  &
-            fscale(14),rfac,sigf,epsf,pruab,pruac,prubc,pruba,pruca,prucb,     &
+            fscale(14),rfac,pruab,pruac,prubc,pruba,pruca,prucb,     &
             sigyd0,sigyp0,fcut,dtime_step,tsef,ssef
           logical :: is_encrypted, is_available
-          type (table_4d_), dimension(:), pointer :: table_mat
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                      body
 ! ----------------------------------------------------------------------------------------------------------------------

@@ -666,6 +666,7 @@ C-----------------------------------------------
            XFRAME(13,N+1)=VRX
            XFRAME(14,N+1)=VRY
            XFRAME(15,N+1)=VRZ
+           XFRAME(37:39,N+1)=XFRAME(37:39,N+1)+DT2*XFRAME(13:15,N+1) !DR
           ENDIF
         ENDDO ! next N=1,NUMFRAM
       ENDIF

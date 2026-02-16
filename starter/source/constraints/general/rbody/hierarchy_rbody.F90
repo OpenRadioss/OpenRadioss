@@ -45,6 +45,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           use my_alloc_mod
           use precision_mod, only : WP
+          use message_mod
 ! ----------------------------------------------------------------------------------------------------------------------
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -68,8 +69,8 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer :: i,j,k,m,iad,nhier,ih,parent_idx,nsn,ns,iter,nh_max,iad_n
-          logical :: changed,is_hier
+          integer :: i,j,k,m,iad,nhier,ih,parent_idx,nsn,ns,iter,nh_max,iad_n,child
+          logical :: changed,is_hier,cycle_found
           integer, dimension(nrbykin) :: index,nlev
           integer, dimension(:,:), allocatable :: npby_copy
           integer, dimension(:), allocatable :: itag,lpby_copy
@@ -102,6 +103,29 @@
             end do
           end do
 
+! Cycle (circular hierarchy) check: is i an child and a ancestor 
+          do i=1,nrbykin
+                parent_idx = parent_of(i)
+                if (parent_idx == 0) cycle
+                child = parent_idx
+                cycle_found = .false.
+                do while (child > 0)
+                  if (child == i) then
+                    cycle_found = .true.
+                    exit
+                  end if
+                  child = parent_of(child)
+                  if (child /= i) parent_idx=child
+                end do
+                if (cycle_found) then
+                    call ancmsg(msgid=3125,                    &
+                                msgtype=msgerror,              &
+                                anmode=aninfo_blind_1,         &
+                                i1=npby(6,i),                  &
+                                i2=npby(6,parent_idx))
+                  exit
+                end if ! (cycle_found) then
+          end do
 !------ initialize levels: roots (no parent) -> level 0, others unknown (-1) ------
           nlev = -1
           is_hier = .false.
@@ -220,13 +244,8 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer :: i,j,k,m,iad,nhier,p,nsn,ns
-          logical :: changed,is_hier
-          integer, dimension(nrbykin) :: index,nlev
-          integer, dimension(:,:), allocatable :: npby_copy
-          integer, dimension(:), allocatable :: itag,lpby_copy
-          integer, dimension(nrbykin) :: parent_of    !< parent index for each rbody (0 = no parent)
-          real(kind=WP),dimension(:,:),allocatable   :: rby_copy
+          integer :: i,j,m,iad,nhier,p,nsn,ns
+          integer, dimension(:), allocatable :: itag
 ! ======================================================================================================================
           nhier = 0
           do i=1,nrbykin
