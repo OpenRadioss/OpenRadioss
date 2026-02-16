@@ -54,7 +54,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      F   DMELRT,               FLAG_SLIPRING_UPDATE, FLAG_RETRACTOR_UPDATE,H3D_DATA,
      G   JSMS,                 IGRE,                 NFT,                  PRELD1,
      H   STF_F,                STF,                  SANIN,                IRESP,
-     I   SNPC )
+     I   SNPC ,                mat_elem,             NGRTH,                NELEM)
+
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -64,6 +65,8 @@ C-----------------------------------------------
       USE H3D_MOD
       USE SENSOR_MOD
       use element_mod , only : nixr
+      use mat_elem_mod
+      use r23law135_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -77,6 +80,14 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "param_c.inc"
 #include      "com04_c.inc"
+#include      "parit_c.inc"
+#include      "com01_c.inc"
+#include      "impl1_c.inc"
+#include      "scr14_c.inc"
+#include      "com08_c.inc"
+#include      "scr02_c.inc"
+#include      "scr18_c.inc"
+#include      "task_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -88,6 +99,8 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: IGRE
       INTEGER, INTENT(IN) :: NFT
       INTEGER, INTENT(IN) :: JSMS
+      INTEGER, INTENT(IN) :: NGRTH
+      INTEGER, INTENT(IN) :: NELEM
       INTEGER IXR(NIXR,*), NPF(*),IADR(3,*),IPARTR(*),
      .        IGEO(NPROPGI,*),JFT,JLT,NELTST ,ITYPTST,OFFSET,
      .        NEL,MTN,GRTH(*),IGRTH(*),FLG_KJ2,IPM(NPROPMI,*),FLAG_SLIPRING_UPDATE,
@@ -109,12 +122,16 @@ C
       TYPE (ELBUF_STRUCT_), TARGET :: ELBUF_STR
       TYPE(H3D_DATABASE) :: H3D_DATA
       TYPE (SENSORS_) , INTENT(IN) :: SENSORS
+      type (mat_elem_) ,intent(inout) ,target :: mat_elem
+      
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: NSENSOR
+
+
 C=======================================================================
-       NSENSOR = SENSORS%NSENSOR
+       NSENSOR = SENSORS%NSENSOR 
 !
        IF(MTN  == 108) THEN
          ! Like type08 spring
@@ -178,6 +195,26 @@ C=======================================================================
      F   DMELRT,               FLAG_SLIPRING_UPDATE, FLAG_RETRACTOR_UPDATE,H3D_DATA,
      G   JSMS,                 IGRE,                 NFT,                  NSENSOR,
      H   STF,                  SANIN,                IRESP,                SNPC )
+       ELSEIF(MTN == 135) THEN
+         FLG_KJ2 =1
+         CALL R23LAW135(
+     A   ELBUF_STR, NEL,       IGEO,      GEO,
+     B   IPM,       IXR,       X,         XDP,
+     C   F,         SKEW,      VR,        AR,
+     D   V,         STIFN,     STIFR,     FSKY,
+     E   IADR,      NSENSOR,   SENSORS%SENSOR_TAB,  PARTSAV,
+     F   IPARTR,    TANI,      FX1,       FX2,
+     G   FY1,       FY2,       FZ1,       FZ2,
+     H   MX1,       MX2,       MY1,       MY2,
+     I   MZ1,       MZ2,       GRESAV,    GRTH,
+     J   IGRTH,     H3D_DATA,  IGRE,      NFT,
+     K   MAT_ELEM,  NPROPG,    LSKEW,     IPARIT,
+     L   INISPRI,   SCODVER,   ISMDISP,   NUMELR,
+     M   TT,        DT1,       ANIM_FE,   MTN,
+     N   NGRTH,     NELEM,     NUMGEO,    NUMMAT,
+     O   NUMNOD,    NPSAV,     NGPE,      NTHREAD,
+     P   NUMSKW,    LSKY)
+     
  
        ENDIF
 C-----------------------------------------------       

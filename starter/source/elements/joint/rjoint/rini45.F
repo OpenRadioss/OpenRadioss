@@ -118,10 +118,12 @@ C
       KRZ  = GET_U_GEO(9,IPROP)
       KNN  = GET_U_GEO(10,IPROP)
       SCF  = GET_U_GEO(11,IPROP)
+
       DO I=1,3
         STOP_ANGL_MIN(I) = GET_U_GEO(35+2*(I-1),IPROP)
         STOP_ANGL_MAX(I) = GET_U_GEO(36+2*(I-1),IPROP)
       ENDDO
+
       IFKNX = GET_U_PNU(1,IPROP,KFUNC) 
       IFKNY = GET_U_PNU(2,IPROP,KFUNC) 
       IFKNZ = GET_U_PNU(3,IPROP,KFUNC) 
@@ -135,6 +137,8 @@ C----
       K4 = KRX
       K5 = KRY
       K6 = KRZ
+  
+
       IF (IFKNX/=0) THEN
         XF = GET_U_FUNC(IFKNX,ZERO,DERI)
         K1  = MAX(KXX*DERI, EM20)
@@ -203,6 +207,7 @@ C
         XF = GET_U_FUNC(IFCRZ,ZERO,DERI)
         C6  = MAX(CRZ*DERI, EM20)
       ENDIF
+
       DO I=1,6
         IFM = GET_U_PNU(12+I,IPROP,KFUNC)
         KFM  = GET_U_GEO(40+I,IPROP)

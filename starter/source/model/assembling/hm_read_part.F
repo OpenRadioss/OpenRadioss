@@ -347,7 +347,7 @@ C--------------------------------------------------
         IF(IGTYP == 23) THEN
            IMID = NINTRI(MID,IPM,NPROPMI,NUMMAT,1)
            ILAW=IPM(2,IMID)
-           IF(ILAW /= 108 .AND. ILAW /=113.AND. ILAW /=114 .AND. ILAW /= 0 ) THEN
+           IF(ILAW /= 108 .AND. ILAW /=113.AND. ILAW /=114 .AND. ILAW /=135 .AND. ILAW /= 0 ) THEN
              CALL ANCMSG(MSGID = 1715,
      .                  MSGTYPE=MSGERROR,
      .                  ANMODE=ANINFO,

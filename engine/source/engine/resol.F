@@ -4175,6 +4175,7 @@ C
      .         DTMIN1         ,IDTMIN        ,IOUT        ,ISTDO   ,IDTMINS,DTFACS,NSVOIS,
      .         IRESP          ,MAXFUNC       ,USERL_AVAIL ,GLOB_THERM,IMON_MAT,DTMINS,SANIN,
      .         NGRTH          ,NELEM         ,SFEM  )
+
 C
 #include "lockon.inc"
               IF(DT2TT<DT2T)THEN
@@ -6133,16 +6134,14 @@ C processes in charge of the FVMBAGS know NPOLH)
               IF (IMPL_S==1)  CALL IMP_DT2(DT2)
 
               IF (IMONM > 0) CALL STOPTIME(TIMERS,53)
-
+              
 C --------------------------
               IF ( NCYCLE == 0 .AND. FLG_KJ2_RAZ > 0  ) THEN     ! All processes should go in this block
-
                 if (ispmd==0)then
                    write(iout,'(A)') ' '
                    write(iout,'(A/)') ' AUTOMATIC STIFFNESS COMPUTATION FOR JOINTS'
                    write(iout,'(A)') '  JOINT ID      TYPE                KNN                KNR'
                 endif
-                
                 IF (FLG_KJ2 == 1) then                        
                     CALL JOINT_BLOCK_STIFFNESS(NODES%ITAB,NODES%MS,NODES%IN,STK_SN,STK_SR,
      1                    NODES%WEIGHT,IXR,IPART,NODES%X,IPART(K6),

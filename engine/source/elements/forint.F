@@ -1431,7 +1431,7 @@ c
      F   DMELRT(NF1),          FLAG_SLIPRING_UPDATE, FLAG_RETRACTOR_UPDATE,H3D_DATA,
      G   JSMS,                 IGRE,                 NFT,                  PRELOAD1   ,
      H   STF_F,                STF,                  SANIN,                IRESP,
-     I   SNPC )
+     I   SNPC ,                mat_elem,             NGRTH,                NELEM)
          ELSE
           CALL RFORC3(PYTHON,
      1   ELBUF_TAB(NG),       JFT,                 JLT,                 NEL,

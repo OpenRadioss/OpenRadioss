@@ -155,7 +155,7 @@
           real(kind=WP), dimension(nel),intent(inout) :: dpx2                     !< gbuf%dep_in_comp
           real(kind=WP), dimension(nel),intent(inout) :: yield                    !< gbuf%yield(ii(1))
           real(kind=WP), dimension(nel),intent(inout) :: xx_old                   !< uvar(1,1:nel)
-          real(kind=WP), dimension(mvsiz),intent(inout) :: xk
+          real(kind=WP), dimension(mvsiz),intent(inout) :: xk                     !< stiffness
           real(kind=WP), dimension(mvsiz),intent(inout) :: dxold                  !< previous dx
           real(kind=WP), dimension(mvsiz),intent(inout) :: xc                     !<
           real(kind=WP), dimension(mvsiz),intent(inout) :: off                    !< element activated/deactivated (local buffer)
@@ -266,6 +266,7 @@
           x1s = zero
           x2s = zero
           fxb = zero
+
           if(dt11==zero)dt11 = ep30
           do i=1,nel
             dx(i)=dx(i)/xl0(i)
@@ -734,8 +735,8 @@
           if(jecrou(-1)>0)then
             do i=1,nel
               if(ifunc(i)==0)then
-                fx(i)=xk(i)*dx(i)
-              end if
+                fx(i)=xk(i)*dx(i) 
+              end if 
             end do
           end if
 !-------------------------------------

@@ -245,6 +245,7 @@
           use hm_read_mat132_mod , only : hm_read_mat132
           use hm_read_mat133_mod , only : hm_read_mat133
           use hm_read_mat134_mod
+          use hm_read_mat135_mod
           use hm_read_mat163_mod
           use hm_read_mat169_arup_mod
           use names_and_titles_mod ,only : nchartitle, ncharline
@@ -1271,6 +1272,12 @@
               call hm_read_mat134(mtag     ,&
               &matparam  ,   parmat , nuvar  ,  unitab    ,lsubmodel,&
               &mat_id    ,titr       ,iout     )
+!-------
+             case ('LAW135','GENERAL_JOINT')
+               ilaw  = 135 
+               call hm_read_mat135(matparam ,                      &
+                mtag     ,nuvar    ,                              &
+                iout     ,unitab   ,lsubmodel, mat_id)
 !-------
              case ('LAW151','MULTIFLUID')
               ilaw  = 151

@@ -62,9 +62,9 @@ C-----------------------------------------------
 C-----------------------------------------------
       DO I=1,NEL
         ISENS=0
-        USENS=IGEO(3,PID(I))
-        IFL=IGEO(5,PID(I))
-        DO K=1,NSENSOR
+        USENS=IGEO(3,PID(I))     
+        IFL=IGEO(5,PID(I))     
+        DO K=1,NSENSOR  
           IF (ABS(USENS) == SENSOR_TAB(K)%SENS_ID) ISENS=K
         ENDDO
         IF (IFL == 2) THEN
