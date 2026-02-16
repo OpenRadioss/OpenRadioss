@@ -588,7 +588,7 @@ C     npsav not used by starter
 c 2 new values for ISPHIO, NSEG and IAS for inlet outlet in spmd
       NISPHIO = 16
       NRIVF = 13
-      NXFRAME = 36
+      NXFRAME = 36 + 3
       LSKEW = 12
       LISKN = 6
       NBCSLAG  = 0
