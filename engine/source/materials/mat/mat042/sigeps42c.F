@@ -69,7 +69,7 @@ C  L O C A L  V A R I B L E S
 C----------------------------------------------------------------
       INTEGER :: I,II,NPRONY,NORDER,ITER,JNV,NITER
       my_real :: SUM,FAC,FSCAL,TENSCUT,SUMDWDL,PARTP,AMAX
-      my_real :: EMAX,GMAX,GVMAX,NU,RBULK,A11,GTV
+      my_real :: EMAX,GMAX,GVMAX,NU,RBULK,A11
       my_real ,DIMENSION(3)       :: LAM_AL
       my_real ,DIMENSION(10)      :: MU,AL    
       my_real ,DIMENSION(NEL)     :: RVT,GTMAX,DLAM3,T3_OLD
@@ -107,15 +107,13 @@ C SET INITIAL MATERIAL CONSTANTS
 !     ------------------      
       GMAX  = ZERO
       GVMAX = ZERO
-      GTV = ZERO
       DO I=1,NPRONY                       
         GI(I)   = UPARAM(24 + I)          
         TAUX    = UPARAM(24 + NPRONY + I) 
         GVMAX = GVMAX +  GI(I)
         BETA(I) = ONE/TAUX
-        GTV = GTV + GI(I)*BETA(I)
       ENDDO                               
-      GVMAX = MAX(GVMAX,GTV)
+!      GVMAX = MAX(GVMAX,GTV) GTV is not shown necessary 
       DO I=1,NORDER
         GMAX = GMAX + MU(I)*AL(I)
       ENDDO                               
