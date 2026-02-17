@@ -1233,7 +1233,8 @@
               call hm_read_mat130(&
                 mat_param(mat_number),nuvar  ,mtag     ,iout     ,&
                 parmat   ,unitab   ,lsubmodel,israte   ,mat_id   ,&
-                titr     ,table    ,ntable   ,nvartmp  ,imatvis  )
+                titr     ,table    ,ntable   ,nvartmp  ,imatvis  ,&
+                iunit    )
 !-------
              case ('LAW133','GRANULAR')
               ilaw = 133
