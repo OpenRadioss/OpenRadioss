@@ -2759,7 +2759,7 @@ void GlobalEntitySDIConvertTetra4ToTetra10(int *Itetra4ToConsider)
 {
     bool isOk = false;
     int elemId = 0;
-    SelectionElementRead tetElements(g_pModelViewSDI, "/TETRA4");
+    SelectionElementEdit tetElements(g_pModelViewSDI, "/TETRA4");
     // Create a map to store existing mid-edge nodes: key = pair of node IDs (sorted), value = mid-node ID
     std::map<std::pair<unsigned int, unsigned int>, int> edgeToMidNodeMap;
 
@@ -2881,13 +2881,12 @@ void GlobalEntitySDIConvertTetra4ToTetra10(int *Itetra4ToConsider)
                     tetra10Nodes[i] = aNodeId[i];
                 for(int i = 0; i < 6; i++)
                     tetra10Nodes[i+4] = midNodeIds[i];
-                
-                g_pModelViewSDI->CreateElement(radTetra10HEdit,"/TETRA10",tetra10Nodes,partHread,elemId);
 
+                g_pModelViewSDI->CreateElement(radTetra10HEdit,"/TETRA10",tetra10Nodes,partHread,elemId);
+                
                 // Delete the original TETRA4 element
-                HandleRead tetra4HRead = tetElements->GetHandle();
-                HandleEdit tetra4HEdit(tetra4HRead.GetType(), tetra4HRead.GetPointer());
-                tetra4HEdit.SetId(g_pModelViewSDI, -tetElements->GetId());
+                tetElements->SetId(0);
+                
             }
         }
     }

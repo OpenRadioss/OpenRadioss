@@ -469,6 +469,15 @@ public:
         return p_ptr->GetIntValue(att_index_id, p_index2);
     }
 
+    virtual Status SetId(const unsigned int id) const
+    {
+        if(!p_ptr) return false;
+        int att_index_id = p_ptr->GetIndex(IMECPreObject::ATY_ARRAY, IMECPreObject::VTY_INT, "id");
+        if(att_index_id < 0) return false;
+        p_ptr->SetIntValue(att_index_id, p_index2, id);
+        return true;
+    }
+
 
     virtual HandleRead GetOwner() const
     {
