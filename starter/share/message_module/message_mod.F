@@ -230,6 +230,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    grfind                              ../starter/source/starter/freform.F
 !||    groups_get_elem_list                ../starter/source/groups/groups_get_elem_list.F
 !||    groups_get_nentity                  ../starter/source/groups/groups_get_nentity.F
+!||    hierarchy_rbody                     ../starter/source/constraints/general/rbody/hierarchy_rbody.F90
 !||    hireorbe3                           ../starter/source/constraints/general/rbe3/hm_read_rbe3.F
 !||    hm_admlcnt                          ../starter/source/groups/hm_admlistcnt.F
 !||    hm_admlist                          ../starter/source/groups/hm_admlist.F

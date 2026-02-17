@@ -35,7 +35,9 @@
 !||--- called by ------------------------------------------------------
 !||    lectur            ../starter/source/starter/lectur.F
 !||--- calls      -----------------------------------------------------
+!||    ancmsg            ../starter/source/output/message/message.F
 !||--- uses       -----------------------------------------------------
+!||    message_mod       ../starter/share/message_module/message_mod.F
 !||====================================================================
         subroutine hierarchy_rbody(nrbykin ,nnpby ,npby  ,slpby ,lpby  ,            &
           nrby    ,rby   ,numnod,iout  ,lnopt1,            &

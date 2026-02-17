@@ -134,6 +134,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    get_u_mnu                           ../starter/source/user_interface/uaccess.F
 !||    get_u_pnu                           ../starter/source/user_interface/uaccess.F
 !||    grfind                              ../starter/source/starter/freform.F
+!||    hierarchy_rbody                     ../starter/source/constraints/general/rbody/hierarchy_rbody.F90
 !||    hireorbe3                           ../starter/source/constraints/general/rbe3/hm_read_rbe3.F
 !||    hm_admlcnt                          ../starter/source/groups/hm_admlistcnt.F
 !||    hm_admlist                          ../starter/source/groups/hm_admlist.F
