@@ -1423,7 +1423,7 @@ C 2D multifluid law
             CALL USH_INIT(ELBUF_TAB(NG),                                         
      1             NUMNOD,   NPART,   NUMMAT,      NEL,       PM,                
      2        IPARG(1,NG),  NUMELC,   NIXC,      IXC,IPART(I15C),                  
-     3            I7STIFS,USERL_AVAIL,ROOTLEN,ROOTNAM,  NSHNOD,                  
+     3            I7STIFS,USERL_AVAIL,  NSHNOD,                  
      4                  X,      V,      VR,    STIFN,    STIFR,                  
      5             DTELEM,THK(1+NFT), PARTSAV,   MSC,     INC ,                  
      6                STC)
@@ -1530,7 +1530,7 @@ C 2D multifluid law
             CALL USH_INIT(ELBUF_TAB(NG),                                         
      1             NUMNOD,   NPART,   NUMMAT,      NEL,       PM,
      2        IPARG(1,NG),NUMELTG,   NIXTG,     IXTG,IPART(I15H),                  
-     3            I7STIFS,USERL_AVAIL,ROOTLEN,ROOTNAM,  NSHNOD,                  
+     3            I7STIFS,USERL_AVAIL,NSHNOD,                  
      4                  X,      V,      VR,    STIFN,    STIFR,                  
      5             DTELEM,THK(1+NFT+NUMELC), PARTSAV,   MSTG,     INTG ,                  
      6               STTG)
