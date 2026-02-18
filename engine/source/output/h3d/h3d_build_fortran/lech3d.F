@@ -1640,6 +1640,10 @@ C--------------------------------------------------
 C
             ENDIF
 C
+            DO NG=1,NGROUP
+               NLAY_MAX  = MAX(NLAY_MAX,ELBUF_STR(NG)%NLAY)
+            ENDDO
+            
             IF(.NOT.ALLOCATED(IS_LAYER_MAT))ALLOCATE(IS_LAYER_MAT(MAX(1,NUMMAT),MAX(1,NLAY_MAX)))
             IS_LAYER_MAT(1:MAX(1,NUMMAT),MAX(1,NLAY_MAX)) = 0
 C
