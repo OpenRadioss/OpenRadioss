@@ -264,6 +264,7 @@
           matparam%uparam(17) = prucb
           matparam%uparam(18) = tsef
           matparam%uparam(19) = ssef
+          matparam%young0      = MAX(eaau,ebbu,eccu)
 !
           !< Material tables scaling factors and vectors
           x1scale = one

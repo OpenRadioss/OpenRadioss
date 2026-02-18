@@ -384,6 +384,7 @@
             matparam%title = ' '
             matparam%title = titr(1:len_trim(titr))
             matparam%mat_id = mat_id
+            matparam%young0 = zero
 !-----------------------------------------------------------------------
 !
             if (len_trim(key2) == 0) then
@@ -1528,7 +1529,7 @@
             if (pm(80,i) == zero) pm(80,i) = matparam%therm%tmelt
             if (pm(69,i) == zero) pm(69,i) = matparam%therm%rhocp
 !---------------------------------------------------------
-            matparam%young0 = matparam%young  ! initial E0 will be updated in upd_mat (tabulated E)
+            if (matparam%young0==zero) matparam%young0= matparam%young  ! initial E0 will be updated in upd_mat (tabulated E)
             !  pm(100)=bulk
             !  for interface type 7  k=pm(32) ...
             !  for interface type 20 k=pm(100)...
