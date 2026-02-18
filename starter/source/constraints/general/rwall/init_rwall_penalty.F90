@@ -101,7 +101,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer :: i,j,n,ii,mid,mtn,ity,nn1,nsl,ns,isolnod,ipen,nel,k,n_p,ng,nft,lspen
+          integer :: i,j,n,ii,mid,mtn,pid,icontr,ity,nn1,nsl,ns,isolnod,ipen,nel,k,n_p,ng,nft,lspen,iconst
           integer, dimension(20,mvsiz)  :: nc
           integer, dimension(:)  ,        allocatable :: imnt
           real(kind=WP), dimension(:)  ,  allocatable :: noda_l
@@ -192,6 +192,8 @@
                   sfac = two*mat_param(mid)%young0/mat_param(mid)%young
                 case (28,50,68)
                   sfac = three_half
+                case (130)
+                  sfac = fourth*mat_param(mid)%young0/mat_param(mid)%young
                 case default
                   sfac = one
               end select
@@ -357,12 +359,17 @@
           ipen = nprw(n+8*nrwall)
           if (ipen > 0) then 
             l_e = zero
+            iconst =0
             do j=1,nsl
               ns = lprw(k+j-1)
               l_e = l_e + noda_l(ns)
+              mid     = iabs(imnt(ns))
+              mtn     = mat_param(mid)%ilaw
+              if (mtn==130) iconst =1
             end do
             n_p = n_p + 1
             stif_pen(lspen+n_p) = l_e / nsl
+            if (iconst==1) stif_pen(lspen+n_p) = -l_e / nsl !negative length will not use nonlinear stif
           end if
           k = k + nsl
         end do 
