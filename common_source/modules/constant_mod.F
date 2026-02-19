@@ -43,6 +43,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    arruda_boyce_dyda                        ../starter/source/materials/mat/mat092/law92_nlsqf.F90
 !||    bcs_nrf                                  ../engine/source/boundary_conditions/bcs_nrf.F90
 !||    bcs_wall_trigger                         ../engine/source/boundary_conditions/bcs_wall_trigger.F90
+!||    biquad_tab                               ../starter/source/materials/fail/biquad/biquad_tab.F90
+!||    biquad_upd                               ../starter/source/materials/fail/biquad/biquad_upd.F90
 !||    brent_algo                               ../common_source/modules/root_finding_algo_mod.F90
 !||    brent_minimize                           ../engine/source/materials/mat/mat123/failure_tools_mod.F90
 !||    brokmann_crack_init                      ../starter/source/materials/fail/windshield_alter/brokmann_crack_init.F90
@@ -79,6 +81,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    detach_node_from_interfaces              ../engine/source/engine/node_spliting/detach_node.F90
 !||    detach_node_from_shells                  ../engine/source/engine/node_spliting/detach_node.F90
 !||    detonation_times_printout                ../starter/source/initial_conditions/detonation/detonation_times_printout.F90
+!||    diffuse_necking_2d                       ../starter/source/materials/fail/diffuse_necking_2d.F90
 !||    dim_shell_offsetp                        ../starter/source/elements/shell/shell_offset/dim_shell_offsetp.F90
 !||    dist_node_segment                        ../starter/source/tools/seatbelts/dist_node_segment.F90
 !||    dttherm                                  ../engine/source/time_step/dttherm.F90
@@ -228,6 +231,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    intersectpt                              ../common_source/tools/clipping/polygon_clipping_mod.F90
 !||    jcook51                                  ../engine/source/materials/mat/mat051/jcook51.F90
 !||    jwl_eos_delta                            ../engine/source/materials/mat/mat041/jwl_eos_mod.F90
+!||    law02_upd                                ../starter/source/materials/mat/mat002/law02_upd.F90
 !||    law123_upd                               ../starter/source/materials/mat/mat123/law123_upd.F90
 !||    law133_upd                               ../starter/source/materials/mat/mat133/law133_upd.F90
 !||    law163_upd                               ../starter/source/materials/mat/mat163/law163_upd.F90
@@ -283,6 +287,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    polygon_list_destroy                     ../common_source/tools/clipping/polygon_mod.F90
 !||    polygon_setclockwise                     ../common_source/tools/clipping/polygon_clipping_mod.F90
 !||    polygon_zeroing                          ../common_source/tools/clipping/polygon_mod.F90
+!||    polyline_intersection                    ../starter/source/materials/tools/polyline_intersection.F90
 !||    powder_burn                              ../common_source/eos/powder_burn.F
 !||    preload_axial                            ../engine/source/elements/spring/preload_axial.F90
 !||    preload_solid_ini                        ../engine/source/elements/solid/solide/preload_solid_ini.F90
@@ -378,6 +383,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    sigeps87c                                ../engine/source/materials/mat/mat087/sigeps87c.F90
 !||    sigeps88                                 ../engine/source/materials/mat/mat088/sigeps88.F90
 !||    sigeps88c                                ../engine/source/materials/mat/mat088/sigeps88c.F90
+!||    smooth_deriv                             ../starter/source/materials/tools/smooth_deriv.F90
 !||    sph_crit_voxel                           ../engine/source/elements/sph/sph_crit_voxel.F90
 !||    spmd_exch_flow_tracking_data             ../engine/source/ale/grid/spmd_exch_flow_tracking_data.F90
 !||    spmd_exch_flow_tracking_data2            ../engine/source/ale/grid/spmd_exch_flow_tracking_data2.F90

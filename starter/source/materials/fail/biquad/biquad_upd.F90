@@ -23,7 +23,7 @@
 !||====================================================================
 !||    biquad_upd_mod   ../starter/source/materials/fail/biquad/biquad_upd.F90
 !||--- called by ------------------------------------------------------
-!||    upfail           ../starter/source/materials/updfail.F90
+!||    updfail          ../starter/source/materials/updfail.F90
 !||====================================================================
       module biquad_upd_mod
       implicit none
@@ -32,11 +32,17 @@
         ! \brief generate diffuse necking curve using static hardening function from material law
         ! ==========================================================================================
 !||====================================================================
-!||    biquad_upd         ../starter/source/materials/fail/biquad/biquad_upd.F90
+!||    biquad_upd               ../starter/source/materials/fail/biquad/biquad_upd.F90
 !||--- called by ------------------------------------------------------
-!||    upfail             ../starter/source/materials/updfail.F90
+!||    updfail                  ../starter/source/materials/updfail.F90
 !||--- calls      -----------------------------------------------------
+!||    biquad_tab               ../starter/source/materials/fail/biquad/biquad_tab.F90
+!||    diffuse_necking_2d       ../starter/source/materials/fail/diffuse_necking_2d.F90
+!||    finter_1d                ../starter/source/materials/tools/finter_1d.F90
 !||--- uses       -----------------------------------------------------
+!||    biquad_tab_mod           ../starter/source/materials/fail/biquad/biquad_tab.F90
+!||    diffuse_necking_2d_mod   ../starter/source/materials/fail/diffuse_necking_2d.F90
+!||    finter_1d_mod            ../starter/source/materials/tools/finter_1d.F90
 !||====================================================================
         subroutine biquad_upd(fail)
 ! --------------------------------------------------------------------------------------------------

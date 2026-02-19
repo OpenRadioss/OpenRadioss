@@ -23,12 +23,14 @@
 !||====================================================================
 !||    finter_1d_mod   ../starter/source/materials/tools/finter_1d.F90
 !||--- called by ------------------------------------------------------
+!||    biquad_upd      ../starter/source/materials/fail/biquad/biquad_upd.F90
 !||====================================================================
       module finter_1d_mod
       contains
 !||====================================================================
-!||    finter_1d   ../starter/source/materials/tools/finter_1d.F90
+!||    finter_1d       ../starter/source/materials/tools/finter_1d.F90
 !||--- called by ------------------------------------------------------
+!||    biquad_upd      ../starter/source/materials/fail/biquad/biquad_upd.F90
 !||--- uses       -----------------------------------------------------
 !||====================================================================
       subroutine finter_1d(npt,x_data,y_data,x,y,deri)

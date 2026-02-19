@@ -21,8 +21,9 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    check_swift_failure_mod   ../starter/source/materials/fail/biquad/check_swift_failure.F90
+!||    check_swift_failure_mod   ../starter/source/materials/fail/check_swift_failure.F90
 !||--- called by ------------------------------------------------------
+!||    law02_upd                 ../starter/source/materials/mat/mat002/law02_upd.F90
 !||====================================================================
       module check_swift_failure_mod
       implicit none
@@ -31,9 +32,9 @@
         ! \brief check if the failure models linked to material model are activate swift option
         ! ==========================================================================================
 !||====================================================================
-!||    check_swift_failure         ../starter/source/materials/fail/biquad/check_swift_failure.F90
+!||    check_swift_failure   ../starter/source/materials/fail/check_swift_failure.F90
 !||--- called by ------------------------------------------------------
-!||--- calls      -----------------------------------------------------
+!||    law02_upd             ../starter/source/materials/mat/mat002/law02_upd.F90
 !||--- uses       -----------------------------------------------------
 !||====================================================================
         subroutine check_swift_failure(fail, swift_reg)

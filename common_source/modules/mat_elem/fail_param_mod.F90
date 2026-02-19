@@ -23,10 +23,14 @@
 !||====================================================================
 !||    fail_param_mod            ../common_source/modules/mat_elem/fail_param_mod.F90
 !||--- called by ------------------------------------------------------
+!||    biquad_upd                ../starter/source/materials/fail/biquad/biquad_upd.F90
 !||    brokmann_random           ../starter/source/materials/fail/windshield_alter/brokmann_random.F90
+!||    check_swift_failure       ../starter/source/materials/fail/check_swift_failure.F90
 !||    delm01law                 ../engine/source/properties/composite_options/stack/delm01law.F
 !||    delm02law                 ../engine/source/properties/composite_options/stack/delm02law.F
 !||    delm24law                 ../engine/source/properties/composite_options/stack/delm24law.F
+!||    fail_biquad_c             ../engine/source/materials/fail/biquad/fail_biquad_c.F
+!||    fail_biquad_s             ../engine/source/materials/fail/biquad/fail_biquad_s.F
 !||    fail_composite_c          ../engine/source/materials/fail/composite/fail_composite_c.F90
 !||    fail_composite_s          ../engine/source/materials/fail/composite/fail_composite_s.F90
 !||    fail_fun2sys              ../starter/source/materials/tools/fail_fun2sys.F
@@ -75,6 +79,7 @@
 !||    hm_read_fail_wilkins      ../starter/source/materials/fail/wilkins/hm_read_fail_wilkins.F
 !||    hm_read_fractal_dmg       ../starter/source/materials/fail/fractal/hm_read_fractal_dmg.F90
 !||    hm_read_mullins_or        ../starter/source/materials/fail/mullins_or/hm_read_fail_mullins_or.F
+!||    mat_hardening_to_fail     ../starter/source/materials/mat/mat_hardening_to_fail.F90
 !||    matparam_def_mod          ../common_source/modules/mat_elem/matparam_def_mod.F90
 !||    mmain                     ../engine/source/materials/mat_share/mmain.F90
 !||    mulaw                     ../engine/source/materials/mat_share/mulaw.F90

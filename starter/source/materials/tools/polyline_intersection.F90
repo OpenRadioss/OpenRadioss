@@ -20,10 +20,11 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-!||=================================================================================================
-!||    module polyline_intersection_mod  ../starter/source/materials/tools/polyline_intersection_mod.F90
+!||====================================================================
+!||    polyline_intersection_mod   ../starter/source/materials/tools/polyline_intersection.F90
 !||--- called by ------------------------------------------------------
-!||=================================================================================================
+!||    diffuse_necking_2d          ../starter/source/materials/fail/diffuse_necking_2d.F90
+!||====================================================================
        module polyline_intersection_mod
          implicit none
          private
@@ -47,13 +48,13 @@
         ! \details   If segments are colinear over an overlap, the left overlap endpoint is returned.
         ! \details   Robust to near-parallel segments and endpoint touches via tolerances.
         !----------------------------------------------------------------------
+
 !||====================================================================
-!||    polyline_intersection         ../starter/source/materials/tools/polyline_intersection.F90
+!||    polyline_intersection   ../starter/source/materials/tools/polyline_intersection.F90
 !||--- called by ------------------------------------------------------
-!||--- calls      -----------------------------------------------------
+!||    diffuse_necking_2d      ../starter/source/materials/fail/diffuse_necking_2d.F90
 !||--- uses       -----------------------------------------------------
 !||====================================================================
-
         subroutine polyline_intersection(n1, n2, x1, y1, x2, y2, xint, yint, found)
 ! --------------------------------------------------------------------------------------------------
 !         Modules

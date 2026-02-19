@@ -21,9 +21,9 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    law02_upd_mod   ../starter/source/materials/mat/mat02/law02_upd.F90
+!||    law02_upd_mod   ../starter/source/materials/mat/mat002/law02_upd.F90
 !||--- called by ------------------------------------------------------
-!||    updmat           ../starter/source/materials/updmat.F
+!||    updmat          ../starter/source/materials/updmat.F
 !||====================================================================
       module law02_upd_mod
       implicit none
@@ -33,11 +33,15 @@
         ! \details create tabulated hardening function for failure models 
         ! ==========================================================================================
 !||====================================================================
-!||    law02_upd         ../starter/source/materials/mat/mat002/law02_upd.F90
+!||    law02_upd                   ../starter/source/materials/mat/mat002/law02_upd.F90
 !||--- called by ------------------------------------------------------
-!||    updmat             ../starter/source/materials/updmat.F
+!||    updmat                      ../starter/source/materials/updmat.F
 !||--- calls      -----------------------------------------------------
+!||    check_swift_failure         ../starter/source/materials/fail/check_swift_failure.F90
+!||    mat_hardening_to_fail       ../starter/source/materials/mat/mat_hardening_to_fail.F90
 !||--- uses       -----------------------------------------------------
+!||    check_swift_failure_mod     ../starter/source/materials/fail/check_swift_failure.F90
+!||    mat_hardening_to_fail_mod   ../starter/source/materials/mat/mat_hardening_to_fail.F90
 !||====================================================================
         subroutine law02_upd(mat_param)
 ! --------------------------------------------------------------------------------------------------

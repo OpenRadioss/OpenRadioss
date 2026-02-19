@@ -21,15 +21,19 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    fail_biquad_s   ../engine/source/materials/fail/biquad/fail_biquad_s.F
+!||    fail_biquad_s           ../engine/source/materials/fail/biquad/fail_biquad_s.F
 !||--- called by ------------------------------------------------------
-!||    mmain           ../engine/source/materials/mat_share/mmain.F90
-!||    mmain8          ../engine/source/materials/mat_share/mmain8.F
-!||    mulaw           ../engine/source/materials/mat_share/mulaw.F90
-!||    mulaw8          ../engine/source/materials/mat_share/mulaw8.F90
-!||    usermat_solid   ../engine/source/materials/mat_share/usermat_solid.F
+!||    mmain                   ../engine/source/materials/mat_share/mmain.F90
+!||    mmain8                  ../engine/source/materials/mat_share/mmain8.F
+!||    mulaw                   ../engine/source/materials/mat_share/mulaw.F90
+!||    mulaw8                  ../engine/source/materials/mat_share/mulaw8.F90
+!||    usermat_solid           ../engine/source/materials/mat_share/usermat_solid.F
 !||--- calls      -----------------------------------------------------
-!||    finter          ../engine/source/tools/curve/finter.F
+!||    finter                  ../engine/source/tools/curve/finter.F
+!||    table_mat_vinterp       ../engine/source/materials/tools/table_mat_vinterp.F
+!||--- uses       -----------------------------------------------------
+!||    fail_param_mod          ../common_source/modules/mat_elem/fail_param_mod.F90
+!||    table_mat_vinterp_mod   ../engine/source/materials/tools/table_mat_vinterp.F
 !||====================================================================
       SUBROUTINE FAIL_BIQUAD_S(FAIL  ,
      1  NEL      ,NUVAR    ,MFUNC    ,KFUNC    ,ALDT     ,

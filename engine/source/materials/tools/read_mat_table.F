@@ -24,6 +24,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    read_mat_table   ../engine/source/materials/tools/read_mat_table.F
 !||--- called by ------------------------------------------------------
 !||    read_eosparam    ../engine/source/output/restart/read_eosparam.F90
+!||    read_failparam   ../engine/source/output/restart/read_failparam.F
 !||    read_matparam    ../engine/source/output/restart/read_matparam.F
 !||    read_viscparam   ../engine/source/output/restart/read_viscparam.F
 !||--- calls      -----------------------------------------------------

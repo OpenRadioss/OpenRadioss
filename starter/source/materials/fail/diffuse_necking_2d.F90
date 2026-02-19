@@ -20,11 +20,11 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-!||=================================================================================================
+!||====================================================================
 !||    diffuse_necking_2d_mod   ../starter/source/materials/fail/diffuse_necking_2d.F90
 !||--- called by ------------------------------------------------------
-!||    biquad_upd   ../starter/source/materials/fail/biquad/biquad_upd.F90
-!||=================================================================================================
+!||    biquad_upd               ../starter/source/materials/fail/biquad/biquad_upd.F90
+!||====================================================================
       module diffuse_necking_2d_mod
       implicit none
       contains
@@ -34,10 +34,15 @@
         ! \details with scale factors on hardening depending on triaxiality       
         ! ==========================================================================================
 !||====================================================================
-!||    diffuse_necking_2d         ../starter/source/materials/mat/mat129/diffuse_necking_2d.F90
+!||    diffuse_necking_2d          ../starter/source/materials/fail/diffuse_necking_2d.F90
 !||--- called by ------------------------------------------------------
+!||    biquad_upd                  ../starter/source/materials/fail/biquad/biquad_upd.F90
 !||--- calls      -----------------------------------------------------
+!||    polyline_intersection       ../starter/source/materials/tools/polyline_intersection.F90
+!||    smooth_deriv                ../starter/source/materials/tools/smooth_deriv.F90
 !||--- uses       -----------------------------------------------------
+!||    polyline_intersection_mod   ../starter/source/materials/tools/polyline_intersection.F90
+!||    smooth_deriv_mod            ../starter/source/materials/tools/smooth_deriv.F90
 !||====================================================================
         subroutine diffuse_necking_2d(npt_eps,npt_eta,eps,sig,eta,epsp_neck)
 ! --------------------------------------------------------------------------------------------------

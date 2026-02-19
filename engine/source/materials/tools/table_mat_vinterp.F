@@ -29,6 +29,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    compaction_tab_init           ../common_source/eos/compaction_tab.F90
 !||    condamage                     ../engine/source/materials/mat/mat190/condamage.F
 !||    conversion                    ../engine/source/materials/mat/mat190/conversion.F
+!||    fail_biquad_c                 ../engine/source/materials/fail/biquad/fail_biquad_c.F
+!||    fail_biquad_s                 ../engine/source/materials/fail/biquad/fail_biquad_s.F
 !||    granular51                    ../engine/source/materials/mat/mat051/granular51.F90
 !||    mat87c_tabulated              ../engine/source/materials/mat/mat087/mat87c_tabulated.F90
 !||    mat87c_tabulated_3dir_ortho   ../engine/source/materials/mat/mat087/mat87c_tabulated_3dir_ortho.F90
@@ -64,6 +66,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    compaction_tab_init           ../common_source/eos/compaction_tab.F90
 !||    condamage                     ../engine/source/materials/mat/mat190/condamage.F
 !||    conversion                    ../engine/source/materials/mat/mat190/conversion.F
+!||    fail_biquad_c                 ../engine/source/materials/fail/biquad/fail_biquad_c.F
+!||    fail_biquad_s                 ../engine/source/materials/fail/biquad/fail_biquad_s.F
 !||    granular51                    ../engine/source/materials/mat/mat051/granular51.F90
 !||    mat87c_tabulated              ../engine/source/materials/mat/mat087/mat87c_tabulated.F90
 !||    mat87c_tabulated_3dir_ortho   ../engine/source/materials/mat/mat087/mat87c_tabulated_3dir_ortho.F90

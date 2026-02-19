@@ -25,6 +25,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- called by ------------------------------------------------------
 !||    write_matparam         ../starter/source/materials/mat/write_matparam.F
 !||--- calls      -----------------------------------------------------
+!||    write_mat_table        ../starter/source/materials/tools/write_mat_table.F
 !||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE WRITE_FAILPARAM(FAIL,LEN)

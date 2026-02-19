@@ -28,6 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    write_c_c              ../common_source/tools/input_output/write_routines.c
 !||    write_db               ../common_source/tools/input_output/write_db.F
 !||    write_i_c              ../common_source/tools/input_output/write_routines.c
+!||    write_mat_table        ../engine/source/materials/tools/write_mat_table.F
 !||--- uses       -----------------------------------------------------
 !||    fail_param_mod         ../common_source/modules/mat_elem/fail_param_mod.F90
 !||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F

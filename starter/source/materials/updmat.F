@@ -28,6 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    ancmsg                 ../starter/source/output/message/message.F
 !||    eosfun_usr2sys         ../starter/source/materials/tools/eosfun_usr2sys.F90
 !||    fretitl2               ../starter/source/starter/freform.F
+!||    law02_upd              ../starter/source/materials/mat/mat002/law02_upd.F90
 !||    law100_upd_ab          ../starter/source/materials/mat/mat100/law100_upd.F
 !||    law100_upd_nht         ../starter/source/materials/mat/mat100/law100_upd.F
 !||    law104_upd             ../starter/source/materials/mat/mat104/law104_upd.F
@@ -62,6 +63,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- uses       -----------------------------------------------------
 !||    elbuftag_mod           ../starter/share/modules1/elbuftag_mod.F
 !||    eosfun_usr2sys_mod     ../starter/source/materials/tools/eosfun_usr2sys.F90
+!||    law02_upd_mod          ../starter/source/materials/mat/mat002/law02_upd.F90
 !||    law123_upd_mod         ../starter/source/materials/mat/mat123/law123_upd.F90
 !||    law129_upd_mod         ../starter/source/materials/mat/mat129/law129_upd.F90
 !||    law133_upd_mod         ../starter/source/materials/mat/mat133/law133_upd.F90

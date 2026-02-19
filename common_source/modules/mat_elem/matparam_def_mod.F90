@@ -243,6 +243,7 @@
 !||    initwg_solid                        ../starter/source/spmd/domain_decomposition/initwg_solid.F
 !||    initwg_tri                          ../starter/source/spmd/domain_decomposition/initwg_tri.F
 !||    inivol_set                          ../starter/source/initial_conditions/inivol/inivol_set.F
+!||    law02_upd                           ../starter/source/materials/mat/mat002/law02_upd.F90
 !||    law104_upd                          ../starter/source/materials/mat/mat104/law104_upd.F
 !||    law123_upd                          ../starter/source/materials/mat/mat123/law123_upd.F90
 !||    law129_init                         ../starter/source/materials/mat/mat129/law129_init.F90

@@ -20,10 +20,11 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-!||=================================================================================================
-!||    smooth_deriv_mod   ../starter/source/materials/tools/smooth_deriv.F90
+!||====================================================================
+!||    smooth_deriv_mod     ../starter/source/materials/tools/smooth_deriv.F90
 !||--- called by ------------------------------------------------------
-!||=================================================================================================
+!||    diffuse_necking_2d   ../starter/source/materials/fail/diffuse_necking_2d.F90
+!||====================================================================
       module smooth_deriv_mod
       implicit none
       contains
@@ -33,7 +34,7 @@
 !||====================================================================
 !||    smooth_deriv         ../starter/source/materials/tools/smooth_deriv.F90
 !||--- called by ------------------------------------------------------
-!||--- calls      -----------------------------------------------------
+!||    diffuse_necking_2d   ../starter/source/materials/fail/diffuse_necking_2d.F90
 !||--- uses       -----------------------------------------------------
 !||====================================================================
       subroutine smooth_deriv(npt, x_data, y_data, x, y, deri)

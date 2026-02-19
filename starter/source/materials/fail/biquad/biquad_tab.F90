@@ -23,7 +23,7 @@
 !||====================================================================
 !||    biquad_tab_mod   ../starter/source/materials/fail/biquad/biquad_tab.F90
 !||--- called by ------------------------------------------------------
-!||    upfail           ../starter/source/materials/updfail.F90
+!||    biquad_upd       ../starter/source/materials/fail/biquad/biquad_upd.F90
 !||====================================================================
       module biquad_tab_mod
       implicit none
@@ -32,9 +32,9 @@
         ! \brief generate tabulated function of failure strain vs triaxiality using biquad equations
         ! ==========================================================================================
 !||====================================================================
-!||    biquad_tab         ../starter/source/materials/fail/biquad/biquad_tab.F90
+!||    biquad_tab      ../starter/source/materials/fail/biquad/biquad_tab.F90
 !||--- called by ------------------------------------------------------
-!||--- calls      -----------------------------------------------------
+!||    biquad_upd      ../starter/source/materials/fail/biquad/biquad_upd.F90
 !||--- uses       -----------------------------------------------------
 !||====================================================================
           subroutine biquad_tab(npt, nuparam, uparam, eta, epsf)

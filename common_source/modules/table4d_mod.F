@@ -75,7 +75,9 @@ C=======================================================================
       CONTAINS
 
 !||====================================================================
-!||    copy_table_to   ../common_source/modules/table4d_mod.F
+!||    copy_table_to           ../common_source/modules/table4d_mod.F
+!||--- called by ------------------------------------------------------
+!||    mat_hardening_to_fail   ../starter/source/materials/mat/mat_hardening_to_fail.F90
 !||====================================================================
             SUBROUTINE COPY_TABLE_TO(THIS,TARGET_TABLE)
               IMPLICIT NONE

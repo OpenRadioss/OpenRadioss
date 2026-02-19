@@ -23,7 +23,7 @@
 !||====================================================================
 !||    mat_hardening_to_fail_mod   ../starter/source/materials/mat/mat_hardening_to_fail.F90
 !||--- called by ------------------------------------------------------
-!||    updmat           ../starter/source/materials/updmat.F
+!||    law02_upd                   ../starter/source/materials/mat/mat002/law02_upd.F90
 !||====================================================================
       module mat_hardening_to_fail_mod
       implicit none
@@ -32,10 +32,12 @@
         ! \brief Updating material parameters of /mat/law02
         ! \details create tabulated hardening function for failure model initialization
         ! ==========================================================================================
-!||====================================================================
-!||    mat_hardening_to_fail         ../starter/source/materials/mat/mat_hardening_to_fail.F90
-!||--- called by ------------------------------------------------------
 !!||--- calls      -----------------------------------------------------
+!||====================================================================
+!||    mat_hardening_to_fail   ../starter/source/materials/mat/mat_hardening_to_fail.F90
+!||--- called by ------------------------------------------------------
+!||    law02_upd               ../starter/source/materials/mat/mat002/law02_upd.F90
+!||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
 !||====================================================================
         subroutine mat_hardening_to_fail(npt, eps, sig, fail)

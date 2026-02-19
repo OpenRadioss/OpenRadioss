@@ -52,6 +52,8 @@
 !||    bcs_mod                                  ../common_source/modules/boundary_conditions/bcs_mod.F90
 !||    bcs_nrf                                  ../engine/source/boundary_conditions/bcs_nrf.F90
 !||    bcs_wall_trigger                         ../engine/source/boundary_conditions/bcs_wall_trigger.F90
+!||    biquad_tab                               ../starter/source/materials/fail/biquad/biquad_tab.F90
+!||    biquad_upd                               ../starter/source/materials/fail/biquad/biquad_upd.F90
 !||    brent_algo                               ../common_source/modules/root_finding_algo_mod.F90
 !||    brent_minimize                           ../engine/source/materials/mat/mat123/failure_tools_mod.F90
 !||    brokmann_crack_init                      ../starter/source/materials/fail/windshield_alter/brokmann_crack_init.F90
@@ -91,6 +93,7 @@
 !||    damping_vref_sum6_rby                    ../engine/source/assembly/damping_vref_sum6_rby.F90
 !||    defbeam_sect_new                         ../starter/source/properties/beam/defbeam_sect_new.F90
 !||    detonation_times_printout                ../starter/source/initial_conditions/detonation/detonation_times_printout.F90
+!||    diffuse_necking_2d                       ../starter/source/materials/fail/diffuse_necking_2d.F90
 !||    dim_shell_offsetp                        ../starter/source/elements/shell/shell_offset/dim_shell_offsetp.F90
 !||    dist_node_segment                        ../starter/source/tools/seatbelts/dist_node_segment.F90
 !||    double_to_my_real                        ../common_source/modules/cast_mod.F90
@@ -142,6 +145,7 @@
 !||    fill_voxel_local_partial                 ../engine/source/interfaces/intsort/fill_voxel.F90
 !||    fill_voxel_remote                        ../engine/source/interfaces/intsort/fill_voxel.F90
 !||    find_prev_next_nodes                     ../starter/source/tools/seatbelts/find_prev_next_nodes.F90
+!||    finter_1d                                ../starter/source/materials/tools/finter_1d.F90
 !||    finter_mixed_mod                         ../engine/source/tools/finter_mixed.F90
 !||    fix_principal_dirs                       ../engine/source/materials/mat/mat130/sigeps130.F90
 !||    force                                    ../engine/source/loads/general/force.F90
@@ -256,6 +260,7 @@
 !||    jcook51                                  ../engine/source/materials/mat/mat051/jcook51.F90
 !||    jwl_eos_delta                            ../engine/source/materials/mat/mat041/jwl_eos_mod.F90
 !||    jwl_eos_state                            ../engine/source/materials/mat/mat041/jwl_eos_mod.F90
+!||    law02_upd                                ../starter/source/materials/mat/mat002/law02_upd.F90
 !||    law123_upd                               ../starter/source/materials/mat/mat123/law123_upd.F90
 !||    law129_init                              ../starter/source/materials/mat/mat129/law129_init.F90
 !||    law133_upd                               ../starter/source/materials/mat/mat133/law133_upd.F90
@@ -276,6 +281,7 @@
 !||    mat87c_swift_voce                        ../engine/source/materials/mat/mat087/mat87c_swift_voce.F90
 !||    mat87c_tabulated                         ../engine/source/materials/mat/mat087/mat87c_tabulated.F90
 !||    mat87c_tabulated_3dir_ortho              ../engine/source/materials/mat/mat087/mat87c_tabulated_3dir_ortho.F90
+!||    mat_hardening_to_fail                    ../starter/source/materials/mat/mat_hardening_to_fail.F90
 !||    mat_table_copy                           ../starter/source/materials/tools/mat_table_copy.F90
 !||    mat_table_table_copy                     ../starter/source/materials/tools/mat_table_table_copy.F90
 !||    matparam_def_mod                         ../common_source/modules/mat_elem/matparam_def_mod.F90
@@ -313,6 +319,7 @@
 !||    ply_param_mod                            ../common_source/modules/mat_elem/ply_param_mod.F90
 !||    polygon_clipping_mod                     ../common_source/tools/clipping/polygon_clipping_mod.F90
 !||    polygon_mod                              ../common_source/tools/clipping/polygon_mod.F90
+!||    polyline_intersection                    ../starter/source/materials/tools/polyline_intersection.F90
 !||    preload_axial                            ../engine/source/elements/spring/preload_axial.F90
 !||    preload_solid_ini                        ../engine/source/elements/solid/solide/preload_solid_ini.F90
 !||    prodmat                                  ../engine/source/materials/tools/prodmat.F
@@ -430,6 +437,7 @@
 !||    sigeps88                                 ../engine/source/materials/mat/mat088/sigeps88.F90
 !||    sigeps88c                                ../engine/source/materials/mat/mat088/sigeps88c.F90
 !||    skew_mod                                 ../common_source/modules/skew_mod.F90
+!||    smooth_deriv                             ../starter/source/materials/tools/smooth_deriv.F90
 !||    sph_work_mod                             ../common_source/modules/mat_elem/sph_work.F90
 !||    spmd_exch_flow_tracking_data             ../engine/source/ale/grid/spmd_exch_flow_tracking_data.F90
 !||    spmd_exch_flow_tracking_data2            ../engine/source/ale/grid/spmd_exch_flow_tracking_data2.F90
