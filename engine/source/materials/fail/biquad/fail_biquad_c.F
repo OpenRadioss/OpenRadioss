@@ -179,17 +179,17 @@ C-----------------------------------------------
            REG_FAC(1:NEL) = UVAR(1:NEL,9)
          ENDIF
        ENDIF
-!
-       IF (IREG == 2) THEN
-         ipos(1:nel,1) = 1
+       ! calculate triaxiality
          do i=1,nel
-           pressure = (SIGNXX(I)+ SIGNYY(I)) * THIRD
-           svm      = sqrt((SIGNXX(I)**2)+(SIGNYY(I)**2)-(SIGNXX(I)*SIGNYY(I))+(THREE*SIGNXY(I)**2))
+           pressure = (signxx(I)+ signyy(I)) * third
+           svm      = sqrt((signxx(I)**2)+(signyy(I)**2)-(signxx(I)*signyy(I))+(THREE*SIGNXY(I)**2))
            triax    = pressure / max(em20,svm)
            eta(i,1) = triax
          end do
 !
-         ! calculate triaxiality dependent scaling factor on failure limits
+       IF (IREG > 1) THEN
+         ! calculate scaling factor on failure limits depending on triaxiality
+         ipos(1:nel,1) = 1
          call table_mat_vinterp(fail%table4d(1),nel,nel,ipos,eta,regf_eta,deri)
          reg_fac(1:nel) = (one - regf_eta(1:nel)) + regf_eta(1:nel)*reg_fac(1:nel)
        END IF
@@ -306,12 +306,12 @@ C-----------------------------------------------
              triax  = eta(i,1)
              DAMAGE = UVAR(I,1)
              IF (triax <= THIRD) THEN
-             EPS_FAIL =   UVAR(I,3) +  UVAR(I,4) * triax + UVAR(I,5) * triax**2
-             IF (IREG > 0) EPS_FAIL = EPS_FAIL * REG_FAC(I)
+               EPS_FAIL =   UVAR(I,3) +  UVAR(I,4) * triax + UVAR(I,5) * triax**2
+               IF (IREG > 0) EPS_FAIL = EPS_FAIL * REG_FAC(I)
              ELSE           ! triax > 1/3
              SELECT CASE (SFLAG)
                CASE(1)
-              EPS_FAIL =   UVAR(I,6) +  UVAR(I,7) * triax + UVAR(I,8) * triax**2
+                EPS_FAIL = UVAR(I,6) +  UVAR(I,7) * triax + UVAR(I,8) * triax**2
                 IF (IREG > 0) EPS_FAIL = EPS_FAIL * REG_FAC(I)
                CASE(2)
                  IF (triax <= ONE/SQR3) THEN
