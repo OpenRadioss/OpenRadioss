@@ -150,7 +150,7 @@
 
                   case(30)      !    /fail/biquad
                     swift_reg_flag = mat_param(imat)%fail(ir)%iparam(1)
-                    if (swift_reg_flag == 2) then
+                    if (swift_reg_flag > 1) then
                       call biquad_upd(mat_param(imat)%fail(ir))
                     end if
 

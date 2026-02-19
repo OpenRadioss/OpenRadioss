@@ -59,10 +59,10 @@
           select case (failure_model)
             case(30)                             ! biquad
               ireg = fail%iparam(1)
-              if (ireg == 2) swift_reg = .true.        
+              if (ireg > 1) swift_reg = .true.        
             case(38)                             ! orth_biquad
               ireg = fail%iparam(1)
-              if (ireg == 2) swift_reg = .true.        
+              if (ireg > 1) swift_reg = .true.        
             case(39)                             ! gene1
 
             case(41)                             ! fail_tab2
@@ -73,7 +73,7 @@
               do i = 1,ninievo
                 initype = nint(fail%uparam(6+(i-1)*14))
                 ireg = fail%iparam(2)
-                if (initype == 1 .and. ireg == 2) swift_reg = .true.  
+                if (initype == 1 .and. ireg > 1) swift_reg = .true.  
               end do
 
           end select
