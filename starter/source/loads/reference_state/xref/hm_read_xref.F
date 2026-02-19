@@ -220,7 +220,7 @@ C
               MAT_ID = IPM(1,IMID)
               MTN = IPM(2, IMID)
               IF(MTN /= 35 .AND.MTN /= 38 .AND. MTN /= 42 .AND.
-     .             MTN /= 70 .AND. MTN /= 90 .AND. MTN /= 1)THEN
+     .             MTN /= 70 .AND. MTN /= 88 .AND. MTN /= 90 .AND. MTN /= 1) THEN
                    CALL FRETITL2(TITR1,IPM(NPROPMI-LTITR+1,IMID),LTITR)
                    CALL ANCMSG(MSGID=2014, MSGTYPE=MSGERROR, ANMODE=ANSTOP, I1=MAT_ID, C1=TITR1, I2=MTN )
                END IF
