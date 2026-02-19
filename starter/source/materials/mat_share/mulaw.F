@@ -50,12 +50,13 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      E                 TZ    ,ISMSTR,
      F                 MFXX  ,MFXY  ,MFXZ   ,MFYX  ,MFYY   , 
      G                 MFYZ  ,MFZX  ,MFZY   ,MFZZ  ,IPM    ,
-     H                 ISORTH,NEL   ,MATPARAM)
+     H                 ISORTH,NEL   ,MATPARAM,DMG  )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MATPARAM_DEF_MOD
       USE sigeps01_mod, only : sigeps01
+      USE sigeps88_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -94,11 +95,12 @@ C
      .   MFZX(*)  ,MFZY(*)  ,MFZZ(*)
       INTEGER ,DIMENSION(NEL,NVARTMP) ,INTENT(INOUT):: VARTMP
       TYPE(MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(INOUT) :: MATPARAM
+      my_real, DIMENSION(NEL), INTENT(INOUT) :: DMG
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,NVPHAS, N0PHAS, NPH, IFLG,NPAR, 
-     .   IADBUF, NFUNC, IFUNC(100) 
+     .   IADBUF, NFUNC, IFUNC(100),ISRATE
       my_real
      . EP1(MVSIZ), EP2(MVSIZ), EP3(MVSIZ),E7(MVSIZ),
      . EP4(2*MVSIZ),EP5(2*MVSIZ),EP6(2*MVSIZ),
@@ -112,12 +114,14 @@ C-----------------------------------------------
      .SV1(MVSIZ),SV2(MVSIZ),SV3(MVSIZ),SV4(MVSIZ),SV5(MVSIZ),SV6(MVSIZ),
      .R11(MVSIZ),R12(MVSIZ),R13(MVSIZ),R21(MVSIZ),R22(MVSIZ),R23(MVSIZ),    
      .R31(MVSIZ),R32(MVSIZ),R33(MVSIZ)
-      my_real RHO0(MVSIZ),VOL_AVG(MVSIZ)
+      my_real RHO0(MVSIZ),VOL_AVG(MVSIZ),ASRATE
       my_real RBID, E1, E2, E3, E4, E5, E6, P2, TIME, TIMESTEP
 C=======================================================================
       TIME    =ZERO
       TIMESTEP=ONE/FLOAT(NITRS)
 C---------------------------
+      ISRATE = IPM(3,IMAT)
+      ASRATE =  PM(9,IMAT)
       NPAR   = IPM(9,IMAT)
       IADBUF = IPM(7,IMAT)
       NFUNC  = IPM(10,IMAT)
@@ -283,6 +287,15 @@ C ====================================================================
      8                  SV1 ,SV2 ,SV3 ,SV4  ,SV5  ,SV6 ,
      9                  SSP ,VIS ,UVAR,OFF  ,NGL  ,
      A                  PM  ,IPM ,IMAT ,MATPARAM(IMAT))
+      ELSEIF(MTN==88)THEN 
+        CALL SIGEPS88(LLT,MATPARAM(IMAT),NUVAR,UVAR,TIMESTEP,TIME,
+     2                RHO0,RHO,SSP,OFF,ISMSTR,ISRATE,          
+     3                ES1,ES2,ES3,ES4,ES5,ES6,
+     4                DE1,DE2,DE3,DE4,DE5,DE6,
+     5                EP1,EP2,EP3,EP4,EP5,EP6,
+     6                SO1,SO2,SO3,SO4,SO5,SO6,
+     7                S1 ,S2 ,S3 ,S4 ,S5 ,S6 ,
+     8                ASRATE,EPSD,NVARTMP,VARTMP,DMG,NGL) 
       ELSEIF(MTN==90)THEN
         CALL SIGEPS90(LLT ,NPAR,NUVAR,NFUNC,IFUNC,
      2                  NPF ,TF  ,TIME,TIMESTEP,BUFMAT,

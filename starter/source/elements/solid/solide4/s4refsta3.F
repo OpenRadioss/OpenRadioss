@@ -146,7 +146,7 @@ C-----Case total strain, rather for computing Eint, stress will also be calculat
 C-----but NITRS=1, for nonlinear elastic, Eint is too approximative
       IF (ISMSTR >= 10 ) NITRS=10
 C----------------------------
-      IF (MTN == 35 .OR. MTN == 38 .OR. MTN == 42 .OR. MTN == 70)THEN
+      IF (MTN == 35 .OR. MTN == 38 .OR. MTN == 42 .OR. MTN == 70 .OR. MTN == 88)THEN
         IF (JCVT > 0) THEN
            IPID = IXS(NIXS-1,1)
            ID = IGEO(1,IPID)
