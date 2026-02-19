@@ -504,6 +504,9 @@ C T24 E2E fictive nodes have ID higher than Numnod. Position & Mass are stored i
                       IF(NOD <= NUMNOD)THEN
                          BBUFS(L+1) = INTERFACES%PARAMETERS%INTAREAN(NOD) 
                          L = L +1 
+                      ELSE
+                         BBUFS(L+1) = ZERO
+                         L = L +1
                       ENDIF                      
                     ENDDO
 
@@ -626,6 +629,9 @@ C
                       IF(NOD <= NUMNOD)THEN
                          BBUFS(L+1) = INTERFACES%PARAMETERS%INTAREAN(NOD) 
                          L = L +1 
+                      ELSE
+                         BBUFS(L+1) = ZERO                                      
+                         L = L +1
                       ENDIF                      
                     ENDDO
 
@@ -732,6 +738,9 @@ C T24 E2E fictive nodes have ID higher than Numnod. Position & Mass are stored i
                       IF(NOD <= NUMNOD)THEN
                          BBUFS(L+1) = INTERFACES%PARAMETERS%INTAREAN(NOD) 
                          L = L +1 
+                      ELSE
+                         BBUFS(L+1) = ZERO                                      
+                         L = L +1
                       ENDIF                      
                     ENDDO
 
@@ -837,6 +846,9 @@ C
                       IF(NOD <= NUMNOD)THEN
                          BBUFS(L+1) = INTERFACES%PARAMETERS%INTAREAN(NOD) 
                          L = L +1 
+                      ELSE
+                         BBUFS(L+1) = ZERO                                      
+                         L = L +1
                       ENDIF                      
                     ENDDO
 
