@@ -118,7 +118,7 @@ C
      F             TZ       ,ISMSTR   ,
      G             MFXX     ,MFXY     ,MFXZ     ,MFYX     ,MFYY   ,
      H             MFYZ     ,MFZX     ,MFZY     ,MFZZ     ,IPM    ,
-     I             ISORTH   ,NEL      ,MATPARAM)
+     I             ISORTH   ,NEL      ,MATPARAM ,LBUF%DMG )
      J             
       ENDIF
 C------------
