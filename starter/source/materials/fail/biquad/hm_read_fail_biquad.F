@@ -146,6 +146,8 @@ c
       ELSE IF (IREG == 0) THEN
         IREG = 1
       END IF
+      ! IREG = 2 => automatic correction of element size scaling factor depending on triaxiality
+      ! IREG = 3 => IREG = 2 with debug output of generated tabulated swift function
 c---------------------------------------------------
 c     pre definition for user-input data when only 
 c     tension test data are provided

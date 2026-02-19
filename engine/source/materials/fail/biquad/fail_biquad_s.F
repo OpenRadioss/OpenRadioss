@@ -125,16 +125,24 @@ C===============================================================================
         ENDIF
       ENDIF
 !---------------------------------------------------------------------------------------------------
-       IF (IREG == 2) THEN
-         ipos(1:nel,1) = 1
-         do i=1,nel
-           pressure = (SIGNXX(I)+ SIGNYY(I)) * THIRD
-           svm      = sqrt((SIGNXX(I)**2)+(SIGNYY(I)**2)-(SIGNXX(I)*SIGNYY(I))+(THREE*SIGNXY(I)**2))
-           triax    = pressure / max(em20,svm)
-           eta(i,1) = triax
-         end do
+       ! calculate triaxiality
+       do i=1,nel
+          pressure = (signxx(I) + signyy(I) + signzz(I)) * third
+          sxx = signxx(I) - pressure
+          syy = signyy(I) - pressure
+          szz = signzz(I) - pressure
+          svm = half*(sxx**2 + syy**2 + szz**2) + signxy(I)**2 + signzx(I)**2 + signyz(I)**2
+          svm = sqrt(three*svm)
 !
+          ! Compressureute stress triaxiality
+          triax = pressure / max(em20,svm)
+          triax = max(triax, -two_third)
+          triax = min(triax,  two_third)
+          eta(i,1) = triax
+       end do
+       IF (IREG > 1) THEN
          ! calculate triaxiality dependent scaling factor on failure limits
+         ipos(1:nel,1) = 1
          call table_mat_vinterp(fail%table4d(1),nel,nel,ipos,eta,regf_eta,deri)
          reg_fac(1:nel) = (one - regf_eta(1:nel)) + regf_eta(1:nel)*reg_fac(1:nel)
        END IF
@@ -156,22 +164,6 @@ C
       IF (FLAG_PERTURB == 0) THEN
         DO I = 1,NEL
           IF (OFF(I) == ONE .AND. DPLA(I) /= ZERO) THEN
-            ! Compute hydrostatic stress
-            PRESSURE = THIRD*(SIGNXX(I) + SIGNYY(I) + SIGNZZ(I))
-C
-            ! Compute Von Mises stress
-            SXX = SIGNXX(I) - PRESSURE
-            SYY = SIGNYY(I) - PRESSURE
-            SZZ = SIGNZZ(I) - PRESSURE
-            SVM = HALF*(SXX**2 + SYY**2 + SZZ**2)
-     .          + SIGNXY(I)**2 + SIGNZX(I)**2 + SIGNYZ(I)**2
-            SVM = SQRT(THREE*SVM)
-C
-            ! Compute stress triaxiality
-            TRIAX = PRESSURE/MAX(EM20,SVM)
-            IF (TRIAX < -TWO_THIRD) TRIAX = -TWO_THIRD
-            IF (TRIAX >  TWO_THIRD) TRIAX =  TWO_THIRD
-C
             ! Compute the corresponding plastic strain at failure 
             !   -> Low stress triaxialities parabolic curve
             IF (TRIAX <= THIRD) THEN
@@ -225,22 +217,7 @@ C
       ELSE 
         DO I = 1,NEL
           IF (OFF(I) == ONE .AND. DPLA(I) /= ZERO) THEN
-            ! Compute hydrostatic stress
-            PRESSURE = THIRD*(SIGNXX(I) + SIGNYY(I) + SIGNZZ(I))
-C
-            ! Compute Von Mises stress
-            SXX = SIGNXX(I) - PRESSURE
-            SYY = SIGNYY(I) - PRESSURE
-            SZZ = SIGNZZ(I) - PRESSURE
-            SVM = HALF*(SXX**2 + SYY**2 + SZZ**2)
-     .          + SIGNXY(I)**2 + SIGNZX(I)**2 + SIGNYZ(I)**2
-            SVM = SQRT(THREE*SVM)
-C
-            ! Compute stress triaxiality
-            TRIAX = PRESSURE/MAX(EM20,SVM)
-            IF (TRIAX < -TWO_THIRD) TRIAX = -TWO_THIRD
-            IF (TRIAX >  TWO_THIRD) TRIAX =  TWO_THIRD
-C
+            triax = eta(i,1)
             ! Compute the corresponding plastic strain at failure 
             !   -> Low stress triaxialities parabolic curve
             IF (TRIAX <= THIRD) THEN

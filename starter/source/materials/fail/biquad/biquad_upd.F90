@@ -65,13 +65,14 @@
 !         Local variables
 ! --------------------------------------------------------------------------------------------------
           integer            :: i,ntable
+          integer            :: idebug
           integer            :: npt_eps
           integer, parameter :: npt_eta = 201
           real(kind=WP) ,parameter :: eta13 = third
           real(kind=WP) :: epsf13                           !< plastic strain failure limit in simple tension
           real(kind=WP) :: eps_neck13                       !< plastic strain at necking pt in simple tension
           real(kind=WP) :: deps13                           
-          real(kind=WP) :: deri
+          real(kind=WP) :: triax,deri
           real(kind=WP) ,dimension(npt_eta)    :: eta       ! table of triaxiality values = <0,2/3>
           real(kind=WP) ,dimension(npt_eta)    :: epsf      ! plastic strain at failure
           real(kind=WP) ,dimension(npt_eta)    :: eps_neck  ! plastic strain at necking points
@@ -85,25 +86,47 @@
           sig => fail%table4d(ntable)%y1d(1:npt_eps)          ! yield stress vector of hardening curve
 !          
           epsf13 = fail%uparam(9)                             ! failure strain value in uniaxial tension
+          idebug = fail%iparam(1) - 2  
 !-----------------------------------------------
           ! calculate nominal failure strain from biquad equations
 
           call biquad_tab(npt_eta, fail%nuparam, fail%uparam, eta, epsf)
+!           
+          if (idebug == 1) then
+            print*,' '
+            print*,'biquad failure strain'
+            do i=1,npt_eta
+              print*,eta(i),epsf(i)
+            end do
+          end if
 !
           ! calculate plastic strains at diffuse necking instability points vs triaxiality
           ! for the range of triaxiality values :  < 0, 2/3 >
 
-          call diffuse_necking_2d(npt_eps,npt_eta,eps,sig,eta,eps_neck)
+          call diffuse_necking_2d(npt_eps,npt_eta,eps,sig,eta,eps_neck,idebug)
 !
           ! necking plastic strain in uniaxial tension (triaxiality = 1/3) 
           call finter_1d(npt_eta ,eta ,eps_neck,eta13,eps_neck13,deri)
+          if (idebug == 1) then
+            print*,'simple traction : epsf ,eps_neck'
+            print*, epsf13,eps_neck13
+          end if
           deps13 = max(epsf13 - eps_neck13, em10)
 !
-          ! calculate regularization function, values normalized by uniaxual tension values
+          ! calculate regularization function, values normalized by uniaxial tension values
+          regf_eta(1:npt_eta) = one
           do i= 1,npt_eta
             regf_eta(i) = (epsf(i) - eps_neck(i)) / deps13
             regf_eta(i) = min(one, max(regf_eta(i),zero))    ! limit regf_eta range to <0,1>
           end do
+!           
+          if (idebug == 1) then
+            print*,' '
+            print*,'element size regularization factor vs triaxiality'
+            do i=1,npt_eta
+              print*,eta(i),regf_eta(i)
+            end do
+          end if
 !-----------------------------------------------
           ! hardening function from material law is deallocated from failure model data structure
           ! replaced by regularization scale factor function

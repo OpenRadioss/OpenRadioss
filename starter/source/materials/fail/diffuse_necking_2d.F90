@@ -44,7 +44,7 @@
 !||    polyline_intersection_mod   ../starter/source/materials/tools/polyline_intersection.F90
 !||    smooth_deriv_mod            ../starter/source/materials/tools/smooth_deriv.F90
 !||====================================================================
-        subroutine diffuse_necking_2d(npt_eps,npt_eta,eps,sig,eta,epsp_neck)
+        subroutine diffuse_necking_2d(npt_eps,npt_eta,eps,sig,eta,epsp_neck,idebug)
 ! --------------------------------------------------------------------------------------------------
 !         Modules
 ! --------------------------------------------------------------------------------------------------
@@ -58,6 +58,7 @@
 !         Arguments
 ! --------------------------------------------------------------------------------------------------
           integer ,intent(in) :: npt_eps,npt_eta
+          integer ,intent(in) :: idebug
           real(kind=WP) ,dimension(npt_eps) ,intent(in)  :: eps,sig       !< input hardening curve
           real(kind=WP) ,dimension(npt_eta) ,intent(out) :: eta,epsp_neck !< instability strain curve
 ! --------------------------------------------------------------------------------------------------
@@ -91,6 +92,13 @@
              eta(i)     = third*(one+a) / sqrt(one - a + a**2)
              fac_eta(i) = (four-three*a-three*a**2+four*a**3) / (four*(one-a+a**2)**three_half)
            end do
+!           
+           if (idebug == 1) then
+             print*,'hardening scale factor vs triaxiality'
+             do i=1,npt_eta
+               print*,eta(i),fac_eta(i)
+             end do
+           end if
 !
           ! generate necking plastic strain function in triaxiality range between <0,2/3>
 !
@@ -108,6 +116,14 @@
               end if 
             end if 
           end do
+!           
+           if (idebug == 1) then
+             print*,' '
+             print*,'swift necking plastic strain vs triaxiality'
+             do i=1,npt_eta
+               print*,eta(i),epsp_neck(i)
+             end do
+           end if
 ! ---------------------------------------
         return
 ! ---------------------------------------
