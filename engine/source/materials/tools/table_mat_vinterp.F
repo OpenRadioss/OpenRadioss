@@ -376,8 +376,9 @@ C-----
           I2 = I1 + 1
           ALPHA  = FAC(I,1)
           ALPHAI = ONE - ALPHA
-          YY(I)   = ALPHA*TABLE%Y1D(I1) + ALPHAI*TABLE%Y1D(I2)
+!          YY(I)   = ALPHA*TABLE%Y1D(I1) + ALPHAI*TABLE%Y1D(I2)
           DYDX(I) = (TABLE%Y1D(I2) - TABLE%Y1D(I1)) / (TABLE%X(1)%VALUES(I2) - TABLE%X(1)%VALUES(I1))
+          YY(I)   = TABLE%Y1D(I1) + (XX(i,1) - TABLE%X(1)%VALUES(I1))*DYDX(I)
         END DO
 
       END SELECT

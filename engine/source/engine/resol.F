@@ -4714,6 +4714,10 @@ C------------------------
      A               STIFND ,FORNEQS ,FORNEQSKY ,NFACNIT,NODFTSK_2,
      B               NODLTSK_2,FSKY_L,GLOB_THERM)
 
+!          do i=1,numnod
+!            print*,'node, accel=',i,NODES%a(1,i),NODES%a(2,i),NODES%a(3,i)
+!            print*,'node, accel=',nodes%nodglob(i),NODES%ar(1,i),NODES%ar(2,i),NODES%ar(3,i)
+!          end do
 !   ----------------------------------
 !   Accumulation of acceleration for Nlocal option : parith/on
                 IF (NLOC_DMG%IMOD>0) THEN
