@@ -59,7 +59,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      6           IGRBEAM  ,IGRSPRING ,NEW_NSLASH_INT,LSUBMODEL,NEW_HM_NINTER,
      7           NEW_NINTSUB,NEW_NINIVOL,IXS10,IXS20,IXS16,
      8           DETONATORS,SEATBELT_SHELL_TO_SPRING,NB_SEATBELT_SHELLS,
-     9           NEBCS,NEW_NEBCS)
+     9           NEBCS,NEW_NEBCS,NEW_NALELK)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -102,6 +102,7 @@ C-----------------------------------------------
         INTEGER ,INTENT(IN) :: SEATBELT_SHELL_TO_SPRING(NUMELC,2)
         INTEGER ,INTENT(IN) :: NEBCS
         INTEGER ,INTENT(INOUT) :: NEW_NEBCS
+        INTEGER ,INTENT(INOUT) :: NEW_NALELK
         my_real
      .    PM_STACK(*)
 C-----------------------------------------------
@@ -1035,7 +1036,7 @@ C---------
 C---------
           CALL HM_GET_INTV('node_ID',MAIN,IS_AVAILABLE,LSUBMODEL)
           CALL HM_GET_INTV('sens_ID',ISENS,IS_AVAILABLE,LSUBMODEL)
-          CALL HM_GET_INTV('grnd_ID',IGU,IS_AVAILABLE,LSUBMODEL)
+          CALL HM_GET_INTV('grnd_ID',IGU,IS_AVAILABLE,LSUBMODEL)   
 C---------
           MAIN=USR2SYS(MAIN,ITABM1,MESS,ID_RBY)
           DO J=1,NGRNOD
@@ -1236,8 +1237,11 @@ C--------------------------------------------------------------------
 C--------------------------------------------------------------------C
 C------Prereading of ALE/LINK----------------------------------------C
 C--------------------------------------------------------------------C
-
-        CALL HM_OPTION_COUNT('/ALE/LINK/VEL', NALELK)
+C
+        IF (PASSE==0) ALLOCATE(TAG_ALELINK(NALELK))
+        TAG_ALELINK(:)=0
+        NEW_NALELK = 0
+C        
         IF (NALELK > 0) THEN
           CALL HM_OPTION_START('/ALE/LINK/VEL')
           DO I = 1, NALELK
@@ -1253,26 +1257,24 @@ C--------------------------------------------------------------------C
             ENDDO
             N1 = USR2SYS(N1, ITABM1, MESS, ID)
             N2 = USR2SYS(N2, ITABM1, MESS, ID)
+C           ALE/LINK is kept in the current domain           
+            IF (IGRNOD(GR_ID)%R2R_ALL > 0) THEN
+              TAG_ALELINK(I) = ID
+              NEW_NALELK = NEW_NALELK + 1
+            ENDIF  
+C             
             IF (N1 > 0) THEN
               IF ((IGRNOD(GR_ID)%R2R_ALL > 0) .AND. (TAGNO(NPART+N1) < 1)) THEN
                 CALL MODIF_TAG(TAGNO(NPART + N1), 2, MODIF)
               ELSEIF ((IGRNOD(GR_ID)%R2R_SHARE > 0) .AND. (TAGNO(NPART+N1) == 1)) THEN
                 CALL MODIF_TAG(TAGNO(NPART+N1), 2, MODIF)
-              ELSEIF (TAGNO(NPART+N1) == 0) THEN
-                CALL MODIF_TAG(TAGNO(NPART+N1), 2, MODIF)
-              ELSEIF (TAGNO(NPART+N1) == -1) THEN
-                CALL MODIF_TAG(TAGNO(NPART+N1), 0, MODIF)
               ENDIF
             ENDIF
-            IF (N2 > 0) THEN
+            IF ((N2 > 0).AND.(N1 /= N2)) THEN
               IF ((IGRNOD(GR_ID)%R2R_ALL > 0) .AND. (TAGNO(NPART+N2) < 1)) THEN
                 CALL MODIF_TAG(TAGNO(NPART+N2), 2, MODIF)
               ELSEIF ((IGRNOD(GR_ID)%R2R_SHARE > 0) .AND. (TAGNO(NPART+N2) == 1)) THEN
                 CALL MODIF_TAG(TAGNO(NPART+N2), 2, MODIF)
-              ELSEIF (TAGNO(NPART+N2) == 0) THEN
-                CALL MODIF_TAG(TAGNO(NPART+N2), 2, MODIF)
-              ELSEIF (TAGNO(NPART+N2) == -1) THEN
-                CALL MODIF_TAG(TAGNO(NPART+N2), 0, MODIF)
               ENDIF
             ENDIF
           ENDDO

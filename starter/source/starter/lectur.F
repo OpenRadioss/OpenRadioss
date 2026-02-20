@@ -4506,7 +4506,7 @@ C--------------------------------------------
         ENDIF
         CALL HM_READ_ALE_LINK(ICODE, ISKEW, ITAB, ITABM1, D,
      .       IGRNOD, IBCSLAG, LAG_NCF, LAG_NKF, LAG_NHF,
-     .       IKINE1LAG, LINALE, LSUBMODEL, UNITAB)
+     .       IKINE1LAG, LINALE, LSUBMODEL, UNITAB,NSUBDOM)
       ELSE
         ALLOCATE(LINALE(0))
       ENDIF
@@ -10335,7 +10335,7 @@ C     multidomains -> deallocation of arrays
 C--------------------------------------------
       IF(NSUBDOM>0) THEN
         DEALLOCATE(TAG_PART,TAGMON,TAGRBY,TAGINT,TAGCYL,TAGLNK)
-        DEALLOCATE(TAGRB3,TAGRB2,TAGJOIN,TAGMPC,TAG_MAT)
+        DEALLOCATE(TAGRB3,TAGRB2,TAGJOIN,TAGMPC,TAG_MAT,TAG_ALELINK)
       ENDIF
 C--------------------------------------------
 C     STOCKAGE DYNAMIQUE (CONNEXIONS RIGIDES a MADYMO).
