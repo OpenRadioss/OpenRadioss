@@ -40,7 +40,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
       SUBROUTINE HM_READ_ALE_LINK(ICODE, ISKEW, ITAB, ITABM1, IKINE,
      .     IGRNOD, IBCSLAG, LAG_NCF, LAG_NKF, LAG_NHF,
-     .     IKINE1LAG, LINALE, LSUBMODEL, UNITAB)
+     .     IKINE1LAG, LINALE, LSUBMODEL, UNITAB,NSUBDOM)
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -55,6 +55,7 @@ C-----------------------------------------------
       USE SUBMODEL_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARKEY, NCHARFIELD
       USE FORMAT_MOD , ONLY : LFIELD
+      USE R2R_MOD , ONLY : TAG_ALELINK
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -72,6 +73,7 @@ C-----------------------------------------------
       INTEGER,INTENT(INOUT) :: LINALE(*)
       TYPE(SUBMODEL_DATA), DIMENSION(NSUBMOD), INTENT(IN) :: LSUBMODEL
       TYPE(UNIT_TYPE_), INTENT(IN) :: UNITAB
+      INTEGER,INTENT(IN) :: NSUBDOM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -87,6 +89,7 @@ C-----------------------------------------------
       my_real TSTART,TSTOP
       LOGICAL :: IS_AVAILABLE
       INTEGER :: WX, WY, WZ
+      INTEGER :: NALELK_R2R
 C-----------------------------------------------
       TYPE (GROUP_)  ,TARGET, DIMENSION(NGRNOD)  :: IGRNOD
 C-----------------------------------------------
@@ -102,11 +105,17 @@ C-----------------------------------------------
       IGRNS=0
       TSTART=ZERO
       TSTOP=ZERO
+      NALELK_R2R = 0
       
       WRITE(IOUT,1000)
       CALL HM_OPTION_START('/ALE/LINK/VEL')
 
       DO I = 1, NALELK
+C        Multidomains : alelink ignored if not tagged           
+         IF (NSUBDOM > 0) THEN
+           NALELK_R2R = NALELK_R2R + 1  
+           IF(TAG_ALELINK(NALELK_R2R) == 0) CALL HM_SZ_R2R(TAG_ALELINK,NALELK_R2R,LSUBMODEL)
+         ENDIF 
          CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID = N, OPTION_TITR = TITR)
          CALL HM_GET_INTV('node_ID1', NODE_ID1, IS_AVAILABLE, LSUBMODEL)
          CALL HM_GET_INTV('node_ID2', NODE_ID2, IS_AVAILABLE, LSUBMODEL)
