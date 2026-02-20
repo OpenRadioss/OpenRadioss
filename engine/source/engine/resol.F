@@ -3128,6 +3128,10 @@ C---------------------------------------------
               ENDIF
 
 C----------------------------------------
+C      COUPLING : LIMIT TIME STEP
+C----------------------------------------
+              IF(coupling%active .AND. TT > ZERO) DT2T = MIN(DT2T,coupling%DT_LIMIT)
+C----------------------------------------
 C      COLLISION DETECTION FOR INTERFACES 7 (CALL BARRIER IN I7BUCE_CRIT)
 C----------------------------------------
               IF(NINTER/=0) THEN
@@ -3144,8 +3148,6 @@ C----------------------------------------
                 ELSE
                   NATIV_SMS_SIZ = 0
                 ENDIF
-
-                IF(coupling%active .AND. TT > ZERO) DT2T = MIN(DT2T,coupling%DT_LIMIT)
 
 C========================================================================================
 C                                     PARALLEL SECTION (SMP)
@@ -5774,6 +5776,9 @@ C-----------------------------
                 DT2 = GLOB_THERM%DT_THERM
                 DT2T = DT2
               ENDIF
+C
+C      COUPLING : LIMIT TIME STEP (also enforced after thermal DT override)
+              IF(coupling%active .AND. TT > ZERO) DT2T = MIN(DT2T,coupling%DT_LIMIT)
 C
 
               IF((ANIM_N(18) /= 0 .OR. H3D_DATA%N_SCAL_STIFR /= 0) .AND. IRODDL /= 0)
