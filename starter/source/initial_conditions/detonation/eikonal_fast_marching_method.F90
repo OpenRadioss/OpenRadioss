@@ -154,6 +154,7 @@
             nel = iparg(2,ng)
             nft = iparg(3,ng)
             ity = iparg(5,ng)
+            if(ity /=1 .and. ity /= 2 .and. ity /= 7)cycle
             mid = ix(1,nft+1)
             ishadow = nint(pm(96,mid))
             if(ishadow == 0)cycle
@@ -192,10 +193,10 @@
             nel = iparg(2,ng)
             nft = iparg(3,ng)
             ity = iparg(5,ng)
+            if(ity /=1 .and. ity /= 2 .and. ity /= 7)cycle
             mid = ix(1,nft+1)
             ishadow = nint(pm(96,mid))
             if(ishadow == 0)cycle
-            if(ity /=1 .and. ity /= 2 .and. ity /= 7)cycle
             if(mid /= mat_det .and. mat_det /= 0)cycle
             Dcj = pm(38,mid)
             if(mlw == 51)then
