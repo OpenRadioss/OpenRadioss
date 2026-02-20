@@ -420,7 +420,7 @@ C
      .  FDELTAX(MVSIZ) ,FLUX0(MVSIZ,6),FLU01(MVSIZ)
       my_real, DIMENSION(:), ALLOCATABLE :: VAR_REG
       my_real :: CONDE(MVSIZ),AMU(MVSIZ),DIVDE(MVSIZ),L_MAX(MVSIZ),
-     .           STI_C(MVSIZ),LL(MVSIZ),FLD(MVSIZ),
+     .           STI_C(MVSIZ),LL(MVSIZ),FLD(MVSIZ),OFFG11(MVSIZ),
      .           CNS2,FQMAX
       my_real, DIMENSION(:), POINTER :: EINT
       my_real :: ELEM_MASS
@@ -432,7 +432,7 @@ C
       TYPE(BUF_MAT_) ,POINTER :: MBUF  
 C
       INTEGER IALEFVM_FLG, IFVM22, IMAT, INLOC, L_NLOC, J, IPOS(8),PID,
-     .         NN_DEL,ISCTL,ISTAB(MVSIZ)
+     .         NN_DEL,ISCTL,ISTAB(MVSIZ),IDEGE(MVSIZ)
 C
       INTEGER IBOLTP,NBPRELD,ISM12_11  ! IBOLTP Flag Bolt Preloading
       my_real, DIMENSION(:), POINTER :: BPRELD
@@ -812,11 +812,21 @@ C Stress tensor co-rotational formulation
         CALL SRMALLA3(GBUF%SIG,S1,S2,S3,S4,S5,S6,
      .                GBUF%OFF,OFF,NEL)
 C Small strain formulation
+       IF (ISMSTR == 11.OR.ISMSTR == 12) THEN
+        CALL DEGENES8(IXS,     IDEGE,   NEL)
+        DO I=1,NEL
+          IF (IDEGE(1) == 0) THEN
+             OFFG11(I) = GBUF%OFF(I)
+          ELSE 
+             OFFG11(I) = ZERO
+          END IF
+        END DO
         CALL SRMALLA11(
-     1   GBUF%SMSTR,GBUF%OFF,  WXX,       WYY,
+     1   GBUF%SMSTR,OFFG11  ,  WXX,       WYY,
      2   WZZ,       R11,       R12,       R13,
      3   R21,       R22,       R23,       R31,
      4   R32,       R33,       NEL,       ISMSTR)
+       END IF  !(ISMSTR == 11.OR.ISMSTR == 12) THEN
       ENDIF
 C
       IF (ISMSTR <= 3.OR.(ISMSTR==4.AND.JLAG>0)) THEN

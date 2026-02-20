@@ -322,10 +322,10 @@ C-----
 C-----
 C----- 
 C     IBOLTP : flag bolt preloading
-      INTEGER IBOLTP,NBPRELD,IMAT,ISM12_11,NN_DEL,PID,ISCTL,ISTAB(MVSIZ)
+      INTEGER IBOLTP,NBPRELD,IMAT,ISM12_11,NN_DEL,PID,ISCTL,ISTAB(MVSIZ),IDEGE(MVSIZ)
       my_real, DIMENSION(:), ALLOCATABLE :: VAR_REG
       my_real, DIMENSION(:), POINTER :: BPRELD,DNL
-      my_real :: P(MVSIZ)
+      my_real :: P(MVSIZ), OFFG11(MVSIZ)
       INTEGER SZ_IX
       integer :: fake_size = 0
       my_real, dimension(1) :: fake_array          
@@ -663,11 +663,21 @@ C
 C Extract stresses + small strain
        CALL SRMALLA3(GBUF%SIG,S1,S2,S3,S4,S5,S6,
      .             GBUF%OFF,OFF,NEL)
-       CALL SRMALLA11(
-     1   GBUF%SMSTR,GBUF%OFF,  WXX,       WYY,
+      IF (ISMSTR == 11.OR.ISMSTR == 12) THEN
+        CALL DEGENES8(IXS,     IDEGE,   NEL)
+        DO I=1,NEL
+          IF (IDEGE(1) == 0) THEN
+             OFFG11(I) = GBUF%OFF(I)
+          ELSE 
+             OFFG11(I) = ZERO
+          END IF
+        END DO
+        CALL SRMALLA11(
+     1   GBUF%SMSTR,OFFG11  ,  WXX,       WYY,
      2   WZZ,       R11,       R12,       R13,
      3   R21,       R22,       R23,       R31,
      4   R32,       R33,       NEL,       ISMSTR)
+      END IF  !(ISMSTR == 11.OR.ISMSTR == 12) THEN
 C
 C  Update reference configuration (possible future change to small strain option)
 C  Total strain option doesn't change the reference configuration

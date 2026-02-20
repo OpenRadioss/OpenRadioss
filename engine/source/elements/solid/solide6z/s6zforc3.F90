@@ -755,11 +755,11 @@
        call srmalla3(gbuf%sig,s1,s2,s3,s4,s5,s6, & 
                   gbuf%off,off,nel)
   
-       call s6zrmalla11(                                 &
-        gbuf%smstr,gbuf%off,  wxx,       wyy,            &
-        wzz,       r11,       r12,       r13,            &
-        r21,       r22,       r23,       r31,            &
-        r32,       r33,       nel,       ismstr)
+!       call s6zrmalla11(                                 &
+!        gbuf%smstr,gbuf%off,  wxx,       wyy,            &
+!        wzz,       r11,       r12,       r13,            &
+!        r21,       r22,       r23,       r31,            &
+!        r32,       r33,       nel,       ismstr)
        
 !-------------------------------------------------------------------------------      
 !  compute new stresses according to constitutive laws
