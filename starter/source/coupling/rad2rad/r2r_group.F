@@ -131,7 +131,7 @@ C-----------------------------------------------
         INTEGER N_LNK_C,NI,GRM,GRS,MAIN,IGU,NUL,IAD_TMP,COMPT_T2
         INTEGER MODIF,NINTER_PREC,FAC,IO_ERR,NUM_KJ,NSPCONDN,NSPHION,NN
         INTEGER MEMTR(NUMNOD),FLG_SPH,COUNT,NEW_NSLASH_INT,NEW_HM_NINTER,NEW_NINTSUB,NEW_NINIVOL
-        INTEGER NEW_NEBCS
+        INTEGER NEW_NEBCS,NEW_NALELK
         CHARACTER(LEN=NCHARTITLE) :: TITR
         CHARACTER NAME*100
         INTEGER NGRNOD2,NGRBRIC2,NGRQUAD2,NGRSHEL2,NGRSH3N2,NGRTRUS2,NGRBEAM2,NGRSPRI2,LENGRN,ITITLE(LTITR)
@@ -333,7 +333,7 @@ C---------------Prereading of options for tag of nodes---------------C
      6                 IGRBEAM  ,IGRSPRING ,NEW_NSLASH_INT,LSUBMODEL,NEW_HM_NINTER,
      7                 NEW_NINTSUB,NEW_NINIVOL,IXS10,IXS20,IXS16,
      8                 DETONATORS,SEATBELT_SHELL_TO_SPRING,NB_SEATBELT_SHELLS,
-     9                 NEBCS,NEW_NEBCS)
+     9                 NEBCS,NEW_NEBCS,NEW_NALELK)
               ENDIF
 C---------------Tag of nodes of pretaged elements ( for TYPE2)-------C
               IF (COMPT_T2>0) THEN
@@ -381,6 +381,7 @@ C
             NSPCOND = NSPCONDN
             NSPHIO = NSPHION
             NEBCS = NEW_NEBCS
+            NALELK = NEW_NALELK
 C---------------Determination of flag for coupled sph particles------C
             FLG_SPH = 0
             DO J=1,NUMSPH
