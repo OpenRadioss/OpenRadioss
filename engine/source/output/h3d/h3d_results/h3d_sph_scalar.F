@@ -437,9 +437,9 @@ C--------------------------------------------------
               ELSEIF(KEYWORD == 'BFRAC')THEN
 C--------------------------------------------------
                 DO I=1,NEL
-                  VALUE = ZERO
+                  VALUE(I) = ZERO
                   IF (MLW == 5)THEN
-                    VALUE(I) = GBUF%BFRAC(I) 
+                    VALUE(I) = GBUF%BFRAC(I)
                     IS_WRITTEN_VALUE(I) = 1  
                   ENDIF
                 ENDDO 

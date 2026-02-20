@@ -1082,7 +1082,7 @@ C           SOL2SPH(1,N)+1<=I<=SOLSPH(2,N) <=> N==SPH2SOL(I)
 C
               NP=SOL2SPH(1,N)+KP
               IF (KXSP(2,NP)/=0) THEN
-C              
+C            
                 MG =MOD(-KXSP(2,NP),NGROUP+1)
                 NELSP=IPARG(2,MG)
                 KFT=IPARG(3,MG)
@@ -1107,7 +1107,7 @@ C
 !
                 DO K=1,6
                   JJ(K) = NELSP*(K-1)
-                ENDDO
+                ENDDO 
 !
 C-----------
                 IF (JHBE==14) THEN
@@ -1256,14 +1256,14 @@ C Stress in orthotropic skew for mulaw
                 END IF
 C-----------
 C Volume fraction
-              IF(ELBUF_TAB(NG)%BUFLY(1)%L_BFRAC > 0)THEN
-                LBUFSP%BFRAC(JJ(1)+J)=LBUF%BFRAC(II(1)+I)
-              END IF
+                IF(ELBUF_TAB(NG)%BUFLY(1)%L_BFRAC > 0)THEN
+                  LBUFSP%BFRAC(JJ(1)+J)=LBUF%BFRAC(II(1)+I)
+                END IF
 C-----------
 C Afterburning param
-              IF(ELBUF_TAB(NG)%BUFLY(1)%L_ABURN > 0)THEN
-                LBUFSP%ABURN(JJ(1)+J)=LBUF%ABURN(II(1)+I)
-              END IF
+                IF(ELBUF_TAB(NG)%BUFLY(1)%L_ABURN > 0)THEN
+                  LBUFSP%ABURN(JJ(1)+J)=LBUF%ABURN(II(1)+I)
+                END IF
 C-----------
 C User variables (same for SPH and solids)
                 IF(ELBUF_TAB(NG)%BUFLY(1)%NVAR_MAT > 0)THEN
@@ -1276,6 +1276,29 @@ C
 C-----------
             ENDDO
           ENDDO
+
+C-----------
+C-Transfer of detonation time to sph particles at first cycle   
+          IF ((NCYCLE==0).AND.(ELBUF_TAB(NG)%BUFLY(1)%L_TB > 0)) THEN      
+            DO I=LFT,LLT
+              N=NFT+I
+              DO KP=1,SOL2SPH(2,N)-SOL2SPH(1,N)
+                NP=SOL2SPH(1,N)+KP
+                IF (KXSP(2,NP)/=0) THEN            
+                  MG =MOD(ABS(KXSP(2,NP)),NGROUP+1)
+                  NELSP=IPARG(2,MG)
+                  KFT=IPARG(3,MG)
+                  LBUFSP => ELBUF_TAB(MG)%BUFLY(1)%LBUF(1,1,1)
+                  J=NP-KFT
+                  DO K=1,6
+                    JJ(K) = NELSP*(K-1)
+                  ENDDO
+                  LBUFSP%TB(JJ(1)+J)=LBUF%TB(II(1)+I)
+                ENDIF
+              ENDDO
+            ENDDO
+          ENDIF
+C          
         END IF
         IF (IDDW>0) CALL STOPTIMEG(NG)
 C--------
