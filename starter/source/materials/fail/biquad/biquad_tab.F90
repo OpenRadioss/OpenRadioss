@@ -59,7 +59,8 @@
 ! --------------------------------------------------------------------------------------------------
           integer       :: i,bflag
           real(kind=WP) :: inst0,sqr23
-          real(kind=WP) :: x,a,b,c,d,e,f,a1,b1,c1,b2,a2,c2
+          real(kind=WP) :: x,dx,a,b,c,d,e,f,a1,b1,c1,b2,a2,c2
+          real(kind=WP) :: r,s
           real(kind=WP) :: p1x,p1y,s1x,s1y,s2y
 !===================================================================================================
           c      = uparam(1)
@@ -72,64 +73,68 @@
           bflag  = nint(uparam(11))
           sqr23  = (one/sqr3)**2
 !
+          dx = two / (npt-1)    ! b = <-1, 1> => eta = <0,2/3>
           do i = 1,npt
+            r = (i-1) * dx - one
+            s = (one+two*r) / (two+r)
+            eta(i) = third*(one+s) / sqrt(one - s + s**2)
             x = eta(i)
-             if (x <= third) then     ! triax < 1/3
-               epsf(i) = c +  b * x + a * x**2
-             else                     ! triax > 1/3
-              select case (bflag)
-               case(1)
-                 epsf(i) = f +  e * x + d * x**2
-               case(2)
-                 if (x <= one/sqr3) then                      ! triax < 0.57735
-                   p1x  = third
-                   p1y  = c + b * p1x + a * p1x**2
-                   s1x  = one/sqr3
-                   s1y  = f + e / sqr3  + d * sqr23
-                   a1   = (p1y - s1y) / (p1x - s1x)**2
-                   b1   = -two * a1 * s1x
-                   c1   = a1 * s1x**2 + s1y 
-                   epsf(i) = c1 + b1 * x + a1 * x**2
-                 else                                         ! triax > 0.57735
-                   p1x  = two * third
-                   p1y  = f + e * p1x + d * p1x**2
-                   s1x  = one/sqr3
-                   s1y  = f + e / sqr3  + d * sqr23
-                   a1   = (p1y - s1y) / (p1x - s1x)**2
-                   b1   = -two * a1 * s1x
-                   c1   = a1 * s1x**2 + s1y 
-                   epsf(i) = c1 + b1 * x + a1 * x**2
-                 endif
-               case(3)
-                 if (x <= one/sqr3) then                      ! triax < 0.57735
-                   p1x  = third
-                   p1y  = c + b * p1x + a * p1x**2
-                   s1x  = one/sqr3
-                   s1y  = f + e / sqr3  + d * sqr23
-                   s2y  = inst0
-                   a1   = (p1y - s1y) / (p1x - s1x)**2
-                   a2   = (p1y - s2y) / (p1x - s1x)**2
-                   b1   = -two * a1 * s1x
-                   b2   = -two * a2 * s1x
-                   c1   = a1 * s1x**2 + s1y 
-                   c2   = a2 * s1x**2 + s2y 
-                   epsf(i) = c1 + b1 * x + a1 * x**2
-                 else                                          ! triax > 0.57735
-                   p1x  = two * third
-                   p1y  = f + e * p1x + d * p1x**2
-                   s1x  = one/sqr3
-                   s1y  = f + e / sqr3  + d * sqr23
-                   s2y  = inst0
-                   a1   = (p1y - s1y) / (p1x - s1x)**2
-                   a2   = (p1y - s2y) / (p1x - s1x)**2
-                   b1   = -two * a1 * s1x
-                   b2   = -two * a2 * s1x
-                   c1   = a1 * s1x**2 + s1y 
-                   c2   = a2 * s1x**2 + s2y 
-                   epsf(i) = c1 + b1 * x + a1 * x**2
-                 endif
-               end select
-             endif
+            if (x <= third) then     ! triax < 1/3
+              epsf(i) = c +  b * x + a * x**2
+            else                     ! triax > 1/3
+             select case (bflag)
+              case(1)
+                epsf(i) = f +  e * x + d * x**2
+              case(2)
+                if (x <= one/sqr3) then                      ! triax < 0.57735
+                  p1x  = third
+                  p1y  = c + b * p1x + a * p1x**2
+                  s1x  = one/sqr3
+                  s1y  = f + e / sqr3  + d * sqr23
+                  a1   = (p1y - s1y) / (p1x - s1x)**2
+                  b1   = -two * a1 * s1x
+                  c1   = a1 * s1x**2 + s1y 
+                  epsf(i) = c1 + b1 * x + a1 * x**2
+                else                                         ! triax > 0.57735
+                  p1x  = two * third
+                  p1y  = f + e * p1x + d * p1x**2
+                  s1x  = one/sqr3
+                  s1y  = f + e / sqr3  + d * sqr23
+                  a1   = (p1y - s1y) / (p1x - s1x)**2
+                  b1   = -two * a1 * s1x
+                  c1   = a1 * s1x**2 + s1y 
+                  epsf(i) = c1 + b1 * x + a1 * x**2
+                endif
+              case(3)
+                if (x <= one/sqr3) then                      ! triax < 0.57735
+                  p1x  = third
+                  p1y  = c + b * p1x + a * p1x**2
+                  s1x  = one/sqr3
+                  s1y  = f + e / sqr3  + d * sqr23
+                  s2y  = inst0
+                  a1   = (p1y - s1y) / (p1x - s1x)**2
+                  a2   = (p1y - s2y) / (p1x - s1x)**2
+                  b1   = -two * a1 * s1x
+                  b2   = -two * a2 * s1x
+                  c1   = a1 * s1x**2 + s1y 
+                  c2   = a2 * s1x**2 + s2y 
+                  epsf(i) = c1 + b1 * x + a1 * x**2
+                else                                          ! triax > 0.57735
+                  p1x  = two * third
+                  p1y  = f + e * p1x + d * p1x**2
+                  s1x  = one/sqr3
+                  s1y  = f + e / sqr3  + d * sqr23
+                  s2y  = inst0
+                  a1   = (p1y - s1y) / (p1x - s1x)**2
+                  a2   = (p1y - s2y) / (p1x - s1x)**2
+                  b1   = -two * a1 * s1x
+                  b2   = -two * a2 * s1x
+                  c1   = a1 * s1x**2 + s1y 
+                  c2   = a2 * s1x**2 + s2y 
+                  epsf(i) = c1 + b1 * x + a1 * x**2
+                endif
+              end select
+            endif
           end do
 !-----------------------------------------------
           return 
