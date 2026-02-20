@@ -599,7 +599,7 @@ c
         IF(OUTFILE_BOOL) BOOL_C = 1
 
         CALL LF_CONVERT_C_FLAT(GOT_INPUT,ROOTN,LENROOTN,FNAME,LFNAME,
-     .                         INAME, IERR,1024,LEN_TMP_NAME,TMP_NAME,
+     .                         INAME, IERR,65536,LEN_TMP_NAME,TMP_NAME,
      .                         LEN_TMP_NAME2,TMP_NAME2)
 
         IF (IERR == 0) THEN
