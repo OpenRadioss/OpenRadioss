@@ -84,7 +84,7 @@ C
             IF(NPC(J) == JFUNC)BUFGEO(I)=J
           ENDDO
           IF(JFUNC /= 0.AND.BUFGEO(I) == ZERO)THEN
-             CALL ANCMSG(MSGID=373,
+             CALL ANCMSG(MSGID=3126,
      .                   MSGTYPE=MSGERROR,
      .                   ANMODE=ANINFO_BLIND_1,
      .                   I1=IGEO(1,II),C1=TITR,
@@ -99,7 +99,7 @@ C
             IF(IPM(1,J) == JMAT) BUFGEO(I)=J
           ENDDO
           IF(JMAT /= 0.AND.BUFGEO(I) == ZERO)THEN
-             CALL ANCMSG(MSGID=373,
+             CALL ANCMSG(MSGID=3126,
      .                   MSGTYPE=MSGERROR,
      .                   ANMODE=ANINFO_BLIND_1,
      .                   I1=IGEO(1,II),C1=TITR,
@@ -114,7 +114,7 @@ C
             IF(IGEO(1,J) == JPID)BUFGEO(I)=J
           ENDDO
           IF(JPID /= 0.AND.BUFGEO(I) == ZERO)THEN
-             CALL ANCMSG(MSGID=373,
+             CALL ANCMSG(MSGID=3126,
      .                   MSGTYPE=MSGERROR,
      .                   ANMODE=ANINFO_BLIND_1,
      .                   I1=IGEO(1,II),C1=TITR,
@@ -129,7 +129,7 @@ C
             IF(TABLE(J)%NOTABLE == JTAB)BUFGEO(I)=J
           ENDDO
           IF(JTAB /= 0.AND.BUFGEO(I) == ZERO)THEN
-             CALL ANCMSG(MSGID=373,
+             CALL ANCMSG(MSGID=3126,
      .                   MSGTYPE=MSGERROR,
      .                   ANMODE=ANINFO_BLIND_1,
      .                   I1=IGEO(1,II),C1=TITR,
