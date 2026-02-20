@@ -5978,7 +5978,7 @@ C Average allowance normally sufficient if average group size> NVSIZ/2
      3     NSNT, NMNT_2,TABMP_L,IQUAOFF,
      4     IGRSURF  , FVMAIN,
      5     ITAB      ,IPART    ,IPARTC   ,IPARTG   ,IPARTS,
-     .     IPARTT, IPARTP  ,IPARTR   ,IPARTX   ,
+     .     IPARTT, IPARTP  ,IPARTR   ,IPARTX   , IPARTQ,
      6     POIN_PART_SHELL,POIN_PART_TRI,POIN_PART_SOL,
      7     MID_PID_SHELL,MID_PID_TRI,MID_PID_SOL,T_MONVOL,
      8     EBCS_TAG_CELL_SPMD,NPBY,LPBY,MAT_ELEM%MAT_PARAM)
