@@ -640,8 +640,6 @@ CC smp nproc = ntask, spmd nproc = NSPMD
       MEMSTAT(4,ISPMD+1) = VMHWM
       MEMSTAT(5,ISPMD+1) = VMSTK
 
-
-
       IF (NSPMD > 1) THEN
 C gather cpu and sys time for spmd
         MSGTAG = 1000
@@ -667,13 +665,6 @@ C Gather memory used
         MSGTAG = 1100
         MEMUSE=0
         MEM_L=0
-
-c       MEMUSE(ISPMD+1)=VMPEAK
-c       MEMSTAT(1,ISPMD+1) = VMPEAK
-c       MEMSTAT(2,ISPMD+1) = VMSIZE
-c       MEMSTAT(3,ISPMD+1) = VMRSS
-c       MEMSTAT(4,ISPMD+1) = VMHWM
-c       MEMSTAT(5,ISPMD+1) = VMSTK
 
         IF (ISPMD/=0) THEN
           CALL RAD_SPMD_SEND( MEMUSE(ISPMD+1),1*IRSIZE,0,IT_SPMD,
@@ -712,6 +703,7 @@ c       MEMSTAT(5,ISPMD+1) = VMSTK
           ELSEIF(MEMSTAT(3,1)/=-1) THEN
              INDICE = 3
           ENDIF
+
           MMIN = MEMSTAT(INDICE,1)
           MMAX = MEMSTAT(INDICE,1)
           MTOT = MEMSTAT(INDICE,1)
@@ -720,7 +712,7 @@ c       MEMSTAT(5,ISPMD+1) = VMSTK
               MMIN = MEMSTAT(INDICE,I)
             ENDIF
             IF (MMAX < MEMSTAT(INDICE,I) ) THEN
-              MMAX = MEMUSE(I)
+              MMAX = MEMSTAT(INDICE,I)
             ENDIF
             MTOT = MTOT+ MEMSTAT(INDICE,I)
           ENDDO

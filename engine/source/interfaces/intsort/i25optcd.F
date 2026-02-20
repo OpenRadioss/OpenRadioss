@@ -92,6 +92,10 @@ C-----------------------------------------------
      .        TZINF,VX,VY,VZ,
      .        VXI,VYI,VZI,
      .        VX1,VX2,VX3,VX4,VY1,VY2,VY3,VY4,VZ1,VZ2,VZ3,VZ4
+      integer, save :: i_opt_stok_old
+      integer :: next,j
+      integer, dimension(:), allocatable, save :: local_cand_nb,offset
+      integer, dimension(:), allocatable :: cand_index
 
 C-----------------------------------------------
       IF (IRESP.EQ.1) THEN
@@ -99,6 +103,12 @@ C-----------------------------------------------
       ELSE
          PREC = EM8
       ENDIF
+      allocate(cand_index(i_stok))
+!$omp single 
+      allocate(local_cand_nb(nthread))
+      allocate(offset(nthread+1))
+      local_cand_nb(:) = 0
+!$omp end single            
 C------
 C
 C CONT_I contains Starter infos, it must be flushed when IRTLM(1,xxx) is no more Zero.
@@ -106,17 +116,21 @@ C
 
       NSNF = 1 + ITASK*NSN / NTHREAD
       NSNL = (ITASK+1)*NSN / NTHREAD
-      DO I = NSNF,NSNL 
+!$omp do schedule(guided)      
+      DO I = 1,nsn !NSNF,NSNL 
         IF(IRTLM(1,I)/=0) ICONT_I(I)=0
       ENDDO
-
+!$omp end do no wait
       NSNRF = 1 + ITASK*NSNR / NTHREAD
       NSNRL = (ITASK+1)*NSNR / NTHREAD
-
-      DO I=NSNRF,NSNRL
+!$omp do schedule(guided)      
+      DO I=1,nsnr!NSNRF,NSNRL
         IF(IRTLM_FI(NIN)%P(1,I)/=0) ICONT_I_FI(NIN)%P(I)=0
-      ENDDO
- 
+      ENDDO      
+ !$omp end do no wait
+
+
+
       MSEG = NVSIZ
       FIRST = 1 + I_STOK*ITASK / NTHREAD
       LAST = I_STOK*(ITASK+1) / NTHREAD
@@ -251,6 +265,8 @@ C
           XMAX = MAX(X1,X2,X3,X4)+TZINF
           IF (XMIN<=XI.AND.XMAX>=XI) THEN
             CAND_N(I) = -CAND_N(I)
+            local_cand_nb(itask+1) = local_cand_nb(itask+1) + 1
+            cand_index(local_cand_nb(itask+1)) = i
           ENDIF
         ENDDO
 
@@ -355,6 +371,8 @@ C
             XMAX = MAX(X1,X2,X3,X4)+TZINF
             IF (XMIN<=XI.AND.XMAX>=XI) THEN
               CAND_N(I) = -CAND_N(I)
+              local_cand_nb(itask+1) = local_cand_nb(itask+1) + 1
+              cand_index(local_cand_nb(itask+1)) = i
             ENDIF
           ENDDO
        ELSE
@@ -366,6 +384,32 @@ C
 C     Compact candidates
 C
       CALL MY_BARRIER
+
+      if(.true.) then
+!$omp single
+      offset(1)=0
+      do i=1,nthread
+        offset(i+1)=offset(i)+local_cand_nb(i)
+      end do
+      i_opt_stok_old = i_opt_stok
+      if(i_opt_stok+offset(nthread+1)<=sizopt) then 
+        i_opt_stok = i_opt_stok + offset(nthread+1)        
+        lskyi_count = lskyi_count + i_opt_stok*5        
+        count_remslv(nin) = count_remslv(nin) + i_opt_stok
+      end if
+      pmax_gap = zero
+!$omp end single
+      
+      do j=1,local_cand_nb(itask+1)
+        i = cand_index(j)
+        cand_n(i) = -cand_n(i)
+        next = offset(itask+1)+j+i_opt_stok_old
+        if(next<=sizopt) then
+          cand_opt_n(next) = cand_n(i)
+          cand_opt_e(next) = cand_e(i)
+        end if
+      end do
+      else
 C
 !$OMP SINGLE
       DO I=1,I_STOK
@@ -385,7 +429,15 @@ C
 C initialize PMAX_GAP to Zero for future treatments in force computation.
       PMAX_GAP   = ZERO
 !$OMP END SINGLE
+      endif
+
+
+      deallocate(cand_index)
+      call my_barrier()
+!$omp single 
+      deallocate(local_cand_nb)
+      deallocate(offset)
+!$omp end single     
 C
-c     print *,'i_stok',ispmd+1,i_stok,i_opt_stok
       RETURN
       END
