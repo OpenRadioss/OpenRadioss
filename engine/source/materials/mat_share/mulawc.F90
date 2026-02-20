@@ -169,6 +169,7 @@
 !||    sigeps125c_mod            ../engine/source/materials/mat/mat125/sigeps125c.F90
 !||    sigeps127c_mod            ../engine/source/materials/mat/mat127/sigeps127c.F90
 !||    sigeps128c_mod            ../engine/source/materials/mat/mat128/sigeps128c.F90
+!||    sigeps132c_mod            ../engine/source/materials/mat/mat132/sigeps132c.F90
 !||    sigeps57c_mod             ../engine/source/materials/mat/mat057/sigeps57c.F90
 !||    sigeps87c_mod             ../engine/source/materials/mat/mat087/sigeps87c.F90
 !||    sigeps88c_mod             ../engine/source/materials/mat/mat088/sigeps88c.F90
@@ -219,6 +220,7 @@
           use sigeps125c_mod
           use sigeps127c_mod
           use sigeps128c_mod
+          use sigeps132c_mod
           use elbufdef_mod
           use dt_mod
           use file_descriptor_mod
@@ -1894,6 +1896,19 @@
                   ssp      ,thkn     ,lbuf%pla ,dpla     ,lbuf%epsd,       &
                   off      ,etse     ,thklyl   ,shf      ,sigy     ,       &
                   hardm    ,lbuf%seq ,l_sigb   ,lbuf%sigb)
+!       
+                elseif (ilaw == 132) then 
+                   call sigeps132c( &                     
+                  jlt      ,matparam   ,nuvar    ,nvartmp ,  uvar   ,      &
+                  vartmp   ,rho        ,thkn     ,thklyl   , shf    ,      &
+                  area    ,epsd_pg    ,npg      ,tt       ,npttot  ,      &
+                  epsxx    ,epsyy      ,epsxy    ,epsyz    ,epszx   ,       &
+                  depsxx   ,depsyy     ,depsxy   ,sigoxx   ,sigoyy  ,       &
+                  sigoxy   ,                                                &
+                  signxx   ,signyy     ,signxy   ,signzx   ,signyz  ,       &
+                  off      ,offl       ,sigy       ,etse     ,ssp   ,       &
+                lbuf%dmg ,gbuf%dmg   ,ioff_duct)
+               lbuf%epsd(1:nel) = epsd_pg(1:nel)
 !
               elseif (ilaw == 158) then
                 call sigeps158c(&

@@ -85,7 +85,7 @@ C --- A CORRIGER : VOL00(I) = THK0(I)*AREA0(I)
 C
       IF (MTN == 19) THEN
         VISCDEF=FOURTH
-      ELSEIF (MTN == 25 .OR. MTN == 27 .OR. MTN == 123 .OR. MTN == 125 .OR. MTN == 127) THEN ! must be rechecked for type51,17, 11, pcommp
+      ELSEIF (MTN == 25 .OR. MTN == 27 .OR. MTN == 123 .OR. MTN == 125 .OR. MTN == 127 .OR. MTN == 132) THEN ! must be rechecked for type51,17, 11, pcommp
         VISCDEF=FIVEEM2
       ELSE
         VISCDEF=ZERO
