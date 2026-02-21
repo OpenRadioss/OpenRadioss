@@ -30,6 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    amomt3                 ../engine/source/elements/solid/solide/amomt3.F
 !||    boltst                 ../engine/source/elements/solid/solide/boltst.F
 !||    check_off_ale          ../engine/source/elements/solid/solide/check_off_ale.F
+!||    degenes8               ../engine/source/elements/solid/solide/degenes8.F
 !||    emomt3b                ../engine/source/elements/solid/solide/emomt3b.F
 !||    epxle3                 ../engine/source/elements/solid/solide/epxle3.F
 !||    fe_close               ../engine/source/elements/solid/solide/fe_close.F

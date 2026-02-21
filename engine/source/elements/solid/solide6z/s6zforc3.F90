@@ -57,7 +57,6 @@
 !||    s6zhour3                ../engine/source/elements/solid/solide6z/s6zhourg3.F90
 !||    s6zhour3_or             ../engine/source/elements/solid/solide6z/s6zhourg3_or.F90
 !||    s6zrcoor3               ../engine/source/elements/solid/solide6z/s6zrcoor3.F90
-!||    s6zrmalla11             ../engine/source/elements/solid/solide6z/s6zrmalla11.F90
 !||    s6zrrota3               ../engine/source/elements/solid/solide6z/s6zrrota3.F90
 !||    s6zrrotadp              ../engine/source/elements/solid/solide6z/s6zrrotadp.F90
 !||    s6zsav12                ../engine/source/elements/solid/solide6z/s6zsav12.F90

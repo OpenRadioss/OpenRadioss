@@ -29,8 +29,6 @@
       contains
 !||====================================================================
 !||    s6zrmalla11     ../engine/source/elements/solid/solide6z/s6zrmalla11.F90
-!||--- called by ------------------------------------------------------
-!||    s6zforc3        ../engine/source/elements/solid/solide6z/s6zforc3.F90
 !||--- uses       -----------------------------------------------------
 !||    constant_mod    ../common_source/modules/constant_mod.F
 !||    precision_mod   ../common_source/modules/precision_mod.F90

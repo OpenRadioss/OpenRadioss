@@ -29,6 +29,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    s8zforc3      ../engine/source/elements/solid/solide8z/s8zforc3.F
 !||    sdlen_dege    ../engine/source/elements/solid/solide/sdlen_dege.F
 !||    sdlen_sms     ../engine/source/elements/solid/solidez/sdlen_sms.F
+!||    sforc3        ../engine/source/elements/solid/solide/sforc3.F
+!||    szforc3       ../engine/source/elements/solid/solidez/szforc3.F
 !||--- calls      -----------------------------------------------------
 !||    intab         ../engine/source/implicit/ind_glob_k.F
 !||--- uses       -----------------------------------------------------
