@@ -665,9 +665,9 @@ C Extract stresses + small strain
        CALL SRMALLA3(GBUF%SIG,S1,S2,S3,S4,S5,S6,
      .             GBUF%OFF,OFF,NEL)
       IF (ISMSTR == 11.OR.ISMSTR == 12) THEN
-        CALL DEGENES8(IXS,     IDEGE,   NEL)
+        CALL DEGENES8(IXS(1,NF1),IDEGE,   NEL)
         DO I=1,NEL
-          IF (IDEGE(1) == 0) THEN
+          IF (IDEGE(I) == 0) THEN
              OFFG11(I) = GBUF%OFF(I)
           ELSE 
              OFFG11(I) = ZERO
