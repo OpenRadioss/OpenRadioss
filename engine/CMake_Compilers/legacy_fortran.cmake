@@ -44,6 +44,7 @@ set_source_files_properties( ${source_directory}/source/system/trace_back.F PROP
 set_source_files_properties( ${source_directory}/source/system/machine.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
 set_source_files_properties( ${source_directory}/source/system/parit.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
 set_source_files_properties( ${source_directory}/source/system/timer.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
+set_source_files_properties( ${source_directory}/source/system/printime.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
 set_source_files_properties( ${source_directory}/source/general_controls/damping/static.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
 set_source_files_properties( ${source_directory}/source/general_controls/computation/initnoise.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
 set_source_files_properties( ${source_directory}/source/mpi/spmd_mod.F90 PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
