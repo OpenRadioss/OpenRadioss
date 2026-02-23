@@ -111,6 +111,8 @@ bool PreciceCouplingAdapter::configure(const std::string& configFile) {
                     readData_[static_cast<size_t>(dataType)].mode = Mode::ADD;
                 } else if (DataType::DISPLACEMENTS == dataType) {
                     readData_[static_cast<size_t>(dataType)].mode = Mode::REPLACE;
+                } else if (DataType::TEMPERATURE == dataType) {
+                    readData_[static_cast<size_t>(dataType)].mode = Mode::REPLACE;
                 }
             } else if (key == "WRITE") {
                 const auto dataType = stringToDataType(value);
@@ -139,22 +141,20 @@ bool PreciceCouplingAdapter::configure(const std::string& configFile) {
 void PreciceCouplingAdapter::setNodes(const std::vector<int>& nodeIds) {
     couplingNodeIds_ = nodeIds;
     
-    // Allocate buffers for 3D data
-    int dimensions = 3; // to do: allow scalar (like temperature) or 2d data in the future, for now we assume all data is 3D vector data
-    const auto bufferSize = couplingNodeIds_.size() * dimensions;
     vertexIds_.resize(couplingNodeIds_.size());
     
-    // Loop over readData_
-    for (auto& data : readData_) {
-        if (data.isActive) {
-            data.buffer.resize(bufferSize);
+    // Allocate buffers with per-field dimensions (3 for vector fields, 1 for scalar fields)
+    for (size_t i = 0; i < readData_.size(); ++i) {
+        if (readData_[i].isActive) {
+            const int fieldDim = dataDimensions(static_cast<DataType>(i));
+            readData_[i].buffer.resize(couplingNodeIds_.size() * fieldDim);
         }
     }
     
-    // Loop over writeData_
-    for (auto& data : writeData_) {
-        if (data.isActive) {
-            data.buffer.resize(bufferSize);
+    for (size_t i = 0; i < writeData_.size(); ++i) {
+        if (writeData_[i].isActive) {
+            const int fieldDim = dataDimensions(static_cast<DataType>(i));
+            writeData_[i].buffer.resize(couplingNodeIds_.size() * fieldDim);
         }
     }
 }
@@ -351,8 +351,9 @@ void PreciceCouplingAdapter::extractNodeData(const double* globalValues, int tot
     if (!writeData_[dataType].isActive) {
         return;
     }
-    int meshDimensions = getDimensions();
-    int n2d = getN2D();
+    const int meshDimensions = getDimensions();
+    const int n2d = getN2D();
+    const int fieldDim = dataDimensions(static_cast<DataType>(dataType));
 
     for (size_t i = 0; i < couplingNodeIds_.size(); ++i) {
         const auto nodeId = couplingNodeIds_[i];
@@ -363,7 +364,10 @@ void PreciceCouplingAdapter::extractNodeData(const double* globalValues, int tot
         }
         const auto idx = nodeId - 1; // Convert to 0-based indexing
 
-        if (meshDimensions == 3 && n2d == 0) {
+        if (fieldDim == 1) {
+            // Scalar field (e.g., TEMPERATURE): one value per node
+            writeData_[dataType].buffer[i] = globalValues[idx];
+        } else if (meshDimensions == 3 && n2d == 0) {
             // 3D case: direct mapping
             writeData_[dataType].buffer[i * 3]     = globalValues[idx * 3];
             writeData_[dataType].buffer[i * 3 + 1] = globalValues[idx * 3 + 1];
@@ -383,7 +387,6 @@ void PreciceCouplingAdapter::extractNodeData(const double* globalValues, int tot
         }
     }
 }
-// ...existing code...
 void PreciceCouplingAdapter::injectNodeData(double* globalValues, int totalNodes, int dataType) {
     if (!readData_[dataType].isActive) {
         return;
@@ -391,12 +394,16 @@ void PreciceCouplingAdapter::injectNodeData(double* globalValues, int totalNodes
 
     const int meshDimensions = getDimensions();
     const int n2d = getN2D();
+    const int fieldDim = dataDimensions(static_cast<DataType>(dataType));
 
     if (readData_[dataType].mode == Mode::ADD) {
         for (size_t i = 0; i < couplingNodeIds_.size(); ++i) {
             int nodeId = couplingNodeIds_[i] - 1; // Convert to 0-based indexing
 
-            if (meshDimensions == 3 && n2d == 0) {
+            if (fieldDim == 1) {
+                // Scalar field (e.g., TEMPERATURE): one value per node
+                globalValues[nodeId] += readData_[dataType].buffer[i];
+            } else if (meshDimensions == 3 && n2d == 0) {
                 // 3D case: direct mapping
                 globalValues[nodeId * 3]     += readData_[dataType].buffer[i * 3];
                 globalValues[nodeId * 3 + 1] += readData_[dataType].buffer[i * 3 + 1];
@@ -425,7 +432,10 @@ void PreciceCouplingAdapter::injectNodeData(double* globalValues, int totalNodes
         for (size_t i = 0; i < couplingNodeIds_.size(); ++i) {
             int nodeId = couplingNodeIds_[i] - 1; // Convert to 0-based indexing
 
-            if (meshDimensions == 3 && n2d == 0) {
+            if (fieldDim == 1) {
+                // Scalar field (e.g., TEMPERATURE): one value per node
+                globalValues[nodeId] = readData_[dataType].buffer[i];
+            } else if (meshDimensions == 3 && n2d == 0) {
                 globalValues[nodeId * 3]     = readData_[dataType].buffer[i * 3];
                 globalValues[nodeId * 3 + 1] = readData_[dataType].buffer[i * 3 + 1];
                 globalValues[nodeId * 3 + 2] = readData_[dataType].buffer[i * 3 + 2];
@@ -449,5 +459,4 @@ void PreciceCouplingAdapter::injectNodeData(double* globalValues, int totalNodes
                   << ", skipping injection." << std::endl;
     }
 }
-// ...existing code...
 #endif

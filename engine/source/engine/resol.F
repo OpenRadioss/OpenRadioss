@@ -7426,6 +7426,12 @@ C--------------------------
                   CALL STOPTIME(TIMERS,6)
                 ENDIF
               ENDIF
+C--------------------------
+C         COUPLING TEMPERATURE EXCHANGE
+C--------------------------
+              IF(coupling%active) THEN
+                CALL COUPLING_SYNC(coupling,DT2,NODES,COUPLING_TEMPERATURE)
+              ENDIF
 C---------------
               IF(ISECUT/=0)THEN
                 IF (IMON>0) CALL STARTIME(TIMERS,TIMER_IO)

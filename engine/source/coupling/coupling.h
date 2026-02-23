@@ -69,8 +69,8 @@ public:
     void setSurfaceId(int id) { surfaceId_ = id; }
     virtual int getCommunicator() const { return 0; }
     virtual void get_coupled_data(int* rd, int* wd) const { 
-        // Fill rd and wd fortran arrays with 4 zeros
-        for (int i = 0; i < 3; ++i) {
+        // Fill rd and wd fortran arrays with zeros
+        for (int i = 0; i < static_cast<int>(DataType::DATA_COUNT) - 1; ++i) {
             rd[i] = 0;
             wd[i] = 0;
         }
@@ -86,8 +86,21 @@ public:
          DISPLACEMENTS = 1,
          FORCES = 2,
          POSITIONS = 3,
-         DATA_COUNT = 4 // Total number of data types
+         TEMPERATURE = 4,
+         DATA_COUNT = 5 // Total number of data types
     };
+
+    // Returns the number of components for a given data type (3 for vector fields, 1 for scalar fields)
+    static int dataDimensions(DataType type) {
+        switch (type) {
+            case DataType::TEMPERATURE: return 1;
+            case DataType::DISPLACEMENTS:
+            case DataType::FORCES:
+            case DataType::POSITIONS:
+                return 3;
+            default: return 0;
+        }
+    }
     
     // What to do with the received data
     enum class Mode {
@@ -102,6 +115,7 @@ public:
         if (str == "DISPLACEMENTS") return DataType::DISPLACEMENTS;
         if (str == "FORCES") return DataType::FORCES;
         if (str == "POSITIONS") return DataType::POSITIONS;
+        if (str == "TEMPERATURE") return DataType::TEMPERATURE;
         return DataType::NOTHING;
     }
     
@@ -110,6 +124,7 @@ public:
             case DataType::DISPLACEMENTS: return "DISPLACEMENTS";
             case DataType::FORCES: return "FORCES";
             case DataType::POSITIONS: return "POSITIONS";
+            case DataType::TEMPERATURE: return "TEMPERATURE";
             case DataType::NOTHING: return "NOTHING";
             case DataType::DATA_COUNT: break; // Don't convert this
         }

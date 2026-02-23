@@ -54,6 +54,7 @@
         integer, parameter :: coupling_displacements = 1
         integer, parameter :: coupling_forces = 2
         integer, parameter :: coupling_positions = 3
+        integer, parameter :: coupling_temperature = 4
         ! In order to add a new data type, add a new integer here and in the C++ adapter
         ! see enum class DataType in coupling.h and the implementation of the configure method in both cwipi and preCICE adapters
 
@@ -591,6 +592,44 @@
 #endif
         end subroutine coupling_write
 
+        ! Write scalar data to coupling library (e.g. temperature)
+!||====================================================================
+!||    coupling_write_scalar         ../engine/source/coupling/coupling_adapter.F90
+!||--- calls      -----------------------------------------------------
+!||    coupling_adapter_write_data   ../engine/source/coupling/coupling_c_interface.cpp
+!||--- uses       -----------------------------------------------------
+!||    precision_mod                 ../common_source/modules/precision_mod.F90
+!||====================================================================
+        subroutine coupling_write_scalar(coupling, dt, global_values, nb_nodes, name_id)
+          use precision_mod, only: WP
+          implicit none
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Arguments
+! ----------------------------------------------------------------------------------------------------------------------
+          type(coupling_type), intent(inout) :: coupling
+          integer, intent(in) :: nb_nodes, name_id
+          real(kind=WP), intent(in) :: global_values(nb_nodes), dt
+!-----------------------------------------------------------------------------------------------------------------------
+!                                                   Local variables
+!-----------------------------------------------------------------------------------------------------------------------
+#ifndef MYREAL8
+          real(c_double), dimension(:), allocatable :: values
+#endif
+!------------------------------------------------------------------------------------------------------------------------
+!                                                   Body
+!------------------------------------------------------------------------------------------------------------------------
+          if (.not. c_associated(coupling%adapter_ptr)) return
+          if (.not. coupling%active) return
+#ifdef MYREAL8
+          call coupling_adapter_write_data(coupling%adapter_ptr, global_values, nb_nodes, real(dt, c_double), name_id)
+#else
+          allocate(values(nb_nodes))
+          values(1:nb_nodes) = real(global_values(1:nb_nodes), c_double)
+          call coupling_adapter_write_data(coupling%adapter_ptr, values, nb_nodes, real(dt, c_double), name_id)
+          deallocate(values)
+#endif
+        end subroutine coupling_write_scalar
+
         ! Read data from coupling library
 !||====================================================================
 !||    coupling_read                ../engine/source/coupling/coupling_adapter.F90
@@ -634,6 +673,46 @@
 
         end subroutine coupling_read
 
+        ! Read scalar data from coupling library (e.g. temperature)
+!||====================================================================
+!||    coupling_read_scalar          ../engine/source/coupling/coupling_adapter.F90
+!||--- calls      -----------------------------------------------------
+!||    coupling_adapter_read_data    ../engine/source/coupling/coupling_c_interface.cpp
+!||--- uses       -----------------------------------------------------
+!||    precision_mod                 ../common_source/modules/precision_mod.F90
+!||====================================================================
+        subroutine coupling_read_scalar(coupling, dt, global_values, nb_nodes, mode, name_id)
+          use precision_mod, only: WP
+          implicit none
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Arguments
+! ----------------------------------------------------------------------------------------------------------------------
+          type(coupling_type), intent(inout) :: coupling
+          integer, intent(in) :: nb_nodes, mode, name_id
+          real(kind=WP), intent(inout) :: global_values(nb_nodes)
+          real(kind=WP), intent(in) :: dt
+!-----------------------------------------------------------------------------------------------------------------------
+!                                                   Local variables
+!-----------------------------------------------------------------------------------------------------------------------
+#ifndef MYREAL8
+          real(c_double), dimension(:), allocatable :: values
+#endif
+!------------------------------------------------------------------------------------------------------------------------
+!                                                   Body
+!------------------------------------------------------------------------------------------------------------------------
+          if (.not. c_associated(coupling%adapter_ptr)) return
+          if (.not. coupling%active) return
+#ifdef MYREAL8
+          call coupling_adapter_read_data(coupling%adapter_ptr, global_values, nb_nodes, real(dt, c_double), name_id, mode)
+#else
+          allocate(values(nb_nodes))
+          values(1:nb_nodes) = real(global_values(1:nb_nodes), c_double)
+          call coupling_adapter_read_data(coupling%adapter_ptr, values, nb_nodes, real(dt, c_double), name_id, mode)
+          global_values(1:nb_nodes) = real(values(1:nb_nodes), WP)
+          deallocate(values)
+#endif
+        end subroutine coupling_read_scalar
+
 
 !! \brief main subroutine to create syncrhonization points from resol.F. It does both reading and writing
 !||====================================================================
@@ -663,7 +742,7 @@
 !                                                   Local variables
 !-----------------------------------------------------------------------------------------------------------------------
           integer :: numnod,i,j
-          integer :: read_data(3), write_data(3)
+          integer :: read_data(4), write_data(4)
 !------------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 !------------------------------------------------------------------------------------------------------------------------
@@ -713,6 +792,17 @@
                 nodes%D(1:3, j) = nodes%X(1:3,j) - nodes%X0(1:3,j)
               end do
             endif
+          else if(name_id == coupling_temperature) then
+            ! Write temperature (scalar field)
+            if(write_data(coupling_temperature) == 1) then
+              call coupling_adapter_write_data(coupling%adapter_ptr, nodes%TEMP, numnod, &
+                real(dt, c_double), coupling_temperature)
+            endif
+            ! Read temperature (scalar field)
+            if(read_data(coupling_temperature) == 1) then
+              call coupling_adapter_read_data(coupling%adapter_ptr, nodes%TEMP, numnod, &
+                real(dt, c_double), coupling_temperature, coupling_replace)
+            endif
           end if
 #else
           if(name_id == coupling_displacements) then
@@ -741,6 +831,15 @@
             call coupling_adapter_read_data(coupling%adapter_ptr, coupling%values, numnod, &
               real(dt, c_double), coupling_positions, coupling_replace)
             nodes%X(1:3,1:numnod) = real(coupling%values(1:3,1:numnod), WP)
+          else if(name_id == coupling_temperature) then
+            ! Write temperature (scalar field)
+            if(write_data(coupling_temperature) == 1) then
+              call coupling_write_scalar(coupling, dt, nodes%TEMP, numnod, coupling_temperature)
+            endif
+            ! Read temperature (scalar field)
+            if(read_data(coupling_temperature) == 1) then
+              call coupling_read_scalar(coupling, dt, nodes%TEMP, numnod, coupling_replace, coupling_temperature)
+            endif
           end if
 #endif
 
