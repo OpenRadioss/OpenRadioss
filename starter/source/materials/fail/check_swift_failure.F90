@@ -9,7 +9,7 @@
 !Copyright>        This program is distributed in the hope that it will be useful,
 !Copyright>        but WITHOUT ANY WARRANTY; without even the implied warranty of
 !Copyright>        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-!Copyright>        GNU Affero General Public License for more detals.
+!Copyright>        GNU Affero General Public License for more details.
 !Copyright>
 !Copyright>        You should have received a copy of the GNU Affero General Public License
 !Copyright>        along with this program.  If not, see <https://www.gnu.org/licenses/>.
