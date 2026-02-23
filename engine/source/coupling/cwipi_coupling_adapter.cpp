@@ -168,18 +168,18 @@ bool CwipiCouplingAdapter::configure(const std::string& configFile) {
 void CwipiCouplingAdapter::setNodes(const std::vector<int>& nodeIds) {
     couplingNodeIds_ = nodeIds;
     
-    // Allocate buffers for 3D data
-    int bufferSize = couplingNodeIds_.size() * 3;
-    
+    // Allocate buffers with per-field dimensions (3 for vector fields, 1 for scalar fields)
     for (size_t i = 0; i < readData_.size(); ++i) {
         if (readData_[i].isActive) {
-            readData_[i].buffer.resize(bufferSize);
+            const int fieldDim = dataDimensions(static_cast<DataType>(i));
+            readData_[i].buffer.resize(couplingNodeIds_.size() * fieldDim);
         }
     }
     
     for (size_t i = 0; i < writeData_.size(); ++i) {
         if (writeData_[i].isActive) {
-            writeData_[i].buffer.resize(bufferSize);
+            const int fieldDim = dataDimensions(static_cast<DataType>(i));
+            writeData_[i].buffer.resize(couplingNodeIds_.size() * fieldDim);
         }
     }
 }
@@ -425,12 +425,18 @@ void CwipiCouplingAdapter::extractNodeData(const double* globalValues, int total
     if (!writeData_[dataType].isActive) {
         return;
     }
-    
+    const int fieldDim = dataDimensions(static_cast<DataType>(dataType));
+
     for (size_t i = 0; i < couplingNodeIds_.size(); ++i) {
         int nodeId = couplingNodeIds_[i] - 1; // Convert to 0-based indexing
-        writeData_[dataType].buffer[i * 3] = globalValues[nodeId * 3];
-        writeData_[dataType].buffer[i * 3 + 1] = globalValues[nodeId * 3 + 1];
-        writeData_[dataType].buffer[i * 3 + 2] = globalValues[nodeId * 3 + 2];
+        if (fieldDim == 1) {
+            // Scalar field (e.g., TEMPERATURE): one value per node
+            writeData_[dataType].buffer[i] = globalValues[nodeId];
+        } else {
+            writeData_[dataType].buffer[i * 3] = globalValues[nodeId * 3];
+            writeData_[dataType].buffer[i * 3 + 1] = globalValues[nodeId * 3 + 1];
+            writeData_[dataType].buffer[i * 3 + 2] = globalValues[nodeId * 3 + 2];
+        }
     }
 }
 
@@ -441,19 +447,29 @@ void CwipiCouplingAdapter::injectNodeData(double* globalValues, int totalNodes, 
         return;
     }
     
+    const int fieldDim = dataDimensions(static_cast<DataType>(dataType));
+
     if (readData_[dataType].mode == Mode::ADD) {
         for (size_t i = 0; i < couplingNodeIds_.size(); ++i) {
             int nodeId = couplingNodeIds_[i] - 1; // Convert to 0-based indexing
-            globalValues[nodeId * 3] += readData_[dataType].buffer[i * 3];
-            globalValues[nodeId * 3 + 1] += readData_[dataType].buffer[i * 3 + 1];
-            globalValues[nodeId * 3 + 2] += readData_[dataType].buffer[i * 3 + 2];
+            if (fieldDim == 1) {
+                globalValues[nodeId] += readData_[dataType].buffer[i];
+            } else {
+                globalValues[nodeId * 3] += readData_[dataType].buffer[i * 3];
+                globalValues[nodeId * 3 + 1] += readData_[dataType].buffer[i * 3 + 1];
+                globalValues[nodeId * 3 + 2] += readData_[dataType].buffer[i * 3 + 2];
+            }
         }
     } else if (readData_[dataType].mode == Mode::REPLACE) {
         for (size_t i = 0; i < couplingNodeIds_.size(); ++i) {
             int nodeId = couplingNodeIds_[i] - 1; // Convert to 0-based indexing
-            globalValues[nodeId * 3] = readData_[dataType].buffer[i * 3];
-            globalValues[nodeId * 3 + 1] = readData_[dataType].buffer[i * 3 + 1];
-            globalValues[nodeId * 3 + 2] = readData_[dataType].buffer[i * 3 + 2];
+            if (fieldDim == 1) {
+                globalValues[nodeId] = readData_[dataType].buffer[i];
+            } else {
+                globalValues[nodeId * 3] = readData_[dataType].buffer[i * 3];
+                globalValues[nodeId * 3 + 1] = readData_[dataType].buffer[i * 3 + 1];
+                globalValues[nodeId * 3 + 2] = readData_[dataType].buffer[i * 3 + 2];
+            }
         }
     }
 
@@ -464,6 +480,7 @@ std::string CwipiCouplingAdapter::getFieldName(DataType type) {
         case DataType::POSITIONS: return "positions";
         case DataType::FORCES: return "forces";
         case DataType::DISPLACEMENTS: return "displacements";
+        case DataType::TEMPERATURE: return "temperature";
         default: return "unknown";
     }
 }

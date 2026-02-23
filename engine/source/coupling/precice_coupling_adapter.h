@@ -87,7 +87,8 @@ public:
     void get_coupled_data(int* rd, int* wd) const { 
         //rd is the readData_ status (1: active)
         //wd is the writeData_status
-        for (size_t i = 0; i < 3; ++i) {
+        // Data types start at index 1 (DISPLACEMENTS), so rd/wd index = i-1
+        for (size_t i = 0; i < static_cast<size_t>(DataType::DATA_COUNT) - 1; ++i) {
             wd[i] = 0;
             rd[i] = 0;
         }
