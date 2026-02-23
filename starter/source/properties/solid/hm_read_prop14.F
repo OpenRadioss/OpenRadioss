@@ -174,7 +174,12 @@ C--------------------------------------------------
         ! use value from /DEF_SOLID (by default or in case of unexpected value) : and check it below
         ITET4 = ITET4_D
       ENDIF 
-      IF(ITET4 == 2) THEN
+      IF(ITET4 == 1) THEN ! switched to tetra10 w/ itetra10=2
+        ITET10 = 2
+        ITET4 = 0  
+        MSGLINE='   ITETR4 IS CHANGED TO TETRA10'
+        CALL ANCMSG(MSGID=2027,MSGTYPE=MSGWARNING,ANMODE=ANINFO,I1=IG,C1=TITR,I2=2,C2=TRIM(MSGLINE))      
+      ELSEIF(ITET4 == 2) THEN
         ! old single tetra4 & tetra10 formulation flag : set ITET4 to 1000
         ITET10 = 2
         ITET4 = 1000  
