@@ -116,7 +116,7 @@ C
          DO IS = 1, NSEG
 
            I=JS+IS
-
+ 
            IF(SH_EDGE==1.AND.LEDGE(3,CAND_M(I))/=0) CYCLE ! Shell edge is not a free edge
 
            IF(CAND_S(I)<=NEDGE)THEN
@@ -157,9 +157,21 @@ C            IF(SH_EDGE==1.AND.LEDGE(3,CAND_M(I))/=0) CYCLE ! Shell edge is not 
            JE=CAND_S(I)
 
            IF(IGAP0 == 0) THEN
-             GAPV(IS)=TWO*GAPE(IE)+GAPE(JE)
+             IF(IABS(LEDGE(7,IE))/=3) THEN
+                GAPV(IS)=TWO*GAPE(IE)+GAPE(JE)
+             ELSE
+                GAPV(IS)=GAPE(IE)+GAPE(JE)
+             ENDIF 
            ELSE
-             GAPV(IS)=TWO*(GAPE(IE)+GAPE(JE))
+             IF(IABS(LEDGE(7,IE))/=3.AND.IABS(LEDGE(7,JE))/=3) THEN
+                GAPV(IS)=TWO*(GAPE(IE)+GAPE(JE))
+             ELSEIF(IABS(LEDGE(7,IE))/=3) THEN
+               GAPV(I)=TWO*GAPE(IE)+GAPE(JE)
+             ELSEIF(IABS(LEDGE(7,JE))/=3) THEN   
+               GAPV(I)=TWO*GAPE(JE)+GAPE(IE) 
+             ELSEIF(IABS(LEDGE(7,IE))==3.AND.IABS(LEDGE(7,JE))==3) THEN    
+                GAPV(IS)=GAPE(IE)+GAPE(JE)     
+             ENDIF            
            END IF
 
            IF(IGAP==3)
@@ -172,7 +184,6 @@ C            IF(SH_EDGE==1.AND.LEDGE(3,CAND_M(I))/=0) CYCLE ! Shell edge is not 
          DO IS=1,NSEG
 
            I=JS+IS
-
 
            IF(SH_EDGE==1.AND.LEDGE(3,CAND_M(I))/=0) CYCLE ! Shell edge is not a free edge
 
@@ -198,9 +209,21 @@ C            IF(SH_EDGE==1.AND.LEDGE(3,CAND_M(I))/=0) CYCLE ! Shell edge is not 
            JE=CAND_S(I)
 
            IF(IGAP0 == 0) THEN
-             GAPV(IS)=TWO*GAPE(IE)+GAPE(JE)
+             IF(IABS(LEDGE(7,IE))/=3) THEN
+                GAPV(IS)=TWO*GAPE(IE)+GAPE(JE)
+             ELSE
+                GAPV(IS)=GAPE(IE)+GAPE(JE)
+             ENDIF 
            ELSE
-             GAPV(IS)=TWO*(GAPE(IE)+GAPE(JE))
+             IF(IABS(LEDGE(7,IE))/=3.AND.IABS(LEDGE(7,JE))/=3) THEN
+                GAPV(IS)=TWO*(GAPE(IE)+GAPE(JE))
+             ELSEIF(IABS(LEDGE(7,IE))/=3) THEN
+               GAPV(I)=TWO*GAPE(IE)+GAPE(JE)
+             ELSEIF(IABS(LEDGE(7,JE))/=3) THEN   
+               GAPV(I)=TWO*GAPE(JE)+GAPE(IE) 
+             ELSEIF(IABS(LEDGE(7,IE))==3.AND.IABS(LEDGE(7,JE))==3) THEN    
+                GAPV(IS)=GAPE(IE)+GAPE(JE)     
+             ENDIF            
            END IF
 
            IF(IGAP==3)
@@ -221,6 +244,8 @@ C Loop over local candidates
            S = STFE(CAND_S(I))
          ELSE IF(L < 0) THEN
            S = ONE 
+         ELSEIF(L==0.AND.IABS(LEDGE(7,CAND_S(I)))==3)THEN
+           S = STFE(CAND_S(I))
          ENDIF
          IF (S/=ZERO) THEN
            N1= LEDGE(5,CAND_S(I))
@@ -233,6 +258,8 @@ C Loop over local candidates
              S = STF(L)
            ELSEIF(L < 0) THEN
              S = ZERO 
+           ELSEIF(L==0.AND.IABS(LEDGE(7,CAND_M(I)))==3)THEN
+             S = STFE(CAND_M(I))
            ENDIF
            IF (S/=ZERO) THEN
             M1= LEDGE(5,CAND_M(I))
@@ -306,10 +333,23 @@ C loop over remote candidates
            IS = LISTI(LS)
            I=JS+IS
            IE=CAND_M(I)
+
            IF(IGAP0 == 0) THEN
-             GAPV(IS)=TWO*GAPE(IE)+GAPFIE(NIN)%P(CAND_S(I)-NEDGE)
+             IF(IABS(LEDGE(7,IE))/=3) THEN
+                GAPV(IS)=TWO*GAPE(IE)+GAPE(JE)
+             ELSE
+                GAPV(IS)=GAPE(IE)+GAPE(JE)
+             ENDIF 
            ELSE
-             GAPV(IS)=TWO*(GAPE(IE)+GAPFIE(NIN)%P(CAND_S(I)-NEDGE))
+             IF(IABS(LEDGE(7,IE))/=3.AND.IABS(LEDGE_FIE(NIN)%P(E_TYPE,CAND_S(I)-NEDGE))/=3) THEN
+                GAPV(IS)=TWO*(GAPE(IE)+GAPFIE(NIN)%P(CAND_S(I)-NEDGE))
+             ELSEIF(IABS(LEDGE(7,IE))/=3) THEN
+               GAPV(I)=TWO*GAPE(IE)+GAPFIE(NIN)%P(CAND_S(I)-NEDGE)
+             ELSEIF(IABS(LEDGE_FIE(NIN)%P(E_TYPE,CAND_S(I)-NEDGE))/=3) THEN   
+               GAPV(I)=TWO*GAPFIE(NIN)%P(CAND_S(I)-NEDGE)+GAPE(IE) 
+             ELSEIF(IABS(LEDGE(7,IE))==3.AND.IABS(LEDGE_FIE(NIN)%P(E_TYPE,CAND_S(I)-NEDGE))==3) THEN    
+                GAPV(IS)=GAPE(IE)+GAPFIE(NIN)%P(CAND_S(I)-NEDGE)    
+             ENDIF            
            END IF
 
            IF(IGAP==3)
@@ -339,6 +379,8 @@ C         IF (STIFIE(NIN)%P(II)/=ZERO) THEN
              S = STF(L)
            ELSE IF( L < 0) THEN
              S = ZERO
+           ELSEIF(L==0.AND.IABS(LEDGE(7,CAND_M(I)))==3)THEN
+             S = STFE(CAND_M(I))
            ENDIF
            IF (S/=ZERO) THEN
             M1= LEDGE(5,CAND_M(I))

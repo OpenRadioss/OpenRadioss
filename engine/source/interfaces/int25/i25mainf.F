@@ -906,7 +906,7 @@ C         preparation CANDIDATES retenus
      .                                      INTBUF_TAB%CAND_P,
      E      IAM   ,JAM    ,IBM    ,JBM   ,IAS   ,
      F      JAS   ,IBS    ,JBS    ,ITAB  ,EDGE_ID,
-     G      DGAPLOADPMAX)
+     G      DGAPLOADPMAX,TYPEDGS  )
 
 C
           IF (IMONM > 0 .AND. JTASK == 1) CALL STARTIME(TIMERS,20)

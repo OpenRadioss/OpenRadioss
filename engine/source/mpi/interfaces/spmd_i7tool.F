@@ -2936,7 +2936,7 @@ C-----------------------------------------------
       INTEGER I, J, K, NSN, NMN, ITYP, IERROR, IERROR1, KK, NIN, P,
      .        SCPMAX1,ISD,IRC,MY_RANK,LAST, IGE, IGN, NME, NMES,INTTH,
      .        NRTM, NRTS, NLINM, NLINS,NSNE, NMNE,N,M,
-     .        WORK(70000),ITY,NOINT,INACTI,ISENS,INTERACT
+     .        WORK(70000),ITY,NOINT,INACTI,ISENS,INTERACT,NEDGE_1D
       INTEGER,DIMENSION(:), ALLOCATABLE:: INDX
       INTEGER,DIMENSION(:), ALLOCATABLE:: PPAR
       INTEGER,DIMENSION(:), ALLOCATABLE:: INDP
@@ -3070,19 +3070,19 @@ C
      .          ITYP==11.OR.ITYP==23.OR.ITYP==24.OR.
      .          ITYP==25) THEN
               NSN = IPARI(5,I)
-              NMN = IPARI(6,I)               
-              IF(NSN/=0) THEN
-                ISENDTO(I,ISPMD+1)=NSN
+              NMN = IPARI(6,I)       
+              NEDGE_1D = IPARI(101,I)                           
+              IF(NSN+NEDGE_1D/=0) THEN
+                ISENDTO(I,ISPMD+1)=NSN +NEDGE_1D
                 ISENDTO(I,NSPMD+1)=ISENDTO(I,NSPMD+1)+1
-                ISENDTO(NINTER+1,ISPMD+1)=ISENDTO(NINTER+1,ISPMD+1)+NSN
+                ISENDTO(NINTER+1,ISPMD+1)=ISENDTO(NINTER+1,ISPMD+1)+NSN +NEDGE_1D
               ENDIF
-              IF(NMN/=0) THEN
-                IRCVFROM(I,ISPMD+1) = NMN
+              IF(NMN+NEDGE_1D/=0) THEN
+                IRCVFROM(I,ISPMD+1) = NMN +NEDGE_1D
                 IRCVFROM(I,NSPMD+1)=IRCVFROM(I,NSPMD+1)+1
                 IRCVFROM(NINTER+1,ISPMD+1)=IRCVFROM(NINTER+1,ISPMD+1)
-     +                                    +NMN
+     +                                    +NMN +NEDGE_1D
               ENDIF
-
 
             ELSEIF(ITYP==17)THEN
               IF(IPARI(33,I)==0)THEN
@@ -4623,7 +4623,6 @@ C Lenr case = 0, we don't need an iskyfi and fskyfi table
 
                 CALL READ_I_C(NSNSIE(I)%P(1),NSPMD)
                 CALL READ_I_C(NSNFIE(I)%P(1),NSPMD)
-
                 LENS_EDGE = 0
                 LENR_EDGE = 0
                 DO P = 1, NSPMD
@@ -4661,8 +4660,11 @@ C
                 ENDIF
                 IF(LENR_EDGE>0) THEN
                   ALLOCATE(NSVFIE(I)%P(LENR_EDGE)) 
+
                   ALLOCATE(ITAFIE(I)%P(LENR_EDGE*2))
+
                   ALLOCATE(LEDGE_FIE(I)%P(E_LEDGE_SIZE,LENR_EDGE)) 
+
                   ALLOCATE(XFIE(I)%P(3,LENR_EDGE*2)) 
                   ALLOCATE(VFIE(I)%P(3,LENR_EDGE*2)) 
                   ALLOCATE(MSFIE(I)%P(LENR_EDGE*2)) 

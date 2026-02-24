@@ -390,8 +390,6 @@ c (no need to communicate VMAXDT in SPMD)
 
          INTBUF_TAB(I)%VARIABLES(5) = DIST0
 
-
-
          IF(VMAXDT > TWO * MARGE0) THEN
            ! assuming that MARGE0 is identical on all processors
            IF(VMAXDT > FIVE*MARGE0) THEN

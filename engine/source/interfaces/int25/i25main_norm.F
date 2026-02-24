@@ -80,7 +80,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER N, ISENS, NI25, NADMSR, IEDGE, NADMSRF6, NADMSRL6,
      .        NRTM, NSN, NSNR, NRTM_SH, NRTM0, FLAGREMN ,NCSHIFT ,ISHIFT,
-     .        SIZE_NODNOR_E2S,I,J,NOD,CC,SOL_EDGE
+     .        SIZE_NODNOR_E2S,I,J,NOD,CC,SOL_EDGE,I_STOK_E2S
       INTEGER :: NEDGE
 C     REAL
       my_real
@@ -185,7 +185,11 @@ C
           IEDGE  = IPARI(58,N)
           NEDGE  = IPARI(68,N) ! Updated in i25normp
           SOL_EDGE =0
-          IF(IEDGE /= 0) SOL_EDGE =IEDGE/10 ! solids
+          I_STOK_E2S = 0
+          IF(IEDGE /= 0)  THEN
+             SOL_EDGE =IEDGE/10 ! solids
+             I_STOK_E2S = INTBUF_TAB(N)%I_STOK_E(2)
+          ENDIF
 
           CALL I25TAGN(NI25    ,N       ,NRTM     ,NSN         ,NSNR      ,
      2               JTASK   ,IAD_FRNOR ,FR_NOR  ,INTBUF_TAB(N)%IRTLM,INTBUF_TAB(N)%MSEGTYP24  ,
@@ -194,7 +198,7 @@ C
      4               INTBUF_TAB(N)%TAGNOD,IAD_ELEM,FR_ELEM ,INTBUF_TAB(N)%ADMSR,INTBUF_TAB(N)%KNOR2MSR, 
      5               INTBUF_TAB(N)%NOR2MSR,FLAGREMN,INTBUF_TAB(N)%KREMNOR,INTBUF_TAB(N)%REMNOR,
      6               IEDGE, NEDGE, INTBUF_TAB(N)%LEDGE,INTBUF_TAB(N)%NRTM_FREE,
-     .                                    INTBUF_TAB(N)%FREE_IRECT_ID,INTBUF_TAB(N)%I_STOK_E(2),
+     .                                    INTBUF_TAB(N)%FREE_IRECT_ID,I_STOK_E2S,
      7               INTBUF_TAB(N)%CANDM_E2S,INTBUF_TAB(N)%CANDS_E2S,INTBUF_TAB(N)%MVOISIN,
      8               INTBUF_TAB(N)%E2S_ACTNOR,NADMSR,INTBUF_TAB(N)%STFM,
      8               INTBUF_TAB(N)%NUMBER_EDGE_TYPE1,INTBUF_TAB(N)%NUMBER_EDGE_TYPE1_0,

@@ -45,7 +45,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      C   CANDM_E2S ,CANDS_E2S,CAND_B ,CAND_PS  ,GAPE    ,
      D   GAP_E_L  ,DGAPLOAD,FLAG_REMOVED_NODE,
      E   S_KREMNODE_E2S,S_REMNODE_E2S,KREMNODE_E2S,REMNODE_E2S,
-     F   S_KREMNODE_EDG)
+     F   S_KREMNODE_EDG,STFE,NEDGE_1D)
 C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
@@ -81,6 +81,8 @@ C-----------------------------------------------
      .   GAP,VMAXDT,DRAD,
      .   BMINMA(6),BGAPEMX, MARGE
       my_real , INTENT(IN) :: DGAPLOAD
+      my_real , INTENT(IN) :: STFE(NEDGE)
+      INTEGER , INTENT(IN) :: NEDGE_1D
       my_real
      .   X(3,*), STFM(*), GAP_M(*), GAP_M_L(*), GAPE(*), GAP_E_L(*), CAND_P(*), CAND_PS(*), STFN(*)
       REAL*4 EDG_BISECTOR(3,4,*), VTX_BISECTOR(3,2,*)
@@ -88,10 +90,11 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, 
-     .         L, E 
+     .         L, E ,N1 , N2
       my_real
      .        XYZM(6), AAA, TZINF, 
-     .        XMIN, YMIN, ZMIN, XMAX, YMAX, ZMAX
+     .        XMIN, YMIN, ZMIN, XMAX, YMAX, ZMAX,
+     .        DD_1D,DX1,DY1,DZ1,DD1
       INTEGER NBX,NBY,NBZ
       INTEGER (KIND=8) :: NBX8,NBY8,NBZ8,RES8,LVOXEL8
       INTEGER (KIND=8) :: IONE,IHUNDRED !< Integer constants in INTEGER 8 for comparisions
@@ -117,25 +120,59 @@ C--------------------------------
       ZMIN= EP30
       ZMAX=-EP30 
 C
+      DD_1D = ZERO
+      DO I=ESHIFT+1,ESHIFT+NEDGE_T 
+       IF(LEDGE(7,I)==3) THEN
+         N1=LEDGE(5,I)
+         N2=LEDGE(6,I)
+         DX1=(X(1,N1)-X(1,N2))
+         DY1=(X(2,N1)-X(2,N2))
+         DZ1=(X(3,N1)-X(3,N2))
+         DD1=SQRT(DX1**2+DY1**2+DZ1**2)
+         DD_1D=DD_1D+ DD1
+       ENDIF
+      ENDDO
+      IF(NEDGE_1D >0)  MARGE = MAX(MARGE,DD_1D/NEDGE_1D)
+
+C
       DO I=ESHIFT+1,ESHIFT+NEDGE_T
-          L=LEDGE(1,I)
+        L=LEDGE(1,I)
         E=LEDGE(2,I)
-        IF(STFM(L) /= ZERO)THEN      
-          J=IRECT(E,L)
-          XMIN= MIN(XMIN,X(1,J))
-          YMIN= MIN(YMIN,X(2,J))
-          ZMIN= MIN(ZMIN,X(3,J))
-          XMAX= MAX(XMAX,X(1,J))
-          YMAX= MAX(YMAX,X(2,J))
-          ZMAX= MAX(ZMAX,X(3,J))
-          J=IRECT(MOD(E,4)+1,L)
-          XMIN= MIN(XMIN,X(1,J))
-          YMIN= MIN(YMIN,X(2,J))
-          ZMIN= MIN(ZMIN,X(3,J))
-          XMAX= MAX(XMAX,X(1,J))
-          YMAX= MAX(YMAX,X(2,J))
-          ZMAX= MAX(ZMAX,X(3,J))
-        END IF
+        IF(L/=0.AND.E/=0) THEN
+          IF(STFM(L) /= ZERO)THEN      
+            J=IRECT(E,L)
+            XMIN= MIN(XMIN,X(1,J))
+            YMIN= MIN(YMIN,X(2,J))
+            ZMIN= MIN(ZMIN,X(3,J))
+            XMAX= MAX(XMAX,X(1,J))
+            YMAX= MAX(YMAX,X(2,J))
+            ZMAX= MAX(ZMAX,X(3,J))
+            J=IRECT(MOD(E,4)+1,L)
+            XMIN= MIN(XMIN,X(1,J))
+            YMIN= MIN(YMIN,X(2,J))
+            ZMIN= MIN(ZMIN,X(3,J))
+            XMAX= MAX(XMAX,X(1,J))
+            YMAX= MAX(YMAX,X(2,J))
+            ZMAX= MAX(ZMAX,X(3,J))
+          END IF
+        ELSE
+          IF(STFE(I) /= ZERO)THEN      
+            J=LEDGE(5,I)
+            XMIN= MIN(XMIN,X(1,J))
+            YMIN= MIN(YMIN,X(2,J))
+            ZMIN= MIN(ZMIN,X(3,J))
+            XMAX= MAX(XMAX,X(1,J))
+            YMAX= MAX(YMAX,X(2,J))
+            ZMAX= MAX(ZMAX,X(3,J))
+            J=LEDGE(6,I)
+            XMIN= MIN(XMIN,X(1,J))
+            YMIN= MIN(YMIN,X(2,J))
+            ZMIN= MIN(ZMIN,X(3,J))
+            XMAX= MAX(XMAX,X(1,J))
+            YMAX= MAX(YMAX,X(2,J))
+            ZMAX= MAX(ZMAX,X(3,J))
+          END IF
+        ENDIF
       END DO
 
       TZINF = MARGE+TWO*BGAPEMX+VMAXDT+DGAPLOAD
@@ -234,7 +271,7 @@ C
      C   CANDM_E2S,CANDS_E2S,CAND_B,CAND_PS   ,GAPE     ,
      D   GAP_E_L  ,DGAPLOAD,FLAG_REMOVED_NODE,
      E   S_KREMNODE_E2S,S_REMNODE_E2S,KREMNODE_E2S,REMNODE_E2S,
-     F   S_KREMNODE_EDG)
+     F   S_KREMNODE_EDG,STFE)
 C
 C     I_MEM /= 0 ==> PAS ASSEZ DE MEMOIRE CANDIDATES
 C
