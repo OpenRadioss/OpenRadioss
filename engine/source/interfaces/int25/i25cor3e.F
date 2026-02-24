@@ -124,16 +124,26 @@ C-----------------------------------------------
 C debug ! global id of MAIN edge
         EDGE_ID(1,I) = LEDGE(8,EM)
 
-        IAM(I) = ABS(LEDGE(1,EM))
-        JAM(I)=LEDGE(2,EM)
-        IBM(I)=LEDGE(3,EM)
-        JBM(I)=LEDGE(4,EM)
-
         M1(I)=LEDGE(5,EM)
         M2(I)=LEDGE(6,EM)
-        IM(I) = LEDGE(10,EM)
-        NOD1M(I) = LEDGE(11,EM)
-        NOD2M(I) = LEDGE(12,EM)
+
+        IF(IABS(LEDGE(7,EM)) /= 3) THEN
+          IAM(I) = ABS(LEDGE(1,EM))
+          JAM(I)=LEDGE(2,EM)
+          IBM(I)=LEDGE(3,EM)
+          JBM(I)=LEDGE(4,EM)
+          IM(I) = LEDGE(10,EM)
+          NOD1M(I) = LEDGE(11,EM)
+          NOD2M(I) = LEDGE(12,EM)
+        ELSE
+          IAM(I) = 0
+          JAM(I) = 0
+          IBM(I) = 0
+          JBM(I) = 0
+          IM(I) = 0
+          NOD1M(I) = 0
+          NOD2M(I) = 0
+        ENDIF
 
 CC        IF(IAM(I) > 0) THEN
 CC          IF(IRECT(JAM(I),IAM(I))==M1(I).AND.IRECT(MOD(JAM(I),4)+1,IAM(I))==M2(I))THEN
@@ -173,16 +183,26 @@ C
 
           ES    =CAND_S(I)
           EDGE_ID(2,I) = LEDGE(8,ES)
-          IAS(I)=ABS( LEDGE(1,ES) )
-          JAS(I)=LEDGE(2,ES)
-          IBS(I)=LEDGE(3,ES)
-          JBS(I)=LEDGE(4,ES)
           N1(I)=LEDGE(5,ES)
           N2(I)=LEDGE(6,ES)
-          NOD1S(I) = LEDGE(11,ES)
-          NOD2S(I) = LEDGE(12,ES)
 
-          IS(I) = LEDGE(10,ES)
+          IF(IABS(LEDGE(7,ES)) /= 3) THEN
+            IAS(I)=ABS( LEDGE(1,ES) )
+            JAS(I)=LEDGE(2,ES)
+            IBS(I)=LEDGE(3,ES)
+            JBS(I)=LEDGE(4,ES)
+            NOD1S(I) = LEDGE(11,ES)
+            NOD2S(I) = LEDGE(12,ES)
+            IS(I) = LEDGE(10,ES)
+          ELSE
+            IAS(I)=0
+            JAS(I)=0
+            IBS(I)=0
+            JBS(I)=0
+            NOD1S(I) = 0
+            NOD2S(I) = 0
+            IS(I) = 0
+          ENDIF
 CC          IF(IAS(I) > 0) THEN
 CC            IF(IRECT(JAS(I),IAS(I))==N1(I).AND.IRECT(MOD(JAS(I),4)+1,IAS(I))==N2(I))THEN
 CC              IS(I)= 1
@@ -229,7 +249,6 @@ C
           ! IBUF_EDGE(P)%p(E_TYPE         + L) = LEDGE(7,I) 
 
           NN = CAND_S(I) - NEDGE            
-          IS(i) = LEDGE_FIE(NIN)%P(E_IM,NN) 
 C         IF(IS(i)  == 1) THEN
           N1(I)=2*(NN-1)+1
           N2(I)=2*NN
@@ -237,14 +256,22 @@ c         ELSE
 c           N2(I)=2*(NN-1)+1
 c           N1(I)=2*NN
 c         ENDIF
-
           EDGE_ID(2,I) = LEDGE_FIE(NIN)%P(E_GLOBAL_ID,NN)
-
-          IAS(I)=ABS( LEDGE_FIE(NIN)%P(E_LEFT_SEG  ,NN) )
-          JAS(I)=LEDGE_FIE(NIN)%P(E_LEFT_ID   ,NN)
-          IBS(I)=LEDGE_FIE(NIN)%P(E_RIGHT_SEG ,NN)
-          JBS(I)=LEDGE_FIE(NIN)%P(E_RIGHT_ID  ,NN)
           TYPEDGS(I)=LEDGE_FIE(NIN)%P(E_TYPE,NN)
+          IF(TYPEDGS(I) /= 3) THEN
+            IS(i) = LEDGE_FIE(NIN)%P(E_IM,NN) 
+            IAS(I)=ABS( LEDGE_FIE(NIN)%P(E_LEFT_SEG  ,NN) )
+            JAS(I)=LEDGE_FIE(NIN)%P(E_LEFT_ID   ,NN)
+            IBS(I)=LEDGE_FIE(NIN)%P(E_RIGHT_SEG ,NN)
+            JBS(I)=LEDGE_FIE(NIN)%P(E_RIGHT_ID  ,NN)
+          ELSE
+            IAS(I)=0
+            JAS(I)=0
+            IBS(I)=0
+            JBS(I)=0
+            IS(I) = 0
+          ENDIF
+
           STS=STIFIE(NIN)%P(NN)
           STIF(I)=STS*STM / MAX(EM20,STS+STM)
 c          STIF(I)=MAX(KMIN,MIN(STIF(I),KMAX))
@@ -321,11 +348,17 @@ C
 CC BOUNDARY_EDGE :
 C          IF(IAM(I) < 0) CYCLE
 C
-          EX(I) = EDG_BISECTOR(1,JAM(I),IAM(I))
-          EY(I) = EDG_BISECTOR(2,JAM(I),IAM(I))
-          EZ(I) = EDG_BISECTOR(3,JAM(I),IAM(I))
+          IF(IABS(LEDGE(7,CAND_M(I))) /= 3) THEN
+            EX(I) = EDG_BISECTOR(1,JAM(I),IAM(I))
+            EY(I) = EDG_BISECTOR(2,JAM(I),IAM(I))
+            EZ(I) = EDG_BISECTOR(3,JAM(I),IAM(I))
+          ELSE
+            EX(I) = ZERO
+            EY(I) = ZERO
+            EZ(I) = ZERO
+          ENDIF
 C
-          IF(IABS(TYPEDGS(I))/=1)THEN
+          IF(IABS(TYPEDGS(I))/=1.AND.IABS(TYPEDGS(I))/=3)THEN
             IF(CAND_S(I)<=NEDGE) THEN
               FX(I) = EDG_BISECTOR(1,JAS(I),IAS(I))
               FY(I) = EDG_BISECTOR(2,JAS(I),IAS(I))
@@ -335,6 +368,10 @@ C
               FY(I) = EDG_BISECTOR_FIE(NIN)%P(2,1,CAND_S(I)-NEDGE)
               FZ(I) = EDG_BISECTOR_FIE(NIN)%P(3,1,CAND_S(I)-NEDGE)
             END IF
+          ELSE
+           FX(I) =ZERO
+           FY(I) =ZERO
+           FZ(I) =ZERO
           END IF
         END DO
       END IF
@@ -365,7 +402,7 @@ C
 C     Always shift MAIN edge toward inner side
       DO I=1,JLT
 
-        IF(IBM(I)/=0)CYCLE
+        IF(IBM(I)/=0.OR.IABS(LEDGE(7,CAND_M(I))) == 3)CYCLE
 
         IE=IAM(I)
         JE=JAM(I)
@@ -417,6 +454,7 @@ C
         XXM1(I) = XXM1(I)-GAPE_M(I)*DX
         XYM1(I) = XYM1(I)-GAPE_M(I)*DY
         XZM1(I) = XZM1(I)-GAPE_M(I)*DZ
+
 C
 C       DX, DY, DZ Direction for shifting
         DX = VTX_BISECTOR(1,1,I2)+VTX_BISECTOR(1,2,I2)
@@ -461,7 +499,7 @@ C       Shift SECONDARY edge toward inner side
         DO I=1,JLT
           DEBUG_E2E(EDGE_ID(1,I) ==  D_EM .AND. EDGE_ID(2,I) == D_ES,IBS(I))
 
-          IF(IBS(I)/=0)CYCLE
+          IF(IBS(I)/=0.OR.TYPEDGS(I) == 3)CYCLE
 
           IF(CAND_S(I)<=NEDGE) THEN
           IE=IAS(I)

@@ -78,40 +78,41 @@ C
         NEDGFT= 1+(JTASK-1)*NEDGE/ NTHREAD
         NEDGLT= JTASK*NEDGE/NTHREAD
         DO NEDG=NEDGFT,NEDGLT
-          IRM =LEDGE(LEDGE_LEFT_SEG,NEDG)
-          IEDG=LEDGE(LEDGE_LEFT_ID,NEDG)
-          JRM =LEDGE(LEDGE_RIGHT_SEG,NEDG)
-          JEDG=LEDGE(LEDGE_RIGHT_ID,NEDG)
-          IF(JRM/=0)THEN
+          IF(IABS(LEDGE(7,NEDG)) /=3) THEN
+            IRM =LEDGE(LEDGE_LEFT_SEG,NEDG)
+            IEDG=LEDGE(LEDGE_LEFT_ID,NEDG)
+            JRM =LEDGE(LEDGE_RIGHT_SEG,NEDG)
+            JEDG=LEDGE(LEDGE_RIGHT_ID,NEDG)
+            IF(JRM/=0)THEN
 
-            IF(IRM > 0 .AND. JRM > 0) THEN
+              IF(IRM > 0 .AND. JRM > 0) THEN
 C not free, both segments are local to the SPMD domain
-              S1 = STIFM(IRM)
-              S2 = STIFM(JRM)
-            ELSEIF(IRM < 0 .AND. JRM > 0) THEN
+                S1 = STIFM(IRM)
+                S2 = STIFM(JRM)
+              ELSEIF(IRM < 0 .AND. JRM > 0) THEN
 C if IRM is negative, then JRM must be zero
 C because split_interface
-              ASSERT(.FALSE.)
+                ASSERT(.FALSE.)
 C edge at the boundary of spmd domains
-C second side treated by the other domain 
-              S1 = ONE ! exact stiffness not known, but it is nnz
+C secnd side treated by the other domain 
+                S1 = ONE ! exact stiffness not known, but it is nnz
 C MVOISIN = 0 <=> STFM( VOISIN )) = 0
-              IF(MVOISIN(JEDG,JRM) == 0 ) S1 = ZERO
-              S2 = STIFM(JRM)
-            ELSEIF(IRM > 0 .AND. JRM < 0) THEN
+                IF(MVOISIN(JEDG,JRM) == 0 ) S1 = ZERO
+                S2 = STIFM(JRM)
+              ELSEIF(IRM > 0 .AND. JRM < 0) THEN
 C edge at the boundary of SPMD domains
-C second side treated by ISPMD
-              S1 = STIFM(IRM)
+C secnd side treated by ISPMD
+                S1 = STIFM(IRM)
 !exact stiffness on the other side of the boundary is not known yet
 ! But we can determine if it is zero or not according to MVOISIN
-              S2 = ONE 
-              IF(MVOISIN(IEDG,IRM) == 0) S2 = ZERO
-            ELSE
+                S2 = ONE 
+                IF(MVOISIN(IEDG,IRM) == 0) S2 = ZERO
+              ELSE
 C not supposed to be there
-              ASSERT(.FALSE.)
-            ENDIF
+                ASSERT(.FALSE.)
+              ENDIF
 
-            IF(S1 == ZERO)THEN
+              IF(S1 == ZERO)THEN
 C first (left) segment is broken
 C new left <= old right
 C old right <= 0 
@@ -120,64 +121,66 @@ C            DEBUG_E2E(LEDGE(LEDGE_GLOBAL_ID,NEDG) == D_EM,S1)
 C            DEBUG_E2E(LEDGE(LEDGE_GLOBAL_ID,NEDG) == D_ES,S1)
 
 CC ???????????????????????????????????????????????
-              IF(JRM > 0) THEN
-                LEDGE(LEDGE_LEFT_SEG,NEDG) = JRM
-                LEDGE(LEDGE_LEFT_ID,NEDG) = JEDG
-              ELSEIF (JRM < 0)  THEN
-                LEDGE(LEDGE_LEFT_SEG,NEDG) = -ABS(IRM) !1
+                IF(JRM > 0) THEN
+                  LEDGE(LEDGE_LEFT_SEG,NEDG) = JRM
+                  LEDGE(LEDGE_LEFT_ID,NEDG) = JEDG
+                ELSEIF (JRM < 0)  THEN
+                  LEDGE(LEDGE_LEFT_SEG,NEDG) = -ABS(IRM) !1
 C               LEDGE(LEDGE_LEFT_SEG,NEDG) = JEDG      !2
                ! LEDGE(LEDGE_LEFT_ID,NEDG) unchanged
-              ENDIF
+                ENDIF
 C             tag for comm in spmd_getstif25_edg
-              IF(LEDGE(LEDGE_WEIGHT,NEDG) == 1) THEN
-                LEDGE(LEDGE_GLOBAL_ID,NEDG) = -ABS(LEDGE(LEDGE_GLOBAL_ID,NEDG))
-              ENDIF
+                IF(LEDGE(LEDGE_WEIGHT,NEDG) == 1) THEN
+                  LEDGE(LEDGE_GLOBAL_ID,NEDG) = -ABS(LEDGE(LEDGE_GLOBAL_ID,NEDG))
+                ENDIF
 CC ???????????????????????????????????????????????
 
-              LEDGE(LEDGE_SEG1_IM,NEDG) = LEDGE(LEDGE_SEG2_IM,NEDG)
-              LEDGE(LEDGE_SEG1_I1,NEDG) = LEDGE(LEDGE_SEG2_I1,NEDG)
-              LEDGE(LEDGE_SEG1_I2,NEDG) = LEDGE(LEDGE_SEG2_I2,NEDG)
-              LEDGE(LEDGE_RIGHT_SEG,NEDG) = 0
+                LEDGE(LEDGE_SEG1_IM,NEDG) = LEDGE(LEDGE_SEG2_IM,NEDG)
+                LEDGE(LEDGE_SEG1_I1,NEDG) = LEDGE(LEDGE_SEG2_I1,NEDG)
+                LEDGE(LEDGE_SEG1_I2,NEDG) = LEDGE(LEDGE_SEG2_I2,NEDG)
+                LEDGE(LEDGE_RIGHT_SEG,NEDG) = 0
 
-              IF(JRM >= 0) THEN
-                LEDGE(LEDGE_RIGHT_ID,NEDG) = 0
-              ELSE
+                IF(JRM >= 0) THEN
+                  LEDGE(LEDGE_RIGHT_ID,NEDG) = 0
+                ELSE
 
-              ENDIF
+                ENDIF
 
-            ELSEIF(S2 == ZERO)THEN
+              ELSEIF(S2 == ZERO)THEN
 C left segment has broken
 C             DEBUG_E2E(LEDGE(LEDGE_GLOBAL_ID,NEDG) == D_EM,S2)
 C             DEBUG_E2E(LEDGE(LEDGE_GLOBAL_ID,NEDG) == D_ES,S2)
-              LEDGE(LEDGE_RIGHT_SEG,NEDG) = 0
-              LEDGE(LEDGE_RIGHT_ID,NEDG) = 0
+                LEDGE(LEDGE_RIGHT_SEG,NEDG) = 0
+                LEDGE(LEDGE_RIGHT_ID,NEDG) = 0
 
 C             tag for comm in spmd_getstif25_edg
-              IF(LEDGE(LEDGE_WEIGHT,NEDG) == 1) THEN
-                LEDGE(LEDGE_GLOBAL_ID,NEDG) = -ABS(LEDGE(LEDGE_GLOBAL_ID,NEDG))
-              ENDIF
+                IF(LEDGE(LEDGE_WEIGHT,NEDG) == 1) THEN
+                  LEDGE(LEDGE_GLOBAL_ID,NEDG) = -ABS(LEDGE(LEDGE_GLOBAL_ID,NEDG))
+                ENDIF
  
 
-            END IF          
-          END IF
+              END IF          
+            END IF
+          ENDIF
         END DO
 
 C=======================================================================
         DO NEDG = NEDGFT,NEDGLT
-          IRM = LEDGE(LEDGE_LEFT_SEG,NEDG)
-          JRM = LEDGE(LEDGE_RIGHT_SEG,NEDG)
+          IF(IABS(LEDGE(7,NEDG)) /=3) THEN
+            IRM = LEDGE(LEDGE_LEFT_SEG,NEDG)
+            JRM = LEDGE(LEDGE_RIGHT_SEG,NEDG)
 C         DEBUG_E2E(LEDGE(LEDGE_GLOBAL_ID,NEDG) == D_ES,STFE(NEDG))
 
-          IF(IRM > 0) THEN
+            IF(IRM > 0) THEN
 C on peut passer ici: cas d edge de bord
 C where irect breaks (does not go through the switch (1,2) <- (3,4) above)
 C           DEBUG_E2E(LEDGE(LEDGE_GLOBAL_ID,NEDG) == D_ES,STIFM(IRM))
-            IF(STIFM(IRM)==ZERO)THEN
-              IF(STFE(NEDG) > ZERO) THEN
-                 STFE(NEDG) = -STFE(NEDG)
+              IF(STIFM(IRM)==ZERO)THEN
+                IF(STFE(NEDG) > ZERO) THEN
+                   STFE(NEDG) = -STFE(NEDG)
+                ENDIF
               ENDIF
-            ENDIF
-          ELSE IF(IRM < 0) THEN
+            ELSE IF(IRM < 0) THEN
 ! Edge frontiere 
 ! The only way that IRM < 0  is when
 C   -  the a boundary edge owned by ISPMD
@@ -187,35 +190,36 @@ C 1      -1 IRM
 C 1       1 IEDG
 C -1      0 JRM         
 C 1       0 JEDG 
-            S1 = ONE
-            IEDG=LEDGE(LEDGE_LEFT_ID ,NEDG)
-            IF(JRM ==  0) THEN
-              IF(MVOISIN(IEDG,ABS(IRM))==0) S1 = ZERO
+              S1 = ONE
+              IEDG=LEDGE(LEDGE_LEFT_ID ,NEDG)
+              IF(JRM ==  0) THEN
+                IF(MVOISIN(IEDG,ABS(IRM))==0) S1 = ZERO
 C  When IRM < 0 and JRM == 0
 C  STFE is 0 if the other side is broken too 
 C Because we always put the remaining segment first (IRM,IEDG) 
 C we need to check
 C           ELSE IF( ) THEN
 C             S1 = 0
-            ELSE
-              ASSERT(.FALSE.)
-            ENDIF
+              ELSE
+                ASSERT(.FALSE.)
+              ENDIF
            
-            IF(S1==ZERO)THEN
+              IF(S1==ZERO)THEN
+                IF(STFE(NEDG) > ZERO) THEN
+                   STFE(NEDG) = -STFE(NEDG)
+                ENDIF
+              ENDIF
+
+            ELSEIF (IRM == 0) THEN
+              ASSERT(.FALSE.) ! 
               IF(STFE(NEDG) > ZERO) THEN
                  STFE(NEDG) = -STFE(NEDG)
-              ENDIF
-            ENDIF
-
-          ELSEIF (IRM == 0) THEN
-            ASSERT(.FALSE.) ! 
-            IF(STFE(NEDG) > ZERO) THEN
-               STFE(NEDG) = -STFE(NEDG)
-            END IF          
-          END IF
+              END IF          
+            END IF
+          ENDIF
         END DO
 
-        CALL MY_BARRIER
+          CALL MY_BARRIER
       END IF ! IEDGE
       RETURN
       END

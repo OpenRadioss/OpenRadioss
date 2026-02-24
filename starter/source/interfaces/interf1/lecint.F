@@ -141,7 +141,8 @@ C-----------------------------------------------
      .        NRTM_IGE,NRTMM_IGE,
      .        NRTS_IGE,NRTMS_IGE,NRTS_FE,
      .        NMN_IGE,NMN_FE,NSN_IGE,NSN_FE,IAD_IGE,
-     .        IEDGE,NCONTE,MULTIMPE,MULTIMPS,ISTIFF,NIN25
+     .        IEDGE,NCONTE,MULTIMPE,MULTIMPS,ISTIFF,NIN25,
+     .        NEDGE_FE,NEDGE_L,ISU3,ISU4,NMN_1D
       INTEGER KD(50),JD(50),IBID,NRTM_SH,ETYP,INTPLY
       INTEGER, DIMENSION(:), ALLOCATABLE :: IRECTS,IRECTM,NSV,MSR
       INTEGER ID,ISL, GRBRIC_ID
@@ -293,6 +294,8 @@ C
         ISU2    = IPARI(46,NI)  
         ISTIFF  = IPARI(29,NI)       
         ILAGM   = IPARI(33,NI)
+        ISU3    = IPARI(102,NI) 
+        ISU4    = IPARI(103,NI)  
         TYPE18=.FALSE.
         IF(NTYP==7 .AND. INACTI==7 )TYPE18=.TRUE.
         GRBRIC_ID = ISU1
@@ -310,6 +313,9 @@ C-----  --
         NRTM=0
         NRTM_IGE=0
         NRTM_FE =0
+        NEDGE_FE =0
+        NEDGE_L =0 
+        NMN_1D =0
         IF(IS1 == 1)THEN
             NRTS_IGE=IGRSURF(ISU1)%NSEG_IGE
             NRTS_FE =IGRSURF(ISU1)%NSEG
@@ -324,7 +330,13 @@ C-----  --
             NSN=0
         ELSEIF(IS1 == 5) THEN
             NSN_FE=IGRBRIC(ISU1)%NENTITY
-            NSN = NSN_FE            
+            NSN = NSN_FE     
+        ELSEIF(IS1 == 6)THEN
+            NRTS_FE =IGRSURF(ISU1)%NSEG
+            NRTS = NRTS_FE 
+            NEDGE_FE=IGRSLIN(ISU3)%NSEG
+            NEDGE_L= NEDGE_FE  
+            NMN_1D = 2*NEDGE_L
         ENDIF
         IF(IS2 == 1)THEN
             NRTM_IGE=IGRSURF(ISU2)%NSEG_IGE
@@ -342,6 +354,12 @@ C              ISURF(4,NS) == 100 Hyper-Ellipsoid MaDyMo coupled with.
 C              ISURF(4,NS) == 101 Hyper-Ellipsoid Radioss defined.
 C     IS2=4 is available for Interface TYPE 14 only :
 C     should be checked for all others interfaces in LECIN4 ...
+        ELSEIF(IS2 == 6)THEN
+            NRTM_FE =IGRSURF(ISU2)%NSEG
+            NRTM = NRTM_FE
+            NEDGE_FE=IGRSLIN(ISU4)%NSEG
+            NEDGE_L= NEDGE_L + NEDGE_FE 
+            NMN_1D= NEDGE_L + 2*NEDGE_L
         ENDIF
 C
         IPARI(3,NI)  = NRTS
@@ -356,6 +374,8 @@ C
         IPARI(78,NI) = NSN_FE
         IPARI(79,NI) = NMN_IGE
         IPARI(80,NI) = NMN_FE
+        IPARI(101,NI) = NEDGE_L
+        IPARI(104,NI) = NMN_1D
 C
         IF (NTYP == 2 .AND. IS1==-1.AND. IS2==-1) THEN
             CALL I2_SURFI_DIM( NPARI   ,IPARI(1,NI),NSURF   ,IGRSURF ,           
@@ -457,7 +477,9 @@ C
      7      NOD2ELTG     ,KNOD2ELS     ,NOD2ELS     ,IXS          ,
      8      IXS10        ,IXS16        ,IXS20       ,IBID         ,
      9      IBID         ,IBID         ,IBID        ,INTERFACES%PARAMETERS,
-     A      NIN25        ,FLAG_ELEM_INTER25)
+     A      NIN25        ,FLAG_ELEM_INTER25,IGRSLIN     ,
+     B      IBID         ,IBID         ,IBID        ,IBID         ,
+     C      IBID         )
             IPARI(66,NI) = INTPLY
             IF(INTPLY > 0) INTPLYXFEM = 1          
 C----------NRTS,NRTM is calculated in I25SURFI     
@@ -469,6 +491,8 @@ C!!!!!re-calculate NRTM_SH taking into account to ISU1  :inside I25SURFI
           NSN  = IPARI(5,NI)
           NLN  = IPARI(35,NI)
           NRTM_SH=IPARI(42,NI)
+          NEDGE_L = IPARI(101,NI)
+          NMN_1D = IPARI(104,NI)
         ENDIF
 C--------------------------------------------     
 C     Sizing due to sub-interfaces
@@ -813,6 +837,15 @@ C--------------------------------------------
                NBRIC = IGRBRIC(ISU1)%NENTITY
                CALL INGRBRIC(NSN, IGRBRIC(ISU1)%ENTITY, NSV,
      .                       IXS, NBRIC, PM,S_NSV, IGEO)
+            ELSEIF(IS1==6) THEN
+              SURF_NODES => IGRSURF(ISU1)%NODES(1:NRTS_FE,1:4)
+              CALL INSURF(NRTS_FE,NSN_FE,IRS,IRECTS,
+     .                    SURF_NODES,ITAB,NSV,ID,TITR,
+     .                    NTAG,S_NSV,S_IRECTS,TYPE18)
+              LINE_NODES => IGRSLIN(ISU1)%NODES(1:NRTS,1:2)
+              CALL INSLIN(NRTS,NSN_FE,IRECTS,NOINT,
+     .                    LINE_NODES,ITAB,NSV,
+     .                    NTAG)
             ENDIF
           ENDIF
           NSN = NSN_FE+NSN_IGE
@@ -1202,10 +1235,11 @@ C
 C         NADMSR, NEDGE are over estimated for ALLOCATE
 C         NADMSR, NEDGE will be over written before writing
           IPARI(67,NI)=4*NRTM
-          IPARI(68,NI)=4*NRTM
+          NEDGE_L = IPARI(101,NI)
+          IPARI(68,NI)=4*NRTM + NEDGE_L
 C
           IF(IEDGE /= 0) THEN
-            NCONTE=4*NRTM       ! cf NCONTE=NEDGE
+            NCONTE=4*NRTM + NEDGE_L    ! cf NCONTE=NEDGE
             IPARI(88,NI)=NCONTE
           ELSE
             NCONTE=0

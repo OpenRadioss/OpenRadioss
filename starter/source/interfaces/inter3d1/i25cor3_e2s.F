@@ -82,8 +82,13 @@ C-----------------------------------------------
         IF(CAND_S(I)<=NRTS) THEN
 
           ES    =CAND_S(I)
-          IAS(I)=LEDGE(1,ES)
-          JAS(I)=LEDGE(2,ES)
+          IF(ES /=0) THEN
+            IAS(I)=LEDGE(1,ES)
+            JAS(I)=LEDGE(2,ES)
+          ELSE
+            IAS(I)=0
+            JAS(I)=0
+          ENDIF
           N1(I)=LEDGE(5,ES)
           N2(I)=LEDGE(6,ES)
 
@@ -132,9 +137,15 @@ C
       END DO
 C
       DO I=1,JLT
-        FX(I) = EDG_BISECTOR(1,JAS(I),IAS(I))
-        FY(I) = EDG_BISECTOR(2,JAS(I),IAS(I))
-        FZ(I) = EDG_BISECTOR(3,JAS(I),IAS(I))
+        IF(IAS(I) /=0) THEN
+           FX(I) = EDG_BISECTOR(1,JAS(I),IAS(I))
+           FY(I) = EDG_BISECTOR(2,JAS(I),IAS(I))
+           FZ(I) = EDG_BISECTOR(3,JAS(I),IAS(I))
+        ELSE
+           FX(I) = 0
+           FY(I) = 0
+           FZ(I) = 0
+        ENDIF
       END DO
 C
       RETURN

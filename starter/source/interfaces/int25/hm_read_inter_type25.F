@@ -44,7 +44,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      3        SENSORS     ,NOM_OPT         ,UNITAB    ,LSUBMODEL  ,TITR       ,
      4        NOM_OPTFRIC ,INTBUF_FRIC_TAB ,NPC       ,NPC1       ,TF         ,
      5        PARAMETERS  ,NPARI           ,NPARIR    ,SNPC       ,SNPC1      ,
-     6        NPTS        ,ITHERM_FE       ,INTHEAT   )
+     6        NPTS        ,ITHERM_FE       ,INTHEAT   ,IGRSLIN    )
 C============================================================================
 C     
 C-----------------------------------------------
@@ -59,6 +59,7 @@ C-----------------------------------------------
       USE INTBUFDEF_MOD
       USE PARAMETERS_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARKEY, NCHARFIELD
+      USE NGR2USRNN_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -90,6 +91,7 @@ C-----------------------------------------------
       TYPE (GROUP_)  ,TARGET, DIMENSION(NGRNOD)  :: IGRNOD
       TYPE (SURF_)   ,TARGET , DIMENSION(NSURF)   :: IGRSURF
       TYPE (PARAMETERS_) ,INTENT(INOUT):: PARAMETERS
+      TYPE (SURF_)   ,TARGET , DIMENSION(NSLIN)   :: IGRSLIN
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -101,7 +103,7 @@ C-----------------------------------------------
      .    IDEL25,IGAP0,FLAGREMNOD,IDSENS,IDELKEEP,INTKG,
      .    IREM25I2,IPRINT,INTFRIC,MULTIMPE,IASSIGN,ISHARP,   
      .    ITHK,NOTUSED,INTTH,IFORM,IKTHE,FCOND,IFRICTH,NPREF,
-     .    IPSTIF
+     .    IPSTIF,IS3,ISU3,ISU4,NUM
       my_real
      .    FRIC,GAP,STARTT,BUMULT,STOPT,C1,C2,C3,C4,C5,C6,ALPHA,
      .    GAPSCALE,STMIN,STMAX,EDG_ANGL,VISC,VISCF,PERCENT_SIZE,
@@ -431,7 +433,9 @@ C            3 : ISU1=0,ISU2>0;IS3>0
         END IF
 
         ISYM = 1
-
+        IS3 = 0
+        ISU3 = ISU1
+        ISU4 = ISU2
         SELECT CASE (ILEV)
           CASE(1)          
             INGR2USR => IGRSURF(1:NSURF)%ID
@@ -439,6 +443,23 @@ C            3 : ISU1=0,ISU2>0;IS3>0
             ISU2=ISU1
             IS1=-1
             IS2=-3
+
+            IF(NSLIN >0.AND.IEDGE >0) THEN
+              INGR2USR => IGRSLIN(1:NSLIN)%ID
+              ISU3=NGR2USRNN(ISU3,INGR2USR,NSLIN)
+              IF (ISU3==0) THEN
+                 IS1=-1
+                 IS2=-3
+              ELSE
+                 IS1=-6
+                 IS2=-5
+              END IF
+            ELSE
+              ISU3 = 0
+              ISU4 = 0     
+            ENDIF
+
+
           CASE(2)
 C----------------if we copy int7--
             IS1 = 0
@@ -457,18 +478,46 @@ C----------------if we copy int7--
             ISU2=NGR2USR(ISU2,INGR2USR,NSURF)
             IS1=-1
             IS2=-1
+
+            IF(NSLIN >0.AND.IEDGE >0) THEN
+              INGR2USR => IGRSLIN(1:NSLIN)%ID
+              ISU3=NGR2USRNN(ISU3,INGR2USR,NSLIN)
+              IF (ISU3==0) THEN
+                 IS1=-1
+              ELSE
+                 IS1=-6
+              END IF
+            ELSE
+              ISU3 = 0
+            ENDIF
+
+            IF(NSLIN >0.AND.IEDGE >0) THEN
+              INGR2USR => IGRSLIN(1:NSLIN)%ID
+              ISU4=NGR2USRNN(ISU4,INGR2USR,NSLIN)
+              IF (ISU4==0) THEN
+                 IS2=-1
+              ELSE
+                 IS2=-6
+              END IF
+            ELSE
+              ISU4 = 0
+            ENDIF
+ 
           CASE(3)
             INGR2USR => IGRSURF(1:NSURF)%ID
             ISU2=NGR2USR(ISU2,INGR2USR,NSURF)
            IS1=-2
            IS2=-1
+           ISU3 = 0
+           ISU4 = 0
         END SELECT
         INGR2USR => IGRNOD(1:NGRNOD)%ID
         IF(NOD1 /= 0) NOD1=NGR2USR(NOD1,INGR2USR,NGRNOD)
-
         IPARI(13)=IS1*10+IS2
         IPARI(45)=ISU1
         IPARI(46)=ISU2
+        IPARI(102)=ISU3
+        IPARI(103)=ISU4
 
         IPARI(26)=NOD1
         IPARI(43)=ISYM
@@ -983,7 +1032,9 @@ C--------------------------------------------------------------
       ELSEIF(IS1==4 )THEN
         WRITE(IOUT,'(6X,A)')'SECONDARY SIDE INPUT BY BRICKS'
       ELSEIF(IS1==5 )THEN
-        WRITE(IOUT,'(6X,A)')'SECONDARY SIDE INPUT BY SOLID ELEMENTS'        
+        WRITE(IOUT,'(6X,A)')'SECONDARY SIDE INPUT BY SOLID ELEMENTS'     
+      ELSEIF(IS1==6 )THEN
+        WRITE(IOUT,'(6X,A)')'SECONDARY SURFACE INPUT BY SEGMENTS AND LINES'     
       ENDIF
       IF(IS2==0)THEN
         WRITE(IOUT,'(6X,A)')'NO MAIN SURFACE INPUT'
@@ -996,6 +1047,8 @@ C--------------------------------------------------------------
       ELSEIF(IS2==4)THEN
         WRITE(IOUT,'(6X,A)')'MAIN SURFACE REFERS ',
      .                      'TO HYPER-ELLIPSOIDAL SURFACE'
+      ELSEIF(IS2==5 )THEN
+        WRITE(IOUT,'(6X,A)')'MAIN SURFACE INPUT BY SEGMENTS AND LINES'     
       ENDIF
 C
 C--------------------------------------------------------------

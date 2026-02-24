@@ -152,6 +152,7 @@ C-----------------------------------------------
       INTEGER, DIMENSION(:), ALLOCATABLE ::  TAGREMLINE
 C-----------------------------------------------
 C
+
       DRAD2 =ZERO
 
       IF(FLAGREMNODE==2) THEN
@@ -228,6 +229,7 @@ C         PRINTIF((STFE(I) == 0 .AND.LEDGE(6,I) == D_ES),STFE(I))
             ZZ1=X(3,N1)
             ZZ2=X(3,N2)
             DEBUG_E2E(EID == D_ES,EID)
+            EDGE_TYPE=LEDGE(7,I) 
           ELSE IF(I > NEDGE) THEN
             XX1=XREM_EDGE(E_X1,I-NEDGE)
             XX2=XREM_EDGE(E_X2,I-NEDGE)
@@ -237,6 +239,7 @@ C         PRINTIF((STFE(I) == 0 .AND.LEDGE(6,I) == D_ES),STFE(I))
             ZZ2=XREM_EDGE(E_Z2,I-NEDGE)
             EID = IREM_EDGE(E_GLOBAL_ID,I-NEDGE)
             DEBUG_E2E(EID == D_ES,EID)
+            EDGE_TYPE = IREM_EDGE(E_TYPE,I-NEDGE)
           ELSE
             ! Secondary edge is boundary between domains
             ! ISPMD is not the owner of this edge
@@ -245,7 +248,7 @@ C         PRINTIF((STFE(I) == 0 .AND.LEDGE(6,I) == D_ES),STFE(I))
           ENDIF
           DEBUG_E2E(EID==D_ES,IGAP0)
 
-          IF(IGAP0 == 0)THEN
+          IF(IGAP0 == 0.OR.EDGE_TYPE==3)THEN
             XMAX_EDGS=MAX(XX1,XX2);
             XMIN_EDGS=MIN(XX1,XX2);
             YMAX_EDGS=MAX(YY1,YY2);
@@ -296,8 +299,6 @@ C         PRINTIF((STFE(I) == 0 .AND.LEDGE(6,I) == D_ES),STFE(I))
 
 
           END IF
-
-
 
           !-------------------------------------------!
           !  VOXEL OCCUPIED BY THE EDGE               !
@@ -448,12 +449,21 @@ C=======================================================================
         YY2=X(2,N2)
         ZZ1=X(3,N1)
         ZZ2=X(3,N2)
-        XMAX_EDGM=MAX(XX1,XX2)+GAPE(IEDG) ! +TZINF
-        XMIN_EDGM=MIN(XX1,XX2)-GAPE(IEDG) ! -TZINF
-        YMAX_EDGM=MAX(YY1,YY2)+GAPE(IEDG) ! +TZINF
-        YMIN_EDGM=MIN(YY1,YY2)-GAPE(IEDG) ! -TZINF
-        ZMAX_EDGM=MAX(ZZ1,ZZ2)+GAPE(IEDG) ! +TZINF
-        ZMIN_EDGM=MIN(ZZ1,ZZ2)-GAPE(IEDG) ! -TZINF
+        IF(IABS(LEDGE(7,IEDG))/=3)THEN
+          XMAX_EDGM=MAX(XX1,XX2)+GAPE(IEDG) ! +TZINF
+          XMIN_EDGM=MIN(XX1,XX2)-GAPE(IEDG) ! -TZINF
+          YMAX_EDGM=MAX(YY1,YY2)+GAPE(IEDG) ! +TZINF
+          YMIN_EDGM=MIN(YY1,YY2)-GAPE(IEDG) ! -TZINF
+          ZMAX_EDGM=MAX(ZZ1,ZZ2)+GAPE(IEDG) ! +TZINF
+          ZMIN_EDGM=MIN(ZZ1,ZZ2)-GAPE(IEDG) ! -TZINF
+        ELSE
+          XMAX_EDGM=MAX(XX1,XX2)
+          XMIN_EDGM=MIN(XX1,XX2)
+          YMAX_EDGM=MAX(YY1,YY2)
+          YMIN_EDGM=MIN(YY1,YY2)
+          ZMAX_EDGM=MAX(ZZ1,ZZ2)
+          ZMIN_EDGM=MIN(ZZ1,ZZ2)
+        ENDIF
         !-------------------------------------------!
         !  VOXEL OCCUPIED BY THE BRICK              !
         !-------------------------------------------!
@@ -647,7 +657,6 @@ C--- IREMGAP - clean of tagremline
 
       ENDDO       !NEXT IEDG
 
-
 C-------------------------------------------------------------------------
 C     FIN DU TRI vs Main shell edges
 C-------------------------------------------------------------------------
@@ -661,6 +670,7 @@ C-------------------------------------------------------------------------
      7                 DGAPLOAD)
 
   300 CONTINUE
+
 C=======================================================================
 C     Sorting vs main solid edges
 C=======================================================================
@@ -992,7 +1002,7 @@ C Barrier to avoid reinitialization before end of sorting
         IF(FLAGREMNODE==2) DEALLOCATE(TAGREMLINE)
       ENDIF
 
-      DEALLOCATE(TAGEDG)
+      DEALLOCATE(TAGEDG) 
 
 C=======================================================================
 

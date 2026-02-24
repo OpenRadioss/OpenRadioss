@@ -323,6 +323,8 @@ C---------will be cleaned after
           INTBUF_TAB(NI)%S_IELEM_M  = INTBUF_SIZE(N)
           N = N+1
           INTBUF_TAB(NI)%S_PROC_MVOISIN  = INTBUF_SIZE(N)
+          N = N+1
+          INTBUF_TAB(NI)%S_MSR_1D  = INTBUF_SIZE(N)
 
 C=======================================================================
 c READ REAL SIZES
@@ -620,9 +622,11 @@ C=======================================================================
           ENDIF
 
           SIZ = INTBUF_TAB(NI)%S_IRECTM
-          ALLOCATE(INTBUF_TAB(NI)%IRECTM(SIZ))
           IF(SIZ>0)THEN
+            ALLOCATE(INTBUF_TAB(NI)%IRECTM(SIZ))
             CALL READ_I_C(INTBUF_TAB(NI)%IRECTM,SIZ)
+          ELSE
+            ALLOCATE(INTBUF_TAB(NI)%IRECTM(1))
           ENDIF
 
           SIZ = INTBUF_TAB(NI)%S_NSV
@@ -811,9 +815,11 @@ C=======================================================================
           ENDIF
 
           SIZ = INTBUF_TAB(NI)%S_KREMNODE
-          ALLOCATE(INTBUF_TAB(NI)%KREMNODE(SIZ))
           IF(SIZ>0)THEN
+            ALLOCATE(INTBUF_TAB(NI)%KREMNODE(SIZ))
             CALL READ_I_C(INTBUF_TAB(NI)%KREMNODE,SIZ)
+          ELSE
+            ALLOCATE(INTBUF_TAB(NI)%KREMNODE(1))
           ENDIF
 
           SIZ = INTBUF_TAB(NI)%S_REMNODE
@@ -1320,6 +1326,12 @@ C----------to be cleaned later
           IF(SIZ>0)THEN
             CALL READ_I_C(INTBUF_TAB(NI)%PROC_MVOISIN,SIZ)
           ENDIF
+
+          SIZ = INTBUF_TAB(NI)%S_MSR_1D
+          ALLOCATE(INTBUF_TAB(NI)%MSR_1D(SIZ))
+          IF(SIZ>0)THEN
+            CALL READ_I_C(INTBUF_TAB(NI)%MSR_1D,SIZ)
+          ENDIF
 C=======================================================================
 c READ REAL ARRAYS
 C=======================================================================
@@ -1432,9 +1444,11 @@ C=======================================================================
           ENDIF
 
           SIZ = INTBUF_TAB(NI)%S_STFM
-          ALLOCATE(INTBUF_TAB(NI)%STFM(SIZ))
           IF(SIZ>0)THEN
+            ALLOCATE(INTBUF_TAB(NI)%STFM(SIZ))
             CALL READ_DB(INTBUF_TAB(NI)%STFM,SIZ)
+          ELSE
+            ALLOCATE(INTBUF_TAB(NI)%STFM(1))
           ENDIF
 
           SIZ = INTBUF_TAB(NI)%S_STFS
@@ -1468,9 +1482,11 @@ C=======================================================================
           ENDIF
 
           SIZ = INTBUF_TAB(NI)%S_GAP_M
-          ALLOCATE(INTBUF_TAB(NI)%GAP_M(SIZ))
           IF(SIZ>0)THEN
+            ALLOCATE(INTBUF_TAB(NI)%GAP_M(SIZ))
             CALL READ_DB(INTBUF_TAB(NI)%GAP_M,SIZ)
+          ELSE
+            ALLOCATE(INTBUF_TAB(NI)%GAP_M(1))
           ENDIF
 
           SIZ = INTBUF_TAB(NI)%S_GAP_S
@@ -1516,9 +1532,11 @@ C=======================================================================
           ENDIF
 
           SIZ = INTBUF_TAB(NI)%S_GAP_ML
-          ALLOCATE(INTBUF_TAB(NI)%GAP_ML(SIZ))
           IF(SIZ>0)THEN
+            ALLOCATE(INTBUF_TAB(NI)%GAP_ML(SIZ))
             CALL READ_DB(INTBUF_TAB(NI)%GAP_ML,SIZ)
+          ELSE
+            ALLOCATE(INTBUF_TAB(NI)%GAP_ML(1))
           ENDIF
 
           SIZ = INTBUF_TAB(NI)%S_GAP_SL
