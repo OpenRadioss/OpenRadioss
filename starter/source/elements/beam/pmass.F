@@ -111,7 +111,7 @@ C----------------------------------------------
       DO I=LFT,LLT
         E = PM (20,IMAT)
         G = PM (22,IMAT)
-        CST = SIX_OVER_5*E/G
+        CST = SIX_OVER_5*E/max(G,em30)
         BB  = MAX(TIYY(I),TIZZ(I),EM30)
         SL2I= AREA(I)*AL(I)**2 /BB
         FACDT(I) = ONE_OVER_12*SL2I
