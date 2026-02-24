@@ -65,7 +65,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    lectur                     ../engine/source/input/lectur.F
 !||    manctr                     ../engine/source/input/manctr.F
 !||    nloc_dmg_init              ../starter/source/materials/fail/nloc_dmg_init.F
-!||    printime                   ../engine/source/system/timer.F
+!||    printime                   ../engine/source/system/printime.F
 !||    r2r_domdec                 ../starter/source/coupling/rad2rad/r2r_domdec.F
 !||    r2r_fork                   ../starter/source/coupling/rad2rad/r2r_fork.F
 !||    r2r_group                  ../starter/source/coupling/rad2rad/r2r_group.F

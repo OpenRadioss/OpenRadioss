@@ -98,6 +98,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    intstamp_mod                 ../engine/share/modules/intstamp_mod.F
 !||    metric_mod                   ../common_source/modules/interfaces/metric_mod.F
 !||    multi_fvm_mod                ../common_source/modules/ale/multi_fvm_mod.F90
+!||    nodal_arrays_mod             ../common_source/modules/nodal_arrays.F90
 !||    output_mod                   ../common_source/modules/output/output_mod.F90
 !||    sensor_mod                   ../common_source/modules/sensor_mod.F90
 !||    spmd_mod                     ../engine/source/mpi/spmd_mod.F90

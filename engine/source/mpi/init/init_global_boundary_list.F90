@@ -20,6 +20,11 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+!||====================================================================
+!||    init_global_boundary_list_mod   ../engine/source/mpi/init/init_global_boundary_list.F90
+!||--- called by ------------------------------------------------------
+!||    resol                           ../engine/source/engine/resol.F
+!||====================================================================
       module init_global_boundary_list_mod
         implicit none
       contains
@@ -28,6 +33,13 @@
 ! ======================================================================================================================
 !! \brief Initialize the list of global boundary nodes
 !! \details
+!||====================================================================
+!||    init_global_boundary_list   ../engine/source/mpi/init/init_global_boundary_list.F90
+!||--- called by ------------------------------------------------------
+!||    resol                       ../engine/source/engine/resol.F
+!||--- uses       -----------------------------------------------------
+!||    nodal_arrays_mod            ../common_source/modules/nodal_arrays.F90
+!||====================================================================
         subroutine init_global_boundary_list(numnod,nspmd,nodes)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules

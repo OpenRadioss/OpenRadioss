@@ -88,7 +88,7 @@
 !||    multi_muscl_gradients            ../engine/source/multifluid/multi_muscl_gradients.F
 !||    multi_timeevolution              ../engine/source/multifluid/multi_timeevolution.F
 !||    print_summary                    ../engine/source/system/timer.F
-!||    printime                         ../engine/source/system/timer.F
+!||    printime                         ../engine/source/system/printime.F
 !||    q4forc2                          ../engine/source/elements/solid_2d/quad4/q4forc2.F
 !||    qforc2                           ../engine/source/elements/solid_2d/quad/qforc2.F
 !||    radioss2                         ../engine/source/engine/radioss2.F

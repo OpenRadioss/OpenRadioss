@@ -25,7 +25,7 @@ C
 !||    rad_spmd_send         ../engine/source/mpi/generic/rad_spmd_send.F
 !||--- called by ------------------------------------------------------
 !||    aniskewf              ../engine/source/output/anim/generate/aniskewf.F
-!||    printime              ../engine/source/system/timer.F
+!||    printime              ../engine/source/system/printime.F
 !||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
 !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90

@@ -22,14 +22,15 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 #define TO1D(i,j,k,s1,s2) i+(j-1)*s1+(k-1)*s1*s2
 !||====================================================================
-!||    i25tagn         ../engine/source/interfaces/int25/i25norm.F
+!||    i25tagn            ../engine/source/interfaces/int25/i25norm.F
 !||--- called by ------------------------------------------------------
-!||    i25main_norm    ../engine/source/interfaces/int25/i25main_norm.F
+!||    i25main_norm       ../engine/source/interfaces/int25/i25main_norm.F
 !||--- calls      -----------------------------------------------------
-!||    my_barrier      ../engine/source/system/machine.F
+!||    my_barrier         ../engine/source/system/machine.F
 !||--- uses       -----------------------------------------------------
-!||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
-!||    tri7box         ../engine/share/modules/tri7box.F
+!||    intbufdef_mod      ../common_source/modules/interfaces/intbufdef_mod.F90
+!||    nodal_arrays_mod   ../common_source/modules/nodal_arrays.F90
+!||    tri7box            ../engine/share/modules/tri7box.F
 !||====================================================================
       SUBROUTINE I25TAGN (NI25    ,NIN     ,NRTM    ,NSN      ,NSNR    ,
      2                    JTASK   ,IAD_FRNOR ,FR_NOR ,IRTLM   ,MSEGTYP ,

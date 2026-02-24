@@ -163,7 +163,7 @@
 !||    pblast_2                           ../engine/source/loads/pblast/pblast_2.F
 !||    pblast_3                           ../engine/source/loads/pblast/pblast_3.F
 !||    pblast_load_computation            ../engine/source/loads/pblast/pblast.F
-!||    printime                           ../engine/source/system/timer.F
+!||    printime                           ../engine/source/system/printime.F
 !||    q4forc2                            ../engine/source/elements/solid_2d/quad4/q4forc2.F
 !||    qforc2                             ../engine/source/elements/solid_2d/quad/qforc2.F
 !||    r2r_input_init                     ../engine/source/coupling/rad2rad/r2r_input_init.F

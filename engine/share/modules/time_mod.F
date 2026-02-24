@@ -25,7 +25,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- called by ------------------------------------------------------
 !||    add_elapsed_time_mon_off   ../engine/source/system/timer.F
 !||    print_runtime              ../engine/source/system/timer.F
-!||    printime                   ../engine/source/system/timer.F
+!||    printime                   ../engine/source/system/printime.F
 !||    radioss2                   ../engine/source/engine/radioss2.F
 !||    rdresb                     ../engine/source/output/restart/rdresb.F
 !||    resol                      ../engine/source/engine/resol.F

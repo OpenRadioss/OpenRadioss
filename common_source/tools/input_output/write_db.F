@@ -289,7 +289,7 @@ C
 !||    add_elapsed_time_mon_off   ../engine/source/system/timer.F
 !||    ddsplit                    ../starter/source/restart/ddsplit/ddsplit.F
 !||    intstamp_wrestr            ../engine/share/modules/intstamp_mod.F
-!||    printime                   ../engine/source/system/timer.F
+!||    printime                   ../engine/source/system/printime.F
 !||    w_elbuf_str                ../engine/source/elements/elbuf/w_elbuf_str.F
 !||    write_double               ../common_source/comm/write_mod.F
 !||    write_double_1d            ../common_source/comm/write_mod.F

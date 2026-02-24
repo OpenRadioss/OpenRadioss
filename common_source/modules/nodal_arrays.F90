@@ -44,9 +44,13 @@
 !||    funct_python_update_elements             ../engine/source/tools/curve/funct_python_update_elements.F90
 !||    get_neighbour_surface                    ../engine/source/interfaces/interf/get_neighbour_surface.F90
 !||    get_neighbour_surface_from_remote_proc   ../engine/source/interfaces/interf/get_neighbour_surface_from_remote_proc.F90
+!||    i25main_norm                             ../engine/source/interfaces/int25/i25main_norm.F
+!||    i25tagn                                  ../engine/source/interfaces/int25/i25norm.F
 !||    init_ghost_shells                        ../engine/source/engine/node_spliting/ghost_shells.F90
+!||    init_global_boundary_list                ../engine/source/mpi/init/init_global_boundary_list.F90
 !||    init_nodal_state                         ../engine/source/interfaces/interf/init_nodal_state.F
 !||    intti1                                   ../engine/source/interfaces/interf/intti1.F
+!||    inttri                                   ../engine/source/interfaces/intsort/inttri.F
 !||    lag_fxv                                  ../engine/source/tools/lagmul/lag_fxv.F
 !||    lag_fxvp                                 ../engine/source/tools/lagmul/lag_fxv.F
 !||    lag_mult                                 ../engine/source/tools/lagmul/lag_mult.F
@@ -180,9 +184,7 @@
 ! ======================================================================================================================
         !\details Assign the pointer to the coordinates
 !||====================================================================
-!||    assign_ptrx   ../common_source/modules/nodal_arrays.F90
-!||--- called by ------------------------------------------------------
-!||    resol         ../engine/source/engine/resol.F
+!||    assign_ptr_int_1d   ../common_source/modules/nodal_arrays.F90
 !||====================================================================
         subroutine assign_ptr_int_1d(ptr,array,dim1)
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -201,6 +203,9 @@
           ptr => array
         end subroutine assign_ptr_int_1d
 
+!||====================================================================
+!||    assign_ptr_int_2d   ../common_source/modules/nodal_arrays.F90
+!||====================================================================
         subroutine assign_ptr_int_2d(ptr,array,dim1,dim2)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
@@ -219,6 +224,9 @@
           ptr => array
         end subroutine assign_ptr_int_2d
         
+!||====================================================================
+!||    assign_ptr_real_1d   ../common_source/modules/nodal_arrays.F90
+!||====================================================================
         subroutine assign_ptr_real_1d(ptr,array,dim1)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
@@ -236,6 +244,9 @@
           ptr => array
         end subroutine assign_ptr_real_1d
 
+!||====================================================================
+!||    assign_ptr_real_2d   ../common_source/modules/nodal_arrays.F90
+!||====================================================================
       subroutine assign_ptr_real_2d(ptr,array,dim1,dim2)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules

@@ -229,6 +229,7 @@
 !||    i2_surfi_dim                             ../starter/source/interfaces/inter3d1/i2_surfi_dim.F90
 !||    i2trivox                                 ../starter/source/interfaces/inter3d1/i2trivox.F90
 !||    imp_intbufdef                            ../engine/share/modules/imp_mod_def.F90
+!||    imp_solv                                 ../engine/source/implicit/imp_solv.F
 !||    ini_guided_cable                         ../starter/source/tools/seatbelts/ini_guided_cable.F90
 !||    iniebcs_propellant                       ../starter/source/boundary_conditions/ebcs/iniebcs_propellant.F90
 !||    iniebcs_propellant_get_cp                ../starter/source/boundary_conditions/ebcs/iniebcs_propellant.F90

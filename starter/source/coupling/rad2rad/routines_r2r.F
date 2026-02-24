@@ -273,6 +273,7 @@ C-----------------------------------------------
 !||    hm_preread_rbe2        ../starter/source/constraints/general/rbe2/hm_read_rbe2.F
 !||    hm_preread_rbe3        ../starter/source/constraints/general/rbe3/hm_preread_rbe3.F
 !||    hm_preread_rbody       ../starter/source/constraints/general/rbody/hm_preread_rbody.F
+!||    hm_read_ale_link       ../starter/source/constraints/ale/hm_read_ale_link_vel.F
 !||    hm_read_cyljoint       ../starter/source/constraints/general/cyl_joint/hm_read_cyljoint.F
 !||    hm_read_gjoint         ../starter/source/constraints/general/gjoint/hm_read_gjoint.F
 !||    hm_read_inivol         ../starter/source/initial_conditions/inivol/hm_read_inivol.F90

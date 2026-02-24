@@ -23,7 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
 !||    print_summary   ../engine/source/system/timer.F
 !||--- called by ------------------------------------------------------
-!||    printime        ../engine/source/system/timer.F
+!||    printime        ../engine/source/system/printime.F
 !||--- calls      -----------------------------------------------------
 !||    print_block     ../engine/source/system/timer.F
 !||--- uses       -----------------------------------------------------
@@ -1822,7 +1822,7 @@ C   mon tri flottant
 !||--- called by ------------------------------------------------------
 !||    add_elapsed_time_mon_off   ../engine/source/system/timer.F
 !||    ecrit                      ../engine/source/output/ecrit.F
-!||    printime                   ../engine/source/system/timer.F
+!||    printime                   ../engine/source/system/printime.F
 !||    resol                      ../engine/source/engine/resol.F
 !||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
@@ -2409,7 +2409,7 @@ C workaround / one variable in commandline.inc conflicts with scr07.inc
 !||====================================================================
 !||    get_mem_map_var   ../engine/source/system/timer.F
 !||--- called by ------------------------------------------------------
-!||    printime          ../engine/source/system/timer.F
+!||    printime          ../engine/source/system/printime.F
 !||====================================================================
       SUBROUTINE GET_MEM_MAP_VAR(GOT_M_MAP)
 C-----------------------------------------------

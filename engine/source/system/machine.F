@@ -125,6 +125,7 @@ C=======================================================================
 !||    i25comp_2                        ../engine/source/interfaces/int25/i25comp_2.F
 !||    i25edge_switch                   ../engine/source/interfaces/int25/i25edge_switch.F
 !||    i25gap3                          ../engine/source/interfaces/int25/i25gap3.F
+!||    i25irtlm                         ../engine/source/interfaces/int25/i25irtlm.F
 !||    i25main_free                     ../engine/source/interfaces/intsort/i25main_free.F
 !||    i25main_norm                     ../engine/source/interfaces/int25/i25main_norm.F
 !||    i25main_opt_tri                  ../engine/source/interfaces/intsort/i25main_opt_tri.F

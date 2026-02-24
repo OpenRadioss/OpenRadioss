@@ -502,7 +502,7 @@ C
 !||    lecnoise                          ../engine/source/general_controls/computation/lecnoise.F
 !||    lectur                            ../engine/source/input/lectur.F
 !||    pnoise                            ../engine/source/general_controls/computation/pnoise.F
-!||    printime                          ../engine/source/system/timer.F
+!||    printime                          ../engine/source/system/printime.F
 !||    rbyonf                            ../engine/source/constraints/general/rbody/rbyonf.F
 !||    rbypid                            ../engine/source/constraints/general/rbody/rbypid.F
 !||    resol                             ../engine/source/engine/resol.F

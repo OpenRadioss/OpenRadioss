@@ -1,5 +1,5 @@
 !||====================================================================
-!||    printime          ../engine/source/system/timer.F
+!||    printime          ../engine/source/system/printime.F
 !||--- called by ------------------------------------------------------
 !||    resol             ../engine/source/engine/resol.F
 !||--- calls      -----------------------------------------------------

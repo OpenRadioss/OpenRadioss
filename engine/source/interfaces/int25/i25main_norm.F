@@ -21,18 +21,19 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    i25main_norm    ../engine/source/interfaces/int25/i25main_norm.F
+!||    i25main_norm       ../engine/source/interfaces/int25/i25main_norm.F
 !||--- called by ------------------------------------------------------
-!||    inttri          ../engine/source/interfaces/intsort/inttri.F
+!||    inttri             ../engine/source/interfaces/intsort/inttri.F
 !||--- calls      -----------------------------------------------------
-!||    i25assnp        ../engine/source/interfaces/int25/i25norm.F
-!||    i25normp        ../engine/source/interfaces/int25/i25norm.F
-!||    i25tagn         ../engine/source/interfaces/int25/i25norm.F
-!||    my_barrier      ../engine/source/system/machine.F
+!||    i25assnp           ../engine/source/interfaces/int25/i25norm.F
+!||    i25normp           ../engine/source/interfaces/int25/i25norm.F
+!||    i25tagn            ../engine/source/interfaces/int25/i25norm.F
+!||    my_barrier         ../engine/source/system/machine.F
 !||--- uses       -----------------------------------------------------
-!||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
-!||    mpi_commod      ../engine/share/modules/mpi_comm_mod.F
-!||    sensor_mod      ../common_source/modules/sensor_mod.F90
+!||    intbufdef_mod      ../common_source/modules/interfaces/intbufdef_mod.F90
+!||    mpi_commod         ../engine/share/modules/mpi_comm_mod.F
+!||    nodal_arrays_mod   ../common_source/modules/nodal_arrays.F90
+!||    sensor_mod         ../common_source/modules/sensor_mod.F90
 !||====================================================================
       SUBROUTINE I25MAIN_NORM(
      1                   INTLIST25,IPARI   ,INTBUF_TAB ,JTASK    ,X       ,

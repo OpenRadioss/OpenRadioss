@@ -136,6 +136,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    message_mod        ../engine/share/message_module/message_mod.F
 !||    multi_fvm_mod      ../common_source/modules/ale/multi_fvm_mod.F90
 !||    output_mod         ../common_source/modules/output/output_mod.F90
+!||    precision_mod      ../common_source/modules/precision_mod.F90
 !||    python_funct_mod   ../common_source/modules/python_mod.F90
 !||    sensor_mod         ../common_source/modules/sensor_mod.F90
 !||    skew_mod           ../common_source/modules/skew_mod.F90
