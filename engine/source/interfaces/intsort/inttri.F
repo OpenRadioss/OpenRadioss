@@ -975,7 +975,8 @@ c-----------------------------------------------------------------------
      4      nodes%ITAB    ,nodes%KINET        ,nodes%TEMP         ,RENUM     ,
      5      NSNFIOLD,IDUM         ,IDUM         ,NODNX_SMS ,
      6      H3D_DATA,ESHIFT       ,NEDGE_T      ,SSHIFT    ,NRTM_T ,
-     7      nodes%icodt   ,nodes%iskew        ,INTERFACES%PARAMETERS,GLOB_THERM%NODADT_THERM)
+     7      nodes%icodt   ,nodes%iskew        ,INTERFACES%PARAMETERS,GLOB_THERM%NODADT_THERM,
+     .                                                              INCONV)
 C-----------------------------------------------------------------------
         ENDIF
         IF(IMONM > 0) THEN
@@ -1111,7 +1112,8 @@ C-------  KINET,MS used for commu remot second, for the moment no need.
      4      nodes%ITAB    ,nodes%KINET        ,nodes%TEMP         ,RENUM     ,
      5      NSNFIOLD,NUM_IMP(N)   ,IND_IMP(IADI),NODNX_SMS ,
      6      H3D_DATA,ESHIFT,NEDGE_T ,SSHIFT     ,NRTM_T    ,
-     7      nodes%icodt   ,nodes%iskew        ,INTERFACES%PARAMETERS,GLOB_THERM%NODADT_THERM)
+     7      nodes%icodt   ,nodes%iskew        ,INTERFACES%PARAMETERS,GLOB_THERM%NODADT_THERM,
+     .                                                              INCONV)
             IADI = IADI+NUM_IMP(N)
 C-----------------------------------------------------------------------
         ELSEIF(NTY == 10)THEN

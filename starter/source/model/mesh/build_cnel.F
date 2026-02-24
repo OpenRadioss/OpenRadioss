@@ -541,6 +541,7 @@ C
  
         NRTM  =IPARI(4,NIN)
         NADMSR=IPARI(67,NIN)
+       IF(NADMSR >0) THEN
         DO N=1,NRTM
           I1=ISHIFT+INTBUF_TAB(NIN)%ADMSR(4*(N-1)+1)
           I2=ISHIFT+INTBUF_TAB(NIN)%ADMSR(4*(N-1)+2)
@@ -582,6 +583,7 @@ C
         END DO
 C
         ISHIFT=ISHIFT+NADMSR
+        ENDIF
  
       END DO
 C-----------------------------------------------

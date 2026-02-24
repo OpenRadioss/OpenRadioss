@@ -82,33 +82,54 @@ C-----------------------------------------------
       DO I=1,JLT
         IF(CAND_S(I)<=NEDGE) THEN
 
-          I1=LEDGE(1,CAND_S(I))
-          J1=LEDGE(2,CAND_S(I))
           N1(I)=LEDGE(5,CAND_S(I))
           N2(I)=LEDGE(6,CAND_S(I))
+ 
+          IF(LEDGE(7,CAND_S(I))/=3) THEN
+            I1=LEDGE(1,CAND_S(I))
+            J1=LEDGE(2,CAND_S(I))
 
-          IF(IRECT(J1,I1)==N1(I).AND.IRECT(MOD(J1,4)+1,I1)==N2(I))THEN
-            IS(I)= 1
-          ELSEIF(IRECT(J1,I1)==N2(I).AND.IRECT(MOD(J1,4)+1,I1)==N1(I))THEN
-            IS(I)=-1
+            IF(I1 >0) THEN
+
+              IF(IRECT(J1,I1)==N1(I).AND.IRECT(MOD(J1,4)+1,I1)==N2(I))THEN
+                IS(I)= 1
+              ELSEIF(IRECT(J1,I1)==N2(I).AND.IRECT(MOD(J1,4)+1,I1)==N1(I))THEN
+                IS(I)=-1
+              ELSE
+                print *,'i25cor3e - internal problem',CAND_S(I),N1(I),N2(I),
+     .                           IRECT(J1,I1),IRECT(MOD(J1,4)+1,I1)
+              END IF
+            ELSE
+              IS(I)=0
+            ENDIF
           ELSE
-            print *,'i25cor3e - internal problem',CAND_S(I),N1(I),N2(I),
-     .                          IRECT(J1,I1),IRECT(MOD(J1,4)+1,I1)
-          END IF
+            IS(I)= 0
+          ENDIF
 
-          I2=LEDGE(1,CAND_M(I))
-          J2=LEDGE(2,CAND_M(I))
           M1(I)=LEDGE(5,CAND_M(I))
           M2(I)=LEDGE(6,CAND_M(I))
 
-          IF(IRECT(J2,I2)==M1(I).AND.IRECT(MOD(J2,4)+1,I2)==M2(I))THEN
-            IM(I)= 1
-          ELSEIF(IRECT(J2,I2)==M2(I).AND.IRECT(MOD(J2,4)+1,I2)==M1(I))THEN
-            IM(I)=-1
-          ELSE
-            print *,'i25cor3e - internal problem',CAND_M(I),M1(I),M2(I),
+          IF(LEDGE(7,CAND_M(I))/=3) THEN
+
+            I2=LEDGE(1,CAND_M(I))
+            J2=LEDGE(2,CAND_M(I))
+
+            IF(I1 >0) THEN
+
+              IF(IRECT(J2,I2)==M1(I).AND.IRECT(MOD(J2,4)+1,I2)==M2(I))THEN
+                IM(I)= 1
+              ELSEIF(IRECT(J2,I2)==M2(I).AND.IRECT(MOD(J2,4)+1,I2)==M1(I))THEN
+                IM(I)=-1
+              ELSE
+                print *,'i25cor3e - internal problem',CAND_M(I),M1(I),M2(I),
      .                          IRECT(J2,I2),IRECT(MOD(J2,4)+1,I2)
-          END IF
+              END IF
+            ELSE
+              IM(I)=0
+            ENDIF
+          ELSE
+            IM(I)= 0
+          ENDIF
 
           XXS1(I) = X(1,N1(I))
           XYS1(I) = X(2,N1(I))
@@ -157,16 +178,28 @@ C
 C
           IE=LEDGE(1,CAND_M(I))
           JE=LEDGE(2,CAND_M(I))
-          EX(I) = EDG_BISECTOR(1,JE,IE)
-          EY(I) = EDG_BISECTOR(2,JE,IE)
-          EZ(I) = EDG_BISECTOR(3,JE,IE)
+          IF(IE /= 0) THEN
+            EX(I) = EDG_BISECTOR(1,JE,IE)
+            EY(I) = EDG_BISECTOR(2,JE,IE)
+            EZ(I) = EDG_BISECTOR(3,JE,IE)
+          ELSE
+            EX(I) = ZERO
+            EY(I) = ZERO
+            EZ(I) = ZERO
+          ENDIF
 C
           IF(IABS(LEDGE(7,CAND_S(I)))/=1)THEN
             IE=LEDGE(1,CAND_S(I))
             JE=LEDGE(2,CAND_S(I))
-            FX(I) = EDG_BISECTOR(1,JE,IE)
-            FY(I) = EDG_BISECTOR(2,JE,IE)
-            FZ(I) = EDG_BISECTOR(3,JE,IE)
+            IF(IE /= 0) THEN
+              FX(I) = EDG_BISECTOR(1,JE,IE)
+              FY(I) = EDG_BISECTOR(2,JE,IE)
+              FZ(I) = EDG_BISECTOR(3,JE,IE)
+            ELSE
+              FX(I) = ZERO
+              FY(I) = ZERO
+              FZ(I) = ZERO
+            ENDIF
           END IF
 
         END DO
@@ -174,7 +207,7 @@ C
 
       DO I=1,JLT
 C
-        IF(LEDGE(3,CAND_M(I))/=0)CYCLE
+        IF(LEDGE(3,CAND_M(I))/=0.OR.LEDGE(7,CAND_M(I))==3)CYCLE
 C
         IE=LEDGE(1,CAND_M(I))
         JE=LEDGE(2,CAND_M(I))
@@ -265,7 +298,7 @@ C
       IF(IGAP0/=0) THEN
         DO I=1,JLT
 C
-          IF(LEDGE(3,CAND_S(I))/=0)CYCLE
+          IF(LEDGE(3,CAND_S(I))/=0.OR.LEDGE(7,CAND_S(I))==3)CYCLE
 C
           IE=LEDGE(1,CAND_S(I))
           JE=LEDGE(2,CAND_S(I))
