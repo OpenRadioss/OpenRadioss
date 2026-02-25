@@ -878,7 +878,7 @@ C
      .       , DIMENSION(:,:), ALLOCATABLE :: QP_RPERTURB,RBY_INIAXIS
 C
       my_real
-     .  EANIT2(10),COST_R2R,TOTMAS
+     .  EANIT2(10),COST_R2R,TOTMAS,TOTMAS1
       TARGET :: EANIT2
 C OpenMP specific
        INTEGER ITASK, NP
@@ -8837,7 +8837,8 @@ C
      &            NPRELOAD_A , PRELOAD_A      , FAIL_FRACTAL     ,FAIL_BROKMANN       ,DEFAULTS  ,
      &            NDAMP_FREQ_RANGE,DAMPR      , IBEAM_VECTOR     , RBEAM_VECTOR       ,D         ,
      &            LSIGI      ,LSIGSP          , SRNOISE2         ,NPRW               ,LPRW       ,
-     &            RWSTIF_PEN ,SLN_PEN         ,ROOTLEN           ,ROOTNAM            ,NGUIDED_CABLE)
+     &            RWSTIF_PEN ,SLN_PEN         ,ROOTLEN           ,ROOTNAM          ,NGUIDED_CABLE,
+     &            TOTMAS1   )
 
 
       IF(NINTER>0.AND.NUMELIG3D>0) THEN
@@ -10424,7 +10425,7 @@ C--------------------------------------------
       ERR_MSG='ADDED MASS ESTIMATION'
       ERR_CATEGORY='ADDED MASS ESTIMATION'
       CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
-      IF(N2D==0) CALL ADD_MASS_STAT(MS_B,IN_B,STIFFN,STIFFN(NUMNOD+1),ITAB,TOTMAS)
+      CALL ADD_MASS_STAT(MS_B,IN_B,STIFFN,STIFFN(NUMNOD+1),ITAB,TOTMAS,TOTMAS1)
 C---------------------------------
 C     MULTIDOMAINS SPEEDUP ESTIMATION
 C---------------------------------

@@ -198,7 +198,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      N                  PRELOAD_A  ,FAIL_FRACTAL  ,FAIL_BROKMANN    ,DEFAULTS       ,NDAMP_FREQ_RANGE,
      O                  DAMPR      ,IBEAM_VECTOR  ,RBEAM_VECTOR     ,IKINE          ,LSIGI     ,
      P                  LSIGSP     ,SRNOISE       ,NPRW             ,LPRW           , RWSTIF_PEN,
-     M                  SLN_PEN    ,ROOTLEN       ,ROOTNAM          ,NGUIDED_CABLE)
+     M                  SLN_PEN    ,ROOTLEN       ,ROOTNAM          ,NGUIDED_CABLE  ,TOTMAS1  )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------                     
@@ -337,6 +337,7 @@ C-----------------------------------------------
      .   SIGTRUSS(NSIGTRUSS,*),TOTMAS, KNOTLOCPC(*),KNOTLOCEL(*),VNIGE(*),BNIGE(*),
      .   FXBGLM(*),FXBCPM(*),FXBCPS(*),FXBLM(*),FXBFLS(*),FXBDLS(*),FXB_MATRIX(*),
      .   RBY_INIAXIS(7,*),ALEA(*),DR(SDR)
+      my_real,INTENT(INOUT) :: TOTMAS1
 
       my_real, DIMENSION(NUMNOD*2), TARGET :: STIFN
       my_real , DIMENSION(:), POINTER :: STIFR
@@ -428,7 +429,7 @@ C      INTEGER *8 I8MI(6,NUMNOD)
       INTEGER, DIMENSION(:), ALLOCATABLE :: IRIG_NODE, CONNEC
       my_real, DIMENSION(:), ALLOCATABLE :: PART_AREA,ELE_AREA
 
-      my_real ADDEDMS(NPART)
+      my_real ADDEDMS(NPART),MAS,MAS_1
       INTEGER ID,ISTOT, NF1,NNOD,NSROT,IDRAPE,ICPRE
       CHARACTER(LEN=NCHARTITLE)::TITR
       LOGICAL :: ERROR_THROWN
@@ -1357,7 +1358,7 @@ C Case total strain: conf_ref <- XREF
      4                NEL   ,SKEW   , MSQ  ,IPART  ,IPART(I15B),
      5                IPM   ,NSIGS  ,WMA   ,PTQUAD ,BUFMAT     ,
      6                NPC   ,PLD    ,IPARG ,ILOADP ,FACLOAD    ,
-     7                PARTSAV,V     ,MAT_PARAM)
+     7                PARTSAV,V     ,MAT_PARAM,STIFN(1:NUMNOD))
               ELSE
                  CALL QINIT2(
      .                ELBUF_TAB(NG),MS,IXQ   ,PM   ,X       ,
@@ -1366,7 +1367,8 @@ C Case total strain: conf_ref <- XREF
      .                NEL   ,SKEW, MSQ, IPART, IPART(I15B),
      .                IPM     ,NSIGS  ,
      .                WMA     ,PTQUAD ,BUFMAT  ,NPC  ,PLD,
-     .                IPARG   ,ILOADP ,FACLOAD ,PARTSAV,V, MAT_PARAM)
+     .                IPARG   ,ILOADP ,FACLOAD ,PARTSAV,V, MAT_PARAM,
+     .                STIFN(1:NUMNOD))
               ENDIF
            ELSE  ! JMULT > 0
               IF (MTN == 20) THEN
@@ -2167,7 +2169,39 @@ C-------------------------------------
 C-------------------------------------
 C Total mass and total inertia
 C-------------------------------------
-      IF (NS10E >0) THEN
+      IF (N2D==1) THEN ! nodal mass can't be used (rho*area)
+        TOTMAS1 =ZERO
+        DO I=1,NPART
+          NN1 = (I-1)*20
+          MAS = PARTSAV(2+NN1)
+          TOTMAS1=TOTMAS1+MAS
+          PARTSAV(2+NN1) = ZERO
+        END DO  
+        TOTMAS1=TOTMAS1+TOTMAS  ! total mass based on nodal mass (engine)
+        DO N=1,NUMNOD
+         NN3=3*N
+         NN2=NN3-1
+         NN1=NN2-1
+         TOTMAS=TOTMAS+MS(N)
+         XG=XG+MS(N)*X(NN1)
+         YG=YG+MS(N)*X(NN2)
+         ZG=ZG+MS(N)*X(NN3)
+!       
+         XX=(X(NN1))**2
+         YY=(X(NN2))**2
+         ZZ=(X(NN3))**2
+         XY=(X(NN1))*(X(NN2))
+         XZ=(X(NN1))*(X(NN3))
+         YZ=(X(NN2))*(X(NN3))
+!       
+         B1=B1+(YY+ZZ)*MS(N)
+         B5=B5+(XX+ZZ)*MS(N)
+         B9=B9+(XX+YY)*MS(N)
+         B2=B2-XY*MS(N)
+         B6=B6-YZ*MS(N)
+         B3=B3-XZ*MS(N)
+        ENDDO
+      ELSEIF (NS10E >0) THEN
       DO N=1,NUMNOD
        IF (ITAGND(N)/=0) CYCLE
        NN3=3*N
@@ -2271,6 +2305,7 @@ c-------------------------------------------------------------------------------
         IF(NUMELS10 > 0.OR.NUMELS16 > 0 .OR.NUMELS20 > 0)
      .    DEALLOCATE(MCPSX)
       ENDIF
+      IF (N2D/=1) TOTMAS1=TOTMAS ! for mass0_start
 C
       DEALLOCATE (PARTSAV)
 
