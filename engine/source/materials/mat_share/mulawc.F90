@@ -1843,16 +1843,15 @@
                lbuf%epsd(1:nel) = epsd_pg(1:nel)
               elseif (ilaw == 125) then
                 call sigeps125c(&
-                  jlt      ,matparam   ,nuvar    ,uvar      ,&
-                  rho      ,thkn       ,thklyl   , shf      ,&
-                  nfunc    ,ifunc      ,npf      ,tf        ,snpc    ,&
-                  stf      ,epsd_pg                                  ,&
+                  jlt      ,matparam   ,nuvar    ,uvar     ,nvartmp ,&
+                  vartmp   ,rho        ,thkn     ,thklyl   , shf     ,&
+                  epsd_pg                                            ,&
                   depsxx   ,depsyy     ,depsxy                       ,&
                   epsxx    ,epsyy      ,epsxy    ,epsyz    ,epszx    ,&
                   sigoxx   ,sigoyy     ,sigoxy                       ,&
                   signxx   ,signyy     ,signxy   ,signzx   ,signyz   ,&
                   off      ,sigy       ,etse     ,ssp      ,lbuf%dmg ,&
-                  lbuf%off  )
+                  gbuf%dmg,lbuf%off  )
                 lbuf%epsd(1:nel) = epsd_pg(1:nel)
 !
               elseif (ilaw == 127) then

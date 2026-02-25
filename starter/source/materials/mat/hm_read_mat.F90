@@ -1197,10 +1197,10 @@
              case ('LAW125','LAMINATED_COMPOSITE')
               ilaw = 125
               call hm_read_mat125(&
-              &nuvar    ,maxfunc  ,npropm  , iout     ,&
-              &nfunc    ,ifunc    ,mtag     ,parmat   ,unitab   ,&
-              &pm(1,i)  ,lsubmodel,israte   ,mat_id   ,titr     ,&
-              &matparam ,nvartmp  )
+           &nuvar    ,maxfunc  ,npropm  , iout   ,            & 
+           & mtag     ,parmat   ,unitab  ,ntable   ,table,    &
+           &pm(1,i)  ,lsubmodel,israte   ,mat_id   ,titr ,    &
+           &matparam ,nvartmp ,iunit)     
 !-------
              case ('LAW126','JOHNSON_HOLMQUIST_CONCRETE')
               ilaw = 126
