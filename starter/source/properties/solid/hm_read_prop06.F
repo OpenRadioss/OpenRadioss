@@ -40,7 +40,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
       SUBROUTINE HM_READ_PROP06(GEO      ,IGEO    ,PROP_TAG,MULTI_FVM ,IGTYP   ,
      .                          IG       ,IDTITL  ,UNITAB  ,LSUBMODEL ,RTRANS  ,
-     .                          SUB_ID   ,ISKN    ,IPART   ,SUB_INDEX,DEFAULTS_SOLID)
+     .                          SUB_ID   ,ISKN    ,IPART   ,SUB_INDEX,DEFAULTS_SOLID,
+     .                          ISMS  )
 C-----------------------------------------------
 C   ROUTINE DESCRIPTION :
 C   ===================
@@ -102,6 +103,7 @@ C-----------------------------------------------
       INTEGER,INTENT(IN) :: IGTYP
       INTEGER,INTENT(IN) :: SUB_ID 
       INTEGER,INTENT(IN) :: SUB_INDEX 
+      INTEGER,INTENT(IN) :: ISMS
 C
       my_real,INTENT(INOUT) :: GEO(NPROPG)
       my_real,INTENT(IN) :: RTRANS(NTRANSF,NRTRANS)
@@ -210,7 +212,7 @@ C----------------------
       IF(ITET4 == 0)  ITET4 = ITET4_D
       IF(ITET10 == 0) ITET10 = ITET10_D
       IF(ITET4 == 1) THEN ! switched to tetra10 w/ itetra10=2
-        ITET10 = 2
+        IF (ISMS == 0) ITET10 = 2
         ITET4 = 0  
         MSGLINE='   ITETR4 IS CHANGED TO TETRA10'
         CALL ANCMSG(MSGID=2027,MSGTYPE=MSGWARNING,ANMODE=ANINFO,I1=IG,C1=IDTITL,I2=2,C2=TRIM(MSGLINE))      

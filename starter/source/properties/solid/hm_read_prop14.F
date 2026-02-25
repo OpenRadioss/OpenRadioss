@@ -38,7 +38,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    submodel_mod             ../starter/share/modules1/submodel_mod.F
 !||====================================================================
       SUBROUTINE HM_READ_PROP14(GEO,IGEO,PROP_TAG,MULTI_FVM,IGTYP,IG,TITR,UNITAB,
-     .                          LSUBMODEL,IPART,DEFAULTS_SOLID)
+     .                          LSUBMODEL,IPART,DEFAULTS_SOLID,ISMS )
 C-----------------------------------------------
 C   ROUTINE DESCRIPTION :
 C   ===================
@@ -94,6 +94,7 @@ C MODIFIED ARGUMENT
       my_real,INTENT(INOUT)::GEO(NPROPG)
       TYPE(PROP_TAG_) , DIMENSION(0:MAXPROP) :: PROP_TAG
       TYPE(SOLID_DEFAULTS_), INTENT(IN) :: DEFAULTS_SOLID
+      INTEGER, INTENT(IN) :: ISMS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -175,7 +176,7 @@ C--------------------------------------------------
         ITET4 = ITET4_D
       ENDIF 
       IF(ITET4 == 1) THEN ! switched to tetra10 w/ itetra10=2
-        ITET10 = 2
+        IF (ISMS == 0) ITET10 = 2
         ITET4 = 0  
         MSGLINE='   ITETR4 IS CHANGED TO TETRA10'
         CALL ANCMSG(MSGID=2027,MSGTYPE=MSGWARNING,ANMODE=ANINFO,I1=IG,C1=TITR,I2=2,C2=TRIM(MSGLINE))      
