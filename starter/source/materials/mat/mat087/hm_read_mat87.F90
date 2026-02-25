@@ -100,7 +100,7 @@
 !                                                   local variables
 ! ----------------------------------------------------------------------------------------------------------------------
           integer :: i,iflagsr,iflag,flag_fit,ilaw,nrate,offset,         &
-            ierr2,ifunc(maxfunc),itable(3),ikin,info
+            ierr2,ifunc(maxfunc),itable(3),ikin,info,ifunc_id(maxfunc)
           real(kind=WP) :: e,nu,g,bulk,fcut,al1,al2,al3,al4,al5,al6,al7,al8,           &
             fisokin,invp,invc,unspt,unsct,aswift,epso,qvoce,beta,           &
             ko,alpha,nexp,unsp,unsc,rho0,rhor,rate(maxfunc),yfac(maxfunc),       &
@@ -255,6 +255,8 @@
                 end if
               end do
             end if
+            !< Save user id for output
+            ifunc_id(1:maxfunc) = ifunc(1:maxfunc)
             !< - Swift-Voce
           else if (iflag == 1) then
             !< Yield criterion exponent
@@ -640,7 +642,7 @@
             end if
             if (iflag == 0) then
               write(iout,1007) nrate
-              if (nrate>0) write(iout,1008)(ifunc(i),yfac(i),rate(i),i=1,nrate)
+              if (nrate>0) write(iout,1008)(ifunc_id(i),yfac(i),rate(i),i=1,nrate)
             else if (iflag == 1) then
               write(iout,1009) invp,invc,qvoce,beta,ko,alpha,aswift,nexp,epso
             else if (iflag == 2) then
