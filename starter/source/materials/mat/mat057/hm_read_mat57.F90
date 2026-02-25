@@ -91,7 +91,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer :: j,nrate,opte,ifunce(1),ilaw,vp,ierr2,ifunc(11)
+          integer :: j,nrate,opte,ifunce(1),ilaw,vp,ierr2,ifunc(11),ifunc_id(11),ifunce_id(1)
           real(kind=WP) :: rho0,rhor,e,nu,epsmax,epsr1,epsr2,rate(11),yfac(11),    &
             yfac_unit(11),r0,r45,r90,r,h,fisokin,m,einf,ce,asrate,      &
             x1scale,x2scale,x2vect(11),fscale(11)
@@ -140,6 +140,8 @@
             call hm_get_float_array_index("ABG_cpb",rate(j),j,is_available,lsubmodel,unitab)
             if (ifunc(j) /= 0) nrate = j
           end do
+          ifunc_id(1:11) = ifunc(1:11)
+          ifunce_id(1) = ifunce(1)
 !
           !-------------------------------------------------------------------------
           !< Data checking
@@ -332,8 +334,8 @@
             write(iout,1500) m,matparam%uparam(4),matparam%uparam(3),              &
               matparam%uparam(5),matparam%uparam(6)
             write(iout,1700)
-            write(iout,1800) (ifunc(j),yfac(j),rate(j),j=1,nrate)
-            write(iout,1900) epsmax,epsr1,epsr2,ifunce(1),einf,ce,israte,asrate,vp
+            write(iout,1800) (ifunc_id(j),yfac(j),rate(j),j=1,nrate)
+            write(iout,1900) epsmax,epsr1,epsr2,ifunce_id(1),einf,ce,israte,asrate,vp
           end if
 !
 1000      format(/                                                                 &
