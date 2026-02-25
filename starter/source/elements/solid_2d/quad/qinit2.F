@@ -48,7 +48,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                  NEL         ,SKEW   ,MSQ       ,IPART   ,IPARTQ ,
      .                  IPM         ,NSIGS  ,
      .                  WMA         ,PTQUAD ,BUFMAT    ,NPF     ,TF     ,
-     .                  IPARGG      ,ILOADP ,FACLOAD   ,PARTSAV ,V      ,MAT_PARAM)
+     .                  IPARGG      ,ILOADP ,FACLOAD   ,PARTSAV ,V      ,MAT_PARAM,
+     .                  STIFN )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -88,6 +89,7 @@ C-----------------------------------------------
       TYPE(ELBUF_STRUCT_), TARGET :: ELBUF_STR
       INTEGER,INTENT(IN) :: ILOADP(SIZLOADP,*)
       my_real,INTENT(IN) :: FACLOAD(LFACLOAD,*)
+      my_real,DIMENSION(NUMNOD), INTENT(INOUT) :: STIFN
       TYPE(DETONATORS_STRUCT_)::DETONATORS
       TYPE(t_ale_connectivity), INTENT(INOUT) :: ALE_CONNECTIVITY
       TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(INOUT) :: MAT_PARAM
@@ -99,7 +101,7 @@ C-----------------------------------------------
       my_real E1Y(MVSIZ),E1Z(MVSIZ),E2Y(MVSIZ),E2Z(MVSIZ),
      .        BID(1), DTX(MVSIZ),
      .        SY(MVSIZ) ,SZ(MVSIZ) ,TY(MVSIZ) ,TZ(MVSIZ)
-      my_real FV
+      my_real FV,STI,MAS
       CHARACTER(LEN=NCHARTITLE)::TITR
       TYPE(G_BUFEL_) ,POINTER :: GBUF     
       TYPE(L_BUFEL_), POINTER :: LBUF     
@@ -193,6 +195,15 @@ c
           ENDIF
         ENDIF
         DTELEM(NFT+I)=DTX(I)
+!        MSQ(NFT+I) = FOURTH * PM(89,MAT(I))*AIRE(I) ! nodal mass in engine->fac=V/a
+        STI = HALF * PM(89,MAT(I))*GBUF%VOL(I) / MAX(EM20,DTX(I)*DTX(I)) ! =fac*sti(engine)
+        MAS = PM(89,MAT(I))*AIRE(I)
+        IP = IPARTQ(NFT+I)
+        PARTSAV(2,IP)=PARTSAV(2,IP) + MAS ! PARTSAV(2,IP) used for total nodal mass (engine initia_mass_ratio) 
+        STIFN(IX1(I))=STIFN(IX1(I))+STI
+        STIFN(IX2(I))=STIFN(IX2(I))+STI
+        STIFN(IX3(I))=STIFN(IX3(I))+STI
+        STIFN(IX4(I))=STIFN(IX4(I))+STI
       ENDDO
 C-----------
       RETURN

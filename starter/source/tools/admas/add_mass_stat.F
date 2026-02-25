@@ -28,7 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- uses       -----------------------------------------------------
 !||    message_mod      ../starter/share/message_module/message_mod.F
 !||====================================================================
-      SUBROUTINE ADD_MASS_STAT(MS,IN,STIFN,STIFR,ITAB,TOTMAS)
+      SUBROUTINE ADD_MASS_STAT(MS,IN,STIFN,STIFR,ITAB,TOTMAS,TOTMAS1)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -47,6 +47,7 @@ C-----------------------------------------------
       INTEGER ITAB(*)
       my_real
      .   MS(NUMNOD),IN(NUMNOD),STIFN(NUMNOD),STIFR(NUMNOD),TOTMAS
+      my_real, intent(in) :: TOTMAS1
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -72,7 +73,7 @@ C-------------------------------------------------------------------------------
 C
       ALLOCATE(DT(2*NUMNOD))
       CALL MY_ALLOC(PERM,NUMNOD)
-      MASS0_START = TOTMAS
+      MASS0_START = TOTMAS1
       DTSCA = ZEP9
 C
       TMP => DT(NUMNOD+1:NUMNOD*2)
