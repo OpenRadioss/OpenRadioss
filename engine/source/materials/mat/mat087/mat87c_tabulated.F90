@@ -329,20 +329,6 @@
           !=========================================================================
           if (nindx > 0) then
 !
-            !< Computation of the derivative of backstress tensor w.r.t pl. strain
-            if ((ikin == 1).and.(fisokin > zero)) then
-#include "vectorize.inc"
-              do ii = 1, nindx
-                i = indx(ii)
-                dsigbxxdp(i) = ckh(1)*sigb(i,1) + ckh(2)*sigb(i,4) +               &
-                  ckh(3)*sigb(i,7) + ckh(4)*sigb(i,10)
-                dsigbyydp(i) = ckh(1)*sigb(i,2) + ckh(2)*sigb(i,5) +               &
-                  ckh(3)*sigb(i,8) + ckh(4)*sigb(i,11)
-                dsigbxydp(i) = ckh(1)*sigb(i,3) + ckh(2)*sigb(i,6) +               &
-                  ckh(3)*sigb(i,9) + ckh(4)*sigb(i,12)
-              end do
-            end if
-!
             !< Loop over the iterations
             do iter = 1, niter
 #include "vectorize.inc"
@@ -484,8 +470,14 @@
                 if (fisokin > zero) then
                   !<  -> Chaboche-Rousselier kinematic hardening
                   if (ikin == 1) then
-                    dsigbxxdlam = fisokin*(akck*normxx - dsigbxxdp(i)*dpladlam)
-                    dsigbyydlam = fisokin*(akck*normyy - dsigbyydp(i)*dpladlam)
+                    dsigbxxdp(i) = ckh(1)*sigb(i,1) + ckh(2)*sigb(i,4) +         &
+                                   ckh(3)*sigb(i,7) + ckh(4)*sigb(i,10)
+                    dsigbyydp(i) = ckh(1)*sigb(i,2) + ckh(2)*sigb(i,5) +         &
+                                   ckh(3)*sigb(i,8) + ckh(4)*sigb(i,11)
+                    dsigbxydp(i) = ckh(1)*sigb(i,3) + ckh(2)*sigb(i,6) +         &
+                                   ckh(3)*sigb(i,9) + ckh(4)*sigb(i,12)
+                    dsigbxxdlam = fisokin*(akck*(two*normxx + normyy) - dsigbxxdp(i)*dpladlam)
+                    dsigbyydlam = fisokin*(akck*(two*normyy + normxx) - dsigbyydp(i)*dpladlam)
                     dsigbxydlam = fisokin*(akck*normxy - dsigbxydp(i)*dpladlam)
                     !<  -> Prager kinematic hardening
                   else if (ikin == 2) then
@@ -549,27 +541,27 @@
                   if (ikin == 1) then
                     ! -> Update the all set of backstresses components
                     sigb(i, 1) = sigb(i, 1) +                                      &
-                      fisokin*(akh(1)*ckh(1)*normxx*dlam  - ckh(1)*sigb(i,1)*ddep)
+                      fisokin*(akh(1)*ckh(1)*(two*normxx + normyy)*dlam  - ckh(1)*sigb(i,1)*ddep)
                     sigb(i, 2) = sigb(i, 2) +                                      &
-                      fisokin*(akh(1)*ckh(1)*normyy*dlam  - ckh(1)*sigb(i,2)*ddep)
+                      fisokin*(akh(1)*ckh(1)*(two*normyy + normxx)*dlam  - ckh(1)*sigb(i,2)*ddep)
                     sigb(i, 3) = sigb(i, 3) +                                      &
                       fisokin*(akh(1)*ckh(1)*normxy*dlam  - ckh(1)*sigb(i,3)*ddep)
                     sigb(i, 4) = sigb(i, 4) +                                      &
-                      fisokin*(akh(2)*ckh(2)*normxx*dlam  - ckh(2)*sigb(i,4)*ddep)
+                      fisokin*(akh(2)*ckh(2)*(two*normxx + normyy)*dlam  - ckh(2)*sigb(i,4)*ddep)
                     sigb(i, 5) = sigb(i, 5) +                                      &
-                      fisokin*(akh(2)*ckh(2)*normyy*dlam  - ckh(2)*sigb(i,5)*ddep)
+                      fisokin*(akh(2)*ckh(2)*(two*normyy + normxx)*dlam  - ckh(2)*sigb(i,5)*ddep)
                     sigb(i, 6) = sigb(i, 6) +                                      &
                       fisokin*(akh(2)*ckh(2)*normxy*dlam  - ckh(2)*sigb(i,6)*ddep)
                     sigb(i, 7) = sigb(i, 7) +                                      &
-                      fisokin*(akh(3)*ckh(3)*normxx*dlam  - ckh(3)*sigb(i,7)*ddep)
+                      fisokin*(akh(3)*ckh(3)*(two*normxx + normyy)*dlam  - ckh(3)*sigb(i,7)*ddep)
                     sigb(i, 8) = sigb(i, 8) +                                      &
-                      fisokin*(akh(3)*ckh(3)*normyy*dlam  - ckh(3)*sigb(i,8)*ddep)
+                      fisokin*(akh(3)*ckh(3)*(two*normyy + normxx)*dlam  - ckh(3)*sigb(i,8)*ddep)
                     sigb(i, 9) = sigb(i, 9) +                                      &
                       fisokin*(akh(3)*ckh(3)*normxy*dlam  - ckh(3)*sigb(i,9)*ddep)
                     sigb(i,10) = sigb(i,10) +                                      &
-                      fisokin*(akh(4)*ckh(4)*normxx*dlam - ckh(4)*sigb(i,10)*ddep)
+                      fisokin*(akh(4)*ckh(4)*(two*normxx + normyy)*dlam - ckh(4)*sigb(i,10)*ddep)
                     sigb(i,11) = sigb(i,11) +                                      &
-                      fisokin*(akh(4)*ckh(4)*normyy*dlam - ckh(4)*sigb(i,11)*ddep)
+                      fisokin*(akh(4)*ckh(4)*(two*normyy + normxx)*dlam - ckh(4)*sigb(i,11)*ddep)
                     sigb(i,12) = sigb(i,12) +                                      &
                       fisokin*(akh(4)*ckh(4)*normxy*dlam - ckh(4)*sigb(i,12)*ddep)
                     !<  -> Prager kinematic hardening
