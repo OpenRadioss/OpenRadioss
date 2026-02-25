@@ -1018,9 +1018,6 @@ C
 
 !$omp do schedule(guided)
       do n=1,nrtm
-        if(actnor(n)==3) then 
-          wnod_normal(1:3,1:4,n) = RZERO
-        endif
         if(actnor(n)==0) cycle
         if(stifm(n)<=0) then
           wnod_normal(1:3,1:4,n) = RZERO
@@ -1040,7 +1037,7 @@ C
 C
 
 !$omp do schedule(guided)
-      do irm=1,nrtm
+      do irm=1,nrtm            
 C
 C       IF(ACTNOR(IRM)==0 .OR. STIFM(IRM)<=ZERO) CYCLE
 
