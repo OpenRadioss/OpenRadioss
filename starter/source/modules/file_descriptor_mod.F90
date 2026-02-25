@@ -33,6 +33,7 @@
 !||    hm_read_mat02_zerilli           ../starter/source/materials/mat/mat002/hm_read_mat02_zerilli.F90
 !||    hm_read_thchecksum              ../starter/source/output/th/hm_read_thchecksum.F90
 !||    i2buc1                          ../starter/source/interfaces/inter3d1/i2buc1.F
+!||    sigeps88                        ../starter/source/materials/mat/mat088/sigeps88.F90
 !||    st_checksum_file_print          ../starter/source/output/checksum/checksum_option.F90
 !||====================================================================
       module file_descriptor_mod

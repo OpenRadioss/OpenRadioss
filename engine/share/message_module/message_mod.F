@@ -520,6 +520,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    usermat_solid                      ../engine/source/materials/mat_share/usermat_solid.F
 !||    userwi_read                        ../engine/source/user_interface/userwindow_interface_routines.F
 !||    userwi_write                       ../engine/source/user_interface/userwindow_interface_routines.F
+!||    ush_force3                         ../engine/source/user_interface/ushforce3.F90
 !||    wciusc2                            ../engine/source/input/wciusc2.F
 !||    wigerest                           ../engine/source/output/restart/rdresb.F
 !||    write_th_restart                   ../engine/source/output/th/write_th_restart.F

@@ -24,6 +24,8 @@
 !||    ush_force3_mod   ../engine/source/user_interface/ushforce3.F90
 !||--- called by ------------------------------------------------------
 !||    forintc          ../engine/source/elements/forintc.F
+!||--- uses       -----------------------------------------------------
+!||    precision_mod    ../common_source/modules/precision_mod.F90
 !||====================================================================
       module ush_force3_mod
 
@@ -88,17 +90,20 @@
 !!\brief This subroutine computes internal forces&moments of user shell property
 !=======================================================================================================================
 !||====================================================================
-!||    ush_force3          ../engine/source/user_interface/ushforce3.F90
+!||    ush_force3             ../engine/source/user_interface/ushforce3.F90
 !||--- called by ------------------------------------------------------
-!||    forintc             ../engine/source/elements/forintc.F
+!||    forintc                ../engine/source/elements/forintc.F
 !||--- calls      -----------------------------------------------------
-!||    ush_output          ../engine/source/user_interface/ushforce3.F90
+!||    ancmsg                 ../engine/source/output/message/message.F
+!||    arret                  ../engine/source/system/arret.F
+!||    ush_output             ../engine/source/user_interface/ushforce3.F90
 !||--- uses       -----------------------------------------------------
-!||    constant_mod        ../common_source/modules/constant_mod.F
-!||    elbufdef_mod        ../common_source/modules/mat_elem/elbufdef_mod.F90
-!||    precision_mod       ../common_source/modules/precision_mod.F90
-!||    prop_param_mod      ../common_source/modules/mat_elem/prop_param_mod.F90
-!||    sensor_mod          ../common_source/modules/sensor_mod.F90
+!||    constant_mod           ../common_source/modules/constant_mod.F
+!||    elbufdef_mod           ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    message_mod            ../engine/share/message_module/message_mod.F
+!||    precision_mod          ../common_source/modules/precision_mod.F90
+!||    prop_param_mod         ../common_source/modules/mat_elem/prop_param_mod.F90
+!||    sensor_mod             ../common_source/modules/sensor_mod.F90
 !||====================================================================
         subroutine ush_force3(igtyp,elbuf_tab,                                         &
                    numnod,  nparg,   npart,   nummat,    npsav,                  &

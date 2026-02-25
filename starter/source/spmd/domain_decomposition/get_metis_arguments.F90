@@ -20,6 +20,11 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+!||====================================================================
+!||    get_metis_arguments_mod   ../starter/source/spmd/domain_decomposition/get_metis_arguments.F90
+!||--- called by ------------------------------------------------------
+!||    dometis                   ../starter/source/spmd/domain_decomposition/grid2mat.F
+!||====================================================================
       module get_metis_arguments_mod
         implicit none
       contains
@@ -27,6 +32,12 @@
 !                                                   procedures
 ! ======================================================================================================================
 !! \brief Get command line arguments related to METIS, and set the corresponding variables                                                              
+!||====================================================================
+!||    get_metis_arguments    ../starter/source/spmd/domain_decomposition/get_metis_arguments.F90
+!||--- called by ------------------------------------------------------
+!||    dometis                ../starter/source/spmd/domain_decomposition/grid2mat.F
+!||--- calls      -----------------------------------------------------
+!||====================================================================
         subroutine get_metis_arguments(legacy_partitioning, metis_random_seed)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules

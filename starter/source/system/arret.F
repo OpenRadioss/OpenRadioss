@@ -73,6 +73,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    table_vinterp           ../starter/source/tools/curve/table_tools.F
 !||    tribox3                 ../starter/stub/fvmbags_stub.F
 !||    tritri3                 ../starter/stub/fvmbags_stub.F
+!||    ush_init                ../starter/source/elements/elbuf_init/ush_init.F90
 !||    w_bufbric_22            ../starter/source/interfaces/inter3d1/w_bufbric_22.F
 !||    w_front                 ../starter/source/restart/ddsplit/w_front.F
 !||    w_intbuf_size           ../starter/source/restart/ddsplit/inter_tools.F

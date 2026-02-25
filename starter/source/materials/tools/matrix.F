@@ -526,6 +526,7 @@ C
 !||    sigeps01    ../starter/source/materials/mat/mat001/sigeps01.F90
 !||    sigeps38    ../starter/source/materials/mat/mat038/sigeps38.F
 !||    sigeps42    ../starter/source/materials/mat/mat042/sigeps42.F
+!||    sigeps88    ../starter/source/materials/mat/mat088/sigeps88.F90
 !||    sigeps90    ../starter/source/materials/mat/mat090/sigeps90.F
 !||--- calls      -----------------------------------------------------
 !||====================================================================

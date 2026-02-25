@@ -262,6 +262,7 @@
 !||    trirbmerge                         ../starter/source/constraints/general/merge/hm_read_merge.F
 !||    update_pon_shells                  ../engine/source/engine/node_spliting/update_pon.F90
 !||    userwis_front                      ../starter/source/user_interface/user_windows_tools.F
+!||    ush_init                           ../starter/source/elements/elbuf_init/ush_init.F90
 !||    velvec2                            ../engine/source/output/anim/generate/velvec.F
 !||    velvec3                            ../engine/source/output/anim/generate/velvec.F
 !||    velvecc                            ../engine/source/output/anim/generate/velvec.F

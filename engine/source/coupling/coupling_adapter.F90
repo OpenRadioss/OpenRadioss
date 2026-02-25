@@ -595,6 +595,8 @@
         ! Write scalar data to coupling library (e.g. temperature)
 !||====================================================================
 !||    coupling_write_scalar         ../engine/source/coupling/coupling_adapter.F90
+!||--- called by ------------------------------------------------------
+!||    coupling_sync                 ../engine/source/coupling/coupling_adapter.F90
 !||--- calls      -----------------------------------------------------
 !||    coupling_adapter_write_data   ../engine/source/coupling/coupling_c_interface.cpp
 !||--- uses       -----------------------------------------------------
@@ -675,11 +677,13 @@
 
         ! Read scalar data from coupling library (e.g. temperature)
 !||====================================================================
-!||    coupling_read_scalar          ../engine/source/coupling/coupling_adapter.F90
+!||    coupling_read_scalar         ../engine/source/coupling/coupling_adapter.F90
+!||--- called by ------------------------------------------------------
+!||    coupling_sync                ../engine/source/coupling/coupling_adapter.F90
 !||--- calls      -----------------------------------------------------
-!||    coupling_adapter_read_data    ../engine/source/coupling/coupling_c_interface.cpp
+!||    coupling_adapter_read_data   ../engine/source/coupling/coupling_c_interface.cpp
 !||--- uses       -----------------------------------------------------
-!||    precision_mod                 ../common_source/modules/precision_mod.F90
+!||    precision_mod                ../common_source/modules/precision_mod.F90
 !||====================================================================
         subroutine coupling_read_scalar(coupling, dt, global_values, nb_nodes, mode, name_id)
           use precision_mod, only: WP
@@ -723,6 +727,8 @@
 !||    coupling_adapter_get_coupled_data   ../engine/source/coupling/coupling_c_interface.cpp
 !||    coupling_adapter_read_data          ../engine/source/coupling/coupling_c_interface.cpp
 !||    coupling_adapter_write_data         ../engine/source/coupling/coupling_c_interface.cpp
+!||    coupling_read_scalar                ../engine/source/coupling/coupling_adapter.F90
+!||    coupling_write_scalar               ../engine/source/coupling/coupling_adapter.F90
 !||--- uses       -----------------------------------------------------
 !||    nodal_arrays_mod                    ../common_source/modules/nodal_arrays.F90
 !||    precision_mod                       ../common_source/modules/precision_mod.F90

@@ -20,8 +20,24 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+!||====================================================================
+!||    sigeps88_mod   ../starter/source/materials/mat/mat088/sigeps88.F90
+!||--- called by ------------------------------------------------------
+!||    mulaw          ../starter/source/materials/mat_share/mulaw.F
+!||====================================================================
       module sigeps88_mod
       contains
+!||====================================================================
+!||    sigeps88                ../starter/source/materials/mat/mat088/sigeps88.F90
+!||--- called by ------------------------------------------------------
+!||    mulaw                   ../starter/source/materials/mat_share/mulaw.F
+!||--- calls      -----------------------------------------------------
+!||    table_mat_vinterp       ../starter/source/materials/tools/table_mat_vinterp.F
+!||    valpvecdp               ../starter/source/materials/tools/matrix.F
+!||--- uses       -----------------------------------------------------
+!||    file_descriptor_mod     ../starter/source/modules/file_descriptor_mod.F90
+!||    table_mat_vinterp_mod   ../starter/source/materials/tools/table_mat_vinterp.F
+!||====================================================================
         subroutine sigeps88(                                                     &
           nel    ,matparam,nuvar   ,uvar    ,tstep  ,tt      ,                   &
           rho0   ,rho     ,soundsp ,off     ,ismstr ,israte  ,                   &

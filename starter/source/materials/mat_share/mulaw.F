@@ -31,9 +31,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    sigeps38           ../starter/source/materials/mat/mat038/sigeps38.F
 !||    sigeps42           ../starter/source/materials/mat/mat042/sigeps42.F
 !||    sigeps70           ../starter/source/materials/mat/mat070/sigeps70.F
+!||    sigeps88           ../starter/source/materials/mat/mat088/sigeps88.F90
 !||    sigeps90           ../starter/source/materials/mat/mat090/sigeps90.F
 !||--- uses       -----------------------------------------------------
 !||    sigeps01_mod       ../starter/source/materials/mat/mat001/sigeps01.F90
+!||    sigeps88_mod       ../starter/source/materials/mat/mat088/sigeps88.F90
 !||====================================================================
       SUBROUTINE MULAW(LFT   ,LLT   ,NFT    ,MTN   ,JCVT   ,
      2                 PM    ,OFF   ,SIG    ,EINT  ,RHO    ,

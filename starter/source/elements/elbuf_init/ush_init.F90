@@ -22,9 +22,10 @@
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !=======================================================================================================================
 !||====================================================================
-!||    ush_init_mod   ../starter/source/elements/elbuf_init/ush_init.F90
+!||    ush_init_mod    ../starter/source/elements/elbuf_init/ush_init.F90
 !||--- called by ------------------------------------------------------
-!||    initia         ../starter/source/elements/initia/initia.F
+!||    initia          ../starter/source/elements/initia/initia.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       module ush_init_mod
 
@@ -77,11 +78,14 @@
 !!\brief This subroutine does the initialization of user shell property
 !=======================================================================================================================
 !||====================================================================
-!||    ush_init             ../starter/source/elements/elbuf_init/ush_init.F90
+!||    ush_init          ../starter/source/elements/elbuf_init/ush_init.F90
 !||--- called by ------------------------------------------------------
-!||    initia               ../starter/source/elements/initia/initia.F
+!||    initia            ../starter/source/elements/initia/initia.F
 !||--- calls      -----------------------------------------------------
+!||    ancmsg            ../starter/source/output/message/message.F
+!||    arret             ../starter/source/system/arret.F
 !||--- uses       -----------------------------------------------------
+!||    message_mod       ../starter/share/message_module/message_mod.F
 !||====================================================================
         subroutine ush_init(elbuf_tab,                                     &
                             numnod,  npart,       nummat,  nel,  pm,       &

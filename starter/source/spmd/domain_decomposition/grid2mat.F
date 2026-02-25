@@ -34,6 +34,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    dd_bfs                          ../starter/source/spmd/domain_decomposition/grid2mat.F
 !||    find_nodes                      ../starter/source/spmd/domain_decomposition/grid2mat.F
 !||    fvbag_vertex                    ../starter/source/spmd/domain_decomposition/grid2mat.F
+!||    get_metis_arguments             ../starter/source/spmd/domain_decomposition/get_metis_arguments.F90
 !||    iddconnectplus                  ../starter/source/spmd/node/frontplus.F
 !||    ini_iddconnect                  ../starter/source/spmd/node/ddtools.F
 !||    initwg                          ../starter/source/spmd/domain_decomposition/initwg.F
@@ -46,6 +47,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    consider_edge_mod               ../starter/source/spmd/domain_decomposition/consider_edge.F
 !||    format_mod                      ../starter/share/modules1/format_mod.F90
 !||    front_mod                       ../starter/share/modules1/front_mod.F
+!||    get_metis_arguments_mod         ../starter/source/spmd/domain_decomposition/get_metis_arguments.F90
 !||    inter_cand_mod                  ../starter/share/modules1/inter_cand_mod.F
 !||    message_mod                     ../starter/share/message_module/message_mod.F
 !||    metis_mod                       ../starter/source/spmd/domain_decomposition/metis_mod.F90

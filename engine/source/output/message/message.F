@@ -351,6 +351,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    user_windows_routine         ../engine/source/user_interface/user_windows.F
 !||    usermat_shell                ../engine/source/materials/mat_share/usermat_shell.F
 !||    usermat_solid                ../engine/source/materials/mat_share/usermat_solid.F
+!||    ush_force3                   ../engine/source/user_interface/ushforce3.F90
 !||    wciusc2                      ../engine/source/input/wciusc2.F
 !||    wriusc2                      ../engine/source/input/wriusc2.F
 !||    xforc28                      ../engine/source/elements/xelem/xforc28.F

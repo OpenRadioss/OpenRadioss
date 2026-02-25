@@ -869,6 +869,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    unit_code                           ../starter/source/general_controls/computation/unit_code.F
 !||    updfail                             ../starter/source/materials/updfail.F90
 !||    updmat                              ../starter/source/materials/updmat.F
+!||    ush_init                            ../starter/source/elements/elbuf_init/ush_init.F90
 !||    usr2sys                             ../starter/source/system/sysfus.F
 !||    usr2sys2                            ../starter/source/system/sysfus.F
 !||    vdoubl2                             ../starter/source/system/sysfus.F
