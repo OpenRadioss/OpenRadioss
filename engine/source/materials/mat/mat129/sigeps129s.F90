@@ -119,12 +119,11 @@
           real(kind=WP) :: dpdt
           real(kind=WP) :: epsp0,lame,ldav,p,rfact,seq
           real(kind=WP) :: asrate,dtime,tstart
-          real(kind=WP) :: cr1,cr2,cx1,cx2
           real(kind=WP) :: j2,g2,g3,rho0
-          real(kind=WP) :: sig_crp,time_crp,tref
+          real(kind=WP) :: time_crp,tref
           real(kind=WP) :: dphi_dlam
           real(kind=WP) :: ca,n,m
-          real(kind=WP) :: fsig,ftime,fqt
+          real(kind=WP) :: fsig,ftime,fqt,tshift
           real(kind=WP) :: alpha0,crpa0
           real(kind=WP) ,dimension(nel)   :: pla0,dlam
           real(kind=WP) ,dimension(nel)   :: sxx,syy,szz,sxy,syz,szx !< deviatoric stress components
@@ -138,10 +137,11 @@
           real(kind=WP) ,dimension(nel)   :: sigy                    !< yield stress
           real(kind=WP) ,dimension(nel)   :: svm0,svm                !< Von Mises stress
           real(kind=WP) ,dimension(nel)   :: sigm                    !< pressure
-          real(kind=WP) ,dimension(nel)   :: fscale                  !< scale factor
           real(kind=WP) ,dimension(nel)   :: alpha                   !< thermal expansion coeff
+          real(kind=WP) ,dimension(nel)   :: sig_crp
           real(kind=WP) ,dimension(nel)   :: depsth,depsc
           real(kind=WP) ,dimension(nel)   :: qr1,qr2,qx1,qx2
+          real(kind=WP) ,dimension(nel)   :: cr1,cr2,cx1,cx2
           real(kind=WP) ,dimension(:,:) ,pointer :: xvec1
           real(kind=WP) ,dimension(:,:) ,pointer :: xvec2
           type (table_4d_)        ,pointer :: itable
@@ -151,6 +151,7 @@
 ! --------------------------------------------------------------------------------------------------
 !     uvar(1) = plastic strain rate, saved for filtering
 !     uvar(2) = accumulated creep strain
+!     uvar(3) = time shift in Newton law in case when sensors are used
 ! ==================================================================================================
           niter = 3   ! max number of newton iterations
           dtime = max(timestep, em20)
@@ -169,10 +170,10 @@
           qr2(1:nel)   = mat_param%uparam(3)
           qx1(1:nel)   = mat_param%uparam(4)
           qx2(1:nel)   = mat_param%uparam(5)
-          cr1          = mat_param%uparam(6)
-          cr2          = mat_param%uparam(7)
-          cx1          = mat_param%uparam(8)
-          cx2          = mat_param%uparam(9)
+          cr1(1:nel)   = mat_param%uparam(6)
+          cr2(1:nel)   = mat_param%uparam(7)
+          cx1(1:nel)   = mat_param%uparam(8)
+          cx2(1:nel)   = mat_param%uparam(9)
           epsp0        = mat_param%uparam(10)
           cc(1:nel)    = epsp0
           cp(1:nel)    = mat_param%uparam(11)
@@ -182,7 +183,7 @@
           crpn(1:nel)  = mat_param%uparam(15)
           crpm(1:nel)  = mat_param%uparam(16)
           crpq(1:nel)  = mat_param%uparam(17)
-          sig_crp      = mat_param%uparam(18)
+          sig_crp(1:nel)=mat_param%uparam(18)
           time_crp     = mat_param%uparam(19)
           asrate = min(one,mat_param%uparam(20)*dtime)
 !
@@ -208,11 +209,11 @@
           xvec1(1:nel,1:1) => temp(1:nel)
 !
           if (mat_param%table(2)%notable > 0) then   ! young modulus evolution
-            call table_mat_vinterp(mat_param%table(2),nel,nel,vartmp(1,3),xvec1,young,h)
+            call table_mat_vinterp(mat_param%table(2),nel,nel,vartmp(1:nel,3),xvec1,young,h)
           end if
 !
           if (mat_param%table(3)%notable > 0) then  ! Poisson coefficient evolution
-            call table_mat_vinterp(mat_param%table(3),nel,nel,vartmp(1,4),xvec1,nu,h)
+            call table_mat_vinterp(mat_param%table(3),nel,nel,vartmp(1:nel,4),xvec1,nu,h)
             shear(1:nel) = half * young(1:nel) / (one + nu(1:nel))
           end if
 !
@@ -221,48 +222,57 @@
           end if
 !
           if (mat_param%table(5)%notable > 0) then  ! Qr1 and Qr2 parameters evolution
-            call table_mat_vinterp(mat_param%table(5),nel,nel,vartmp(1:nel,6),xvec1,fscale,h)
-            qr1(1:nel) = qr1(1:nel) * fscale(1:nel)
-            qr2(1:nel) = qr2(1:nel) * fscale(1:nel)
+            call table_mat_vinterp(mat_param%table(5),nel,nel,vartmp(1:nel,6),xvec1,qr1,h)
+            call table_mat_vinterp(mat_param%table(6),nel,nel,vartmp(1:nel,7),xvec1,qr2,h)
           end if
 !
-          if (mat_param%table(6)%notable > 0) then  ! Qx1 and Qx2 parameters evolution
-            call table_mat_vinterp(mat_param%table(6),nel,nel,vartmp(1,7),xvec1,fscale,h)
-            qx1(1:nel) = qx1(1:nel) * fscale(1:nel)
-            qx2(1:nel) = qx2(1:nel) * fscale(1:nel)
+          if (mat_param%table(7)%notable > 0) then  ! Qx1 and Qx2 parameters evolution
+            call table_mat_vinterp(mat_param%table(7),nel,nel,vartmp(1:nel,8),xvec1,qx1,h)
+            call table_mat_vinterp(mat_param%table(8),nel,nel,vartmp(1:nel,9),xvec1,qx2,h)
+          end if
+!
+          if (mat_param%table(9)%notable > 0) then  ! Cr1 and Cr2 parameters evolution
+            call table_mat_vinterp(mat_param%table(9) ,nel,nel,vartmp(1:nel,10),xvec1,cr1,h)
+            call table_mat_vinterp(mat_param%table(10),nel,nel,vartmp(1:nel,11),xvec1,cr2,h)
+          end if
+!
+          if (mat_param%table(11)%notable > 0) then  ! Cr1 and Cr2 parameters evolution
+            call table_mat_vinterp(mat_param%table(11),nel,nel,vartmp(1:nel,12),xvec1,cx1,h)
+            call table_mat_vinterp(mat_param%table(12),nel,nel,vartmp(1:nel,13),xvec1,cx2,h)
           end if
 !
           if (mat_param%uparam(10) > zero) then  ! Cowper-Symonds strain rate
-            cc(1:nel) = mat_param%uparam(10)
-            cp(1:nel) = mat_param%uparam(11)
-!
-            if (mat_param%table(7)%notable > 0) then  ! cc parameters evolution
-              call table_mat_vinterp(mat_param%table(7),nel,nel,vartmp(1,8),xvec1,cc,h)
+            if (mat_param%table(13)%notable > 0) then  ! cc parameters evolution
+              call table_mat_vinterp(mat_param%table(13),nel,nel,vartmp(1:nel,14),xvec1,cc,h)
             end if
 !
-            if (mat_param%table(8)%notable > 0) then  ! cp parameters evolution
-              call table_mat_vinterp(mat_param%table(8),nel,nel,vartmp(1,9),xvec1,cp,h)
+            if (mat_param%table(14)%notable > 0) then  ! cp parameters evolution
+              call table_mat_vinterp(mat_param%table(14),nel,nel,vartmp(1:nel,15),xvec1,cp,h)
             end if
           end if
 !
-          if (mat_param%table(9)%notable > 0) then  ! creep A parameters evolution
-            call table_mat_vinterp(mat_param%table(9),nel,nel,vartmp(1,10),xvec1,crpa,h)
+          if (mat_param%table(15)%notable > 0) then  ! creep A parameters evolution
+            call table_mat_vinterp(mat_param%table(15),nel,nel,vartmp(1:nel,16),xvec1,crpa,h)
           end if
 !
-          if (mat_param%table(10)%notable > 0) then  ! creep B parameters evolution
-            call table_mat_vinterp(mat_param%table(10),nel,nel,vartmp(1,11),xvec1,crpn,h)
+          if (mat_param%table(16)%notable > 0) then  ! creep B parameters evolution
+            call table_mat_vinterp(mat_param%table(16),nel,nel,vartmp(1:nel,17),xvec1,crpn,h)
           end if
 !
-          if (mat_param%table(11)%notable > 0) then  ! creep Q parameters evolution
-            call table_mat_vinterp(mat_param%table(11),nel,nel,vartmp(1,12),xvec1,crpm,h)
+          if (mat_param%table(17)%notable > 0) then  ! creep Q parameters evolution
+            call table_mat_vinterp(mat_param%table(17),nel,nel,vartmp(1:nel,18),xvec1,crpm,h)
           end if
 !
-          if (mat_param%table(12)%notable > 0) then  ! creep M parameters evolution
-            call table_mat_vinterp(mat_param%table(12),nel,nel,vartmp(1,13),xvec1,crpq,h)
+          if (mat_param%table(18)%notable > 0) then  ! creep M parameters evolution
+            call table_mat_vinterp(mat_param%table(18),nel,nel,vartmp(1:nel,19),xvec1,crpq,h)
           end if
 !
-          if (mat_param%table(13)%notable > 0) then  ! alpha parameters evolution
-            call table_mat_vinterp(mat_param%table(13),nel,nel,vartmp(1,14),xvec1,alpha,h)
+          if (mat_param%table(19)%notable > 0) then  ! alpha parameters evolution
+            call table_mat_vinterp(mat_param%table(19),nel,nel,vartmp(1:nel,20),xvec1,alpha,h)
+          end if
+!
+          if (mat_param%table(20)%notable > 0) then  ! alpha parameters evolution
+            call table_mat_vinterp(mat_param%table(20),nel,nel,vartmp(1:nel,21),xvec1,sig_crp,h)
           end if
 ! ---------------------------------------------------------------------------------------------
           if (mat_param%table(1)%notable > 0) then  ! tabulated input of equivalent stress
@@ -279,14 +289,14 @@
           else                   ! use analytic Voce hardening formula
             do i = 1,nel
               yld(i) = sigy(i)                                     &
-                + qr1(i)*(one - exp(-cr1*pla(i)))             &
-                + qr2(i)*(one - exp(-cr2*pla(i)))             &
-                + qx1(i)*(one - exp(-cx1*pla(i)))             &
-                + qx2(i)*(one - exp(-cx2*pla(i)))
-              h(i)   = qr1(i)*cr1*exp(-cr1*pla(i))                 &
-                + qr2(i)*cr2*exp(-cr2*pla(i))                 &
-                + qx1(i)*cx1*exp(-cx1*pla(i))                 &
-                + qx2(i)*cx2*exp(-cx2*pla(i))
+                + qr1(i)*(one - exp(-cr1(i)*pla(i)))             &
+                + qr2(i)*(one - exp(-cr2(i)*pla(i)))             &
+                + qx1(i)*(one - exp(-cx1(i)*pla(i)))             &
+                + qx2(i)*(one - exp(-cx2(i)*pla(i)))
+              h(i)   = qr1(i)*cr1(i)*exp(-cr1(i)*pla(i))                 &
+                + qr2(i)*cr2(i)*exp(-cr2(i)*pla(i))                 &
+                + qx1(i)*cx1(i)*exp(-cx1(i)*pla(i))                 &
+                + qx2(i)*cx2(i)*exp(-cx2(i)*pla(i))
             enddo
           end if
 ! ---------------------------------------------------------------------------------------------
@@ -422,15 +432,15 @@
             else                   ! use analytic Voce hardening formula
 #include "vectorize.inc"
               do i = 1,nel
-                yld(i) = sigy(i)                                     &
-                  + qr1(i)*(one - exp(-cr1*pla(i)))             &
-                  + qr2(i)*(one - exp(-cr2*pla(i)))             &
-                  + qx1(i)*(one - exp(-cx1*pla(i)))             &
-                  + qx2(i)*(one - exp(-cx2*pla(i)))
-                h(i)   = qr1(i)*cr1*exp(-cr1*pla(i))                 &
-                  + qr2(i)*cr2*exp(-cr2*pla(i))                 &
-                  + qx1(i)*cx1*exp(-cx1*pla(i))                 &
-                  + qx2(i)*cx2*exp(-cx2*pla(i))
+                yld(i) = sigy(i)                                   &
+                       + qr1(i)*(one - exp(-cr1(i)*pla(i)))        &
+                       + qr2(i)*(one - exp(-cr2(i)*pla(i)))        &
+                       + qx1(i)*(one - exp(-cx1(i)*pla(i)))        &
+                       + qx2(i)*(one - exp(-cx2(i)*pla(i)))
+                h(i)   = qr1(i)*cr1(i)*exp(-cr1(i)*pla(i))         &
+                       + qr2(i)*cr2(i)*exp(-cr2(i)*pla(i))         &
+                       + qx1(i)*cx1(i)*exp(-cx1(i)*pla(i))         &
+                       + qx2(i)*cx2(i)*exp(-cx2(i)*pla(i))
               enddo
             end if
             !< Update the stress tensor
@@ -465,8 +475,9 @@
             if (crp_law == 1) then           ! use transient Norton power law
               do iter=1,niter
                 do i=1,nel
-                  fsig  = (svm(i)/sig_crp)**crpn(i)
-                  ftime = (time/time_crp)**crpm(i)
+                  tshift = uvar(i,3)
+                  fsig  = (svm(i)/sig_crp(i))**crpn(i)
+                  ftime = ((time-tshift)/time_crp)**crpm(i)
                   depsc(i) = crpa(i) * fsig * ftime * dtime
                   depsc(i) = max(depsc(i) ,zero)
                   seq      = max(svm(i),   em20)
@@ -484,7 +495,7 @@
             else if (crp_law == 2) then           ! use Garfallo law
               do iter=1,niter
                 do i=1,nel
-                  fsig  = (sinh(svm(i)/sig_crp))**crpn(i)
+                  fsig  = (sinh(svm(i)/sig_crp(i)))**crpn(i)
                   fqt   = exp(-crpq(i)/max(temp(i),em20))
                   depsc(i) = crpa(i) * fsig * fqt * dtime
                   depsc(i) = max(depsc(i) ,zero)
@@ -507,7 +518,7 @@
                   ca = crpa(i)
                   n  = crpn(i)
                   m  = one - one/crpm(i)
-                  fsig  = (svm(i)/sig_crp)**n
+                  fsig  = (svm(i)/sig_crp(i))**n
                   depsc(i) = ca * fsig * dtime * uvar(i,2)**m
                   depsc(i) = max(depsc(i) ,zero)
                   seq      = max(svm(i),   em20)
@@ -524,6 +535,8 @@
               end do
             end if
             uvar(1:nel,2) = uvar(1:nel,2) + depsc(1:nel)  ! update cumulated creep strain
+          else if (crp_law == 1 .and. isens == 1) then
+            uvar(1:nel,3) = uvar(1:nel,3) + timestep      ! idle period = time shift in Norton law
           end if  ! calc_creep==TRUE
 ! ----------------------------------------------------------------------------------------------------------------------
           ! pressure correction with thermal expansion
