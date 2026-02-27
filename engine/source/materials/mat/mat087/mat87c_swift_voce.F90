@@ -344,6 +344,20 @@
           !=========================================================================
           if (nindx > 0) then
 !
+            !< Computation of the derivative of backstress tensor w.r.t pl. strain
+            if ((ikin == 1).and.(fisokin > zero)) then
+#include "vectorize.inc"
+              do ii = 1, nindx
+                i = indx(ii)
+                dsigbxxdp(i) = ckh(1)*sigb(i,1) + ckh(2)*sigb(i,4) +               &
+                  ckh(3)*sigb(i,7) + ckh(4)*sigb(i,10)
+                dsigbyydp(i) = ckh(1)*sigb(i,2) + ckh(2)*sigb(i,5) +               &
+                  ckh(3)*sigb(i,8) + ckh(4)*sigb(i,11)
+                dsigbxydp(i) = ckh(1)*sigb(i,3) + ckh(2)*sigb(i,6) +               &
+                  ckh(3)*sigb(i,9) + ckh(4)*sigb(i,12)
+              end do
+            end if
+!
             !< Loop over the iterations
             do iter = 1, niter
 #include "vectorize.inc"
@@ -485,12 +499,6 @@
                 if (fisokin > zero) then
                   !<  -> Chaboche-Rousselier kinematic hardening
                   if (ikin == 1) then
-                    dsigbxxdp(i) = ckh(1)*sigb(i,1) + ckh(2)*sigb(i,4) +         &
-                                   ckh(3)*sigb(i,7) + ckh(4)*sigb(i,10)
-                    dsigbyydp(i) = ckh(1)*sigb(i,2) + ckh(2)*sigb(i,5) +         &
-                                   ckh(3)*sigb(i,8) + ckh(4)*sigb(i,11)
-                    dsigbxydp(i) = ckh(1)*sigb(i,3) + ckh(2)*sigb(i,6) +         &
-                                   ckh(3)*sigb(i,9) + ckh(4)*sigb(i,12)
                     dsigbxxdlam = fisokin*(akck*(two*normxx + normyy) - dsigbxxdp(i)*dpladlam)
                     dsigbyydlam = fisokin*(akck*(two*normyy + normxx) - dsigbyydp(i)*dpladlam)
                     dsigbxydlam = fisokin*(akck*normxy - dsigbxydp(i)*dpladlam)
