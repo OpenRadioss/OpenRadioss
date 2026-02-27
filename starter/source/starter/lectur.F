@@ -11359,7 +11359,7 @@ C
 C
           IF (NGUIDED_CABLE > 0) THEN
             DO I=1,NGUIDED_CABLE
-               DEALLOCATE(GUIDE(I)%NODES)
+               IF (NSPMD > 1) DEALLOCATE(GUIDE(I)%NODES)
                DEALLOCATE(GUIDE(I)%CONT)      
             ENDDO
             DEALLOCATE(GUIDE)
