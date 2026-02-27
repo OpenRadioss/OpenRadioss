@@ -32,13 +32,13 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-      INTEGER                     ,INTENT(IN )   :: NPT      ! number of input function points
-      INTEGER                     ,INTENT(IN)    :: NTARGET  ! target length of abscissa vector
-      my_real ,DIMENSION(NPT)     ,INTENT(INOUT) :: X,Y
+      INTEGER                     ,INTENT(INOUT)  :: NPT      ! number of input function points
+      INTEGER                     ,INTENT(IN)     :: NTARGET  ! target length of abscissa vector
+      my_real ,DIMENSION(NPT)     ,INTENT(INOUT)  :: X,Y
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I,I0,I1,I2,IDX,IMIN,IPREV,INEXT,ITER,NITER,IZERO,NPTF
+      INTEGER :: I,I0,I1,I2,IDX,IMIN,IPREV,INEXT,ITER,NITER,IZERO
       my_real :: AMIN,AA,S,T
       INTEGER ,DIMENSION(NPT) :: PREV,NEXT
       my_real ,DIMENSION(NPT) :: AREA
@@ -119,7 +119,7 @@ c------------
           Y(IDX) = Y(I)
         END IF
       END DO
-      NPTF = 0
+      NPT = 0
       IZERO = 0
       DO I = 1,IDX
         S = X(I)
@@ -140,9 +140,9 @@ c------------
           T = ZERO
           IZERO = 1
         END IF
-        NPTF = NPTF + 1
-        X(NPTF) = S
-        Y(NPTF) = T
+        NPT = NPT + 1
+        X(NPT) = S
+        Y(NPT) = T
       END DO
 c-----------
       RETURN
