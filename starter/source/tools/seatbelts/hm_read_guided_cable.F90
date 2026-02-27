@@ -174,8 +174,8 @@
             call hm_get_intv("istiff", istiff, is_available, lsubmodel)
             call hm_get_floatv("stfac", stfac, is_available, lsubmodel,unitab)
             call hm_get_floatv("fric", fric, is_available, lsubmodel,unitab)
-            if (stfac == zero) stfac = one
             if (istiff == 0) istiff = 1
+            if ((istiff/=2).and.(stfac==zero)) stfac = one
 !
 !---------  Check set node Id-----------------------------
             ingr2usr => igrnod(1:ngrnod)%id
