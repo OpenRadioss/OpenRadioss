@@ -166,6 +166,7 @@ C
           IF (OFF(I) == ONE .AND. DPLA(I) /= ZERO) THEN
             ! Compute the corresponding plastic strain at failure 
             !   -> Low stress triaxialities parabolic curve
+            triax = eta(i,1)
             IF (TRIAX <= THIRD) THEN
               EPS_FAIL = X_1(1) +  X_1(2)*TRIAX + X_1(3)*TRIAX**2
               IF (IREG > 0) EPS_FAIL = EPS_FAIL*UVAR(I,3)
