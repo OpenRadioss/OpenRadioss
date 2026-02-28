@@ -83,9 +83,15 @@ C-----------------------------------------------
           GAPV(I)=GAPE(IE)+GAPE(JE)
 C
           IF(IGAP0 == 0) THEN
-            GAPV(I)=TWO*GAPE(IE)+GAPE(JE)
+             IF(LEDGE(7,IE)/=3)  GAPV(I)=TWO*GAPE(IE)+GAPE(JE)
           ELSE
-            GAPV(I)=TWO*(GAPE(IE)+GAPE(JE))
+            IF(LEDGE(7,IE)/=3.AND.LEDGE(7,JE)/=3) THEN
+               GAPV(I)=TWO*(GAPE(IE)+GAPE(JE))
+            ELSEIF(LEDGE(7,IE)/=3) THEN
+               GAPV(I)=TWO*GAPE(IE)+GAPE(JE)
+            ELSEIF(LEDGE(7,JE)/=3) THEN
+               GAPV(I)=TWO*GAPE(JE)+GAPE(IE)
+            ENDIF
           END IF
 C
           IF(IGAP == 3)

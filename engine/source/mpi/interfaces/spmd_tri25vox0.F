@@ -285,12 +285,12 @@ c         IF(STF(M1) == ZERO) CYCLE
 c       ENDIF
 
 C       BGAPEMX already counted in BMINMAL
-        AAA=ZERO + DGAPLOAD
-C       IF(IGAP0==0)THEN
-C         AAA = MARGE+BGAPEMX+GAPE(IE)
-C       ELSE
-C         AAA = MARGE+TWO*BGAPEMX+GAPE(IE)
-C       END IF
+c        AAA=ZERO + DGAPLOAD
+       IF(IGAP0==0.OR.IABS(LEDGE(7,IE)) == 3)THEN
+         AAA = MARGE+BGAPEMX+GAPE(IE)+ DGAPLOAD
+       ELSE
+         AAA = MARGE+TWO*BGAPEMX+GAPE(IE)+ DGAPLOAD
+       END IF
 
         N1 = LEDGE(5,IE)
         N2 = LEDGE(6,IE)
@@ -301,12 +301,21 @@ C       END IF
         YY2=X(2,N2)
         ZZ1=X(3,N1)
         ZZ2=X(3,N2)
-        XMAXE=MAX(XX1,XX2)+GAPE(IE) ! +TZINF
-        XMINE=MIN(XX1,XX2)-GAPE(IE) ! -TZINF
-        YMAXE=MAX(YY1,YY2)+GAPE(IE) ! +TZINF
-        YMINE=MIN(YY1,YY2)-GAPE(IE) ! -TZINF
-        ZMAXE=MAX(ZZ1,ZZ2)+GAPE(IE) ! +TZINF
-        ZMINE=MIN(ZZ1,ZZ2)-GAPE(IE) ! -TZINF
+        IF(IABS(LEDGE(7,IE)) == 3) THEN
+          XMAXE=MAX(XX1,XX2)
+          XMINE=MIN(XX1,XX2)
+          YMAXE=MAX(YY1,YY2)
+          YMINE=MIN(YY1,YY2)
+          ZMAXE=MAX(ZZ1,ZZ2)
+          ZMINE=MIN(ZZ1,ZZ2)
+        ELSE
+          XMAXE=MAX(XX1,XX2)+GAPE(IE) ! +TZINF
+          XMINE=MIN(XX1,XX2)-GAPE(IE) ! -TZINF
+          YMAXE=MAX(YY1,YY2)+GAPE(IE) ! +TZINF
+          YMINE=MIN(YY1,YY2)-GAPE(IE) ! -TZINF
+          ZMAXE=MAX(ZZ1,ZZ2)+GAPE(IE) ! +TZINF
+          ZMINE=MIN(ZZ1,ZZ2)-GAPE(IE) ! -TZINF
+        ENDIF
        !-------------------------------------------!
        !  VOXEL OCCUPIED BY THE EDGE               !
        !-------------------------------------------!

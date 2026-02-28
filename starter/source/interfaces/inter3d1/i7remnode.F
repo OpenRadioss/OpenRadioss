@@ -882,7 +882,7 @@ C---------
                     IF24  =IPARI(63,N)
                     IF25  =IPARI(83,N)
                     IEDGE = IPARI(58,N)
-                    IF(IDDLEVEL==0.AND.(NTY/=24.AND.NTY/=25)) CYCLE
+                    IF((IDDLEVEL==0.AND.(NTY/=24.AND.NTY/=25)).OR.NRTM==0) CYCLE
                     ! special case : interface type 25 with edge to edge 
                     ! LEDGE array is initialized during the sorting                    
                     ! interface type 25 with edge to edge must be treated after the %LEDGE initialization

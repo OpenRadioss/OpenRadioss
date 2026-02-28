@@ -314,6 +314,8 @@ C------- to be cleaned later
         INTBUF_SIZE(N) = INTBUF_TAB(NI)%S_IELEM_M         
         N = N+1
         INTBUF_SIZE(N) = INTBUF_TAB(NI)%S_PROC_MVOISIN  
+        N = N+1
+        INTBUF_SIZE(N) = INTBUF_TAB(NI)%S_MSR_1D 
 
 C=======================================================================
 C real arrays sizes
@@ -976,6 +978,9 @@ C we can avoid to write 0
         
         SIZ = INTBUF_TAB(NI)%S_PROC_MVOISIN
         CALL WRITE_I_C(INTBUF_TAB(NI)%PROC_MVOISIN,SIZ)   
+
+        SIZ = INTBUF_TAB(NI)%S_MSR_1D
+        CALL WRITE_I_C(INTBUF_TAB(NI)%MSR_1D,SIZ)  
 
 C=======================================================================
 C write REAL arrays on disk

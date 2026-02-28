@@ -296,7 +296,7 @@ C========== LOCAL
          IE=CAND_M(I) ! segment, zero gap
          JE=CAND_S(I) ! edge
          GAPV(IS)=GAPE(JE)
-         IF(SH_EDGE /= 0 .AND. IGAP0 /= 0) GAPV(IS)=TWO*GAPV(IS)
+         IF(SH_EDGE /= 0 .AND. IGAP0 /= 0.AND.IABS(LEDGE(7,CAND_S(I)))/=3) GAPV(IS)=TWO*GAPV(IS)
          IF(IGAP==3)
      .     GAPV(IS)=MIN(GAPV(IS),GAP_M_L(IE)+GAP_E_L(JE))
          GAPV(IS)=MAX(GAPV(IS)+DGAPLOAD,DRAD)
@@ -332,6 +332,8 @@ C In that case, we assume that the segment on the
 C other side of the boundary is not broken
            S = ONE
 C          S = ZERO
+         ELSEIF(L==0.AND.IABS(LEDGE(7,CAND_S(I)))==3)THEN
+           S = STFE(CAND_S(I))
          ENDIF
 
 #ifdef WITH_ASSERT
@@ -442,7 +444,7 @@ C =========  REMOTE
            I=JS+IS
            IE=CAND_M(I)
            GAPV(IS)=GAPFIE(NIN)%P(CAND_S(I)-NEDGE)
-           IF(SH_EDGE /= 0 .AND. IGAP0 /= 0) GAPV(IS)=TWO*GAPV(IS)
+           IF(SH_EDGE /= 0 .AND. IGAP0 /= 0.AND.LEDGE_FIE(NIN)%P(E_TYPE,CAND_S(I)-NEDGE)/=3) GAPV(IS)=TWO*GAPV(IS)
 
            IF(IGAP==3)
      .       GAPV(IS)=MIN(GAPV(IS),GAPE_L_FIE(NIN)%P(CAND_S(I)-NEDGE)+GAP_M_L(IE))

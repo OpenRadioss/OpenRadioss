@@ -41,7 +41,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      6                         LISUB  ,ADDSUBM,LISUBM  ,INFLG_SUBM ,NISUBE,
      7                         ADDSUBE,LISUBE ,INFLG_SUBE,NOINT,NMN,MSR,
      8                         NOM_OPT,ILEV   ,MBINFLG ,EBINFLG,IELEM_M,
-     9                         IDEL_SOLID)
+     9                         IDEL_SOLID,NEDGE_L)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -78,6 +78,7 @@ C-----------------------------------------------
       CHARACTER(LEN=NCHARTITLE) :: TITR
       INTEGER  , INTENT(IN) :: IDEL_SOLID         ! solid erosion
       INTEGER  , INTENT(IN) :: IELEM_M(2,NRTM)   ! elements connected to the segment (especially solid)
+      INTEGER  , INTENT(IN) :: NEDGE_L
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -104,7 +105,7 @@ C-----------------------------------------------
      .     X01,Y01,Z01,X02,Y02,Z02,
      .     XNA, YNA, ZNA, XNB, YNB, ZNB, AAA, BBB, ANG
       INTEGER WORK(70000)
-      INTEGER,  DIMENSION(:,:),ALLOCATABLE :: CLEF,LEDGE_TMP1,LEDGE_TMP2
+      INTEGER,  DIMENSION(:,:),ALLOCATABLE :: CLEF,LEDGE_TMP1,LEDGE_TMP2,LEDGE_TMP3
       INTEGER,  DIMENSION(:),ALLOCATABLE :: INDEX, ITAG, NTAG, ROOT
       INTEGER, DIMENSION(:), ALLOCATABLE :: MLOC,KAD,ADDSUBN,ADDSUBN_TMP,
      .                                      LISUBN,INFLG_SUBN,IXSUB
@@ -556,6 +557,11 @@ C      15: second node right seg
 
 C-----------------------------------------------------------------------
       ALLOCATE(LEDGE_TMP1(NLEDGE,4*NRTM))
+      IF(NEDGE_L >0) THEN
+         ALLOCATE(LEDGE_TMP3(2,NEDGE_L))
+         LEDGE_TMP3(1:2,1:NEDGE_L) =LEDGE(5:6,1:NEDGE_L)
+         LEDGE(5:6,1:NEDGE_L) = 0
+      ENDIF
 C
       DO I=1,NRTM
         IF(IELEM_M(2,I) == 0) THEN
@@ -862,6 +868,16 @@ C
       END DO
 C
       DEALLOCATE(CLEF,INDEX,LEDGE_TMP1,LEDGE_TMP2)
+
+C-----1D element edges -----
+
+      IF(NEDGE_L >0) THEN
+         LEDGE(5:6,NEDGE+1:NEDGE+NEDGE_L) = LEDGE_TMP3(1:2,1:NEDGE_L)
+         LEDGE(7,NEDGE+1:NEDGE+NEDGE_L) = 3
+         IF(ILEV==2)EBINFLG(NEDGE+1:NEDGE+NEDGE_L) =EBINFLG(1:NEDGE_L)
+         NEDGE = NEDGE+NEDGE_L
+      ENDIF
+
 C
 c      DO I=1,NRTM
 c       print *,'I,MSEGTYP(I)=',I,MSEGTYP(I),itab(irect(1:4,i))
@@ -876,7 +892,7 @@ C     Flag of belonging to the areas a S1/S2
 C-----------------------------------------
       IF(NEDGE/=0 .AND. ILEV==2)THEN
         EBINFLG(1:NEDGE)=0
-        DO I=1,NEDGE
+        DO I=1,NEDGE - NEDGE_L
           NE   =LEDGE(1,I)
           INFLG=MBINFLG(NE)
           IMS1=BITGET(INFLG,0)

@@ -1188,6 +1188,7 @@
           integer ::   s_adrects!  4*nrts    :adrects : address of each secnd node of the segment in ixs/ixs10/ixs20/ixs16
           integer ::   s_facnrts!  nrts      :facnrts : corresponding facet in element ielnrts
           integer ::   s_e2s_actnor!
+          integer ::   s_msr_1d ! nodes for 1D edges inter 25
 !=======================================================================
 ! define sizes (float arrays)
 !=======================================================================
@@ -1470,6 +1471,7 @@
           integer, dimension(:), allocatable :: edge_type1_0
           integer, dimension(:) , allocatable ::  ielem_m
           integer, dimension(:) , allocatable ::  proc_mvoisin
+          integer, dimension(:) , allocatable ::  msr_1d
 
 !---- inter friction parts
           integer, dimension(:) , allocatable ::  ipartfrics
@@ -1693,7 +1695,7 @@
 
 ! intbuf_size array maximum length defined as parameter
 ! (maximum number of different arrays composing intbuf_tab structure)
-        integer, parameter :: l_intbuf_size_max = 516
+        integer, parameter :: l_intbuf_size_max = 517
         integer :: inter_ithknod !flag to fill thknod array  (enabled with ithick parameter from interface type 25 or 21)
 
         ! -------------------------

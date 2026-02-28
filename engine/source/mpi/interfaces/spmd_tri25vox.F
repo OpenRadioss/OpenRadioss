@@ -333,7 +333,7 @@ C-----for   NBINFLG
         ALLOCATE(INDEX_EDGE(NEDGE),STAT=IERROR)
         INDEX_EDGE(1:NEDGE) = 0 
       END IF
-      
+    
       IF(ISENDTO(NIN,LOC_PROC)/=0) THEN
         DO KK = 1, NBIRECV
           CALL SPMD_WAITANY(NBIRECV,REQ_RB,INDEXI)
@@ -421,6 +421,8 @@ C            First segment is local
 C            First segment is on the other side of the boundary
              STF = ONE
              IF(MVOISIN(LEDGE(4,I),LEDGE(3,I)) == 0) STF = 0
+           ELSEIF(IABS(LEDGE(7,I))==3)THEN
+             STF = STFE(I)
            ELSE ! 
              
              ! ISPMD owns a boundary edge, but the local segment is deleted
@@ -430,7 +432,6 @@ C            First segment is on the other side of the boundary
            DEBUG_E2E(LEDGE(8,I) == D_ES,STF)
            DEBUG_E2E(LEDGE(8,I) == D_ES,LEDGE(7,I))
 
-
            IF( STF > ZERO .AND. LEDGE(7,I) >= 0)  THEN
 C
 C            GAPE useless here (Redundant with BGAPEMAX on main side) !
@@ -439,7 +440,7 @@ C            GAPE useless here (Redundant with BGAPEMAX on main side) !
              ZMINS = MIN(X(3,N1),X(3,N2))!- GAPE(I)      
              XMAXS = MAX(X(1,N1),X(1,N2))!+ GAPE(I)      
              YMAXS = MAX(X(2,N1),X(2,N2))!+ GAPE(I)      
-             ZMAXS = MAX(X(3,N1),X(3,N2))!+ GAPE(I)      
+             ZMAXS = MAX(X(3,N1),X(3,N2))!+ GAPE(I)   
 
              DEBUG_E2E(LEDGE(8,I) == D_ES, XMINS)
              DEBUG_E2E(LEDGE(8,I) == D_ES, YMINS)
@@ -487,7 +488,7 @@ C            GAPE useless here (Redundant with BGAPEMAX on main side) !
           ENDIF ! IEDGE
 
           NBOX(2,P) = NB_EDGE
-C         WRITE(6,*) ISPMD,"sends ",NB_EDGE,"to,",P-1
+c         WRITE(6,*) ISPMD,"sends ",NB_EDGE,"to,",P-1
           IF(ITYP==25)THEN
             JDEB = 0
             DO Q=1,P-1
@@ -607,29 +608,55 @@ C TO DO: single precision
                IM  = LEDGE(10,I)
                I1  = LEDGE(11,I)
                I2  = LEDGE(12,I)
-               NN1 = ADMSR(JE,IE)
-               NN2 = ADMSR(MOD(JE,4)+1,IE)
-
-
-               RBUF_EDGE(P)%p(L2:L2+2) = EDG_BISECTOR(1:3,JE,IE)
-
+               IF(IE/=0) THEN
+                  NN1 = ADMSR(JE,IE)
+                  NN2 = ADMSR(MOD(JE,4)+1,IE)
+               ELSE
+                  NN1 = 0
+                  NN2 = 0               
+               ENDIF
+               IF(IE/=0) THEN
+                  RBUF_EDGE(P)%p(L2:L2+2) = EDG_BISECTOR(1:3,JE,IE)
+               ELSE
+                  RBUF_EDGE(P)%p(L2:L2+2) = ZERO
+               ENDIF
                L2 = E_VTX_BIS + L
-               RBUF_EDGE(P)%p(L2:L2+2) = VTX_BISECTOR(1:3,1,I1)
+               IF(I1/=0) THEN
+                 RBUF_EDGE(P)%p(L2:L2+2) = VTX_BISECTOR(1:3,1,I1)
+               ELSE
+                 RBUF_EDGE(P)%p(L2:L2+2) = ZERO
+               ENDIF
+               L2 = L2 + 3
+               IF(I1/=0) THEN
+                  RBUF_EDGE(P)%p(L2:L2+2) = VTX_BISECTOR(1:3,2,I1)
+               ELSE
+                  RBUF_EDGE(P)%p(L2:L2+2) = ZERO
+               ENDIF
+               L2 = L2 + 3
+               IF(I2/=0) THEN
+                  RBUF_EDGE(P)%p(L2:L2+2) = VTX_BISECTOR(1:3,1,I2)
+               ELSE
+                  RBUF_EDGE(P)%p(L2:L2+2) = ZERO
+               ENDIF
+               L2 = L2 + 3
+               IF(I2/=0)THEN              
+                  RBUF_EDGE(P)%p(L2:L2+2) = VTX_BISECTOR(1:3,2,I2)
+               ELSE
+                  RBUF_EDGE(P)%p(L2:L2+2) = ZERO
+               ENDIF
 
                L2 = L2 + 3
-               RBUF_EDGE(P)%p(L2:L2+2) = VTX_BISECTOR(1:3,2,I1)
-
+               IF(NN1/=0) THEN               
+                  RBUF_EDGE(P)%p(L2:L2+2) = E2S_NOD_NORMAL(1:3,NN1)
+               ELSE
+                  RBUF_EDGE(P)%p(L2:L2+2) = ZERO
+               ENDIF         
                L2 = L2 + 3
-               RBUF_EDGE(P)%p(L2:L2+2) = VTX_BISECTOR(1:3,1,I2)
-
-               L2 = L2 + 3
-               RBUF_EDGE(P)%p(L2:L2+2) = VTX_BISECTOR(1:3,2,I2)
-
-               L2 = L2 + 3
-               RBUF_EDGE(P)%p(L2:L2+2) = E2S_NOD_NORMAL(1:3,NN1)
-
-               L2 = L2 + 3
-               RBUF_EDGE(P)%p(L2:L2+2) = E2S_NOD_NORMAL(1:3,NN2)
+               IF(NN2/=0) THEN              
+                  RBUF_EDGE(P)%p(L2:L2+2) = E2S_NOD_NORMAL(1:3,NN2)
+               ELSE
+                  RBUF_EDGE(P)%p(L2:L2+2) = ZERO
+               ENDIF
 
                IF(ISTIF_MSDT > 0) RBUF_EDGE(P)%p(E_STIFE_MSDT_FI+ L) = STIFMSDT_EDG(I) 
               

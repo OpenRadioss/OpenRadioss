@@ -68,7 +68,7 @@ C-----------------------------------------------
      .        FLAGREMNODE,NRTSE,NADMSR,IEDGE4,NRTM_FE,NRTM_IGE,NRTS_FE,
      .        NRTS_IGE,NSN_FE,NSN_IGE,NMN_FE,NMN_IGE,INTFRIC,NREMNOR,IVIS2,
      .        NEDGE,INTNITSCHE,ITHK,IFLAGLOADP,NREMNODE_EDG,NREMNODE_E2S,
-     .        ISTIF_MSDT,IDEL_SOLID
+     .        ISTIF_MSDT,IDEL_SOLID,NEDGE_1D,NMN_1D
 C-----------------------------------------------
 
       DO NIN = 1,NINTER 
@@ -193,6 +193,7 @@ C=======================================================================
         INTBUF_TAB(NIN)%S_REMNODE_E2S  = 0 
         INTBUF_TAB(NIN)%S_IELEM_M      = 0 
         INTBUF_TAB(NIN)%S_PROC_MVOISIN = 0 
+        INTBUF_TAB(NIN)%S_MSR_1D = 0 
 
 !type2
         INTBUF_TAB(NIN)%S_MSEGTYP2     = 0
@@ -436,6 +437,8 @@ C   T25 transient gap for main side
         
         ISTIF_MSDT = IPARI(97,NIN)
         IDEL_SOLID = IPARI(100,NIN)
+        NEDGE_1D = IPARI(101,NIN)
+        NMN_1D = IPARI(104,NIN)
 
         
 
@@ -1368,7 +1371,7 @@ C----   size real arrays
             INTBUF_TAB(NIN)%S_GAP_S  = NSN 
           ENDIF
           INTBUF_TAB(NIN)%S_STFM     = NRTM 
-          INTBUF_TAB(NIN)%S_XSAV     = 3*MIN(NUMN,NSN+NMN) 
+          INTBUF_TAB(NIN)%S_XSAV     = 3*MIN(NUMN,NSN+NMN+NMN_1D) 
           INTBUF_TAB(NIN)%S_GAPN_M   = NMN 
           INTBUF_TAB(NIN)%S_CRIT     = 12 
           IF (MFROT/=0)INTBUF_TAB(NIN)%S_FRIC_P   = 10
@@ -1497,6 +1500,7 @@ C           IF(INACTI==5) INTBUF_TAB(NIN)%S_CAND_PS   = 4*MULTIMPS*NCONTE
             INTBUF_TAB(NIN)%S_FTSAVZ_E2S   = 4*MULTIMPS*NCONTE 
             IF (IFQ /= 0)INTBUF_TAB(NIN)%S_IFPEN_E = MULTIMPE*NCONTE 
             IF (IFQ /= 0)INTBUF_TAB(NIN)%S_IFPEN_E2S = MULTIMPS*NCONTE 
+            IF (NEDGE_1D >0 ) INTBUF_TAB(NIN)%S_MSR_1D = NMN_1D
           ELSE 
             INTBUF_TAB(NIN)%S_CANDM_E2E = 0
             INTBUF_TAB(NIN)%S_CANDS_E2E = 0
@@ -1546,7 +1550,7 @@ C----   size real arrays
             INTBUF_TAB(NIN)%S_GAP_SL  = NSN
           ENDIF
           INTBUF_TAB(NIN)%S_STFM     = NRTM 
-          INTBUF_TAB(NIN)%S_XSAV     = 3*MIN(NUMN,NSN+NMN) 
+          INTBUF_TAB(NIN)%S_XSAV     = 3*MIN(NUMN,NSN+NMN+NMN_1D) 
           INTBUF_TAB(NIN)%S_GAPN_M   = NMN 
           INTBUF_TAB(NIN)%S_CRIT     = 12 
           IF (MFROT/=0)INTBUF_TAB(NIN)%S_FRIC_P   = 10 
@@ -1847,7 +1851,9 @@ C---------to be cleaned later
           CALL MY_ALLOC(INTBUF_TAB(NIN)%IELEM_M,INTBUF_TAB(NIN)%S_IELEM_M) 
           INTBUF_TAB(NIN)%IELEM_M(1:INTBUF_TAB(NIN)%S_IELEM_M) = 0              
           CALL MY_ALLOC(INTBUF_TAB(NIN)%PROC_MVOISIN,INTBUF_TAB(NIN)%S_PROC_MVOISIN) 
-          INTBUF_TAB(NIN)%PROC_MVOISIN(1:INTBUF_TAB(NIN)%S_PROC_MVOISIN) = 0            
+          INTBUF_TAB(NIN)%PROC_MVOISIN(1:INTBUF_TAB(NIN)%S_PROC_MVOISIN) = 0 
+          CALL MY_ALLOC(INTBUF_TAB(NIN)%MSR_1D,INTBUF_TAB(NIN)%S_MSR_1D) 
+          INTBUF_TAB(NIN)%MSR_1D(1:INTBUF_TAB(NIN)%S_MSR_1D) = 0               
 !type7 11 19 24 25 : friction parts
           CALL MY_ALLOC(INTBUF_TAB(NIN)%IPARTFRICS,INTBUF_TAB(NIN)%S_IPARTFRICS) 
           INTBUF_TAB(NIN)%IPARTFRICS(1:INTBUF_TAB(NIN)%S_IPARTFRICS) = 0 

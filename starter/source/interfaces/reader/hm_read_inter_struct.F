@@ -159,7 +159,7 @@ C---------------------------------------------------------------
      3         SENSORS              ,NOM_OPT         ,UNITAB     ,LSUBMODEL  ,TITR       ,
      4         NOM_OPTFRIC          ,INTBUF_FRIC_TAB ,NPC        ,NPC1       ,TF         ,
      5         INTERFACES%PARAMETERS,NPARI           ,NPARIR     ,SNPC       ,SNPC1      ,
-     6         NPTS                 ,ITHERM_FE       ,INTHEAT   )
+     6         NPTS                 ,ITHERM_FE       ,INTHEAT    ,IGRSLIN)
 
           CASE ('TYPE24')
               NTYP=24

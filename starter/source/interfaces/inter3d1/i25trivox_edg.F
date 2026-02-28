@@ -49,7 +49,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      C      CANDM_E2S,CANDS_E2S,CAND_B,CAND_PS,GAPE ,
      D      GAP_E_L  ,DGAPLOAD,FLAG_REMOVED_NODE,
      E      S_KREMNODE_E2S,S_REMNODE_E2S,KREMNODE_E2S,REMNODE_E2S,
-     F      S_KREMNODE_EDG)
+     F      S_KREMNODE_EDG,STFE)
 C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
@@ -101,6 +101,7 @@ C     REAL
      .   MARGE,BGAPEMX,VMAXDT,DRAD
       my_real , INTENT(IN) :: DGAPLOAD
       REAL*4 EDG_BISECTOR(3,4,*), VTX_BISECTOR(3,2,*)
+      my_real , INTENT(IN) :: STFE(NEDGE)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -198,7 +199,11 @@ C=======================================================================
        DO I=1,NEDGE
 
         NE  =LEDGE(1,I)
-        IF(STF(NE)==0) CYCLE   ! We do not retain the Destruit facets
+        IF(NE /= 0) THEN
+          IF(STF(NE)==0) CYCLE   ! We do not retain the Destruit facets
+        ELSE
+          IF(STFE(I)==ZERO) CYCLE   ! We do not retain the Destruit facets
+        ENDIF
 
 C       if(ledge(3,i)/=0) cycle   ! only retaining border edges
 
@@ -212,7 +217,7 @@ C       if(ledge(3,i)/=0) cycle   ! only retaining border edges
         YY2=X(2,N2) 
         ZZ1=X(3,N1)
         ZZ2=X(3,N2)
-        IF(IGAP0 == 0)THEN
+        IF(IGAP0 == 0.OR.LEDGE(7,I)==3)THEN
           XMAX_EDGS=MAX(XX1,XX2); IF(XMAX_EDGS < XMIN) CYCLE
           XMIN_EDGS=MIN(XX1,XX2); IF(XMIN_EDGS > XMAX) CYCLE
           YMAX_EDGS=MAX(YY1,YY2); IF(YMAX_EDGS < YMIN) CYCLE
@@ -269,7 +274,11 @@ c        write(500,'(3I10)') I,LEDGE(5,I),LEDGE(6,I)
        DO I=1,NEDGE
 
         NE  =LEDGE(1,I)
-        IF(STF(NE)==ZERO) CYCLE   ! We do not retain the Destruit facets
+        IF(NE /= 0) THEN
+          IF(STF(NE)==0) CYCLE   ! We do not retain the Destruit facets
+        ELSE
+          IF(STFE(I)==ZERO) CYCLE   ! We do not retain the Destruit facets
+        ENDIF
 
         IF(LEDGE(7,I) < 0) CYCLE   ! Larete is not a second and second
 
@@ -283,7 +292,7 @@ c        write(500,'(3I10)') I,LEDGE(5,I),LEDGE(6,I)
         YY2=X(2,N2) 
         ZZ1=X(3,N1)
         ZZ2=X(3,N2)
-        IF(IGAP0 == 0)THEN
+        IF(IGAP0 == 0.OR.LEDGE(7,I)==3)THEN
           XMAX_EDGS=MAX(XX1,XX2); IF(XMAX_EDGS < XMIN) CYCLE
           XMIN_EDGS=MIN(XX1,XX2); IF(XMIN_EDGS > XMAX) CYCLE 
           YMAX_EDGS=MAX(YY1,YY2); IF(YMAX_EDGS < YMIN) CYCLE
@@ -414,7 +423,11 @@ C=======================================================================
         IEDG=ESHIFT+I
 
         NE=LEDGE(1,IEDG)
-        IF(STF(NE)==ZERO) CYCLE   ! We do not retain the Destruit facets
+        IF(NE /= 0) THEN
+          IF(STF(NE)==0) CYCLE   ! We do not retain the Destruit facets
+        ELSE
+          IF(STFE(I)==ZERO) CYCLE   ! We do not retain the Destruit facets
+        ENDIF
 
         IF(IABS(LEDGE(7,IEDG))==1) CYCLE ! Main solid edge
 
@@ -446,12 +459,22 @@ C=======================================================================
         YY2=X(2,N2)
         ZZ1=X(3,N1)
         ZZ2=X(3,N2)
-        XMAX_EDGM=MAX(XX1,XX2)+GAPE(IEDG) ! +TZINF
-        XMIN_EDGM=MIN(XX1,XX2)-GAPE(IEDG) ! -TZINF
-        YMAX_EDGM=MAX(YY1,YY2)+GAPE(IEDG) ! +TZINF
-        YMIN_EDGM=MIN(YY1,YY2)-GAPE(IEDG) ! -TZINF
-        ZMAX_EDGM=MAX(ZZ1,ZZ2)+GAPE(IEDG) ! +TZINF
-        ZMIN_EDGM=MIN(ZZ1,ZZ2)-GAPE(IEDG) ! -TZINF
+
+        IF(LEDGE(7,I)==3)THEN
+          XMAX_EDGM=MAX(XX1,XX2) ! +TZINF
+          XMIN_EDGM=MIN(XX1,XX2)! -TZINF
+          YMAX_EDGM=MAX(YY1,YY2) ! +TZINF
+          YMIN_EDGM=MIN(YY1,YY2) ! -TZINF
+          ZMAX_EDGM=MAX(ZZ1,ZZ2) ! +TZINF
+          ZMIN_EDGM=MIN(ZZ1,ZZ2) ! -TZINF
+        ELSE
+          XMAX_EDGM=MAX(XX1,XX2)+GAPE(IEDG) ! +TZINF
+          XMIN_EDGM=MIN(XX1,XX2)-GAPE(IEDG) ! -TZINF
+          YMAX_EDGM=MAX(YY1,YY2)+GAPE(IEDG) ! +TZINF
+          YMIN_EDGM=MIN(YY1,YY2)-GAPE(IEDG) ! -TZINF
+          ZMAX_EDGM=MAX(ZZ1,ZZ2)+GAPE(IEDG) ! +TZINF
+          ZMIN_EDGM=MIN(ZZ1,ZZ2)-GAPE(IEDG) ! -TZINF
+        ENDIF
         !-------------------------------------------!
         !  VOXEL OCCUPIED BY THE BRICK              !
         !-------------------------------------------!

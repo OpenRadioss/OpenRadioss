@@ -975,7 +975,8 @@ c-----------------------------------------------------------------------
      4      nodes%ITAB    ,nodes%KINET        ,nodes%TEMP         ,RENUM     ,
      5      NSNFIOLD,IDUM         ,IDUM         ,NODNX_SMS ,
      6      H3D_DATA,ESHIFT       ,NEDGE_T      ,SSHIFT    ,NRTM_T ,
-     7      nodes%icodt   ,nodes%iskew        ,INTERFACES%PARAMETERS,GLOB_THERM%NODADT_THERM)
+     7      nodes%icodt   ,nodes%iskew        ,INTERFACES%PARAMETERS,GLOB_THERM%NODADT_THERM,
+     .                                                              INCONV)
 C-----------------------------------------------------------------------
         ENDIF
         IF(IMONM > 0) THEN

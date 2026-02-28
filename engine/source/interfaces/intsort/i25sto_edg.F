@@ -87,7 +87,8 @@ C-----------------------------------------------
      .                  NEDGE ,LEDGE  ,MARGE  ,GAPE    ,GAP_E_L ,
      .                  IGAP   ,X     ,IRECT  ,PENE    ,ADMSR   ,
      .                  EDG_BISECTOR,VTX_BISECTOR,ITAB,
-     .                  XREM_EDGE,E_RBUF_SIZE,NEDGE_REMOTE,DGAPLOAD)
+     .                  XREM_EDGE,E_RBUF_SIZE,NEDGE_REMOTE,DGAPLOAD,
+     .                  IREM_EDGE,E_IBUF_SIZE)
 
 C-----------------------------------------------
 C SUPPRESSION DES ANCIENS CANDIDATES DEJA STOCKES (PENE INITIALE)
