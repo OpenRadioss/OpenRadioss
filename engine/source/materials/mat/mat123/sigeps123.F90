@@ -139,7 +139,7 @@
       real(kind=wp) :: tau_mat,tau_ab_psi,tau_ab_m ,thetai,tau_bm_cpsi,tau_cpsi_am
       real(kind=wp) :: gamai, eps_kink, fac, gama_inel, max_f, critical_phi
       real(kind=wp) :: c, s, c2, s2, cs, phi_deg, la_m, lb_psi, l_car
-      real(kind=wp) :: deint, eint, d11, d22, d33, d12, d13, d23, e3
+      real(kind=wp) :: deint, eint, d11, d22, d33, d12, d13, d23, e3,limit_strain
 
       real(kind=wp), dimension(nel) ::  check
       real(kind=wp), dimension(nel) ::  yy, dydx
@@ -198,33 +198,35 @@
         xvec(i,1)  = abs(epsxy(i))
         uvar(i,11)  = max(xvec(i,1), uvar(i,11)) ! epsxy
        enddo 
-        !
-       call table_mat_vinterp(mat_param%table(1),nel,nel,ipos,xvec,yy,dydx)
-        ! 
-       vartmp(1:nel,1) = ipos(1:nel,1)
-       do i= 1,nel
-         if(xvec(i,1) == uvar(i,11) ) then
-             signxy(i) = yy(i)*epsxy(i)/max(em20, xvec(i,1))  
-             gama_inel = uvar(1,11) - yy(i)/g12
-             uvar(i,12) = gama_inel
-         else
-            gama_inel = uvar(i,12)
-            fac = epsxy(i)/max(em20, xvec(i,1))
-            signxy(i) = g12*fac*(xvec(i,1) -  gama_inel)
-         endif
-       enddo
-      ! element deletion check
-       ndx = 0
+       if( mat_param%table(1)%notable > 0 ) then 
+           call table_mat_vinterp(mat_param%table(1),nel,nel,ipos,xvec,yy,dydx)
+           ! 
+           vartmp(1:nel,1) = ipos(1:nel,1)
+           do i= 1,nel
+              if(xvec(i,1) == uvar(i,11) ) then
+                 signxy(i) = yy(i)*epsxy(i)/max(em20, xvec(i,1))  
+                 gama_inel = uvar(i,11) - yy(i)/g12
+                 uvar(i,12) = gama_inel
+              else
+                 gama_inel = uvar(i,12)
+                 fac = epsxy(i)/max(em20, xvec(i,1))
+                 signxy(i) = g12*fac*(xvec(i,1) -  gama_inel)
+              endif
+            enddo
+        else! linear elastic behavior 
+             signxy(1:nel) = g12*epsxy(1:nel) 
+        endif ! shear plane function
+        !  element deletion check
+          ndx = 0
        indx(:)=0
        do i=1,nel
-        !! dmg(i,1) =  max(dmg(i,2),dmg(i,3),dmg(i,4)) 
          eps_eq =  two_third* (epsxx(i)**2 + epsyy(i)**2 + epszz(i)**2 + &
                                epsxy(i)**2 + epsyz(i)**2 + epszx(i)**2 ) 
          eps_eq = sqrt(eps_eq)
          if(off(i) < one ) then
            off(i) = four_over_5*off(i)
            if(off(i) < em01) off(i) = zero
-         elseif(dmg(i,1) > zep99 .or. eps_eq >= eps_failure ) then
+         elseif(dmg(i,1) >= one .or. eps_eq >= eps_failure ) then
            off(i) = four_over_5
          endif  
        enddo
@@ -283,9 +285,8 @@
                            depszz(i)*(sigma_c  + sigozz(i))  +    &
                            depsxy(i)*(tau_ab  + sigoxy(i))   +    &
                            depszx(i)*(tau_ca  + sigozx(i))   +    &
-                           depsyz(i)*(tau_bc  + sigoyz(i)) )
-             eint = uvar(i,1) + deint
-             uvar(i,1) = eint
+                           depsyz(i)*(tau_bc  + sigoyz(i)) )           
+             limit_strain = epsxx(i)**2 + epsyy(i)**2 + epszz(i)**2 + epsxy(i)**2 + epsyz(i)**2 + epszx(i)**2
              if(deint < ZERO ) then
               check(i) = -one
              else
@@ -298,7 +299,7 @@
              gama_ab = epsxy(i)
              gama_ca = epszx(i)
              gama_bc = epsyz(i)
-             if( check(i) >= zero ) then
+             if( check(i) >= zero .and. limit_strain > uvar(i,1) ) then
                 ! loading 
              ! Fiber  check failure  ! dfiber
               if(dmg(i,5) == one .and. dfiber < one ) then  ! fiber failure in tension
@@ -388,9 +389,13 @@
                     ! computing gamai from the curve
                     !=======================================
                      xvec(1,1) = abs(half*(sigma_a - sigma_b_psi)*sin(two*thetai) + abs(tau_ab_psi)*cos(two*thetai))
-                     ipos(1,1)= 1
-                     call table_mat_vinterp_inv(mat_param%table(1),1,1,ipos(1,1),xvec,yy,dydx)
-                     gamai = yy(1)
+                     if( mat_param%table(1)%notable > 0 ) then
+                       ipos(1,1)= 1
+                       call table_mat_vinterp_inv(mat_param%table(1),1,1,ipos(1,1),xvec,yy,dydx)
+                       gamai = yy(1)
+                     else
+                       gamai = xvec(1,1)/g12
+                     endif
                      theta  = sign(one, tau_ab_psi)*(thetai + gamai)
                     !=====================================================================
                     ! step 2 : rotation of plane (a,b_psi) - with theta (misalignment angle) ===> 
@@ -582,6 +587,7 @@
               endif  
               ! damage appliction 
               dmg(i,1) = max(dfiber,dkink,dmat)
+              uvar(i,1) = max(uvar(i,1), limit_strain)
               dam = zero 
               if(dmg(i,1) > zero) then
                dam  = one - dmg(i,1)

@@ -59,7 +59,7 @@
 !-----------------------------------------------
 !   L o c a l   V a r i a b l e s
 !-----------------------------------------------
-          real(kind=WP) :: r,thetac,theta,xc
+          real(kind=WP) :: r,thetac,theta,xc,g12
           real(kind=WP) :: xvec(1,1),yy(1),dydx(1)
           integer :: ipos(1,1)
 !--------------------------------------------------------------------------
@@ -67,26 +67,41 @@
 !--------------------------------------------------------------------------
 !
           !< Get material parameters
+          g12 = matparam%uparam(4)
           xc = matparam%uparam(14)
           if( xc > zero ) then 
-            thetac = matparam%uparam(27)
+             thetac = matparam%uparam(27)
              ipos(1,1)= 1    
              theta = zero
              xvec(1,1) = zero ! half*sin(two*theta)*xc
-             call table_mat_vinterp_inv(matparam%table(1),1,1,ipos(1,1),xvec,yy,dydx) ! yy(1) should normally be zero
-             r = thetac  - yy(1) 
-            do while (abs(r) > 0.00001) 
-                dydx(1) = one + dydx(1)*cos(two*theta)
-                theta  = theta + r/dydx(1)
-                xvec(1,1) = half*sin(two*theta)*xc
-               ! interpolation of inverse of shear function (theta = function of (half*sin(2*theta)*xt)
-                call table_mat_vinterp_inv(matparam%table(1),1,1,ipos(1,1),xvec,yy,dydx)
-                r = thetac - theta - yy(1)
-             end do    
-             !< Update material parameters
-             ! - misalignment angle
-              matparam%uparam(28) = theta 
+             if(matparam%table(1)%notable > 0) then
+                call table_mat_vinterp_inv(matparam%table(1),1,1,ipos(1,1),xvec,yy,dydx) ! yy(1) should normally be zero
+                r = thetac  - yy(1) 
+                do while (abs(r) > 0.00001) 
+                   dydx(1) = one + dydx(1)*xc*cos(two*theta)
+                   theta  = theta + r/dydx(1)
+                   xvec(1,1) = half*sin(two*theta)*xc
+                   ! interpolation of inverse of shear function (theta = function of (half*sin(2*theta)*xt)
+                    call table_mat_vinterp_inv(matparam%table(1),1,1,ipos(1,1),xvec,yy,dydx)
+                    r = thetac - theta - yy(1)
+                 end do    
+              else
+                  r = thetac 
+                  do while (abs(r) > 0.00001) 
+                     ! dydx(1) = one/g12 ! linear fonction 
+                     dydx(1) = one + xc*cos(two*theta)/g12
+                     theta  = theta + r/dydx(1)
+                     xvec(1,1) = half*sin(two*theta)*xc
+                      ! linear shear
+                     yy(1) = xvec(1,1)/g12
+                     r = thetac - theta - yy(1)
+                  end do  
+               endif 
+                 !< Update material parameters
+                 ! - misalignment angle
+                 matparam%uparam(28) = theta 
            endif
+           
           return
         end subroutine law123_upd
       end module law123_upd_mod

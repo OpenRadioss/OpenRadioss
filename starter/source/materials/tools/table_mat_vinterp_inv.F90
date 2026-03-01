@@ -39,7 +39,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
       use table4d_mod
       use precision_mod, only : WP
-      use constant_mod , only : one, two, zero, three
+      use constant_mod , only : one, two, zero, three,ep10
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -134,8 +134,12 @@
 #include "vectorize.inc"
         do i=1,nel
           n = ipos(i,k)
-          fac(i,k) = (table%y1d(n+1)  - xx(i,k))                    &
+          if( table%y1d(n+1) == table%y1d(n)) then
+            fac(i,k) =  one
+          else
+            fac(i,k) = (table%y1d(n+1)  - xx(i,k))                    &
                    / (table%y1d(n+1)  - table%y1d(n) )
+          endif
         end do
       end do
 !----------------------------------------------
@@ -147,12 +151,16 @@
           i1 = ipos(i,1)
           i2 = i1 + 1
           alpha  = fac(i,1)
-          alphai = one - alpha                                                                 
-!
+          alphai = one - alpha
           yy(i)   = alpha*table%x(1)%values(i1)+ alphai*table%x(1)%values(i2)
-          dydx(i) =  (table%x(1)%values(i2) - table%x(1)%values(i1))  &
+          if(table%y1d(i2) == table%y1d(i1)) then
+            dydx(i) = ep10
+          else
+            dydx(i) =  (table%x(1)%values(i2) - table%x(1)%values(i1))  &
                       / (table%y1d(i2) - table%y1d(i1))
+          endif
         end do
+        
 !----
       end select
 !-----------
