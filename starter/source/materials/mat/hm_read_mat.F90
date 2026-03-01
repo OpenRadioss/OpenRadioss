@@ -184,6 +184,7 @@
 !||    hm_read_mat128_mod          ../starter/source/materials/mat/mat128/hm_read_mat128.F90
 !||    hm_read_mat129_mod          ../starter/source/materials/mat/mat129/hm_read_mat129.F90
 !||    hm_read_mat130_mod          ../starter/source/materials/mat/mat130/hm_read_mat130.F90
+!||    hm_read_mat132_mod          ../starter/source/materials/mat/mat132/hm_read_mat132.F90
 !||    hm_read_mat133_mod          ../starter/source/materials/mat/mat133/hm_read_mat133.F90
 !||    hm_read_mat134_mod          ../starter/source/materials/mat/mat134/hm_read_mat134.F90
 !||    hm_read_mat163_mod          ../starter/source/materials/mat/mat163/hm_read_mat163.F90
@@ -237,6 +238,7 @@
           use hm_read_mat128_mod
           use hm_read_mat129_mod
           use hm_read_mat130_mod
+          use hm_read_mat132_mod , only : hm_read_mat132
           use hm_read_mat133_mod , only : hm_read_mat133
           use hm_read_mat134_mod
           use hm_read_mat163_mod
@@ -1237,6 +1239,14 @@
                 titr     ,table    ,ntable   ,nvartmp  ,imatvis  ,&
                 iunit    )
 !-------
+             case('LAW132', 'LAMINATED_FRACTURE_DAIMLER_CAMANHO')
+               ilaw = 132
+               call hm_read_mat132(                              &
+                nuvar    ,maxfunc  ,npropm  , iout   ,           & 
+                mtag     ,parmat   ,unitab  ,ntable   ,table,    &
+                pm(1,i)  ,lsubmodel,israte   ,mat_id   ,titr ,    &
+                matparam ,nvartmp )   
+!-------  
              case ('LAW133','GRANULAR')
               ilaw = 133
               call hm_read_mat133( &
