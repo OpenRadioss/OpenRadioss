@@ -87,14 +87,13 @@
 ! ----------------------------------------------------------------------------------------------------------------------   
          integer :: ipos(nel,1), func,nfunc,i
          real(kind=wp) :: xvec(nel,1),dydx(nel),yy(nel)
-         real(kind=wp) :: r, ang0, aa, thetac, theta,mut
+         real(kind=wp) :: r, ang0, aa, thetac, theta,mut,g12,bb,cc
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   coding 
 ! ----------------------------------------------------------------------------------------------------------------------     
         nfunc =  matparam%ntable 
         xvec(1:nel,1) =strain_rate(1:nel) 
-        func = 0 
-        if(nfunc >= 2) func =  matparam%table(2)%notable 
+        func =  matparam%table(2)%notable 
       ! xt rate computation
         if(func /= 0) then
           ipos(:,1) = vartmp(:,2)
@@ -104,15 +103,14 @@
         endif   !
        ! xc rate computaion
         func = 0 
-        if(nfunc >= 3)func= matparam%table(3)%notable
+        func= matparam%table(3)%notable
         if(func/= 0) then
           ipos(:,1) = vartmp(:,3)
           call table_mat_vinterp(matparam%table(3),nel,nel,ipos,xvec,yy,dydx)
           xc(1:nel) = yy(1:nel)
           vartmp(:,3)=ipos(:,1)
         endif   
-        func = 0 
-        if(nfunc >= 4)func= matparam%table(4)%notable
+        func= matparam%table(4)%notable
       !yt rate computation
         if(func /= 0) then
           ipos(:,1) = vartmp(:,4)
@@ -120,57 +118,50 @@
           yt(1:nel) = yy(1:nel)
           vartmp(:,4)=ipos(:,1)
         endif   !
-       ! xc rate computation
-        func = 0 
-        if(nfunc >= 5)func= matparam%table(5)%notable
+       ! yc rate computation
+        func= matparam%table(5)%notable
         if(func/= 0) then
           ipos(:,1) = vartmp(:,5)
           call table_mat_vinterp(matparam%table(5),nel,nel,ipos,xvec,yy,dydx)
           yc(1:nel) = yy(1:nel)
           vartmp(:,5)=ipos(:,1)
         endif  
-        func = 0 
-        if(nfunc >= 6)func= matparam%table(6)%notable
+        func= matparam%table(6)%notable
         if(func /= 0) then
           ipos(:,1) = vartmp(:,6)
           call table_mat_vinterp(matparam%table(6),nel,nel,ipos,xvec,yy,dydx)
           sl(1:nel) = yy(1:nel)
           vartmp(:,6)=ipos(:,1)
         endif  ! 
-         func = 0 
-        if(nfunc >= 7)func = matparam%table(7)%notable! enkink
+        func = matparam%table(7)%notable! enkink
         if(func /= 0) then
           ipos(:,1) = vartmp(:,7)
           call table_mat_vinterp(matparam%table(7),nel,nel,ipos,xvec,yy,dydx)
           enkink(1:nel) = yy(1:nel)
           vartmp(:,7)=ipos(:,1)
         endif 
-        func = 0 
-        if(nfunc >= 8)func = matparam%table(8)%notable! enkink
+        func = matparam%table(8)%notable! enkink
         if(func /= 0) then
           ipos(:,1) = vartmp(:,8)
           call table_mat_vinterp(matparam%table(8),nel,nel,ipos,xvec,yy,dydx)
           ena(1:nel) = yy(1:nel)
           vartmp(:,8)=ipos(:,1)
         endif  
-        func = 0 
-        if(nfunc >= 9)func = matparam%table(9)%notable ! enkink
+        func = matparam%table(9)%notable ! enkink
         if(func /= 0) then
           ipos(:,1) = vartmp(:,9)
           call table_mat_vinterp(matparam%table(9),nel,nel,ipos,xvec,yy,dydx)
           enb(1:nel) = yy(1:nel)
           vartmp(:,9)=ipos(:,1)
         endif 
-        func = 0 
-        if(nfunc >= 10)func = matparam%table(10)%notable! enkink
+        func = matparam%table(10)%notable! enkink
         if(func /= 0) then
           ipos(:,1) = vartmp(:,10)
           call table_mat_vinterp(matparam%table(10),nel,nel,ipos,xvec,yy,dydx)
           ent(1:nel) = yy(1:nel)
           vartmp(:,10)=ipos(:,1)
         endif  
-        func = 0 
-        if(nfunc >= 11)func = matparam%table(11)%notable ! enkink
+       func = matparam%table(11)%notable ! enkink
         if(func /= 0) then
           ipos(:,1) = vartmp(:,11)
           call table_mat_vinterp(matparam%table(11),nel,nel,ipos,xvec,yy,dydx)
@@ -178,33 +169,58 @@
           vartmp(:,11)=ipos(:,1)
         endif  
        ! computing material parameters for failure criteria
+        if(matparam%table(3)%notable > 0 .or. matparam%table(5)%notable > 0   & 
+                                         .or. matparam%table(6)%notable > 0 ) then 
+         g12 = matparam%uparam(4)
          mut  = matparam%uparam(24)  
          ang0 = matparam%uparam(26)
          aa =  one/tan(ang0)  
-       !! mut = -one/tan(two*ang0)
-        do i=1,nel
+         do i=1,nel
           st(i) = half*aa*yc(i) ! st = half*yc/tan(ang0)
           mul(i) = sl(i)*mut/st(i) ! mul = -sl/st/tan(2*ang0)
-          thetac = two*(sl(i)/xc(i) + mul(i)) 
-          thetac = (one - sqrt(one - two*(thetac)*sl(i)/xc(i))) / thetac    
-          thetac = atan(thetac)  
+          bb = two*(sl(i)/xc(i) + mul(i)) 
+          cc = one - two*bb*sl(i)/xc(i)
+          if(cc >= zero )then
+            thetac = (one - sqrt(cc)) / bb    
+            thetac = atan(thetac)  
+          else
+             thetac = sl(i)/g12
+          endif 
+          !------------------------------------------
           ! computing the initial misalignment angle 
-          ipos(1,1)= 1   
-          theta = zero
-          xvec(1,1) = zero !  half*sin(two*theta)*xc
-          call table_mat_vinterp_inv(matparam%table(1),1,1,ipos(1,1),xvec,yy,dydx)
-          r = thetac  - yy(1) ! normally yy(1) = zero
-          do while (abs(r) > 0.00001) 
-            dydx(1) = one + dydx(1)*cos(two*theta)
-            theta  = theta + r/dydx(1)
-            xvec(1,1) = half*sin(two*theta)*xc(i)
-            ! interpolation of inverse of shear function (theta = function of (half*sin(2*theta)*xt)
-            call table_mat_vinterp_inv(matparam%table(1),1,1,ipos(1,1),xvec,yy,dydx)
-            r = thetac - theta - yy(1)
-          end do    
+          !------------------------------------------
+          func = matparam%table(1)%notable
+          if( func > 0 ) then 
+               ipos(1,1)= 1   
+               theta = zero
+               xvec(1,1) = zero !  half*sin(two*theta)*xc
+               call table_mat_vinterp_inv(matparam%table(1),1,1,ipos(1,1),xvec,yy,dydx)
+               r = thetac  - yy(1) ! normally yy(1) = zero
+              do while (abs(r) > 0.00001) 
+                    dydx(1) = one + dydx(1)*xc(i)*cos(two*theta)
+                    theta  = theta + r/dydx(1)
+                    xvec(1,1) = half*sin(two*theta)*xc(i)
+                   ! interpolation of inverse of shear function (theta = function of (half*sin(2*theta)*xt)
+                    call table_mat_vinterp_inv(matparam%table(1),1,1,ipos(1,1),xvec,yy,dydx)
+                    r = thetac - theta - yy(1)
+               end do    
+          else
+               r = thetac 
+               theta = zero 
+               do while (abs(r) > 0.00001) 
+                     !  dydx(1) = one/g12 ! linear fonction 
+                     dydx(1) = one + xc(i)*cos(two*theta)/g12
+                     theta  = theta + r/dydx(1)
+                     xvec(1,1) = half*sin(two*theta)*xc(i)
+                     yy(1) = xvec(1,1)/g12
+                     r = thetac - theta - yy(1)
+               end do  
+          endif
           !< Update material parameters
           ! - misallignement angle
           thetai(i) = theta 
         enddo   
+        !!stop
+       endif ! need to update material parameters for failure criteria
        end subroutine strainrate_dependency
      end module strainrate_dependency_mod

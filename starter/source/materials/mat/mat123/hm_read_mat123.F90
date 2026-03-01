@@ -101,7 +101,7 @@
          d11,d22,d33,d12,d13,d23,dmn,dmx,g31, fcut ,c1,gmax,ssp,nu,   &
          young,asrate,fac,ang0,sigy,beta,            &
          yscale(1),x1scale,x2scale,            &
-         x2vect(maxfunc),thetac,efs,ratio
+         x2vect(maxfunc),thetac,efs,ratio,aa,bb
       !   
       logical :: is_available,is_encrypted
  !=======================================================================
@@ -258,78 +258,68 @@
       ! default strain rate cutoff frequency
       if (fcut == zero) fcut = 5000.0d0*unitab%fac_t_work
 !     
-      matparam%ntable = 1
+      matparam%ntable = 11
+      func(1:maxfunc) = 0 
       func(1) = func_sc
-
       if(xt == zero ) then
         xt = ep20
       elseif(xt < zero) then
         func_xt = nint(abs(xt))
-        matparam%ntable  = matparam%ntable + 1
-        func(matparam%ntable) = func_xt
+        func(2) = func_xt
       endif   
       if(xc == zero )then
          xc = ep20
       elseif(xc < zero ) then
         func_xc = nint(abs(xc))
-        matparam%ntable  = matparam%ntable + 1
-        func(matparam%ntable) = func_xc
+        func(3) = func_xc
       endif 
       if(yt == zero ) then
          yt = ep20
       elseif(yt < zero ) then
         func_yt = nint(abs(yt))
-        matparam%ntable  = matparam%ntable + 1
-         func(matparam%ntable) = func_yt
+        func(4) = func_yt
       endif   
       if(yc == zero ) then
         yc = ep20
       elseif(yc < zero ) then
           func_yc = nint(abs(yc))
-          matparam%ntable  = matparam%ntable + 1  
-           func(matparam%ntable) = func_yc
+          func(5) = func_yc
       endif   
        if(sl == zero ) then
         sl = ep20
       elseif(sl < zero) then
          func_sl = nint(abs(sl))
-         matparam%ntable  = matparam%ntable + 1
-         func(matparam%ntable) = func_sl
-      endif    
+         func(6) = func_sl
+      endif
       if(enkink == zero) then
         enkink = ep20
       elseif(enkink < zero) then
         func_enkink = nint(abs(enkink))
-        matparam%ntable  = matparam%ntable + 1
-         func(matparam%ntable) = func_enkink
+         func(7) = func_enkink
       endif
       if(ena == zero) then
         ena = ep20
       elseif(ena < zero) then
         func_ena = nint(abs(ena))
-        matparam%ntable  = matparam%ntable + 1
-         func(matparam%ntable) = func_ena
+        func(8) = func_ena
       endif   
       if(enb == zero) then
         enb = ep20
       elseif(enb < zero) then
         func_enb = nint(abs(enb))
-        matparam%ntable  = matparam%ntable + 1
-         func(matparam%ntable) = func_enb
+         func(9) = func_enb
       endif
       if(ent == zero) then
         ent = ep20
       elseif(ent < zero) then
             func_ent = nint(abs(ent))
-            matparam%ntable  = matparam%ntable + 1
-            func(matparam%ntable) = func_ent
+            func(10) = func_ent
       endif
       if(enl == zero) then
         enl = ep20
       elseif(enl < zero) then
             func_enl = nint(abs(enl))
-            matparam%ntable  = matparam%ntable + 1
-            func(matparam%ntable) = func_enl
+            func(11) = func_enl
       endif
       if(ang0 == zero ) ang0 = 53  ! 53°
       ang0 = ang0*pi/HUNDRED80
@@ -337,9 +327,14 @@
       st = half*scale*yc
       mut = -one/tan(two*ang0)
       mul = sl*mut/st 
-      thetac = two*(sl/xc + mul) 
-      thetac = (one - sqrt(one - two*(thetac)*sl/xc)) / thetac    
-      thetac = atan(thetac)   ! used for misalignment angle
+      aa = two*(sl/xc + mul)
+      bb = one - two*aa*sl/xc
+     if( bb  < zero) then
+         thetac = sl/g12
+      else
+         thetac = (one - sqrt(max(em20,bb)) ) / aa  
+         thetac = atan(thetac)   ! used for misalignment angle
+      endif
  !---------------------------------------------------------------------------------------------
  !                                filling buffer tables
  !---------------------------------------------------------------------------------------------
@@ -374,8 +369,8 @@
       matparam%uparam(18)  = enkink
       matparam%uparam(19)  = ena
       matparam%uparam(20)  = enb
-      matparam%uparam(21)  = enl
-      matparam%uparam(22)  = ent
+      matparam%uparam(21)  = ent
+      matparam%uparam(22)  = enl
       !
       matparam%uparam(23)  = st
       matparam%uparam(24)  = mut
@@ -406,11 +401,13 @@
       x2vect(:) = zero
       do i=1,matparam%ntable  
          matparam%table(i)%notable  = func(i)
-         ifunc(1)  = matparam%table(i)%notable
-         yscale(1) = one   ! we should take care of the scale 
-        call func_table_copy(matparam%table(i),matparam%title ,matparam%mat_id  ,     &
+         if(func(i) > 0 ) then 
+           ifunc(1)  = matparam%table(i)%notable
+           yscale(1) = one   ! we should take care of the scale 
+           call func_table_copy(matparam%table(i),matparam%title ,matparam%mat_id  ,     &
                              nfunc   ,ifunc   ,x2vect  ,x1scale ,x2scale  ,yscale  ,     &
                              ntable  ,table   ,ierr    )
+         endif 
       enddo    
       !
        nu21   = nu12*e2/e1

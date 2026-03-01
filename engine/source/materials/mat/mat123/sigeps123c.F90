@@ -60,7 +60,7 @@
            &sigoxy,                                                &
            signxx  ,signyy     ,signxy  ,signzx     ,signyz  ,     &
            off     ,offl       ,sigy       ,etse    ,ssp     ,     &
-           dmg    ,dmg_g       ,ioff_duct    ) 
+           dmg    ,dmg_g       ,ioff_duct   ) 
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -87,7 +87,6 @@
           integer, intent(in) :: npg !< number of gauss points per element
           integer, intent(in) :: npttot !< total number of integration points
           integer, dimension(nel), intent(inout) :: ioff_duct !< ductility indicator
-
           real(kind=wp), dimension(nel,nuvar), intent(inout) :: uvar !< user variables
           integer, dimension(nel,nvartmp), intent(inout) :: vartmp !< user variables temporairy 
           type(matparam_struct_), intent(in) :: mat_param !< material parameters data
@@ -122,7 +121,6 @@
           real(kind=wp) ,DIMENSION(nel), intent(inout) :: dmg_g
           real(kind=wp), intent(in) :: time !< current time
           real(kind=wp), dimension(nel), intent(in) :: epsp !< equiv strain rate
-       
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   L o c a l   V a r i a b l e s
 ! ----------------------------------------------------------------------------------------------------------------------          
@@ -146,7 +144,8 @@
       real(kind=wp) :: tau_mat,tau_ab_psi,tau_ab_m ,thetai,tau_bm_cpsi,tau_cpsi_am
       real(kind=wp) :: gamai,eps_kink,fac,gama_inel,max_f,critical_phi
       real(kind=wp) :: c,s,c2,s2,cs,phi_deg,psi_deg,theta_deg, la_m,lb_psi,l_car
-      real(kind=wp) :: deint,eint,thetac,eps0_kink,sig0_kink,epsf_kink
+      real(kind=wp) :: deint,eint,thetac,eps0_kink,sig0_kink,epsf_kink,k1,eps,k2
+      real(kind=wp) :: bb,dmat_ac,limit_strain
 
       real(kind=wp), dimension(nel) ::  dezz,check
       real(kind=wp), dimension(nel) ::  yy,dydx 
@@ -195,35 +194,39 @@
        !
        if(time == zero) uvar(1:nel,16) = sqrt(npg*area(1:nel))  ! initial characteristic length 
        ! plane shear behavior 
-       ipos(:,1) = vartmp(:,1)
-       do i=1,nel
-        xvec(i,1)  = abs(epsxy(i))
-        uvar(i,11)  = max(xvec(i,1), uvar(i,11)) ! epsxy
-       enddo 
+       if( mat_param%table(1)%notable > 0 ) then 
+         ipos(:,1) = vartmp(:,1)
+         do i=1,nel
+            xvec(i,1)  = abs(epsxy(i))
+            uvar(i,11)  = max(xvec(i,1), uvar(i,11)) ! epsxy
+         enddo 
         !
-       call table_mat_vinterp(mat_param%table(1),nel,nel,ipos,xvec,yy,dydx)
+         call table_mat_vinterp(mat_param%table(1),nel,nel,ipos,xvec,yy,dydx)
         ! 
-       vartmp(1:nel,1) = ipos(1:nel,1)
-       do i= 1,nel
-         if(xvec(i,1) == uvar(i,11) ) then
-             signxy(i) = yy(i)*epsxy(i)/max(em20, xvec(i,1))  
-             gama_inel = uvar(1,11) - yy(i)/g12
-             uvar(i,12) = gama_inel
-         else
-            gama_inel = uvar(i,12)
-            fac = epsxy(i)/max(em20, xvec(i,1))
-            signxy(i) = g12*fac*(xvec(i,1) -  gama_inel)
-         endif
-       enddo
-          ! element deletion check
+         vartmp(1:nel,1) = ipos(1:nel,1)
+         do i= 1,nel
+            if(xvec(i,1) == uvar(i,11) ) then
+                signxy(i) = yy(i)*epsxy(i)/max(em20, xvec(i,1))  
+                gama_inel = uvar(i,11) - yy(i)/g12
+                uvar(i,12) = gama_inel
+           else
+                gama_inel = uvar(i,12)
+                fac = epsxy(i)/max(em20, xvec(i,1))
+                signxy(i) = g12*fac*(xvec(i,1) -  gama_inel)
+          endif
+         enddo
+       else  ! linear elastic behavior 
+          signxy(1:nel) = g12*epsxy(1:nel) 
+       endif ! shear plane function
+      ! element deletion check
        ndx = 0
        indx(:)=0
        do i=1,nel
           eps_eq =  two_third* (epsxx(i)**2 + epsyy(i)**2 + epsxy(i)**2  ) 
           eps_eq = sqrt(eps_eq)
         if(off(i) >= one) then
-          if((dmg(i,1) >= zep99 .or. eps_eq >= eps_failure ).and. offl(i) == one)  then
-           dmg_g(i) = dmg_g(i) + 1/npttot
+           if((dmg(i,1) >= one  .or. eps_eq >= eps_failure ).and. offl(i) == one)  then
+           dmg_g(i) = dmg_g(i) + one/npttot
            offl(i ) = zero  ! local deletion stress set to zero
            int_ratio = int(dmg_g(i))
            off(i) = zero
@@ -247,7 +250,7 @@
        !-------------------------------------------------------------------
       if(ndx == 0) return
        nfunc = mat_param%ntable 
-      if(nfunc > 1) call strainrate_dependency(nel, mat_param , epsp, vartmp, nvartmp ,  &
+      if(nfunc > 0) call strainrate_dependency(nel, mat_param , epsp, vartmp, nvartmp ,  &
                                                xt_1,    xc_1,  yt_1,    yc_1,  sl_1, &
                                                enkink_1, ena_1, enb_1,ent_1, enl_1,&
                                                mul_1, st_1, thetai_1) 
@@ -269,10 +272,11 @@
             mul = mul_1(i)
             thetai = thetai_1(i)
             ! initialization of damage viriable
-            check(i) = zero
+             check(i) = zero
              dfiber  = dmg(i,2)
              dkink   = dmg(i,3)
              dmat    = dmg(i,4)
+            !! if(ngl(i) == 11) write(3,*) time, dmat 
              max_f   = zero
              ! computing undamaged stress
              d = (one - nu12*nu21)
@@ -288,11 +292,10 @@
              deint = half*(depsxx(i)*(sigma_a + sigoxx(i))  +   &
                            depsyy(i)*(sigma_b  + sigoyy(i)) +   &
                            depsxy(i)*(tau_ab  + sigoxy(i))) 
-             eint = uvar(i,1) + deint
-             uvar(i,1) = eint
-             if(deint < ZERO ) then
-              check(i) = -one
-             else
+             limit_strain =  epsxx(i)**2 + epsyy(i)**2 + epsxy(i)**2
+             if(deint < zero ) then 
+              check(i) = -one  ! unlaoding or reloading 
+             else ! loading 
               check(i) = one
              end if
              ! total strain 
@@ -306,7 +309,7 @@
              ! thickness change
              dezz(i)    = -nu13*depsxx(i) - nu23*depsyy(i)
              thk(i)     = thk(i) + dezz(i)*thkly(i)*off(i) 
-             if( check(i) >= zero ) then
+             if( check(i) >= zero  .and. limit_strain > uvar(i,1)) then
                 ! loading 
              ! Fiber  check failure  ! dfiber
               if(dmg(i,5) == one .and. dfiber < one ) then  ! fiber failure in tension
@@ -330,43 +333,50 @@
               endif
              ! Kinking  check of failure 
               if( dmg(i,6) == one .and. dkink < one  ) then ! Kinking failure
-                  ! computing eps_kink ! 
-                  ! rotation in plan (b,c)  (angle psi) ===> (b_psi, c_psi) frame
-                    psi = uvar(i,13)
-                    c = cos(psi)
-                    s = sin(psi)
-                    c2 = c*c
-                    s2 = s*s
-                    cs = c*s
-                  ! =============================================
-                  ! Stress Transformation in (b,c) Plane
-                  ! =============================================
-                    sigma_b_psi = c2 * sigma_b  + two * cs * tau_bc
-                    sigma_c_psi = s2 * sigma_b  - two * cs * tau_bc
-                    tau_bc_psi = -sigma_b * cs + (c2 - s2) * tau_bc
-                    tau_ab_psi = c * tau_ab + s * tau_ca
-                    tau_ca_psi = -s * tau_ab + c * tau_ca
-                   ! ===============================================================================
-                   ! rotation of plane (a,b_psi) - with thetai (misalignment angle) ===>(am, bm)
-                   !  theta  = sign(one, tau_ab_psi) *(thetai + gamai) ! 
-                   ! ===============================================================================
-                    ! Precompute trigonometric terms
-                     theta = uvar(i,14) 
-                     c = cos(theta)
-                     s = sin(theta)
-                     c2 = c*c
-                     s2 = s*s
-                     cs = c*s
-                     tau_ab_m = (sigma_b_psi - sigma_a) * cs + (c2 - s2) * tau_ab_psi
-                     tau_ab_m = abs(tau_ab_m)
-                     eps_kink= tau_ab_m/g12
-                     sig0 = uvar(i,5)  ! onset kingking stress 
-                     eps0 = uvar(i,6)  ! onset kinking strain
-                     epsf = uvar(i,7)  !! final strain : epsf = two*enkink/sig0/aldt(i)
-                     dkink=  epsf*(abs(eps_kink) - eps0)/abs(eps_kink)/(epsf - eps0)  ! dkink
-                     dkink = max(dmg(i,3), dkink)
-                     dkink = min(dkink, one)
-                     dmg(i,3) = dkink 
+                    sig0 = uvar(i,5)  ! onset kingking stress 
+                    eps0 = uvar(i,6)  ! onset kinking strain
+                    epsf = uvar(i,7)  !! final strain : epsf = two*enkink/sig0/aldt(i) 
+                    if(sig0  > zero) then
+                     ! computing eps_kink ! 
+                     ! rotation in plan (b,c)  (angle psi) ===> (b_psi, c_psi) frame
+                      psi = uvar(i,13)
+                      c = cos(psi)
+                      s = sin(psi)
+                      c2 = c*c
+                      s2 = s*s
+                      cs = c*s
+                     ! =============================================
+                     ! Stress Transformation in (b,c) Plane
+                     ! =============================================
+                      sigma_b_psi = c2 * sigma_b  + two * cs * tau_bc
+                      sigma_c_psi = s2 * sigma_b  - two * cs * tau_bc
+                      tau_bc_psi = -sigma_b * cs + (c2 - s2) * tau_bc
+                      tau_ab_psi = c * tau_ab + s * tau_ca
+                      tau_ca_psi = -s * tau_ab + c * tau_ca
+                     ! ===============================================================================
+                     ! rotation of plane (a,b_psi) - with thetai (misalignment angle) ===>(am, bm)
+                     !  theta  = sign(one, tau_ab_psi) *(thetai + gamai) ! 
+                     ! ===============================================================================
+                     ! Precompute trigonometric terms
+                       theta = uvar(i,14) 
+                       c = cos(theta)
+                       s = sin(theta)
+                       c2 = c*c
+                       s2 = s*s
+                       cs = c*s
+                       tau_ab_m = (sigma_b_psi - sigma_a) * cs + (c2 - s2) * tau_ab_psi
+                       tau_ab_m = abs(tau_ab_m)
+                       eps_kink= tau_ab_m/g12
+                       sig0 = uvar(i,5)  ! onset kingking stress 
+                       eps0 = uvar(i,6)  ! onset kinking strain
+                       epsf = uvar(i,7)  !! final strain : epsf = two*enkink/sig0/aldt(i) 
+                       dkink=  epsf*(abs(eps_kink) - eps0)/abs(eps_kink)/(epsf - eps0)  ! dkink
+                      else
+                         dkink = epsf*(abs(epsxx(i)) - eps0)/abs(epsxx(i))/(epsf - eps0)  ! dkink
+                      endif 
+                      dkink = max(dmg(i,3), dkink)
+                      dkink = min(dkink, one)
+                      dmg(i,3) = dkink 
                  elseif(sigma_a < zero .and. dmg(i,6) == zero ) then
                   !!=========================================================================
                   ! Step 1: Calculate kink band orientation angle psi
@@ -398,9 +408,13 @@
                     ! computing gamai from the curve
                     !=======================================
                      xvec(1,1) = abs(half*(sigma_a - sigma_b_psi)*sin(two*thetai) + abs(tau_ab_psi)*cos(two*thetai))
-                     ipos(1,1)= 1
-                     call table_mat_vinterp_inv(mat_param%table(1),1,1,ipos(1,1),xvec,yy,dydx)
-                     gamai = yy(1)
+                     if( mat_param%table(1)%notable > 0 ) then 
+                      ipos(1,1)= 1
+                       call table_mat_vinterp_inv(mat_param%table(1),1,1,ipos(1,1),xvec,yy,dydx)
+                       gamai = yy(1)
+                     else
+                       gamai = xvec(1,1)/g12 
+                     endif
                      theta  = sign(one, tau_ab_psi)*(thetai + gamai)
                     !=====================================================================
                     ! step 2 : rotation of plane (a,b_psi) - with theta (misallignement angle) ===> 
@@ -435,7 +449,7 @@
                                                   critical_phi, max_f)
                      endif                            
                      phi = critical_phi
-                     if(max_f >= one) then
+                     if(max_f >= one ) then
                         tau_ab_m =  abs(tau_ab_m)
                         uvar(i,13) = psi
                         uvar(i,14) = theta
@@ -460,6 +474,12 @@
                         uvar(i,6) = eps0_kink
                         uvar(i,7) = epsf_kink
                         dmg(i,6) = one
+                      elseif (abs(sigma_a)>= xc ) then
+                          l_car = uvar(i,16) 
+                          uvar(i,5) = -xc
+                          uvar(i,6) = xc/e1
+                          uvar(i,7) = two*enl/xc/l_car
+                          dmg(i,6) = one
                       endif
                  end if      
                 ! matrix failure 
@@ -508,9 +528,9 @@
                       eps_mat = sigma_n_p*epsn*sin(omega)/sigma_n + gam_mat*cos(omega)
                       en_mat = enb*(sigma_n_p/sig0)**2 + ent*(tau_t/sig0)**2 + enl*(tau_l/sig0)**2  ! coupling (i)
                       dmat = eps_matf*(eps_mat - eps0)/eps_mat/(eps_matf - eps0)
-                      dmat = max(dmat, dmg(i,4)) 
                       dmat = min(one,dmat)
-                      dmg(i,4) = dmat 
+                      dmat = max(dmg(i,4),dmat)
+                      dmg(i,4) = dmat
                   elseif(dmg(i,7) == zero)then
                    type = 2
                    ! =============================================================
@@ -583,17 +603,20 @@
                       if(eps_matf < eps_mat) eps_matf =two* eps_mat
                       uvar(i,8) = sig_mat
                       uvar(i,9) = eps_mat
-                      uvar(i,10) = eps_matf
+                      uvar(i,10) = eps_matf 
                       uvar(i,15) = critical_phi
                       dmg(i,7) = one  
                     endif  
                 endif ! 
               endif  
+              !
+              uvar(i,1) = max(uvar(i,1), limit_strain)
               ! damage appliction 
               dmg(i,1) = max(dfiber, dkink, dmat)  
+              dam = zero 
              if(dfiber > zero .or. dkink > zero .or. dmat > zero) then
                dam = one - max(dfiber, dkink,dmat)
-               dam = max (em02, dam)
+               dam = max(zero, dam)
                signxx(i) = dam*sigma_a
                signyy(i) = dam*sigma_b
                signxy(i) = dam*tau_ab
