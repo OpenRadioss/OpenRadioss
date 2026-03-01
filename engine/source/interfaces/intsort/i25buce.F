@@ -38,7 +38,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      5   ESHIFT   ,NIN     ,STF     ,GAP_S    ,
      6   NSNR     ,NCONT   ,GAP_M   ,ITASK    ,BGAPSMX  ,
      7   I_MEM    ,PENE_OLD,ITAB    ,NBINFLG  ,MBINFLG  ,
-     8   ILEV     ,MSEGTYP ,
+     8   ILEV     ,MSEGTYP , VSLV, DT1,
      9   FLAGREMNODE,KREMNOD,REMNOD ,
      A   IGAP     ,GAP_S_L ,GAP_M_L ,ICODT    ,ISKEW    ,
      B   DRAD     ,DGAPLOAD) 
@@ -66,13 +66,14 @@ C-----------------------------------------------
      .        II_STOK,ITAB(*),NBINFLG(*),MBINFLG(*),
      .        FLAGREMNODE,KREMNOD(*),REMNOD(*),ICODT(*),ISKEW(*)
 C     REAL
-      my_real , INTENT(IN) :: DGAPLOAD ,DRAD
+      my_real , INTENT(IN) :: DGAPLOAD ,DRAD,DT1
       my_real
      .   GAP,PMAX_GAP,VMAXDT,
      .   BMINMA(6),CURV_MAX(NRTM),BGAPSMX, MARGE
       my_real
      .   X(3,*), V(3,*), STFN(*),PENE_OLD(5,NSN),
      .   STF(*), GAP_S(*), GAP_M(*), GAP_S_L(*), GAP_M_L(*)
+      my_real, intent(in) :: VSLV(6)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -83,8 +84,6 @@ C     REAL
      .        XYZM(6), AAA
       INTEGER NBX,NBY,NBZ
       INTEGER (KIND=8) :: NBX8,NBY8,NBZ8,RES8,LVOXEL8   
- 
-
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
@@ -175,7 +174,7 @@ C=============================================================================
      5   VOXEL1  ,NBX      ,NBY      ,NBZ     ,PMAX_GAP ,
      6   NRTM    ,GAP_S    ,GAP_M    ,MARGE   ,CURV_MAX ,
      7   NIN     ,ITASK    ,PENE_OLD,ITAB     ,NBINFLG  ,
-     8   MBINFLG ,ILEV     ,MSEGTYP  ,
+     8   MBINFLG ,ILEV     ,MSEGTYP  ,VSLV, DT1,
      9   FLAGREMNODE,KREMNOD,REMNOD  ,
      A   IGAP    ,GAP_S_L  ,GAP_M_L  ,ICODT   ,ISKEW    ,
      B   DRAD    ,DGAPLOAD )
