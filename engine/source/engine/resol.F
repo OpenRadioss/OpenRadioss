@@ -2571,6 +2571,8 @@ C
                 if(.not. coupling%active) then
                   CALL ANCMSG(MSGID=321,ANMODE=ANSTOP)
                   CALL ARRET(2)
+                else
+                  DT2T = MIN(DT2T,coupling%DT_LIMIT)
                 end if
                 CALL COUPLING_ONGOING(coupling,ongoing)
 #else
@@ -3131,7 +3133,7 @@ C---------------------------------------------
 C----------------------------------------
 C      COUPLING : LIMIT TIME STEP
 C----------------------------------------
-              IF(coupling%active .AND. TT > ZERO) DT2T = MIN(DT2T,coupling%DT_LIMIT)
+              IF(coupling%active) DT2T = MIN(DT2T,coupling%DT_LIMIT)
 C----------------------------------------
 C      COLLISION DETECTION FOR INTERFACES 7 (CALL BARRIER IN I7BUCE_CRIT)
 C----------------------------------------
@@ -5779,7 +5781,7 @@ C-----------------------------
               ENDIF
 C
 C      COUPLING : LIMIT TIME STEP (also enforced after thermal DT override)
-              IF(coupling%active .AND. TT > ZERO) DT2T = MIN(DT2T,coupling%DT_LIMIT)
+              IF(coupling%active) DT2T = MIN(DT2T,coupling%DT_LIMIT)
 C
 
               IF((ANIM_N(18) /= 0 .OR. H3D_DATA%N_SCAL_STIFR /= 0) .AND. IRODDL /= 0)
