@@ -372,6 +372,7 @@ C------------------------------------------------
 C     Init Timer (from beginning of radioss2 (reading timer)
 C------------------------------------------------    
       ISTDO=6
+      coupling%active = .false.
       CALL INI_MSG()
       CALL BUILD_MSG()
     
