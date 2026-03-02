@@ -450,6 +450,9 @@
           end do
           call coupling_adapter_set_mesh(coupling%adapter_ptr, connectIndex, connec, surf%NSEG)
           coupling%nb_coupling_nodes = counter
+          ! Allocate and fill list_nodes with the unique node IDs from the surface
+          allocate(coupling%list_nodes(counter))
+          coupling%list_nodes(1:counter) = node_id(1:counter)
           call coupling_adapter_set_nodes(coupling%adapter_ptr, node_id, counter)
 
         end subroutine coupling_set_mesh

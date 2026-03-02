@@ -284,10 +284,10 @@ endif()
 
 if ( debug STREQUAL "0" )
 
-set (F_O0_compiler_flags " -nostdinc -O0 ${opt_flag} -w ${portability} ${precision_flag} ${cppmach} ${cpprel} -DCPP_comp=f90 -ffixed-line-length-none  ${mpi_flag} ${ADF} ")
-set (F_O1_compiler_flags " -nostdinc -O1 ${opt_flag} -w ${portability} ${precision_flag} ${cppmach} ${cpprel} -DCPP_comp=f90 -ffixed-line-length-none  ${mpi_flag} ${ADF} ")
-set (F_O2_compiler_flags " -nostdinc -O2 ${opt_flag} -w ${portability} ${precision_flag} ${cppmach} ${cpprel} -DCPP_comp=f90 -ffixed-line-length-none  ${mpi_flag} ${ADF} ")
-set (C_O1_compiler_flags " -O1 ${opt_flag} -w ${precision_flag} ${cppmach} ${cpprel}  ${mpi_flag} ${ADF} ")
+set (F_O0_compiler_flags " -nostdinc -O0 ${opt_flag} -w ${portability} ${precision_flag} ${cppmach} ${cpprel} -DCPP_comp=f90 -ffixed-line-length-none  ${mpi_flag} ${ADF} ${coupling}")
+set (F_O1_compiler_flags " -nostdinc -O1 ${opt_flag} -w ${portability} ${precision_flag} ${cppmach} ${cpprel} -DCPP_comp=f90 -ffixed-line-length-none  ${mpi_flag} ${ADF} ${coupling}")
+set (F_O2_compiler_flags " -nostdinc -O2 ${opt_flag} -w ${portability} ${precision_flag} ${cppmach} ${cpprel} -DCPP_comp=f90 -ffixed-line-length-none  ${mpi_flag} ${ADF} ${coupling}")
+set (C_O1_compiler_flags " -O1 ${opt_flag} -w ${precision_flag} ${cppmach} ${cpprel}  ${mpi_flag} ${ADF} ${coupling}")
 
 
 # resol_init.F
