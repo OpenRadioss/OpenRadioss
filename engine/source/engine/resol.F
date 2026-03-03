@@ -9201,6 +9201,8 @@ C--- //0 ----------------
      .                       DRAPE_SH4N ,DRAPEG          ,RESTSIZE       ,SKEWS           ,GLOB_THERM       ,
      .                       PBLAST     ,RBE3            ,RWALL          ,SFEM )
 
+
+                CALL PYTHON_FINALIZE()
                 ! Restart file size
                 IF (MULTIREST >0)THEN
                   IF (RESTSIZE > MULTIRESTS(IRPREV))MULTIRESTS(IRPREV)=RESTSIZE
