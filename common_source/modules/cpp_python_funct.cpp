@@ -82,6 +82,18 @@ static PyObject *persistent_dict = nullptr;
 static PyObject *persistent_arg = nullptr;
 
 
+static void print_python_object(const char *prefix, PyObject *obj)
+{
+    if (obj) {
+        PyObject *str = MyObject_Str(obj);
+        if (str) {
+            std::cout << prefix << MyUnicode_AsUTF8(str) << std::endl;
+            My_DecRef(str);
+        }
+    }
+}
+
+
 template <std::size_t N>
 std::string element_parenthesis_to_underscore(const std::string &input, const std::array<const char *, N> &keywords)
 {
@@ -197,7 +209,6 @@ void load_functions(T h, bool &python_initialized)
     load_function(h, "PyGILState_Release", MyGILState_Release, python_initialized);
 }
 
-
 void exit_with_message(const char *message)
 {
     std::cout << message << std::endl;
@@ -208,41 +219,39 @@ void exit_with_message(const char *message)
 
 void check_error(int line_number)
 {
-            if (MyErr_Occurred())
-            {
-                //std::cout<<"Error at line: "<<line_number<<std::endl;
-                // Fetch the error
-                PyObject *pType = nullptr, *pValue = nullptr, *pTraceback = nullptr;
-                MyErr_Fetch(&pType, &pValue, &pTraceback);
-                if (pType)
-                    std::cout<<"[PYTHON]"<< MyUnicode_AsUTF8(MyObject_Str(pType)) << std::endl;
-                if (pValue)
-                    std::cout<<"[PYTHON]"<< MyUnicode_AsUTF8(MyObject_Str(pValue)) << std::endl;
-                if (pTraceback)
-                    std::cout<<"[PYTHON]"<< MyUnicode_AsUTF8(MyObject_Str(pTraceback)) << std::endl;
+    if (MyErr_Occurred())
+    {
+        // std::cout<<"Error at line: "<<line_number<<std::endl;
+        //  Fetch the error
+        PyObject *pType = nullptr, *pValue = nullptr, *pTraceback = nullptr;
+        MyErr_Fetch(&pType, &pValue, &pTraceback);
+        print_python_object("[PYTHON]", pType);
+        print_python_object("[PYTHON]", pValue);
+        print_python_object("[PYTHON]", pTraceback);
 
-                // Print the error
-                //MyErr_Display(pType, pValue, pTraceback);
-                // Decrement reference counts for the error objects
-                My_DecRef(pType);
-                My_DecRef(pValue);
-                My_DecRef(pTraceback);
-                exit_with_message("ERROR: Python function failed");
-            }
+        // Decrement reference counts for the error objects
+        if (pType)
+            My_DecRef(pType);
+        if (pValue)
+            My_DecRef(pValue);
+        if (pTraceback)
+            My_DecRef(pTraceback);
+        exit_with_message("ERROR: Python function failed");
+    }
 }
 
-void python_signal_handler(int signum) {
+void python_signal_handler(int signum)
+{
     std::cout << "[PYTHON] Caught signal " << signum << std::endl;
     std::cerr << "[PYTHON] Caught signal " << signum << std::endl;
-    //How to flush the output buffers before exiting
+    // How to flush the output buffers before exiting
     std::cout << std::flush;
     std::cerr << std::flush;
     std::cerr.flush();
     std::cout.flush();
-    //My_Finalize();
+    // My_Finalize();
     std::exit(signum);
 }
-
 
 // Call a Python function with a persistent dictionary as its only argument
 PyObject *call_python_function_with_state(const char *func_name)
@@ -291,22 +300,20 @@ PyObject *call_python_function_with_state(const char *func_name)
             if (MyErr_Occurred())
             {
                 // Fetch the error details
-                PyObject *pType, *pValue, *pTraceback;
-                MyErr_Fetch(&pType, &pValue, &pTraceback);
-                if (pType)
-                    std::cout << "[PYTHON] " << MyUnicode_AsUTF8(MyObject_Str(pType)) << std::endl;
-                if (pValue)
-                    std::cout << "[PYTHON] " << MyUnicode_AsUTF8(MyObject_Str(pValue)) << std::endl;
-                if (pTraceback)
-                    std::cout << "[PYTHON]: " << MyUnicode_AsUTF8(MyObject_Str(pTraceback)) << std::endl;
+                PyObject *pType = nullptr, *pValue = nullptr, *pTraceback = nullptr;
 
-                // Print the error
-                //MyErr_Display(pType, pValue, pTraceback);
+                MyErr_Fetch(&pType, &pValue, &pTraceback);
+                print_python_object("[PYTHON] ", pType);
+                print_python_object("[PYTHON] ", pValue);
+                print_python_object("[PYTHON] ", pTraceback);
 
                 // Decrement reference counts for error objects
-                My_DecRef(pType);
-                My_DecRef(pValue);
-                My_DecRef(pTraceback);
+                if (pType)
+                    My_DecRef(pType);
+                if (pValue)
+                    My_DecRef(pValue);
+                if (pTraceback)
+                    My_DecRef(pTraceback);
                 exit_with_message("ERROR: Python function failed");
             }
         }
@@ -350,19 +357,17 @@ PyObject *call_python_function(const char *func_name, double *args, int num_args
                 // Fetch the error
                 PyObject *pType = nullptr, *pValue = nullptr, *pTraceback = nullptr;
                 MyErr_Fetch(&pType, &pValue, &pTraceback);
-                if (pType)
-                    std::cout<<"[PYTHON]"<< MyUnicode_AsUTF8(MyObject_Str(pType)) << std::endl;
-                if (pValue)
-                    std::cout<<"[PYTHON]"<< MyUnicode_AsUTF8(MyObject_Str(pValue)) << std::endl;
-                if (pTraceback)
-                    std::cout<<"[PYTHON]"<< MyUnicode_AsUTF8(MyObject_Str(pTraceback)) << std::endl;
+                print_python_object("[PYTHON]", pType);
+                print_python_object("[PYTHON]", pValue);
+                print_python_object("[PYTHON]", pTraceback);
 
-                // Print the error
-                //MyErr_Display(pType, pValue, pTraceback);
                 // Decrement reference counts for the error objects
-                My_DecRef(pType);
-                My_DecRef(pValue);
-                My_DecRef(pTraceback);
+                if (pType)
+                    My_DecRef(pType);
+                if (pValue)
+                    My_DecRef(pValue);
+                if (pTraceback)
+                    My_DecRef(pTraceback);
                 exit_with_message("ERROR: Python function failed");
             }
         }
@@ -373,7 +378,7 @@ PyObject *call_python_function(const char *func_name, double *args, int num_args
     return nullptr;
 }
 // call a python function with a list of arguments
-void call_python_function1D_vectors(const char *func_name, std::vector<double> & X, std::vector<double> & Y)
+void call_python_function1D_vectors(const char *func_name, std::vector<double> &X, std::vector<double> &Y)
 {
     PyObject *pFunc, *pArgs, *pValue;
     const int num_args = X.size();
@@ -390,7 +395,7 @@ void call_python_function1D_vectors(const char *func_name, std::vector<double> &
             if (pValue != nullptr)
             {
                 // Function executed successfully
-                Y[i]= (MyFloat_AsDouble(pValue));
+                Y[i] = (MyFloat_AsDouble(pValue));
                 My_DecRef(pValue);
             }
             else
@@ -398,11 +403,10 @@ void call_python_function1D_vectors(const char *func_name, std::vector<double> &
                 MyErr_Clear();
                 Y[i] = static_cast<double>(std::numeric_limits<float>::max());
             }
-//           std::cout<<"X["<<i<<"] = "<<X[i]<<" Y["<<i<<"] = "<<Y[i]<<std::endl;
+            //           std::cout<<"X["<<i<<"] = "<<X[i]<<" Y["<<i<<"] = "<<Y[i]<<std::endl;
         }
     }
 }
-
 
 void python_execute_code(const std::string &code)
 {
@@ -461,6 +465,11 @@ void python_load_library()
         else
         {
             load_functions(handle, python_initialized);
+            if (!python_initialized)
+            {
+                FreeLibrary(handle);
+                handle = NULL;
+            }
         }
     }
 
@@ -533,7 +542,7 @@ void python_load_library()
 bool try_load_library(const std::string &path)
 {
     bool python_initialized = false;
-    handle = dlopen(path.c_str(), RTLD_LAZY |RTLD_GLOBAL);
+    handle = dlopen(path.c_str(), RTLD_LAZY | RTLD_GLOBAL);
     if (handle)
     {
         std::cout << "Trying python library: " << path << std::endl;
@@ -545,8 +554,17 @@ bool try_load_library(const std::string &path)
             if (!My_IsInitialized())
             {
                 std::cout << "ERROR: My_Initialize failed" << std::endl;
+                My_Finalize();
                 python_initialized = false;
+                dlclose(handle);
+                handle = nullptr;
             }
+        }
+        else
+        {
+            // load_functions failed, close the handle
+            dlclose(handle);
+            handle = nullptr;
         }
     }
     return python_initialized;
@@ -633,7 +651,6 @@ void python_load_library()
 }
 #endif
 
-
 // C++ functions that can be called from Fortran
 extern "C"
 {
@@ -664,30 +681,28 @@ extern "C"
                 // Print Python error traceback
                 if (MyErr_Occurred())
                 {
-                // Fetch the error details
-                PyObject *pType, *pValue, *pTraceback;
-                MyErr_Fetch(&pType, &pValue, &pTraceback);
-                if (pType)
-                    std::cout << "[PYTHON] " << MyUnicode_AsUTF8(MyObject_Str(pType)) << std::endl;
-                if (pValue)
-                    std::cout << "[PYTHON] " << MyUnicode_AsUTF8(MyObject_Str(pValue)) << std::endl;
-                if (pTraceback)
-                    std::cout << "[PYTHON]: " << MyUnicode_AsUTF8(MyObject_Str(pTraceback)) << std::endl;
+                    // Fetch the error details
+                    PyObject *pType, *pValue, *pTraceback;
+                    MyErr_Fetch(&pType, &pValue, &pTraceback);
+                    print_python_object("[PYTHON] ", pType);
+                    print_python_object("[PYTHON] ", pValue);
+                    print_python_object("[PYTHON] ", pTraceback);
 
-                // Print the error
-                //MyErr_Display(pType, pValue, pTraceback);
-
-                // Decrement reference counts for error objects
-                My_DecRef(pType);
-                My_DecRef(pValue);
-                My_DecRef(pTraceback);
-                exit_with_message("ERROR: Python function failed");
+                    // Decrement reference counts for error objects
+                    if (pType)
+                        My_DecRef(pType);
+                    if (pValue)
+                        My_DecRef(pValue);
+                    if (pTraceback)
+                        My_DecRef(pTraceback);
+                    exit_with_message("ERROR: Python function failed");
                 }
-           }else
-           {
-              *ierror = 0;
-           }
-           check_error(__LINE__);
+            }
+            else
+            {
+                *ierror = 0;
+            }
+            check_error(__LINE__);
         }
     }
     void cpp_python_load_environment()
@@ -704,10 +719,10 @@ extern "C"
         check_error(__LINE__);
     }
 
-    void cpp_python_sync(void* pcontext)
+    void cpp_python_sync(void *pcontext)
     {
 
-        //std::cout<<"[PYTHON] cpp_python_sync called"<<std::endl;
+        // std::cout<<"[PYTHON] cpp_python_sync called"<<std::endl;
         if (!python_initialized || !sync_enabled)
         {
             return;
@@ -716,69 +731,91 @@ extern "C"
 
         // cast the context to a double pointer as a PyObject
         char func_name[100];
-        // func_name = "sync" 
+        // func_name = "sync"
         func_name[0] = 's';
         func_name[1] = 'y';
         func_name[2] = 'n';
         func_name[3] = 'c';
         func_name[4] = '\0';
-        //std::cout<<"[PYTHON] cpp_python_sync called with function name: "<<func_name<<std::endl;
+        // std::cout<<"[PYTHON] cpp_python_sync called with function name: "<<func_name<<std::endl;
 
         PyObject *context = static_cast<PyObject *>(pcontext);
-        PyObject* args = MyTuple_New(1);
-        if(!args)
+        PyObject *args = MyTuple_New(1);
+        if (!args)
         {
             std::cout << "ERROR: Failed to create Python tuple." << std::endl;
+            return;
         }
         My_IncRef(context);
-        MyTuple_SetItem(args, 0, context);  // This steals the reference
+        MyTuple_SetItem(args, 0, context); // This steals the reference
         PyObject *pFunc = static_cast<PyObject *>(MyDict_GetItemString(pDict, func_name));
         if (!pFunc)
         {
             std::cout << "ERROR: Python function not found: " << func_name << std::endl;
             My_DecRef(args);
+            return;
         }
 
-        if (!MyCallable_Check(pFunc)) {
-        std::cerr << "[PYTHON] Error: '" << func_name << "' is not callable" << std::endl;
-        My_DecRef(args);
+        if (!MyCallable_Check(pFunc))
+        {
+            std::cerr << "[PYTHON] Error: '" << func_name << "' is not callable" << std::endl;
+            My_DecRef(args);
+            return;
         }
 
-        PyObject* result = MyObject_CallObject(pFunc, args);
-         if (MyErr_Occurred())
-         {
-             // Fetch the error details
-             PyObject *pType, *pValue, *pTraceback;
-             MyErr_Fetch(&pType, &pValue, &pTraceback);
-             if (pType)
-                 std::cout << "[PYTHON] " << MyUnicode_AsUTF8(MyObject_Str(pType)) << std::endl;
-             if (pValue)
-                 std::cout << "[PYTHON] " << MyUnicode_AsUTF8(MyObject_Str(pValue)) << std::endl;
-             if (pTraceback)
-                 std::cout << "[PYTHON]: " << MyUnicode_AsUTF8(MyObject_Str(pTraceback)) << std::endl;
+        PyObject *result = MyObject_CallObject(pFunc, args);
+        if (MyErr_Occurred())
+        {
+            // Fetch the error details
+            PyObject *pType = nullptr, *pValue = nullptr, *pTraceback = nullptr;
+            MyErr_Fetch(&pType, &pValue, &pTraceback);
+            print_python_object("[PYTHON] ", pType);
+            print_python_object("[PYTHON] ", pValue);
+            print_python_object("[PYTHON] ", pTraceback);
 
-             // Decrement reference counts for error objects
-             My_DecRef(pType);
-             My_DecRef(pValue);
-             My_DecRef(pTraceback);
-             exit_with_message("ERROR: Python function failed");
-         }
- 
+            // Decrement reference counts for error objects
+            if(pType) My_DecRef(pType);
+            if(pValue) My_DecRef(pValue);
+            if(pTraceback) My_DecRef(pTraceback);
+            exit_with_message("ERROR: Python function failed");
+        }
+        if(result) My_DecRef(result);
+
         My_DecRef(args);
         check_error(__LINE__);
-
     }
-
 
     void cpp_python_finalize()
     {
+        if (!python_initialized)
+        {
+            return;
+        }
+        // Clean up persistent Python objects before finalizing
+        if (persistent_arg)
+        {
+            My_DecRef(persistent_arg);
+            persistent_arg = nullptr;
+            // persistent_dict was stolen by PyTuple_SetItem, so it is
+            // released together with persistent_arg
+            persistent_dict = nullptr;
+        }
+        // pDict is a borrowed reference from PyModule_GetDict, do not DecRef it
+        pDict = nullptr;
+
         My_Finalize();
+        python_initialized = false;
+
+        // Note: we intentionally do NOT dlclose/FreeLibrary the Python library handle here.
+        // CPython's Py_Finalize does not fully clean up all internal state (interned strings,
+        // type objects, etc.), and unloading the library would cause dangling pointers and
+        // valgrind 'definitely lost' reports. The OS reclaims the memory at process exit.
+        handle = nullptr;
     }
     void cpp_python_execute_code(const char *code)
     {
         MyRun_SimpleString(code);
         check_error(__LINE__);
-
     }
 
     void cpp_python_initialize_global_variables()
@@ -790,11 +827,13 @@ extern "C"
         // initialize TIME and DT to 0
         check_error(__LINE__);
 
-
         PyObject *py_TIME = static_cast<PyObject *>(MyFloat_FromDouble(0.0));
         PyObject *py_DT = static_cast<PyObject *>(MyFloat_FromDouble(0.0));
         MyDict_SetItemString(pDict, "TIME", py_TIME);
         MyDict_SetItemString(pDict, "DT", py_DT);
+        // Release the Python objects (PyDict_SetItemString does not steal references)
+        if (py_TIME) My_DecRef(py_TIME);
+        if (py_DT) My_DecRef(py_DT);
 
         // loop over the set of nodes
         for (auto node_uid : nodes_uid)
@@ -846,7 +885,6 @@ extern "C"
                 My_DecRef(py_value);
         }
         check_error(__LINE__);
-
     }
 
     // register a function in the python dictionary
@@ -875,7 +913,8 @@ extern "C"
             if (current_line == 0)
             {
                 std::string function_name = extract_function_name(tmp_string);
-		if(function_name == "sync") sync_enabled = true;
+                if (function_name == "sync")
+                    sync_enabled = true;
                 if (function_name.empty())
                 {
                     std::cout << "ERROR: function name not found in function signature" << std::endl;
@@ -919,16 +958,20 @@ extern "C"
         {
             return;
         }
-        //GIL
-        PyGILState_STATE gstate = MyGILState_Ensure();  
+        // GIL
+        PyGILState_STATE gstate = MyGILState_Ensure();
         check_error(__LINE__);
-        if (strcmp(name, "initialize_environment") == 0) return;
+        if (strcmp(name, "initialize_environment") == 0){
+            MyGILState_Release(gstate);
+            return;
+        }
         PyObject *result = call_python_function(name, args, num_args);
         if (result)
         {
             return_values[0] = MyFloat_AsDouble(result);
             My_DecRef(result);
-        } else 
+        }
+        else
         {
             exit_with_message("ERROR: Python function failed");
         }
@@ -949,7 +992,9 @@ extern "C"
         {
             *return_values = MyFloat_AsDouble(result);
             My_DecRef(result);
-        } else {
+        }
+        else
+        {
             exit_with_message("ERROR: Python function failed");
         }
         check_error(__LINE__);
@@ -980,7 +1025,7 @@ extern "C"
         //        std::cout << "Function exists? " << *error << std::endl;
     }
 
-    void cpp_python_update_reals(char * basename, int * uid, my_real *reals, int num_reals)
+    void cpp_python_update_reals(char *basename, int *uid, my_real *reals, int num_reals)
     {
         // add BASENAME_$UID = reals[i] to the python dictionary
         if (!python_initialized)
@@ -1064,7 +1109,6 @@ extern "C"
         {
             *num_nodes = nodes_uid.size();
         }
-
     }
 
     // return the list of nodes (user ids) that are used in the python functions
@@ -1114,7 +1158,7 @@ extern "C"
     // update the global variable sensors from the input arrays
     void cpp_python_update_sensors(int *types, int *uids, int *statuses, double *results, int *num_sensors)
     {
-        //std::cout << "[PYTHON] update sensors" << std::endl;
+        // std::cout << "[PYTHON] update sensors" << std::endl;
         constexpr int sensor_python = 40;    // PYTHON
         constexpr int sensor_energy = 14;    // ENERGY
         constexpr int sensor_time = 0;       // TIME
@@ -1203,11 +1247,10 @@ extern "C"
         python_execute_code(code);
         // check for errors
         check_error(__LINE__);
-
     }
 
     // values is an array of size (3*numnod) containing the values of the nodal entities
-//  call python_update_active_node_values(name_len, temp_name, val)
+    //  call python_update_active_node_values(name_len, temp_name, val)
 
     void cpp_python_update_active_node(int name_len, char *name, double *values)
     {
@@ -1246,7 +1289,6 @@ extern "C"
             if (py_z_values != nullptr)
                 My_DecRef(py_z_values);
             check_error(__LINE__);
-
         }
     }
     void cpp_python_update_active_node_ids(int id, int uid)
@@ -1259,12 +1301,15 @@ extern "C"
         // Set the Python global variables in the main module's dictionary
         std::string id_name = "ACTIVE_NODE";
         std::string uid_name = "ACTIVE_NODE_UID";
-        MyDict_SetItemString(pDict, id_name.c_str(), static_cast<PyObject *>(MyLong_FromLong(static_cast<long>(id))));
-        MyDict_SetItemString(pDict, uid_name.c_str(), static_cast<PyObject *>(MyLong_FromLong(static_cast<long>(uid))));
+        PyObject *py_id = static_cast<PyObject *>(MyLong_FromLong(static_cast<long>(id)));
+        PyObject *py_uid = static_cast<PyObject *>(MyLong_FromLong(static_cast<long>(uid)));
+        MyDict_SetItemString(pDict, id_name.c_str(), py_id);
+        MyDict_SetItemString(pDict, uid_name.c_str(), py_uid);
+        // Release the Python objects (PyDict_SetItemString does not steal references)
+        if (py_id) My_DecRef(py_id);
+        if (py_uid) My_DecRef(py_uid);
         check_error(__LINE__);
-
     }
-
 
     // values is an array of size (3*numnod) containing the values of the nodal entities
     void cpp_python_update_nodal_entity(int numnod, int name_len, char *name, my_real *values)
@@ -1281,7 +1326,7 @@ extern "C"
         {
             int node_uid = it->first;
             int local_id = it->second;
-            if(local_id > numnod-1)
+            if (local_id > numnod - 1)
             {
                 std::cout << "ERROR: local_id " << local_id << " is greater than numnod " << numnod << std::endl;
                 return;
@@ -1361,11 +1406,11 @@ extern "C"
 
     void cpp_python_sample_function(char *name, double *x, double *y, int n)
     {
-        //write the name
+        // write the name
         constexpr size_t N = 10000; // Number of points
         double x_max = 1e+6;
-        std::vector<double> Xtmp = initial_sampling(x_max,N);
-        std::vector<double> X(2*N, 0.0);
+        std::vector<double> Xtmp = initial_sampling(x_max, N);
+        std::vector<double> X(2 * N, 0.0);
         double scale = x_max / N;
 
         // X = -Xtmp(N) .. -Xtmp(1) Xtmp(1) .. Xtmp(N)
@@ -1378,16 +1423,16 @@ extern "C"
             X[i + N] = scale * Xtmp[i];
         }
         // I would like to symmetrically sample the function around 0, so I will sample the function at -X and X
-        //Y of size N, filled with 0
+        // Y of size N, filled with 0
         std::vector<double> Y(X.size(), 0.0);
         // evaluate the function at all X values using cpp_
         call_python_function1D_vectors(name, X, Y);
-        //Sample the function to get n points:
-        std::vector<double>  new_x = select_points(X,Y,size_t(n));
-        std::vector<double>  new_y(n, 0.0);
+        // Sample the function to get n points:
+        std::vector<double> new_x = select_points(X, Y, size_t(n));
+        std::vector<double> new_y(n, 0.0);
         call_python_function1D_vectors(name, new_x, new_y);
-        //sizes:
-        // copy the values to the output arrays
+        // sizes:
+        //  copy the values to the output arrays
         for (int i = 0; i < n; i++)
         {
             x[i] = static_cast<my_real>(new_x[i]);
@@ -1395,96 +1440,99 @@ extern "C"
         }
     }
 
+    //
+    //          subroutine python_add_ints_to_dict(context, name, len_name, values, nvalues) &
+    //            bind(c, name="cpp_python_add_ints_to_dict")
+    //            use iso_c_binding
+    //            type(c_ptr), value, intent(in) :: context
+    //            integer(kind=c_int), value, intent(in) :: nvalues
+    //            character(kind=c_char), dimension(len_name), intent(in) :: name
+    //            integer(kind=c_int), dimension(nvalues), intent(in) :: values
+    //          end subroutine python_add_ints_to_dict
+    // subroutine python_add_doubles_to_dict(context, name, len_name, values, nvalues) &
+    void cpp_python_add_ints_to_dict(void *context_ptr, const char *name, int len_name, int *values, int nvalues)
+    { // expose the array without copying
+        if (!python_initialized)
+        {
+            return;
+        }
+        check_error(__LINE__);
+        PyObject *context = static_cast<PyObject *>(context_ptr);
+        char ptr_key[100], size_key[100], type_key[100];
+        snprintf(ptr_key, sizeof(ptr_key), "%s_ptr", name);
+        snprintf(size_key, sizeof(size_key), "%s_size", name);
+        snprintf(type_key, sizeof(type_key), "%s_type", name);
+        PyObject *ptr_value = MyLong_FromVoidPtr(values);
+        PyObject *size_value = MyLong_FromLong(static_cast<long>(nvalues));
+        PyObject *type_value = MyUnicode_FromString("int");
 
-//
-//          subroutine python_add_ints_to_dict(context, name, len_name, values, nvalues) &
-//            bind(c, name="cpp_python_add_ints_to_dict")
-//            use iso_c_binding
-//            type(c_ptr), value, intent(in) :: context
-//            integer(kind=c_int), value, intent(in) :: nvalues
-//            character(kind=c_char), dimension(len_name), intent(in) :: name
-//            integer(kind=c_int), dimension(nvalues), intent(in) :: values
-//          end subroutine python_add_ints_to_dict
-         //subroutine python_add_doubles_to_dict(context, name, len_name, values, nvalues) &
-void cpp_python_add_ints_to_dict(void* context_ptr, const char* name, int len_name,  int* values, int nvalues)
-{ // expose the array without copying
-    if (!python_initialized)
+        // set the values in the context dictionary
+        MyDict_SetItemString(context, ptr_key, ptr_value);
+        MyDict_SetItemString(context, size_key, size_value);
+        MyDict_SetItemString(context, type_key, type_value);
+
+        // release the references
+        My_DecRef(ptr_value);
+        My_DecRef(size_value);
+        My_DecRef(type_value);
+        check_error(__LINE__);
+    }
+
+    void cpp_python_add_doubles_to_dict(void *context_ptr, const char *name, int len_name, double *values, int nvalues)
+    { // expose the array without copying
+        if (!python_initialized)
+        {
+            return;
+        }
+        check_error(__LINE__);
+        PyObject *context = static_cast<PyObject *>(context_ptr);
+        char ptr_key[100], size_key[100], type_key[100];
+        snprintf(ptr_key, sizeof(ptr_key), "%s_ptr", name);
+        snprintf(size_key, sizeof(size_key), "%s_size", name);
+        snprintf(type_key, sizeof(type_key), "%s_type", name);
+        PyObject *ptr_value = MyLong_FromVoidPtr(values);
+        PyObject *size_value = MyLong_FromLong(static_cast<long>(nvalues));
+        PyObject *type_value = MyUnicode_FromString("double");
+        // set the values in the context dictionary
+        MyDict_SetItemString(context, ptr_key, ptr_value);
+        MyDict_SetItemString(context, size_key, size_value);
+        MyDict_SetItemString(context, type_key, type_value);
+        // release the references
+        My_DecRef(ptr_value);
+        My_DecRef(size_value);
+        My_DecRef(type_value);
+        check_error(__LINE__);
+    }
+    // set the values in the context dictionary
+
+    void *cpp_python_create_context()
     {
-        return;
+        check_error(__LINE__);
+        PyObject *context = MyDict_New();
+        if (!context)
+        {
+            return NULL;
+        }
+        check_error(__LINE__);
+        return context;
     }
-    check_error(__LINE__);
-    PyObject * context = static_cast<PyObject*>(context_ptr); 
-    char ptr_key[100],size_key[100],type_key[100];
-    snprintf(ptr_key, sizeof(ptr_key), "%s_ptr", name);
-    snprintf(size_key, sizeof(size_key), "%s_size", name);
-    snprintf(type_key, sizeof(type_key), "%s_type", name);
-    PyObject* ptr_value  = MyLong_FromVoidPtr(values);
-    PyObject* size_value = MyLong_FromLong(static_cast<long>(nvalues));
-    PyObject* type_value = MyUnicode_FromString("int");
 
-    // set the values in the context dictionary
-    MyDict_SetItemString(context, ptr_key, ptr_value);
-    MyDict_SetItemString(context, size_key, size_value);
-    MyDict_SetItemString(context, type_key, type_value);
-
-    // release the references
-    My_DecRef(ptr_value);
-    My_DecRef(size_value);
-    My_DecRef(type_value);
-    check_error(__LINE__);
-
-}
-
-void cpp_python_add_doubles_to_dict(void* context_ptr, const char* name, int len_name,  double* values, int nvalues)
-{ // expose the array without copying
-    if (!python_initialized)
+    void cpp_python_free_context(void *context)
     {
-        return;
+        if (context)
+        {
+            My_DecRef(static_cast<PyObject *>(context));
+        }
     }
-    check_error(__LINE__);
-    PyObject * context = static_cast<PyObject*>(context_ptr); 
-    char ptr_key[100],size_key[100],type_key[100];
-    snprintf(ptr_key, sizeof(ptr_key), "%s_ptr", name);
-    snprintf(size_key, sizeof(size_key), "%s_size", name);
-    snprintf(type_key, sizeof(type_key), "%s_type", name);
-    PyObject* ptr_value  = MyLong_FromVoidPtr(values);
-    PyObject* size_value = MyLong_FromLong(static_cast<long>(nvalues));
-    PyObject* type_value = MyUnicode_FromString("double");
-    // set the values in the context dictionary
-    MyDict_SetItemString(context, ptr_key, ptr_value);
-    MyDict_SetItemString(context, size_key, size_value);
-    MyDict_SetItemString(context, type_key, type_value);
-    // release the references
-    My_DecRef(ptr_value);
-    My_DecRef(size_value);
-    My_DecRef(type_value);
-    check_error(__LINE__);
-}
-    // set the values in the context dictionary
-
-
-void* cpp_python_create_context() {
-    check_error(__LINE__);
-    PyObject* context = MyDict_New();
-    if (!context) {
-        return NULL;
+    PyThreadState *py_begin_allow_threads()
+    {
+        return MyEval_SaveThread();
     }
-    return context;
-    check_error(__LINE__);
-}
 
-void cpp_python_free_context(void* context) {
-    if (context) {
-        My_DecRef(static_cast<PyObject*>(context));
+    void py_end_allow_threads(PyThreadState *saved_state)
+    {
+        MyEval_RestoreThread(saved_state);
     }
-}
-PyThreadState* py_begin_allow_threads() {
-    return MyEval_SaveThread();
-}
-
-void py_end_allow_threads(PyThreadState* saved_state) {
-    MyEval_RestoreThread(saved_state);
-}
 } // extern "C"
 
 #else
@@ -1513,7 +1561,7 @@ extern "C"
     {
         std::cout << "ERROR: python not enabled" << std::endl;
     }
-    void cpp_python_sample_function(char *name, double*x, double*y, int n)
+    void cpp_python_sample_function(char *name, double *x, double *y, int n)
     {
         std::cout << "ERROR: python not enabled" << std::endl;
     }
@@ -1535,10 +1583,9 @@ extern "C"
     void cpp_python_get_number_elemental_entities(int *nb) {}
     void cpp_python_get_elemental_entity(int nb, char *name, int *uid) {}
     void cpp_python_load_environment() {}
-    void cpp_python_update_sensors(int types, int *uids, int *statuses, double *results, int *num_sensors){}
-    void* py_begin_allow_threads() {return nullptr;}
-    void py_end_allow_threads(void* saved_state) {}
-
+    void cpp_python_update_sensors(int types, int *uids, int *statuses, double *results, int *num_sensors) {}
+    void *py_begin_allow_threads() { return nullptr; }
+    void py_end_allow_threads(void *saved_state) {}
 }
 
 #endif
