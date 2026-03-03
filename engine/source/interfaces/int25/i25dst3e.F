@@ -40,7 +40,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      D   FY     ,FZ    ,LEDGE ,IRECT ,CAND_P ,
      E   IAM    ,JAM    ,IBM    ,JBM    ,IAS    ,
      F   JAS    ,IBS    ,JBS    ,ITAB   ,EDGE_ID,
-     G   DGAPLOADPMAX)
+     G   DGAPLOADPMAX,PENE_OLD_E,STIF_OLD_E,SIZ)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -74,6 +74,8 @@ C-----------------------------------------------
      .     GAPVE(*), EX(*), EY(*), EZ(*), FX(*), FY(*), FZ(*), 
      .     CAND_P(*)
       my_real  , INTENT(IN) :: DGAPLOADPMAX
+      INTEGER , INTENT(IN) :: SIZ
+      my_real , INTENT(INOUT) :: PENE_OLD_E(SIZ),STIF_OLD_E(SIZ)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -185,7 +187,6 @@ C!!!!!!!!!!!!!!!!!!!!!!!!
        GAP2 = (GAPVE(I)+DGAPLOADPMAX)*(GAPVE(I)+DGAPLOADPMAX)
        PENE2(I) = GAP2 - NN(I)
        PENE2(I) = MAX(ZERO,PENE2(I)) 
-
       ENDDO
 C
       SOL_EDGE =IEDGE/10 ! solids
@@ -221,7 +222,11 @@ C
 C---------------------------------------
 C
       DO I=1,JLT
-        IF(PENE2(I)==ZERO) CAND_P(INDEX(I))=ZERO ! Reset CAND_P
+        IF(PENE2(I)==ZERO) THEN
+          CAND_P(INDEX(I))=ZERO ! Reset CAND_P
+          PENE_OLD_E(INDEX(I))=ZERO
+          STIF_OLD_E(INDEX(I))=MAX(STIF_OLD_E(INDEX(I)),STIF(I))
+        ENDIF
       ENDDO
 C
           DO I=1,JLT

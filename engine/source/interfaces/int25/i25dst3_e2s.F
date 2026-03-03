@@ -43,7 +43,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      E   CAND_P ,TYPEDGS,IAS  ,JAS   ,IBS   ,
      F   JBS    ,IAM    ,ITAB ,INDX1 ,INDX2 ,
      G   CS_LOC4,CM_LOC4, EDGE_ID, NEDGE, NIN,
-     H   DGAPLOADPMAX,NORMALN1,NORMALN2,NORMALM1,NORMALM2)
+     H   DGAPLOADPMAX,NORMALN1,NORMALN2,NORMALM1,NORMALM2,
+     I   PENE_OLD_E2S,STIF_OLD_E2S,SIZ_E2S)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -85,6 +86,8 @@ C-----------------------------------------------
       my_real  , INTENT(IN) :: DGAPLOADPMAX
       my_real  , INTENT(IN) :: NORMALN1(3,MVSIZ),NORMALN2(3,MVSIZ),
      .       NORMALM1(3,4,MVSIZ),NORMALM2(3,4,MVSIZ)
+      INTEGER , INTENT(IN) ::SIZ_E2S
+      my_real , INTENT(INOUT) :: PENE_OLD_E2S(4,SIZ_E2S/4),STIF_OLD_E2S(4,SIZ_E2S/4) 
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -767,7 +770,11 @@ C---------------------------------------
 C
       DO I=1,JLT
         DO EJ=1,4
-          IF(PENE2(EJ,I)==ZERO) CAND_P(EJ,INDEX(I))=ZERO ! Reset CAND_P
+          IF(PENE2(EJ,I)==ZERO) THEN
+             CAND_P(EJ,INDEX(I))=ZERO ! Reset CAND_P
+             PENE_OLD_E2S(EJ,INDEX(I))=ZERO
+             STIF_OLD_E2S(EJ,INDEX(I))=MAX(STIF_OLD_E2S(EJ,INDEX(I)),STIF(EJ,I))
+          ENDIF
             DEBUG_E2E(EDGE_ID(1,I)==D_EM .AND. EDGE_ID(2,I) ==  D_ES,CAND_P(EJ,INDEX(I)))
             DEBUG_E2E(EDGE_ID(1,I)==D_EM .AND. EDGE_ID(2,I) ==  D_ES,EJ)
             DEBUG_E2E(EDGE_ID(1,I)==D_EM .AND. EDGE_ID(2,I) ==  D_ES,I)

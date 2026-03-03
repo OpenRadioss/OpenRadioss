@@ -55,8 +55,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      G                  JTASK  ,ISENSINT, FSAVPARIT  ,NFT  ,H3D_DATA,
      H                  ILEV   ,EBINFLG ,EDGE_ID,FRICC  ,IFQ    ,
      I                  CAND_FX  ,CAND_FY,CAND_FZ ,IFPEN,
-     J                  TAGNCONT ,KLOADPINTER,LOADPINTER ,LOADP_HYD_INTER,
-     K                  TYPSUB   ,STARTT ,NINLOADP  ,DGAPLOADINT,S_LOADPINTER)
+     J                  TAGNCONT ,KLOADPINTER,LOADPINTER ,LOADP_HYD_INTER,TYPSUB   ,
+     K                  STARTT ,NINLOADP  ,DGAPLOADINT,S_LOADPINTER,PENE_OLD_E,
+     L                  STIF_OLD_E,SIZ)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -123,6 +124,8 @@ C-----------------------------------------------
      .   CAND_FX(*),CAND_FY(*),CAND_FZ(*)
       my_real  , INTENT(IN) :: DGAPLOADINT(S_LOADPINTER)
       TYPE(H3D_DATABASE) :: H3D_DATA
+      INTEGER , INTENT(IN) :: SIZ
+      my_real , INTENT(INOUT) :: PENE_OLD_E(SIZ),STIF_OLD_E(SIZ)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -137,7 +140,7 @@ C-----------------------------------------------
      .   FX1(MVSIZ), FX2(MVSIZ), FX3(MVSIZ), FX4(MVSIZ),
      .   FY1(MVSIZ), FY2(MVSIZ), FY3(MVSIZ), FY4(MVSIZ),
      .   FZ1(MVSIZ), FZ2(MVSIZ), FZ3(MVSIZ), FZ4(MVSIZ),
-     .   FXT(MVSIZ), FYT(MVSIZ), FZT(MVSIZ),
+     .   FXT(MVSIZ), FYT(MVSIZ), FZT(MVSIZ), DPENE(MVSIZ),
      . PENE(MVSIZ),DIST(MVSIZ),
      . VIS2(MVSIZ),
      . VMAX,S2,
@@ -209,7 +212,12 @@ C          Reduce PENE
      .      CAND_P(INDEX(I))=MIN(CAND_P(INDEX(I)),
      .                           ((ONE-FIVEEM2)*CAND_P(INDEX(I))+FIVEEM2*PENE(I))  )
           PENE(I)=MAX(ZERO,PENE(I)-CAND_P(INDEX(I)))
+          IF( PENE(I)==ZERO ) THEN
+            PENE_OLD_E(INDEX(I)) = ZERO
+            STIF_OLD_E(INDEX(I)) = MAX(STIF_OLD_E(INDEX(I)),STIF(I))
+          ENDIF
           IF( PENE(I)==ZERO )  STIF(I) = ZERO
+
         ENDDO
       ELSE
         DO I=1,JLT
@@ -221,6 +229,10 @@ C            CAND_P < 0 <=> Initial penetration computed into the Starter => Do 
      .      CAND_P(INDEX(I)) = MIN(CAND_P(INDEX(I)),
      .                            ((ONE-FIVEEM2)*CAND_P(INDEX(I))+FIVEEM2*PENE(I))  )
             CAND_P(INDEX(I)) = -CAND_P(INDEX(I)) ! back to negative value
+            IF( PENE(I)==ZERO ) THEN
+              PENE_OLD_E(INDEX(I)) = ZERO
+              STIF_OLD_E(INDEX(I)) = MAX(STIF_OLD_E(INDEX(I)),STIF(I))
+            ENDIF
             IF( PENE(I)==ZERO )  STIF(I) = ZERO
 
           ELSE
@@ -231,6 +243,10 @@ C            New impact computed into the Engine => Reduce PENE
      .                           ((ONE-FIVEEM2)*CAND_P(INDEX(I))+FIVEEM2*PENE(I))  )
 C subtraction of the initial pene from the pene and the gap
             PENE(I)=MAX(ZERO,PENE(I)-CAND_P(INDEX(I)))
+            IF( PENE(I)==ZERO ) THEN
+              PENE_OLD_E(INDEX(I)) = ZERO
+              STIF_OLD_E(INDEX(I)) = MAX(STIF_OLD_E(INDEX(I)),STIF(I))
+            ENDIF
             IF( PENE(I)==ZERO )  STIF(I) = ZERO
           END IF
         ENDDO
@@ -247,10 +263,35 @@ C subtraction of the initial pene from the pene and the gap
         VN(I) = NX(I)*VX(I) + NY(I)*VY(I) + NZ(I)*VZ(I)
       ENDDO
 C-------------------------------------------
+C     stiffness reduction to avoid positive
+C     force jump and energy generation
+C-------------------------------------------
+      DO I=1,JLT
+C
+        IF(PENE(I) /= ZERO) THEN
+C
+          DPENE(I) = MAX(ZERO,-VN(I)*DT1)
+          IF(TT /= ZERO)THEN 
+            IF(PENE(I) > PENE_OLD_E(INDEX(I)) .AND.
+     .         DPENE(I) < PENE(I)-PENE_OLD_E(INDEX(I)))THEN
+              STIF(I) = (STIF_OLD_E(INDEX(I))*PENE_OLD_E(INDEX(I))+ STIF(I)*DPENE(I))
+     .                                /PENE(I)
+            ELSEIF(STIF_OLD_E(INDEX(I))/=ZERO.or.PENE_OLD_E(INDEX(I))/=ZERO)then
+              STIF(I) = STIF_OLD_E(INDEX(I))
+            ENDIF
+            PENE_OLD_E(INDEX(I)) = PENE(I)
+            STIF_OLD_E(INDEX(I)) = STIF(I)
+          ELSE
+            PENE_OLD_E(INDEX(I)) = MAX(PENE_OLD_E(INDEX(I)),PENE(I))
+            STIF_OLD_E(INDEX(I)) = MAX(STIF_OLD_E(INDEX(I)),STIF(I))
+          ENDIF
+        ENDIF
+      ENDDO
+C-------------------------------------------
       DO I=1,JLT
         STIF(I)= HALF*STIF(I)
         FNI(I) = -STIF(I) * PENE(I)
-        ECONVT = ECONVT+FNI(I)*VN(I)*DT1
+        ECONTT = ECONTT+HALF*STIF(I)*PENE(I)**2
       ENDDO
 C---------------------------------
 C     DAMPING + FRIC
@@ -1558,7 +1599,13 @@ C
           FCONT(1,M2(I)) =FCONT(1,M2(I)) + FX4(I)
           FCONT(2,M2(I)) =FCONT(2,M2(I)) + FY4(I)
           FCONT(3,M2(I)) =FCONT(3,M2(I)) + FZ4(I)
+      if(itab(n1(i))==38354821) write(*,*) 'fncont 1',ncycle,i,itab(n1(i)),itab(n2(i)),itab(m1(i)),itab(m2(i)),FX1(I),FY1(I),FZ1(I), FCONT(1:3,N1(I))
+      if(itab(n2(i))==38354821) write(*,*) 'fncont 2',ncycle,i,itab(n1(i)),itab(n2(i)),itab(m1(i)),itab(m2(i)),FX2(I),FY2(I),FZ2(I), FCONT(1:3,N2(I))
+
+      if(itab(m1(i))==38354821) write(*,*) 'fncont 3',ncycle,i,itab(n1(i)),itab(n2(i)),itab(m1(i)),itab(m2(i)),FX3(I),FY3(I),FZ3(I), FCONT(1:3,m1(I))
+      if(itab(m2(i))==38354821) write(*,*) 'fncont 4',ncycle,i,itab(n1(i)),itab(n2(i)),itab(m1(i)),itab(m2(i)),FX4(I),FY4(I),FZ4(I), FCONT(1:3,m2(I))
         ENDDO
+
 #include "lockoff.inc"
       ENDIF
 

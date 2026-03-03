@@ -93,7 +93,6 @@ C
         GAPE(I)=MAX(GAPA,GAPB)
 
         BGAPEMX   = MAX(BGAPEMX,GAPE(I)) ! BGAPEMX overall the model 
-
       END DO
 
       BGAPEMX_L=ZERO        

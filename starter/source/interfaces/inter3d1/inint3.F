@@ -256,7 +256,7 @@ C-----------------------------------------------
      .   NODEID, INOD, MVOISN(MVSIZ,4),IBOUND(4,MVSIZ)
       INTEGER ITASK, NEDGE_T, ESHIFT, NRTM_T, SSHIFT, MULNSNE, MULNSNS, MULTIMPE, MULTIMPS, NCONTE, 
      .        CAND_E_OLD(2), I_MEME(2),
-     .        I_START, I_MEM_REM, NEW_SIZE
+     .        I_START, I_MEM_REM, NEW_SIZE,I_FIN
       INTEGER :: KIND_INTER
       my_real MARGE,VMAXDT, BMINMA(6), GAPM_MX, GAPS_MX, GAPM_L_MX,GAPS_L_MX
       my_real MAXBOX,MINBOX,GAP0,BID,TZINF,GAPINF,BIDON,FPENMAX,DRAD,PENMN,GAPSCALE,BGAPEMX_L
@@ -2041,7 +2041,8 @@ C
           ALLOCATE(INOD2LIN(NUMNOD+1),TAGSECND(NUMNOD),NOD2LIN(2*NEDGE),PERM(NEDGE),PERMINV(NEDGE),GAP_MAXNEIGH(NEDGE))
           I_START = 1
           I_MEM_REM = 0
-          DO WHILE (I_START < NEDGE)
+          I_FIN = 0
+          DO WHILE (I_START < NEDGE.OR.I_FIN==1)
 C
             CALL I25REMLINE(
      1      X      ,NEDGE  ,INTBUF_TAB(NIN)%LEDGE,NUMNOD         ,INTBUF_TAB(NIN)%GAPE     ,INTBUF_TAB(NIN)%GAP_E_L    ,
@@ -2056,6 +2057,13 @@ C
               NEW_SIZE = IPARI(94,NIN) + 5*NEDGE
               CALL UPGRADE_REMNODE_EDG(IPARI(1,NIN),NEW_SIZE,INTBUF_TAB(NIN))
               I_MEM_REM = 0
+              IF(I_START==NEDGE) THEN
+                 I_FIN =1
+              ELSE
+                 I_FIN = 0
+              ENDIF
+            ELSE
+              IF(I_START==NEDGE) I_FIN =0
             ENDIF
 C
           ENDDO

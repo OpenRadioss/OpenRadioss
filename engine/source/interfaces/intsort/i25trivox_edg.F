@@ -54,7 +54,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      D      GAP_E_L,NEDGE_LOCAL,IFQ,CANDE2E_FX ,CANDE2E_FY,
      E      CANDE2E_FZ,CANDE2S_FX ,CANDE2S_FY,CANDE2S_FZ,IFPEN_E,IFPEN_E2S,
      F      KREMNODE_EDG_SIZ,REMNODE_EDG_SIZ,KREMNODE_E2S_SIZ,REMNODE_E2S_SIZ,
-     G      DGAPLOAD   )
+     G      DGAPLOAD  ,PENE_OLD_E,STIF_OLD_E,SIZ,PENE_OLD_E2S,STIF_OLD_E2S,SIZ_E2S  )
 C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
@@ -111,6 +111,9 @@ C     REAL
      .   CANDE2S_FX(4,*) ,CANDE2S_FY(4,*),CANDE2S_FZ(4,*)
       REAL*4 EDG_BISECTOR(3,4,*), VTX_BISECTOR(3,2,*)
       INTEGER, INTENT(IN) :: NEDGE_LOCAL
+      INTEGER , INTENT(IN) :: SIZ, SIZ_E2S
+      my_real , INTENT(INOUT) :: PENE_OLD_E(SIZ),STIF_OLD_E(SIZ),PENE_OLD_E2S(SIZ_E2S),
+     .          STIF_OLD_E2S(SIZ_E2S)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -604,7 +607,7 @@ C-----------------------------------------------------
      4                 NEDGE ,LEDGE  ,ITAB   ,DRAD2  ,IGAP  ,
      5                 GAPE  ,GAP_E_L,ADMSR  ,EDG_BISECTOR,VTX_BISECTOR ,
      6                 CAND_P,IFQ,CANDE2E_FX ,CANDE2E_FY,CANDE2E_FZ,IFPEN_E,
-     7                 DGAPLOAD)
+     7                 DGAPLOAD,PENE_OLD_E,STIF_OLD_E,SIZ)
                   IF(I_MEM(1)/=0) GOTO 300
                   J_STOK = 0
                 ENDIF
@@ -658,7 +661,7 @@ C-------------------------------------------------------------------------
      4                 NEDGE ,LEDGE  ,ITAB   ,DRAD2  ,IGAP  ,
      5                 GAPE  ,GAP_E_L,ADMSR  ,EDG_BISECTOR,VTX_BISECTOR ,
      6                 CAND_P,IFQ,CANDE2E_FX ,CANDE2E_FY,CANDE2E_FZ,IFPEN_E,
-     7                 DGAPLOAD)
+     7                 DGAPLOAD,PENE_OLD_E,STIF_OLD_E,SIZ)
 
   300 CONTINUE
 C=======================================================================
@@ -881,7 +884,7 @@ C-----------------------------------------------------
      5                 GAP_M ,GAP_M_L,GAPE  ,GAP_E_L,ADMSR  ,
      6                 EDG_BISECTOR,VTX_BISECTOR ,CAND_PS,PROV_IDS,
      7                 IFQ,CANDE2S_FX ,CANDE2S_FY,CANDE2S_FZ,IFPEN_E2S,
-     8                 DGAPLOAD)
+     8                 DGAPLOAD,PENE_OLD_E2S,STIF_OLD_E2S,SIZ_E2S)
 
                   IF(I_MEM(2)/=0) GOTO 400
                   J_STOK = 0
@@ -936,7 +939,7 @@ C-------------------------------------------------------------------------
      5                 GAP_M ,GAP_M_L,GAPE  ,GAP_E_L,ADMSR  ,
      6                 EDG_BISECTOR,VTX_BISECTOR ,CAND_PS,PROV_IDS,
      7                 IFQ,CANDE2S_FX ,CANDE2S_FY,CANDE2S_FZ,IFPEN_E2S,
-     8                 DGAPLOAD)
+     8                 DGAPLOAD,PENE_OLD_E2S,STIF_OLD_E2S,SIZ_E2S)
 
 C=======================================================================
 C 4   reset nodes to zero in the boxes

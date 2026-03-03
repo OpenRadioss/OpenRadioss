@@ -31,7 +31,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      1      NEDGE,I_STOK,CAND_S,CAND_M,
      2      CAND_P,CAND_A,NIN,NEDGE_L,
      3      LEDGE,IFQ,CAND_FX ,
-     4      CAND_FY,CAND_FZ,IFPEN)
+     4      CAND_FY,CAND_FZ,IFPEN,
+     5      PENE_OLD_E2S,STIF_OLD_E2S,SIZ_E2S)
 C-----------------------------------------------
       USE TRI7BOX
 C-----------------------------------------------
@@ -58,7 +59,9 @@ C-----------------------------------------------
       INTEGER CAND_S(I_STOK),CAND_M(I_STOK),CAND_A(*),IFPEN(*)
       INTEGER LEDGE(NLEDGE,NEDGE)
       my_real
-     .        CAND_P(4,*),CAND_FX(4,*) ,CAND_FY(4,*) ,CAND_FZ(4,*) 
+     .        CAND_P(4,*),CAND_FX(4,*) ,CAND_FY(4,*) ,CAND_FZ(4,*)
+      INTEGER , INTENT(IN) ::SIZ_E2S
+      my_real , INTENT(INOUT) :: PENE_OLD_E2S(4,SIZ_E2S/4),STIF_OLD_E2S(4,SIZ_E2S/4) 
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -218,6 +221,38 @@ C
           CAND_X    = IFPEN(K)
           IFPEN(K)  = IFPEN(I)
           IFPEN(I)  = CAND_X
+C
+          CAND_XF   = PENE_OLD_E2S(1,K)
+          PENE_OLD_E2S(1,K) = PENE_OLD_E2S(1,I)
+          PENE_OLD_E2S(1,I) = CAND_XF
+C
+          CAND_XF   = PENE_OLD_E2S(2,K)
+          PENE_OLD_E2S(2,K) = PENE_OLD_E2S(2,I)
+          PENE_OLD_E2S(2,I) = CAND_XF
+C
+          CAND_XF   = PENE_OLD_E2S(3,K)
+          PENE_OLD_E2S(3,K) = PENE_OLD_E2S(3,I)
+          PENE_OLD_E2S(3,I) = CAND_XF
+C
+          CAND_XF   = PENE_OLD_E2S(4,K)
+          PENE_OLD_E2S(4,K) = PENE_OLD_E2S(4,I)
+          PENE_OLD_E2S(4,I) = CAND_XF
+C
+          CAND_XF   = STIF_OLD_E2S(1,K)
+          STIF_OLD_E2S(1,K) = STIF_OLD_E2S(1,I)
+          STIF_OLD_E2S(1,I) = CAND_XF
+C
+          CAND_XF   = STIF_OLD_E2S(2,K)
+          STIF_OLD_E2S(2,K) = STIF_OLD_E2S(2,I)
+          STIF_OLD_E2S(2,I) = CAND_XF
+C
+          CAND_XF   = STIF_OLD_E2S(3,K)
+          STIF_OLD_E2S(3,K) = STIF_OLD_E2S(3,I)
+          STIF_OLD_E2S(3,I) = CAND_XF
+C
+          CAND_XF   = STIF_OLD_E2S(4,K)
+          STIF_OLD_E2S(4,K) = STIF_OLD_E2S(4,I)
+          STIF_OLD_E2S(4,I) = CAND_XF
 C 
           IPUT(I) = IPUT(K)
         

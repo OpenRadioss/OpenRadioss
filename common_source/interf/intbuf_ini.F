@@ -603,6 +603,14 @@ C-----to be cleaned after
           INTBUF_TAB(NI)%S_GAPMSAV = INTBUF_SIZE(N)
           N = N+1
           INTBUF_TAB(NI)%S_E2S_NOD_NORMAL = INTBUF_SIZE(N)
+          N = N+1
+          INTBUF_TAB(NI)%S_PENE_OLD_E = INTBUF_SIZE(N)
+          N = N+1
+          INTBUF_TAB(NI)%S_STIF_OLD_E = INTBUF_SIZE(N)
+          N = N+1
+          INTBUF_TAB(NI)%S_PENE_OLD_E2S = INTBUF_SIZE(N)
+          N = N+1
+          INTBUF_TAB(NI)%S_STIF_OLD_E2S = INTBUF_SIZE(N)
 
 C=======================================================================
           IF(N /= L_INTBUF_SIZE)THEN
@@ -1539,6 +1547,34 @@ C=======================================================================
             INTBUF_TAB(NI)%CAND_PS(1:SIZ) = ZERO
             SIZ =INTBUF_TAB(NI)%I_STOK_E(2)*4
             CALL READ_DB(INTBUF_TAB(NI)%CAND_PS,SIZ)
+          ENDIF
+
+          SIZ = INTBUF_TAB(NI)%S_PENE_OLD_E
+          ALLOCATE(INTBUF_TAB(NI)%PENE_OLD_E(SIZ))
+          IF(SIZ>0)THEN
+            CALL READ_DB(INTBUF_TAB(NI)%PENE_OLD_E,SIZ)
+          ENDIF
+
+          SIZ = INTBUF_TAB(NI)%S_STIF_OLD_E
+          ALLOCATE(INTBUF_TAB(NI)%STIF_OLD_E(SIZ))
+          IF(SIZ>0)THEN
+            CALL READ_DB(INTBUF_TAB(NI)%STIF_OLD_E,SIZ)
+          ENDIF
+
+          SIZ = INTBUF_TAB(NI)%S_PENE_OLD_E2S
+          ALLOCATE(INTBUF_TAB(NI)%PENE_OLD_E2S(SIZ))
+          IF(SIZ>0)THEN
+            INTBUF_TAB(NI)%PENE_OLD_E2S(1:SIZ) = ZERO
+            SIZ =INTBUF_TAB(NI)%I_STOK_E(2)*4
+            CALL READ_DB(INTBUF_TAB(NI)%PENE_OLD_E2S,SIZ)
+          ENDIF
+
+          SIZ = INTBUF_TAB(NI)%S_STIF_OLD_E2S
+          ALLOCATE(INTBUF_TAB(NI)%STIF_OLD_E2S(SIZ))
+          IF(SIZ>0)THEN
+            INTBUF_TAB(NI)%STIF_OLD_E2S(1:SIZ) = ZERO
+            SIZ =INTBUF_TAB(NI)%I_STOK_E(2)*4
+            CALL READ_DB(INTBUF_TAB(NI)%STIF_OLD_E2S,SIZ)
           ENDIF
 
           SIZ = INTBUF_TAB(NI)%S_GAPE

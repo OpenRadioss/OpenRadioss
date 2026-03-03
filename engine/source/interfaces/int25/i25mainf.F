@@ -641,7 +641,7 @@ C
      7 INACTI      ,KINI        ,ITAB        ,LB          ,LC          ,
      8 PENMIN      ,EPS         ,PENE        ,INTBUF_TAB%PENE_OLD,SUBTRIA,
      9 GAPV        ,IVIS2       ,INTBUF_TAB%IF_ADH,IFADHI ,BASE_ADH      ,
-     A MVOISN      ,IBOUND      ,INTBUF_TAB%VTX_BISECTOR  ,DIST,    TT)
+     A MVOISN      ,IBOUND      ,INTBUF_TAB%VTX_BISECTOR  ,DIST,    TT )
 C
           DO I = 1 ,JLT
 C
@@ -838,6 +838,8 @@ C         inbuf == cand_S
           INTBUF_TAB%CANDS_E2E(I) = -INTBUF_TAB%CANDS_E2E(I)
        ELSE ! Reset CAND_P
           INTBUF_TAB%CAND_P(I) = ZERO
+          INTBUF_TAB%PENE_OLD_E(I) = ZERO
+          INTBUF_TAB%STIF_OLD_E(I) = ZERO
        ENDIF
       ENDDO
 C
@@ -906,7 +908,7 @@ C         preparation CANDIDATES retenus
      .                                      INTBUF_TAB%CAND_P,
      E      IAM   ,JAM    ,IBM    ,JBM   ,IAS   ,
      F      JAS   ,IBS    ,JBS    ,ITAB  ,EDGE_ID,
-     G      DGAPLOADPMAX)
+     G      DGAPLOADPMAX,INTBUF_TAB%PENE_OLD_E,INTBUF_TAB%STIF_OLD_E,INTBUF_TAB%S_PENE_OLD_E)
 
 C
           IF (IMONM > 0 .AND. JTASK == 1) CALL STARTIME(TIMERS,20)
@@ -960,8 +962,8 @@ C-------------------------------------------------------------------------------
      I INTBUF_TAB%FTSAVX_E,INTBUF_TAB%FTSAVY_E, INTBUF_TAB%FTSAVZ_E   ,
      .                                          INTBUF_TAB%IFPEN_E    ,
      J TAGNCONT   ,KLOADPINTER  ,LOADPINTER ,LOADP_HYD_INTER, INTBUF_TAB%TYPSUB,
-     K STARTT     ,NINLOADP,DGAPLOADINT,S_LOADPINTER)
-
+     K STARTT     ,NINLOADP,DGAPLOADINT,S_LOADPINTER,INTBUF_TAB%PENE_OLD_E,INTBUF_TAB%STIF_OLD_E,
+     L INTBUF_TAB%S_PENE_OLD_E)
             IF (IMONM > 0 .AND. JTASK == 1) CALL STOPTIME(TIMERS,20)
 
 
@@ -1019,6 +1021,8 @@ C         inbuf == cand_S
           INTBUF_TAB%CANDS_E2S(I) = -INTBUF_TAB%CANDS_E2S(I)
        ELSE ! Reset CAND_P
           INTBUF_TAB%CAND_PS(4*(I-1)+1:4*(I-1)+4) = ZERO
+          INTBUF_TAB%PENE_OLD_E2S(4*(I-1)+1:4*(I-1)+4) = ZERO
+          INTBUF_TAB%STIF_OLD_E2S(4*(I-1)+1:4*(I-1)+4) = ZERO
        ENDIF
       ENDDO
 C     WRITE(6,*) "INDEX2(1:,",I_STOK,INTBUF_TAB%I_STOK_E(2),LINDMAX
@@ -1086,7 +1090,8 @@ C         preparation CANDIDATES retenus
      E      INTBUF_TAB%CAND_PS,TYPEDGS ,IAS ,JAS ,IBS ,
      F      JBS    ,IAM   ,ITAB   ,INDX1,INDX2,
      G      CS_LOC4,CM_LOC4,EDGE_ID, NEDGE, NIN,
-     H      DGAPLOADPMAX,NORMALN1,NORMALN2,NORMALM1,NORMALM2)
+     H      DGAPLOADPMAX,NORMALN1,NORMALN2,NORMALM1,NORMALM2,
+     I      INTBUF_TAB%PENE_OLD_E2S,INTBUF_TAB%STIF_OLD_E2S,INTBUF_TAB%S_PENE_OLD_E2S)
 C
           ASSERT(4*JLT>=JLT_NEW)
 
@@ -1140,7 +1145,8 @@ C-------------------------------------------------------------------------------
      J IFQ          ,INTBUF_TAB%FTSAVX_E2S,INTBUF_TAB%FTSAVY_E2S, INTBUF_TAB%FTSAVZ_E2S ,
      .                                            INTBUF_TAB%IFPEN_E2S    ,
      K TAGNCONT   ,KLOADPINTER  ,LOADPINTER ,LOADP_HYD_INTER,INTBUF_TAB%TYPSUB,
-     O STARTT     ,NINLOADP,DGAPLOADINT,S_LOADPINTER)
+     O STARTT     ,NINLOADP,DGAPLOADINT,S_LOADPINTER,INTBUF_TAB%PENE_OLD_E2S,
+     L INTBUF_TAB%STIF_OLD_E2S,INTBUF_TAB%S_PENE_OLD_E2S)
 
             IF (IMONM > 0 .AND. JTASK == 1) CALL STOPTIME(TIMERS,20)
           ENDIF

@@ -38,7 +38,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      5      GAP_M ,GAP_M_L,GAPE  ,GAP_E_L,ADMSR,
      6      EDG_BISECTOR,VTX_BISECTOR,CAND_P, PROV_IDS,
      7      IFQ    ,CAND_FX ,CAND_FY,CAND_FZ,IFPEN,
-     8      DGAPLOAD)
+     8      DGAPLOAD,PENE_OLD_E2S,STIF_OLD_E2S,SIZ_E2S)
 C============================================================================
 C-----------------------------------------------
 C   M o d u l e s
@@ -77,6 +77,8 @@ C     REAL
      .   MARGE,X(3,*), GAP_M(*), GAP_M_L(*), GAPE(*), GAP_E_L(*), 
      .   CAND_P(4,*),CAND_FX(4,*) ,CAND_FY(4,*),CAND_FZ(4,*)
       REAL*4 EDG_BISECTOR(3,4,*), VTX_BISECTOR(3,2,*)
+      INTEGER , INTENT(IN) ::SIZ_E2S
+      my_real , INTENT(INOUT) :: PENE_OLD_E2S(4,SIZ_E2S/4),STIF_OLD_E2S(4,SIZ_E2S/4) 
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -163,6 +165,8 @@ C           DEBUG_E2E(PROV_IDS(2,I)==D_ES.AND.PROV_IDS(1,I)==D_EM, I_STOK)
             CAND_S(I_STOK) = PROV_S(I)
             CAND_M(I_STOK) = PROV_M(I)
             CAND_P(1:4,I_STOK) = ZERO
+            PENE_OLD_E2S(1:4,I_STOK) = ZERO
+            STIF_OLD_E2S(1:4,I_STOK) = ZERO
             IF(IFQ > 0) THEN
                CAND_FX(1:4,I_STOK) = ZERO
                CAND_FY(1:4,I_STOK) = ZERO

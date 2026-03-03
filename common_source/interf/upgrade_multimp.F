@@ -980,6 +980,27 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
             deallocate(old_tab_r)
           end if
 
+            !-----------!
+            ! PENE_OLD_E
+            !-----------!
+
+          call move_alloc(intbuf_tab%pene_old_e, old_tab_r)
+          intbuf_tab%s_pene_old_e = multimp_parameter * nconte
+          allocate(intbuf_tab%pene_old_e(intbuf_tab%s_pene_old_e))
+          intbuf_tab%pene_old_e = 0
+          intbuf_tab%pene_old_e(1:old_size) = old_tab_r
+          deallocate(old_tab_r)
+
+            !-----------!
+            ! STIF_OLD_E
+            !-----------!
+          call move_alloc(intbuf_tab%stif_old_e, old_tab_r)
+          intbuf_tab%s_stif_old_e = multimp_parameter * nconte
+          allocate(intbuf_tab%stif_old_e(intbuf_tab%s_pene_old_e))
+          intbuf_tab%stif_old_e = 0
+          intbuf_tab%stif_old_e(1:old_size) = old_tab_r
+          deallocate(old_tab_r)
+
         end if !end all interfaces type
 
       end subroutine upgrade_lcand_edg
@@ -1088,6 +1109,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
             !-----------!
             ! FTSAVX_E2S
             !-----------!
+
             call move_alloc(intbuf_tab%ftsavx_e2s, old_tab_r)
             intbuf_tab%s_ftsavx_e2s = 4 * multimp_parameter * nconte
             allocate(intbuf_tab%ftsavx_e2s(intbuf_tab%s_ftsavx_e2s))
@@ -1095,9 +1117,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
             intbuf_tab%ftsavx_e2s(1:old_size) = old_tab_r
             deallocate(old_tab_r)
 
+
             !-----------!
             ! FTSAVY_E2S
             !-----------!
+
             call move_alloc(intbuf_tab%ftsavy_e2s, old_tab_r)
             intbuf_tab%s_ftsavy_e2s = 4 * multimp_parameter * nconte
             allocate(intbuf_tab%ftsavy_e2s(intbuf_tab%s_ftsavy_e2s))
@@ -1105,9 +1129,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
             intbuf_tab%ftsavy_e2s(1:old_size) = old_tab_r
             deallocate(old_tab_r)
 
+
             !-----------!
             ! FTSAVZ_E2S
             !-----------!
+
             call move_alloc(intbuf_tab%ftsavz_e2s, old_tab_r)
             intbuf_tab%s_ftsavz_e2s = 4 * multimp_parameter * nconte
             allocate(intbuf_tab%ftsavz_e2s(intbuf_tab%s_ftsavz_e2s))
@@ -1115,6 +1141,27 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
             intbuf_tab%ftsavz_e2s(1:old_size) = old_tab_r
             deallocate(old_tab_r)
           end if
+
+            !-------------!
+            ! PENE_OLD_E2S
+            !-------------!
+          call move_alloc(intbuf_tab%pene_old_e2s, old_tab_r)
+          intbuf_tab%s_pene_old_e2s = 4 * multimp_parameter * nconte
+          allocate(intbuf_tab%pene_old_e2s(intbuf_tab%s_pene_old_e2s))
+          intbuf_tab%pene_old_e2s = 0
+          intbuf_tab%pene_old_e2s(1:4*old_size) = old_tab_r
+          deallocate(old_tab_r)
+
+            !-------------!
+            ! STIF_OLD_E2S
+            !-------------!
+          call move_alloc(intbuf_tab%stif_old_e2s, old_tab_r)
+          intbuf_tab%s_stif_old_e2s = 4 * multimp_parameter * nconte
+          allocate(intbuf_tab%stif_old_e2s(intbuf_tab%s_stif_old_e2s))
+          intbuf_tab%stif_old_e2s = 0
+          intbuf_tab%stif_old_e2s(1:4*old_size) = old_tab_r
+          deallocate(old_tab_r)
+
 
         end if !end all interfaces type
 
