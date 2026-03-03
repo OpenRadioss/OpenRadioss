@@ -1233,6 +1233,10 @@
           integer ::   s_ftsavx_e2s !  multimp*nconte    :ftsavx_e2s : friction for saving   :            25
           integer ::   s_ftsavy_e2s !  multimp*nconte    :ftsavx_e2s : friction for saving   :            25
           integer ::   s_ftsavz_e2s !  multimp*nconte    :ftsavx_e2s : friction for saving   :            25
+          integer ::   s_pene_old_e !  multimp*nconte  :pene_old_e : previous stiffness  :            25
+          integer ::   s_stif_old_e !  multimp*nconte  :stif_old_e : previous stiffness  :            25
+          integer ::   s_pene_old_e2s !  multimp*nconte  :pene_old_e2s : previous stiffness  :            25
+          integer ::   s_stif_old_e2s !  multimp*nconte  :stif_old_e2s : previous stiffness  :            25
 !---- ige
           integer ::   s_rige
           integer ::   s_xige
@@ -1646,6 +1650,10 @@
           real(kind=WP), dimension(:) , allocatable ::   stifmsdt_s
           real(kind=WP), dimension(:) , allocatable ::   stifmsdt_m
           real(kind=WP), dimension(:) , allocatable ::   stifmsdt_edg
+          real(kind=WP), dimension(:) , allocatable ::   pene_old_e
+          real(kind=WP), dimension(:) , allocatable ::   stif_old_e
+          real(kind=WP), dimension(:) , allocatable ::   pene_old_e2s
+          real(kind=WP), dimension(:) , allocatable ::   stif_old_e2s
           integer :: nrtm_free
 
 ! mpi communicators
@@ -1693,7 +1701,7 @@
 
 ! intbuf_size array maximum length defined as parameter
 ! (maximum number of different arrays composing intbuf_tab structure)
-        integer, parameter :: l_intbuf_size_max = 516
+        integer, parameter :: l_intbuf_size_max = 520
         integer :: inter_ithknod !flag to fill thknod array  (enabled with ithick parameter from interface type 25 or 21)
 
         ! -------------------------

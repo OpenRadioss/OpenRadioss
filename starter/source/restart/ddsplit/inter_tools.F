@@ -583,6 +583,14 @@ C=======================================================================
       INTBUF_SIZE(N) = INTBUF_TAB_L%S_GAPMSAV
       N = N+1
       INTBUF_SIZE(N) = INTBUF_TAB_L%S_E2S_NOD_NORMAL
+      N = N+1
+      INTBUF_SIZE(N) = INTBUF_TAB_L%S_PENE_OLD_E
+      N = N+1
+      INTBUF_SIZE(N) = INTBUF_TAB_L%S_STIF_OLD_E
+      N = N+1
+      INTBUF_SIZE(N) = INTBUF_TAB_L%S_PENE_OLD_E2S
+      N = N+1
+      INTBUF_SIZE(N) = INTBUF_TAB_L%S_STIF_OLD_E2S
 
 C=======================================================================
 C write all INTBUF_TAB arrays sizes on disk

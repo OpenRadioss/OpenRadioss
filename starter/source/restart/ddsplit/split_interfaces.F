@@ -2773,6 +2773,14 @@ C         IF(IEDGE/=0.AND.INACTI==5)THEN
      .                II_STOK_E_L,TAG_II_E2E,MULTIMPE,NCONTE)
             CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%CAND_PS,II_STOK_S_L,4,
      .                            TAG_II_E2S) 
+            CALL SPLIT_CAND_RVAL(INTBUF_TAB(NI)%PENE_OLD_E,
+     .                II_STOK_E_L,TAG_II_E2E,MULTIMPE,NCONTE)
+            CALL SPLIT_CAND_RVAL(INTBUF_TAB(NI)%STIF_OLD_E,
+     .                II_STOK_E_L,TAG_II_E2E,MULTIMPE,NCONTE)
+            CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%PENE_OLD_E2S,II_STOK_S_L,4,
+     .                            TAG_II_E2S) 
+            CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%STIF_OLD_E2S,II_STOK_S_L,4,
+     .                            TAG_II_E2S) 
 
           END IF
 

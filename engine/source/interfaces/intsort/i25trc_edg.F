@@ -30,7 +30,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE I25TRC_EDG(
      1      NEDGE,I_STOK,CAND_S,CAND_M,
      2      CAND_P,CAND_A,NIN,NEDGE_L,IFQ,
-     3      CAND_FX ,CAND_FY,CAND_FZ,IFPEN)
+     3      CAND_FX ,CAND_FY,CAND_FZ,IFPEN,
+     4      PENE_OLD_E,STIF_OLD_E,SIZ)
 C-----------------------------------------------
       USE TRI7BOX
 C-----------------------------------------------
@@ -53,6 +54,8 @@ C-----------------------------------------------
       INTEGER :: CAND_S(I_STOK),CAND_M(I_STOK),CAND_A(*),IFPEN(*)
       my_real
      .        CAND_P(*),CAND_FX(*) ,CAND_FY(*) ,CAND_FZ(*)
+      INTEGER , INTENT(IN) :: SIZ
+      my_real , INTENT(INOUT) :: PENE_OLD_E(SIZ),STIF_OLD_E(SIZ)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -156,6 +159,14 @@ C
           CAND_T    = IFPEN(K)
           IFPEN(K) = IFPEN(I)
           IFPEN(I) = CAND_T
+C
+          CAND_TF   = PENE_OLD_E(K)
+          PENE_OLD_E(K) = PENE_OLD_E(I)
+          PENE_OLD_E(I) = CAND_TF
+C
+          CAND_TF   = STIF_OLD_E(K)
+          STIF_OLD_E(K) = STIF_OLD_E(I)
+          STIF_OLD_E(I) = CAND_TF
 C 
           IPUT(I) = IPUT(K)
           ASSERT(IPUT(I) > 0)

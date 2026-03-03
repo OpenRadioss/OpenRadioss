@@ -37,7 +37,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      4      NEDGE ,LEDGE  ,ITAB  ,DRAD   ,IGAP ,
      5      GAPE  ,GAP_E_L,ADMSR,EDG_BISECTOR,VTX_BISECTOR,
      6      CAND_P,IFQ    ,CAND_FX ,CAND_FY,CAND_FZ,IFPEN ,
-     7      DGAPLOAD)
+     7      DGAPLOAD,PENE_OLD_E,STIF_OLD_E,SIZ)
 C============================================================================
 C-----------------------------------------------
 C   M o d u l e s
@@ -73,6 +73,8 @@ C     INTEGER NEDGEROLD,RENUM(*)
      .   X(3,NUMNOD), MARGE, GAPE(*), GAP_E_L(*), CAND_P(*),
      .   CAND_FX(*), CAND_FY(*), CAND_FZ(*)
       REAL*4 EDG_BISECTOR(3,4,*), VTX_BISECTOR(3,2,*)
+      INTEGER , INTENT(IN) :: SIZ
+      my_real , INTENT(INOUT) :: PENE_OLD_E(SIZ),STIF_OLD_E(SIZ)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -160,6 +162,8 @@ C#endif
             CAND_S(I_STOK) = PROV_S(I)
             CAND_M(I_STOK) = PROV_M(I)
             CAND_P(I_STOK) = ZERO
+            PENE_OLD_E(I_STOK) = ZERO
+            STIF_OLD_E(I_STOK) = ZERO
 
             IF(IFQ > 0) THEN
                CAND_FX(I_STOK) = ZERO

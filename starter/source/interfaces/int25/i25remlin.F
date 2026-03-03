@@ -275,6 +275,7 @@ C--- lines with common nodes with main lines are already removed - no need to st
                 IF(IGAP==3) GAPV = MIN(GAPV,GAP_E_L(LIN)+GAP_E_L(I))
 
                 GAPV = SQRT(TWO)*MAX(DRAD2,GAPV+DGAPLOAD)
+
                 IF ((DIST1(LEDGE(5,LIN)) <= GAPV).OR.(DIST1(LEDGE(6,LIN)) <= GAPV)) THEN
                   REMNODE(KREMNODE(II)+CPT1) = LIN
                   CPT1 = CPT1 + 1
@@ -290,7 +291,6 @@ C--- lines with common nodes with main lines are already removed - no need to st
               ENDIF
             ENDDO            
             KREMNODE(II+1) = KREMNODE(II) + CPT1
-
 C
 C-----------------------------------------------
 C  Clean of used arrays
@@ -319,6 +319,7 @@ C
           LISTLIN(1:NBLIN_MAX)=0
 C
         ENDDO
+
 CC END DO NEDGE
 C
         IF (I_MEM_REM == 0) THEN
