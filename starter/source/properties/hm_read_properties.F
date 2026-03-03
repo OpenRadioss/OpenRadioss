@@ -76,7 +76,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                  NPC   ,PLD   ,UNITAB ,RTRANS,LSUBMODEL  ,
      .                  PROP_TAG ,IPART ,KNOT,IDRAPEID,STACK_INFO,
      .                  NUMGEO_STACK,NPROP_STACK, MULTI_FVM,IADBUF,DEFAULTS,
-     .                  MAT_PARAM  ,ISMS )
+     .                  MAT_PARAM  )
 C============================================================================
 C-----------------------------------------------
 C   ROUTINE DESCRIPTION :
@@ -118,7 +118,6 @@ C-----------------------------------------------
      .        NPROP_STACK,IADBUF
       TYPE(SUBMODEL_DATA) LSUBMODEL(NSUBMOD)
       my_real GEO(NPROPG,NUMGEO), X(*), PM(NPROPM,NUMMAT),PLD(*),RTRANS(NTRANSF,*),KNOT(*)
-      INTEGER, INTENT(IN) :: ISMS
 
       DOUBLE PRECISION BUFGEO(*)
 
@@ -363,8 +362,7 @@ c------------------------------
              IGTYP=6
              CALL HM_READ_PROP06(GEO(1,I),IGEO(1,I),PROP_TAG ,MULTI_FVM,IGTYP  ,
      .                          PROP_ID  ,IDTITL   ,UNITAB   ,LSUBMODEL,RTRANS ,
-     .                          SUB_ID   ,ISKN     ,IPART    ,SUB_INDEX,DEFAULTS%SOLID,
-     .                          ISMS )
+     .                          SUB_ID   ,ISKN     ,IPART    ,SUB_INDEX,DEFAULTS%SOLID)
 
           CASE ('TYPE5','TYPE05','RIVET')
 c------------------------------
@@ -463,7 +461,7 @@ C--------------------------------------------------
             IGTYP=14
             IF (ALE%GLOBAL%ICAA == 0 .AND. IGFLU == 0) THEN
              CALL HM_READ_PROP14(GEO(1,I),IGEO(1,I),PROP_TAG ,MULTI_FVM,IGTYP,PROP_ID,IDTITL,UNITAB,LSUBMODEL,
-     .                          IPART ,DEFAULTS%SOLID,ISMS )
+     .                          IPART ,DEFAULTS%SOLID)
             ELSE
              CALL HM_READ_PROP14F(GEO(1,I),IGEO(1,I),PROP_TAG ,MULTI_FVM,IGTYP,PROP_ID,IDTITL,UNITAB,LSUBMODEL,
      .                            DEFAULTS%SOLID)
