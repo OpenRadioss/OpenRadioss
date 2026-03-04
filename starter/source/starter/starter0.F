@@ -531,7 +531,7 @@ C new composite shell pid max nbs 200
       NPARG  = 100
       NPARI  = 100
       NPARIR=52
-      LFXVELR = 9
+      LFXVELR = 9 + 1
       NIBCLD = 9
       LFACCLD = 2
       NIGRV   = 6 
@@ -588,7 +588,7 @@ C     npsav not used by starter
 c 2 new values for ISPHIO, NSEG and IAS for inlet outlet in spmd
       NISPHIO = 16
       NRIVF = 13
-      NXFRAME = 36 + 3
+      NXFRAME = 36 
       LSKEW = 12
       LISKN = 6
       NBCSLAG  = 0
