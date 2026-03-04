@@ -722,15 +722,12 @@ C             Fixed velocity in moving frame (rota)
               K2=3*J-1
               K3=3*J
               IF (IBFV(7,N) == 2) THEN
-                EJ(1) = XFRAME(K1,IFM)
-                EJ(2) = XFRAME(K2,IFM)
-                EJ(3) = XFRAME(K3,IFM)
-                DDR = EJ(1)*DR(1,I) +EJ(2)*DR(2,I) + EJ(3)*DR(3,I)
-                DDF= EJ(1)*XFRAME(37,IFM)+EJ(2)*XFRAME(38,IFM)+EJ(3)*XFRAME(39,IFM) 
+                DDR = VEL(10,N)
+                VEL(10,N) = YC(II) ! using DR(1:3,)*e_frame will get accumulated error
                 IF (NSENS(II) > 0 .and. TS(II) > ZERO) THEN
                   YC(II) = (YC(II)-YC0(II))/DT2_DOUBLE
                 ELSE
-                  YC(II) = (YC(II)-DDR+DDF)/DT2_DOUBLE 
+                  YC(II) = (YC(II)-DDR)/DT2_DOUBLE 
                 ENDIF
               ENDIF
               VF =   XFRAME(K1,IFM)*XFRAME(13,IFM)
