@@ -22,20 +22,14 @@
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
 !||====================================================================
-!||    m36init_mod   ../starter/source/materials/mat/mat132/m132init.F90
-!||--- called by ------------------------------------------------------
-!||    matini        ../starter/source/materials/mat_share/matini.F
+!||    m132init_mod   ../starter/source/materials/mat/mat132/m132init.F90
 !||====================================================================
       module m132init_mod
 
       contains
 !! \brief initialize state variables (UVAR) in material law132
 !||====================================================================
-!||    m36init         ../starter/source/materials/mat/mat132/m132init.F90
-!||--- called by ------------------------------------------------------
-!||    matini          ../starter/source/materials/mat_share/matini.F
-!||--- calls      -----------------------------------------------------
-!||    finter          ../starter/source/tools/curve/finter.F
+!||    m132init        ../starter/source/materials/mat/mat132/m132init.F90
 !||--- uses       -----------------------------------------------------
 !||====================================================================
       subroutine m132init(nel    ,nuvar  ,uvar   ) 

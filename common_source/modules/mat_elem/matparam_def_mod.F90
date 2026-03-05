@@ -139,6 +139,7 @@
 !||    hm_read_mat129                      ../starter/source/materials/mat/mat129/hm_read_mat129.F90
 !||    hm_read_mat13                       ../starter/source/materials/mat/mat013/hm_read_mat13.F
 !||    hm_read_mat130                      ../starter/source/materials/mat/mat130/hm_read_mat130.F90
+!||    hm_read_mat132                      ../starter/source/materials/mat/mat132/hm_read_mat132.F90
 !||    hm_read_mat133                      ../starter/source/materials/mat/mat133/hm_read_mat133.F90
 !||    hm_read_mat134                      ../starter/source/materials/mat/mat134/hm_read_mat134.F90
 !||    hm_read_mat14                       ../starter/source/materials/mat/mat014/hm_read_mat14.F
@@ -309,6 +310,7 @@
 !||    qinit2                              ../starter/source/elements/solid_2d/quad/qinit2.F
 !||    r2r_group                           ../starter/source/coupling/rad2rad/r2r_group.F
 !||    r2r_matparam_copy                   ../starter/source/elements/elbuf_init/r2r_matparam_copy.F
+!||    rate_dependency_parameters          ../engine/source/materials/mat/mat132/rate_dependency_parameters.F90
 !||    read_mat25_crasurv                  ../starter/source/materials/mat/mat025/read_mat25_crasurv.F90
 !||    read_mat25_tsaiwu                   ../starter/source/materials/mat/mat025/read_mat25_tsaiwu.F90
 !||    s10init3                            ../starter/source/elements/solid/solide10/s10init3.F
@@ -341,6 +343,7 @@
 !||    sigeps128s                          ../engine/source/materials/mat/mat128/sigeps128s.F90
 !||    sigeps129s                          ../engine/source/materials/mat/mat129/sigeps129s.F90
 !||    sigeps130                           ../engine/source/materials/mat/mat130/sigeps130.F90
+!||    sigeps132c                          ../engine/source/materials/mat/mat132/sigeps132c.F90
 !||    sigeps133                           ../engine/source/materials/mat/mat133/sigeps133.F90
 !||    sigeps134s                          ../engine/source/materials/mat/mat134/sigeps134s.F90
 !||    sigeps163                           ../engine/source/materials/mat/mat163/sigeps163.F90

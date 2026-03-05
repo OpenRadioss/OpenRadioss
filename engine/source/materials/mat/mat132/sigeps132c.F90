@@ -20,25 +20,32 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    sigeps132c_mod   ../engine/source/materials/mat/mat132/sigeps132c.F90
-      !||--- called by ------------------------------------------------------
-      !||    mulawc           ../engine/source/materials/mat_share/mulawc.F
-      !||====================================================================
+!||====================================================================
+!||    sigeps132c_mod   ../engine/source/materials/mat/mat132/sigeps132c.F90
+!||--- called by ------------------------------------------------------
+!||    mulawc           ../engine/source/materials/mat_share/mulawc.F90
+!||====================================================================
       module sigeps132c_mod
         contains
   ! ======================================================================================================================
   ! \brief   material law /MAT/LAW132
   ! \details Material law  Dedicated to composite application. 
   ! ======================================================================================================================
-      !||====================================================================
-      !||    sigeps132c         ../engine/source/materials/mat/mat132/sigeps132c.F90
-      !||--- called by ------------------------------------------------------
-      !||    mulawc             ../engine/source/materials/mat_share/mulawc.F
-      !||--- uses       -----------------------------------------------------
-      !||    constant_mod       ../common_source/modules/constant_mod.F
-      !||    matparam_def_mod   ../common_source/modules/mat_elem/matparam_def_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    sigeps132c                       ../engine/source/materials/mat/mat132/sigeps132c.F90
+!||--- called by ------------------------------------------------------
+!||    mulawc                           ../engine/source/materials/mat_share/mulawc.F90
+!||--- calls      -----------------------------------------------------
+!||    rate_dependency_parameters       ../engine/source/materials/mat/mat132/rate_dependency_parameters.F90
+!||    table_mat_vinterp                ../engine/source/materials/tools/table_mat_vinterp.F
+!||--- uses       -----------------------------------------------------
+!||    constant_mod                     ../common_source/modules/constant_mod.F
+!||    matparam_def_mod                 ../common_source/modules/mat_elem/matparam_def_mod.F90
+!||    precision_mod                    ../common_source/modules/precision_mod.F90
+!||    rate_dependency_parameters_mod   ../engine/source/materials/mat/mat132/rate_dependency_parameters.F90
+!||    table_mat_vinterp_inv_mod        ../engine/source/materials/tools/table_mat_vinterp_inv.F90
+!||    table_mat_vinterp_mod            ../engine/source/materials/tools/table_mat_vinterp.F
+!||====================================================================
          SUBROUTINE sigeps132c(&
            nel     ,mat_param  , nuvar   ,nvartmp   , uvar,        &
            vartmp  ,rho        ,thk      ,thkly     , shf ,        &

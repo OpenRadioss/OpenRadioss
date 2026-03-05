@@ -21,18 +21,28 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    rate_dependency_parameters         ../engine/source/materials/mat/mat132/rate_dependency_parameters.F90
+!||    rate_dependency_parameters_mod   ../engine/source/materials/mat/mat132/rate_dependency_parameters.F90
 !||--- called by ------------------------------------------------------
-!||    sigeps132c             ../engine/source/materials/mat/mat132/sigeps132c.F90
-!||--- uses       -----------------------------------------------------
-!||    constant_mod       ../common_source/modules/constant_mod.F
-!||    matparam_def_mod   ../common_source/modules/mat_elem/matparam_def_mod.F90
+!||    sigeps132c                       ../engine/source/materials/mat/mat132/sigeps132c.F90
 !||====================================================================
       module rate_dependency_parameters_mod
       contains
 ! ======================================================================================================================
 !                                                   SUBROUTINE
 ! ======================================================================================================================    
+!||====================================================================
+!||    rate_dependency_parameters   ../engine/source/materials/mat/mat132/rate_dependency_parameters.F90
+!||--- called by ------------------------------------------------------
+!||    sigeps132c                   ../engine/source/materials/mat/mat132/sigeps132c.F90
+!||--- calls      -----------------------------------------------------
+!||    table_mat_vinterp            ../engine/source/materials/tools/table_mat_vinterp.F
+!||--- uses       -----------------------------------------------------
+!||    constant_mod                 ../common_source/modules/constant_mod.F
+!||    matparam_def_mod             ../common_source/modules/mat_elem/matparam_def_mod.F90
+!||    precision_mod                ../common_source/modules/precision_mod.F90
+!||    table_mat_vinterp_inv_mod    ../engine/source/materials/tools/table_mat_vinterp_inv.F90
+!||    table_mat_vinterp_mod        ../engine/source/materials/tools/table_mat_vinterp.F
+!||====================================================================
         subroutine rate_dependency_parameters( nel, matparam, strain_rate, vartmp , nvartmp,&
                                            xt    ,   xc,   yt,   yc,  sl,  &
                                            gxt,   gxc,  gyt,   gyc, gsl, &

@@ -48,6 +48,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_read_mat123               ../starter/source/materials/mat/mat123/hm_read_mat123.F90
 !||    hm_read_mat128               ../starter/source/materials/mat/mat128/hm_read_mat128.F90
 !||    hm_read_mat129               ../starter/source/materials/mat/mat129/hm_read_mat129.F90
+!||    hm_read_mat132               ../starter/source/materials/mat/mat132/hm_read_mat132.F90
 !||    hm_read_mat133               ../starter/source/materials/mat/mat133/hm_read_mat133.F90
 !||    hm_read_mat163               ../starter/source/materials/mat/mat163/hm_read_mat163.F90
 !||    hm_read_mat190               ../starter/source/materials/mat/mat190/hm_read_mat190.F

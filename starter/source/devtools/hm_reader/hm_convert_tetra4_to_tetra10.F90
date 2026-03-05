@@ -22,8 +22,6 @@
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
 !||    hm_convert_tetra4_to_tetra10_mod   ../starter/source/devtools/hm_reader/hm_convert_tetra4_to_tetra10.F90
-!||--- called by ------------------------------------------------------
-!||    starter0                           ../starter/source/starter/starter0.F
 !||====================================================================
       module hm_convert_tetra4_to_tetra10_mod
         implicit none
@@ -35,8 +33,6 @@
 !! \details This routine reads all TETRA4 elements and convert them to TETRA10 elements by adding mid-side nodes.
 !||====================================================================
 !||    hm_convert_tetra4_to_tetra10    ../starter/source/devtools/hm_reader/hm_convert_tetra4_to_tetra10.F90
-!||--- called by ------------------------------------------------------
-!||    starter0                        ../starter/source/starter/starter0.F
 !||--- calls      -----------------------------------------------------
 !||====================================================================
         subroutine hm_convert_tetra4_to_tetra10(itetra4toconsider)

@@ -214,6 +214,7 @@
 !||    hm_read_mat128                           ../starter/source/materials/mat/mat128/hm_read_mat128.F90
 !||    hm_read_mat129                           ../starter/source/materials/mat/mat129/hm_read_mat129.F90
 !||    hm_read_mat130                           ../starter/source/materials/mat/mat130/hm_read_mat130.F90
+!||    hm_read_mat132                           ../starter/source/materials/mat/mat132/hm_read_mat132.F90
 !||    hm_read_mat133                           ../starter/source/materials/mat/mat133/hm_read_mat133.F90
 !||    hm_read_mat134                           ../starter/source/materials/mat/mat134/hm_read_mat134.F90
 !||    hm_read_mat163                           ../starter/source/materials/mat/mat163/hm_read_mat163.F90
@@ -274,6 +275,7 @@
 !||    law87_upd                                ../starter/source/materials/mat/mat087/law87_upd.F90
 !||    law92_guess                              ../starter/source/materials/mat/mat092/law92_nlsqf.F90
 !||    law92_nlsqf                              ../starter/source/materials/mat/mat092/law92_nlsqf.F90
+!||    m132init                                 ../starter/source/materials/mat/mat132/m132init.F90
 !||    m36init                                  ../starter/source/materials/mat/mat036/m36init.F90
 !||    margin_reduction                         ../starter/source/interfaces/inter3d1/margin.F90
 !||    mat25_crasurv_c                          ../engine/source/materials/mat/mat025/mat25_crasurv_c.F90
@@ -334,6 +336,7 @@
 !||    r_yld2000                                ../starter/source/materials/mat/mat087/law87_upd.F90
 !||    random_walk_def_mod                      ../common_source/modules/random_walk_def_mod.F90
 !||    random_walk_dmg                          ../starter/source/materials/fail/fractal/random_walk_dmg.F90
+!||    rate_dependency_parameters               ../engine/source/materials/mat/mat132/rate_dependency_parameters.F90
 !||    rbe3_mod                                 ../common_source/modules/constraints/rbe3_mod.F90
 !||    rbe3f_pen                                ../engine/source/constraints/general/rbe3/rbe3f_pen.F90
 !||    rbe3fpen_ininp                           ../engine/source/constraints/general/rbe3/rbe3pen_init.F90
@@ -427,6 +430,7 @@
 !||    sigeps128s                               ../engine/source/materials/mat/mat128/sigeps128s.F90
 !||    sigeps129s                               ../engine/source/materials/mat/mat129/sigeps129s.F90
 !||    sigeps130                                ../engine/source/materials/mat/mat130/sigeps130.F90
+!||    sigeps132c                               ../engine/source/materials/mat/mat132/sigeps132c.F90
 !||    sigeps133                                ../engine/source/materials/mat/mat133/sigeps133.F90
 !||    sigeps134s                               ../engine/source/materials/mat/mat134/sigeps134s.F90
 !||    sigeps163                                ../engine/source/materials/mat/mat163/sigeps163.F90

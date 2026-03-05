@@ -21,11 +21,13 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    table_mat_vinterp_inv_mod   ../engine/source/materials/tools/table_mat_vinterp_inv.F90
+!||    table_mat_vinterp_inv_mod    ../engine/source/materials/tools/table_mat_vinterp_inv.F90
 !||--- called by ------------------------------------------------------
-!||    sigeps123                   ../engine/source/materials/mat/mat123/sigeps123.F90
-!||    sigeps123c                  ../engine/source/materials/mat/mat123/sigeps123c.F90
-!||    strainrate_dependency       ../engine/source/materials/mat/mat123/strainrate_dependency.F90
+!||    rate_dependency_parameters   ../engine/source/materials/mat/mat132/rate_dependency_parameters.F90
+!||    sigeps123                    ../engine/source/materials/mat/mat123/sigeps123.F90
+!||    sigeps123c                   ../engine/source/materials/mat/mat123/sigeps123c.F90
+!||    sigeps132c                   ../engine/source/materials/mat/mat132/sigeps132c.F90
+!||    strainrate_dependency        ../engine/source/materials/mat/mat123/strainrate_dependency.F90
 !||====================================================================
       module table_mat_vinterp_inv_mod
       contains

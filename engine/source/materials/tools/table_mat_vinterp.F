@@ -37,6 +37,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    no_asso_lplas76c              ../engine/source/materials/mat/mat076/no_asso_lplas76c.F
 !||    no_asso_plas76                ../engine/source/materials/mat/mat076/no_asso_plas76.F
 !||    no_asso_qplas76c              ../engine/source/materials/mat/mat076/no_asso_qplas76c.F
+!||    rate_dependency_parameters    ../engine/source/materials/mat/mat132/rate_dependency_parameters.F90
 !||    s6zforc3                      ../engine/source/elements/solid/solide6z/s6zforc3.F90
 !||    sigeps106                     ../engine/source/materials/mat/mat106/sigeps106.F90
 !||    sigeps106c                    ../engine/source/materials/mat/mat106/sigeps106c.F90
@@ -46,6 +47,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    sigeps128s                    ../engine/source/materials/mat/mat128/sigeps128s.F90
 !||    sigeps129s                    ../engine/source/materials/mat/mat129/sigeps129s.F90
 !||    sigeps130                     ../engine/source/materials/mat/mat130/sigeps130.F90
+!||    sigeps132c                    ../engine/source/materials/mat/mat132/sigeps132c.F90
 !||    sigeps133                     ../engine/source/materials/mat/mat133/sigeps133.F90
 !||    sigeps163                     ../engine/source/materials/mat/mat163/sigeps163.F90
 !||    sigeps50s                     ../engine/source/materials/mat/mat050/sigeps50s.F90
@@ -74,6 +76,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    no_asso_lplas76c              ../engine/source/materials/mat/mat076/no_asso_lplas76c.F
 !||    no_asso_plas76                ../engine/source/materials/mat/mat076/no_asso_plas76.F
 !||    no_asso_qplas76c              ../engine/source/materials/mat/mat076/no_asso_qplas76c.F
+!||    rate_dependency_parameters    ../engine/source/materials/mat/mat132/rate_dependency_parameters.F90
 !||    sigeps106                     ../engine/source/materials/mat/mat106/sigeps106.F90
 !||    sigeps106c                    ../engine/source/materials/mat/mat106/sigeps106c.F90
 !||    sigeps123                     ../engine/source/materials/mat/mat123/sigeps123.F90
@@ -82,6 +85,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    sigeps128s                    ../engine/source/materials/mat/mat128/sigeps128s.F90
 !||    sigeps129s                    ../engine/source/materials/mat/mat129/sigeps129s.F90
 !||    sigeps130                     ../engine/source/materials/mat/mat130/sigeps130.F90
+!||    sigeps132c                    ../engine/source/materials/mat/mat132/sigeps132c.F90
 !||    sigeps133                     ../engine/source/materials/mat/mat133/sigeps133.F90
 !||    sigeps163                     ../engine/source/materials/mat/mat163/sigeps163.F90
 !||    sigeps50s                     ../engine/source/materials/mat/mat050/sigeps50s.F90
