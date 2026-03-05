@@ -67,7 +67,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    mrotensns                   ../engine/source/materials/mat_share/mrotens.F
 !||    nolib_usermat99             ../engine/source/user_interface/nolib_usermat99.F
 !||    nsvisul                     ../engine/source/materials/mat_share/nsvisul.F
-!||    sreploc3                    ../engine/source/elements/solid/solide/sreploc3.F
 !||    startime                    ../engine/source/system/timer_mod.F90
 !||    stoptime                    ../engine/source/system/timer_mod.F90
 !||    viscmain                    ../engine/source/materials/visc/viscmain.F
@@ -999,14 +998,6 @@ c
 
         IF(MDS_AVAIL == 1 )THEN
           ALLOCATE(ISMSTR10_FP(15,NEL))
-
-          CALL SREPLOC3(
-     1         RX,      RY,      RZ,      SX,
-     2         SY,      SZ,      TX,      TY,
-     3         TZ,      R11,     R21,     R31,
-     4         R12,     R22,     R32,     R13,
-     5         R23,     R33,     LLT)
-
 
           IF (ISMSTR == 10) THEN
              DO I=LFT,LLT
