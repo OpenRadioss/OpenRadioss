@@ -197,7 +197,6 @@ C gather cpu and sys time for spmd
 
 C Gather memory used
         MSGTAG = 1100
-        MEMUSE=0
         MEM_L=0
 
         IF (ISPMD/=0) THEN
