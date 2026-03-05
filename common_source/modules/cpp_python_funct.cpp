@@ -814,6 +814,10 @@ extern "C"
     }
     void cpp_python_execute_code(const char *code)
     {
+        if (!python_initialized)
+        {
+            return;
+        }
         MyRun_SimpleString(code);
         check_error(__LINE__);
     }
@@ -1365,6 +1369,10 @@ extern "C"
     // update values for elemental entities found in the Python function
     void cpp_python_update_elemental_entity(char *name, double value, int uid)
     {
+        if (!python_initialized)
+        {
+            return;
+        }
         double v = static_cast<double>(value);
         check_error(__LINE__);
         PyObject *py_value = static_cast<PyObject *>(MyFloat_FromDouble(v));
@@ -1526,11 +1534,13 @@ extern "C"
     }
     PyThreadState *py_begin_allow_threads()
     {
+        if (!python_initialized) return nullptr;
         return MyEval_SaveThread();
     }
 
     void py_end_allow_threads(PyThreadState *saved_state)
     {
+        if (!python_initialized || !saved_state) return;
         MyEval_RestoreThread(saved_state);
     }
 } // extern "C"
