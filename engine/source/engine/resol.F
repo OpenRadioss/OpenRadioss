@@ -9203,8 +9203,6 @@ C--- //0 ----------------
      .                       DRAPE_SH4N ,DRAPEG          ,RESTSIZE       ,SKEWS           ,GLOB_THERM       ,
      .                       PBLAST     ,RBE3            ,RWALL          ,SFEM )
 
-
-                CALL PYTHON_FINALIZE()
                 ! Restart file size
                 IF (MULTIREST >0)THEN
                   IF (RESTSIZE > MULTIRESTS(IRPREV))MULTIRESTS(IRPREV)=RESTSIZE
@@ -9393,6 +9391,7 @@ C--- //0 ----------------
 C-------------------------------
  500          CONTINUE
 C-------------------------------
+!             CALL PYTHON_FINALIZE()
               IF(MSTOP/=0) THEN
                 PARALLEL_SECTION = 0
 C Multidomain -> close sockets
