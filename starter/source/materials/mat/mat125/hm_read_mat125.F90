@@ -99,7 +99,7 @@
           real(kind=WP) :: scale(maxfunc),yscale(1),x1scale,x2scale,            &
                           x2vect(maxfunc)
           real(kind=WP)                                                         &
-            :: rho0,e1,e2,e3,g12,g23,g13,nu12,nu21,nu23,nu31,nu13,soft,     &
+            :: rho0,e1,e2,e3,g12,g23,g13,nu12,nu21,nu23,nu31,nu13,      &
             em11t,em22t,em33t,em11c,em22c,em33c,ems,ems13,ems23,         &
             xc,xt,yc,yt,zc,zt,sc, sc23,sc13,gamma,tau,gamma2,tau2,       &
             tau3,gamma3, erods,tsdm, gammar,gammaf,nu32,                 &
@@ -124,7 +124,6 @@
           call hm_get_floatv("LSD_MAT_EA"    ,e1       ,is_available, lsubmodel, unitab)
           call hm_get_floatv("LSD_MAT_EB"    ,e2       ,is_available, lsubmodel, unitab)
           call hm_get_floatv("LSD_MAT_EC"    ,e3       ,is_available, lsubmodel, unitab)
-          call hm_get_floatv("LSD_SOFT"      ,soft      ,is_available, lsubmodel, unitab)
           call hm_get_intv("LSD_FS" ,fs      ,is_available, lsubmodel)
 !card3 - shear modulus +
           call hm_get_floatv("LSD_MAT_GAB"   ,g12      ,is_available, lsubmodel, unitab)
@@ -809,18 +808,14 @@
           !matparam%mode(1) = "fiber damage"
           !matparam%mode(2) = "matrix damage"
           !matparam%mode(3) = "shear matrix damage"
-!
-          call init_mat_keyword(matparam ,"ELASTO_PLASTIC")
-          !call init_mat_keyword(matparam ,"incremental"   )
+!         !
           call init_mat_keyword(matparam ,"TOTAL"   )
           call init_mat_keyword(matparam ,"LARGE_STRAIN"  )
           call init_mat_keyword(matparam ,"HOOK")
           call init_mat_keyword(matparam ,"ORTHOTROPIC")
-!
           ! properties compatibility
-          !! call init_mat_keyword(matparam,"SOLID_ORTHOTROPIC")
+          call init_mat_keyword(matparam,"SOLID_ORTHOTROPIC")
           call init_mat_keyword(matparam,"SHELL_ORTHOTROPIC")
-          call init_mat_keyword(matparam,"SOLID_ALL")
 ! ----------------------------------------------------------------------------------------------------------------------
 !     parameters printout
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -832,8 +827,8 @@
             write(iout,1200) rho0
             write(iout,1300) e1,e2,e3,g12,g23,g13,nu21,nu32,nu31
             write(iout,1400)  em11t, xt,slimt1,em11c,xc,slimc1
-            write(iout,1500)  em22t, yt,slimt2,em22c,yt,slimc2
-            write(iout,1600)  em33t, zt,slimt3,em33c,zt,slimc3
+            write(iout,1500)  em22t, yt,slimt2,em22c,yc,slimc2
+            write(iout,1600)  em33t, zt,slimt3,em33c,zc,slimc3
             write(iout,1700) gamma,tau, ems,sc, slims
             write(iout,1800) gamma2,tau2, ems13,sc13, slims13
             write(iout,1900) gamma3,tau3, ems23,sc23, slims23

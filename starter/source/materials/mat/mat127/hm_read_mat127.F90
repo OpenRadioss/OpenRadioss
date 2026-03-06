@@ -458,7 +458,6 @@
           ! properties compatibility
           call init_mat_keyword(matparam,"SHELL_ORTHOTROPIC")
           call init_mat_keyword(matparam,"SOLID_ORTHOTROPIC")
-          call init_mat_keyword(matparam,"SOLID_ALL")
 ! ----------------------------------------------------------------------------------------------------------------------
 !     parameters printout
 ! ----------------------------------------------------------------------------------------------------------------------
