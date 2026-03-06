@@ -29,61 +29,61 @@
 !||====================================================================
       module ush_force3_mod
 
-      implicit none
+        implicit none
 
-      interface
-        subroutine engine_userlib_cuser(igtyp     ,nel     ,nnod                , &
-                 nuvar    ,iprop   ,imat   ,sid     ,time    ,dt1                 , &
-                 eint_loc ,vol_loc ,uvar   ,fr_w_e  ,off_loc ,rho_loc   ,sig_loc  , &
-                 xx       ,yy       ,zz     ,ux     ,uy      ,uz                  , &
-                 vx       ,vy       ,vz     ,vrx    ,vry     ,vrz                 , &
-                 fx       ,fy       ,fz     ,mx     ,my      ,mz                  , &
-                 sti      ,stir     ,viscm  ,viscr  ,api_return) bind (C, name="engine_userlib_cuser")
-                    use, intrinsic :: iso_c_binding
-                    use precision_mod,          only: wp
-                    integer(c_int) :: igtyp
-                    integer(c_int) :: nel
-                    integer(c_int) :: nnod
-                    integer(c_int) :: nuvar
-                    integer(c_int), dimension(nel) :: iprop
-                    integer(c_int), dimension(nel) :: imat
-                    integer(c_int), dimension(nel) :: sid
-                    real(kind=wp) :: time
-                    real(kind=wp) :: dt1
-                    real(kind=wp), dimension(nel) :: eint_loc
-                    real(kind=wp), dimension(nel) :: vol_loc
-                    real(kind=wp), dimension(nel,nuvar) :: uvar
-                    real(kind=wp), dimension(nel) :: fr_w_e
-                    real(kind=wp), dimension(nel) :: off_loc
-                    real(kind=wp), dimension(nel) :: rho_loc
-                    real(kind=wp), dimension(6,nel) :: sig_loc
-                    real(kind=wp), dimension(nel,nnod) :: xx
-                    real(kind=wp), dimension(nel,nnod) :: yy
-                    real(kind=wp), dimension(nel,nnod) :: zz
-                    real(kind=wp), dimension(nel,nnod) :: ux
-                    real(kind=wp), dimension(nel,nnod) :: uy
-                    real(kind=wp), dimension(nel,nnod) :: uz
-                    real(kind=wp), dimension(nel,nnod) :: vx
-                    real(kind=wp), dimension(nel,nnod) :: vy
-                    real(kind=wp), dimension(nel,nnod) :: vz
-                    real(kind=wp), dimension(nel,nnod) :: vrx
-                    real(kind=wp), dimension(nel,nnod) :: vry
-                    real(kind=wp), dimension(nel,nnod) :: vrz
-                    real(kind=wp), dimension(nel,nnod) :: fx
-                    real(kind=wp), dimension(nel,nnod) :: fy
-                    real(kind=wp), dimension(nel,nnod) :: fz
-                    real(kind=wp), dimension(nel,nnod) :: mx
-                    real(kind=wp), dimension(nel,nnod) :: my
-                    real(kind=wp), dimension(nel,nnod) :: mz
-                    real(kind=wp), dimension(nel) :: sti
-                    real(kind=wp), dimension(nel) :: stir
-                    real(kind=wp), dimension(nel) :: viscm
-                    real(kind=wp), dimension(nel) :: viscr
-                    integer(c_int) :: api_return
-        end subroutine engine_userlib_cuser
+        interface
+          subroutine engine_userlib_cuser(igtyp     ,nel     ,nnod                , &
+            nuvar    ,iprop   ,imat   ,sid     ,time    ,dt1                 , &
+            eint_loc ,vol_loc ,uvar   ,fr_w_e  ,off_loc ,rho_loc   ,sig_loc  , &
+            xx       ,yy       ,zz     ,ux     ,uy      ,uz                  , &
+            vx       ,vy       ,vz     ,vrx    ,vry     ,vrz                 , &
+            fx       ,fy       ,fz     ,mx     ,my      ,mz                  , &
+            sti      ,stir     ,viscm  ,viscr  ,api_return) bind (C, name="engine_userlib_cuser")
+            use, intrinsic :: iso_c_binding
+            use precision_mod,          only: wp
+            integer(c_int) :: igtyp
+            integer(c_int) :: nel
+            integer(c_int) :: nnod
+            integer(c_int) :: nuvar
+            integer(c_int), dimension(nel) :: iprop
+            integer(c_int), dimension(nel) :: imat
+            integer(c_int), dimension(nel) :: sid
+            real(kind=wp) :: time
+            real(kind=wp) :: dt1
+            real(kind=wp), dimension(nel) :: eint_loc
+            real(kind=wp), dimension(nel) :: vol_loc
+            real(kind=wp), dimension(nel,nuvar) :: uvar
+            real(kind=wp), dimension(nel) :: fr_w_e
+            real(kind=wp), dimension(nel) :: off_loc
+            real(kind=wp), dimension(nel) :: rho_loc
+            real(kind=wp), dimension(6,nel) :: sig_loc
+            real(kind=wp), dimension(nel,nnod) :: xx
+            real(kind=wp), dimension(nel,nnod) :: yy
+            real(kind=wp), dimension(nel,nnod) :: zz
+            real(kind=wp), dimension(nel,nnod) :: ux
+            real(kind=wp), dimension(nel,nnod) :: uy
+            real(kind=wp), dimension(nel,nnod) :: uz
+            real(kind=wp), dimension(nel,nnod) :: vx
+            real(kind=wp), dimension(nel,nnod) :: vy
+            real(kind=wp), dimension(nel,nnod) :: vz
+            real(kind=wp), dimension(nel,nnod) :: vrx
+            real(kind=wp), dimension(nel,nnod) :: vry
+            real(kind=wp), dimension(nel,nnod) :: vrz
+            real(kind=wp), dimension(nel,nnod) :: fx
+            real(kind=wp), dimension(nel,nnod) :: fy
+            real(kind=wp), dimension(nel,nnod) :: fz
+            real(kind=wp), dimension(nel,nnod) :: mx
+            real(kind=wp), dimension(nel,nnod) :: my
+            real(kind=wp), dimension(nel,nnod) :: mz
+            real(kind=wp), dimension(nel) :: sti
+            real(kind=wp), dimension(nel) :: stir
+            real(kind=wp), dimension(nel) :: viscm
+            real(kind=wp), dimension(nel) :: viscr
+            integer(c_int) :: api_return
+          end subroutine engine_userlib_cuser
 
 
-      end interface
+        end interface
 
       contains
 !=======================================================================================================================
@@ -106,14 +106,14 @@
 !||    sensor_mod             ../common_source/modules/sensor_mod.F90
 !||====================================================================
         subroutine ush_force3(igtyp,elbuf_tab,                                         &
-                   numnod,  nparg,   npart,   nummat,    npsav,                  &
-                    iparg,   nixx,     ixx,   ipartx,     nnod,                  &
-                    itask,   ipri,userl_avail,   pm ,      nel,                  &
-                        x,      v,      vr,        a,       ar,                  &
-                        d,  stifn,   stifr,     thke,     iadx,                  &
-                     fsky,partsav,     dt1,     dt2t,    time ,                  &
-                      fcx,    fcy,     fcz,      mcx,      mcy,                  &
-                      mcz,sensors,  iparit,     lsky,   nodadt)
+          numnod,  nparg,   npart,   nummat,    npsav,                  &
+          iparg,   nixx,     ixx,   ipartx,     nnod,                  &
+          itask,   ipri,userl_avail,   pm ,      nel,                  &
+          x,      v,      vr,        a,       ar,                  &
+          d,  stifn,   stifr,     thke,     iadx,                  &
+          fsky,partsav,     dt1,     dt2t,    time ,                  &
+          fcx,    fcy,     fcz,      mcx,      mcy,                  &
+          mcz,sensors,  iparit,     lsky,   nodadt)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -173,7 +173,7 @@
           real(kind=WP),dimension(8,lsky),       intent(inout)      :: fsky             !< data for Parith/on
           real(kind=WP),                         intent(in   )      :: dt1              !< time step at n-1
           real(kind=WP),                         intent(inout)      :: dt2t             !< smallest time step
-          real(kind=WP),                         intent(in   )      :: time             !< time 
+          real(kind=WP),                         intent(in   )      :: time             !< time
           type (elbuf_struct_),  target                             :: elbuf_tab        !< el_buf struct_
           type (sensors_)     ,                   intent(inout)     :: sensors          !< sensors structure
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -185,10 +185,10 @@
           integer, dimension(nel,4)  :: ncj
           real(kind=WP),dimension(nel,nnod) :: xx,yy,zz,ux,uy,uz,vx,vy,vz,vrx,vry,vrz,fx,fy,fz,mx,my,mz
           real(kind=WP),dimension(mvsiz)   :: area,mass,dtx,iner,sti,stir,viscm,viscr,rx,ry,rz,sx,sy,sz
-              real(kind=WP),dimension(nel)     :: eint_loc,vol_loc,off_loc,rho_loc,thk,fr_w_e
+          real(kind=WP),dimension(nel)     :: eint_loc,vol_loc,off_loc,rho_loc,thk,fr_w_e
           real(kind=WP),dimension(6,nel)   :: sig_loc
           real(kind=WP) :: dt2,visn,visr,ex,ey,ez,a2,off_l,dum,rho0
-          type(g_bufel_) , pointer :: gbuf     
+          type(g_bufel_) , pointer :: gbuf
           real(kind=WP), dimension(:), pointer :: uvar
           character (len=100) :: option
           character (len=10) :: cigtyp
@@ -201,9 +201,9 @@
           gbuf  => elbuf_tab%gbuf
 
 !         nuvar = elbuf_tab%bufly(1)%nvar_mat         !doesn't work for shell
-!         uvar => elbuf_tab%bufly(1)%mat(1,1,1)%var      
-          nuvar = elbuf_tab%gbuf%g_nuvar 
-          uvar => elbuf_tab%gbuf%var      
+!         uvar => elbuf_tab%bufly(1)%mat(1,1,1)%var
+          nuvar = elbuf_tab%gbuf%g_nuvar
+          uvar => elbuf_tab%gbuf%var
           ity = iparg(5)
 
 !
@@ -251,27 +251,27 @@
 !     internal forces
 !----------------------------
           do i=1,nel
-             eint_loc(i)  = gbuf%eint(i)
-             vol_loc(i)   = gbuf%vol(i)
-             off_loc(i)   = gbuf%off(i)
-             rho_loc(i)   = rho0
+            eint_loc(i)  = gbuf%eint(i)
+            vol_loc(i)   = gbuf%vol(i)
+            off_loc(i)   = gbuf%off(i)
+            rho_loc(i)   = rho0
           enddo
           if (userl_avail>0) then
             api_return = 0
             call engine_userlib_cuser(igtyp     ,nel     ,nnod                , &
-                 nuvar    ,iprop   ,imat   ,sid     ,time    ,dt1                 , &
-                 eint_loc ,vol_loc ,uvar   ,fr_w_e  ,off_loc ,rho_loc   ,sig_loc  , &
-                 xx       ,yy       ,zz     ,ux     ,uy      ,uz                  , &
-                 vx       ,vy       ,vz     ,vrx    ,vry     ,vrz                 , &
-                 fx       ,fy       ,fz     ,mx     ,my      ,mz                  , &
-                 sti      ,stir     ,viscm  ,viscr  ,api_return) ! add mass_el(replacing rho_loc?) iner_el,thk_new,dt_elem
+              nuvar    ,iprop   ,imat   ,sid     ,time    ,dt1                 , &
+              eint_loc ,vol_loc ,uvar   ,fr_w_e  ,off_loc ,rho_loc   ,sig_loc  , &
+              xx       ,yy       ,zz     ,ux     ,uy      ,uz                  , &
+              vx       ,vy       ,vz     ,vrx    ,vry     ,vrz                 , &
+              fx       ,fy       ,fz     ,mx     ,my      ,mz                  , &
+              sti      ,stir     ,viscm  ,viscr  ,api_return) ! add mass_el(replacing rho_loc?) iner_el,thk_new,dt_elem
             if (api_return == 0) then
               ! ----------------
               ! ERROR to be printed & exit
-                write(cigtyp,'(i2.2)')igtyp
-                OPTION='/PROP/'//'TYPE'//trim(cigtyp)//' - SHELL'
-                call ancmsg(MSGID=257,C1=TRIM(OPTION),ANMODE=ANINFO)
-                call arret(2)
+              write(cigtyp,'(i2.2)')igtyp
+              OPTION='/PROP/'//'TYPE'//trim(cigtyp)//' - SHELL'
+              call ancmsg(MSGID=257,C1=TRIM(OPTION),ANMODE=ANINFO)
+              call arret(2)
               ! ----------------
             end if
 
@@ -301,7 +301,7 @@
                 sy(i)=x(2,ncj(i,3))+x(2,ncj(i,4))-x(2,ncj(i,1))-x(2,ncj(i,2))
                 rz(i)=x(3,ncj(i,2))+x(3,ncj(i,3))-x(3,ncj(i,1))-x(3,ncj(i,4))
                 sz(i)=x(3,ncj(i,3))+x(3,ncj(i,4))-x(3,ncj(i,1))-x(3,ncj(i,2))
-              enddo 
+              enddo
             else
               do i=1,nel
                 rx(i)=x(1,ncj(i,2))-x(1,ncj(i,1))
@@ -310,13 +310,13 @@
                 sy(i)=x(2,ncj(i,3))-x(2,ncj(i,1))
                 rz(i)=x(3,ncj(i,2))-x(3,ncj(i,1))
                 sz(i)=x(3,ncj(i,3))-x(3,ncj(i,1))
-              enddo 
+              enddo
             end if !(nnod==4) then
 
             do i=1,nel
-              ex = ry(i) * sz(i) - rz(i) * sy(i) 
-              ey = rz(i) * sx(i) - rx(i) * sz(i) 
-              ez = rx(i) * sy(i) - ry(i) * sx(i) 
+              ex = ry(i) * sz(i) - rz(i) * sy(i)
+              ey = rz(i) * sx(i) - rx(i) * sz(i)
+              ez = rx(i) * sy(i) - ry(i) * sx(i)
               a2 = sqrt(ex*ex + ey*ey + ez*ez)
               area(i)=half*a2
               thk(i)=gbuf%vol(i)/area(i) ! have to recompute
@@ -325,7 +325,7 @@
 !
             off_l = zero
             do i=1,nel
-               off_l = min(off_l,gbuf%off(i))
+              off_l = min(off_l,gbuf%off(i))
             enddo
             if(off_l<zero)then
               do j=1,nnod
@@ -370,7 +370,7 @@
                   fsky(7,iadx(j,i))=sti(i)
                   fsky(8,iadx(j,i))=stir(i)
                 enddo
-              enddo 
+              enddo
             endif
 !------elementary time step calculation have to be computed here
             if (nodadt==0) then
@@ -389,13 +389,13 @@
             if (ipri==1) then
               ip = ipartx(1)
               call ush_output(                                                     &
-                   numnod,    nnod,  itask,    npsav,      nel,                  &
-                      ncj,  ipartx,gbuf%off,eint_loc,       thk,                 &
-                     area,    mass,       x,        v,       vr,                 &
-                  partsav(1,ip),sensors)
+                numnod,    nnod,  itask,    npsav,      nel,                  &
+                ncj,  ipartx,gbuf%off,eint_loc,       thk,                 &
+                area,    mass,       x,        v,       vr,                 &
+                partsav(1,ip),sensors)
             end if !(ipri==1) then
 
-          else 
+          else
             ! No user library was loaded
             ! ERROR to be printed & exit
             write(cigtyp,'(i2.2)')igtyp
@@ -404,7 +404,7 @@
             CALL ARRET(2)
             ! ----------------
           endif ! if (userl_avail)
-    end subroutine ush_force3
+        end subroutine ush_force3
 !=======================================================================================================================
 !!\brief This subroutine computes output data for user shell property
 !=======================================================================================================================
@@ -420,10 +420,10 @@
 !||    sensor_mod            ../common_source/modules/sensor_mod.F90
 !||====================================================================
         subroutine ush_output(                                                   &
-                   numnod,    nnod,  itask,    npsav,      nel,                  &
-                      ncj,  ipartx,    off,     eint,      thk,                  &
-                     area,    xmas,      x,        v,       vr,                  &
-                  partsav, sensors)
+          numnod,    nnod,  itask,    npsav,      nel,                  &
+          ncj,  ipartx,    off,     eint,      thk,                  &
+          area,    xmas,      x,        v,       vr,                  &
+          partsav, sensors)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -467,109 +467,109 @@
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
 !-----------------------------------------------
-      thk2(1:nel)=thk(1:nel)*thk(1:nel)
-      do i=1,nel
-        svx = zero
-        svy = zero
-        svz = zero
-        sv2 = zero
-        do j=1,nnod
-           svx = svx + v(1,ncj(i,j))
-           svy = svy + v(2,ncj(i,j))
-           svz = svz + v(3,ncj(i,j))
-           sv2 = sv2 + v(1,ncj(i,j))*v(1,ncj(i,j)) +       &
-                       v(2,ncj(i,j))*v(2,ncj(i,j)) +       &
-                       v(3,ncj(i,j))*v(3,ncj(i,j))
-        end do
-        ei(i)= eint(i) 
-        ek(i)= xmas(i)*sv2/nnod
-        xmas25(i)= xmas(i)/nnod
-        xm(i)= xmas25(i)*svx
-        ym(i)= xmas25(i)*svy
-        zm(i)= xmas25(i)*svz
-        vxa(i)=svx/nnod
-        vya(i)=svy/nnod
-        vza(i)=svz/nnod
-      enddo
-!      
-      do i=1,nel
-        lx = zero 
-        ly = zero
-        lz = zero
-        sxx = zero 
-        syy = zero
-        szz = zero
-        do j=1,nnod
-           lx = lx + x(1,ncj(i,j))
-           ly = ly + x(2,ncj(i,j)) 
-           lz = lz + x(3,ncj(i,j)) 
-           sxx = sxx + x(1,ncj(i,j))*x(1,ncj(i,j))
-           syy = syy + x(2,ncj(i,j))*x(2,ncj(i,j))
-           szz = szz + x(3,ncj(i,j))*x(3,ncj(i,j))
-        end do
-        svx = zero
-        svy = zero
-        svz = zero
-        sv2 = zero
-        do j=1,nnod
-           svx = svx + vr(1,ncj(i,j))
-           svy = svy + vr(2,ncj(i,j))
-           svz = svz + vr(3,ncj(i,j))
-           sv2 = sv2 + vr(1,ncj(i,j))*vr(1,ncj(i,j)) +       &
-                       vr(2,ncj(i,j))*vr(2,ncj(i,j)) +       &
-                       vr(3,ncj(i,j))*vr(3,ncj(i,j))
-        end do
-         xcg(i)= xmas25(i)*lx
-         ycg(i)= xmas25(i)*ly
-         zcg(i)= xmas25(i)*lz
+          thk2(1:nel)=thk(1:nel)*thk(1:nel)
+          do i=1,nel
+            svx = zero
+            svy = zero
+            svz = zero
+            sv2 = zero
+            do j=1,nnod
+              svx = svx + v(1,ncj(i,j))
+              svy = svy + v(2,ncj(i,j))
+              svz = svz + v(3,ncj(i,j))
+              sv2 = sv2 + v(1,ncj(i,j))*v(1,ncj(i,j)) +       &
+                v(2,ncj(i,j))*v(2,ncj(i,j)) +       &
+                v(3,ncj(i,j))*v(3,ncj(i,j))
+            end do
+            ei(i)= eint(i)
+            ek(i)= xmas(i)*sv2/nnod
+            xmas25(i)= xmas(i)/nnod
+            xm(i)= xmas25(i)*svx
+            ym(i)= xmas25(i)*svy
+            zm(i)= xmas25(i)*svz
+            vxa(i)=svx/nnod
+            vya(i)=svy/nnod
+            vza(i)=svz/nnod
+          enddo
 !
-         inel = xmas(i)*(thk2(i)+area(i))*one_over_12
-         in25 = inel/nnod
-         xx = lx/nnod
-         yy = ly/nnod
-         zz = lz/nnod
-         ixy(i) = -xcg(i)*yy
-         iyz(i) = -ycg(i)*zz
-         izx(i) = -zcg(i)*xx
-         xx = xcg(i)*xx
-         yy = ycg(i)*yy
-         zz = zcg(i)*zz
-         ixx(i)= inel + yy + zz
-         iyy(i)= inel + zz + xx
-         izz(i)= inel + xx + yy
-         xxm(i)= vza(i)*ycg(i)-vya(i)*zcg(i)+in25*svx
-         yym(i)= vxa(i)*zcg(i)-vza(i)*xcg(i)+in25*svy
-         zzm(i)= vya(i)*xcg(i)-vxa(i)*ycg(i)+in25*svz
-         rei(i)= eint(i)
-         rek(i)= in25*sv2*half
-        enddo
-      do i=1,nel
-         if(off(i)/=zero)then
-           partsav(1)=partsav(1) + ei(i)
-           partsav(2)=partsav(2) + ek(i)
-           partsav(3)=partsav(3) + xm(i)
-           partsav(4)=partsav(4) + ym(i)
-           partsav(5)=partsav(5) + zm(i)
-           partsav(6)=partsav(6) + xmas(i)
-         endif
-          partsav(9) =partsav(9)  + xcg(i)
-          partsav(10)=partsav(10) + ycg(i)
-          partsav(11)=partsav(11) + zcg(i)
-          partsav(12)=partsav(12) + xxm(i)
-          partsav(13)=partsav(13) + yym(i)
-          partsav(14)=partsav(14) + zzm(i)
-          partsav(15)=partsav(15) + ixx(i)
-          partsav(16)=partsav(16) + iyy(i)
-          partsav(17)=partsav(17) + izz(i)
-          partsav(18)=partsav(18) + ixy(i)
-          partsav(19)=partsav(19) + iyz(i)
-          partsav(20)=partsav(20) + izx(i)
-          partsav(21)=partsav(21) + rei(i)
-          partsav(22)=partsav(22) + rek(i)
-          if (off(i)==zero) partsav(25) = partsav(25) + one
-      enddo
-      call sensor_energy_bilan(1,nel,ei,ek,off,ipartx,itask,sensors)      
+          do i=1,nel
+            lx = zero
+            ly = zero
+            lz = zero
+            sxx = zero
+            syy = zero
+            szz = zero
+            do j=1,nnod
+              lx = lx + x(1,ncj(i,j))
+              ly = ly + x(2,ncj(i,j))
+              lz = lz + x(3,ncj(i,j))
+              sxx = sxx + x(1,ncj(i,j))*x(1,ncj(i,j))
+              syy = syy + x(2,ncj(i,j))*x(2,ncj(i,j))
+              szz = szz + x(3,ncj(i,j))*x(3,ncj(i,j))
+            end do
+            svx = zero
+            svy = zero
+            svz = zero
+            sv2 = zero
+            do j=1,nnod
+              svx = svx + vr(1,ncj(i,j))
+              svy = svy + vr(2,ncj(i,j))
+              svz = svz + vr(3,ncj(i,j))
+              sv2 = sv2 + vr(1,ncj(i,j))*vr(1,ncj(i,j)) +       &
+                vr(2,ncj(i,j))*vr(2,ncj(i,j)) +       &
+                vr(3,ncj(i,j))*vr(3,ncj(i,j))
+            end do
+            xcg(i)= xmas25(i)*lx
+            ycg(i)= xmas25(i)*ly
+            zcg(i)= xmas25(i)*lz
+!
+            inel = xmas(i)*(thk2(i)+area(i))*one_over_12
+            in25 = inel/nnod
+            xx = lx/nnod
+            yy = ly/nnod
+            zz = lz/nnod
+            ixy(i) = -xcg(i)*yy
+            iyz(i) = -ycg(i)*zz
+            izx(i) = -zcg(i)*xx
+            xx = xcg(i)*xx
+            yy = ycg(i)*yy
+            zz = zcg(i)*zz
+            ixx(i)= inel + yy + zz
+            iyy(i)= inel + zz + xx
+            izz(i)= inel + xx + yy
+            xxm(i)= vza(i)*ycg(i)-vya(i)*zcg(i)+in25*svx
+            yym(i)= vxa(i)*zcg(i)-vza(i)*xcg(i)+in25*svy
+            zzm(i)= vya(i)*xcg(i)-vxa(i)*ycg(i)+in25*svz
+            rei(i)= eint(i)
+            rek(i)= in25*sv2*half
+          enddo
+          do i=1,nel
+            if(off(i)/=zero)then
+              partsav(1)=partsav(1) + ei(i)
+              partsav(2)=partsav(2) + ek(i)
+              partsav(3)=partsav(3) + xm(i)
+              partsav(4)=partsav(4) + ym(i)
+              partsav(5)=partsav(5) + zm(i)
+              partsav(6)=partsav(6) + xmas(i)
+            endif
+            partsav(9) =partsav(9)  + xcg(i)
+            partsav(10)=partsav(10) + ycg(i)
+            partsav(11)=partsav(11) + zcg(i)
+            partsav(12)=partsav(12) + xxm(i)
+            partsav(13)=partsav(13) + yym(i)
+            partsav(14)=partsav(14) + zzm(i)
+            partsav(15)=partsav(15) + ixx(i)
+            partsav(16)=partsav(16) + iyy(i)
+            partsav(17)=partsav(17) + izz(i)
+            partsav(18)=partsav(18) + ixy(i)
+            partsav(19)=partsav(19) + iyz(i)
+            partsav(20)=partsav(20) + izx(i)
+            partsav(21)=partsav(21) + rei(i)
+            partsav(22)=partsav(22) + rek(i)
+            if (off(i)==zero) partsav(25) = partsav(25) + one
+          enddo
+          call sensor_energy_bilan(1,nel,ei,ek,off,ipartx,itask,sensors)
 !---
-      end subroutine ush_output
+        end subroutine ush_output
 !
       end module ush_force3_mod

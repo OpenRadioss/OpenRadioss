@@ -29,49 +29,49 @@
 !||====================================================================
       module ush_init_mod
 
-      use, intrinsic :: iso_c_binding
-      implicit none
-      interface
-        subroutine  st_userlib_cini(   igtyp,                                       &
-                   nel,        nnod,      nuvar,    iprop,    imat    , sid,      &
-                   eint,       vol,       var,      off,      rho,      sig_loc,  &
-                   xx,         yy,        zz,       vx,       vy,       vz,       &
-                   vrx,        vry,       vrz,      mas,      inn,                & 
-                   sti,        stir,      viscm,    viscr,    return_code ) bind (C, name="st_userlib_cini")
-                    use, intrinsic :: iso_c_binding
-                    use precision_mod,          only: wp
-                    integer(c_int) :: igtyp
-                    integer(c_int) :: nel
-                    integer(c_int) :: nnod
-                    integer(c_int) :: nuvar
-                    integer(c_int), dimension(nel) :: iprop
-                    integer(c_int), dimension(nel) :: imat
-                    integer(c_int), dimension(nel) :: sid
-                    real(kind=wp), dimension(nel) :: eint
-                    real(kind=wp), dimension(nel) :: vol
-                    real(kind=wp), dimension(nel) :: var
-                    real(kind=wp), dimension(nel) :: off
-                    real(kind=wp), dimension(nel) :: rho
-                    real(kind=wp), dimension(6,nel) :: sig_loc
-                    real(kind=wp), dimension(nel,nnod) :: xx
-                    real(kind=wp), dimension(nel,nnod) :: yy
-                    real(kind=wp), dimension(nel,nnod) :: zz
-                    real(kind=wp), dimension(nel,nnod) :: vx
-                    real(kind=wp), dimension(nel,nnod) :: vy
-                    real(kind=wp), dimension(nel,nnod) :: vz
-                    real(kind=wp), dimension(nel,nnod) :: vrx
-                    real(kind=wp), dimension(nel,nnod) :: vry
-                    real(kind=wp), dimension(nel,nnod) :: vrz
-                    real(kind=wp), dimension(nel,nnod) :: mas
-                    real(kind=wp), dimension(nel,nnod) :: inn
-                    real(kind=wp), dimension(nel) :: sti
-                    real(kind=wp), dimension(nel) :: stir
-                    real(kind=wp), dimension(nel) :: viscm
-                    real(kind=wp), dimension(nel) :: viscr
-                    integer(c_int) :: return_code
+        use, intrinsic :: iso_c_binding
+        implicit none
+        interface
+          subroutine  st_userlib_cini(   igtyp,                                       &
+            nel,        nnod,      nuvar,    iprop,    imat    , sid,      &
+            eint,       vol,       var,      off,      rho,      sig_loc,  &
+            xx,         yy,        zz,       vx,       vy,       vz,       &
+            vrx,        vry,       vrz,      mas,      inn,                &
+            sti,        stir,      viscm,    viscr,    return_code ) bind (C, name="st_userlib_cini")
+            use, intrinsic :: iso_c_binding
+            use precision_mod,          only: wp
+            integer(c_int) :: igtyp
+            integer(c_int) :: nel
+            integer(c_int) :: nnod
+            integer(c_int) :: nuvar
+            integer(c_int), dimension(nel) :: iprop
+            integer(c_int), dimension(nel) :: imat
+            integer(c_int), dimension(nel) :: sid
+            real(kind=wp), dimension(nel) :: eint
+            real(kind=wp), dimension(nel) :: vol
+            real(kind=wp), dimension(nel) :: var
+            real(kind=wp), dimension(nel) :: off
+            real(kind=wp), dimension(nel) :: rho
+            real(kind=wp), dimension(6,nel) :: sig_loc
+            real(kind=wp), dimension(nel,nnod) :: xx
+            real(kind=wp), dimension(nel,nnod) :: yy
+            real(kind=wp), dimension(nel,nnod) :: zz
+            real(kind=wp), dimension(nel,nnod) :: vx
+            real(kind=wp), dimension(nel,nnod) :: vy
+            real(kind=wp), dimension(nel,nnod) :: vz
+            real(kind=wp), dimension(nel,nnod) :: vrx
+            real(kind=wp), dimension(nel,nnod) :: vry
+            real(kind=wp), dimension(nel,nnod) :: vrz
+            real(kind=wp), dimension(nel,nnod) :: mas
+            real(kind=wp), dimension(nel,nnod) :: inn
+            real(kind=wp), dimension(nel) :: sti
+            real(kind=wp), dimension(nel) :: stir
+            real(kind=wp), dimension(nel) :: viscm
+            real(kind=wp), dimension(nel) :: viscr
+            integer(c_int) :: return_code
 
-        end subroutine st_userlib_cini
-      end interface
+          end subroutine st_userlib_cini
+        end interface
 
       contains
 !=======================================================================================================================
@@ -88,12 +88,12 @@
 !||    message_mod       ../starter/share/message_module/message_mod.F
 !||====================================================================
         subroutine ush_init(elbuf_tab,                                     &
-                            numnod,  npart,       nummat,  nel,  pm,       &
-                            iparg,   numelx,      nixx,    ixx,   ipartx,  &
-                            i7stifs, userl_avail, nshnod,                  &
-                            x,       v,           vr,      stifn, stifr,   &
-                            dtelem,  thke,        partsav, msx,   inx ,    &
-                            stx)
+          numnod,  npart,       nummat,  nel,  pm,       &
+          iparg,   numelx,      nixx,    ixx,   ipartx,  &
+          i7stifs, userl_avail, nshnod,                  &
+          x,       v,           vr,      stifn, stifr,   &
+          dtelem,  thke,        partsav, msx,   inx ,    &
+          stx)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -164,9 +164,9 @@
           nft = iparg(3)
           igtyp = iparg(38)
           if (ity==3) then
-             nnod = 4
+            nnod = 4
           else
-             nnod = 3
+            nnod = 3
           end if
 
           call my_alloc(xx,nel,nnod)
@@ -222,172 +222,172 @@
           enddo
           nuvar = elbuf_tab%gbuf%g_nuvar
 !----------------------------------------
-!     initialisation user: volume, masses et inerties, 
+!     initialisation user: volume, masses et inerties,
 !----------------------------------------
           if (userl_avail==1)then
-             return_code = 0
-             call st_userlib_cini( igtyp,                                         &
-                   nel,        nnod,      nuvar,    iprop,    imat    , sid,      &
-                   gbuf%eint,  gbuf%vol,  gbuf%var, gbuf%off, gbuf%rho, sig_loc,  &
-                   xx,         yy,        zz,       vx,       vy,       vz,       &
-                   vrx,        vry,       vrz,      mas,      inn,                & 
-                   sti,        stir,      viscm,    viscr,    return_code )
+            return_code = 0
+            call st_userlib_cini( igtyp,                                         &
+              nel,        nnod,      nuvar,    iprop,    imat    , sid,      &
+              gbuf%eint,  gbuf%vol,  gbuf%var, gbuf%off, gbuf%rho, sig_loc,  &
+              xx,         yy,        zz,       vx,       vy,       vz,       &
+              vrx,        vry,       vrz,      mas,      inn,                &
+              sti,        stir,      viscm,    viscr,    return_code )
 
-             if (return_code == 0)then
-                       write(char_pid,'(i2)') igtyp
-                       option='/PROP/'//trim(char_pid)//' Shells initialization: cinit'//char_pid
-                       call ancmsg(MSGID=1130,msgtype=MSGERROR,c1=trim(OPTION),anmode=ANINFO)
-                       call arret(2)
-             endif
+            if (return_code == 0)then
+              write(char_pid,'(i2)') igtyp
+              option='/PROP/'//trim(char_pid)//' Shells initialization: cinit'//char_pid
+              call ancmsg(MSGID=1130,msgtype=MSGERROR,c1=trim(OPTION),anmode=ANINFO)
+              call arret(2)
+            endif
 
-             do i=1,nel
-               gbuf%sig(ii(1:6)+i) = sig_loc(1:6,i)
-             enddo
-!  
-             masm =zero
-             inm  =zero
-             do j=1,nnod
-               do i=1,nel
-                 v(1,ncj(i,j))  = vx(i,j)
-                 v(2,ncj(i,j))  = vy(i,j)
-                 v(3,ncj(i,j))  = vz(i,j)
-                 vr(1,ncj(i,j)) = vrx(i,j)
-                 vr(2,ncj(i,j)) = vry(i,j)
-                 vr(3,ncj(i,j)) = vrz(i,j)
-                 masm(i) = masm(i) + mas(i,j)
-                 inm (i) = inm (i) + inn(i,j)
-               enddo
-             enddo
+            do i=1,nel
+              gbuf%sig(ii(1:6)+i) = sig_loc(1:6,i)
+            enddo
+!
+            masm =zero
+            inm  =zero
+            do j=1,nnod
+              do i=1,nel
+                v(1,ncj(i,j))  = vx(i,j)
+                v(2,ncj(i,j))  = vy(i,j)
+                v(3,ncj(i,j))  = vz(i,j)
+                vr(1,ncj(i,j)) = vrx(i,j)
+                vr(2,ncj(i,j)) = vry(i,j)
+                vr(3,ncj(i,j)) = vrz(i,j)
+                masm(i) = masm(i) + mas(i,j)
+                inm (i) = inm (i) + inn(i,j)
+              enddo
+            enddo
 !----------------------------------------
-!     initialization of thke from volume  
+!     initialization of thke from volume
 !----------------------------------------
 ! compute area
-             if (nnod==4) then
-               do i=1,nel
-                 rx(i)=x(1,ncj(i,2))+x(1,ncj(i,3))-x(1,ncj(i,1))-x(1,ncj(i,4))
-                 sx(i)=x(1,ncj(i,3))+x(1,ncj(i,4))-x(1,ncj(i,1))-x(1,ncj(i,2))
-                 ry(i)=x(2,ncj(i,2))+x(2,ncj(i,3))-x(2,ncj(i,1))-x(2,ncj(i,4))
-                 sy(i)=x(2,ncj(i,3))+x(2,ncj(i,4))-x(2,ncj(i,1))-x(2,ncj(i,2))
-                 rz(i)=x(3,ncj(i,2))+x(3,ncj(i,3))-x(3,ncj(i,1))-x(3,ncj(i,4))
-                 sz(i)=x(3,ncj(i,3))+x(3,ncj(i,4))-x(3,ncj(i,1))-x(3,ncj(i,2))
-               enddo 
-             else
+            if (nnod==4) then
+              do i=1,nel
+                rx(i)=x(1,ncj(i,2))+x(1,ncj(i,3))-x(1,ncj(i,1))-x(1,ncj(i,4))
+                sx(i)=x(1,ncj(i,3))+x(1,ncj(i,4))-x(1,ncj(i,1))-x(1,ncj(i,2))
+                ry(i)=x(2,ncj(i,2))+x(2,ncj(i,3))-x(2,ncj(i,1))-x(2,ncj(i,4))
+                sy(i)=x(2,ncj(i,3))+x(2,ncj(i,4))-x(2,ncj(i,1))-x(2,ncj(i,2))
+                rz(i)=x(3,ncj(i,2))+x(3,ncj(i,3))-x(3,ncj(i,1))-x(3,ncj(i,4))
+                sz(i)=x(3,ncj(i,3))+x(3,ncj(i,4))-x(3,ncj(i,1))-x(3,ncj(i,2))
+              enddo
+            else
 
-               do i=1,nel
-                 rx(i)=x(1,ncj(i,2))-x(1,ncj(i,1))
-                 sx(i)=x(1,ncj(i,3))-x(1,ncj(i,1))
-                 ry(i)=x(2,ncj(i,2))-x(2,ncj(i,1))
-                 sy(i)=x(2,ncj(i,3))-x(2,ncj(i,1))
-                 rz(i)=x(3,ncj(i,2))-x(3,ncj(i,1))
-                 sz(i)=x(3,ncj(i,3))-x(3,ncj(i,1))
-               enddo 
-             end if !(nnod==4) then
+              do i=1,nel
+                rx(i)=x(1,ncj(i,2))-x(1,ncj(i,1))
+                sx(i)=x(1,ncj(i,3))-x(1,ncj(i,1))
+                ry(i)=x(2,ncj(i,2))-x(2,ncj(i,1))
+                sy(i)=x(2,ncj(i,3))-x(2,ncj(i,1))
+                rz(i)=x(3,ncj(i,2))-x(3,ncj(i,1))
+                sz(i)=x(3,ncj(i,3))-x(3,ncj(i,1))
+              enddo
+            end if !(nnod==4) then
 
-             do i=1,nel
-               ex = ry(i) * sz(i) - rz(i) * sy(i) 
-               ey = rz(i) * sx(i) - rx(i) * sz(i) 
-               ez = rx(i) * sy(i) - ry(i) * sx(i) 
-               a2 = sqrt(ex*ex + ey*ey + ez*ez)
-               area(i)=half*a2
-               thke(i)=gbuf%vol(i)/area(i)
-             end do
+            do i=1,nel
+              ex = ry(i) * sz(i) - rz(i) * sy(i)
+              ey = rz(i) * sx(i) - rx(i) * sz(i)
+              ez = rx(i) * sy(i) - ry(i) * sx(i)
+              a2 = sqrt(ex*ex + ey*ey + ez*ez)
+              area(i)=half*a2
+              thke(i)=gbuf%vol(i)/area(i)
+            end do
 !----------------------------------------
 !     initialization of masses and inertias
 !----------------------------------------
 ! fill msc,inc
-             do i=1,nel  
-                msx(i+nft)=masm(i)/nnod
-                inx(i+nft)=inm(i)/nnod
-                mass(i) = msx(i+nft)
-                iner (i) = inx(i+nft)
-             end do
+            do i=1,nel
+              msx(i+nft)=masm(i)/nnod
+              inx(i+nft)=inm(i)/nnod
+              mass(i) = msx(i+nft)
+              iner (i) = inx(i+nft)
+            end do
 
-             do i=1,nel      
-               ip=ipartx(i+nft)
-               partsav(1,ip)=partsav(1,ip) + masm(i)
-               lx = zero 
-               ly = zero
-               lz = zero
-               sxx = zero 
-               syy = zero
-               szz = zero
-               sxy = zero
-               szx = zero  
-               syz = zero
-               svx = zero
-               svy = zero
-               svz = zero
-               sv2 = zero
+            do i=1,nel
+              ip=ipartx(i+nft)
+              partsav(1,ip)=partsav(1,ip) + masm(i)
+              lx = zero
+              ly = zero
+              lz = zero
+              sxx = zero
+              syy = zero
+              szz = zero
+              sxy = zero
+              szx = zero
+              syz = zero
+              svx = zero
+              svy = zero
+              svz = zero
+              sv2 = zero
 
-               do j=1,nnod
-                  lx = lx + x(1,ncj(i,j))
-                  ly = ly + x(2,ncj(i,j)) 
-                  lz = lz + x(3,ncj(i,j)) 
-                  sxx = sxx + x(1,ncj(i,j))*x(1,ncj(i,j))
-                  syy = syy + x(2,ncj(i,j))*x(2,ncj(i,j))
-                  szz = szz + x(3,ncj(i,j))*x(3,ncj(i,j))
-                  sxy = sxy + x(1,ncj(i,j))*x(2,ncj(i,j))
-                  szx = szx + x(3,ncj(i,j))*x(1,ncj(i,j))
-                  syz = syz + x(2,ncj(i,j))*x(3,ncj(i,j))
-                  svx = svx + v(1,ncj(i,j))
-                  svy = svy + v(2,ncj(i,j))
-                  svz = svz + v(3,ncj(i,j))
-                  sv2 = sv2 + v(1,ncj(i,j))*v(1,ncj(i,j)) +       &
-                              v(2,ncj(i,j))*v(2,ncj(i,j)) +       &
-                              v(3,ncj(i,j))*v(3,ncj(i,j))
-               end do
+              do j=1,nnod
+                lx = lx + x(1,ncj(i,j))
+                ly = ly + x(2,ncj(i,j))
+                lz = lz + x(3,ncj(i,j))
+                sxx = sxx + x(1,ncj(i,j))*x(1,ncj(i,j))
+                syy = syy + x(2,ncj(i,j))*x(2,ncj(i,j))
+                szz = szz + x(3,ncj(i,j))*x(3,ncj(i,j))
+                sxy = sxy + x(1,ncj(i,j))*x(2,ncj(i,j))
+                szx = szx + x(3,ncj(i,j))*x(1,ncj(i,j))
+                syz = syz + x(2,ncj(i,j))*x(3,ncj(i,j))
+                svx = svx + v(1,ncj(i,j))
+                svy = svy + v(2,ncj(i,j))
+                svz = svz + v(3,ncj(i,j))
+                sv2 = sv2 + v(1,ncj(i,j))*v(1,ncj(i,j)) +       &
+                  v(2,ncj(i,j))*v(2,ncj(i,j)) +       &
+                  v(3,ncj(i,j))*v(3,ncj(i,j))
+              end do
 
-               partsav(2,ip)=partsav(2,ip) + mass(i)*lx
-               partsav(3,ip)=partsav(3,ip) + mass(i)*ly
-               partsav(4,ip)=partsav(4,ip) + mass(i)*lz
-               partsav(5,ip) =partsav(5,ip)  + mass(i) * (syy+szz)
-               partsav(6,ip) =partsav(6,ip)  + mass(i) * (szz+sxx)
-               partsav(7,ip) =partsav(7,ip)  + mass(i) * (sxx+syy)
-               partsav(8,ip) =partsav(8,ip)  - mass(i) * sxy
-               partsav(9,ip) =partsav(9,ip)  - mass(i) * syz
-               partsav(10,ip)=partsav(10,ip) - mass(i) * szx
+              partsav(2,ip)=partsav(2,ip) + mass(i)*lx
+              partsav(3,ip)=partsav(3,ip) + mass(i)*ly
+              partsav(4,ip)=partsav(4,ip) + mass(i)*lz
+              partsav(5,ip) =partsav(5,ip)  + mass(i) * (syy+szz)
+              partsav(6,ip) =partsav(6,ip)  + mass(i) * (szz+sxx)
+              partsav(7,ip) =partsav(7,ip)  + mass(i) * (sxx+syy)
+              partsav(8,ip) =partsav(8,ip)  - mass(i) * sxy
+              partsav(9,ip) =partsav(9,ip)  - mass(i) * syz
+              partsav(10,ip)=partsav(10,ip) - mass(i) * szx
 !
-               partsav(11,ip)=partsav(11,ip) + mass(i)*svx
-               partsav(12,ip)=partsav(12,ip) + mass(i)*svy
-               partsav(13,ip)=partsav(13,ip) + mass(i)*svz
-               partsav(14,ip)=partsav(14,ip) + half * mass(i) *sv2
-             enddo
+              partsav(11,ip)=partsav(11,ip) + mass(i)*svx
+              partsav(12,ip)=partsav(12,ip) + mass(i)*svy
+              partsav(13,ip)=partsav(13,ip) + mass(i)*svz
+              partsav(14,ip)=partsav(14,ip) + half * mass(i) *sv2
+            enddo
 !------------------------------------------
 !     assembly of nodal volumes and nodal modules
 !     (for interface rigidities)
 !------------------------------------------
-             if(i7stifs/=0)then
-                  do i=1,nel
-                    imid=imat(i)
-                    stx(i)=pm(20,imid)*thke(i)  !pm(20) should be max throught thickness
-                    nshnod(ncj(i,1:nnod))=nshnod(ncj(i,1:nnod))+1
-                  enddo
-             endif
+            if(i7stifs/=0)then
+              do i=1,nel
+                imid=imat(i)
+                stx(i)=pm(20,imid)*thke(i)  !pm(20) should be max throught thickness
+                nshnod(ncj(i,1:nnod))=nshnod(ncj(i,1:nnod))+1
+              enddo
+            endif
 !------------------------------------------
 !    calculation of elementary dt: based on nodal one (element)
 !------------------------------------------
-             do i=1,nel
-               visn = sqrt(one + viscm(i)*viscm(i))-viscm(i)
-               visr = sqrt(one + viscr(i)*viscr(i))-viscr(i)
-               dt2=min(visn*mass(i)/sti(i),visr*iner(i)/stir(i))
-               dtx(i) = sqrt(two*dt2)
-               dtelem(nft+i)=dtx(i)
-             enddo
+            do i=1,nel
+              visn = sqrt(one + viscm(i)*viscm(i))-viscm(i)
+              visr = sqrt(one + viscr(i)*viscr(i))-viscr(i)
+              dt2=min(visn*mass(i)/sti(i),visr*iner(i)/stir(i))
+              dtx(i) = sqrt(two*dt2)
+              dtelem(nft+i)=dtx(i)
+            enddo
 
-             do j=1,nnod
-                do i=1,nel
-                  stifn(ncj(i,j))=stifn(ncj(i,j))+sti(i)
-                  stifr(ncj(i,j))=stifr(ncj(i,j))+stir(i)
-                enddo
-             enddo
+            do j=1,nnod
+              do i=1,nel
+                stifn(ncj(i,j))=stifn(ncj(i,j))+sti(i)
+                stifr(ncj(i,j))=stifr(ncj(i,j))+stir(i)
+              enddo
+            enddo
 
           else
-              if (return_code == 0)then
-                   write(char_pid,'(i2)') igtyp
-                   option='/PROP/'//trim(char_pid)//' Shells initialization: cinit'//char_pid
-                   call ancmsg(MSGID=1130,msgtype=MSGERROR,c1=trim(OPTION),anmode=ANINFO)
-                   call arret(2)
-              endif
+            if (return_code == 0)then
+              write(char_pid,'(i2)') igtyp
+              option='/PROP/'//trim(char_pid)//' Shells initialization: cinit'//char_pid
+              call ancmsg(MSGID=1130,msgtype=MSGERROR,c1=trim(OPTION),anmode=ANINFO)
+              call arret(2)
+            endif
           endif ! if (userl_avail==1)then
 !
           deallocate(mas)
