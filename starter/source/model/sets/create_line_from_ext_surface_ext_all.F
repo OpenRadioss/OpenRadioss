@@ -79,26 +79,6 @@ C=======================================================================
       ! NSEG of lines  initialization
       NSEG = 0
 !------------------
-      IF (GO_IN_ARRAY .EQV. .TRUE.) THEN
-        NSEG = DELBUF%SZ_LINE
-        ! Fill in LINE_ORD array the already stored line from 1D_element
-        DO I=1,NSEG
-          LINE_ORD(1,I) = DELBUF%LINE(I,1)
-          LINE_ORD(2,I) = DELBUF%LINE(I,2)
-          LINE_ORD(3,I) = DELBUF%LINE(I,3)
-          LINE_ORD(4,I) = DELBUF%LINE(I,4)
-        ENDDO
-      ELSE
-        NSEG = CLAUSE%NB_LINE_SEG  ! lines from 1D_element
-        ! Fill in LINE_ORD array the already stored line from 1D_element
-        DO I=1,NSEG
-          LINE_ORD(1,I) = CLAUSE%LINE_NODES(I,1)
-          LINE_ORD(2,I) = CLAUSE%LINE_NODES(I,2)
-          LINE_ORD(3,I) = CLAUSE%LINE_ELTYP(I)
-          LINE_ORD(4,I) = CLAUSE%LINE_ELEM(I)
-        ENDDO
-      ENDIF
-!------------------
 !
 !     extract lines from surfaces
 !
@@ -112,7 +92,7 @@ C=======================================================================
       IF (NSEG_SURF > 0) THEN
 !---
         DO I=1,NSEG_SURF
-           ELTYP = CLAUSE%SURF_ELTYP(I)
+          ELTYP = CLAUSE%SURF_ELTYP(I)
           IF (ELTYP == 0 .OR. ELTYP == 1 .OR. ELTYP == 2 .OR. 
      .        ELTYP == 3 .OR. ELTYP == 7) THEN
           DO J1=1,4
@@ -166,8 +146,9 @@ C-----------------------------------------------
           DO I=2,K-1
             IF (( (IW1(INDEX(I-1)) == IW1(INDEX(I)).AND.IW2(INDEX(I-1)) == IW2(INDEX(I)) ) .AND.
      .            (IW1(INDEX(I+1)) /= IW1(INDEX(I)).OR. IW2(INDEX(I+1)) /= IW2(INDEX(I)))).AND.
-     .            (IW5(INDEX(I-1))==3.AND.IW5(INDEX(I))==3.AND.IW5(INDEX(I+1))==3).OR.
-     .            (IW5(INDEX(I-1))==7.AND.IW5(INDEX(I))==7.AND.IW5(INDEX(I+1))==7)) THEN
+     .            ((IW5(INDEX(I-1))==3.OR.IW5(INDEX(I-1))==7).AND.
+     .             (IW5(INDEX(I))==3.OR.IW5(INDEX(I))==7).AND.
+     .             (IW5(INDEX(I+1))==3.OR.IW5(INDEX(I+1))==7)) ) THEN
               NSEG=NSEG+1
               LINE_ORD(1,NSEG) = IW1(INDEX(I))
               LINE_ORD(2,NSEG) = IW2(INDEX(I))
@@ -178,19 +159,17 @@ C-----------------------------------------------
 !
           IF ((IW1(INDEX(K-1)) == IW1(INDEX(K)).AND.
      .        IW2(INDEX(K-1)) == IW2(INDEX(K))).AND.
-     .        (IW5(INDEX(I-1))==3.AND.IW5(INDEX(I))==3.AND.IW5(INDEX(I+1))==3).OR.
-     .        (IW5(INDEX(I-1))==7.AND.IW5(INDEX(I))==7.AND.IW5(INDEX(I+1))==7)) THEN
+     .        ((IW5(INDEX(K-1))==3.OR.IW5(INDEX(K-1))==7).AND.
+     .         (IW5(INDEX(K))==3.OR.IW5(INDEX(K))==7)) ) THEN
             NSEG=NSEG+1
             LINE_ORD(1,NSEG) = IW1(INDEX(K))
             LINE_ORD(2,NSEG) = IW2(INDEX(K))
             LINE_ORD(3,NSEG) = IW5(INDEX(K))
             LINE_ORD(4,NSEG) = IW6(INDEX(K))
           ENDIF
-        ENDIF
 C-----------------------------------------------
 C       ORDER ALL EDGES FOR REMOVING INTERNAL EDGES ONLY
 C-----------------------------------------------
-        IF (IEXT == 2) THEN !! only for shells
           IW1 = 0
           IW2 = 0
           IW5 = 0
@@ -245,7 +224,28 @@ C-----------------------------------------------
             LINE_ORD(4,NSEG) = IW6(INDEX(K))
           ENDIF
         ENDIF
-      ENDIF !IF (NSEG_SURF > 0)
+      ENDIF ! IF (IEXT == 2)
+!------------------
+!     add already exixting 1D - element lines
+!------------------
+      IF (GO_IN_ARRAY .EQV. .TRUE.) THEN
+        DO I=1+NSEG,NSEG+DELBUF%SZ_LINE
+          LINE_ORD(1,I) = DELBUF%LINE(I-NSEG,1)
+          LINE_ORD(2,I) = DELBUF%LINE(I-NSEG,2)
+          LINE_ORD(3,I) = DELBUF%LINE(I-NSEG,3)
+          LINE_ORD(4,I) = DELBUF%LINE(I-NSEG,4)
+        ENDDO
+        NSEG = NSEG + DELBUF%SZ_LINE  ! update NSEG after adding lines from 1D_element
+      ELSE
+        DO I=1+NSEG,NSEG+CLAUSE%NB_LINE_SEG
+          LINE_ORD(1,I) = CLAUSE%LINE_NODES(I-NSEG,1)
+          LINE_ORD(2,I) = CLAUSE%LINE_NODES(I-NSEG,2)
+          LINE_ORD(3,I) = CLAUSE%LINE_ELTYP(I-NSEG)
+          LINE_ORD(4,I) = CLAUSE%LINE_ELEM(I-NSEG)
+        ENDDO
+        NSEG = NSEG + CLAUSE%NB_LINE_SEG  ! update NSEG after adding lines from 1D_element
+      ENDIF
+!------------------
 !------------------------------------------
       INDEX = 0
       IWORK(1:70000) = 0
