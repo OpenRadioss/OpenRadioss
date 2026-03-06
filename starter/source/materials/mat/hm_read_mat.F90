@@ -1219,7 +1219,7 @@
               &pm(1,i)  ,lsubmodel,israte   ,mat_id   ,titr     ,&
               &matparam ,nvartmp  )
 !-------
-             case ('LAW128')
+             case ('LAW128','HILL_VISC_PLAST')
               ilaw = 128
               call hm_read_mat128(                                &
                 matparam ,mtag     ,parmat   ,nuvar    ,nvartmp  ,  &
