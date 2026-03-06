@@ -30,10 +30,10 @@
       module metis_mod
         implicit none
 
-        interface   
+        interface
 
           function Wrap_METIS_PartGraphKway(nelem, ncond, xadj, adjncy, iwd, nnode, ubvec, options, nec, cep) &
-              bind(C, name="wrap_metis_partgraphkway") result(ierr)
+            bind(C, name="wrap_metis_partgraphkway") result(ierr)
             use iso_c_binding, only : c_int, c_float
             integer(c_int) :: ierr
             integer(c_int) :: nelem
@@ -49,7 +49,7 @@
           end function Wrap_METIS_PartGraphKway
 
           function Wrap_METIS_PartGraphRecursive(nelem, ncond, xadj, adjncy, iwd, nnode, ubvec, options, nec, cep) &
-              bind(C, name="wrap_metis_partgraphrecursive") result(ierr)
+            bind(C, name="wrap_metis_partgraphrecursive") result(ierr)
             use iso_c_binding, only : c_int, c_float
             integer(c_int) :: ierr
             integer(c_int) :: nelem
@@ -65,7 +65,7 @@
           end function Wrap_METIS_PartGraphRecursive
 
           function Wrap_METIS_part(nelem, ncond, xadj, adjncy, iwd, nnode, ubvec, options, nec, cep, part, coords) &
-              bind(C, name="wrap_metis_partgraphkway_part") result(ierr)
+            bind(C, name="wrap_metis_partgraphkway_part") result(ierr)
             use iso_c_binding, only : c_int, c_float
             integer(c_int) :: ierr
             integer(c_int) :: nelem
@@ -83,7 +83,7 @@
           end function Wrap_METIS_part
 
           function Wrap_METIS_PartGraphRecursive_part(nelem, ncond, xadj, adjncy, iwd, nnode, ubvec, options, nec, cep,part) &
-              bind(C, name="wrap_metis_partgraphrecursive_part") result(ierr)
+            bind(C, name="wrap_metis_partgraphrecursive_part") result(ierr)
             use iso_c_binding, only : c_int, c_float
             integer(c_int) :: ierr
             integer(c_int) :: nelem
