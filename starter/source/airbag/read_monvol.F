@@ -129,9 +129,16 @@ C-----------------------------------------------
       CHARACTER(len=ncharkey) :: KEY
       CHARACTER(len=nchartitle) :: TITR
       LOGICAL :: FOUND
+      CHARACTER MESS*40
+      my_real :: BID 
+C-----------------------------------------------
+C   D a t a
+C-----------------------------------------------
+      DATA MESS/'MONVOL DEFINITION                '/  
 C-----------------------------------------------
 C     B e g i n n i n g   o f   s o u r c e
 C-----------------------------------------------
+      BID = ZERO
 C     Beginning of MONVOL cards in the IIN file
       WRITE(IOUT, 1000)
       T_MONVOL_METADATA%LCA = 0
@@ -291,6 +298,11 @@ C     Check units
       ENDDO
 
       NVOLU = NVOLU + NMONVOL
+               
+C-------------------------------------
+C     search for duplicate ids
+C-------------------------------------
+      CALL VDOUBLE(NOM_OPT, LNOPT1, NMONVOL, MESS, 0, BID)
 
       RETURN
  1000 FORMAT(
