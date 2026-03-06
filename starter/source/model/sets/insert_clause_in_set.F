@@ -907,8 +907,9 @@ C-----------------------------------------------
         
 
         ! Line from SURFACE
-        CALL CREATE_LINE_FROM_SURFACE(SET  ,KEYSET,OPT_A,OPT_E,DELBUF    ,
-     .                               .TRUE.)
+        IF(KEYSET =='PART'.OR.KEYSET =='SOLID'.OR.KEYSET =='SHELL'.OR.KEYSET =='SH3N'.OR.
+     .     KEYSET =='ALL' .OR.KEYSET =='SUBS' .OR.KEYSET =='SUBM' .OR.KEYSET =='BOX')
+     .      CALL CREATE_LINE_FROM_SURFACE(SET  ,KEYSET,OPT_A,OPT_E,DELBUF,.TRUE.)
 
         IF(.NOT. ALLOCATED(SET%LINE_NODES))ALLOCATE(SET%LINE_NODES(1,2))
         IF(.NOT. ALLOCATED(SET%LINE_ELTYP))ALLOCATE(SET%LINE_ELTYP(1))
