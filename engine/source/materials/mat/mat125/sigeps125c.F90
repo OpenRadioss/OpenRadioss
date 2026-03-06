@@ -33,17 +33,16 @@
         ! \details Material law  Dedicated to composite application.
         ! ======================================================================================================================
 !||====================================================================
-!||    sigeps125c         ../engine/source/materials/mat/mat125/sigeps125c.F90
+!||    sigeps125c                       ../engine/source/materials/mat/mat125/sigeps125c.F90
 !||--- called by ------------------------------------------------------
-!||    mulawc             ../engine/source/materials/mat_share/mulawc.F90
+!||    mulawc                           ../engine/source/materials/mat_share/mulawc.F90
 !||--- calls      -----------------------------------------------------
-!||    vinter             ../engine/source/tools/curve/vinter.F
-!||    strainrate_dependency_125c  ../engine/source/materials/mat/mat125/strainrate_dependency_125c.F90
+!||    strainrate_dependency_125c       ../engine/source/materials/mat/mat125/strainrate_dependency_125c.F90
 !||--- uses       -----------------------------------------------------
-!||    constant_mod       ../common_source/modules/constant_mod.F
-!||    matparam_def_mod   ../common_source/modules/mat_elem/matparam_def_mod.F90
-!||    precision_mod      ../common_source/modules/precision_mod.F90
-!||    strainrate_dependency_125c_mod  ../engine/source/materials/mat/mat125/strainrate_dependency_125c_mod.F90
+!||    constant_mod                     ../common_source/modules/constant_mod.F
+!||    matparam_def_mod                 ../common_source/modules/mat_elem/matparam_def_mod.F90
+!||    precision_mod                    ../common_source/modules/precision_mod.F90
+!||    strainrate_dependency_125c_mod   ../engine/source/materials/mat/mat125/strainrate_dependency_125c.F90
 !||====================================================================
         SUBROUTINE sigeps125c(                                   &
           nel     ,mat_param  , nuvar   ,uvar   ,nvartmp,        &

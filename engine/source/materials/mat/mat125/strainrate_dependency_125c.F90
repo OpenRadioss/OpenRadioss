@@ -23,7 +23,7 @@
 !||====================================================================
 !||    strainrate_dependency_125c_mod   ../engine/source/materials/mat/mat125/strainrate_dependency_125c.F90
 !||--- called by ------------------------------------------------------
-!||    sigeps125c                  ../engine/source/materials/mat/mat125/sigeps125c.F90
+!||    sigeps125c                       ../engine/source/materials/mat/mat125/sigeps125c.F90
 !||====================================================================
       module strainrate_dependency_125c_mod
       contains
@@ -31,18 +31,17 @@
 !                                                   SUBROUTINE
 ! ======================================================================================================================    
 !||====================================================================
-!||    strainrate_dependency_125c       ../engine/source/materials/mat/mat125/strainrate_dependency_125c.F90
+!||    strainrate_dependency_125c   ../engine/source/materials/mat/mat125/strainrate_dependency_125c.F90
 !||--- called by ------------------------------------------------------
-!||    sigeps125c                  ../engine/source/materials/mat/mat125/sigeps125c.F90
+!||    sigeps125c                   ../engine/source/materials/mat/mat125/sigeps125c.F90
 !||--- calls      -----------------------------------------------------
-!||    table_mat_vinterp           ../engine/source/materials/tools/table_mat_vinterp.F
-!||    table_mat_vinterp_inv       ../engine/source/materials/tools/table_mat_vinterp_inv.F90
+!||    table_mat_vinterp            ../engine/source/materials/tools/table_mat_vinterp.F
 !||--- uses       -----------------------------------------------------
-!||    constant_mod                ../common_source/modules/constant_mod.F
-!||    matparam_def_mod            ../common_source/modules/mat_elem/matparam_def_mod.F90
-!||    precision_mod               ../common_source/modules/precision_mod.F90
-!||    table_mat_vinterp_inv_mod   ../engine/source/materials/tools/table_mat_vinterp_inv.F90
-!||    table_mat_vinterp_mod       ../engine/source/materials/tools/table_mat_vinterp.F
+!||    constant_mod                 ../common_source/modules/constant_mod.F
+!||    matparam_def_mod             ../common_source/modules/mat_elem/matparam_def_mod.F90
+!||    precision_mod                ../common_source/modules/precision_mod.F90
+!||    table_mat_vinterp_inv_mod    ../engine/source/materials/tools/table_mat_vinterp_inv.F90
+!||    table_mat_vinterp_mod        ../engine/source/materials/tools/table_mat_vinterp.F
 !||====================================================================
         subroutine strainrate_dependency_125c( nel, matparam, strain_rate, vartmp , nvartmp,&
                                               em11t,    xt,     em11c,    xc,      &

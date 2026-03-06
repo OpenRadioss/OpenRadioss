@@ -56,6 +56,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    sigeps88                      ../engine/source/materials/mat/mat088/sigeps88.F90
 !||    sigeps88c                     ../engine/source/materials/mat/mat088/sigeps88c.F90
 !||    strainrate_dependency         ../engine/source/materials/mat/mat123/strainrate_dependency.F90
+!||    strainrate_dependency_125c    ../engine/source/materials/mat/mat125/strainrate_dependency_125c.F90
+!||    strainrate_dependency_125s    ../engine/source/materials/mat/mat125/strainrate_dependency_125s.F90
 !||====================================================================
       MODULE TABLE_MAT_VINTERP_MOD
       CONTAINS
@@ -94,6 +96,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    sigeps88                      ../engine/source/materials/mat/mat088/sigeps88.F90
 !||    sigeps88c                     ../engine/source/materials/mat/mat088/sigeps88c.F90
 !||    strainrate_dependency         ../engine/source/materials/mat/mat123/strainrate_dependency.F90
+!||    strainrate_dependency_125c    ../engine/source/materials/mat/mat125/strainrate_dependency_125c.F90
+!||    strainrate_dependency_125s    ../engine/source/materials/mat/mat125/strainrate_dependency_125s.F90
 !||--- calls      -----------------------------------------------------
 !||    ancmsg                        ../engine/source/output/message/message.F
 !||    arret                         ../engine/source/system/arret.F

@@ -27,6 +27,7 @@
 !||--- called by ------------------------------------------------------
 !||    hm_read_mat106       ../starter/source/materials/mat/mat106/hm_read_mat106.F90
 !||    hm_read_mat123       ../starter/source/materials/mat/mat123/hm_read_mat123.F90
+!||    hm_read_mat125       ../starter/source/materials/mat/mat125/hm_read_mat125.F90
 !||    hm_read_mat128       ../starter/source/materials/mat/mat128/hm_read_mat128.F90
 !||    hm_read_mat130       ../starter/source/materials/mat/mat130/hm_read_mat130.F90
 !||    hm_read_mat132       ../starter/source/materials/mat/mat132/hm_read_mat132.F90

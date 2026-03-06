@@ -403,6 +403,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    stiffgas                                 ../common_source/eos/stiffgas.F
 !||    stifint_icontrol                         ../starter/source/interfaces/interf1/stifint_icontrol.F90
 !||    strainrate_dependency                    ../engine/source/materials/mat/mat123/strainrate_dependency.F90
+!||    strainrate_dependency_125c               ../engine/source/materials/mat/mat125/strainrate_dependency_125c.F90
+!||    strainrate_dependency_125s               ../engine/source/materials/mat/mat125/strainrate_dependency_125s.F90
 !||    sz_dt1                                   ../engine/source/elements/solid/solidez/sz_dt1.F90
 !||    table_mat2d_intersect                    ../starter/source/materials/mat/mat088/hm_read_mat88.F90
 !||    table_mat_vinterp_c1                     ../engine/source/materials/tools/table_mat_vinterp_c1.F90

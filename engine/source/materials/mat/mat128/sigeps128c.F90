@@ -22,14 +22,14 @@
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !
 
+! \brief orthotropic hill material with plastic strain rate dependency for shells
+
+! ==================================================================================================
 !||====================================================================
 !||    sigeps128c_mod   ../engine/source/materials/mat/mat128/sigeps128c.F90
 !||--- called by ------------------------------------------------------
 !||    mulawc           ../engine/source/materials/mat_share/mulawc.F90
 !||====================================================================
-! \brief orthotropic hill material with plastic strain rate dependency for shells
-
-! ==================================================================================================
       module sigeps128c_mod
       contains
 

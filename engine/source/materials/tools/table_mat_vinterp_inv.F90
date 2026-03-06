@@ -28,6 +28,8 @@
 !||    sigeps123c                   ../engine/source/materials/mat/mat123/sigeps123c.F90
 !||    sigeps132c                   ../engine/source/materials/mat/mat132/sigeps132c.F90
 !||    strainrate_dependency        ../engine/source/materials/mat/mat123/strainrate_dependency.F90
+!||    strainrate_dependency_125c   ../engine/source/materials/mat/mat125/strainrate_dependency_125c.F90
+!||    strainrate_dependency_125s   ../engine/source/materials/mat/mat125/strainrate_dependency_125s.F90
 !||====================================================================
       module table_mat_vinterp_inv_mod
       contains
