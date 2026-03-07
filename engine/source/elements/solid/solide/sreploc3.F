@@ -21,17 +21,16 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    sreploc3        ../engine/source/elements/solid/solide/sreploc3.F
+!||    sreploc3     ../engine/source/elements/solid/solide/sreploc3.F
 !||--- called by ------------------------------------------------------
-!||    mulaw           ../engine/source/materials/mat_share/mulaw.F90
-!||    s10forc3        ../engine/source/elements/solid/solide10/s10forc3.F
-!||    s10ke3          ../engine/source/elements/solid/solide10/s10ke3.F
-!||    s20ke3          ../engine/source/elements/solid/solide20/s20ke3.F
-!||    s4forc3         ../engine/source/elements/solid/solide4/s4forc3.F
-!||    s4ke3           ../engine/source/elements/solid/solide4/s4ke3.F
-!||    scoor3          ../engine/source/elements/solid/solide/scoor3.F
-!||    scoor3_fvm      ../engine/source/ale/alefvm/scoor3_fvm.F
-!||    usermat_solid   ../engine/source/materials/mat_share/usermat_solid.F
+!||    mulaw        ../engine/source/materials/mat_share/mulaw.F90
+!||    s10forc3     ../engine/source/elements/solid/solide10/s10forc3.F
+!||    s10ke3       ../engine/source/elements/solid/solide10/s10ke3.F
+!||    s20ke3       ../engine/source/elements/solid/solide20/s20ke3.F
+!||    s4forc3      ../engine/source/elements/solid/solide4/s4forc3.F
+!||    s4ke3        ../engine/source/elements/solid/solide4/s4ke3.F
+!||    scoor3       ../engine/source/elements/solid/solide/scoor3.F
+!||    scoor3_fvm   ../engine/source/ale/alefvm/scoor3_fvm.F
 !||====================================================================
       SUBROUTINE SREPLOC3(
      1   RX,      RY,      RZ,      SX,
