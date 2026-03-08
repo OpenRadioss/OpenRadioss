@@ -492,42 +492,35 @@ C geometric property
              ENDDO
              
 C                      
-C to be  clarified later IPOS > 0 
             IPOS = IGEO(99,PID) 
             ZSHIFT = GEO(199,PID)
-            IF(IPOS == 1)THEN                                              
-             TMIN = EP20                                                    
-             TMAX = -EP20                                                   
-             DO J=1,NPT                                                     
-              DT = HALF*IWORKS%GEO(IPTHK   + J     ,IS)                    
-              TMIN = MIN(TMIN,IWORKS%GEO(IPPOS   + J     ,IS)-DT)            
-              TMAX = MAX(TMAX,IWORKS%GEO(IPPOS   + J     ,IS)+DT)            
-             ENDDO                                                           
-             THICKT = TMAX - TMIN               
-             DO J=1,NPT  
-              IWORKS%GEO(IPTHK+J,IS)=IWORKS%GEO(IPTHK+J,IS)/MAX(THICKT,EM20) 
-              IWORKS%GEO(IPPOS+J,IS)=IWORKS%GEO(IPPOS+J,IS)/MAX(THICKT,EM20)  
-             ENDDO 
-                                                                        
-          ELSE                                                          
-               THICKT = ZERO                                       
-               DO J=1,NPT                                
+            IF(IPOS == 1) THEN
+                CALL FRETITL2(TITR,IGEO(NPROPGI-LTITR+1,PID),LTITR)
+                CALL ANCMSG(MSGID=3128,
+     .              MSGTYPE=MSGERROR,
+     .              ANMODE=ANSTOP,
+     .              I1=PID,
+     .              C1=TITR,
+     .              I2=IPOS)
+            END IF
+            !                                                      
+            THICKT = ZERO                                       
+            DO J=1,NPT                                
                  THICKT = THICKT + IWORKS%GEO(IPTHK+J,IS)
-               ENDDO           
-               DO J=1,NPT 
+            ENDDO           
+            DO J=1,NPT 
                  IWORKS%GEO(IPTHK+J,IS) =                                   
      .                    IWORKS%GEO(IPTHK+J,IS)/MAX(THICKT,EM20)
-               ENDDO
+            ENDDO
 C                
-               IF(IPOS == 2 ) ZSHIFT =  ZSHIFT /MAX(THICKT,EM20)       
+            IF(IPOS == 2 ) ZSHIFT =  ZSHIFT /MAX(THICKT,EM20)       
 C--- Automatic calculation of layer positions
-                 IWORKS%GEO(IPPOS+1,IS) = ZSHIFT + HALF*IWORKS%GEO(IPTHK+1,IS)
-                 DO J=2,NPT                                               
+            IWORKS%GEO(IPPOS+1,IS) = ZSHIFT + HALF*IWORKS%GEO(IPTHK+1,IS)
+            DO J=2,NPT                                               
                    IWORKS%GEO(IPPOS+J,IS) = IWORKS%GEO(IPPOS+J-1,IS)            
      .               + HALF*(IWORKS%GEO(IPTHK+J,IS)+IWORKS%GEO(IPTHK+J-1,IS))   
-                 ENDDO
-C               
-            ENDIF ! IPOS =0,1,2,3,4                                            
+            ENDDO
+C                                                        
 C calcul du thk by shell
             IWORKS%GEO(1,IS) = THICKT
 C============================================================================
@@ -837,44 +830,35 @@ C
 C to be  clarified later IPOS > 0 
            IPOS = IGEO(99,PID) 
            ZSHIFT = GEO(199,PID)
-           IF(IPOS == 1)THEN                                             
-            TMIN = EP20                                                     
-            TMAX = -EP20                                                    
-            DO J=1,NPT                                                      
-             DT = HALF*STACK%GEO(IPTHK   + J  ,IIS)                     
-             TMIN = MIN(TMIN,STACK%GEO(IPPOS   + J ,IIS)-DT)             
-             TMAX = MAX(TMAX,STACK%GEO(IPPOS   + J ,IIS)+DT)             
-            ENDDO                                                            
-            THICKT = TMAX - TMIN               
-            DO J=1,NPT  
-               STACK%GEO(IPTHK+J,IIS)=
-     .                 STACK%GEO(IPTHK+J,IIS)/MAX(THICKT,EM20)  
-               STACK%GEO(IPPOS+J,IIS)=
-     .                 STACK%GEO(IPPOS+J,IIS)/MAX(THICKT,EM20)   
-            ENDDO 
-                                                                       
-          ELSE                                                          
-               THICKT = ZERO                                       
-               DO J=1,NPT                                
+           IF(IPOS == 1) THEN
+              CALL FRETITL2(TITR,IGEO(NPROPGI-LTITR+1,PID),LTITR)
+              CALL ANCMSG(MSGID=3128,
+     .              MSGTYPE=MSGERROR,
+     .              ANMODE=ANSTOP,
+     .              I1=PID,
+     .              C1=TITR,
+     .              I2=IPOS)
+           END IF
+          !                                                    
+           THICKT = ZERO                                       
+           DO J=1,NPT                                
                  THICKT = THICKT + STACK%GEO(IPTHK+J,IIS)
-               ENDDO           
-               DO J=1,NPT 
+           ENDDO           
+            DO J=1,NPT 
                  STACK%GEO(IPTHK+J,IIS) =                                   
      .                STACK%GEO(IPTHK+J,IIS)/MAX(THICKT,EM20)
-               ENDDO
+           ENDDO
 C                
-               IF(IPOS == 2 )ZSHIFT =  ZSHIFT /MAX(THICKT,EM20)                 
+           IF(IPOS == 2 )ZSHIFT =  ZSHIFT /MAX(THICKT,EM20)                 
 C--- Automatic calculation of layer positions
-                 STACK%GEO(IPPOS+1,IIS) = ZSHIFT +
+           STACK%GEO(IPPOS+1,IIS) = ZSHIFT +
      .                          HALF*STACK%GEO(IPTHK+1,IIS)
-                 DO J=2,NPT                                               
+           DO J=2,NPT                                               
                   STACK%GEO(IPPOS+J,IIS) =   
      .                    STACK%GEO(IPPOS+J-1,IIS)      +
      .                    HALF*(STACK%GEO(IPTHK+J,IIS)+
      .                            STACK%GEO(IPTHK+J-1,IIS))   
-                 ENDDO
-C               
-            ENDIF ! IPOS =0,1,2,3,4                                                 
+          ENDDO                                       
 C calcul du thk by shell
               STACK%GEO(1,IIS) = THICKT
 C============================================================================
