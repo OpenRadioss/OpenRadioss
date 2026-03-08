@@ -105,7 +105,7 @@ C-----------------------------------------------
      .   RHO(MVSIZ), THK(MVSIZ), EM(MVSIZ), XI(MVSIZ),
      .   P1, P2, P3, AA, BB, CC, A2, B2, C2, XIN, EMS, MSL, XIL,
      .   MST,DMS,INS,POSLY,THKLY,THICKT, ET,EMSCP(MVSIZ),RHOCP(MVSIZ),
-     .   EMS_NPTT,MS_NPTT,POS_0,THINNING,SCALE,THICK_DRAPE
+     .   EMS_NPTT,MS_NPTT,POS_0,THINNING,SCALE,THICK_DRAPE,RATIO_SLICE
       my_real, DIMENSION(:)  , ALLOCATABLE ::  THK_IT,   POS_IT
       my_real, DIMENSION(:,:), ALLOCATABLE ::  LAYPOS,   RATIO_THKLY  
 C-----------------------------------------------
@@ -429,6 +429,7 @@ C---         Test stability condition for mass
         IPOS = IGEO(99,IPROP)                   
         THICKT  = STACK%GEO(1,ISUBSTACK)
         ZSHIFT = GEO(199,IPROP)
+        IINT = IGEO(47,IPROP)
         IF(IPOS == 2 ) ZSHIFT =  -  ZSHIFT /MAX(THICKT,EM20)       
         IF(IDRAPE == 0) THEN
            DO I=LFT,LLT
@@ -445,7 +446,6 @@ C---         Test stability condition for mass
                IPID_LY= STACK%IGEO(I2,ISUBSTACK)
                MATLY  = STACK%IGEO(I3,ISUBSTACK)
                IPID = STACK%IGEO(IPPID,ISUBSTACK)  ! or IPID = IX(NIXC-1,NFT+I)
-               IINT = IGEO(47,IPROP)
                IF (IINT == 1) THEN !  uniform distribution - by default
                  DO IT=1,NPTT
                    THK_IT(IT) = THKLY/NPTT  ! equally distribution of NPTT through layer
@@ -494,7 +494,6 @@ C---         Test stability condition for mass
                   I2=IPPID + ILAY
                   I3=IPMAT + ILAY
                   IPID = STACK%IGEO(I2,ISUBSTACK)  ! or IPID = IX(NIXC-1,NFT+I)
-                  IINT = IGEO(47,IPROP)
                   THICKT  = STACK%GEO(1,ISUBSTACK)
                   IF(IINT == 1) THEN
                      THICKT = STACK%GEO(1,ISUBSTACK)                                             
@@ -530,7 +529,6 @@ C
                  I2=IPPID + ILAY
                  I3=IPMAT + ILAY
                  IPID = STACK%IGEO(I2,ISUBSTACK)  ! or IPID = IX(NIXC-1,NFT+I)
-                 IINT = IGEO(47,IPROP)
                  THICKT  = STACK%GEO(1,ISUBSTACK)
                  IP = DRAPE(IE)%INDX_PLY(ILAY)
                  IF(IP == 0) THEN 
@@ -749,13 +747,127 @@ C---         Test stability condition for inertia
         NTHK   =  IPPOS + NLAY  !  NPT
         !!
         
-        IPOS = IGEO(99,IPROP)                  
+        IPOS = IGEO(99,IPROP)    
+        IINT =  IGEO(47,IPROP)              
         THICKT  = STACK%GEO(1,ISUBSTACK)
         ZSHIFT  = GEO(199,IPROP)
         IF(IPOS == 2 ) ZSHIFT =  -  ZSHIFT /MAX(THICKT,EM20)       
         IF(IDRAPE == 0) THEN
            THICKT  = STACK%GEO(1,ISUBSTACK)
-           DO I=LFT,LLT
+           IF(IPOS == 1 ) THEN
+             IF(IINT == 1) THEN
+               DO I=LFT,LLT
+                  XI(I)=ZERO
+                  IPT_ALL = 0
+                  SCALE = THK(I)/THICKT
+                  DO ILAY=1,NLAY  !  NPT
+                      NPTT = ELBUF_STR%BUFLY(ILAY)%NPTT
+                      I1 =IPPID + ILAY
+                      I2 =IPMAT + ILAY
+                      I3 =IPTHK + ILAY
+                      I4 =IPPOS + ILAY
+                      IPID_LY = STACK%IGEO(I1,ISUBSTACK)
+                      MATLY = STACK%IGEO(I2,ISUBSTACK)                                                   
+                      THICKT  = STACK%GEO(1,ISUBSTACK)                                 
+                      THKLY   = STACK%GEO(I3,ISUBSTACK) 
+                      POSLY   = STACK%GEO(I4 ,ISUBSTACK)      ! ratio position of layer
+                      RATIO_SLICE =  THKLY/NPTT 
+                      ZSHIFT = POSLY - HALF*THKLY 
+                      DO IT=1,NPTT                                                     
+                              IPT = IPT_ALL + IT                                                                            
+                              THK_IT(IT) =  RATIO_SLICE*THICKT ! uniform distribution of NPTT through layer    
+                              RATIO_THKLY(IPT,I) = RATIO_SLICE   
+                              IF(IT == 1) THEN
+                                 LAYPOS(IPT,I) = ZSHIFT + HALF*RATIO_SLICE ! integr. point "IT" position ratio
+                               ELSE
+                                 LAYPOS(IPT,I) = LAYPOS(IPT-1,I)+ RATIO_SLICE ! integr. point "IT" position ratio
+                              ENDIF    
+                              POS_IT(IT) = LAYPOS(IPT,I)*THK(I)                                
+                      ENDDO  
+                     !SCALE = THK(I)/THICKT
+                     DO IT=1,NPTT
+                          MS_NPTT = PM(89,MATLY)*THK_IT(IT)*AREA(I)
+                          THK_IT(IT) = THK_IT(IT)*SCALE
+                          XIL = MS_NPTT*(AREA(I)/NINE_OVER_2+THK_IT(IT)*THK_IT(IT)*ONE_OVER_12 +
+     .                                  POS_IT(IT)*POS_IT(IT))
+                          XI(I) = XI(I) + XIL
+                     ENDDO
+                     IPT_ALL = IPT_ALL + NPTT
+                 ENDDO ! NLAY
+C                Test stability condition for inertia
+                 INS = EM(I)*(AREA(I)/NINE_OVER_2+THK(I)*THK(I)*ONE_OVER_12)
+                 DMS = ABS(XI(I)-INS)/INS
+                IF(IGTYP == 51 .AND. IGMAT < 0) THEN
+                  IF (DMS > EM02) THEN
+                      IDPROP = NINT(GEO(40,IPROP))       
+                      CALL FRETITL2(TITR,
+     .                         IGEO(NPROPGI-LTITR+1,IPROP),LTITR)
+                      CALL ANCMSG(MSGID=520,
+     .                      MSGTYPE=MSGWARNING,
+     .                      ANMODE=ANINFO_BLIND_2,
+     .                      I1=IGEO(1,IPROP),
+     .                      C1=TITR,I2=IXTG(NIXTG,NFT+I))
+                   ENDIF  
+               ENDIF                             
+              ENDDO ! LFT,LLT
+            ELSEIF(IINT == 2) THEN
+              DO I=LFT,LLT
+                  XI(I)=ZERO
+                  IPT_ALL = 0
+                  SCALE = THK(I)/THICKT
+                  DO ILAY=1,NLAY  !  NPT
+                      NPTT = ELBUF_STR%BUFLY(ILAY)%NPTT
+                      I1 =IPPID + ILAY
+                      I2 =IPMAT + ILAY
+                      I3 =IPTHK + ILAY
+                      I4 =IPPOS + ILAY
+                      IPID_LY = STACK%IGEO(I1,ISUBSTACK)
+                      MATLY = STACK%IGEO(I2,ISUBSTACK)                                                   
+                      THICKT  = STACK%GEO(1,ISUBSTACK)                                 
+                      THKLY   = STACK%GEO(I3,ISUBSTACK) 
+                      POSLY   = STACK%GEO(I4 ,ISUBSTACK)      ! ratio position of layer
+                      ZSHIFT = POSLY - HALF*THKLY 
+                      DO IT=1,NPTT                                                     
+                          IPT = IPT_ALL + IT                                                                            
+                          THK_IT(IT) =  HALF*THKLY*W_GAUSS(IT,NPTT)
+                          RATIO_THKLY(IPT,I) = THK_IT(IT)                
+                          IF (IPT == 1) THEN                                     
+                             LAYPOS(IPT,I) = ZSHIFT + HALF*RATIO_THKLY(IPT,I)     
+                          ELSE                                                    
+                             LAYPOS(IPT,I) = LAYPOS(IPT-1,I) +                    
+     .                               HALF*(RATIO_THKLY(IPT,I)+RATIO_THKLY(IPT-1,I))      
+                          ENDIF ! IF (N == 1)                                     
+                          POS_IT(IT) = LAYPOS(IPT,I)*THK(I)                                                   
+                      ENDDO  
+                     !SCALE = THK(I)/THICKT
+                     DO IT=1,NPTT
+                          MS_NPTT = PM(89,MATLY)*THK_IT(IT)*AREA(I)
+                          THK_IT(IT) = THK_IT(IT)*SCALE
+                          XIL = MS_NPTT*(AREA(I)/NINE_OVER_2+THK_IT(IT)*THK_IT(IT)*ONE_OVER_12 +
+     .                                  POS_IT(IT)*POS_IT(IT))
+                          XI(I) = XI(I) + XIL
+                     ENDDO
+                     IPT_ALL = IPT_ALL + NPTT
+                 ENDDO ! NLAY
+C                Test stability condition for inertia
+                 INS = EM(I)*(AREA(I)/NINE_OVER_2+THK(I)*THK(I)*ONE_OVER_12)
+                 DMS = ABS(XI(I)-INS)/INS
+                 IF(IGTYP == 51 .AND. IGMAT < 0) THEN
+                  IF (DMS > EM02) THEN
+                      IDPROP = NINT(GEO(40,IPROP))       
+                      CALL FRETITL2(TITR,
+     .                         IGEO(NPROPGI-LTITR+1,IPROP),LTITR)
+                      CALL ANCMSG(MSGID=520,
+     .                      MSGTYPE=MSGWARNING,
+     .                      ANMODE=ANINFO_BLIND_2,
+     .                      I1=IGEO(1,IPROP),
+     .                      C1=TITR,I2=IXTG(NIXTG,NFT+I))
+                   ENDIF  
+               ENDIF                             
+              ENDDO ! LFT,LLT
+            ENDIF ! IINT 
+           ELSE  ! IPOS /= 1
+            DO I=LFT,LLT
              XI(I)=ZERO
              IPT_ALL = 0
               SCALE = THK(I)/THICKT
@@ -770,19 +882,19 @@ C---         Test stability condition for inertia
                   IINT = IGEO(47,IPROP)
                   IF(IINT == 1) THEN                                                                    
                       THICKT  = STACK%GEO(1,ISUBSTACK)                                 
-                      THKLY   = STACK%GEO(I3,ISUBSTACK)*THICKT                         
+                      THKLY   = STACK%GEO(I3,ISUBSTACK)*THICKT  
                       DO IT=1,NPTT                                                     
-                         IPT = IPT_ALL + IT        
-                         THK_IT(IT) =  THKLY/NPTT                             
-                         RATIO_THKLY(IPT,I) = THK_IT(IT)/THICKT                  
-                         IF (IPT == 1) THEN                                           
-                            LAYPOS(IPT,I) = ZSHIFT + HALF*RATIO_THKLY(IPT,I)           
-                         ELSE                                                          
-                            LAYPOS(IPT,I) = LAYPOS(IPT-1,I)  +                         
+                            IPT = IPT_ALL + IT        
+                            THK_IT(IT) =  THKLY/NPTT                             
+                            RATIO_THKLY(IPT,I) = THK_IT(IT)/THICKT                  
+                            IF (IPT == 1) THEN                                           
+                               LAYPOS(IPT,I) = ZSHIFT + HALF*RATIO_THKLY(IPT,I)           
+                            ELSE                                                          
+                               LAYPOS(IPT,I) = LAYPOS(IPT-1,I)  +                         
      .                             HALF*(RATIO_THKLY(IPT,I)+RATIO_THKLY(IPT-1,I))    
-                         ENDIF ! IF (N == 1)                                           
-                         POS_IT(IT) = LAYPOS(IPT,I)*THK(I)                             
-                       ENDDO                                                           
+                            ENDIF ! IF (N == 1)                                           
+                            POS_IT(IT) = LAYPOS(IPT,I)*THK(I)                             
+                      ENDDO                                                           
                   ELSEIF(IINT == 2) THEN                                        
                        THICKT  = STACK%GEO(1,ISUBSTACK)                           
                        THKLY   = STACK%GEO(I3,ISUBSTACK)*THICKT                   
@@ -824,7 +936,8 @@ C             Test stability condition for inertia
      .                      C1=TITR,I2=IXTG(NIXTG,NFT+I))
               ENDIF  
              ENDIF                             
-           ENDDO ! LFT,LLT
+            ENDDO ! LFT,LLT
+          ENDIF ! IPOS
         ELSE ! IDRAPE > 0 
            THICKT  = STACK%GEO(1,ISUBSTACK)
            DO I=LFT,LLT
