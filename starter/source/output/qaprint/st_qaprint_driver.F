@@ -425,7 +425,7 @@ C-----------------------------------------------
      2                                 QP_RPERTURB,EIGIPM   , EIGRPM, DEFAULTS ,
      3                                 DAMP_RANGE_PART)
       CALL ST_QAPRINT_INTERFACES(NOM_OPT   ,INOM_OPT  ,IPARI  ,INTBUF_TAB,I2RUPT ,  
-     1                           AREASL,GLOB_THERM%INTHEAT)      
+     1                           AREASL,GLOB_THERM%INTHEAT,ITAB)      
       CALL ST_QAPRINT_CLUSTERS(NOM_OPT   ,INOM_OPT  ,CLUSTERS)
       CALL ST_QAPRINT_OUTPUT_DATABASES(NOM_OPT, INOM_OPT, LACCELM ,ACCELM,LGAUGE,GAUGE)
       CALL ST_QAPRINT_MODEL_TOOLS(NOM_OPT, INOM_OPT, IBOX, IPMAS, NOM_SECT, NSTRF, SECBUF ,

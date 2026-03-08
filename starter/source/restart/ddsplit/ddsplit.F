@@ -2964,8 +2964,8 @@ C--------------------------------------------
 C--------------------------------------------
 C FSAV
 C--------------------------------------------
-      CALL WRITE_DB(FSAV,NTHVKI*(NINTER+NRWALL+NRBODY+NSECT+NJOINT+NRBAG+NVOLU+NFXBODY+NINTSUB))
-      LEN_AM = LEN_AM + NTHVKI*(NINTER+NRWALL+NRBODY+NSECT+NJOINT+NRBAG+NVOLU+ NFXBODY+NINTSUB)
+      CALL WRITE_DB(FSAV,NTHVKI*(NINTER+NRWALL+NRBODY+NSECT+NJOINT+NRBAG+NVOLU+NFXBODY+NINTSUB+NGUIDED_CABLE))
+      LEN_AM = LEN_AM + NTHVKI*(NINTER+NRWALL+NRBODY+NSECT+NJOINT+NRBAG+NVOLU+ NFXBODY+NINTSUB+NGUIDED_CABLE)
 C--------------------------------------------
 C TIMER MAT/PROP and WEIGHT
 C--------------------------------------------

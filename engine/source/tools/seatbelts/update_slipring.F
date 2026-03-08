@@ -397,10 +397,8 @@ C               Side where new next nod has to be found
                   NN2 = GUIDE(GUI)%CONT(CONT)%NODE(2)                     
                 ENDIF
                 IF ((N1==NN1).AND.(N2/=NN2)) THEN
-                  GUIDE(GUI)%CONT(CONT)%UPDATE = 0
                   GUIDE(GUI)%CONT(CONT)%NODE_NEXT(SIDE) = N2
                 ELSEIF ((N2==NN1).AND.(N1/=NN2)) THEN
-                  GUIDE(GUI)%CONT(CONT)%UPDATE = 0
                   GUIDE(GUI)%CONT(CONT)%NODE_NEXT(SIDE) = N1
                 ENDIF
               ENDIF
@@ -442,7 +440,14 @@ C
         FLAG_RETRACTOR_UPDATE = 0
       ENDIF
 C
-      IF (FLAG_GUIDED_CABLE_UPDATE /= 0) FLAG_GUIDED_CABLE_UPDATE = 0  
+      IF (FLAG_GUIDED_CABLE_UPDATE /= 0) THEN
+        FLAG_GUIDED_CABLE_UPDATE = 0  
+        DO GUI=1,NGUIDED_CABLE
+          DO CONT=1,GUIDE(GUI)%NCONT
+            GUIDE(GUI)%CONT(CONT)%UPDATE = 0
+          ENDDO  
+        ENDDO
+      ENDIF
 C
 C----------------------------------------------------------
 C----------------------------------------------------------

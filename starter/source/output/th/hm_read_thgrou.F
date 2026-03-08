@@ -93,6 +93,7 @@ C-----------------------------------------------
       USE checksum_starter_option_mod
       use hm_read_th_checksum_mod
       use element_mod , only : nixs,nixq,nixc,nixt,nixp,nixr,nixtg
+      use seatbelt_mod , only : NGUIDED_CABLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -2338,7 +2339,7 @@ C
           CALL HM_READ_THGRKI(
      1      101      ,KEY      ,PTR_NOPT_INTER,
      2      IAD      ,IFI      ,ITHGRP(1,IGS) ,ITHBUF  ,
-     3      NVARIN   ,VARIN    ,NINTER+NINTSUB,VARING  ,NVARING  ,
+     3      NVARIN   ,VARIN,NINTER+NINTSUB+NGUIDED_CABLE,VARING  ,NVARING  ,
      4      IVARING  ,NSNE     ,NVALL  ,ITHVAR,FLAGABF ,NVARABF   ,
      5      NOM_OPT  ,IGS      ,LSUBMODEL, LITHBUFMX)
           IF(IGS/=0) NTHWA=MAX(NTHWA,ITHGRP(4,IGS)*ITHGRP(6,IGS))

@@ -802,7 +802,7 @@ C     SEATBELT TOOLS
 C---------------------------------------------------
       CALL HM_OPTION_COUNT('/SLIPRING', NSLIPRING)
       CALL HM_OPTION_COUNT('/RETRACTOR', NRETRACTOR)
-      CALL HM_OPTION_COUNT('/GUIDED_CABLE', NGUIDED_CABLE)
+      CALL HM_OPTION_COUNT('/INTER/GUIDED_CABLE', NGUIDED_CABLE) 
 C---------------------------------------------------
 C     MONITORED VOLUMES
 C---------------------------------------------------
@@ -819,7 +819,8 @@ C-----
       IF(INT22>0)ALEFVM_Param%IEnabled=1 !AUTOMATICALLY ENABLING ALE FVM SCHEME FOR FSI INTER22
 C-----      
       CALL HM_OPTION_COUNT('/INTER/SUB',NINTSUB)
-      NINTER = HM_NINTER - NINTSUB
+C-----      
+      NINTER = HM_NINTER - NINTSUB-  NGUIDED_CABLE   
 C-----      
       CALL HM_OPTION_COUNT('/FRICTION',NINTERFRIC)
       CALL HM_OPTION_COUNT('/FRIC_ORIENT',NFRIC_ORIENT)

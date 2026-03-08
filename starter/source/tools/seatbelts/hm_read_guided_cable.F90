@@ -25,16 +25,16 @@
 !||--- called by ------------------------------------------------------
 !||    lectur                     ../starter/source/starter/lectur.F
 !||====================================================================
-      module hm_read_guided_cable_mod
+      module hm_read_inter_guided_cable_mod
         implicit none
       contains
 ! ======================================================================================================================
 !                                                   PROCEDURES
 ! ======================================================================================================================
-!! \brief Reader subroutine for option /GUIDED_CABLE
+!! \brief Reader subroutine forreading of option /INTER/GUIDED_CABLE
 !! \details
 !||====================================================================
-!||    hm_read_guided_cable       ../starter/source/tools/seatbelts/hm_read_guided_cable.F90
+!||    hm_read_inter_guided_cable       ../starter/source/tools/seatbelts/hm_read_guided_cable.F90
 !||--- called by ------------------------------------------------------
 !||    lectur                     ../starter/source/starter/lectur.F
 !||--- calls      -----------------------------------------------------
@@ -54,12 +54,13 @@
 !||    message_mod                ../starter/share/message_module/message_mod.F
 !||    submodel_mod               ../starter/share/modules1/submodel_mod.F
 !||====================================================================
-        subroutine hm_read_guided_cable(lsubmodel, igrnod , ngrnod, igrpart, ngrpart,   &
-                                        npart    , unitab , numelr, ipartr , ixr    ,   &
-                                        nixr     , numelp , ipartp, ixp    , nixp   ,   &
-                                        numelt   , ipartt , ixt   , nixt   , nspmd   ,   &
-                                        knod2el1d,nod2el1d,snod2el1d,numnod, x      ,   &
-                                        numels   ,numelq  ,numelc)
+        subroutine hm_read_inter_guided_cable(lsubmodel, igrnod , ngrnod, igrpart, ngrpart,   &
+                                              npart    , unitab , numelr, ipartr , ixr    ,   &
+                                              nixr     , numelp , ipartp, ixp    , nixp   ,   &
+                                              numelt   , ipartt , ixt   , nixt   , nspmd  ,   &
+                                              knod2el1d,nod2el1d,snod2el1d,numnod, x      ,   &
+                                              numels   ,numelq  ,numelc , nintsub, ltitr  ,   &
+                                              lnopt1   ,nom_opt,itab)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -96,6 +97,9 @@
           integer, intent(in) :: nixr                                      !< number of connectivity per spring element
           integer, intent(in) :: nixp                                      !< number of connectivity per beam element
           integer, intent(in) :: nixt                                      !< number of connectivity per truss element
+          integer, intent(in) :: nintsub                                   !< number of sub-interfaces
+          integer, intent(in) :: ltitr                                     !< title length
+          integer, intent(in) :: lnopt1                                    !< option length
           integer, intent(in) :: snod2el1d                                 !< size of nod2el1d array
           integer, intent(in) :: ipartp(numelp)                            !< beam element connectivity
           integer, intent(in) :: ipartr(numelr)                            !< spring element connectivity
@@ -104,7 +108,9 @@
           integer, intent(in) :: ixp(nixp,numelp)                          !< beam element connectivity
           integer, intent(in) :: ixt(nixt,numelt)                          !< truss element connectivity
           integer, intent(in) :: knod2el1d(numnod+1)                       !< mapping from node to 1D element
-          integer, intent(in) :: nod2el1d(snod2el1d)                       !< mapping from node to 1D element     
+          integer, intent(in) :: nod2el1d(snod2el1d)                       !< mapping from node to 1D element   
+          integer, intent(in) :: itab(numnod)                              !< table user id of nodes
+          integer, intent(inout) :: nom_opt(lnopt1,*)                      !< option titles for /TH/INTER
           real(kind=wp), dimension(:), intent(in) :: x(3,numnod)           !< coordinates of nodes
           type(submodel_data), dimension(nsubmod), intent(in) :: lsubmodel !< submodel data for Reader subroutines
           type (group_), dimension(ngrnod), target :: igrnod               !< data for group of nodes
@@ -127,7 +133,8 @@
           integer :: compt_node_guide,inod
           integer :: part_to_guide_group(npart)
           integer :: nb_common_nodes,ig1,ig2
-          real(kind=wp) :: dist1,dist2
+          integer :: count_average_length(nguided_cable)
+          real(kind=wp) :: dist1,dist2,length,average_length(nguided_cable)
           integer, dimension(:), pointer :: ingr2usr
           integer, dimension(:), allocatable :: npart_to_guide,add_part_to_guide,cpt_part_to_guide
           integer, dimension(:), allocatable :: part_to_guide    
@@ -142,17 +149,17 @@
 !                                                   External Functions
 ! ----------------------------------------------------------------------------------------------------------------------
           integer,external :: ngr2usr
-! ----------------------------------------------------------------------------------------------------------------------
-          data mess/"GUIDED CABLE DEFINITION                  "/         
+! ----------------------------------------------------------------------------------------------------------------------      
+          data mess/'INTERFACE INPUT                         '/
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
 
-          call hm_option_start('/GUIDED_CABLE')
-          write(iout, 1000)
+          call hm_option_start('/INTER/GUIDED_CABLE')
 !          
           allocate(guide(nguided_cable))
           guide(1:nguided_cable)%id = 0
+          guide(1:nguided_cable)%id_g = 0
           guide(1:nguided_cable)%node_set = 0
           guide(1:nguided_cable)%part_set = 0
           guide(1:nguided_cable)%istiff = 0
@@ -192,11 +199,19 @@
               end do
               if (grpart_id == 0) then
                 call ancmsg(msgid=3124, msgtype=msgerror, anmode=aninfo_blind_1, i1=id, c1=trim(titr), i2=grpart_id_u)
+              else
+                if (igrpart(grpart_id)%nentity == 0) then
+                  call ancmsg(msgid=3129, msgtype=msgerror, anmode=aninfo_blind_1, i1=id, c1=trim(titr), i2=grpart_id_u)  
+                endif  
               end if
             end if
-!           
-            write(iout, 1100) id,trim(titr),grnod_id_u,grpart_id_u,istiff,stfac,fric
+!
+!---------  Filling of nom_opt for /TH/INTER----------            
+            nom_opt(1,nintsub+i) = id
+            call fretitl(titr, nom_opt(lnopt1-ltitr+1,nintsub+i), ltitr)
+!            
             guide(i)%id = id
+            guide(i)%id_g = i                           ! global if of guide for outputs in spmd
             guide(i)%node_set = grnod_id
             guide(i)%part_set = grpart_id
             guide(i)%istiff = istiff
@@ -277,6 +292,9 @@
 !                             - couting of number of elements per guide          
 !-------------------------------------------------------------------------------------------            
 !
+          count_average_length(1:nguided_cable) = 0
+          average_length(1:nguided_cable) = zero          
+!
           guide_nb_elem(1:nguided_cable) = 0       
           allocate(tagnod_guide(numnod))
           allocate(listnod_guide(numnod))
@@ -291,11 +309,11 @@
           do i=1,numelr
             if (npart_to_guide(ipartr(i)) > 0) then
               node1 = ixr(2,i)
-              node2 = ixr(3,i)
+              node2 = ixr(3,i)           
               do j=add_part_to_guide(ipartr(i)),add_part_to_guide(ipartr(i)+1)-1
                 ig = part_to_guide(j)
                 guide(ig)%eltype = 6 ! spring element
-                guide_nb_elem(ig) = guide_nb_elem(ig) + 1  
+                guide_nb_elem(ig) = guide_nb_elem(ig) + 1                  
                 do k = 1,guide(ig)%ncont 
                   anchor_node = guide(ig)%cont(k)%anchor_node
                   call dist_node_segment(node1,node2,anchor_node,numnod,x,dist)
@@ -318,11 +336,20 @@
                     if (ig < tagnod_guide(ixr(k+1,i))) tagnod_guide(ixr(k+1,i)) = ig
                   endif
                 enddo
+!               mesure of average length of connected spring elements for each guide     
+                length = (x(1,node2)-x(1,node1))**2 + (x(2,node2)-x(2,node1))**2 + (x(3,node2)-x(3,node1))**2
+                if (length > zero) then
+                  length = sqrt(length)
+                else
+                  length = zero
+                end if       
+                count_average_length(ig) = count_average_length(ig) + 1
+                average_length(ig) = average_length(ig) + length              
               enddo
             endif  
           enddo
 !
-!         Beam elements    
+!         Beam elements
           do i=1,numelp
             if (npart_to_guide(ipartp(i)) > 0) then
               node1 = ixp(2,i)
@@ -353,6 +380,15 @@
                     if (ig < tagnod_guide(ixp(k+1,i))) tagnod_guide(ixp(k+1,i)) = ig
                   endif
                 enddo  
+!               mesure of average length of connected beam elements for each guide     
+                length = (x(1,node2)-x(1,node1))**2 + (x(2,node2)-x(2,node1))**2 + (x(3,node2)-x(3,node1))**2
+                if (length > zero) then
+                  length = sqrt(length)
+                else
+                  length = zero
+                end if       
+                count_average_length(ig) = count_average_length(ig) + 1
+                average_length(ig) = average_length(ig) + length  
               enddo
             endif  
           enddo       
@@ -387,11 +423,39 @@
 !                   common node is attached to guide with smallest id
                     if (ig < tagnod_guide(ixt(k+1,i))) tagnod_guide(ixt(k+1,i)) = ig
                   endif
-                enddo  
+                enddo 
+!               mesure of average length of connected truss elements for each guide     
+                length = (x(1,node2)-x(1,node1))**2 + (x(2,node2)-x(2,node1))**2 + (x(3,node2)-x(3,node1))**2
+                if (length > zero) then
+                  length = sqrt(length)
+                else
+                  length = zero
+                end if       
+                count_average_length(ig) = count_average_length(ig) + 1
+                average_length(ig) = average_length(ig) + length   
               enddo
             endif  
           enddo
 !                                          
+!-------------------------------------------------------------------------------------------           
+!         Check of distance between contact node and connected segment
+!------------------------------------------------------------------------------------------- 
+!                  
+          do ig = 1, nguided_cable
+            if (average_length(ig) > zero) then
+              average_length(ig) = average_length(ig) / real(count_average_length(ig),kind=wp)
+            endif  
+            id = guide(ig)%id      
+            call fretitl2(titr, nom_opt(lnopt1-ltitr+1,nintsub+ig), ltitr)
+            do i = 1, guide(ig)%ncont
+              if ((guide(ig)%cont(i)%dist > average_length(ig)).or.(guide(ig)%cont(i)%node(2)==0)) then
+                anchor_node = guide(ig)%cont(i)%anchor_node
+                call ancmsg(msgid=3130,msgtype=msgerror,anmode=aninfo_blind_1,i1=id,c1=trim(titr),       &
+                              i2=itab(anchor_node))  
+              endif 
+            end do  
+          enddo   
+            
 !-------------------------------------------------------------------------------------------           
 !         Determination of the second segment and of nodes before and after segments
 !-------------------------------------------------------------------------------------------           
@@ -622,19 +686,7 @@
           deallocate(tagnod_guide)  
           deallocate(common_nodes) 
           deallocate(listnod_guide)          
-!
-! ----------------------------------------------------------------------------------------------------------------------
-1000      format(/                                                                     &
-               '      GUIDED_CABLE DEFINITIONS '/                                      &
-               '      ---------------------- ')   
-
-1100      format(/5X,'GUIDED_CABLE ID',I10,1X,A                                        &
-                 /5X,'SET OF NODES  . . . . . . . . . . . . . .',I10                   &
-                 /5X,'SET OF PARTS  . . . . . . . . . . . . . .',I10                   &
-                 /5X,'CONTACT STIFFNESS TYPE  . . . . . . . . .',I10                   &
-                 /5X,'STIFFNESS SCALE FACTOR  . . . . . . . . .',1PG14.4               &
-                 /5X,'FRICTION COEFFICIENT  . . . . . . . . . .',1PG14.4)
 
 ! ----------------------------------------------------------------------------------------------------------------------
-        end subroutine hm_read_guided_cable
-      end module hm_read_guided_cable_mod
+        end subroutine hm_read_inter_guided_cable
+      end module hm_read_inter_guided_cable_mod

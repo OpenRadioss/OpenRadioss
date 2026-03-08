@@ -122,6 +122,7 @@ C-----------------------------------------------
       USE OUTPUT_MOD , ONLY : OUTPUT_
       use thsechecksum_mod
       use element_mod , only : nixs,nixq,nixc,nixp,nixr,nixt,nixtg
+      USE SEATBELT_MOD , only : NGUIDED_CABLE_G
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -202,7 +203,7 @@ C-----------------------------------------------
       my_real XX,YY,ZZ,DET,XXMOM,YYMOM,ZZMOM, 
      .        XCG, YCG, ZCG, IXX, IYY, IZZ,IXY, IYZ, IZX,                   
      .        JXX, JYY, JZZ, JXY, JYZ, JZX, AA, THISC,          
-     .        FSAVINT(NTHVKI,NINTER+NINTSUB),FSAVVENT(5,NVENTTOT),          
+     .        FSAVINT(NTHVKI,NINTER+NINTSUB+NGUIDED_CABLE_G),FSAVVENT(5,NVENTTOT),          
      .        FAC,ARRAY(5)                            
       my_real, DIMENSION(100) :: SUBSAV  
       my_real, DIMENSION(1) :: WA_LOCAL
@@ -602,12 +603,14 @@ C-------------------------------------------------------
 C      TH GROUP KINE SPMD
 C       (  FSAV(NTHVKI,*), with NTHVKI = 18  )
 C-------------------------------------------------------
-       FSAVMAX = NVOLU+NRBAG+NJOINT+NSECT+NRBODY+NRWALL+NINTER+NINTSUB
+       FSAVMAX = NVOLU+NRBAG+NJOINT+NSECT+NRBODY+NRWALL+NINTER+NINTSUB+NGUIDED_CABLE_G
 
        IF (NSPMD > 1) THEN
          CALL SPMD_GLOB_DSUM9(FSAV,NTHVKI*(NINTER+NRWALL+NRBODY+NSECT+NJOINT))
          IF((NVOLU+NRBAG)>0)CALL SPMD_GLOB_DSUM9(FSAV(1,1+NINTER+NRWALL+NRBODY+NSECT+NJOINT),NTHVKI*(NVOLU+NRBAG))
          IF(NINTSUB>0)CALL SPMD_GLOB_DSUM9(FSAV(1,1+NINTER+NRWALL+NRBODY+NSECT+NJOINT+NVOLU+NRBAG),NTHVKI*NINTSUB)
+         IF(NGUIDED_CABLE_G>0)
+     .     CALL SPMD_GLOB_DSUM9(FSAV(1,1+NINTER+NRWALL+NRBODY+NSECT+NJOINT+NVOLU+NRBAG+NINTSUB),NTHVKI*NGUIDED_CABLE_G)
        ENDIF
        IF(FSAVMAX>0) THEN
          IF (ISPMD/=0) THEN
@@ -619,13 +622,16 @@ C-------------------------------------------------------
          ENDIF
        ENDIF
 C
-       IF(NINTER+NINTSUB/=0.AND.ISPMD==0)THEN
+       IF(NINTER+NINTSUB+NGUIDED_CABLE_G/=0.AND.ISPMD==0)THEN
          DO J=1,NTHVKI
            DO N=1,NINTER
              FSAVINT(J,N)=FSAV(J,N)
            END DO
            DO N=1,NINTSUB
              FSAVINT(J,NINTER+N)=FSAV(J,(NINTER+NRWALL+NRBODY+NSECT+NJOINT+NVOLU+NRBAG)+N)
+           END DO
+           DO N=1,NGUIDED_CABLE_G
+             FSAVINT(J,NINTER+NINTSUB+N)=FSAV(J,(NINTER+NRWALL+NRBODY+NSECT+NJOINT+NVOLU+NRBAG+NINTSUB)+N)
            END DO
          END DO
        END IF

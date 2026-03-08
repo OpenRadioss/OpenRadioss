@@ -152,6 +152,7 @@ C READING INTERFACES
      .                           OPTION_TITR=TITR,KEYWORD2=KEY,KEYWORD3=KEY2)
          ! CHECK IF READ OPTION IS /INTER/SUB
          IF(KEY(1:LEN_TRIM(KEY)) == 'SUB') CYCLE
+         IF(KEY(1:LEN_TRIM(KEY)) == 'GUIDED_CABLE') CYCLE
          NI=NI+1
          DO I = 1,NPARI
             IPARI(I,NI) = 0

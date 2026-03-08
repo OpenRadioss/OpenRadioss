@@ -33,7 +33,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
       SUBROUTINE KINE_SEATBELT_FORCE(A,STIFN,FLAG_SLIPRING_UPDATE,FLAG_RETRACTOR_UPDATE,
      .                               IRESP,X,XDP,V,DT1,MS0,NUMNOD,
-     .                               FLAG_GUIDED_CABLE_UPDATE)
+     .                               FLAG_GUIDED_CABLE_UPDATE,SFSAV,FSAV,OFFSAV)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -55,6 +55,8 @@ C-----------------------------------------------
       INTEGER FLAG_SLIPRING_UPDATE,FLAG_RETRACTOR_UPDATE
       INTEGER, INTENT(IN) ::  IRESP
       INTEGER, INTENT(IN) ::  NUMNOD
+      INTEGER, INTENT(IN) ::  SFSAV
+      INTEGER, INTENT(IN) ::  OFFSAV
       INTEGER, INTENT(INOUT) :: FLAG_GUIDED_CABLE_UPDATE
       my_real, INTENT(INOUT) :: A(3,NUMNOD)
       my_real, INTENT(INOUT) :: STIFN(NUMNOD)
@@ -62,6 +64,7 @@ C-----------------------------------------------
       my_real, INTENT(IN) :: V(3,NUMNOD)
       my_real, INTENT(IN) :: MS0(NUMNOD)
       my_real, INTENT(IN) :: DT1
+      my_real, INTENT(INOUT) :: FSAV(NTHVKI,SFSAV/NTHVKI)
       double precision, INTENT(IN) :: XDP(3,NUMNOD)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -132,7 +135,8 @@ C----------------------------------------------------------
       IF (NGUIDED_CABLE > 0) THEN
         CALL GUIDED_CABLE_FORCE(A,STIFN,IRESP,NUMNOD,X,XDP,
      .                          V,DT1,MS0,N_ANCHOR_REMOTE_SEND,
-     .                          FLAG_GUIDED_CABLE_UPDATE,BUF_EXCH)     
+     .                          FLAG_GUIDED_CABLE_UPDATE,BUF_EXCH,
+     .                          NTHVKI,SFSAV,FSAV,OFFSAV)     
       ENDIF 
 
 C----------------------------------------------------------
