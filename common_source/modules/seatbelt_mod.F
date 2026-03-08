@@ -219,6 +219,7 @@ c
 c
         TYPE GUIDE_STRUCT
           INTEGER  ID
+          INTEGER  ID_G          
           INTEGER  ISTIFF
           INTEGER  NODE_SET
           INTEGER  PART_SET

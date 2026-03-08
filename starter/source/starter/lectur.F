@@ -656,7 +656,8 @@ C-----------------------------------------------
       use hm_preread_skw_mod, ONLY : hm_preread_skw
       use hierarchy_rbody_mod
       use sfem_exclude_mod
-      use hm_read_guided_cable_mod, ONLY : hm_read_guided_cable
+      use hm_read_inter_guided_cable_mod, ONLY : hm_read_inter_guided_cable
+      use hm_print_inter_guided_cable_mod, ONLY : hm_print_inter_guided_cable
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1666,7 +1667,8 @@ c
      +          NGJOINT+NUNIT0+NFUNCT+NADMESH+
      +          NSPHIO+NSPCOND+NRBYKIN+NEBCS+
      +          NINICRACK+NODMAS+NBGAUGE+NCLUSTER+NINTERFRIC+
-     +          NRBMERGE+NUMBCSN+NSLIPRING+NRETRACTOR
+     +          NRBMERGE+NUMBCSN+NSLIPRING+NRETRACTOR+
+     +          NGUIDED_CABLE
       SNOM_OPT = SNOM_OPT1*LNOPT1+1
       SINOM_OPT= 33
       SNOM_SECT= ncharline*NSECT
@@ -1992,7 +1994,7 @@ C     .. TO BE MAINTAINED (cf doc/inom_opt.txt) ..
       INOM_OPT(2) = INOM_OPT(1) + NACCELM
       INOM_OPT(3) = INOM_OPT(2) + NVOLU + NMONVOL
       INOM_OPT(4) = INOM_OPT(3) + NINTER
-      INOM_OPT(5) = INOM_OPT(4) + NINTSUB
+      INOM_OPT(5) = INOM_OPT(4) + NINTSUB + NGUIDED_CABLE
       INOM_OPT(6) = INOM_OPT(5) + NRWALL
       INOM_OPT(7) = INOM_OPT(6) + 0 !obsolete option removed
       INOM_OPT(8) = INOM_OPT(7) + NJOINT
@@ -4260,7 +4262,7 @@ C--------------------------------------------
 
       CALL TRACE_OUT1()
 C--------------------------------------------
-C     READING SLIPRINGS AND RETRACTORS
+C     READING SLIPRINGS AND RETRACTORS AND /INTER/GUIDED_CABLE
 C--------------------------------------------
       ERR_MSG='SEATBELTS'
       ERR_CATEGORY='SEATBELTS'
@@ -4284,15 +4286,14 @@ C
       IF(NRETRACTOR > 0) CALL HM_READ_RETRACTOR(
      1                                           LSUBMODEL,ITABM1,IXR,ITAB,UNITAB,
      2                                           X,NPC1,NOM_OPT(LNOPT1*INOM_OPT(32)+1),ALEA,IPM)
-C   
-      IF(NGUIDED_CABLE > 0) WRITE(ISTDO,'(A)')' .. GUIDED CABLE'  
-      IF(NGUIDED_CABLE > 0) CALL HM_READ_GUIDED_CABLE(
-     1                                        LSUBMODEL,IGRNOD,NGRNOD,IGRPART,NGRPART,
-     2                                        NPART,UNITAB,NUMELR,IPARTR,IXR,
-     3                                        NIXR,NUMELP,IPARTP,IXP,NIXP,
-     4                                        NUMELT,IPARTT,IXT,NIXT,NSPMD,
-     5                                        KNOD2EL1D,NOD2EL1D,S_NOD2EL1D,NUMNOD,X,
-     6                                        NUMELS,NUMELQ,NUMELC)
+C     
+      IF (NGUIDED_CABLE > 0) CALL HM_READ_INTER_GUIDED_CABLE(LSUBMODEL,IGRNOD,NGRNOD,IGRPART,NGRPART,
+     .                                                       NPART,UNITAB,NUMELR,IPARTR,IXR,
+     .                                                       NIXR,NUMELP,IPARTP,IXP,NIXP,
+     .                                                       NUMELT,IPARTT,IXT,NIXT,NSPMD,
+     .                                                       KNOD2EL1D,NOD2EL1D,S_NOD2EL1D,NUMNOD,X,
+     .                                                       NUMELS,NUMELQ,NUMELC,NINTSUB,LTITR,
+     .                                                       LNOPT1,NOM_OPT(LNOPT1*INOM_OPT(4)+1),ITAB)
 C      
       CALL TRACE_OUT1()
 C--------------------------------------------
@@ -4890,7 +4891,8 @@ C /BCS/CYCLIC ini&check
         ALLOCATE(ITAGCYC(0))
       END IF
 C--------------------------------------------
-      SFSAV = NTHVKI * (NINTER+NRWALL+NRBODY+NSECT+NJOINT+NRBAG+NVOLU+NMONVOL+NFXBODY+NINTSUB)
+      SFSAV = NTHVKI * (NINTER+NRWALL+NRBODY+NSECT+NJOINT+NRBAG+NVOLU+NMONVOL+NFXBODY
+     .                 +NINTSUB+NGUIDED_CABLE)
       ALLOCATE(FSAV(SFSAV)  ,STAT=stat)
       FSAV = ZERO
       CALL TRACE_OUT1()
@@ -7497,7 +7499,9 @@ C Also initialized in Engine (RDRESA)
      .                  MSGTYPE=MSGWARNING,
      .                  ANMODE=ANINFO_BLIND_1)
       ENDIF
-
+C--------------------------------------------------------------   
+      IF(NINTER + NGUIDED_CABLE> 0) WRITE(ISTDO,'(A)')TITRE(38)   
+C      
       IF(NINTER > 0)THEN
        IF(IDDLEVEL == 0) THEN
          ALLOCATE(XFILTR(NINTER)       ,STAT=stat)
@@ -7519,8 +7523,7 @@ C Also initialized in Engine (RDRESA)
 C
        IF(IDDLEVEL == 0) CALL STARTIME(10,1)
        IF(IDDLEVEL == 1) CALL STARTIME(11,1)
-
-       WRITE(ISTDO,'(A)')TITRE(38)
+C 
        IF(NINTSUB/=0)THEN
           CALL HM_READ_INTSUB(IGRNOD ,IGRSURF,NOM_OPT(LNOPT1*INOM_OPT(3)+1),IGRSLIN,LSUBMODEL)
        END IF
@@ -7815,7 +7818,13 @@ C
         !--------------------------------------------!
 C
       ENDIF
-
+C--------------------------------------------------------------
+C     Printout for /INTER/GUIDED_CABLE
+C--------------------------------------------------------------
+      IF ((NGUIDED_CABLE > 0).AND.(IDDLEVEL==0)) THEN
+        CALL HM_PRINT_INTER_GUIDED_CABLE(NINTER,NINTSUB,NGRNOD,NGRPART,IGRNOD,IGRPART,
+     .                                   NPARI,IPARI,LTITR,LNOPT1,NOM_OPT(LNOPT1*INOM_OPT(4)+1))
+      ENDIF
 
 C--------------------------------------------
 C     Reading rigid walls

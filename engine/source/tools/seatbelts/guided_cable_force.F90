@@ -45,7 +45,8 @@
 !
   subroutine guided_cable_force(a, stifn, iresp, numnod, x, xdp, &
                                 v, dt1, ms0, n_anchor_remote_send, &
-                                flag_guided_cable_update,buf_exch)
+                                flag_guided_cable_update,buf_exch, &
+                                nthvki, sfsav, fsav, offsav)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -67,6 +68,9 @@
           integer,                                   intent(in)    :: iresp                      !< simple precision flag
           integer,                                   intent(in)    :: n_anchor_remote_send       !< number of remote anchor nodes to send
           integer,                                   intent(inout) :: flag_guided_cable_update   !< flag for guided cable update
+          integer,                                   intent(in)    :: nthvki                     !< number of THVKI
+          integer,                                   intent(in)    :: sfsav                      !< size of FSAV
+          integer,                                   intent(in)    :: offsav                     !< offset of FSAV          
           real(kind=WP),                             intent(in)    :: dt1                        !< time step
           real(kind=WP),                             intent(in)    :: x(3,numnod)                !< nodal positions
           real(kind=WP),                             intent(in)    :: v(3,numnod)                !< nodal velocities  
@@ -74,6 +78,7 @@
           real(kind=WP),                             intent(inout) :: a(3,numnod)                !< nodal accelerations
           real(kind=WP),                             intent(inout) :: stifn(numnod)              !< nodal stiffness  
           real(kind=WP),                             intent(inout) :: buf_exch(n_anchor_remote_send,4) !< buffer for exchange of remote contributions 
+          real(kind=WP),                             intent(inout) :: fsav(nthvki,sfsav/nthvki)  !< buffer TH/INTER
           double precision,                          intent(in)    :: xdp(3,numnod)              !< nodal positions double precision
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
@@ -90,6 +95,7 @@
           real(kind=WP) :: forc_norm, forc_tan, forc_tan_ad, forc_ad(3)
           real(kind=WP) :: mass_harm, stfac, stiff_stab, adamp
           real(kind=WP) :: one_over_dt1          
+          real(kind=WP) :: impn(3),impt(3)     
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -104,7 +110,7 @@
           do i=1,nguided_cable
 !
             fric   = guide(i)%fric
-            stfac  = guide(i)%stfac            
+            stfac  = guide(i)%stfac       
 !            
             do j=1,guide(i)%ncont
 !
@@ -256,12 +262,19 @@
               else
                 guide(i)%cont(j)%forc_ad(1:3) = zero
               endif
+!              
+!             impulsion is saved for output             
+              impn(1:3) = -forc(1:3)*dt1
+              impt(1:3) = -guide(i)%cont(j)%forc_ad(1:3)*dt1
+!             
               forc(1:3) =  forc(1:3) + guide(i)%cont(j)%forc_ad(1:3)
 !
 !-------------------------------------------------------------------------------------------          
 !             Storage of data for output
 !------------------------------------------------------------------------------------------- 
               guide(i)%cont(j)%forc(1:3) = -forc(1:3)
+              fsav(1:3,offsav + guide(i)%id_g) = fsav(1:3,offsav + guide(i)%id_g) + impn(1:3)
+              fsav(4:6,offsav + guide(i)%id_g) = fsav(4:6,offsav + guide(i)%id_g) + impt(1:3)
 !                  
 !-------------------------------------------------------------------------------------------          
 !             Distribution of forces   

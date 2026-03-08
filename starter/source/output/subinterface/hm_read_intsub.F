@@ -127,7 +127,7 @@ C--------------------------------------------------
      .                       OPTION_TITR = TITR,
      .                       KEYWORD2 = KEY)
 
-        IF(KEY(1:LEN_TRIM(KEY))/='SUB') THEN
+        IF((KEY(1:LEN_TRIM(KEY))/='SUB').AND.(KEY(1:LEN_TRIM(KEY))/='GUIDED_CABLE')) THEN
           NI=NI+1
           INDEX_NOM_OPT=INDEX_NOM_OPT+1
 C

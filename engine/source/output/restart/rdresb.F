@@ -1537,6 +1537,7 @@ C
       DO I = 1, NGUIDED_CABLE
 C
         CALL READ_I_C(GUIDE(I)%ID, 1)
+        CALL READ_I_C(GUIDE(I)%ID_G, 1)        
         CALL READ_I_C(GUIDE(I)%ISTIFF, 1)
         CALL READ_I_C(GUIDE(I)%NODE_SET, 1)
         CALL READ_I_C(GUIDE(I)%PART_SET, 1)

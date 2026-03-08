@@ -1265,6 +1265,7 @@ C /VIPER/ON
 C----------------------------------------------------------------------------------
 C Type2 output - PCONT2
               INTEGER :: SZ_NPCONT2
+              INTEGER :: OFFSAV
               my_real, DIMENSION(:,:),ALLOCATABLE :: NPCONT2
 C----------------------------------------------------------------------------------
 !  contact w/ offset
@@ -5281,9 +5282,10 @@ C-----------------------------------------------------
 C         KINEMATIC CONDITIONS FOR SEATBELTS AND PENALTY FORCE FOR GUIDED CABLE
 C-----------------------------------------------------
               IF (NSLIPRING + NRETRACTOR + NGUIDED_CABLE + N_ANCHOR_REMOTE > 0) THEN
+                OFFSAV = NINTER+NRWALL+NRBODY+NSECT+NJOINT+NVOLU+NRBAG+NINTSUB
                 CALL KINE_SEATBELT_FORCE(NODES%A,NODES%STIFN,FLAG_SLIPRING_UPDATE,FLAG_RETRACTOR_UPDATE,
      .                                   IRESP,NODES%X,NODES%XDP,NODES%V,DT1,NODES%MS0,NUMNOD,
-     .                                   FLAG_GUIDED_CABLE_UPDATE)
+     .                                   FLAG_GUIDED_CABLE_UPDATE,SFSAV,FSAV,OFFSAV)
               ENDIF
 C
 C-----------------------------------------------------

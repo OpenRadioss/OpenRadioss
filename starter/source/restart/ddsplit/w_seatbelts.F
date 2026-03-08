@@ -180,13 +180,14 @@ C
         IF (NLOCAL(GUIDE(I)%CONT(1)%NODE(2),P)==1) THEN
 C
           CALL WRITE_I_C(GUIDE(I)%ID, 1)
+          CALL WRITE_I_C(GUIDE(I)%ID_G, 1)
           CALL WRITE_I_C(GUIDE(I)%ISTIFF, 1)
           CALL WRITE_I_C(GUIDE(I)%NODE_SET, 1)
           CALL WRITE_I_C(GUIDE(I)%PART_SET, 1)
           CALL WRITE_I_C(GUIDE(I)%NCONT, 1)
           CALL WRITE_I_C(GUIDE(I)%ELTYPE, 1)
           CALL WRITE_I_C(GUIDE(I)%N_REMOTE_PROC, 1)
-          LEN_IA = LEN_IA + 7
+          LEN_IA = LEN_IA + 8
 C
           CALL WRITE_DB(GUIDE(I)%STFAC, 1)
           CALL WRITE_DB(GUIDE(I)%FRIC, 1)
