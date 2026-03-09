@@ -690,6 +690,34 @@ C--------------------------------------------------
      .                                'MDS_VAR'  ,7           ,IS_MDSVAR ,IMDSVAR  ,
      .                                IS_MDSVAR_ALL,IBID1     ,IBID2     ,IS_DEF   ,
      .                                IS_MDSVAR_DEF,IS_MEMB   ,IBID3     )
+
+          IF (KEY3 =='MDS' .AND. 
+     .        IMDSVAR == 0 .AND. IS_MDSVAR_DEF == 0 .AND. IS_MDSVAR_ALL == 0) THEN
+            CALL ANCMSG(MSGID=322,MSGTYPE=MSGERROR,ANMODE=ANINFO,c1=KEY3_GLOB)
+            CALL ARRET(2)
+          ENDIF
+C--------------------------------------------------
+C Check for duplicate MDS_VAR definition with different settings
+C--------------------------------------------------
+          IF (KEY3 == 'MDS') THEN
+            DO K=1,ID_INPUT-1
+              IF (H3D_DATA%INPUT_LIST(K)%KEY2 == KEY2 .AND.
+     .           H3D_DATA%INPUT_LIST(K)%KEY3 == 'MDS') THEN
+              ! Check if same IMDSVAR value or if both are ALL/DEF
+                IF ((IMDSVAR == 0 .AND. IS_MDSVAR_ALL == 1 .AND.
+     .                     H3D_DATA%INPUT_LIST(K)%KEY4 == 'MDS_VAR=DEF') .OR.
+     .                    (IMDSVAR == 0 .AND. IS_MDSVAR_DEF == 1 .AND.
+     .                     H3D_DATA%INPUT_LIST(K)%KEY4 == 'MDS_VAR=ALL') .OR.
+     .                    (IMDSVAR > 0 .AND.
+     .                     (H3D_DATA%INPUT_LIST(K)%KEY4 == 'MDS_VAR=DEF' .OR.
+     .                      H3D_DATA%INPUT_LIST(K)%KEY4 == 'MDS_VAR=ALL')   ))  THEN
+                  CALL ANCMSG(MSGID=323,MSGTYPE=MSGERROR,ANMODE=ANINFO,
+     .                        c1=KEY3_GLOB,c2=H3D_DATA%INPUT_LIST(K)%KEY2)
+                  CALL ARRET(2)
+                ENDIF
+              ENDIF
+            ENDDO
+          ENDIF
 C--------------------------------------------------
 C Read IR= I/ALL/LOWER/UPPER
 C--------------------------------------------------
