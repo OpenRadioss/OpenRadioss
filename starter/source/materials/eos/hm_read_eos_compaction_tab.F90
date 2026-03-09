@@ -328,7 +328,7 @@
       eos_struct%uparam(2) = c_solid
       eos_struct%uparam(3) = RHOMAX_PLASTIC
       eos_struct%uparam(4) = gamma_tmd !user may want to have a non zero value even if 0 is recommended
-                                      !used when rho>rhomax_plastic to avoid any useless interpolation of gamma function
+                                      !used when rho>rhomax_plastic to avoid any unnecessary interpolation of gamma function
 
       !integer parameters
       eos_struct%iparam(1) = iform

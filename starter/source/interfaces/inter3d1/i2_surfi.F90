@@ -31,7 +31,7 @@
 ! ======================================================================================================================
 !                                                   procedures
 ! ======================================================================================================================
-!! \brief this subroutine doing the initialization of the interface type2 w/ input surf/surf
+!! \brief This subroutine performs the initialization of the interface type2 with input surf/surf
 !||====================================================================
 !||    i2_surfi         ../starter/source/interfaces/inter3d1/i2_surfi.F90
 !||--- called by ------------------------------------------------------
@@ -268,7 +268,7 @@
             end if
             if(nels+nelc+neltg==0) then
               seg_n = msegtyp(i) - nrtm
-              if(i<=l1) then ! 1er surf
+              if(i<=l1) then ! first surface
                 call ancmsg(msgid=3092,msgtype=msgwarning,                          &
                   anmode=aninfo_blind_2,i1=int_id,c1=titr,i2=seg_n)
               else

@@ -75,8 +75,8 @@
           integer :: nload_cyl
           integer :: nload_cload                                          !< nb of concentrated loads
           integer :: nload_pload                                          !< nb of pressure loads
-          integer :: ninivelt                                             !< nb of inivel (/inivel) w/ t_start
-          integer :: ninivelt_g                                           !< max nb of inivel (each domain) w/ t_start
+          integer :: ninivelt                                             !< nb of inivel (/inivel) with t_start
+          integer :: ninivelt_g                                           !< max nb of inivel (each domain) with t_start
           type (press_cyl_) ,dimension(:) ,allocatable   :: load_cyl
           type (domdec_load_), dimension(:), allocatable :: cyl_restart
           type (inivel_), dimension(:), allocatable      :: inivelt

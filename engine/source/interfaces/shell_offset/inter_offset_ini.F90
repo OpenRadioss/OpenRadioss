@@ -29,7 +29,7 @@
       implicit none
       contains
 !=======================================================================================================================
-!!\brief This subroutine do the initialization for offset treatment
+!!\brief This subroutine performs the initialization for offset treatment
 !=======================================================================================================================
 !||====================================================================
 !||    inter_sh_offset_ini       ../engine/source/interfaces/shell_offset/inter_offset_ini.F90
@@ -74,13 +74,13 @@
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
           integer, intent (in   )                          :: ngroup           !< number of elem group
-          integer, intent (in   )                          :: nparg            !< 1er dim of iparg
-          integer, intent (in   )                          :: npropg           !< 1er dim of geo
+          integer, intent (in   )                          :: nparg            !< first dimension of iparg
+          integer, intent (in   )                          :: npropg           !< first dimension of geo
           integer, intent (in   )                          :: numgeo           !< number of prop
           integer, intent (in   )                          :: numelc           !< number shell 4n element
-          integer, intent (in   )                          :: nixc             !< 1er dim of ixc
+          integer, intent (in   )                          :: nixc             !< first dimension of ixc
           integer, intent (in   )                          :: numeltg          !< number shell 3n element
-          integer, intent (in   )                          :: nixtg            !< 1er dim of ixtg
+          integer, intent (in   )                          :: nixtg            !< first dimension of ixtg
           integer, intent (in   )                          :: numnod           !< number node
           integer, intent (in   )                          :: nspmd            !< number of domains
           integer, intent (in   )                          :: sfr_elem         !< number of comm nodes

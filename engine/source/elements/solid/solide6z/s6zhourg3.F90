@@ -404,7 +404,7 @@
 
 !
 
-!c------ w/ prony, use icpre=0 anyway
+!c------ with prony, use icpre=0 anyway
       if (matvis>2) then
        do i=1,nel
         nu1(i) =two/(one-nuu)

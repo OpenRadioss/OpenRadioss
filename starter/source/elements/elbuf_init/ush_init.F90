@@ -119,7 +119,7 @@
           integer,                               intent (in   )     :: npart            !< number of ipart
           integer,                               intent (in   )     :: nel              !< number of elements in this group
           integer,                               intent (in   )     :: numelx           !< number x element
-          integer,                               intent (in   )     :: nixx             !< 1er dimension of ixx
+          integer,                               intent (in   )     :: nixx             !< first dimension of ixx
           integer, dimension(numelx),            intent (in   )     :: ipartx           !< element part id
           integer, dimension(numnod),            intent (inout)     :: nshnod           !< number shell element connected to node
           integer, dimension(n_var_iparg),       intent (in   )     :: iparg            !< element group data

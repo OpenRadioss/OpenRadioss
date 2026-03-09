@@ -28,7 +28,7 @@
       module c_inivell_mod
       implicit none
       contains
-        !! \brief get number of splited inivel rst w/ T_start or sensor_id
+        !! \brief get number of split inivel rst with T_start or sensor_id
 !||====================================================================
 !||    c_inivell      ../starter/source/restart/ddsplit/c_inivell.F90
 !||--- called by ------------------------------------------------------
