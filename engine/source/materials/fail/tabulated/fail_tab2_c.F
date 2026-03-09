@@ -242,7 +242,6 @@ c
             CASE(1)
               XVEC(1:NEL,1)   = L0(1:NEL)/EL_REF
               XVEC(1:NEL,2:3) = ZERO
-              IPOS(1:NEL,1:3) = 1
             ! Scale factor vs element size vs strain rate
             CASE(2)
               XVEC(1:NEL,1)   = L0(1:NEL)/EL_REF
@@ -254,7 +253,6 @@ c
                 XVEC(1:NEL,2) = EPSP(1:NEL)/SR_REF1
               ENDIF
               XVEC(1:NEL,3)   = ZERO
-              IPOS(1:NEL,1:3) = 1
           END SELECT
         ELSEIF (IREG == 2) THEN 
           SELECT CASE (NDIM)
@@ -262,22 +260,33 @@ c
             CASE(1)
               XVEC(1:NEL,1)   = L0(1:NEL)/EL_REF
               XVEC(1:NEL,2:3) = ZERO
-              IPOS(1:NEL,1:3) = 1
             ! Scale factor vs element size vs triaxiality
             CASE(2)
               XVEC(1:NEL,1)   = L0(1:NEL)/EL_REF
               XVEC(1:NEL,2)   = TRIAX(1:NEL)
               XVEC(1:NEL,3)   = ZERO
-              IPOS(1:NEL,1:3) = 1
               ! Scale factor vs element size vs triaxiality vs Lode parameter
             CASE(3)
               XVEC(1:NEL,1)   = L0(1:NEL)/EL_REF
               XVEC(1:NEL,2)   = TRIAX(1:NEL)
               XVEC(1:NEL,3)   = XI(1:NEL)
-              IPOS(1:NEL,1:3) = 1
-          END SELECT            
+          END SELECT
+        ENDIF
+        IF (TIME==ZERO)THEN
+           IPOS(1:NEL,1:3) = 1
+        ELSE
+           DO I=1,NEL
+              IPOS(I,1) = UVAR(I,4)
+              IPOS(I,2) = UVAR(I,5)
+              IPOS(I,3) = UVAR(I,6)
+            ENDDO
         ENDIF
         CALL TABLE_VINTERP(TABLE(ITAB_SIZE),NEL,NEL,IPOS,XVEC,SIZEFAC,DSIZE)
+        DO I=1,NEL
+          UVAR(I,4) = IPOS(I,1)
+          UVAR(I,5) = IPOS(I,2)
+          UVAR(I,6) = IPOS(I,3)
+        ENDDO
         SIZEFAC(1:NEL) = SIZEFAC(1:NEL)*FSCALE_EL
         IF (IREG == 1) THEN 
           DO I = 1,NEL
@@ -304,10 +313,20 @@ c
         ELSE
           VAR(1:NEL) = EPSP(1:NEL)/SR_REF2
         ENDIF
-        IPOS2(1:NEL) = 1
+        ! Set IPOS2 for function interpolation
+        IF (TIME == ZERO) THEN 
+           IPOS2(1:NEL) = 1
+        ELSE
+           DO I=1,NEL
+              IPOS2(I) = UVAR(I,7)
+            ENDDO
+        ENDIF
         IAD (1:NEL) = NPF(IFUNC(2)) / 2 + 1
         ILEN(1:NEL) = NPF(IFUNC(2)+1) / 2 - IAD(1:NEL) - IPOS2(1:NEL)
         CALL VINTER2(TF,IAD,IPOS2,ILEN,NEL,VAR,DFT,RATEFAC)
+        DO I=1,NEL
+            UVAR(I,7) = IPOS2(I)
+        ENDDO
         RATEFAC(1:NEL) = FSCALE_SR*RATEFAC(1:NEL)
       ELSEIF (CJC > ZERO) THEN 
         DO I=1,NEL
@@ -345,22 +364,34 @@ c
           CASE (1)
             XVEC(1:NEL,1)   = TRIAX(1:NEL)
             XVEC(1:NEL,2:3) = ZERO
-            IPOS(1:NEL,1:3) = 1
           ! Failure plastic strain vs triaxiality vs Lode parameter
           CASE (2)
             XVEC(1:NEL,1)   = TRIAX(1:NEL)
             XVEC(1:NEL,2)   = XI(1:NEL)
             XVEC(1:NEL,3)   = ZERO
-            IPOS(1:NEL,1:3) = 1
           ! Failure plastic strain vs triaxiality vs Lode parameter vs temperature
           CASE (3)
             XVEC(1:NEL,1)   = TRIAX(1:NEL)
             XVEC(1:NEL,2)   = XI(1:NEL)
             XVEC(1:NEL,3)   = TEMP(1:NEL)/TEMP_REF
-            IPOS(1:NEL,1:3) = 1
             TEMPFAC(1:NEL)  = ONE
         END SELECT
+
+        IF (TIME==ZERO)THEN
+           IPOS(1:NEL,1:3) = 1
+        ELSE
+           DO I=1,NEL
+              IPOS(I,1) = UVAR(I,8)
+              IPOS(I,2) = UVAR(I,9)
+              IPOS(I,3) = UVAR(I,10)
+            ENDDO
+        ENDIF
         CALL TABLE_VINTERP(TABLE(ITAB_EPSF),NEL,NEL,IPOS,XVEC,EPSF,DEPSF)
+        DO I=1,NEL
+          UVAR(I, 8) = IPOS(I,1)
+          UVAR(I, 9) = IPOS(I,2)
+          UVAR(I,10) = IPOS(I,3)
+        ENDDO
         EPSF(1:NEL) = EPSF(1:NEL)*FCRIT
       ELSE 
         EPSF(1:NEL) = FCRIT
@@ -377,22 +408,34 @@ c
           CASE(1)
             XVEC(1:NEL,1)   = TRIAX(1:NEL)
             XVEC(1:NEL,2:3) = ZERO
-            IPOS(1:NEL,1:3) = 1
           ! Instability plastic strain vs triaxiality vs Lode 
           CASE(2)
             XVEC(1:NEL,1)   = TRIAX(1:NEL)
             XVEC(1:NEL,2)   = XI(1:NEL)
             XVEC(1:NEL,3)   = ZERO
-            IPOS(1:NEL,1:3) = 1
           ! Instability plastic strain vs triaxiality vs Lode vs temperature
           CASE(3)
             XVEC(1:NEL,1)   = TRIAX(1:NEL)
             XVEC(1:NEL,2)   = XI(1:NEL)
             XVEC(1:NEL,3)   = TEMP(1:NEL)/TEMP_REF
-            IPOS(1:NEL,1:3) = 1  
             TEMPFAC2(1:NEL) = ONE         
         END SELECT
+        
+        IF (TIME==ZERO)THEN
+           IPOS(1:NEL,1:3) = 1
+        ELSE
+           DO I=1,NEL
+              IPOS(I,1) = UVAR(I,11)
+              IPOS(I,2) = UVAR(I,12)
+              IPOS(I,3) = UVAR(I,13)
+            ENDDO
+        ENDIF
         CALL TABLE_VINTERP(TABLE(ITAB_INST),NEL,NEL,IPOS,XVEC,EPSL,DEPSL)
+        DO I=1,NEL
+          UVAR(I,11) = IPOS(I,1)
+          UVAR(I,12) = IPOS(I,2)
+          UVAR(I,13) = IPOS(I,3)
+        ENDDO
         EPSL(1:NEL) = EPSL(1:NEL)*ECRIT
       ELSEIF (ECRIT > ZERO) THEN 
         EPSL(1:NEL) = ECRIT
