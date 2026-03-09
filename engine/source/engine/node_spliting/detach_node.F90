@@ -376,7 +376,7 @@
               new_edges = 0
               do j =1, nrtm ! loop over edges
                 if(interf%intbuf_tab(i)%irectm((j-1)*2 + 1) == node_id) then
-                  !if the node is splited, then a new node is created, and new edges are created
+                  !if the node is split, then a new node is created, and new edges are created
                   new_edges = new_edges + 1
                 else if(interf%intbuf_tab(i)%irectm((j-1)*2 + 2) == node_id) then
                   new_edges = new_edges + 1

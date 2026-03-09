@@ -338,7 +338,7 @@
             ! -> DMG(NEL,2:NMOD+1) = Damage modes output
             mtag%g_dmg = 1 + matparam%nmod
             mtag%l_dmg = 1 + matparam%nmod
-            ! -> Modes allocation and definition
+            ! Allocate and define modes
             allocate(matparam%mode(matparam%nmod))
             matparam%mode(1) = "Damage in shear plane ab"
             matparam%mode(2) = "Damage in shear plane bc"

@@ -31,7 +31,7 @@
 
       contains
 !=======================================================================================================================
-!!\brief This subroutine do the initialization of stiffness contact interface for solid distortion control
+!!\brief This subroutine performs the initialization of stiffness contact interface for solid distortion control
 !=======================================================================================================================
 !||====================================================================
 !||    stifint_icontrol   ../starter/source/interfaces/interf1/stifint_icontrol.F90
@@ -61,14 +61,14 @@
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
           integer, intent (in   )                          :: numnod           !< number node
-          integer, intent (in   )                          :: npari            !< 1er dim of ipari
+          integer, intent (in   )                          :: npari            !< first dimension of ipari
           integer, intent (in   )                          :: ninter           !< number interface
-          integer, intent (in   )                          :: npropgi          !< 1er dim of igeo
+          integer, intent (in   )                          :: npropgi          !< first dimension of igeo
           integer, intent (in   )                          :: numgeo           !< number of prop
-          integer, intent (in   )                          :: npropm           !< 1er dim of pm
+          integer, intent (in   )                          :: npropm           !< first dimension of pm
           integer, intent (in   )                          :: nummat           !< number of materials
           integer, intent (in   )                          :: numels           !< number solid element
-          integer, intent (in   )                          :: nixs             !< 1er dim of ixs
+          integer, intent (in   )                          :: nixs             !< first dimension of ixs
           integer, intent (in   )                          :: numels8          !< number solid (n<=8) element
           integer, intent (in   )                          :: numels10         !< number tet10 element
           integer, intent (in   )                          :: numels16         !< number s16 element

@@ -31,7 +31,7 @@
 ! ======================================================================================================================
 !                                                   procedures
 ! ======================================================================================================================
-!! \brief this subroutine doing the dimensioning of the interface type2 w/ input surf/surf
+!! \brief This subroutine performs the dimensioning of the interface type2 with input surf/surf
 !||====================================================================
 !||    i2_surfi_dim     ../starter/source/interfaces/inter3d1/i2_surfi_dim.F90
 !||--- called by ------------------------------------------------------

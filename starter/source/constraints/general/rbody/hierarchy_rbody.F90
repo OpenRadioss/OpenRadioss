@@ -57,11 +57,11 @@
 !                                                   arguments
 ! ----------------------------------------------------------------------------------------------------------------------
           integer, intent(in)                                      :: numnod          !< number of nodes
-          integer, intent(in)                                      :: lnopt1          !< 1er dimension of nom_opt
+          integer, intent(in)                                      :: lnopt1          !< first dimension of nom_opt
           integer, intent(in)                                      :: iout            !< out file unit
           integer, intent(in)                                      :: nrbykin         !< number of rbody
-          integer, intent(in)                                      :: nnpby           !< 1er dimension of npby
-          integer, intent(in)                                      :: nrby            !< 1er dimension of rby
+          integer, intent(in)                                      :: nnpby           !< first dimension of npby
+          integer, intent(in)                                      :: nrby            !< first dimension of rby
           integer, intent(in)                                      :: slpby           !< dimesion of lpby
           integer, dimension(nnpby,nrbykin),    intent(inout)      :: npby            !< rbody data
           integer, dimension(lnopt1,*),         intent(inout)      :: nom_opt         !< rbody id
@@ -233,7 +233,7 @@
           integer, intent(in)                                      :: numnod          !< number of nodes
           integer, intent(in)                                      :: nspmd           !< number of domains
           integer, intent(in)                                      :: nrbykin         !< number of rbody
-          integer, intent(in)                                      :: nnpby           !< 1er dimension of npby
+          integer, intent(in)                                      :: nnpby           !< first dimension of npby
           integer, intent(in)                                      :: slpby           !< dimesion of lpby
           integer, dimension(nnpby,nrbykin),    intent(in   )      :: npby            !< rbody data
           integer, dimension(slpby),            intent(in   )      :: lpby            !< rbodysecondary node data

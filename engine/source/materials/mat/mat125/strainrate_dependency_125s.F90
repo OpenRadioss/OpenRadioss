@@ -218,7 +218,7 @@
               ems(1:nel)= yy(1:nel)
               vartmp(:,15)=ipos(:,1)
         end if
-          ! shear strengh sc
+          ! shear strength sc
         ifunc(16) = matparam%table(16)%notable
         if(ifunc(16) /= 0) then  ! sc
              ipos(:,1) = vartmp(:,16)
@@ -250,7 +250,7 @@
               ems13(1:nel)= yy(1:nel)
               vartmp(:,19)=ipos(:,1)
           end if
-          ! shear strengh sc13
+          ! shear strength sc13
           ifunc(20) = matparam%table(20)%notable
           if(ifunc(20) /= 0) then  ! sc
               ipos(:,1) = vartmp(:,20)
@@ -282,7 +282,7 @@
               ems23(1:nel)= yy(1:nel)
               vartmp(:,23)=ipos(:,1)
            end if
-          ! shear strengh sc13
+          ! shear strength sc23
           ifunc(24) = matparam%table(24)%notable
           if(ifunc(24)/= 0) then  ! sc
             ipos(:,1) = vartmp(:,24)

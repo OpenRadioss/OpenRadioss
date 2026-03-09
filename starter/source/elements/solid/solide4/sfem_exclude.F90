@@ -31,7 +31,7 @@
 
       contains
 !=======================================================================================================================
-!!\brief This subroutine get number of nodes excluded for nodal pressure
+!!\brief This subroutine gets number of nodes excluded for nodal pressure
 !=======================================================================================================================
 !||====================================================================
 !||    sfem_exclude_dim   ../starter/source/elements/solid/solide4/sfem_exclude.F90
@@ -57,7 +57,7 @@
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
           integer, intent (in   )                          :: numnod           !< number node
-          integer, intent (in   )                          :: nparg            !< 1er dim of iparg
+          integer, intent (in   )                          :: nparg            !< first dimension of iparg
           integer, intent (in   )                          :: ngroup           !< number of element groups
           integer, intent (in   )                          :: numels           !< number solid element
           integer, intent (in   ) ,dimension(nparg,ngroup) :: iparg            !< element group data
@@ -106,7 +106,7 @@
 !
         end subroutine sfem_exclude_dim
 !=======================================================================================================================
-!!\brief This subroutine do the initialization of list of nodes excluded for nodal pressure
+!!\brief This subroutine performs the initialization of list of nodes excluded for nodal pressure
 !=======================================================================================================================
 !||====================================================================
 !||    sfem_exclude_ini   ../starter/source/elements/solid/solide4/sfem_exclude.F90
@@ -132,7 +132,7 @@
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
           integer, intent (in   )                          :: numnod           !< number node
-          integer, intent (in   )                          :: nparg            !< 1er dim of iparg
+          integer, intent (in   )                          :: nparg            !< first dimension of iparg
           integer, intent (in   )                          :: ngroup           !< number of rwall groups
           integer, intent (in   )                          :: numels           !< number solid element
           integer, intent (in   ) ,dimension(nparg,ngroup) :: iparg            !< element group data

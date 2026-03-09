@@ -105,7 +105,7 @@
           xt(1:nel) = yy(1:nel)
           vartmp(:,2)=ipos(:,1)
         endif   !
-       ! xc rate computaion
+       ! xc rate computation
         func= matparam%table(3)%notable
         if(func/= 0) then
           ipos(:,1) = vartmp(:,3)
@@ -180,7 +180,7 @@
           xt0(1:nel) = yy(1:nel)
           vartmp(:,12)=ipos(:,1)
         endif   !
-       ! xc0 rate computaion
+       ! xc0 rate computation
         func= matparam%table(13)%notable
         if(func/= 0) then
           ipos(:,1) = vartmp(:,13)

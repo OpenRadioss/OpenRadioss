@@ -65,7 +65,7 @@
           integer , intent(inout)                          :: ninivelt  !< dimension of inivel_t
           integer , intent(inout)                          :: numskw    !< number of skew
           integer , intent(inout)                          :: numfram   !< number of frame
-          integer , intent(inout)                          :: liskn     !< 1er dimension of iskwn
+          integer , intent(inout)                          :: liskn     !< first dimension of iskwn
           integer , intent(in   )                          :: ngrnod    !< number node group
           integer , intent(in   )                          :: ngrbric   !< number solid element group
           integer , intent(in   )                          :: ngrquad   !< number quad element group

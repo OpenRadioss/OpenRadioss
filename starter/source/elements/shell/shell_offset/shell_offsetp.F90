@@ -35,7 +35,7 @@
 ! ======================================================================================================================
 !
 !=======================================================================================================================
-!!\brief This subroutine do the shell offset treatment w/ projection for composite shell
+!!\brief This subroutine performs the shell offset treatment with projection for composite shell
 !=======================================================================================================================
 !||====================================================================
 !||    shell_offsetp             ../starter/source/elements/shell/shell_offset/shell_offsetp.F90
@@ -75,13 +75,13 @@
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
           integer, intent (in   )                          :: ngroup           !< number of elem group
-          integer, intent (in   )                          :: nparg            !< 1er dim of iparg
-          integer, intent (in   )                          :: npropg           !< 1er dim of geo
+          integer, intent (in   )                          :: nparg            !< first dimension of iparg
+          integer, intent (in   )                          :: npropg           !< first dimension of geo
           integer, intent (in   )                          :: numgeo           !< number of prop
           integer, intent (in   )                          :: numelc           !< number shell 4n element
-          integer, intent (in   )                          :: nixc             !< 1er dim of ixc
+          integer, intent (in   )                          :: nixc             !< first dimension of ixc
           integer, intent (in   )                          :: numeltg          !< number shell 3n element
-          integer, intent (in   )                          :: nixtg            !< 1er dim of ixtg
+          integer, intent (in   )                          :: nixtg            !< first dimension of ixtg
           integer, intent (in   )                          :: numnod           !< number node
           integer, intent (in   ) ,dimension(nparg,ngroup) :: iparg            !< elem group array
           integer, intent (in   ) ,dimension(nixc,numelc)  :: ixc              !< shell 4n connectivity
@@ -89,7 +89,7 @@
           real(kind=WP), intent (in   ),dimension(npropg,numgeo) :: geo              !< property array
           real(kind=WP), intent (in  ),dimension(numelc+numeltg) :: thk              !< shell thickness
           real(kind=WP), intent (inout),dimension(3,numnod)      :: x                !< node coordinates
-          integer, intent (inout),dimension(numelc+numeltg):: itagsh           !< shell w/ offset
+          integer, intent (inout),dimension(numelc+numeltg):: itagsh           !< shell with offset
           type(shell_defaults_), intent(inout)             :: defaults_shell   !< /DEF_SHELL variables
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables

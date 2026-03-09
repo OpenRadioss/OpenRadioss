@@ -196,7 +196,7 @@ C     Filling buffer tables
     !          NUVAR( 4) : Stores position1 of table interpolation "Compute the element size regularization factor"
     !          NUVAR( 5) : Stores position2 
     !          NUVAR( 6) : Stores position3
-    !          NUVAR( 7) : Stores position if interpolation function Compute the strain rate dependency factor
+    !          NUVAR( 7) : Stores position for interpolation function computing the strain rate dependency factor
     !          NUVAR( 8) : Stores position 1 of table interpolation "COMPUTATION OF PLASTIC STRAIN AT FAILURE
     !          NUVAR( 9) : Stores position 2
     !          NUVAR(10) : Stores position 3

@@ -30,7 +30,7 @@
       implicit none
       contains
 !=======================================================================================================================
-!!\brief This subroutine do nodal exchange vn6 in P/ON; ndim1=6*3,ndim2=numnod for vn6->nodal normal
+!!\brief This subroutine performs nodal exchange vn6 in P/ON; ndim1=6*3,ndim2=numnod for vn6->nodal normal
 !=======================================================================================================================
 !||====================================================================
 !||    spmd_exch_vnpon       ../engine/source/mpi/nodes/spmd_exch_vnpon.F90
@@ -58,7 +58,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           integer, intent (in   )                           :: nspmd            !< number of spmd domain
           integer, intent (in   )                           :: lenr             !< toal number of front node
-          integer, intent (in   )                           :: ndim1            !< 1er dim of vn6
+          integer, intent (in   )                           :: ndim1            !< first dimension of vn6
           integer, intent (in   )                           :: ndim2            !< 2nd dim of vn6
           integer, intent (in   ) ,dimension(2,nspmd+1)     :: iad_offset       !< index array for comm
           integer, intent (in   ) ,dimension(lenr)          :: fr_offset        !< front node array

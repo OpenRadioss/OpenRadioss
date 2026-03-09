@@ -36,7 +36,7 @@
 ! ======================================================================================================================
 !                                                   PROCEDURES
 !=======================================================================================================================
-!!\brief This subroutine compute displacement due to finit rotation (no more precise w/ cross-product)
+!!\brief This subroutine computes displacement due to finite rotation (no longer precise with cross-product)
 !=======================================================================================================================
 !||====================================================================
 !||    velrot_explicit   ../engine/source/constraints/general/rbody/velrot_explicit.F90
@@ -105,7 +105,7 @@
 
         end subroutine velrot_explicit
 !=======================================================================================================================
-!!\brief This subroutine compute cross-product Z = X (x) Y
+!!\brief This subroutine computes cross-product Z = X (x) Y
 !=======================================================================================================================
 !||====================================================================
 !||    cross_product     ../engine/source/constraints/general/rbody/velrot_explicit.F90

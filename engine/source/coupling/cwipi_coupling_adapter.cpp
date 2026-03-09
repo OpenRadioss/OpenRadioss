@@ -168,7 +168,7 @@ bool CwipiCouplingAdapter::configure(const std::string& configFile) {
 
 void CwipiCouplingAdapter::setNodes(const std::vector<int>& nodeIds) {
     couplingNodeIds_ = nodeIds;
-    //pritn nodes IDs    std::cout << "Setting coupling node IDs for CWIPI coupling adapter: ";
+    //print nodes IDs    std::cout << "Setting coupling node IDs for CWIPI coupling adapter: ";
 //    std::cout << "Coupling node IDs for CWIPI coupling adapter: ";
 //    for (int nodeId : couplingNodeIds_) {
 //        std::cout << nodeId << " ";

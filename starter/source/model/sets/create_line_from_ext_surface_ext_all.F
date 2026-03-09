@@ -226,7 +226,7 @@ C-----------------------------------------------
         ENDIF
       ENDIF ! IF (IEXT == 2)
 !------------------
-!     add already exixting 1D - element lines
+!     add already existing 1D - element lines
 !------------------
       IF (GO_IN_ARRAY .EQV. .TRUE.) THEN
         DO I=1+NSEG,NSEG+DELBUF%SZ_LINE

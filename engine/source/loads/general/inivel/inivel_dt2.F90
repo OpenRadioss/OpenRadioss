@@ -29,7 +29,7 @@
 !
       implicit none
       contains
-        !! \brief time step change due to inivel w/ T_start
+        !! \brief time step change due to inivel with T_start
 !||====================================================================
 !||    inivel_dt2      ../engine/source/loads/general/inivel/inivel_dt2.F90
 !||--- called by ------------------------------------------------------

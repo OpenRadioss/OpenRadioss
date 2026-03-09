@@ -130,13 +130,13 @@
       call hm_get_floatv('LSDYNA_PRBA'  ,nu21     ,is_available, lsubmodel, unitab)
       call hm_get_floatv('LSDYNA_PRCB'  ,nu32     ,is_available, lsubmodel, unitab)
       call hm_get_floatv('LSDYNA_PRCA'  ,nu31     ,is_available, lsubmodel, unitab) 
-!card5 strenght energy 
+!card5 strength energy 
       call hm_get_floatv  ('LSD_GXC'       ,gxc         ,is_available, lsubmodel, unitab)
       call hm_get_floatv  ('LSD_GXT'       ,gxt         ,is_available, lsubmodel, unitab)
       call hm_get_floatv  ('LSD_GYC'       ,gyc         ,is_available, lsubmodel, unitab)
       call hm_get_floatv  ('LSD_GYT'       ,gyt         ,is_available, lsubmodel, unitab)
       call hm_get_floatv  ('LSD_GSL'       ,gsl         ,is_available, lsubmodel, unitab)      
-!card6 strenght 
+!card6 strength 
       call hm_get_floatv  ('LSD_MAT_XT'       ,xt         ,is_available, lsubmodel, unitab)
       call hm_get_floatv  ('LSD_MAT_XC'       ,xc         ,is_available, lsubmodel, unitab)
       call hm_get_floatv  ('LSD_MAT_YT'       ,yt         ,is_available, lsubmodel, unitab)

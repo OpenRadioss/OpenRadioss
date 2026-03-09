@@ -312,7 +312,7 @@
           ! -> dmg(nel,2:nmod+1) = Damage modes output
           mtag%g_dmg = 1 + matparam%nmod
           mtag%l_dmg = 1 + matparam%nmod
-          ! -> Modes allocation and definition
+          ! Allocate and define modes
           allocate(matparam%mode(matparam%nmod))
           matparam%mode(1) = "Maximum plastic strain failure"
           matparam%mode(2) = "Tensile failure damage"
