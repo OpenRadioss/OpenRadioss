@@ -861,6 +861,7 @@ C
 !||    hm_read_truss        ../starter/source/elements/reader/hm_read_truss.F
 !||    lecacc               ../starter/source/tools/accele/lecacc.F
 !||    lecstack_ply         ../starter/source/properties/composite_options/stack/lecstack_ply.F
+!||    read_monvol          ../starter/source/airbag/read_monvol.F
 !||--- calls      -----------------------------------------------------
 !||    vdoubl2              ../starter/source/system/sysfus.F
 !||====================================================================

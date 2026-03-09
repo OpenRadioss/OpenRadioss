@@ -41,6 +41,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_read_monvol_type8        ../starter/source/airbag/hm_read_monvol_type8.F
 !||    hm_read_monvol_type9        ../starter/source/airbag/hm_read_monvol_type9.F
 !||    hm_sz_r2r                   ../starter/source/coupling/rad2rad/routines_r2r.F
+!||    vdouble                     ../starter/source/system/sysfus.F
 !||--- uses       -----------------------------------------------------
 !||    hm_option_read_mod          ../starter/share/modules1/hm_option_read_mod.F
 !||    hm_read_monvol_type10_mod   ../starter/source/airbag/hm_read_monvol_type10.F
