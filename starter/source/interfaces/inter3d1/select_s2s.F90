@@ -32,7 +32,7 @@
 ! ======================================================================================================================
 !                                                   procedures
 ! ======================================================================================================================
-!! \brief this subroutine doing preparation to remove useless surf of the interface type2 w/ input surf/surf
+!! \brief This subroutine performs preparation to remove redundant surfaces of the interface type2 with input surf/surf
 !||====================================================================
 !||    select_s2s      ../starter/source/interfaces/inter3d1/select_s2s.F90
 !||--- called by ------------------------------------------------------
@@ -90,7 +90,7 @@
           n_buck = 100
           allocate(xs1(3,nsu1),n1(3,nsu1),dim1(3,nsu1))
           allocate(xs2(3,nsu2),n2(3,nsu2),dim2(3,nsu2))
-!  1er surf
+!  first surface
           do i=1,nsu1
             nj(1:4) = nodes1(i,1:4)
             call norma4n(n1(1,i),n1(2,i),n1(3,i),area1,nj,x)
@@ -235,7 +235,7 @@
                       itag2(i) = 0
                     end do
                   end do
-!  tag usful surf1 by 2nd nodes found, remove 2nd surf by distance and angle
+!  tag useful surf1 by 2nd nodes found, remove 2nd surf by distance and angle
                   do k=1,nsu_1
                     i = ind_1(k)
                     if (itag1(i)==0) cycle
@@ -287,7 +287,7 @@
                     end do
                     if (ifound==0) itag1(i) = 0
                   end do
-!  tag usful surf2 by nodes in surf1 found, remove surf1 by distance and angle
+!  tag useful surf2 by nodes in surf1 found, remove surf1 by distance and angle
                   do k=1,nsu_2
                     i = ind_2(k)
                     if (itag2(i)==0) cycle

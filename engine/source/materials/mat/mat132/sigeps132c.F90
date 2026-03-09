@@ -165,14 +165,14 @@
           nu13  = mat_param%uparam(9)
           nu23 = mat_param%uparam(11)
           !! nu32 = mat_param%uparam(12)
-          ! strengh direction
-          xt_1(1:nel)     = mat_param%uparam(13) ! initial strengh fiber tension
-          xc_1(1:nel)     = mat_param%uparam(14) ! initial strengh fiber compression
-          yt_1(1:nel)     = mat_param%uparam(15) ! initial strengh transverse tension
-          yc_1(1:nel)     = mat_param%uparam(16)  ! initial strengh transverse compression
-          sl_1(1:nel)     = mat_param%uparam(17)  ! initial shear strengh
-          xt0_1(1:nel)    = mat_param%uparam(18)  ! initial strengh tension fiber for bilinear damage
-          xc0_1(1:nel)    = mat_param%uparam(19)  ! initial strengh compression fiber for bilinear damage
+          ! strength direction
+          xt_1(1:nel)     = mat_param%uparam(13) ! initial strength fiber tension
+          xc_1(1:nel)     = mat_param%uparam(14) ! initial strength fiber compression
+          yt_1(1:nel)     = mat_param%uparam(15) ! initial strength transverse tension
+          yc_1(1:nel)     = mat_param%uparam(16)  ! initial strength transverse compression
+          sl_1(1:nel)     = mat_param%uparam(17)  ! initial shear strength
+          xt0_1(1:nel)    = mat_param%uparam(18)  ! initial strength tension fiber for bilinear damage
+          xc0_1(1:nel)    = mat_param%uparam(19)  ! initial strength compression fiber for bilinear damage
           !
           gxt_1(1:nel)     = mat_param%uparam(20)
           gxc_1(1:nel)     = mat_param%uparam(21)
@@ -210,7 +210,7 @@
           eta_t           = mat_param%uparam(54)
           st_1(1:nel)     = mat_param%uparam(55)
           phic_1(1:nel)   = mat_param%uparam(56) ! misalignment angle at fiber compression
-          g_ratio_1(1:nel) = mat_param%uparam(57) ! GII/GI strengh ratio
+          g_ratio_1(1:nel) = mat_param%uparam(57) ! GII/GI strength ratio
           ratio   = mat_param%uparam(58 )
           !
           inv_det = one/(one - nu12*nu21)
@@ -339,13 +339,13 @@
             ! Build undamaged compliance matrix H0 (plane stress)
             ! Using Eq. 5 with d1=d2=d6=0
             ! Calculate effective stress σ̃ = H0⁻¹ : ε
-            ! For plane stres s(σ33 = 0), we have:
+            ! For plane stress (σ33 = 0), we have:
             ! ε11 = (σ̃11/E1) - (ν12*σ̃22/E1) + α11ΔT + β11ΔM
             ! ε22 = - (ν21*σ̃11/E2) + (σ̃22/E2) + α22ΔT + β22ΔM
             ! γ12 = σ̃12/G12
             sigma_a   =   inv_det*(e1*epsxx(i)     + nu21*e1*epsyy(i))
             sigma_b   =   inv_det*(nu12*e2*epsxx(i)+ e2*epsyy(i))
-            tau_ab    =   signxy(i) ! g12*epsxy(i)  ! sugnxy using function ?
+            tau_ab    =   signxy(i) ! g12*epsxy(i)  ! signxy using function ?
             tau_ca    =   shf(i)*g13*epszx(i)
             tau_bc    =   shf(i)*g23*epsyz(i)
             !!sigma_c   = zero  ! normal condition

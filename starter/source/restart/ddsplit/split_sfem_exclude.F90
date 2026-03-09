@@ -31,7 +31,7 @@
 
       contains
 !=======================================================================================================================
-!!\brief This subroutine get local number of nodes excluded for nodal pressure
+!!\brief This subroutine gets local number of nodes excluded for nodal pressure
 !=======================================================================================================================
 !||====================================================================
 !||    c_sfem_exclude   ../starter/source/restart/ddsplit/split_sfem_exclude.F90

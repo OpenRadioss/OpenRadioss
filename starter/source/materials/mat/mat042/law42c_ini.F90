@@ -55,7 +55,7 @@
 !                                                   arguments
 ! ----------------------------------------------------------------------------------------------------------------------
           integer ,intent(in)                              :: nel       !< shell group size
-          integer ,intent(in)                              :: nuvar  !< 1er dimension of uvar
+          integer ,intent(in)                              :: nuvar  !< first dimension of uvar
           real(kind=WP),dimension(nel,nuvar),intent(inout) :: uvar      !< internal work array
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   local variables

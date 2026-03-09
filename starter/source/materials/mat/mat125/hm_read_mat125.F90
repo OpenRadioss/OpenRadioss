@@ -386,7 +386,7 @@
           if(erods == zero) erods= ep10
           if(gammar <= zero) gammar = ep10
           if(gammaf <= zero) gammaf = two*ep10
-          ! our of plane damage used in shell
+          ! out of plane damage used in shell
           if(tsdm <= zero ) tsdm = zep9
 !
           ! default strain rate cutoff frequency

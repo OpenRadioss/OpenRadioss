@@ -681,7 +681,7 @@
 !-----due to too much returns of qa, temporarily add iresp here
           if((ale%global%incomp/=1.or.(jeul+jale)/=1).and.jlag/=0.and.n2d==0.and.jsph==0.and.iresp==1&
           &.and.impl_s==0.and.ismstr/=1.and.ismstr/=3.and.ismstr/=11)then
-!-----due to issue w/ sp ----in srho3.f r4_amu is calculated for sp :
+!-----due to issue with sp ----in srho3.f r4_amu is calculated for sp :
 !--    r4_amu =vol0dp/voldp -1   because rho*voldp=rho0*vol0dp
             amu(1:nel) =  r4_amu(1:nel)
           else
@@ -2830,7 +2830,7 @@
           if(ipartsph/=0)then
             do i=1,nel
               if(off(i) > zero .and. off(i) < one)then
-! replace solid w/sph within the same cycle.
+! replace solid with sph within the same cycle.
                 off(i)=zero
                 lbuf%sig(nel*(1-1) + i)  = zero
                 lbuf%sig(nel*(2-1) + i)  = zero

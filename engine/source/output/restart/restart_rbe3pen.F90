@@ -51,7 +51,7 @@
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
           integer , intent(in  )                            :: nrbe3       !< number of rbe3
-          integer , intent(in  )                            :: nrbe3l      !< 1er dimension irbe3
+          integer , intent(in  )                            :: nrbe3l      !< first dimension irbe3
           integer , dimension(nrbe3l,nrbe3),   intent(in  ) :: irbe3       !< rbe3 data array
           integer , intent(out)                             :: nrbe3pen_l  !< number of rbe3 using penalty
 ! ----------------------------------------------------------------------------------------------------------------------

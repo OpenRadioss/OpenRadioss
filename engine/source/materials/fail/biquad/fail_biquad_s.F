@@ -134,7 +134,7 @@ C===============================================================================
           svm = half*(sxx**2 + syy**2 + szz**2) + signxy(I)**2 + signzx(I)**2 + signyz(I)**2
           svm = sqrt(three*svm)
 !
-          ! Compressureute stress triaxiality
+          ! Compute stress triaxiality
           triax = pressure / max(em20,svm)
           triax = max(triax, -two_third)
           triax = min(triax,  two_third)

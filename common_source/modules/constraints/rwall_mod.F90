@@ -61,10 +61,10 @@
           integer :: nrwall                                 !< Number of RWALL
           integer :: nrwlag                                 !< Number of RWALL with lagrange multipliers
           integer :: nnprw                                  !< 2nd dimension of nprw
-          integer :: nrwlp                                  !< 1er dimension of rwbuf
+          integer :: nrwlp                                  !< first dimension of rwbuf
           integer :: sz_lprw                                !< size of lprw
           integer :: sz_rwsav                               !< size of rwsav
-          integer :: nrwall_pen                             !< Number of RWALL w/ penalty
+          integer :: nrwall_pen                             !< Number of RWALL with penalty
 !                    
           integer,dimension(:,:),allocatable   ::  nprw        !< nprw(nrwall,nprw)  IRWALL interger array
           integer,dimension(:),  allocatable   ::  lprw        !< nprw secondary node listes

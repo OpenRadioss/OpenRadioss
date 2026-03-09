@@ -180,7 +180,7 @@
               ems(1:nel)= yy(1:nel)
               vartmp(:,15)=ipos(:,1)
         end if
-          ! shear strengh sc
+          ! shear strength sc
         ifunc(16) = matparam%table(16)%notable
         if(ifunc(16) /= 0) then  ! sc
              ipos(:,1) = vartmp(:,16)

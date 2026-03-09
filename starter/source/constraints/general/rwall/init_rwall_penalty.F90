@@ -31,7 +31,7 @@
 
       contains
 !=======================================================================================================================
-!!\brief This subroutine do the initialization of stiffness for Rwall penalty
+!!\brief This subroutine performs the initialization of stiffness for Rwall penalty
 !=======================================================================================================================
 !||====================================================================
 !||    init_rwall_penalty   ../starter/source/constraints/general/rwall/init_rwall_penalty.F90
@@ -66,7 +66,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           integer, intent (in   )                          :: numnod           !< number node
           integer, intent (in   )                          :: nummat           !< number material
-          integer, intent (in   )                          :: nparg            !< 1er dim of iparg
+          integer, intent (in   )                          :: nparg            !< first dimension of iparg
           integer, intent (in   )                          :: nrwall           !< number rwall
           integer, intent (in   )                          :: nnprw            !< 2nd dim of nprw
           integer, intent (in   )                          :: slprw            !< dim of lprw

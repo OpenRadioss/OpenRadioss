@@ -57,8 +57,8 @@
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
           integer, intent (in   )                         :: ngroup           !< number of elem group
-          integer, intent (in   )                         :: nparg            !< 1er dim of iparg
-          integer, intent (in   )                         :: npropg           !< 1er dim of geo
+          integer, intent (in   )                         :: nparg            !< first dimension of iparg
+          integer, intent (in   )                         :: npropg           !< first dimension of geo
           integer, intent (in   )                         :: numgeo           !< number of prop
           integer, intent (in   ) ,dimension(nparg,ngroup):: iparg            !< elem group array
           integer, intent (inout)                         :: ioffset          !< flag for offset treatment
