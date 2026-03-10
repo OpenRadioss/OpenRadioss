@@ -518,7 +518,7 @@ C-----------------------------------------------------
          IF(OFF(I) /= 0) THEN
          ISUM = ITAG_NSFEM(NC1(I)) + ITAG_NSFEM(NC2(I)) +
      .          ITAG_NSFEM(NC3(I)) + ITAG_NSFEM(NC4(I))
-         IF (ISUM < 3) CYCLE
+         IF (ISUM < 4) CYCLE
          SUM=SFEM_NODVAR(NC1(I))*ITAG_NSFEM(NC1(I))+
      .       SFEM_NODVAR(NC2(I))*ITAG_NSFEM(NC2(I))+
      .       SFEM_NODVAR(NC3(I))*ITAG_NSFEM(NC3(I))+

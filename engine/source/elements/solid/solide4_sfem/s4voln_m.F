@@ -75,12 +75,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,MX,ISUM
+      INTEGER I,MX,ISUM,NMIN
       my_real AMU(MVSIZ), SUM,DTR,DTREP_R,DIVDE(MVSIZ),JAC_M(MVSIZ),JAC(MVSIZ),FAC,BASE,JFAC,DVDP
       DOUBLE PRECISION VOL0DP(*),VOLDP(*),SUMDP
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
+      NMIN =4
       MX = MAT(1)
       IF(ISMSTR == 1 .OR. ISMSTR == 11)THEN
         IF (TT==ZERO) THEN
@@ -95,7 +96,7 @@ C-----------------------------------------------
      .            ITAG_NSFEM(NC3(I)) + ITAG_NSFEM(NC4(I))
 !  exclude multi-mat node for average value and don't do it if less than 3 nodes
 !  this will avoid zero division as well
-           IF (ISUM < 3) CYCLE    
+           IF (ISUM < NMIN) CYCLE    
            SUM=SFEM_NODVAR(NC1(I))*ITAG_NSFEM(NC1(I))+
      .         SFEM_NODVAR(NC2(I))*ITAG_NSFEM(NC2(I))+
      .         SFEM_NODVAR(NC3(I))*ITAG_NSFEM(NC3(I))+
@@ -117,7 +118,7 @@ c-------------------------------------------------------------------------
            IF(OFFG(I) == ZERO .OR. ABS(OFFG(I)) > ONE) CYCLE
            ISUM = ITAG_NSFEM(NC1(I)) + ITAG_NSFEM(NC2(I)) +
      .            ITAG_NSFEM(NC3(I)) + ITAG_NSFEM(NC4(I))
-           IF (ISUM < 3) CYCLE
+           IF (ISUM < NMIN) CYCLE
            SUMDP=SFEM_NODVAR(NC1(I))*ITAG_NSFEM(NC1(I))+
      .           SFEM_NODVAR(NC2(I))*ITAG_NSFEM(NC2(I))+
      .           SFEM_NODVAR(NC3(I))*ITAG_NSFEM(NC3(I))+
@@ -130,7 +131,7 @@ c-------------------------------------------------------------------------
            IF(OFFG(I) == ZERO .OR. ABS(OFFG(I)) > ONE) CYCLE
            ISUM = ITAG_NSFEM(NC1(I)) + ITAG_NSFEM(NC2(I)) +
      .            ITAG_NSFEM(NC3(I)) + ITAG_NSFEM(NC4(I))
-           IF (ISUM < 3) CYCLE
+           IF (ISUM < NMIN) CYCLE
            SUM=SFEM_NODVAR(NC1(I))*ITAG_NSFEM(NC1(I))+
      .         SFEM_NODVAR(NC2(I))*ITAG_NSFEM(NC2(I))+
      .         SFEM_NODVAR(NC3(I))*ITAG_NSFEM(NC3(I))+
@@ -176,7 +177,7 @@ C------compute AMU(t+dt) for large strain
              IF(OFFG(I) == ZERO .OR. ABS(OFFG(I)) <= ONE) CYCLE
              ISUM = ITAG_NSFEM(NC1(I)) + ITAG_NSFEM(NC2(I)) +
      .              ITAG_NSFEM(NC3(I)) + ITAG_NSFEM(NC4(I))
-             IF (ISUM < 3) CYCLE
+             IF (ISUM < NMIN) CYCLE
              SUM=SFEM_NODVAR(NC1(I))*ITAG_NSFEM(NC1(I))+
      .           SFEM_NODVAR(NC2(I))*ITAG_NSFEM(NC2(I))+
      .           SFEM_NODVAR(NC3(I))*ITAG_NSFEM(NC3(I))+

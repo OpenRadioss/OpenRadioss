@@ -202,7 +202,7 @@ C-----------------------------------------------
       INTEGER I,J,IP,NF1,NF2,IFLAG,IOFFS,IPTR,IPTS,IPTT,ILAY,IMAT
       INTEGER IBID,IBIDON(1),ITET,ISM12_11,IOFFG,ISUM
 C-----
-      INTEGER MXT(MVSIZ),NGL(MVSIZ),NGEO(MVSIZ)
+      INTEGER MXT(MVSIZ),NGL(MVSIZ),NGEO(MVSIZ),ITAG10(MVSIZ)
       my_real
      . VD2(MVSIZ) , DVOL(MVSIZ),DELTAX(MVSIZ),
      . VIS(MVSIZ) , QVIS(MVSIZ), CXX(MVSIZ) ,DELTAX2(MVSIZ),
@@ -540,12 +540,20 @@ C-----------------------------
           IF(GBUF%OFF(I) == ZERO) CYCLE
           ISUM = ITAG_NSFEM(NC(I,1)) + ITAG_NSFEM(NC(I,2)) +
      .           ITAG_NSFEM(NC(I,3)) + ITAG_NSFEM(NC(I,4))
-          IF (ISUM < 3) CYCLE
+          IF (ISUM < 4) CYCLE
           SUM=SFEM_NODVAR(NC(I,1))*ITAG_NSFEM(NC(I,1))+
      .        SFEM_NODVAR(NC(I,2))*ITAG_NSFEM(NC(I,2))+
      .        SFEM_NODVAR(NC(I,3))*ITAG_NSFEM(NC(I,3))+
      .        SFEM_NODVAR(NC(I,4))*ITAG_NSFEM(NC(I,4))
           JACGM(I)=SUM/ISUM
+         ENDDO
+      ELSEIF(ICP >0 .AND. ISMSTR==10) THEN
+         DO I=LFT,LLT
+          ITAG10(I) = 1
+          IF(GBUF%OFF(I) == ZERO) ITAG10(I)=0
+          ISUM = ITAG_NSFEM(NC(I,1)) + ITAG_NSFEM(NC(I,2)) +
+     .           ITAG_NSFEM(NC(I,3)) + ITAG_NSFEM(NC(I,4))
+          IF (ISUM < 4) ITAG10(I)=0
          ENDDO
       ENDIF
 C-----------------------------
@@ -583,7 +591,7 @@ C
            IF (ISMSTR==10) THEN
              DO I=LFT,LLT
                IF(GBUF%OFF(I) == ZERO) CYCLE
-               JACGM(I)=SFEM_NODVAR(NC(I,IP))*ITAG_NSFEM(NC(I,IP))
+               JACGM(I)=SFEM_NODVAR(NC(I,IP))*ITAG10(I)
              ENDDO
            END IF
            CALL S10_ICP(
