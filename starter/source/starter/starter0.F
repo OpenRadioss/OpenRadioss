@@ -107,6 +107,8 @@ C-----------------------------------------------
       use th_mod , only : TH_HAS_NODA_PEXT
       use hm_rbodies_add_main_node_mod
       use analyse_arret_mod
+      use hm_evaluate_rbodies_from_rigid_parts_mod
+      use hm_create_rbodies_from_rigid_parts_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -170,6 +172,9 @@ C-----------------------------------------------
       INTEGER :: RADFLEX_PROCESS_PID
 C
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: SEATBELT_CONVERTED_ELEMENTS
+      INTEGER, dimension(:), ALLOCATABLE :: NBRBODIES_PER_PART
+      INTEGER, DIMENSION(:), ALLOCATABLE :: NEW_RBODY_TO_PART
+      INTEGER, DIMENSION(:), ALLOCATABLE :: NEW_RBODY_ID
 C
       CHARACTER(LEN=2148) :: FILNAM  ! Maximum is SIZE(OUTFILE_CHAR_LEN) + 100
       CHARACTER CHRUN*4,CPUNAM*20,ROOTN*80,CHRUNR*4,ARCHTITLE*66
@@ -184,6 +189,7 @@ C
       CHARACTER(len=2048) :: TMP_NAME
       CHARACTER(len=2048) :: OUT_FILE_NAME
       INTEGER :: NB_DYNA_INCLUDE
+      INTEGER :: NB_NEWRBODIES
 C
       my_real UNITE, RTITR
 C
@@ -256,7 +262,7 @@ C CODVERS : VERSION CODE        = 2019 IF RELEASE 2019
 C IMINVER : MINOR VERSION CODE  = 1 IF MINOR RELEASE A(A~1) OF 4.4 RELEASE
 C ISRCVER : SOURCE VERSION CODE = 41*100+9
 C-------------------------------------------------------------------
-      CODVERS          = 2026
+      CODVERS          = 2612
       IMINVER          = 1
       ISRCVER          = 1
 C-------------------------------------------------------------------
@@ -788,6 +794,19 @@ c 2d seatbelt translation
      .  CALL HM_CONVERT_2D_ELEMENTS_SEATBELT(IDMAX_PART,IDMAX_PROP,IDMAX_MAT,IDMAX_ELEM,IDMAX_TH,
      .                                           SEATBELT_CONVERTED_ELEMENTS,NB_SEATBELT_SHELLS,LSUBMODEL)
 C-------------------------------------------------------------------
+C Build RBODY from PART with Irigid
+C------------------------------------------------------------------
+      CALL HM_OPTION_COUNT('/PART', NPART)
+      ALLOCATE(NBRBODIES_PER_PART(NPART))
+      NBRBODIES_PER_PART(1:NPART) = 0
+      CALL hm_evaluate_rbodies_from_rigid_parts(NPART,NBRBODIES_PER_PART)
+
+      NB_NEWRBODIES = SUM(NBRBODIES_PER_PART)
+
+      ALLOCATE(NEW_RBODY_TO_PART(NB_NEWRBODIES))
+      ALLOCATE(NEW_RBODY_ID(NB_NEWRBODIES))
+      CALL hm_create_rbodies_from_rigid_parts(NB_NEWRBODIES,NEW_RBODY_TO_PART,NEW_RBODY_ID)
+C-------------------------------------------------------------------
 C Add RBODY master node if not existing in /RBODY cards
 C------------------------------------------------------------------
       CALL hm_rbodies_add_main_node(LSUBMODEL)
@@ -863,6 +882,9 @@ C --------------------------------------------------
       ENDIF
 C
       IF(ALLOCATED(SEATBELT_CONVERTED_ELEMENTS)) DEALLOCATE(SEATBELT_CONVERTED_ELEMENTS)  
+      IF(ALLOCATED(NBRBODIES_PER_PART)) DEALLOCATE(NBRBODIES_PER_PART)  
+      IF(ALLOCATED(NEW_RBODY_ID)) DEALLOCATE(NEW_RBODY_ID)
+      IF(ALLOCATED(NEW_RBODY_TO_PART)) DEALLOCATE(NEW_RBODY_TO_PART)
       CALL USER_WINDOWS_CLEAN(USER_WINDOWS)
       CALL TH_CLEAN(OUTPUT%TH)
 C
