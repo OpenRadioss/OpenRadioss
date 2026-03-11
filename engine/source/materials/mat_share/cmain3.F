@@ -318,7 +318,7 @@ c----------------------------
      .              NEL      ,THK_LY   ,INDX_DRAPE, SEDRAPE,NUMEL_DRAPE)
 c 
         CALL MULAWC(TIMERS,ELBUF_STR ,
-     1       JFT     ,JLT     ,NEL     ,PM      ,FOR     ,MOM     ,
+     1       JLT     ,NEL     ,PM      ,FOR     ,MOM     ,
      2       GSTR    ,THK     ,EINT    ,OFF     ,DIR_A   ,DIR_B   ,
      3       MAT     ,AREA    ,EXX     ,EYY     ,EXY     ,EXZ     ,
      4       EYZ     ,KXX     ,KYY     ,KXY     ,GEO     ,THK_LY  ,
