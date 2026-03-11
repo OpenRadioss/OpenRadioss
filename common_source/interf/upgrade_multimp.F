@@ -21,7 +21,7 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    upgrade_multimp   ../common_source/interf/upgrade_multimp.F90
+!||    upgrade_multimp   ../common_source/interf/upgrade_multimp.F
 !||--- called by ------------------------------------------------------
 !||    i10main_tri       ../engine/source/interfaces/intsort/i10main_tri.F
 !||    i11main_tri       ../engine/source/interfaces/intsort/i11main_tri.F
@@ -38,8 +38,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    inintr_thkvar     ../starter/source/interfaces/interf1/inintr_thkvar.F
 !||    inter_sort_07     ../engine/source/interfaces/int07/inter_sort_07.F
 !||--- calls      -----------------------------------------------------
-!||    arret             ../engine/source/system/arret.F
-!||    arret_message     ../engine/source/system/arret_message.F
 !||--- uses       -----------------------------------------------------
 !||    intbufdef_mod     ../common_source/modules/interfaces/intbufdef_mod.F90
 !||    restmod           ../engine/share/modules/restart_mod.F
@@ -719,16 +717,14 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       end subroutine upgrade_multimp
 
 !||====================================================================
-!||    upgrade_cand_opt     ../common_source/interf/upgrade_multimp.F90
+!||    upgrade_cand_opt   ../common_source/interf/upgrade_multimp.F
 !||--- called by ------------------------------------------------------
-!||    i25main_opt_tri      ../engine/source/interfaces/intsort/i25main_opt_tri.F
-!||    i25main_slid         ../engine/source/interfaces/int25/i25main_slid.F
+!||    i25main_opt_tri    ../engine/source/interfaces/intsort/i25main_opt_tri.F
+!||    i25main_slid       ../engine/source/interfaces/int25/i25main_slid.F
 !||--- calls      -----------------------------------------------------
-!||    arret                ../engine/source/system/arret.F
-!||    arret_message_slid   ../engine/source/system/arret_message.F
 !||--- uses       -----------------------------------------------------
-!||    intbufdef_mod        ../common_source/modules/interfaces/intbufdef_mod.F90
-!||    restmod              ../engine/share/modules/restart_mod.F
+!||    intbufdef_mod      ../common_source/modules/interfaces/intbufdef_mod.F90
+!||    restmod            ../engine/share/modules/restart_mod.F
 !||====================================================================
       subroutine upgrade_cand_opt(ni, k_stok, intbuf_tab)
 !-----------------------------------------------
@@ -853,13 +849,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       end subroutine upgrade_cand_opt
 
 !||====================================================================
-!||    upgrade_lcand_edg   ../common_source/interf/upgrade_multimp.F90
+!||    upgrade_lcand_edg   ../common_source/interf/upgrade_multimp.F
 !||--- called by ------------------------------------------------------
 !||    i25main_tri         ../engine/source/interfaces/intsort/i25main_tri.F
 !||    inint3              ../starter/source/interfaces/inter3d1/inint3.F
 !||--- calls      -----------------------------------------------------
-!||    arret               ../engine/source/system/arret.F
-!||    arret_message       ../engine/source/system/arret_message.F
 !||--- uses       -----------------------------------------------------
 !||    intbufdef_mod       ../common_source/modules/interfaces/intbufdef_mod.F90
 !||    restmod             ../engine/share/modules/restart_mod.F
@@ -991,13 +985,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       end subroutine upgrade_lcand_edg
 
 !||====================================================================
-!||    upgrade_lcand_e2s   ../common_source/interf/upgrade_multimp.F90
+!||    upgrade_lcand_e2s   ../common_source/interf/upgrade_multimp.F
 !||--- called by ------------------------------------------------------
 !||    i25main_tri         ../engine/source/interfaces/intsort/i25main_tri.F
 !||    inint3              ../starter/source/interfaces/inter3d1/inint3.F
 !||--- calls      -----------------------------------------------------
-!||    arret               ../engine/source/system/arret.F
-!||    arret_message       ../engine/source/system/arret_message.F
 !||--- uses       -----------------------------------------------------
 !||    intbufdef_mod       ../common_source/modules/interfaces/intbufdef_mod.F90
 !||    restmod             ../engine/share/modules/restart_mod.F

@@ -401,10 +401,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    tritri3                          ../engine/stub/fvmbags_stub.F
 !||    upd_aspc0                        ../engine/source/constraints/general/bcs/bc_imp0.F
 !||    update_slipring                  ../engine/source/tools/seatbelts/update_slipring.F
-!||    upgrade_cand_opt                 ../common_source/interf/upgrade_multimp.F
-!||    upgrade_lcand_e2s                ../common_source/interf/upgrade_multimp.F
-!||    upgrade_lcand_edg                ../common_source/interf/upgrade_multimp.F
-!||    upgrade_multimp                  ../common_source/interf/upgrade_multimp.F
 !||    upgrade_rem_2ry                  ../engine/source/mpi/interfaces/spmd_i7tool.F
 !||    user_windows_routine             ../engine/source/user_interface/user_windows.F
 !||    usermat_shell                    ../engine/source/materials/mat_share/usermat_shell.F
