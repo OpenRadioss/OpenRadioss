@@ -34,7 +34,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE INITWG_TRI(WD,PM,GEO,IXTG,IGEO,NUMELTG,IPM ,SIZE_IRUP,
      .            NUMMAT,NUMGEO,POIN_PART_TRI,MID_PID_TRI,IPARTG,
      .            OFF,BUFMAT,MID_OLD,PID_OLD,MLN_OLD,RECHERCHE,TELT_PRO,
-     .            TABMP_L,MAT_PARAM)
+     .            TABMP_L,MAT_PARAM,numelc,iworksh)
 C-----------------------------------------------
 C            M o d u l e s
 C-----------------------------------------------
@@ -56,9 +56,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER  OFF,NUMELTG,TABMP_L,
+      INTEGER  OFF,TABMP_L,
      .  NUMMAT,NUMGEO, IXTG(NIXTG,*),IGEO(NPROPGI,*),
      .  IPM(NPROPMI,*)
+      integer, intent(in) :: numelc !< number of shell elements
+      integer, intent(in) :: numeltg ! number of shell3n elements
       INTEGER, INTENT(IN) :: SIZE_IRUP
 
 C     REAL OR REAL*8
@@ -73,6 +75,7 @@ C     REAL OR REAL*8
       INTEGER, DIMENSION(2,*), INTENT(IN) :: POIN_PART_TRI
       TYPE(MID_PID_TYPE), DIMENSION(*), INTENT(INOUT) :: MID_PID_TRI
       TYPE(MATPARAM_STRUCT_) ,DIMENSION(NUMMAT), INTENT(IN) :: MAT_PARAM
+      integer, dimension(3,numelc+numeltg), intent(in) :: iworksh !< ply data for shell & shell3n elements            
 C-----------------------------------------------
       INTEGER  NPN, MID, PID, MLN,
      .    ISTRAIN, ITHK, IHBE, IPLA, ISSN, I, J,
@@ -144,6 +147,7 @@ C-----------------------------------------------
         ITHK = NINT(GEO(35,PID))
         IPLA = NINT(GEO(39,PID))
         NPT = MAX(ABS(NPN),1)
+        if(iworksh(2,numelc+i)>0) npt = iworksh(2,i) ! if ply data is available, get the number of integration points from ply data (for composite materials)
         FLAG_NON_LOCAL = 0  
         SPECIAL_OPTION = 0
         SPE_I_1 = 1
@@ -155,6 +159,7 @@ C-----------------------------------------------
           IRUP_TAB(J) = MAT_PARAM(MID)%FAIL(J)%IRUPT
          ENDDO
         ENDIF
+        telt = 0.
         TIMMAT = 0.
         TRUP = 0.
         TMATADD = 0.
@@ -347,7 +352,6 @@ C Law 36+86 Depending on the FCT
                 TABMAT(J) = TRITNL(MIN(MLN,MAXLAW),J,INDI) + TMATADD
               ENDDO
               ! *******--------*******
-              NPT = ABS(NPN)
               CALL INTERLAGRAN(TABMAT,TABX,3,NPT,TIMMAT)
 !              ----------------
 !               Failure 
@@ -387,7 +391,8 @@ C Law 36+86 Depending on the FCT
         ! --------------------
         IF(RECHERCHE==0) THEN
          IF((WD_LOCAL==0.).AND.(MLN/=0))THEN
-          POIDS = (TELT + TIMMAT + TRUP + MULT_SPE*NLOCAL_OPTION(SPE_I_3) + VISC_PRONY) * INVTREF
+          telt = telt + timmat + trup + mult_spe*nlocal_option(spe_i_3) + visc_prony
+          POIDS = telt * INVTREF
           WD(I+OFF) = POIDS
 
           POIN_PART = IPARTG(I)
@@ -400,7 +405,7 @@ C Law 36+86 Depending on the FCT
           WD(I+OFF) = 0.0001
          END IF
         ELSE
-         TELT_PRO = TELT + TIMMAT + TRUP + MULT_SPE*NLOCAL_OPTION(SPE_I_3)
+         TELT_PRO = TELT + TIMMAT + TRUP + MULT_SPE*NLOCAL_OPTION(SPE_I_3) + visc_prony
         ENDIF
         ! --------------------
       ENDDO

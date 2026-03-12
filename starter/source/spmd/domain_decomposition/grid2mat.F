@@ -74,7 +74,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      6  IPARTT, IPARTP  ,IPARTR   ,IPARTX   , IPARTQ,
      6  POIN_PART_SHELL,POIN_PART_TRI,POIN_PART_SOL,
      7  MID_PID_SHELL,MID_PID_TRI,MID_PID_SOL,T_MONVOL,
-     8  EBCS_TAG_CELL_SPMD,NPBY,LPBY,MAT_PARAM)
+     8  EBCS_TAG_CELL_SPMD,NPBY,LPBY,MAT_PARAM,
+     9  iworksh)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -129,7 +130,7 @@ C-----------------------------------------------
      .        IPM(NPROPMI,NUMMAT),IXS10(6,*),KXIG3D(NIXIG3D,NUMELIG3D),
      .        IQUAOFF(*),
      .        IXIG3D(*),NSNT, NMNT,TABMP_L,
-     .        FVMAIN(NVOLU)
+     .        FVMAIN(NVOLU) 
       INTEGER :: ITAB(*)
       INTEGER, DIMENSION(LIPART1,*), INTENT(IN) :: IPART
       INTEGER, DIMENSION(*), INTENT(IN) :: IPARTC,IPARTG,IPARTS
@@ -151,9 +152,10 @@ C-----------------------------------------------
       TYPE(MONVOL_STRUCT_), DIMENSION(NVOLU), INTENT(IN) :: T_MONVOL
       INTEGER,INTENT(IN) :: EBCS_TAG_CELL_SPMD(NUMELQ+NUMELTG+NUMELS)
       INTEGER, DIMENSION(NNPBY,*), INTENT(in) :: NPBY
-      INTEGER, DIMENSION(*), INTENT(in) :: LPBY
+      INTEGER, DIMENSION(*), INTENT(in) :: LPBY      
       TYPE(INTER_CAND_), INTENT(in) :: INTER_CAND
       TYPE(MATPARAM_STRUCT_) ,DIMENSION(NUMMAT), INTENT(IN) :: MAT_PARAM
+      integer, dimension(3,numelc+numeltg), intent(in) :: iworksh !< ply data for shell & shell3n elements
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -1016,7 +1018,7 @@ C   default weight optimization
      .             TABMP_L,IPART,IPARTC,IPARTG,
      .             IPARTS,NPART,POIN_PART_SHELL,POIN_PART_TRI,POIN_PART_SOL,
      .             MID_PID_SHELL,MID_PID_TRI,MID_PID_SOL,IDDLEVEL,
-     .             MAT_PARAM)
+     .             MAT_PARAM,iworksh)
 C
       IF(NSUBDOM>0)THEN
         COST_R2R = ZERO

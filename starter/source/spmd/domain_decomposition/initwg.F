@@ -49,7 +49,7 @@ C NEW ROUTINE TO FILL THE WEIGHT TABLE
      .            TABMP_L,IPART,IPARTC,IPARTG,
      .            IPARTS,NPART,POIN_PART_SHELL,POIN_PART_TRI,POIN_PART_SOL,
      .            MID_PID_SHELL,MID_PID_TRI,MID_PID_SOL,IDDLEVEL,
-     .            MAT_PARAM)
+     .            MAT_PARAM,iworksh)
 C-----------------------------------------------
 C            M o d u l e s
 C-----------------------------------------------
@@ -100,6 +100,7 @@ C     REAL OR REAL*8
       my_real, DIMENSION(TAILLE_OLD) :: CPUTIME_MP_OLD
       REAL WD(*)
       TYPE(MATPARAM_STRUCT_) ,DIMENSION(NUMMAT), INTENT(IN) :: MAT_PARAM
+      integer, dimension(3,numelc+numeltg), intent(in) :: iworksh !< ply data for shell & shell3n elements      
 C-----------------------------------------------
       INTEGER OFF, NPN, MID, PID, JHBE, IGT, MLN,
      .    ISTRAIN, ITHK, IHBE, IPLA, ISSN, MTN, I, J, K,L,
@@ -255,7 +256,7 @@ C-----------------------------------------------
      .            NUMEL_RE,IPM,NUMMAT,NUMGEO,POIN_PART_SHELL,
      .            MID_PID_SHELL,IPARTC,OFF,BUFMAT,
      .            MID,PID,MLN,RECHERCHE,TELT_PRO,
-     .            TABMP_L,MAT_PARAM)
+     .            TABMP_L,MAT_PARAM,numeltg,iworksh)
 ! --------------------------
 !       TRI             
            ELSEIF(ELM_TYP_OLD==7) THEN
@@ -263,7 +264,7 @@ C-----------------------------------------------
             CALL INITWG_TRI(WD,PM,GEO,IXTG,IGEO,NUMEL_RE,IPM ,SIZE_IRUP,
      .            NUMMAT,NUMGEO,POIN_PART_TRI,MID_PID_TRI,IPARTG,
      .            OFF,BUFMAT,MID,PID,MLN,RECHERCHE,TELT_PRO,
-     .            TABMP_L,MAT_PARAM)
+     .            TABMP_L,MAT_PARAM,numelc,iworksh)
 
 ! --------------------------
 !       OTHER        
@@ -333,7 +334,7 @@ C
      .            NUMELC,IPM,NUMMAT,NUMGEO,POIN_PART_SHELL,
      .            MID_PID_SHELL,IPARTC,OFF,BUFMAT,
      .            MID,PID,MLN,RECHERCHE,TELT_PRO,
-     .            TABMP_L,MAT_PARAM)
+     .            TABMP_L,MAT_PARAM,numeltg,iworksh)
 C
       OFF = OFF + NUMELC
 ! -------------------- 
@@ -355,7 +356,7 @@ C
       CALL INITWG_TRI(WD,PM,GEO,IXTG,IGEO,NUMELTG,IPM , SIZE_IRUP,
      .            NUMMAT,NUMGEO,POIN_PART_TRI,MID_PID_TRI,IPARTG,
      .            OFF,BUFMAT,MID,PID,MLN,RECHERCHE,TELT_PRO,
-     .            TABMP_L,MAT_PARAM)
+     .            TABMP_L,MAT_PARAM,numelc,iworksh)
 C
       OFF = OFF + NUMELTG
 ! -------------------- 
