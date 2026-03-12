@@ -828,9 +828,9 @@ C                Test stability condition for inertia
                       POSLY   = STACK%GEO(I4 ,ISUBSTACK)      ! ratio position of layer
                       ZSHIFT = POSLY - HALF*THKLY 
                       DO IT=1,NPTT                                                     
-                          IPT = IPT_ALL + IT                                                                            
-                          THK_IT(IT) =  HALF*THKLY*W_GAUSS(IT,NPTT)
-                          RATIO_THKLY(IPT,I) = THK_IT(IT)                
+                          IPT = IPT_ALL + IT    
+                          RATIO_THKLY(IPT,I) =   HALF*THKLY*W_GAUSS(IT,NPTT)
+                          THK_IT(IT) =   RATIO_THKLY(IPT,I)*THICKT      
                           IF (IPT == 1) THEN                                     
                              LAYPOS(IPT,I) = ZSHIFT + HALF*RATIO_THKLY(IPT,I)     
                           ELSE                                                    

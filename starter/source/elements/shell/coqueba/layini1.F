@@ -71,7 +71,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, N, IADR, IPTHK, IPMAT, IPPOS ,IPPID,
      .  IPANG,MAT_LY(MVSIZ),IT,ILAY,NPTT,MAX_NPTT,IPT,JMLY,IINT,
-     .  IPID_LY,IPT_ALL,NSLICE,IPOS,IE,IP
+     .  IPT_ALL,NSLICE,IPOS,IE,IP
       PARAMETER (MAX_NPTT = 100)
       my_real
      .   THK_IT(MAX_NPTT*NLAY,MVSIZ),ZSHIFT,THK_NPTT,
@@ -250,7 +250,6 @@ c         stack addresses
               IF(IINT == 1) THEN 
                 DO ILAY=1,NLAY
                    NPTT = ELBUF_STR%BUFLY(ILAY)%NPTT
-                   IPID_LY = STACK%IGEO(IPPID + ILAY,ISUBSTACK)  ! layer PID (igtyp = 19)
                   !! layer of stack infos:
                    DO I=JFT,JLT
                       MAT_LY(I)  = STACK%IGEO(IPMAT + ILAY,ISUBSTACK)  ! layer material
@@ -276,7 +275,6 @@ c         stack addresses
               ELSEIF(IINT == 2) THEN
                 DO ILAY=1,NLAY
                    NPTT = ELBUF_STR%BUFLY(ILAY)%NPTT
-                   IPID_LY = STACK%IGEO(IPPID + ILAY,ISUBSTACK)  ! layer PID (igtyp = 19)
                   !! layer of stack infos:
                    DO I=JFT,JLT
                       MAT_LY(I)  = STACK%IGEO(IPMAT + ILAY,ISUBSTACK)  ! layer material
@@ -303,7 +301,6 @@ c         stack addresses
             ELSE ! IPOS /= 1
               DO ILAY=1,NLAY
                 NPTT = ELBUF_STR%BUFLY(ILAY)%NPTT
-                IPID_LY = STACK%IGEO(IPPID + ILAY,ISUBSTACK)  ! layer PID (igtyp = 19)
               !! layer of stack infos:
                  IF(IINT == 1) THEN 
                   DO I=JFT,JLT
@@ -348,7 +345,6 @@ c         stack addresses
            ELSE ! idrape > 0
               DO ILAY=1,NLAY
                 NPTT = ELBUF_STR%BUFLY(ILAY)%NPTT
-                IPID_LY = STACK%IGEO(IPPID + ILAY,ISUBSTACK)  ! layer PID (igtyp = 19)
               !! layer of stack infos:
                  IF(IINT == 1) THEN 
                   DO I=JFT,JLT

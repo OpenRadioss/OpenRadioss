@@ -1116,9 +1116,9 @@ C
                     LAYPOS   = STACK%GEO(I4 ,ISUBSTACK)      ! ratio position of layer
                     ZSHIFT = LAYPOS - HALF*THKLY
                     DO IT=1,NPTT                                                                                    
-                          IPT = IPT_ALL + IT     
-                          THK_IT(IT)   =  HALF*THKLY*W_GAUSS(IT,NPTT)                                                   
-                          RATIO_THKLY(IPT) = THK_IT(IT)                                                        
+                          IPT = IPT_ALL + IT                              
+                          RATIO_THKLY(IPT) = HALF*THKLY*W_GAUSS(IT,NPTT)  
+                          THK_IT(IT)   =   RATIO_THKLY(IPT)*THICKT
                           IF (IPT == 1) THEN                                                                            
                               POSLY(IPT) = ZSHIFT + HALF*RATIO_THKLY(IPT)                                                 
                           ELSE                                                                                          
