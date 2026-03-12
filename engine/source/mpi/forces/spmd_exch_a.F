@@ -447,8 +447,8 @@ C --- /CONT/MAX output
           END DO
        ENDIF
 C
-C --- /PCONT/MAX output
-      IF(H3D_DATA%N_VECT_CONT_MAX /=0.AND.NINTSTAMP==0) THEN
+C --- /PCONT/MAX output or /PCONT
+      IF(LENC>=6) THEN
 #include      "vectorize.inc"
           DO J=IAD_ELEM(1,I),IAD_ELEM(1,I+1)-1
              NOD = FR_ELEM(J)
@@ -823,8 +823,8 @@ C --- /CONT/MAX output
           END DO
        ENDIF
 C
-C --- /PCONT/MAX output
-      IF(H3D_DATA%N_VECT_PCONT_MAX /=0.AND.NINTSTAMP==0) THEN
+C --- /PCONT/MAX or /PCONT output
+      IF(LENC>=6) THEN
 #include      "vectorize.inc"
           DO J=IAD_ELEM(1,I),IAD_ELEM(1,I+1)-1
              NOD = FR_ELEM(J)

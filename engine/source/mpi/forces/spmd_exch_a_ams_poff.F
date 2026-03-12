@@ -170,8 +170,8 @@ C --- /CONT/MAX output
             SHIFT = SHIFT+3
           ENDIF
 
-C --- /PCONT/MAX output
-          IF(ANIM_V(26)+H3D_DATA%N_VECT_PCONT_MAX /=0.AND.NINTSTAMP==0) THEN
+C --- /PCONT/MAX or /PCONT output
+          IF(LENC>=6) THEN
             SBUF(SHIFT+1) = FNCONT(1,NOD)
             SBUF(SHIFT+2) = FNCONT(2,NOD)
             SBUF(SHIFT+3) = FNCONT(3,NOD)
@@ -448,7 +448,8 @@ C --- /CONT/MAX output
              SHIFT = SHIFT+3
            ENDIF
 
-           IF(H3D_DATA%N_VECT_PCONT_MAX /=0.AND.NINTSTAMP==0) THEN
+!       /PCONT
+           IF(LENC>=6) THEN
               FNCONT(1,NOD)= FNCONT(1,NOD)+ SAV_A(SHIFT+1,J)
               FNCONT(2,NOD)= FNCONT(2,NOD)+ SAV_A(SHIFT+2,J)
               FNCONT(3,NOD)= FNCONT(3,NOD)+ SAV_A(SHIFT+3,J)

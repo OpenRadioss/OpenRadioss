@@ -542,6 +542,15 @@ C
             DEALLOCATE(NORM_N)
             NODAREA(1:NUMNOD)=ZERO
           END IF !(NNOUT >0) THEN
+!   just for output (H3D,ANIM) which assembles the pressue vector
+          IF(NSPMD > 1)THEN
+            DO N=1,NUMNOD
+              IF (WEIGHT(N) ==0) THEN 
+                 CONTN(1:3,N)=ZERO
+                 CONTT(1:3,N)=ZERO 
+              END IF
+            END DO
+          END IF
       ENDIF
 !
       DO I=1,NFASOLFR

@@ -169,8 +169,8 @@ C
             SIZ = SIZ + 3*NFACNIT*FR_NBCC(2,I)               !NITSCHE METHOD
             IF(ANIM_V(26)+H3D_DATA%N_VECT_CONT_MAX /=0.AND.NINTSTAMP==0)
      .           SIZ = SIZ + 3*(IAD_ELEM(1,I+1)-IAD_ELEM(1,I))    !Output max contact forces
-            IF(H3D_DATA%N_VECT_PCONT_MAX /=0.AND.NINTSTAMP==0)
-     .           SIZ = SIZ + 6*(IAD_ELEM(1,I+1)-IAD_ELEM(1,I))    !Output max contact pressure
+            IF(LENC>=6*LENI)
+     .           SIZ = SIZ + 6*(IAD_ELEM(1,I+1)-IAD_ELEM(1,I))    !Output Pcont&Pcont_max
             MSGTYP = MSGOFF
             NBIRECV = NBIRECV + 1
             IRINDEX(NBIRECV) = I
@@ -1103,7 +1103,7 @@ C --- /CONT/MAX output
             ENDIF
 
 C --- /PCONT/MAX output
-            IF(H3D_DATA%N_VECT_PCONT_MAX /=0.AND.NINTSTAMP==0) THEN
+            IF(LENC>=6*LENI) THEN   ! Pcont&Pcont_max
 #include      "vectorize.inc"
               DO J=IAD_ELEM(1,I),IAD_ELEM(1,I+1)-1
                 NOD = FR_ELEM(J)
@@ -1148,7 +1148,7 @@ C
             SIZ = SIZ + (IADSDP(I+1)-IADSDP(I))*3*NFACNIT
             IF(ANIM_V(26)+H3D_DATA%N_VECT_CONT_MAX /=0.AND.NINTSTAMP==0)
      .             SIZ = SIZ + 3*(IAD_ELEM(1,I+1)-IAD_ELEM(1,I))    !Output max contact forces
-            IF(H3D_DATA%N_VECT_PCONT_MAX /=0.AND.NINTSTAMP==0)
+            IF(LENC>=6*LENI)
      .             SIZ = SIZ + 6*(IAD_ELEM(1,I+1)-IAD_ELEM(1,I))    !Output max contact forces
 C
             MSGTYP = MSGOFF
@@ -1721,7 +1721,7 @@ C --- /CONT/MAX output
           ENDIF
 
 C --- /PCONT/MAX output
-          IF(H3D_DATA%N_VECT_PCONT_MAX /=0.AND.NINTSTAMP==0) THEN
+          IF(LENC>=6*LENI) THEN
 #include      "vectorize.inc"
             DO J=IAD_ELEM(1,I),IAD_ELEM(1,I+1)-1
               NOD = FR_ELEM(J)
