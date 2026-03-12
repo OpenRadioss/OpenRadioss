@@ -365,7 +365,7 @@ c
                 DO ILAY=1,NLAY
                   NPTT = ELBUF_STR%BUFLY(ILAY)%NPTT
                   IINT = IGEO(47,PID(1))
-                  IF(IINT == 1) THEN  ! only iint activated with ipos=1 
+                  IF(IINT == 1) THEN  ! uniform distribution of NPTT through layer
                         DO I=JFT,JLT                                                                  
                           MAT_LY(I)  = STACK%IGEO(IPMAT + ILAY,ISUBSTACK)  ! layer material                         
                           THICKT     = STACK%GEO(1,ISUBSTACK)                                                         
@@ -389,7 +389,7 @@ c
                           MATLY(JMLY) = MAT_LY(I)    ! layer defined                
                         ENDDO ! DO I=JFT,JLT       
                         IPT_ALL = IPT_ALL + NPTT  
-                      ELSEIF(IINT == 2) THEN
+                      ELSEIF(IINT == 2) THEN ! Gauss distribution of NPTT through layer
                         DO I=JFT,JLT                                                                  
                           MAT_LY(I)  = STACK%IGEO(IPMAT + ILAY,ISUBSTACK)  ! layer material                         
                           THICKT     = STACK%GEO(1,ISUBSTACK)                                                         
