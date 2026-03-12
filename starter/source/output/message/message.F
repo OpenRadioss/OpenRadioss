@@ -848,6 +848,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    sptri                               ../starter/source/elements/sph/sptri.F
 !||    srefderi3                           ../starter/source/elements/solid/solide/srefsta3.F
 !||    stackgroup                          ../starter/source/stack/stackgroup.F
+!||    stackgroup_drape                    ../starter/source/stack/stackgroup_drape.F
 !||    starter0                            ../starter/source/starter/starter0.F
 !||    state_admesh                        ../starter/source/model/remesh/state_admesh.F
 !||    suinit3                             ../starter/source/elements/elbuf_init/suinit3.F

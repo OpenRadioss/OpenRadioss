@@ -25,6 +25,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- called by ------------------------------------------------------
 !||    lectur                 ../starter/source/starter/lectur.F
 !||--- calls      -----------------------------------------------------
+!||    ancmsg                 ../starter/source/output/message/message.F
+!||    fretitl2               ../starter/source/starter/freform.F
 !||--- uses       -----------------------------------------------------
 !||    drape_mod              ../starter/share/modules1/drape_mod.F
 !||    message_mod            ../starter/share/message_module/message_mod.F

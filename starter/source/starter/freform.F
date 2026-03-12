@@ -786,6 +786,7 @@ C-----------------------------------------------
 !||    st_qaprint_output_databases   ../starter/source/output/qaprint/st_qaprint_output_databases.F
 !||    st_qaprint_properties         ../starter/source/output/qaprint/st_qaprint_properties.F
 !||    st_qaprint_thgrou             ../starter/source/output/qaprint/st_qaprint_time_histories.F
+!||    stackgroup_drape              ../starter/source/stack/stackgroup_drape.F
 !||    suinit3                       ../starter/source/elements/elbuf_init/suinit3.F
 !||    t3grhead                      ../starter/source/elements/solid_2d/tria/t3grhead.F
 !||    t3grtails                     ../starter/source/elements/solid_2d/tria/t3grtails.F
