@@ -1810,7 +1810,7 @@ C --- Initialisations
       IF(SNOM_OPT > 0) NOM_OPT = 0
       IF(SINOM_OPT > 0) INOM_OPT = 0
       IF(NUMELR > 0) IXR_KJ = 0
-      IF(NUMELC+NUMELTG > 0) IWORKSH = 0
+      IF(NUMELC+NUMELTG > 0) IWORKSH(:,:) = 0
       IF(NUMELR > 0) R_SKEW = 0
       IF(NUMELP > 0) IBEAM_VECTOR(1:NUMELP) = ZERO
       IF(NUMELP > 0) RBEAM_VECTOR(1:3,1:NUMELP) = ZERO
@@ -5983,7 +5983,8 @@ C Average allowance normally sufficient if average group size> NVSIZ/2
      .     IPARTT, IPARTP  ,IPARTR   ,IPARTX   , IPARTQ,
      6     POIN_PART_SHELL,POIN_PART_TRI,POIN_PART_SOL,
      7     MID_PID_SHELL,MID_PID_TRI,MID_PID_SOL,T_MONVOL,
-     8     EBCS_TAG_CELL_SPMD,NPBY,LPBY,MAT_ELEM%MAT_PARAM)
+     8     EBCS_TAG_CELL_SPMD,NPBY,LPBY,MAT_ELEM%MAT_PARAM,
+     9     iworksh)
 
       DEALLOCATE(IWORK)
 C---------------------------
