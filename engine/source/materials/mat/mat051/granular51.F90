@@ -125,6 +125,7 @@
           !========================================================================
           !
           xvec1(1:nel,1) = Pold(1:nel)
+          vartmp(1:nel,1) = 1
           ! matparam%table(1) : G(rho) function
           ! ivartmp(1,1) : backup index poisition to optimize search during next cycle
           ! xvec1 : abscissa for table interpolation (in)
@@ -138,6 +139,7 @@
           !========================================================================
           !
           xvec1(1:nel,1) = rho_new(1:nel)
+          vartmp(1:nel,1) = 1
           ! matparam%table(1) : G(rho) function
           ! ivartmp(1,1) : backup index poisition to optimize search during next cycle
           ! xvec1 : abscissa for table interpolation (in)

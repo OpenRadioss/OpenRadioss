@@ -600,7 +600,7 @@ c---
             NVARTMP_EOS = 0
             IEOS_TYPE = IPM(4,IMID)
             IF (IEOS_TYPE > 0) NVAR_EOS = EOS_TAG(IEOS_TYPE)%NVAR
-            IF (IEOS_TYPE > 0) NVARTMP_EOS = EOS_TAG(IEOS_TYPE)%NVAR
+            IF (IEOS_TYPE > 0) NVARTMP_EOS = EOS_TAG(IEOS_TYPE)%NVARTMP
             NFAIL = MAT_PARAM(IMID)%NFAIL
             ELBUF_TAB(NG)%BUFLY(1)%ILAW = MLW                                          
             ELBUF_TAB(NG)%BUFLY(1)%IMAT = IMID                                        
