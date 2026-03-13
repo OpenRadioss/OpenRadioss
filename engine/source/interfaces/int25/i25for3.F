@@ -189,7 +189,7 @@ C-----------------------------------------------
      .   CSA ,SNA ,ALPHAF ,FTT1 ,FTT2 ,QFRICT,
      .   AN(NFORTH) ,BN(NFORTH) ,NEP1 ,NEP2 ,NEP ,C11 ,C22 ,ANS ,EP,SIGNC
       my_real
-     .   PREC
+     .   PREC, EPP
       my_real
      .   ST1(MVSIZ),ST2(MVSIZ),ST3(MVSIZ),ST4(MVSIZ),STV(MVSIZ),
      .   KT(MVSIZ),C(MVSIZ),CF(MVSIZ),DPENE(MVSIZ),
@@ -203,14 +203,17 @@ C-----------------------------------------------
      . FSAVSUB1(25,NISUB),IMPX,IMPY,IMPZ
       my_real
      .    STIFADH, FACTOR , GAPP, DGAPLOAD
+      my_real RP1, RP2
 C-----------------------------------------------
       DTMINI=ZERO
       IF (IRESP==1) THEN
         PREC = FIVEEM4
         TINY = EM15
+        EPP = FIVEEM5
       ELSE
         PREC = EM10
         TINY = EM30
+        EPP = EM10
       ENDIF
       IF(DT1>ZERO)THEN
         DT1INV = ONE/DT1
@@ -284,10 +287,10 @@ C
         N  = CAND_N_N(I)
         IF(JG > 0)THEN
           IF(TT /= ZERO)THEN
-            IF(PENE(I) > PENE_OLD(2,N) .AND.
-     .         DPENE(I) < PENE(I)-PENE_OLD(2,N))THEN
-              STIF(I) = (STIF_OLD(2,N)*PENE_OLD(2,N)+ STIF(I)*DPENE(I))
-     .                                /PENE(I)
+            IF(PENE(I) > (PENE_OLD(2,N)+DPENE(I)+EPP))THEN
+               RP1 = PENE_OLD(2,N)/PENE(I)
+               RP2 = DPENE(I)/PENE(I)
+               STIF(I) = STIF_OLD(2,N)*RP1+ STIF(I)*RP2
             ELSE
               STIF(I) = STIF_OLD(2,N)
             ENDIF
@@ -302,10 +305,10 @@ c     .          print *,'i25for3 stif',itab(jg),pene(i),pene_old(2,n),pene(i)-p
         ELSE
           JG = -JG
           IF(TT /= ZERO)THEN
-            IF(PENE(I) > PENE_OLDFI(NIN)%P(2,JG) .and.
-     .         DPENE(I) < PENE(I)-PENE_OLDFI(NIN)%P(2,JG))THEN
-              STIF(I) = (STIF_OLDFI(NIN)%P(2,JG)*PENE_OLDFI(NIN)%P(2,JG)
-     .                  + STIF(I)*DPENE(I)) / PENE(I)
+            IF(PENE(I) > (PENE_OLDFI(NIN)%P(2,JG)+DPENE(I)+EPP))THEN
+               RP1 = PENE_OLDFI(NIN)%P(2,JG)/PENE(I)
+               RP2 = DPENE(I)/PENE(I)
+               STIF(I) = STIF_OLDFI(NIN)%P(2,JG)*RP1+ STIF(I)*RP2
             ELSE
               STIF(I) = STIF_OLDFI(NIN)%P(2,JG)
             ENDIF
