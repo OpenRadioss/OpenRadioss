@@ -276,7 +276,8 @@ c-----------
                 ENDDO
               ENDIF
 c-----------
-            ELSEIF ((ISOLNOD==8 .OR. (ISOLNOD == 4 .AND. (ISROT==0 .OR. ISROT == 3))) .AND. NPT==1 .AND. JHBE /= 14 .AND. JHBE /= 15) THEN
+            ELSEIF ((ISOLNOD==8 .OR. (ISOLNOD == 4 .AND. (ISROT==0 .OR. ISROT == 3))) 
+     .              .AND. NPT==1 .AND. JHBE /= 14 .AND. JHBE /= 15) THEN
               LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(1,1,1)                                           
               IF (ISORTH > 0) ISORTHG = 1
               IF (MLW>=28.AND.MLW /= 49) THEN
@@ -932,7 +933,8 @@ C-----------------------------------------------
               EVAR(6,I) = ZERO
             ENDDO
 c-----------
-            IF ((ISOLNOD == 8 .OR. (ISOLNOD == 4 .AND. (ISROT==0 .OR. ISROT == 3))) .AND. NPT == 1 .AND. JHBE /= 14   .AND. JHBE /= 15) THEN
+            IF ((ISOLNOD == 8 .OR. (ISOLNOD == 4 .AND. (ISROT==0 .OR. ISROT == 3))) 
+     .           .AND. NPT == 1 .AND. JHBE /= 14   .AND. JHBE /= 15) THEN
 c-----------
               LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(1,1,1)                                           
               IF (ISORTH > 0) ISORTHG = 1
