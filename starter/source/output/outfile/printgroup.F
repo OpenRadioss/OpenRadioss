@@ -429,7 +429,11 @@ C----------------------------------------------------------------------
                         NE=0
                       ENDIF
                       IF(N2D == 0)THEN
-                        WRITE(IOUT,'(6I10)')(ITAB(IGRSURF(I)%NODES(J,L)),L=1,4),ITYP,NE
+                        IF(ITYP==3.OR.ITYP==7.OR.ITYP==1) THEN
+                          WRITE(IOUT,'(6I10)')(ITAB(IGRSURF(I)%NODES(J,L)),L=1,4),ITYP,NE
+                        ELSE
+                          WRITE(IOUT,'(2I10,16X,2I10)')(ITAB(IGRSURF(I)%NODES(J,L)),L=1,2),ITYP,NE
+                        ENDIF
                       ELSE
                         WRITE(IOUT,'(2I10,16X,2I10)')(ITAB(IGRSURF(I)%NODES(J,L)),L=1,2),ITYP,NE
                       ENDIF
