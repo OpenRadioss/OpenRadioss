@@ -257,7 +257,7 @@
                           phi(nft+1:nft+llt,phi_add) = elbuf_tab(ng)%bufly(nm)%eos(1,1,1)%var(llt*(idx-1)+1:llt*(idx))
                         elseif(itrimat/=4) then
                           add0 = m51_n0phas + (itrimat-1)*m51_nvphas
-                          add = add0 + 24 + idx ! EOSVAR
+                          add = add0 + 23 + idx ! EOSVAR
                           k   = llt*(add-1)
                           phi(nft+1:nft+llt,phi_add) = elbuf_tab(ng)%bufly(1)%mat(1,1,1)%var(k+1:k+llt)
                         endif
@@ -447,7 +447,7 @@
                         k = llt*(add-1)
                         vol => elbuf_tab(ng)%bufly(1)%mat(1,1,1)%var(k+1:k+llt)
                         add0 = m51_n0phas + (itrimat-1)*m51_nvphas
-                        add = add0 + 24 + idx ! temperature
+                        add = add0 + 23 + idx ! temperature
                         k = llt*(add-1)
                         var => elbuf_tab(ng)%bufly(1)%mat(1,1,1)%var(k+1:k+llt)
                       else
