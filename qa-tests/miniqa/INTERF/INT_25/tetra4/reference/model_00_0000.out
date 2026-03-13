@@ -12,10 +12,10 @@
 **                      Double Precision Version                      **
 **                                                                    **
 **                                                                    **
-** CommitID: a3e475fffe5a7cac97e1101eb89c7e19cea81543                 **
+** CommitID: 4651cc6b7613b224964deaa2f17e39aa20c327b7                 **
 ************************************************************************
 ** OpenRadioss Software                                               **
-** COPYRIGHT (C) 1986-2025 Altair Engineering, Inc.                   **
+** COPYRIGHT (C) 1986-2026 Altair Engineering, Inc.                   **
 ** Licensed under GNU Affero General Public License.                  **
 ** See License file.                                                  **
 ************************************************************************
@@ -24,7 +24,7 @@
  COMPUTATION HARDWARE DESCRIPTION
   
  HOSTNAME     CPU TYPE, FREQUENCY AND MEMORY
- 488ff15f409c   Intel(R) Xeon(R) Platinum 8358 CPU @ 2.60GHz (x86_64), 2593 MHz,  16016 MB RAM,      0 MB swap
+ b7e573b92478   Intel(R) Xeon(R) Gold 6248R CPU @ 3.00GHz (x86_64), 2992 MHz,  63785 MB RAM,      0 MB swap
   
  STACKSIZE  . . . . . . . . . . . . . . . . . . . . 8 MB
  THREAD STACKSIZE . . . . . . . . . . . . . . . . . 400 mB
@@ -617,6 +617,7 @@ DESCRIPTION :
  DOMAIN DECOMPOSITION OPTIMIZED FOR PARALLEL ARITHMETIC ON
  DOMAIN DECOMPOSITION : OPTIMIZED FOR SKYLAKE PROCESSOR
 ** INFO: SIMPLIFIED DOMAIN DECOMPOSITION
+ NUMBER OF DISCONNECTED COMPONENTS FIXED FOR DOMAIN DECOMP:       1
   
   ELEMENT NUMBER =        900
   EDGES FOUND    =       2082
@@ -1145,7 +1146,7 @@ Part id,name:         5 Shell                  Mat type:   2 Elm type: SHELL-4no
     STARTER STORAGE 
     --------------- 
  
-    STARTER MEMORY USAGE        158 MB
+    STARTER MEMORY USAGE        157 MB
 
 
 
@@ -1253,20 +1254,20 @@ STANDARD DEVIATION                         :      12 /       12
  CPU USER TIME
  -------------
  TRANSLATOR  FREEFORM    LECTURE     DDSPLIT     IPARI_L_INI INTBUF_INI  SPL_INTS    W_FI        
-.0000E+00   .1911E+00   .2839E+00   .3201E-01   .2820E-03   .9000E-05   .6060E-02   .1251E-03
+.0000E+00   .2564E+00   .3677E+00   .3182E-01   .2370E-03   .1001E-04   .9959E-02   .1060E-03
   
   
  ELAPSED TIME
  ------------
  TRANSLATOR  FREEFORM    LECTURE     DDSPLIT     IPARI_L_INI INTBUF_INI  SPL_INTS    W_FI        
-.0000E+00   .1021E+08   .3002E+00   .2012E-01   .2193E-03   .1119E-04   .5428E-02   .1405E-03
+.0000E+00   .1653E+07   .4078E+00   .1796E-01   .1893E-03   .1080E-04   .5440E-02   .1129E-03
   
                    ** COMPUTE TIME INFORMATION **
   
- EXECUTION STARTED      :      2025/11/12  14:35:18
- EXECUTION COMPLETED    :      2025/11/12  14:35:18
+ EXECUTION STARTED      :      2026/03/30  16:13:48
+ EXECUTION COMPLETED    :      2026/03/30  16:13:48
   
- ELAPSED TIME...........=          0.56 s
+ ELAPSED TIME...........=          0.73 s
                                00:00:00
   
 ------------------------------------------------------------------------

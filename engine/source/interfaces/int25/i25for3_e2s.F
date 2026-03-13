@@ -151,20 +151,23 @@ C-----------------------------------------------
      . DGAPLOAD,
      .   FSAVSUB1(24,NISUB), IMPX, IMPY, IMPZ,FTN ,FN , FT,BETA
       my_real
-     .   PREC
+     .   PREC, EPP
       my_real
      .   ST1(4*MVSIZ),ST2(4*MVSIZ),ST3(4*MVSIZ),ST4(4*MVSIZ),STIF0(4*MVSIZ),
      .   KT(4*MVSIZ),C(4*MVSIZ),CF(4*MVSIZ),
      .   K1(4*MVSIZ),K2(4*MVSIZ),K3(4*MVSIZ),K4(4*MVSIZ),
      .   C1(4*MVSIZ),C2(4*MVSIZ),C3(4*MVSIZ),C4(4*MVSIZ),
      . CX,CY,CFI,AUX
+       my_real RP1, RP2
 C
 C-----------------------------------------------
 
       IF (IRESP == 1) THEN
         PREC = FIVEEM4
+        EPP = FIVEEM5
       ELSE
         PREC = EM10
+        EPP = EM10
       ENDIF
       IF(DT1>ZERO)THEN
         DT1INV = ONE/DT1
@@ -265,17 +268,20 @@ C subtraction of the initial pene from the pene and the gap
         VN(I) = NX(I)*VX(I) + NY(I)*VY(I) + NZ(I)*VZ(I)
       ENDDO
 C-------------------------------------------
+C     stiffness reduction to avoid positive
+C     force jump and energy generation
+C-------------------------------------------
       DO I=1,JLT
 C
         IF(PENE(I) /= ZERO) THEN
 C
           DPENE(I) = MAX(ZERO,-VN(I)*DT1)
-          IF(TT /= ZERO.AND.PENE_OLD_E2S(INDX2(I),INDX1(I))/=ZERO)THEN  
-            IF(PENE(I) > PENE_OLD_E2S(INDX2(I),INDX1(I)) .AND.
-     .         DPENE(I) < PENE(I)-PENE_OLD_E2S(INDX2(I),INDX1(I)))THEN
-              STIF(I) = (STIF_OLD_E2S(INDX2(I),INDX1(I))*PENE_OLD_E2S(INDX2(I),INDX1(I))+ STIF(I)*DPENE(I))
-     .                                /PENE(I)
-            ELSEIF(PENE_OLD_E2S(INDX2(I),INDX1(I))/=ZERO.or.STIF_OLD_E2S(INDX2(I),INDX1(I))/=ZERO) then
+          IF(TT /= ZERO.AND.PENE_OLD_E2S(INDX2(I),INDX1(I))/=ZERO)THEN 
+           IF(PENE(I)>PENE_OLD_E2S(INDX2(I),INDX1(I)) +DPENE(I)+EPP)THEN
+              RP1 = PENE_OLD_E2S(INDX2(I),INDX1(I))/PENE(I)
+              RP2 = DPENE(I)/PENE(I)
+              STIF(I) = STIF_OLD_E2S(INDX2(I),INDX1(I))*RP1+ STIF(I)*RP2
+            ELSEIF(PENE_OLD_E2S(INDX2(I),INDX1(I))/=ZERO.or.STIF_OLD_E2S(INDX2(I),INDX1(I))/=ZERO) THEN
               STIF(I) = STIF_OLD_E2S(INDX2(I),INDX1(I))
             ENDIF
             PENE_OLD_E2S(INDX2(I),INDX1(I)) = PENE(I)
