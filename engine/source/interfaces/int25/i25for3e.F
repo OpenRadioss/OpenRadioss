@@ -152,19 +152,22 @@ C-----------------------------------------------
      . DGAPLOAD,
      .   FSAVSUB1(24,NISUB), IMPX, IMPY, IMPZ,FTN ,FN , FT,BETA
       my_real
-     .   PREC
+     .   PREC, EPP
       my_real
      .   ST1(MVSIZ),ST2(MVSIZ),ST3(MVSIZ),ST4(MVSIZ),STIF0(MVSIZ),
      .   KT(MVSIZ),C(MVSIZ),CF(MVSIZ),
      .   K1(MVSIZ),K2(MVSIZ),K3(MVSIZ),K4(MVSIZ),
      .   C1(MVSIZ),C2(MVSIZ),C3(MVSIZ),C4(MVSIZ),
      . CX,CY,CFI,AUX,GAPP
+       my_real RP1, RP2
 C
 C-----------------------------------------------
       IF (IRESP == 1) THEN
         PREC = FIVEEM4
+        EPP = FIVEEM5
       ELSE
         PREC = EM10
+        EPP = EM10
       ENDIF
       IF(DT1>ZERO)THEN
         DT1INV = ONE/DT1
@@ -272,10 +275,10 @@ C
 C
           DPENE(I) = MAX(ZERO,-VN(I)*DT1)
           IF(TT /= ZERO.AND.PENE_OLD_E(INDEX(I))/= ZERO)THEN 
-            IF(PENE(I) > PENE_OLD_E(INDEX(I)) .AND.
-     .         DPENE(I) < PENE(I)-PENE_OLD_E(INDEX(I)))THEN
-              STIF(I) = (STIF_OLD_E(INDEX(I))*PENE_OLD_E(INDEX(I))+ STIF(I)*DPENE(I))
-     .                                /PENE(I)
+            IF(PENE(I)>PENE_OLD_E(INDEX(I)) +DPENE(I)+EPP)THEN
+              RP1 = PENE_OLD_E(INDEX(I))/PENE(I)
+              RP2 = DPENE(I)/PENE(I)
+              STIF(I) = STIF_OLD_E(INDEX(I))*RP1+ STIF(I)*RP2
             ELSEIF(STIF_OLD_E(INDEX(I))/=ZERO.or.PENE_OLD_E(INDEX(I))/=ZERO)then
               STIF(I) = STIF_OLD_E(INDEX(I))
             ENDIF
