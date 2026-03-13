@@ -1599,11 +1599,6 @@ C
           FCONT(1,M2(I)) =FCONT(1,M2(I)) + FX4(I)
           FCONT(2,M2(I)) =FCONT(2,M2(I)) + FY4(I)
           FCONT(3,M2(I)) =FCONT(3,M2(I)) + FZ4(I)
-      if(itab(n1(i))==38354821) write(*,*) 'fncont 1',ncycle,i,itab(n1(i)),itab(n2(i)),itab(m1(i)),itab(m2(i)),FX1(I),FY1(I),FZ1(I), FCONT(1:3,N1(I))
-      if(itab(n2(i))==38354821) write(*,*) 'fncont 2',ncycle,i,itab(n1(i)),itab(n2(i)),itab(m1(i)),itab(m2(i)),FX2(I),FY2(I),FZ2(I), FCONT(1:3,N2(I))
-
-      if(itab(m1(i))==38354821) write(*,*) 'fncont 3',ncycle,i,itab(n1(i)),itab(n2(i)),itab(m1(i)),itab(m2(i)),FX3(I),FY3(I),FZ3(I), FCONT(1:3,m1(I))
-      if(itab(m2(i))==38354821) write(*,*) 'fncont 4',ncycle,i,itab(n1(i)),itab(n2(i)),itab(m1(i)),itab(m2(i)),FX4(I),FY4(I),FZ4(I), FCONT(1:3,m2(I))
         ENDDO
 
 #include "lockoff.inc"
