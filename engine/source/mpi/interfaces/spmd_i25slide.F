@@ -878,7 +878,7 @@ C         IF(ITYP==25)THEN
                  PENE_OLDFI(NIN)%P(2,K)     = XREM(RSHIFT+5,L)
                  STIF_OLDFI(NIN)%P(2,K)     = XREM(RSHIFT+6,L)
                  PENE_OLDFI(NIN)%P(3,K)     = XREM(RSHIFT+7,L)
-                 PENE_OLDFI(NIN)%P(3,K)     = XREM(RSHIFT+8,L)
+                 PENE_OLDFI(NIN)%P(4,K)     = XREM(RSHIFT+8,L)
                  PENE_OLDFI(NIN)%P(5,K)     = XREM(RSHIFT+9,L)
                ELSEIF(I == 0) THEN
                  K = IAUX_K(J) 
