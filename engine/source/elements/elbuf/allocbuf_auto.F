@@ -31,12 +31,12 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    elbufdef_mod    ../common_source/modules/mat_elem/elbufdef_mod.F90
 !||    h3d_inc_mod     ../engine/share/modules/h3d_inc_mod.F
 !||====================================================================
-      SUBROUTINE ALLOCBUF_AUTO(ELBUF_STR,BUFLEN,NPT,ITY,ISNOD,NEWLEN,INLOC,
+      SUBROUTINE ALLOCBUF_AUTO(ELBUF_STR,MAT_ELEM,BUFLEN,NPT,ITY,ISNOD,NEWLEN,INLOC,
      .                         IDAMP_FREQ_RANGE)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD    
+      USE MAT_ELEM_MOD    
       USE H3D_INC_MOD          
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -53,6 +53,7 @@ C-----------------------------------------------
       INTEGER BUFLEN,NPT,ITY,ISNOD,NEWLEN,INLOC
       INTEGER, INTENT(IN) :: IDAMP_FREQ_RANGE
       TYPE(ELBUF_STRUCT_) , TARGET   :: ELBUF_STR
+      TYPE(MAT_ELEM_) , TARGET   :: MAT_ELEM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -867,8 +868,9 @@ c-----
 c-------------------------------
 C         failure model variables                            
 c-------------------------------
-      DO IL = 1, NLAY                                                      
-        NFAIL = ELBUF_STR% BUFLY(IL)%NFAIL                                     
+      DO IL = 1, NLAY  
+        IMAT  = ELBUF_STR%BUFLY(IL)%IMAT                                                    
+        NFAIL = ELBUF_STR%BUFLY(IL)%NFAIL                                     
         IF (IGTYP == 51 .OR. IGTYP == 52) THEN
           NPTT = ELBUF_STR%BUFLY(IL)%NPTT
         ELSE
@@ -919,6 +921,10 @@ c-------------------------------
                 ALLOCATE(FLOC%VAR(NEL*NUVAR), STAT=ERR)                    
                 FLOC%VAR(1:NEL*NUVAR) = RBUF(IAD+1:IAD+NEL*NUVAR)                        
                 IAD = IAD + NEL*NUVAR                                        
+                                       
+                NVARTMP = MAT_ELEM%MAT_PARAM(IMAT)%FAIL(K)%NVARTMP                                      
+                ALLOCATE(FLOC%VARTMP(NEL*NVARTMP), STAT=ERR) 
+                FLOC%VARTMP(1:NEL*NVARTMP) = 1                 
 
                 ALLOCATE(FLOC%DAM(NEL*LF_DAM), STAT=ERR)                    
                 FLOC%DAM(1:NEL*LF_DAM) = RBUF(IAD+1:IAD+NEL*LF_DAM)                        
@@ -1149,8 +1155,9 @@ c
 c-------------------------------
 C     Interlayer failure model variables                            
 c-------------------------------
-      DO IL = 1, NINTLAY                                                      
-        NFAIL = ELBUF_STR% INTLAY(IL)%NFAIL                                     
+      DO IL = 1, NINTLAY
+        IMAT  = ELBUF_STR%INTLAY(IL)%IMAT                                                     
+        NFAIL = ELBUF_STR%INTLAY(IL)%NFAIL                                     
         DO IR = 1,NPTR                                                     
           DO IS = 1,NPTS                                                   
               ALLOCATE (ELBUF_STR%INTLAY(IL)%FAIL(IR,IS)%FLOC(NFAIL),                                                    
@@ -1167,6 +1174,9 @@ c-------------------------------
                 ALLOCATE(FLOC%VAR(NEL*NUVAR), STAT=ERR)                    
                 FLOC%VAR(1:NEL*NUVAR) = RBUF(IAD+1:IAD+NEL*NUVAR)                        
                 IAD = IAD+NEL*NUVAR                                        
+                NVARTMP =  MAT_ELEM%MAT_PARAM(IMAT)%FAIL(K)%NVARTMP                                      
+                ALLOCATE(FLOC%VARTMP(NEL*NVARTMP), STAT=ERR)
+                FLOC%VARTMP(1:NEL*NVARTMP)=1                
               ENDDO                                                         
           ENDDO                                                            
         ENDDO                                                              

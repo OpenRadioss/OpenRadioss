@@ -51,7 +51,7 @@ C-----------------------------------------------
       INTEGER ,DIMENSION(:) ,ALLOCATABLE :: IBUF
       my_real ,DIMENSION(:) ,ALLOCATABLE :: RBUF
 C=======================================================================
-      LENI = 10
+      LENI = 11
       ALLOCATE (IBUF(LENI))
 c
       IBUF(1)  = FAIL%IRUPT
@@ -59,11 +59,12 @@ c
       IBUF(3)  = FAIL%NUPARAM
       IBUF(4)  = FAIL%NIPARAM
       IBUF(5)  = FAIL%NUVAR
-      IBUF(6)  = FAIL%NFUNC
-      IBUF(7)  = FAIL%NTABLE
-      IBUF(8)  = FAIL%NTABLE4D
-      IBUF(9)  = FAIL%NMOD 
-      IBUF(10) = FAIL%FAIL_IP
+      IBUF(6)  = FAIL%NVARTMP
+      IBUF(7)  = FAIL%NFUNC
+      IBUF(8)  = FAIL%NTABLE
+      IBUF(9)  = FAIL%NTABLE4D
+      IBUF(10) = FAIL%NMOD 
+      IBUF(11) = FAIL%FAIL_IP
 c
       CALL WRITE_I_C(IBUF,LENI)
       DEALLOCATE(IBUF)

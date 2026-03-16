@@ -83,7 +83,7 @@ c          print*,'  NG =',ng
         IF (ITY==1 .or. ITY==2   .or. ITY==51 .or. ITY==3 .or.
      .      ITY==7 .or. ITY==101 .or. ITY==4  .or. ITY==5 .or.
      .      ITY==6 .or. ITY==100)THEN
-          CALL ALLOCBUF_AUTO(MAT_ELEM%ELBUF(NG),BUFLEN,NPT,ITY,ISNOD,NEWLEN,INLOC,
+          CALL ALLOCBUF_AUTO(MAT_ELEM%ELBUF(NG),MAT_ELEM,BUFLEN,NPT,ITY,ISNOD,NEWLEN,INLOC,
      .                       IDAMP_FREQ_RANGE)
           IPARG(66,NG)=NEWLEN
         END IF
@@ -107,7 +107,7 @@ c----
 c      if xfem, count buffer's length only in the groups with xfem phantom elements  
 c----
             IF (IXFEM > 0 .and. (ITY==3 .or. ITY==7)) THEN
-              CALL ALLOCBUF_AUTO(MAT_ELEM%XFEM_TAB(NG,IXEL),BUFLEN,NPT,ITY,ISNOD,NEWLEN,INLOC,
+              CALL ALLOCBUF_AUTO(MAT_ELEM%XFEM_TAB(NG,IXEL),MAT_ELEM,BUFLEN,NPT,ITY,ISNOD,NEWLEN,INLOC,
      .                           IDAMP_FREQ_RANGE)
               IPARG(66,NG)=NEWLEN
             ENDIF
