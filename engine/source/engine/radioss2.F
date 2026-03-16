@@ -201,6 +201,7 @@ C-----------------------------------------------
       USE ANIM_MOD
       use rwall_mod
       use sfem_mod
+      use init_h3d_engine_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -237,6 +238,7 @@ C-----------------------------------------------
 #include      "scr_fac_c.inc"
 #include      "chara_c.inc"
 #include      "task_c.inc"
+#include      "spmd_c.inc"
 #include      "warn_c.inc"
 #include      "parit_c.inc"
 #include      "titr_c.inc"
@@ -269,7 +271,7 @@ C-----------------------------------------------
      .        RADIOSSV,RADFLEXV,RDFLEXCOMP,ABFV,ABFCOMP,IFILABF,
      .        NB_OF_FILES,N_FAIL,IP,IRUNN_BIS,IFILTITL
       INTEGER OMP_GET_THREAD_NUM,LONG,LONG_TMP,
-     .        LENV,FVERS,LFNAME,NB_INDEX_ABF
+     .        LENV,FVERS,LFNAME,NB_INDEX_ABF,NINTERSKID
       CHARACTER FILNAM*100, CHRUNM1*2, INPUTNAM*100,
      .          CHR_OLD*2,FNAME*2048,IOFF1*3,IOFF2*3,IOFF3*3
       CHARACTER*2048 INAME
@@ -1482,11 +1484,11 @@ C------------------------------------------------
      C              MONVOL ,VOLMON, IPART_STATE,GEO,TABLE,
      D              IFRAME,XFRAME,MAT_ELEM%ELBUF,IGEO,INTERFACES%INTBUF_TAB,
      E              IPM   ,H3D_DATA, MULTI_FVM,
-     F              IGRPART,TAG_SKINS6,ICFIELD,LCFIELD,NODES%TAG_S_RBY,
-     G              MDS_LABEL,MDS_OUTPUT_TABLE,MDS_NMAT,MAX_DEPVAR,
-     H              MDS_NDEPSVAR,STACK,IBCL,ILOADP,LLOADP,SENSORS,
-     I              DYNAIN_DATA,DT ,LOADS ,OUTPUT,NAMES_AND_TITLES,
-     J              MAT_ELEM%MAT_PARAM,GLOB_THERM,PBLAST)
+     F              IGRPART,ICFIELD,LCFIELD,NODES%TAG_S_RBY,
+     G              MDS_NMAT,
+     H              SENSORS,MAT_ELEM,
+     I              DYNAIN_DATA,DT ,OUTPUT,NAMES_AND_TITLES,
+     J              GLOB_THERM)
 C------------------------------------------------
 C Close & Delete scratch file
       CLOSE (UNIT=IIN)
@@ -1504,6 +1506,18 @@ C------------------------------------------------
      *       MDS_NMAT,MDS_MATID,MDS_FILES,MDS_LABEL,MDS_NDEPSVAR,MAX_DEPVAR,MDS_OUTPUT_TABLE)
       ENDIF
 #endif
+C------------------------------------------------
+C     H3D initialization
+C------------------------------------------------
+      CALL INIT_H3D_ENGINE(OUTPUT,GEO,IGEO,IPM,IPART,H3D_DATA,MULTI_FVM,IPARI,IPARG,TAG_SKINS6,
+     .                     MDS_LABEL,MDS_OUTPUT_TABLE,MDS_NMAT,MAX_DEPVAR,MDS_NDEPSVAR,
+     .                     MAT_ELEM%ELBUF,STACK,IBCL,ILOADP,LLOADP,LOADS,MAT_ELEM%MAT_PARAM,PBLAST,
+     .                     IGRPART,NPC,TF,SNPC,STF,SENSORS,SENSORS%SENSOR_TAB,PSKIDS,
+     .                     NINTSKIDOLD,NINTERSKID,NINTSTAMP,NUMNOD,NUMNODG,NINTER,NUMSPHG,
+     .                     NPROPG,NPROPGI,NPROPMI,LIPART1,NPARI,NPARG,
+     .                     ISPMD,IOUT,MCHECK,
+     .                     NUMELCG,NUMELTGG,NUMELSG,NUMELTRG,NUMELPG,NUMELRG,
+     .                     NUMELQG,NUMSKING,NUMGEO,NUMMAT,NUMPLY)
 
 C------------------------------------------------
       CALL TRACE_IN(19,0,ZERO)
