@@ -70,7 +70,7 @@
           integer, intent(in)                                      :: numnod          !< number of nodes
           integer, intent(in)                                      :: ncycle          !< number of cycle
           integer, intent(in)                                      :: nspmd           !< number of spmd
-          integer, intent(in)                                      :: nfsav           !< 1er dimension of fsav NTHVKI
+          integer, intent(in)                                      :: nfsav           !< first dimension of fsav NTHVKI
           integer, intent(in)                                      :: dimfb           !< last dimension of fbsav6
           integer, intent(in)                                      :: stabsens        !< dimension of tablesensor
           integer, intent(in)                                      :: nsect_offset    !< pointer offset for sensor table
@@ -240,7 +240,7 @@
           integer, intent(in)                                      :: numnod          !< number of nodes
           integer, intent(in)                                      :: msr             !< main node id (>=0)
           integer, intent(in)                                      :: nsn             !< number of secondary nodes
-          integer, intent(in)                                      :: nrwl            !< 1er dimension of rwl
+          integer, intent(in)                                      :: nrwl            !< first dimension of rwl
           integer, intent(in)                                      :: itype           !< rwall type
           integer, intent(in)                                      :: itied           !< flag tied
           integer, intent(inout)                                   :: ncont           !< num. impacted
@@ -309,7 +309,7 @@
               dsm(1:3)=x(1:3,n)-x_rw(1:3)
               dp=dsm(1)*nor(1)+dsm(2)*nor(2)+dsm(3)*nor(3)
               if(dp >= zero) cycle
-!---   no need for test for penetrated nodes w/ velocity
+!---   no need for test for penetrated nodes with velocity
               nindex = nindex+1
               index(nindex) = i
               pene(i) = -dp
@@ -537,7 +537,7 @@
                 f6(j) = fst(2)*dvt
                 f7(j) = fst(3)*dvt
               enddo
-            elseif(itied >1)then  ! w/ friction
+            elseif(itied >1)then  ! with friction
               if (ifq > 0) then
 !---     friction filtering
                 fric = rwl(13)

@@ -29,7 +29,7 @@
       implicit none
       contains
 !=======================================================================================================================
-!!\brief This subroutine do nodal offset projection for shell
+!!\brief This subroutine performs nodal offset projection for shell
 !=======================================================================================================================
 !||====================================================================
 !||    offset_nproj          ../engine/source/interfaces/shell_offset/offset_nproj.F90

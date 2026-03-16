@@ -64,7 +64,7 @@
           integer, intent(in)                                :: ns              !< reference node id
           integer, intent(in)                                :: numnod          !< number of nodes
           integer, intent(in)                                :: nml             !< number of independent nodes
-          integer, intent(in)                                :: lskew           !< 1er dimension of skew
+          integer, intent(in)                                :: lskew           !< first dimension of skew
           integer, intent(in)                                :: numskw          !< number of skew
           integer, intent(in)                                :: iroddl          !< rotational dof flag
           integer, intent(inout)                             :: icoline         !< flag for colinear case

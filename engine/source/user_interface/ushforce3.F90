@@ -135,18 +135,18 @@
           integer,                               intent (in   )     :: igtyp            !< property type
           integer,                               intent (in   )     :: numnod           !< number node
           integer,                               intent (in   )     :: nummat           !< number material
-          integer,                               intent (in   )     :: nparg            !< 1er dim of iparg
+          integer,                               intent (in   )     :: nparg            !< first dimension of iparg
           integer,                               intent (in   )     :: npart            !< number of ipart
           integer,                               intent (in   )     :: nel              !< number of elements in this group
           integer,                               intent (in   )     :: nnod             !< number of nodes per element
           integer,                               intent (in   )     :: itask            !< thread id
           integer,                               intent (in   )     :: lsky             !< dimension of fskyv
-          integer,                               intent (in   )     :: npsav            !< 1er dimension of partsav
+          integer,                               intent (in   )     :: npsav            !< first dimension of partsav
           integer,                               intent (in   )     :: ipri             !< output flag
           integer,                               intent (in   )     :: iparit           !< P/ON flag
           integer,                               intent (in   )     :: nodadt           !< nodal time step flag
           integer,                               intent (in   )     :: userl_avail      !< user prop flag
-          integer,                               intent (in   )     :: nixx             !< 1er dimension of ixx
+          integer,                               intent (in   )     :: nixx             !< first dimension of ixx
           integer, dimension(nel),               intent (in   )     :: ipartx           !< element part id
           integer, dimension(nparg),             intent (in   )     :: iparg            !< element group data
           integer, dimension(nixx,nel),          intent (in   )     :: ixx              !< x element connectivity
@@ -442,7 +442,7 @@
           integer,                               intent (in   )     :: nel              !< number of elements in this group
           integer,                               intent (in   )     :: nnod             !< number of nodes per element
           integer,                               intent (in   )     :: itask            !< thread id
-          integer,                               intent (in   )     :: npsav            !< 1er dimension of partsav
+          integer,                               intent (in   )     :: npsav            !< first dimension of partsav
           integer, dimension(nel),               intent (in   )     :: ipartx           !< element part id
           integer, dimension(nel,nnod),          intent (in   )     :: ncj              !< element node id
           real(kind=WP),dimension(nel) ,         intent (in   )     :: off              !< element activation value

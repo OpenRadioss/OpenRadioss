@@ -33,7 +33,7 @@
         ! ======================================================================================================================
         !
         !=======================================================================================================================
-        !!\brief This subroutine get number of shell w/ offset treatment
+        !!\brief This subroutine gets number of shell with offset treatment
         !=======================================================================================================================
 !||====================================================================
 !||    inter_sh_offset_dim   ../engine/source/interfaces/shell_offset/inter_offset_dim.F90
@@ -57,7 +57,7 @@
           !                                                   Arguments
           ! ----------------------------------------------------------------------------------------------------------------------
           integer, intent (in   )                         :: ngroup           !< number of elem group
-          integer, intent (in   )                         :: nparg            !< 1er dim of iparg
+          integer, intent (in   )                         :: nparg            !< first dimension of iparg
           integer, intent (in   ) ,dimension(nparg,ngroup):: iparg            !< elem group array
           integer, intent (inout)                         :: nsh_oset         !< number offset shell
           type (elbuf_struct_), target, dimension(ngroup) :: elbuf_tab        !< el_buf struct_

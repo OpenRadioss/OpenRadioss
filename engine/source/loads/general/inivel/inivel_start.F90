@@ -29,7 +29,7 @@
 !
       implicit none
       contains
-        !! \brief apply inivel w/ T_start
+        !! \brief apply inivel with T_start
 !||====================================================================
 !||    inivel_start    ../engine/source/loads/general/inivel/inivel_start.F90
 !||--- called by ------------------------------------------------------
@@ -81,10 +81,10 @@
           integer , intent(inout)                          :: ninivelt  !< dimension of inivel_t
           integer , intent(in   )                          :: numskw    !< number of skew
           integer , intent(in   )                          :: numfram   !< number of frame
-          integer , intent(in   )                          :: lskew     !< 1er dimension of skew
-          integer , intent(in   )                          :: nxframe   !< 1er dimension of frame
+          integer , intent(in   )                          :: lskew     !< first dimension of skew
+          integer , intent(in   )                          :: nxframe   !< first dimension of frame
           integer , intent(in   )                          :: numnod    !< number of node
-          integer , intent(in   )                          :: nparg     !< 1er dimension of iparg
+          integer , intent(in   )                          :: nparg     !< first dimension of iparg
           integer , intent(in   )                          :: ngroup    !< number of element group
           integer , intent(in   )                          :: iroddl    !< rotational dof flag
           integer , intent(in   )                          :: iale      !< ale flag

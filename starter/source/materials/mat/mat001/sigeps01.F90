@@ -59,7 +59,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           integer, intent(in)                  :: nel             !< number of elements in the group
           integer, intent(in)                  :: ismstr          !< strain formulation flag
-          integer, intent(in)                  :: npropm          !< 1er dimension of pm
+          integer, intent(in)                  :: npropm          !< first dimension of pm
 !
           real(kind=WP), dimension(npropm),intent(in):: pm              !< material data
           real(kind=WP), dimension(nel), intent(in)  :: rho0            !< initial material density

@@ -28,7 +28,7 @@
       module w_inivel_str_mod
       implicit none
       contains
-        !! \brief write splited inivel rst data for engine
+        !! \brief write split inivel rst data for engine
 !||====================================================================
 !||    w_inivel_str    ../starter/source/restart/ddsplit/w_inivel_str.F90
 !||--- called by ------------------------------------------------------
