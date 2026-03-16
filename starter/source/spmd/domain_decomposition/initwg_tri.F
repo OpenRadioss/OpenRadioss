@@ -34,7 +34,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE INITWG_TRI(WD,PM,GEO,IXTG,IGEO,NUMELTG,IPM ,SIZE_IRUP,
      .            NUMMAT,NUMGEO,POIN_PART_TRI,MID_PID_TRI,IPARTG,
      .            OFF,BUFMAT,MID_OLD,PID_OLD,MLN_OLD,RECHERCHE,TELT_PRO,
-     .            TABMP_L,MAT_PARAM,numelc,iworksh)
+     .            TABMP_L,MAT_PARAM,numelc,iworksh,elm_group)
 C-----------------------------------------------
 C            M o d u l e s
 C-----------------------------------------------
@@ -75,7 +75,8 @@ C     REAL OR REAL*8
       INTEGER, DIMENSION(2,*), INTENT(IN) :: POIN_PART_TRI
       TYPE(MID_PID_TYPE), DIMENSION(*), INTENT(INOUT) :: MID_PID_TRI
       TYPE(MATPARAM_STRUCT_) ,DIMENSION(NUMMAT), INTENT(IN) :: MAT_PARAM
-      integer, dimension(3,numelc+numeltg), intent(in) :: iworksh !< ply data for shell & shell3n elements            
+      integer, dimension(3,numelc+numeltg), intent(in) :: iworksh !< ply data for shell & shell3n elements
+      integer, dimension(numeltg,2), intent(in) :: elm_group !< group id & number of element in the group for each element
 C-----------------------------------------------
       INTEGER  NPN, MID, PID, MLN,
      .    ISTRAIN, ITHK, IHBE, IPLA, ISSN, I, J,
@@ -392,6 +393,10 @@ C Law 36+86 Depending on the FCT
         IF(RECHERCHE==0) THEN
          IF((WD_LOCAL==0.).AND.(MLN/=0))THEN
           telt = telt + timmat + trup + mult_spe*nlocal_option(spe_i_3) + visc_prony
+
+          if(elm_group(i,2)>0.and.elm_group(i,2)<80) then
+            telt = telt * (18.248*(elm_group(i,2))**(-0.625))
+          endif          
           POIDS = telt * INVTREF
           WD(I+OFF) = POIDS
 

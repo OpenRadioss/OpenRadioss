@@ -49,7 +49,7 @@ C NEW ROUTINE TO FILL THE WEIGHT TABLE
      .            TABMP_L,IPART,IPARTC,IPARTG,
      .            IPARTS,NPART,POIN_PART_SHELL,POIN_PART_TRI,POIN_PART_SOL,
      .            MID_PID_SHELL,MID_PID_TRI,MID_PID_SOL,IDDLEVEL,
-     .            MAT_PARAM,iworksh)
+     .            MAT_PARAM,iworksh,elm_group)
 C-----------------------------------------------
 C            M o d u l e s
 C-----------------------------------------------
@@ -57,6 +57,7 @@ C-----------------------------------------------
       USE MID_PID_MOD
       USE MATPARAM_DEF_MOD
       use element_mod , only : nixs,nixq,nixc,nixp,nixt,nixr,nixtg
+      use elm_group_mod , only : elm_group_          
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -100,7 +101,8 @@ C     REAL OR REAL*8
       my_real, DIMENSION(TAILLE_OLD) :: CPUTIME_MP_OLD
       REAL WD(*)
       TYPE(MATPARAM_STRUCT_) ,DIMENSION(NUMMAT), INTENT(IN) :: MAT_PARAM
-      integer, dimension(3,numelc+numeltg), intent(in) :: iworksh !< ply data for shell & shell3n elements      
+      integer, dimension(3,numelc+numeltg), intent(in) :: iworksh !< ply data for shell & shell3n elements
+      type(elm_group_), intent(in) :: elm_group !< element group data structure to store the group id and the number of element in the group for each element   
 C-----------------------------------------------
       INTEGER OFF, NPN, MID, PID, JHBE, IGT, MLN,
      .    ISTRAIN, ITHK, IHBE, IPLA, ISSN, MTN, I, J, K,L,
@@ -132,8 +134,6 @@ C-----------------------------------------------
 
        DATA WTYPE /1.6 ,1. ,1. ,.9 ,1.1 ,1.4 ,0.65 ,.9 ,2.0/
 !     ---------------------------------------------------------------------
-
-
       SIZE_IRUP = 0
       DO I = 1, NUMMAT
         SIZE_IRUP = MAX(SIZE_IRUP, MAT_PARAM(I)%NFAIL)
@@ -256,7 +256,7 @@ C-----------------------------------------------
      .            NUMEL_RE,IPM,NUMMAT,NUMGEO,POIN_PART_SHELL,
      .            MID_PID_SHELL,IPARTC,OFF,BUFMAT,
      .            MID,PID,MLN,RECHERCHE,TELT_PRO,
-     .            TABMP_L,MAT_PARAM,numeltg,iworksh)
+     .            TABMP_L,MAT_PARAM,numeltg,iworksh,elm_group%shell)
 ! --------------------------
 !       TRI             
            ELSEIF(ELM_TYP_OLD==7) THEN
@@ -264,7 +264,7 @@ C-----------------------------------------------
             CALL INITWG_TRI(WD,PM,GEO,IXTG,IGEO,NUMEL_RE,IPM ,SIZE_IRUP,
      .            NUMMAT,NUMGEO,POIN_PART_TRI,MID_PID_TRI,IPARTG,
      .            OFF,BUFMAT,MID,PID,MLN,RECHERCHE,TELT_PRO,
-     .            TABMP_L,MAT_PARAM,numelc,iworksh)
+     .            TABMP_L,MAT_PARAM,numelc,iworksh,elm_group%shell3n)
 
 ! --------------------------
 !       OTHER        
@@ -283,7 +283,7 @@ C-----------------------------------------------
      .            NUMMAT,NUMGEO,
      .            POIN_PART_SOL,MID_PID_SOL,IPARTS,BUFMAT,
      .            MID,PID,MLN,RECHERCHE,ISOL,
-     .            TELT_PRO,TABMP_L,NPART,MAT_PARAM)
+     .            TELT_PRO,TABMP_L,NPART,MAT_PARAM,elm_group%solid)
            ENDIF
            ! --------------------------
            ! Convert the old weight : new_weight = old_weight*reference_weight/reference_old_weight
@@ -321,7 +321,7 @@ C -------------------------------
      .            NUMMAT,NUMGEO,
      .            POIN_PART_SOL,MID_PID_SOL,IPARTS,BUFMAT,
      .            MID,PID,MLN,RECHERCHE,ISOL,
-     .            TELT_PRO,TABMP_L,NPART,MAT_PARAM)
+     .            TELT_PRO,TABMP_L,NPART,MAT_PARAM,elm_group%solid)
 C      
       OFF = NUMELS
 ! -------------------- 
@@ -334,7 +334,7 @@ C
      .            NUMELC,IPM,NUMMAT,NUMGEO,POIN_PART_SHELL,
      .            MID_PID_SHELL,IPARTC,OFF,BUFMAT,
      .            MID,PID,MLN,RECHERCHE,TELT_PRO,
-     .            TABMP_L,MAT_PARAM,numeltg,iworksh)
+     .            TABMP_L,MAT_PARAM,numeltg,iworksh,elm_group%shell)
 C
       OFF = OFF + NUMELC
 ! -------------------- 
@@ -356,7 +356,7 @@ C
       CALL INITWG_TRI(WD,PM,GEO,IXTG,IGEO,NUMELTG,IPM , SIZE_IRUP,
      .            NUMMAT,NUMGEO,POIN_PART_TRI,MID_PID_TRI,IPARTG,
      .            OFF,BUFMAT,MID,PID,MLN,RECHERCHE,TELT_PRO,
-     .            TABMP_L,MAT_PARAM,numelc,iworksh)
+     .            TABMP_L,MAT_PARAM,numelc,iworksh,elm_group%shell3n)
 C
       OFF = OFF + NUMELTG
 ! -------------------- 
