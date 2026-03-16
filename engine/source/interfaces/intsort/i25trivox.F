@@ -39,7 +39,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      5      VOXEL  ,NBX     ,NBY     ,NBZ     ,PMAX_GAP ,
      6      NRTM   ,GAP_S   ,GAP_M   ,MARGE   ,CURV_MAX ,
      7      NIN    ,ITASK   ,PENE_OLD,ITAB    ,NBINFLG  ,
-     8      MBINFLG,ILEV    ,MSEGTYP ,
+     8      MBINFLG,ILEV    ,MSEGTYP , VSLV,DT1,
      9      FLAGREMNODE,KREMNOD,REMNOD  ,
      A      IGAP   ,GAP_S_L,GAP_M_L  ,ICODT    ,ISKEW    ,
      B      DRAD   ,DGAPLOAD )
@@ -111,8 +111,9 @@ C     REAL
       my_real
      .   X(3,*),V(3,*),XYZM(6),STF(*),STFN(*),GAP_S(*),GAP_M(*),
      .   CURV_MAX(*),PENE_OLD(5,NSN),GAP_S_L(*),GAP_M_L(*),
-     .   MARGE,BGAPSMX,PMAX_GAP,VMAXDT
+     .   MARGE,BGAPSMX,PMAX_GAP,VMAXDT,DT1
       my_real , INTENT(IN) :: DGAPLOAD ,DRAD
+      my_real, INTENT(IN) :: VSLV(6)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -134,6 +135,8 @@ c
       my_real
      .   XMINB,YMINB,ZMINB,XMAXB,YMAXB,ZMAXB,
      .   XMINE,YMINE,ZMINE,XMAXE,YMAXE,ZMAXE,AAA
+      my_real :: VMAXDT_LOCAL, VX,VY,VZ,VV
+      my_real :: VMSR_CURRENT(6)
       INTEGER FIRST,LAST
       SAVE IIX,IIY,IIZ
       INTEGER, DIMENSION(:),ALLOCATABLE :: TAG
@@ -279,18 +282,45 @@ C don't keep deleted segments
           DO I=K,L
             TAG(REMNOD(I)) = 1
           ENDDO
-c
-          AAA = MARGE+CURV_MAX(NE)+MAX(MAX(BGAPSMX+GAP_M(NE),PMAX_GAP)+DGAPLOAD,DRAD)+VMAXDT
-     +
-
-
-c     It is possible to improve the algo by cutting the facet
-c     in 2 (4,3,6,9 ...) if the facet is large in front of AAA and inclinee
-
           M1 = IRECT(1,NE)
           M2 = IRECT(2,NE)
           M3 = IRECT(3,NE)
           M4 = IRECT(4,NE)
+
+
+          VMSR_CURRENT(1) = V(1,M1)
+          VMSR_CURRENT(1) = MAX(VMSR_CURRENT(1),V(1,M2))
+          VMSR_CURRENT(1) = MAX(VMSR_CURRENT(1),V(1,M3))
+          VMSR_CURRENT(1) = MAX(VMSR_CURRENT(1),V(1,M4))
+          VMSR_CURRENT(2) = V(2,M1)
+          VMSR_CURRENT(2) = MAX(VMSR_CURRENT(2),V(2,M2))
+          VMSR_CURRENT(2) = MAX(VMSR_CURRENT(2),V(2,M3))
+          VMSR_CURRENT(2) = MAX(VMSR_CURRENT(2),V(2,M4))
+          VMSR_CURRENT(3) = V(3,M1)
+          VMSR_CURRENT(3) = MAX(VMSR_CURRENT(3),V(3,M2))  
+          VMSR_CURRENT(3) = MAX(VMSR_CURRENT(3),V(3,M3))
+          VMSR_CURRENT(3) = MAX(VMSR_CURRENT(3),V(3,M4))
+          VMSR_CURRENT(4) = V(1,M1) 
+          VMSR_CURRENT(4) = MIN(VMSR_CURRENT(4),V(1,M2))
+          VMSR_CURRENT(4) = MIN(VMSR_CURRENT(4),V(1,M3))
+          VMSR_CURRENT(4) = MIN(VMSR_CURRENT(4),V(1,M4))
+          VMSR_CURRENT(5) = V(2,M1)
+          VMSR_CURRENT(5) = MIN(VMSR_CURRENT(5),V(2,M2))
+          VMSR_CURRENT(5) = MIN(VMSR_CURRENT(5),V(2,M3))
+          VMSR_CURRENT(5) = MIN(VMSR_CURRENT(5),V(2,M4))
+          VMSR_CURRENT(6) = V(3,M1) 
+          VMSR_CURRENT(6) = MIN(VMSR_CURRENT(6),V(3,M2))
+          VMSR_CURRENT(6) = MIN(VMSR_CURRENT(6),V(3,M3))
+          VMSR_CURRENT(6) = MIN(VMSR_CURRENT(6),V(3,M4))
+          VX = MAX(VSLV(1)-VMSR_CURRENT(4),VMSR_CURRENT(1)-VSLV(4),ZERO)
+          VY = MAX(VSLV(2)-VMSR_CURRENT(5),VMSR_CURRENT(2)-VSLV(5),ZERO)
+          VZ = MAX(VSLV(3)-VMSR_CURRENT(6),VMSR_CURRENT(3)-VSLV(6),ZERO)
+          VV = SQRT(VX**2+VY**2+VZ**2)
+          VMAXDT_LOCAL = ONEP01*VV*DT1
+          AAA = MARGE+CURV_MAX(NE)+MAX(MAX(BGAPSMX+GAP_M(NE),PMAX_GAP)+DGAPLOAD,DRAD)+VMAXDT_LOCAL
+
+c     It is possible to improve the algo by cutting the facet
+c     in 2 (4,3,6,9 ...) if the facet is large in front of AAA and inclinee
 
           XX1=X(1,M1)
           XX2=X(1,M2)
@@ -373,7 +403,7 @@ c NO need to communicate in SPMD
 
                     AAA = MARGE + CURV_MAX(NE)
      +                  + MAX(GAP_S(JJ)+GAP_M(NE)+DGAPLOAD,DRAD)
-     +                       +VMAXDT
+     +                       +VMAXDT_LOCAL
                   ELSE
                     J=JJ-NSN
 
@@ -397,7 +427,7 @@ c!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 c                                      +EDGE_L2(JJ) remote
 c!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      +              + MAX(XREM(IGAPXREMP,J)+GAP_M(NE)+DGAPLOAD,DRAD)
-     +              + VMAXDT
+     +              + VMAXDT_LOCAL
                   ENDIF
 
                   IF(XS<=XMINE-AAA)GOTO 200
@@ -470,17 +500,46 @@ cc             nnr0pelg = nnr0pelg + nnr0pelem
 C don't keep deleted segments
           IF(STF(NE) <= ZERO)CYCLE
 c
-          AAA = MARGE+CURV_MAX(NE)+MAX(MAX(BGAPSMX+GAP_M(NE),PMAX_GAP)+DGAPLOAD,DRAD)+VMAXDT
-     +
-
-
-c     It is possible to improve the algo by cutting the facet
-c     in 2 (4,3,6,9 ...) if the facet is large in front of AAA and inclinee
-
           M1 = IRECT(1,NE)
           M2 = IRECT(2,NE)
           M3 = IRECT(3,NE)
           M4 = IRECT(4,NE)
+
+
+          VMSR_CURRENT(1) = V(1,M1)
+          VMSR_CURRENT(1) = MAX(VMSR_CURRENT(1),V(1,M2))
+          VMSR_CURRENT(1) = MAX(VMSR_CURRENT(1),V(1,M3))
+          VMSR_CURRENT(1) = MAX(VMSR_CURRENT(1),V(1,M4))
+          VMSR_CURRENT(2) = V(2,M1)
+          VMSR_CURRENT(2) = MAX(VMSR_CURRENT(2),V(2,M2))
+          VMSR_CURRENT(2) = MAX(VMSR_CURRENT(2),V(2,M3))
+          VMSR_CURRENT(2) = MAX(VMSR_CURRENT(2),V(2,M4))
+          VMSR_CURRENT(3) = V(3,M1)
+          VMSR_CURRENT(3) = MAX(VMSR_CURRENT(3),V(3,M2))  
+          VMSR_CURRENT(3) = MAX(VMSR_CURRENT(3),V(3,M3))
+          VMSR_CURRENT(3) = MAX(VMSR_CURRENT(3),V(3,M4))
+          VMSR_CURRENT(4) = V(1,M1) 
+          VMSR_CURRENT(4) = MIN(VMSR_CURRENT(4),V(1,M2))
+          VMSR_CURRENT(4) = MIN(VMSR_CURRENT(4),V(1,M3))
+          VMSR_CURRENT(4) = MIN(VMSR_CURRENT(4),V(1,M4))
+          VMSR_CURRENT(5) = V(2,M1)
+          VMSR_CURRENT(5) = MIN(VMSR_CURRENT(5),V(2,M2))
+          VMSR_CURRENT(5) = MIN(VMSR_CURRENT(5),V(2,M3))
+          VMSR_CURRENT(5) = MIN(VMSR_CURRENT(5),V(2,M4))
+          VMSR_CURRENT(6) = V(3,M1) 
+          VMSR_CURRENT(6) = MIN(VMSR_CURRENT(6),V(3,M2))
+          VMSR_CURRENT(6) = MIN(VMSR_CURRENT(6),V(3,M3))
+          VMSR_CURRENT(6) = MIN(VMSR_CURRENT(6),V(3,M4))
+          VX = MAX(VSLV(1)-VMSR_CURRENT(4),VMSR_CURRENT(1)-VSLV(4),ZERO)
+          VY = MAX(VSLV(2)-VMSR_CURRENT(5),VMSR_CURRENT(2)-VSLV(5),ZERO)
+          VZ = MAX(VSLV(3)-VMSR_CURRENT(6),VMSR_CURRENT(3)-VSLV(6),ZERO)
+          VV = SQRT(VX**2+VY**2+VZ**2)
+          VMAXDT_LOCAL = ONEP01*VV*DT1
+          AAA = MARGE+CURV_MAX(NE)+MAX(MAX(BGAPSMX+GAP_M(NE),PMAX_GAP)+DGAPLOAD,DRAD)+VMAXDT_LOCAL
+
+
+c     It is possible to improve the algo by cutting the facet
+c     in 2 (4,3,6,9 ...) if the facet is large in front of AAA and inclinee
 
           XX1=X(1,M1)
           XX2=X(1,M2)
@@ -562,7 +621,7 @@ c NO need to communicate in SPMD
 
                     AAA = MARGE + CURV_MAX(NE)
      +                  + MAX(GAP_S(JJ)+GAP_M(NE)+DGAPLOAD,DRAD)
-     +                       +VMAXDT
+     +                       +VMAXDT_LOCAL
                   ELSE
                     J=JJ-NSN
 
@@ -574,7 +633,7 @@ c!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 c                                      +EDGE_L2(JJ) remote
 c!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      +              + MAX(XREM(IGAPXREMP,J)+GAP_M(NE)+DGAPLOAD,DRAD)
-     +              + VMAXDT
+     +              + VMAXDT_LOCAL
                   ENDIF
 
                   IF(XS<=XMINE-AAA)GOTO 300
