@@ -97,11 +97,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      C                  MONVOL  ,VOLMON,IPART_STATE,GEO,TABLE ,
      D                  IFRAME  ,XFRAME,ELBUF_STR,IGEO ,INTBUF_TAB,
      E                  IPM     ,H3D_DATA, MULTI_FVM,
-     F                  IGRPART ,TAG_SKINS6,ICFIELD,LCFIELD,TAGSLV_RBY,
-     G                  MDS_LABEL,MDS_OUTPUT_TABLE,MDS_NMAT,MAX_DEPVAR,
-     H                  MDS_NDEPSVAR,STACK,IBCL,ILOADP,LLOADP,SENSORS,
-     I                  DYNAIN_DATA,DT ,LOADS ,OUTPUT,NAMES_AND_TITLES,
-     J                  MAT_PARAM,GLOB_THERM,PBLAST)
+     F                  IGRPART ,ICFIELD,LCFIELD,TAGSLV_RBY,
+     G                  MDS_NMAT,
+     H                  SENSORS,MAT_ELEM,
+     I                  DYNAIN_DATA,DT ,OUTPUT,NAMES_AND_TITLES,
+     J                  GLOB_THERM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -188,10 +188,9 @@ C-----------------------------------------------
      .   LPBY(*),KXSP(NISP,*),WEIGHT(*),FR_RBY2(*),
      .   FR_RL(NSPMD+2,*),
      .   IPART(*), MONVOL(*), IPART_STATE(*),IFRAME(LISKN,*),
-     .   IGEO(NPROPGI,*),IPM(NPROPMI,*),TAG_SKINS6(*),
+     .   IGEO(NPROPGI,*),IPM(NPROPMI,*),
      .   ICFIELD(SIZFIELD,*), LCFIELD(*), TAGSLV_RBY(*),
-     .   MDS_OUTPUT_TABLE(MDS_NMAT*MAX_DEPVAR),MDS_NMAT,MAX_DEPVAR,
-     .   MDS_NDEPSVAR(*),IBCL(*),ILOADP(*),LLOADP(*)
+     .   MDS_NMAT,MAX_DEPVAR
       my_real
      .    SKEW(LSKEW,*),RBY(*),MS(*),IN(*),
      .    X(*), V(*), VR(*),WA(*),PLD(*),CRFLSW(*),XCUT(*),
@@ -207,14 +206,12 @@ C-----------------------------------------------
       CHARACTER MDS_LABEL(1024,MDS_NMAT)
       TYPE (STACK_PLY) :: STACK
       TYPE (SENSORS_) ,INTENT(INOUT) ,TARGET :: SENSORS
+      TYPE (MAT_ELEM_), INTENT(IN) :: MAT_ELEM
       TYPE (DYNAIN_DATABASE), INTENT(INOUT)  :: DYNAIN_DATA
       TYPE (DT_), INTENT(INOUT)              :: DT
-      TYPE (LOADS_), INTENT(IN)              :: LOADS
       TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT !< output structure
       TYPE(NAMES_AND_TITLES_),INTENT(INOUT) :: NAMES_AND_TITLES  !< NAMES_AND_TITLES host the input deck names and titles for outputs
-      TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(INOUT) :: MAT_PARAM
       type (glob_therm_) ,intent(inout)       :: glob_therm
-      type (pblast_) ,intent(inout)           :: pblast
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -2574,7 +2571,7 @@ C-------------------------------------------
         K8=K7
         K9=K8+NUMELTG
         CALL LECSTAT(IPART,IPART_STATE,ELBUF_STR,IPM,IPARG,IPART(K1),
-     .               IPART(K3),IPART(K8),MAT_PARAM)
+     .               IPART(K3),IPART(K8),MAT_ELEM%MAT_PARAM)
       END IF
 C-------------------------------------------
 C     .dynain files
@@ -2592,185 +2589,9 @@ C-------------------------------------------
         CALL READ_DYNAIN(IPART,DYNAIN_DATA,IPART(K3),IPART(K8),IXC,IXTG)
       END IF
 C-------------------------------------------
-C     .h3d files
+C     H3D initialization moved to INIT_H3D_ENGINE
+C     Called from radioss2.F after MDS_ENGINE_USER_INITIALIZE
 C-------------------------------------------
-      CALL PRELECH3D(NUMGEO   ,NPROPGI  ,NPROPMI  ,NUMMAT   ,NUMPLY   ,
-     .               IGEO     ,IPM      ,H3D_DATA ,MULTI_FVM,MDS_OUTPUT_TABLE,
-     .               MDS_NMAT ,MAX_DEPVAR,MDS_NDEPSVAR,MAT_PARAM,NUMSPHG)
-      CALL LECH3D(OUTPUT,GEO,IGEO,IPM,IPART,H3D_DATA,MULTI_FVM,IPARI,IPARG,TAG_SKINS6,
-     .            MDS_LABEL,MDS_OUTPUT_TABLE,MDS_NMAT,MAX_DEPVAR,MDS_NDEPSVAR,
-     .            ELBUF_STR,STACK,IBCL,ILOADP,LLOADP,LOADS,MAT_PARAM,PBLAST,
-     .            IGRPART,NPC,PLD,SNPC,STF)
-c
-      IF(H3D_DATA%N_OUTP_H3D /= 0 .AND. ISPMD == 0)THEN
-        WRITE(IOUT,5000)H3D_DATA%TH3D,H3D_DATA%DTH3D
-        WRITE(IOUT,*)'       |'
-        DO I=1,H3D_DATA%N_OUTP_H3D
-          IF( H3D_DATA%OUTPUT_LIST(I)%ETYPE == 1 .OR.
-     .        H3D_DATA%OUTPUT_LIST(I)%ETYPE == 2 .AND. NUMELCG+NUMELTGG > 0 .OR.
-     .        H3D_DATA%OUTPUT_LIST(I)%ETYPE == 3 .AND. NUMELSG > 0 .OR.
-     .        H3D_DATA%OUTPUT_LIST(I)%ETYPE == 4 .AND. NUMELTRG+NUMELPG+NUMELRG > 0 .OR.
-     .        H3D_DATA%OUTPUT_LIST(I)%ETYPE == 5 .AND. NUMSPHG > 0 .OR.
-     .        H3D_DATA%OUTPUT_LIST(I)%ETYPE == 6 .AND. NUMELQG > 0 .OR.
-     .        H3D_DATA%OUTPUT_LIST(I)%ETYPE == 7 .AND. NUMSKING > 0) THEN
-            CHAR1=' '
-            IF(H3D_DATA%OUTPUT_LIST(I)%ETYPE == 1)THEN
-              CHAR1='NODAL'
-            ELSEIF(H3D_DATA%OUTPUT_LIST(I)%ETYPE == 2)THEN
-              CHAR1='SHELL'
-            ELSEIF(H3D_DATA%OUTPUT_LIST(I)%ETYPE == 3)THEN
-              CHAR1='SOLID'
-            ELSEIF(H3D_DATA%OUTPUT_LIST(I)%ETYPE == 4)THEN
-              CHAR1='ONED'
-            ELSEIF(H3D_DATA%OUTPUT_LIST(I)%ETYPE == 5)THEN
-              CHAR1='SPH'
-            ELSEIF(H3D_DATA%OUTPUT_LIST(I)%ETYPE == 6)THEN
-              CHAR1='QUAD'
-            ELSEIF(H3D_DATA%OUTPUT_LIST(I)%ETYPE == 7)THEN
-              CHAR1='SKIN'
-            ENDIF
-c
-            CHAR2=' '
-            IF(H3D_DATA%OUTPUT_LIST(I)%OUTP_TYPE == 1)THEN
-              CHAR2='SCALAR'
-            ELSEIF(H3D_DATA%OUTPUT_LIST(I)%OUTP_TYPE == 2)THEN
-              CHAR2='VECTOR'
-            ELSEIF(H3D_DATA%OUTPUT_LIST(I)%OUTP_TYPE == 3)THEN
-              CHAR2='TENSOR'
-            ELSEIF(H3D_DATA%OUTPUT_LIST(I)%OUTP_TYPE == 4)THEN
-              CHAR2='TORSOR'
-            ENDIF
-c
-            STEXT1 = H3D_DATA%OUTPUT_LIST(I)%S_STRING1
-            WRITE(IOUT,*)  '       |----'//CHAR1//' '//CHAR2//' : '
-c            WRITE(IOUT,*)  '       |----'//H3D_DATA%OUTPUT_LIST(I)%KEYWORD
-            WRITE(IOUT,*)  '       |    '//H3D_DATA%OUTPUT_LIST(I)%STRING1(1:STEXT1)
-
-            IF (H3D_DATA%OUTPUT_LIST(I)%IUVAR > 0)
-     .        WRITE(IOUT,*)  '       |        UVAR=', H3D_DATA%OUTPUT_LIST(I)%IUVAR
-
-            IF (H3D_DATA%OUTPUT_LIST(I)%PLY > 0)
-     .        WRITE(IOUT,*)  '       |        PLY=',H3D_DATA%OUTPUT_LIST(I)%PLY
-
-            IF (H3D_DATA%OUTPUT_LIST(I)%LAYER > 0)
-     .        WRITE(IOUT,*)  '       |        LAYER=',H3D_DATA%OUTPUT_LIST(I)%LAYER
-
-            IF (H3D_DATA%OUTPUT_LIST(I)%IPT > 0)
-     .        WRITE(IOUT,*)  '       |        IPT=',H3D_DATA%OUTPUT_LIST(I)%IPT
-
-            IF (H3D_DATA%OUTPUT_LIST(I)%IR > 0)
-     .        WRITE(IOUT,*)   '       |        IR=',H3D_DATA%OUTPUT_LIST(I)%IR
-
-            IF (H3D_DATA%OUTPUT_LIST(I)%IR > 0)
-     .        WRITE(IOUT,*)   '       |        IS=',H3D_DATA%OUTPUT_LIST(I)%IS
-
-            IF (H3D_DATA%OUTPUT_LIST(I)%IT > 0)
-     .        WRITE(IOUT,*)   '       |        IT=',H3D_DATA%OUTPUT_LIST(I)%IT
-
-            WRITE(IOUT,*)'       |'
-          ENDIF
-        ENDDO
-        WRITE(IOUT,*)' '
-        WRITE(IOUT,*)' '
-      ENDIF
-C-------------------------------------------
-C     H3D/SENSOR
-C-------------------------------------------
-      IF (ISPMD == 0.AND.MCHECK == 0) THEN
-        DO K=1,H3D_DATA%N_SENS_H3D
-         IOK = 0
-          IF(H3D_DATA%LSENS_H3D(K) /= 0)THEN
-           DO I=1,SENSORS%NSENSOR
-              IF(H3D_DATA%LSENS_H3D(K) == SENSOR_TAB(I)%SENS_ID)THEN
-               H3D_DATA%LSENS_H3D(K)=I
-               IOK = 1
-               EXIT
-             ENDIF
-           ENDDO
-         ENDIF
-         IF(IOK == 0) THEN
-           CALL ANCMSG(MSGID=283,ANMODE=ANINFO,I1=H3D_DATA%LSENS_H3D(K))
-           CALL ARRET(2)
-         ENDIF
-       ENDDO
-      ENDIF                     !(ISPMD==0.AND.MCHECK==0)
-C-------------------------------
-C     Output by interface :
-C        1 - Skid lines
-C-------------------------------
-      IF(H3D_DATA%N_SCAL_SKID  > 0.AND.NINTSKIDOLD==0) THEN
-         NINTERSKID = H3D_DATA%N_SCAL_SKID
-         IF(NINTSTAMP/=0) THEN
-            ALLOCATE (PSKIDS(NINTERSKID,NUMNODG))
-            PSKIDS(1:NINTERSKID,1:NUMNODG) = ZERO
-         ELSE
-            ALLOCATE (PSKIDS(NINTERSKID,NUMNOD))
-            PSKIDS(1:NINTERSKID,1:NUMNOD) = ZERO
-         ENDIF
-      ELSEIF(H3D_DATA%N_SCAL_SKID  == 0.AND.NINTSKIDOLD==0)THEN
-         ALLOCATE (PSKIDS(0,0))
-      ENDIF
-C-------------------------------------------
-C        2 - Frictionnal energy: allocs tabs
-C--------------------------------------------
-         IF(H3D_DATA%N_SCAL_CSE_FRIC >0.AND.OUTPUT%DATA%S_EFRIC == 0)THEN
-            ALLOCATE(OUTPUT%DATA%EFRICG(NUMNOD))
-            OUTPUT%DATA%EFRICG(1:NUMNOD) = ZERO
-            IF(NINTSTAMP/=0) THEN
-              ALLOCATE(OUTPUT%DATA%EFRICG_STAMP(NUMNODG))
-              OUTPUT%DATA%EFRICG_STAMP(1:NUMNODG) = ZERO
-            ELSE
-              ALLOCATE(OUTPUT%DATA%EFRICG_STAMP(0))
-            ENDIF
-         ELSEIF(OUTPUT%DATA%S_EFRIC==0)THEN
-            ALLOCATE(OUTPUT%DATA%EFRICG(0))
-            ALLOCATE(OUTPUT%DATA%EFRICG_STAMP(0))
-         ENDIF
-
-      IF(H3D_DATA%N_SCAL_CSE_FRICINT  > 0.AND.OUTPUT%DATA%S_EFRICINT==0) THEN
-C
-         NINEFRICG = H3D_DATA%N_SCAL_CSE_FRICINT
-         OUTPUT%DATA%NINEFRIC_STAMP = 0
-         OUTPUT%DATA%NINEFRIC = 0
-         IF(NINTSTAMP/=0) THEN
-           DO N=1,NINTER
-               NI = H3D_DATA%N_CSE_FRIC_INTER (N)
-               IF(NI/= 0.AND.IPARI(7,N)==21) OUTPUT%DATA%NINEFRIC_STAMP = OUTPUT%DATA%NINEFRIC_STAMP + 1
-           ENDDO
-         ENDIF
-         IF(OUTPUT%DATA%NINEFRIC_STAMP==NINEFRICG) THEN
-            CALL MY_ALLOC(OUTPUT%DATA%EFRIC_STAMP,NINEFRICG,NUMNODG)
-            OUTPUT%DATA%EFRIC_STAMP(1:NINEFRICG,1:NUMNODG) = ZERO
-            CALL MY_ALLOC(OUTPUT%DATA%EFRIC,0,0)
-         ELSEIF(OUTPUT%DATA%NINEFRIC_STAMP==0) THEN
-            OUTPUT%DATA%NINEFRIC = NINEFRICG
-            CALL MY_ALLOC(OUTPUT%DATA%EFRIC,OUTPUT%DATA%NINEFRIC,NUMNOD)
-            OUTPUT%DATA%EFRIC(1:NINEFRICG,1:NUMNOD) = ZERO
-            CALL MY_ALLOC(OUTPUT%DATA%EFRIC_STAMP,0,0)
-         ELSE
-            OUTPUT%DATA%NINEFRIC = NINEFRICG-OUTPUT%DATA%NINEFRIC_STAMP
-            CALL MY_ALLOC(OUTPUT%DATA%EFRIC_STAMP,OUTPUT%DATA%NINEFRIC_STAMP,NUMNODG)
-            OUTPUT%DATA%EFRIC_STAMP(1:OUTPUT%DATA%NINEFRIC_STAMP,1:NUMNODG) = ZERO
-            CALL MY_ALLOC(OUTPUT%DATA%EFRIC,OUTPUT%DATA%NINEFRIC,NUMNOD)
-            OUTPUT%DATA%EFRIC(1:OUTPUT%DATA%NINEFRIC,1:NUMNOD) = ZERO
-            NS = 0
-            NN= 0
-            DO N=1,NINTER
-               NI = H3D_DATA%N_CSE_FRIC_INTER (N)
-               IF(NI/= 0.AND.IPARI(7,N)==21) THEN
-                  NS = NS+1
-                  H3D_DATA%N_CSE_FRIC_INTER (N) = OUTPUT%DATA%NINEFRIC + NS
-               ELSEIF (NI/=0) THEN
-                  NN = NN+1
-                  H3D_DATA%N_CSE_FRIC_INTER (N) = NN
-               ENDIF
-            ENDDO
-         ENDIF
-      ELSEIF(OUTPUT%DATA%S_EFRICINT==0)THEN
-            CALL MY_ALLOC(OUTPUT%DATA%EFRIC,0,0)
-            CALL MY_ALLOC(OUTPUT%DATA%EFRIC_STAMP,0,0)
-      ENDIF
-C-----------------------------------
 C-------------------------------------------
 C     Animations
 C-------------------------------------------
