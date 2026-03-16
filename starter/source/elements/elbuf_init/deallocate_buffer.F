@@ -289,6 +289,7 @@ c---------
                 DO J = 1,NFAIL
                   FLOC=>ELBUF_TAB(NG)%BUFLY(IL)%FAIL(IR,IS,IT)%FLOC(J)
                   IF(ASSOCIATED(FLOC%VAR)) DEALLOCATE(FLOC%VAR)
+                  IF(ASSOCIATED(FLOC%VARTMP)) DEALLOCATE(FLOC%VARTMP)
                   IF(ASSOCIATED(FLOC%DAM)) DEALLOCATE(FLOC%DAM)
                   IF(ASSOCIATED(FLOC%DAMMX)) DEALLOCATE(FLOC%DAMMX)
                   IF(ASSOCIATED(FLOC%DAMINI)) DEALLOCATE(FLOC%DAMINI)
@@ -375,6 +376,7 @@ C
                 DO J = 1,NFAIL 
                   FLOC=>ELBUF_TAB(NG)%BUFLY(IL)%FAIL(IR,IS,IT)%FLOC(J)         
                   IF(ASSOCIATED(FLOC%VAR)) DEALLOCATE(FLOC%VAR)                                
+                  IF(ASSOCIATED(FLOC%VARTMP)) DEALLOCATE(FLOC%VARTMP)                                
                 ENDDO  
                                                             
                 IF(ASSOCIATED(ELBUF_TAB(NG)%INTLAY(IL)%MAT(IR,IS)%VAR))DEALLOCATE(ELBUF_TAB(NG)%INTLAY(IL)%MAT(IR,IS)%VAR)
@@ -392,6 +394,7 @@ C
                 DO J = 1,NFAIL
                   FLOC=>ELBUF_TAB(NG)%BUFLY(IL)%FAIL(IR,IS,IT)%FLOC(J)
                   IF(ASSOCIATED(FLOC%VAR)) DEALLOCATE(FLOC%VAR)
+                  IF(ASSOCIATED(FLOC%VARTMP)) DEALLOCATE(FLOC%VARTMP)
                   IF(ASSOCIATED(FLOC%DAM)) DEALLOCATE(FLOC%DAM)
                   IF(ASSOCIATED(FLOC%DAMMX)) DEALLOCATE(FLOC%DAMMX)
                   IF(ASSOCIATED(FLOC%DAMINI)) DEALLOCATE(FLOC%DAMINI)

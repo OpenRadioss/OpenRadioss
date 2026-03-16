@@ -56,6 +56,7 @@ c======================================================================-
             MAT_PARAM(IMAT)%FAIL(IFL)%NUPARAM = 0
             MAT_PARAM(IMAT)%FAIL(IFL)%NIPARAM = 0
             MAT_PARAM(IMAT)%FAIL(IFL)%NUVAR   = 0
+            MAT_PARAM(IMAT)%FAIL(IFL)%NVARTMP = 0
             MAT_PARAM(IMAT)%FAIL(IFL)%NFUNC   = 0
             MAT_PARAM(IMAT)%FAIL(IFL)%NTABLE  = 0
             MAT_PARAM(IMAT)%FAIL(IFL)%NTABLE4D= 0
