@@ -331,8 +331,7 @@ C=======================================================================
             yldfac(1:nel) = one
           end if
           
-          CALL M36INIT(NEL   ,NPAR  ,NUVAR ,NFUNC ,IFUNC  ,YLDFAC  ,
-     .                 SNPC  ,STF   ,NPF   ,TF    ,UPARAM ,MBUF%VAR)
+          CALL M36INIT(MAT_PARAM(IMAT),NEL ,NUVAR ,MBUF%VAR,YLDFAC)
 
         ELSEIF (MTN == 37) THEN
           IPARG(63) = 1 !Loi fluide
