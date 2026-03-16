@@ -34,14 +34,14 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    stack_mod              ../starter/share/modules1/stack_mod.F
 !||====================================================================
       SUBROUTINE C3GRHEAD(
-     1       IXTG    ,PM      ,GEO     ,INUM    ,ISEL    ,
+     1       IXTG    ,PM      ,GEO     ,INUM    ,
      2       ITR1    ,EADD    ,INDEX   ,ITRI    ,XNUM    ,
      3       IPARTTG ,ND      ,THK     ,IGRSURF ,IGRSH3N ,
      4       CEP     ,XEP     ,IXTG1   ,ICNOD   ,
      5       IGEO    ,IPM     ,IPART   ,SH3TREE ,NOD2ELTG,
      6       ITRIOFF ,SH3TRIM ,TAGPRT_SMS,
      7       IWORKSH , STACK  ,DRAPE   ,RNOISE,
-     8       MULTI_FVM, SH3ANG,DRAPEG, PTSH3N ,MAT_PARAM,
+     8       SH3ANG,DRAPEG, PTSH3N ,MAT_PARAM,
      9       DAMP_RANGE_PART)
 C-----------------------------------------------
 C   M o d u l e s
@@ -49,13 +49,13 @@ C-----------------------------------------------
       USE MY_ALLOC_MOD
       USE MESSAGE_MOD
       USE STACK_MOD
-      USE MULTI_FVM_MOD
       USE REORDER_MOD
       USE GROUPDEF_MOD
       USE DRAPE_MOD
       USE MATPARAM_DEF_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
       use element_mod , only : nixtg
+      use get_sort_key_shell3n_mod , only : get_sort_key_shell3n
 C-----------------------------------------------
 C            A R G U M E N T S
 C-----------------------------------------------
@@ -91,13 +91,15 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
+      integer, parameter :: nb_key = 8
       INTEGER
-     .    IXTG(NIXTG,*),ISEL(*),INUM(10,*),ND,ICNOD(*),IXTG1(4,*),
-     .    EADD(*), ITR1(*), INDEX(*), ITRI(8,*),IPARTTG(*),
+     .    IXTG(NIXTG,*),INUM(10,*),ND,ICNOD(*),IXTG1(4,*),
+     .    EADD(*), ITR1(*), INDEX(*), ITRI(nb_key,*),IPARTTG(*),
      .    CEP(*), XEP(*),ITRIOFF(*),
      .    IGEO(NPROPGI,*),IPM(NPROPMI,*), IPART(LIPART1,*), 
      .    SH3TREE(KSH3TREE,*), NOD2ELTG(*), SH3TRIM(*),
      .    TAGPRT_SMS(*),IWORKSH(3,*)
+      integer :: sh3tree_dim1,sh3tree_dim2     
       INTEGER , DIMENSION(NUMELTG) , INTENT(INOUT):: PTSH3N
       INTEGER , INTENT(IN) :: DAMP_RANGE_PART(NPART)     !< flag to compute the damping range
       my_real
@@ -105,7 +107,6 @@ C-----------------------------------------------
      .    SH3ANG(*)
 C-----------------------------------------------
       TYPE (STACK_PLY) :: STACK
-      TYPE(MULTI_FVM_STRUCT) :: MULTI_FVM
       TYPE (DRAPE_)  ,TARGET     :: DRAPE(NUMELC_DRAPE + NUMELTG_DRAPE)
       TYPE (DRAPEG_)                             :: DRAPEG,XNUM_DRAPEG
       TYPE (DRAPE_)  , DIMENSION(:), ALLOCATABLE :: XNUM_DRAPE
@@ -119,43 +120,25 @@ C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: ISTOR
       INTEGER WORK(70000)
-      INTEGER I, K, MLN, ISSN, NPN,NN,ICO,ID,
-     .     MID, PID,
-     .     J, ITHK,
-     .    IPLA, II1, JJ1, II2, JJ2, II, JJ, 
-     .    IGTYP, II3, JJ3,NELTG3,
-     .   MSKMLN, MSKNPN, MSKISN, MODE,ICSEN,IFAIL,NFAIL,
-     .   MSKIST, MSKIPL, MSKITH, MSKMID,MSKPID,MSKIRP,MSKTYP,IREP,
-     .   II0,JJ0,ILEV,PRT,IADM,MSKIRB,IRB, II4, JJ4,
-     .   IXFEM,IWARNHB,IPT,IMATLY,IPID,ISH3N,
-     .   II5,JJ5,II6,JJ6,ISUBSTACK,IPPID,
-     .   NB_LAW58,IPMAT,IPERT,STAT,NSLICE,KK,NPT_DRP,IE,
+      INTEGER I, K, NN,ID,PID,J, 
+     .   II1, JJ1, II2, JJ2, II, JJ, 
+     .   II3, JJ3,NELTG3,
+     .   MODE,
+     .   II0,JJ0, II4, JJ4,
+     .   IWARNHB,
+     .   II5,JJ5,II6,JJ6,
+     .   IPERT,STAT,NSLICE,KK,NPT_DRP,IE,
      .   IE0
 C     REAL OR REAL*8
       CHARACTER(LEN=NCHARTITLE) :: TITR
 C
       INTEGER, DIMENSION(:), ALLOCATABLE :: INDEX2, INUM_PTSH3N
-      INTEGER, DIMENSION(:,:), ALLOCATABLE :: INUM_WORKSH ! 3,NUMELTG
+      INTEGER, DIMENSION(:,:), ALLOCATABLE :: INUM_WORKSH
 
       EXTERNAL MY_SHIFTL,MY_SHIFTR,MY_AND
       INTEGER MY_SHIFTL,MY_SHIFTR,MY_AND
       my_real, DIMENSION(:,:), ALLOCATABLE :: XNUM_RNOISE
       my_real, DIMENSION(:), ALLOCATABLE :: ANGLE ! NUMELTG
-Clef 1--------------------- ------------
-      DATA MSKMLN /O'00777000000'/
-      DATA MSKTYP /O'00000777000'/
-      DATA MSKISN /O'00000000700'/
-      DATA MSKIST /O'00000000070'/
-      DATA MSKIPL /O'00000000007'/
-Clef 2---------------------------------
-      DATA MSKITH /O'10000000000'/
-      DATA MSKIRP /O'07000000000'/
-      DATA MSKNPN /O'00777000000'/
-      DATA MSKIRB /O'00000000007'/
-Clef 3---------------------------------
-      DATA MSKMID /O'07777777777'/
-Clef 4---------------------------------
-      DATA MSKPID /O'07777777777'/
 C-----------------------------------------------
 C-----------------------------------------------
       ALLOCATE(ANGLE(NUMELTG))
@@ -213,7 +196,6 @@ C
          DO I=1,NUMELTG
            INDEX2(I)= PERMUTATION%TRIANGLE(I)
            EADD(I)=1
-           ITRI(7,I)=I
            INDEX(I)=I
            INUM(1,I)=IPARTTG(I)
            INUM(2,I)=ITRIOFF(I)
@@ -265,7 +247,6 @@ C
          DO I=1,NUMELTG
            INDEX2(I)= PERMUTATION%TRIANGLE(I)
            EADD(I)=1
-           ITRI(7,I)=I
            INDEX(I)=I
            INUM(1,I)=IPARTTG(I)
            INUM(2,I)=ITRIOFF(I)
@@ -309,216 +290,24 @@ C
       DO I=1,NUMELTG
         XEP(I)=CEP(I)
       ENDDO
-C
-      DO 100 I = 1, NUMELTG
-        II = I
-C
-        IF(NADMESH==0)THEN
-          ITRI(1,I)=0
-        ELSE
-C
-C       ILEV must have a strong weight on the first key
-          PRT = IPARTTG(II)
-          IADM= IPART(10,PRT)
-          IF(IADM==0)THEN
-C         not the same group as if adaptivity.
-            ITRI(1,I)=0
-          ELSE
-            ILEV=SH3TREE(3,I)
-            IF(ILEV<0)ILEV=-ILEV-1
-            ITRI(1,I)=ILEV+1
-          END IF
-        END IF
-C
-        MID= IXTG(1,II)
-        PID= IXTG(5,II)
-        MLN = NINT(PM(19,MID))
-        IF(MLN == 51)TRIMAT=4
-C
-        JTHE = NINT(PM(71,MID))
-        IGTYP = IGEO(11,PID)
-        NPN   = IGEO(4,PID)
-        ISH3N  = IGEO(18,PID)
-        IXFEM = 0
-	       NFAIL = MAT_PARAM(MID)%NFAIL
-        IFAIL = 0
-C
-        IF (IGTYP == 11) THEN
-          DO IPT = 1, NPN
-           IMATLY  = IGEO(100+IPT,PID)
-            NFAIL  = MAX(NFAIL, MAT_PARAM(IMATLY)%NFAIL) 
-          ENDDO 
-          IF(ICRACK3D > 0)THEN
-C -         new multilayer -
-            IXFEM = MAT_PARAM(MID)%IXFEM
-          ENDIF
-        ELSEIF (IGTYP == 17) THEN
-          NPN = IWORKSH(1,NUMELC + II)
-          ISUBSTACK =IWORKSH(3,NUMELC + II)
-!!          IIGEO   =  40 + 5*(ISUBSTACK - 1) 
-!!          IADI    = IGEO(IIGEO + 3,PID)
-!!          IPPID   = IADI
-          IPPID = 2
-          DO IPT = 1, NPN
-            IPID = STACK%IGEO(IPPID+IPT,ISUBSTACK)
-            IMATLY = IGEO(101, IPID)
-            NFAIL  = MAX(NFAIL, MAT_PARAM(IMATLY)%NFAIL) 
-          ENDDO       
-        ELSEIF (IGTYP == 51  ) THEN
-C---
-C new shell property (multiple NPT through each layer)
-C---
-          NB_LAW58 = 0
-          NPN = IWORKSH(1,NUMELC + II)
-          ISUBSTACK =IWORKSH(3,NUMELC + II)
-          IPPID = 2
-          DO IPT = 1, NPN
-            IPID = STACK%IGEO(IPPID+IPT,ISUBSTACK)
-            IMATLY = IGEO(101, IPID)
-            NFAIL  = MAX(NFAIL, MAT_PARAM(IMATLY)%NFAIL) 
-C --- PID 51 combined with LAW58 ---
-            IF (NINT(PM(19,IMATLY)) == 58) NB_LAW58 = NB_LAW58 + 1
-          ENDDO
-C --- set IREP for tri criteria:
-          IF (NB_LAW58 == NPN) THEN
-            IREP = 2
-          ELSEIF (NB_LAW58 > 0) THEN
-            IREP = IREP + 3
-          ENDIF
-        ELSEIF ( IGTYP == 52 ) THEN
-C---
-C new shell property (multiple NPT through each layer)
-C---
-          NB_LAW58 = 0
-          NPN = IWORKSH(1,NUMELC + II)
-          ISUBSTACK =IWORKSH(3,NUMELC + II)
-          IPPID = 2
-          IPMAT = IPPID + NPN
-          DO IPT = 1, NPN
-            IPID   = STACK%IGEO(IPPID + IPT,ISUBSTACK)
-            IMATLY = STACK%IGEO(IPMAT + IPT,ISUBSTACK)
-            NFAIL  = MAX(NFAIL, MAT_PARAM(IMATLY)%NFAIL) 
-C --- PID 51 combined with LAW58 ---
-            IF (NINT(PM(19,IMATLY)) == 58) NB_LAW58 = NB_LAW58 + 1
-          ENDDO
-C --- set IREP for tri criteria:
-          IF (NB_LAW58 == NPN) THEN
-            IREP = 2
-          ELSEIF (NB_LAW58 > 0) THEN
-            IREP = IREP + 3
-          ENDIF        
-C
-        ELSE ! IGTYP == 1
-          IF(ICRACK3D > 0)THEN
-C -         new monolayer -
-            IXFEM = MAT_PARAM(MID)%IXFEM
-            IF (IXFEM == 1) THEN
-              IXFEM = 2
-              ICRACK3D = IXFEM
-            ENDIF
-          END IF
-        ENDIF
-        IF (NFAIL > 0) IFAIL = 1
-c        
-C thermal material expansion
-        IEXPAN  = IPM(218, MID)       
-        ICO = ICNOD(II)
-        IF(ISH3N>3.AND.ISH3N<=29)THEN
-          ID = IGEO(1,PID)
-          CALL FRETITL2(TITR,IGEO(NPROPGI-LTITR+1,PID),LTITR)
-          CALL ANCMSG(MSGID=435,
-     .                MSGTYPE=MSGWARNING,
-     .                ANMODE=ANINFO_BLIND_2,
-     .                I1=ID,
-     .                C1=TITR,
-     .                I2=ISH3N,
-     .                I3=IXTG(NIXTG,II))
-          IWARNHB=IWARNHB+1
-          ISH3N=2
-        ENDIF
-        ITHK = NINT(GEO(35,PID))
-        IPLA = NINT(GEO(39,PID))
-        IREP = IGEO(6,PID)
-        ICSEN= IGEO(3,PID)
-        IF (ICSEN > 0) ICSEN=1
-C
-        IF(NPN==0.AND.(MLN==36.OR.MLN==86))THEN
-          IF(IPLA==0) IPLA=1
-          IF(IPLA==2) IPLA=0
-        ELSEIF(NPN==0.AND.MLN==2)THEN
-          IF(IPLA==2) IPLA=0
-        ELSE
-         IF(IPLA==2) IPLA=0
-         IF(IPLA==3) IPLA=2
-        ENDIF
-        IF(ITHK==2)THEN
-          ITHK = 0
-        ELSEIF(MLN==32)THEN
-          ITHK = 1
-        ENDIF
-        IPLA = IABS(IPLA)
-        ITHK = IABS(ITHK)
-        ISTRAIN = NINT(GEO(11,PID))
-        IF(MLN==19.OR.MLN>=25.OR.MLN==15)ISTRAIN = 1
-        ISSN = IABS(NINT(GEO(3,PID)))
-C sorting on elem deletes rigidbody
-C IRB = 0 : elem actif
-C IRB = 1 : inactive elem and optimized for SPMD
-C IRB = 2: Elem inactive but optimized to be active in SPMD
-        IRB = ITRIOFF(I)
-C
-C---     Clef2 
-        JSMS = 0
-        IF(ISMS/=0)THEN
-          IF(IDTGRS/=0)THEN
-            IF(TAGPRT_SMS(IPARTTG(II))/=0)JSMS=1
-          ELSE
-            JSMS=1
-          END IF
-        END IF
-C       JSMS=MY_SHIFTL(JSMS,0)
-        ITRI(2,I) = JSMS
-C       NEXT=MY_SHIFTL(NEXT,1)
-C
-C---     Clef3 
-C
-C       IPLA   = MY_SHIFTL(IPLA,0)
-        ISTRAIN= MY_SHIFTL(ISTRAIN,3)
-        ISSN   = MY_SHIFTL(ISSN,6)
-C
-        IGTYP  = MY_SHIFTL(IGTYP,9)
-        MLN    = MY_SHIFTL(MLN,18)    
-C     Beware full;
-C       ICO must remain the heaviest weight in this key.
-        ICO   = MY_SHIFTL(ICO,29) 
-        ITRI(3,I)=IPLA+ISTRAIN+ISSN+IGTYP+MLN+ICO 
-C
-C---clef4
-C
-C       IRB    = MY_SHIFTL(IRB,0)
-        IFAIL  = MY_SHIFTL(IFAIL,4)
-        IEXPAN = MY_SHIFTL(IEXPAN,5)
-        JTHE =  MY_SHIFTL(JTHE,6)
-        ISH3N  = MY_SHIFTL(ISH3N,11)
-        ICSEN = MY_SHIFTL(ICSEN,16)
-        NPN   = MY_SHIFTL(NPN,17)
-        IREP  = MY_SHIFTL(IREP,26)
-        ITHK  = MY_SHIFTL(ITHK,30)
-        IF(IXFEM > 0)IXFEM  = MY_SHIFTL(IXFEM,9)
-C
-        ITRI(4,I)=ITHK+IREP+NPN+ICSEN+ISH3N+JTHE+IRB+IFAIL+IXFEM
-C---     Clef3 
-C       MID=MY_SHIFTL(MID,0)
-        ITRI(5,I)=MID
-C---     Clef4 
-C       PID=MY_SHIFTL(PID,0)
-        ITRI(6,I)=PID
-C --- clef7 used for type17 iworkc=0 with/out type17 PID
-        ITRI(7,I) =  IWORKSH(2,NUMELC + I)
-C --- clef 8---------------------------------          
-        ITRI(8,I )= DAMP_RANGE_PART(IPARTTG(II))        
- 100  CONTINUE
-C
+
+      if(nadmesh==0) then
+        sh3tree_dim1 = 0
+        sh3tree_dim2 = 0
+      else
+        sh3tree_dim1 = ksh3tree
+        sh3tree_dim2 = numeltg
+      endif      
+      itri(1:nb_key,1:numeltg) = 0
+      call get_sort_key_shell3n(numelc,numeltg,nb_key,nummat,numgeo,
+     .                          npart,nadmesh,lipart1,npropgi,
+     .                          npropmi,npropm,npropg,icrack3d,
+     .                          isms,idtgrs,sh3tree_dim1,sh3tree_dim2,ltitr,trimat,iwarnhb,
+     .                          iparttg,itrioff,damp_range_part,icnod,tagprt_sms,
+     .                          ipart,iworksh,itri,ixtg,igeo,
+     .                          ipm,sh3tree,pm,geo,
+     .                          stack,mat_param)
+
       MODE=0
       CALL MY_ORDERS( MODE, WORK, ITRI, INDEX, NUMELTG , 8)
 C
