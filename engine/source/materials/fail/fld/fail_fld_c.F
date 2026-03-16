@@ -212,7 +212,7 @@ c
           I = INDX(J)
           EM(I)      = FINTERFLD(EMIN(I),LENF,XF)
           DAM(I)     = EMAJ(I) / EM(I)
-          DFMAX(I,2) = DAM(I)
+          DFMAX(I,2) = MAX(DAM(I),ZERO)
           DFMAX(I,1) = MIN(ONE, DAM(I))
         ENDDO
         DEALLOCATE(XF)
@@ -234,7 +234,7 @@ c
             I = INDX(J)
             EM(I) = Y_LOC(J)
             DAM(I) = EMAJ(I) / EM(I)
-            DFMAX(I,2) = DAM(I)
+            DFMAX(I,2) = MAX(DAM(I),ZERO)
             DFMAX(I,1) = MIN(ONE,DAM(I))
           ENDDO    
         ! -> Non-linear path formulation
@@ -253,7 +253,7 @@ c
             I = INDX(J)
             EM(I) = Y_LOC(J)
             DAM(I) = MAX(PLA(I) / EM(I),DAM(I))
-            DFMAX(I,2) = DAM(I)
+            DFMAX(I,2) = MAX(DAM(I),ZERO)
             DFMAX(I,1) = MIN(ONE,DAM(I))
           ENDDO             
         ENDIF
