@@ -198,8 +198,8 @@
 !||    hm_read_fail_spalling                    ../starter/source/materials/fail/spalling/hm_read_fail_spalling.F90
 !||    hm_read_fractal_dmg                      ../starter/source/materials/fail/fractal/hm_read_fractal_dmg.F90
 !||    hm_read_funct_python                     ../starter/source/tools/curve/hm_read_funct_python.F90
-!||    hm_read_guided_cable                     ../starter/source/tools/seatbelts/hm_read_guided_cable.F90
 !||    hm_read_inivol                           ../starter/source/initial_conditions/inivol/hm_read_inivol.F90
+!||    hm_read_inter_guided_cable               ../starter/source/tools/seatbelts/hm_read_guided_cable.F90
 !||    hm_read_mat                              ../starter/source/materials/mat/hm_read_mat.F90
 !||    hm_read_mat02_jc                         ../starter/source/materials/mat/mat002/hm_read_mat02_jc.F90
 !||    hm_read_mat02_predef                     ../starter/source/materials/mat/mat002/hm_read_mat02_predef.F90

@@ -23,7 +23,7 @@
 !||====================================================================
 !||    hm_print_inter_guided_cable_mod   ../starter/source/tools/seatbelts/hm_print_inter_guided_cable.F90
 !||--- called by ------------------------------------------------------
-!||    initia                 ../starter/source/elements/initia/initia.F
+!||    lectur                            ../starter/source/starter/lectur.F
 !||====================================================================
       module hm_print_inter_guided_cable_mod
         implicit none
@@ -36,12 +36,12 @@
 !||====================================================================
 !||    hm_print_inter_guided_cable   ../starter/source/tools/seatbelts/hm_print_inter_guided_cable.F90
 !||--- called by ------------------------------------------------------
-!||    initia             ../starter/source/elements/initia/initia.F
+!||    lectur                        ../starter/source/starter/lectur.F
 !||--- calls      -----------------------------------------------------
-!||    ifrontplus         ../starter/source/spmd/node/frontplus.F
-!||    nlocal             ../starter/source/spmd/node/ddtools.F
+!||    ancmsg                        ../starter/source/output/message/message.F
+!||    fretitl2                      ../starter/source/starter/freform.F
 !||--- uses       -----------------------------------------------------
-!||    message_mod        ../starter/share/message_module/message_mod.F
+!||    message_mod                   ../starter/share/message_module/message_mod.F
 !||====================================================================
         subroutine hm_print_inter_guided_cable(ninter,nintsub,ngrnod,ngrpart,igrnod,igrpart,                &
                                                npari,ipari,ltitr,lnopt1 ,nom_opt)

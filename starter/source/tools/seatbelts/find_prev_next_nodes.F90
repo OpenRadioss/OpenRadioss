@@ -21,9 +21,9 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    find_prev_next_nodes_mod   ../starter/source/tools/seatbelts/find_prev_next_nodes.F90
+!||    find_prev_next_nodes_mod     ../starter/source/tools/seatbelts/find_prev_next_nodes.F90
 !||--- called by ------------------------------------------------------
-!||    hm_read_guided_cable       ../starter/source/tools/seatbelts/hm_read_guided_cable.F90
+!||    hm_read_inter_guided_cable   ../starter/source/tools/seatbelts/hm_read_guided_cable.F90
 !||====================================================================
       module find_prev_next_nodes_mod
         implicit none
@@ -33,13 +33,13 @@
 ! ======================================================================================================================
 !! \routine to search for the previous and next nodes connected to a given segment
 !||====================================================================
-!||    find_prev_next_nodes    ../starter/source/tools/seatbelts/find_prev_next_nodes.F90
+!||    find_prev_next_nodes         ../starter/source/tools/seatbelts/find_prev_next_nodes.F90
 !||--- called by ------------------------------------------------------
-!||    hm_read_guided_cable    ../starter/source/tools/seatbelts/hm_read_guided_cable.F90
+!||    hm_read_inter_guided_cable   ../starter/source/tools/seatbelts/hm_read_guided_cable.F90
 !||--- calls      -----------------------------------------------------
-!||    dist_node_segment       ../starter/source/tools/seatbelts/dist_node_segment.F90
+!||    dist_node_segment            ../starter/source/tools/seatbelts/dist_node_segment.F90
 !||--- uses       -----------------------------------------------------
-!||    dist_node_segment_mod   ../starter/source/tools/seatbelts/dist_node_segment.F90
+!||    dist_node_segment_mod        ../starter/source/tools/seatbelts/dist_node_segment.F90
 !||====================================================================
         subroutine find_prev_next_nodes(ig,node1,node2,anchor_node,numnod,offset_1d,                  &
                                         snod2el1d,knod2el1d,nod2el1d,numel_1d,nix,                    &

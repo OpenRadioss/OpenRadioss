@@ -118,7 +118,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_read_gauge                 ../starter/source/output/gauge/hm_read_gauge.F
 !||    hm_read_gjoint                ../starter/source/constraints/general/gjoint/hm_read_gjoint.F
 !||    hm_read_grav                  ../starter/source/loads/general/grav/hm_read_grav.F
-!||    hm_read_guided_cable          ../starter/source/tools/seatbelts/hm_read_guided_cable.F90
 !||    hm_read_impacc                ../starter/source/constraints/general/impvel/hm_read_impacc.F
 !||    hm_read_impflux               ../starter/source/constraints/thermic/hm_read_impflux.F
 !||    hm_read_imptemp               ../starter/source/constraints/thermic/hm_read_imptemp.F
@@ -129,6 +128,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_read_inivel                ../starter/source/initial_conditions/general/inivel/hm_read_inivel.F
 !||    hm_read_inject1               ../starter/source/properties/injector/hm_read_inject1.F
 !||    hm_read_inject2               ../starter/source/properties/injector/hm_read_inject2.F
+!||    hm_read_inter_guided_cable    ../starter/source/tools/seatbelts/hm_read_guided_cable.F90
 !||    hm_read_inter_hertz_type17    ../starter/source/interfaces/int17/hm_read_inter_hertz_type17.F
 !||    hm_read_inter_lagdt_type07    ../starter/source/interfaces/int07/hm_read_inter_lagdt_type07.F
 !||    hm_read_inter_lagmul_type02   ../starter/source/interfaces/int02/hm_read_inter_lagmul_type02.F

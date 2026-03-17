@@ -148,6 +148,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_preread_skw                      ../starter/source/tools/skew/hm_preread_skw.F90
 !||    hm_preread_sphio                    ../starter/source/loads/sph/hm_preread_sphio.F
 !||    hm_preread_xelem                    ../starter/source/elements/reader/hm_preread_xelem.F
+!||    hm_print_inter_guided_cable         ../starter/source/tools/seatbelts/hm_print_inter_guided_cable.F90
 !||    hm_read_activ                       ../starter/source/tools/activ/hm_read_activ.F
 !||    hm_read_admas                       ../starter/source/tools/admas/hm_read_admas.F
 !||    hm_read_ale_link                    ../starter/source/constraints/ale/hm_read_ale_link_vel.F
@@ -178,7 +179,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_read_gjoint                      ../starter/source/constraints/general/gjoint/hm_read_gjoint.F
 !||    hm_read_grav                        ../starter/source/loads/general/grav/hm_read_grav.F
 !||    hm_read_grpart                      ../starter/source/groups/hm_read_grpart.F
-!||    hm_read_guided_cable                ../starter/source/tools/seatbelts/hm_read_guided_cable.F90
 !||    hm_read_impacc                      ../starter/source/constraints/general/impvel/hm_read_impacc.F
 !||    hm_read_impflux                     ../starter/source/constraints/thermic/hm_read_impflux.F
 !||    hm_read_imptemp                     ../starter/source/constraints/thermic/hm_read_imptemp.F
@@ -190,6 +190,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_read_initemp                     ../starter/source/initial_conditions/thermic/hm_read_initemp.F
 !||    hm_read_inivel                      ../starter/source/initial_conditions/general/inivel/hm_read_inivel.F
 !||    hm_read_inivol                      ../starter/source/initial_conditions/inivol/hm_read_inivol.F90
+!||    hm_read_inter_guided_cable          ../starter/source/tools/seatbelts/hm_read_guided_cable.F90
 !||    hm_read_interfaces                  ../starter/source/interfaces/reader/hm_read_interfaces.F
 !||    hm_read_intsub                      ../starter/source/output/subinterface/hm_read_intsub.F
 !||    hm_read_lines                       ../starter/source/groups/hm_read_lines.F
@@ -493,10 +494,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_option_read_mod                  ../starter/share/modules1/hm_option_read_mod.F
 !||    hm_preread_inivel_mod               ../starter/source/initial_conditions/general/inivel/hm_preread_inivel.F90
 !||    hm_preread_skw_mod                  ../starter/source/tools/skew/hm_preread_skw.F90
+!||    hm_print_inter_guided_cable_mod     ../starter/source/tools/seatbelts/hm_print_inter_guided_cable.F90
 !||    hm_read_bcs_nrf_mod                 ../starter/source/boundary_conditions/hm_read_bcs_nrf.F90
 !||    hm_read_bcs_wall_mod                ../starter/source/boundary_conditions/hm_read_bcs_wall.F90
-!||    hm_read_guided_cable_mod            ../starter/source/tools/seatbelts/hm_read_guided_cable.F90
 !||    hm_read_inivol_mod                  ../starter/source/initial_conditions/inivol/hm_read_inivol.F90
+!||    hm_read_inter_guided_cable_mod      ../starter/source/tools/seatbelts/hm_read_guided_cable.F90
 !||    hm_read_preload_axial_mod           ../starter/source/loads/general/preload/hm_read_preload_axial.F90
 !||    iniebcs_propellant_                 ../starter/source/boundary_conditions/ebcs/iniebcs_propellant.F90
 !||    inigrav                             ../starter/share/modules1/inigrav_mod.F
