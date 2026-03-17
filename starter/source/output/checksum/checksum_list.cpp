@@ -225,11 +225,28 @@ bool List_checksum::is_integer(const std::string s) {
   // -----------------------------------------------------------------------------------
   // is_file_valid : check if the file has valid fingerprint
   // -----------------------------------------------------------------------------------
-
   bool List_checksum::is_file_valid(std::string file){
       return true;
   }
 
+
+  // -----------------------------------------------------------------------------------
+  // is_file_valid : check if the file has valid fingerprint
+  // -----------------------------------------------------------------------------------
+  bool List_checksum::compare_checksum_list(std::string file,std::string checksum){
+      for (const auto& item :output_files_hash_list){
+           for (const auto& hash_item : get<2>(item)){
+                if (get<0>(hash_item) == file){
+                  if (get<1>(hash_item) == checksum){
+                      return true;
+                  }else{
+                      return false;
+                  }
+                }
+           }
+      }
+      return false;
+  }
 
   // -------------------------------------------------------------------------------------------------------------------------------------------------
   // Parse all .out files in the directory, grab the deck checsksums fingerprints
@@ -264,20 +281,54 @@ bool List_checksum::is_integer(const std::string s) {
              }
              // Grab file checksums
              CheckSum_Output_Files out;
-             list<string> checksum_list_out=out.Out_File( &new_file );
+             std::list<std::tuple<std::string,std::string>> deck_hash_list;
+             std::list<std::tuple<std::string,std::string>> file_hash_list;
+             
+
+             out.Out_File( &new_file, &deck_hash_list,&file_hash_list );
+             output_files_hash_list.push_back(make_tuple(outfile,deck_hash_list,file_hash_list)); // Add the file, deck checksum list and file checksum list in specific list
+
              new_file.close();
-
-             // Compute file checksum
-             checksum file_cs;
-             string file_checksum = file_cs.compute_checksum(outfile);
-             string formated_out = outfile + " : " + file_checksum;
-
-             checksum_list.push_back(make_tuple(formated_out,checksum_list_out)); // Add the checksum list to the collection
-             file_checksum_list.insert(pair<string,string>(outfile, file_checksum)); // Add the file,checksum tuple in specific list
+            // checksum_list.push_back(make_tuple(outfile,checksum_list_out)); // Add the checksum list to the collection
       }
     }
   }
 
+  void List_checksum::write_out(int *fd,std::string line){
+      const char* line_cstr=line.c_str();
+      int len_line= strlen(line_cstr);
+      write_out_file(fd,line_cstr,&len_line);
+  }
+
+  // -------------------------------------------------------------------------------------------------------------------------------------------------
+  // Print the .out file checksums and comparison results
+  // input:
+  // fd : file descriptor where the output will be written
+  // output: 
+  // -------------------------------------------------------------------------------------------------------------------------------------------------
+  void List_checksum::print_outfiles(int *fd){
+  // -------------------------------------------------------------------------------------------------------------------------------------------------
+      write_out(fd,"    Output Files");
+      write_out(fd,"    ------------");
+      for (const auto& item : output_files_hash_list ){
+          write_out(fd," ");
+          string deckline="    File . . . .   "+get<0>(item);
+          write_out(fd,deckline);
+          write_out(fd,"            Deck Checksums");
+          for (const auto& hash_item : get<1>(item)){
+            string hashline="                   "+get<0>(hash_item)+"   "+get<1>(hash_item);
+            write_out(fd,hashline);
+          }
+          write_out(fd," ");
+          write_out(fd,"            File Checksums");
+          for (const auto& hash_item : get<2>(item)){
+            string hashline="                   "+get<0>(hash_item)+"   "+get<1>(hash_item);
+            write_out(fd,hashline);
+          }
+
+      }
+      write_out(fd," ");
+  }
   // -------------------------------------------------------------------------------------------------------------------------------------------------
   // Parse all Animation files from the directory, grab the deck checsksums fingerprints
   // Do an MD5 on the file
@@ -315,18 +366,14 @@ bool List_checksum::is_integer(const std::string s) {
                 cout << "Parsing file: " << anim_file << endl;
              }
 
-
              list<string> checksum_list_out=out.Animation( );
              out.close_binary_file();
              // Compute file checksum
              checksum file_cs;
              string file_checksum = file_cs.compute_checksum(anim_file);
-             string formated_out = anim_file + " : " + file_checksum;
              
-             checksum_list.push_back(make_tuple(formated_out,checksum_list_out)); // Add the checksum list to the collection
-             file_checksum_list.insert(pair<string,string>(anim_file, file_checksum)); // Add the file,checksum tuple in specific list
-
-      
+             bool compared = compare_checksum_list(anim_file,file_checksum);
+             checksum_list.push_back(make_tuple(anim_file,file_checksum,compared,checksum_list_out)); // Add the checksum list to the collection
             }
             run_number++;
     }
@@ -370,82 +417,45 @@ bool List_checksum::is_integer(const std::string s) {
 
                  checksum file_cs;
                  string file_checksum = file_cs.compute_checksum(th_file);
-                 string formated_out = th_file + " : " + file_checksum;
 
-                 checksum_list.push_back(make_tuple(formated_out,checksum_list_th)); // Add the checksum list to the collection
-                 file_checksum_list.insert(pair<string,string>(th_file, file_checksum)); // Add the file,checksum tuple in specific list
+                 bool compared = compare_checksum_list(th_file,file_checksum);
+                 checksum_list.push_back(make_tuple(th_file,file_checksum,compared,checksum_list_th)); // Add the checksum list to the collection
               }
       }
     }
 
   // -------------------------------------------------------------------------------------------------------------------------------------------------
-  // Parse all .checksum files from the directory
-  // Verifies the .checksum filefingerprint
-  // 
+  // Print the output files checksums and comparison results
   // input:
-  // directory : directory where the .out files are located
-  // rootname  : rootname of the .out files (without run number and extension)
-  // output:
-  // formated list of tupes
+  // fd : file descriptor where the output will be written
+  // output: 
   // -------------------------------------------------------------------------------------------------------------------------------------------------
-  void List_checksum::parse_checksum_files(string directory, string rootname){
+  void List_checksum::print_outputfiles(int *fd){
+  // -------------------------------------------------------------------------------------------------------------------------------------------------
+    for (const auto& item : checksum_list){
+      string filename="    File. . . .   "+get<0>(item);
+      write_out(fd,filename);
 
-    for (const auto& item : checksum_file_list){ 
-
-      string chkfile;
-      if ( directory.length() > 0 ){
-          chkfile = directory + item;
+      write_out(fd,"            File Checksum: "+get<1>(item));
+      bool compared = get<2>(item);
+      if (compared){
+          write_out(fd,"            Checksum match: YES");
       }else{
-          chkfile = item;
+          write_out(fd,"            Checksum match: NO");
       }
-             
-      bool valid_file = is_file_valid(chkfile);
-      string valid_message;
-      if (valid_file) {
-          valid_message = "Valid Fingerprint";
-      }else{
-          valid_message = "Invalid Fingerprint";
+      write_out(fd," ");
+      write_out(fd,"            Extracted Checksums from output files:");
+
+      for (const auto& checksum : get<3>(item)){
+          size_t pos = checksum.find_last_of("_");
+          string title=checksum.substr(0,pos); // Remove the checksum value
+          string digest=checksum.substr(pos+1);  // Keep only the checksum value
+          string checksum_line="                  "+title+": "+digest;
+          write_out(fd,checksum_line);
       }
-
-      fstream new_file;
-      new_file.open(chkfile, ios::in);
-
-      if ( !new_file.is_open() ) {
-          // cout << "Error: Unable to open file " << outfile << endl;
-      }else{
-             if (debug){
-                cout << "Parsing file: " << chkfile << endl;
-             }
-             // Grab file checksums
-             CheckSum_Output_Files out;
-             std::list<std::tuple<std::string,std::string>> checksum_list_chk;
-             checksum_list_chk=out.Checksum_File( &new_file );
-             new_file.close();
-
-             string formated_out = chkfile + " : " ;
-             list<string> verify_checksum_list;
-
-             // print the checksum list
-             for (const auto& item2 :checksum_list_chk){
-                string filename = get<0>(item2);
-                string checksum = get<1>(item2);
-
-                string computed_checksum= file_checksum_list[filename];
-
-                if (computed_checksum.length() > 0){
-                   if (checksum == computed_checksum){
-                      verify_checksum_list.push_back(filename + "_" + "Valid Checksum" );
-                   }else{
-                      verify_checksum_list.push_back(filename + "_" + "Failed checksum check : File: "+ checksum + "   Computed: " + computed_checksum);
-                   }
-                }
-             }
-             checksum_list.push_back(make_tuple(formated_out,verify_checksum_list)); // Add the checksum list to the collection
-
+      write_out(fd," ");
       }
-    }
-  };
-
+  }
 
   List_checksum::List_checksum()    // Constructor
   {};
@@ -482,7 +492,7 @@ std::string List_checksum::get_path(const std::string& filepath) {
   // output:
   // list of checksums found in the .out file : format (filename, checksum list)
   // -------------------------------------------------------------------------------
-  list<tuple<string,list<string>>> List_checksum::chk_list(string rootname,string directory){
+  list<tuple<string,list<string>>> List_checksum::chk_decks(string rootname,string directory){
   // -------------------------------------------------------------------------------
 
     // Debug prints
@@ -493,9 +503,6 @@ std::string List_checksum::get_path(const std::string& filepath) {
       cout << endl;
     }
 
-    file_list(directory,rootname); // List all files in the directory
-  
-
     for (const auto& deck_file : deck_file_list){ 
 
          // If deck is present:
@@ -505,7 +512,7 @@ std::string List_checksum::get_path(const std::string& filepath) {
         list<string> deck_checksum_list=my_checksums.get_checksums();    // Compute checksum from input deck
 
         // Add Starter computed checksum to the list
-        checksum_list.push_back(make_tuple(deck_file,deck_checksum_list)); // Add the checksum list to the collection
+        checksum_decks.push_back(make_tuple(deck_file,deck_checksum_list)); // Add the checksum list to the collection
 
         if (debug){    
           cout << "Commputed Checksum list from deck: " << endl;
@@ -517,34 +524,39 @@ std::string List_checksum::get_path(const std::string& filepath) {
           cout << endl;
         }
     }
+    return checksum_decks ;
+  }
 
-    
-    // Parse all .out files in the directory
+  // -------------------------------------------------------------------------------
+  // Compare the checksum from deck to output file
+  // Computes input deck checksum & parse all output files to compare the results.
+  // -------------------------------------------------------------------------------
+  // input:
+  // filename : string starter input filename
+  // directory : string directory where the input file is located
+  // output:
+  // list of checksums found in the .out file : format (filename, checksum list)
+  // -------------------------------------------------------------------------------
+  void List_checksum::chk_list(string rootname,string directory){
+  // -------------------------------------------------------------------------------
+
+    // Debug prints
+    if (debug){
+      cout <<  endl;
+      cout << "Directory: " << directory << endl;  
+      cout << "Rootname: " << rootname << endl;
+      cout << endl;
+    }
+  
+  // Parse all .out files in the directory
     parse_output_files(directory, rootname);
 
-    // parse all animation files in the directory
+  // parse all animation files in the directory
     parse_animation_files(directory, rootname);
 
     // parse all animation files in the directory
     parse_th_files(directory, rootname);
 
-    // Parse all checksum files in the directory
-    parse_checksum_files(directory, rootname); 
-
-    // print the checksum list from all output files
-    if (debug){
-      cout << "Checksum list from output files: " << endl;
-      cout << "==============================" << endl; 
-      for (const auto& item : checksum_list){
-        cout << "File: " << get<0>(item) << endl;
-        for (const auto& checksum : get<1>(item)){
-          cout << "       "<< checksum << endl;
-        }
-        cout << "==============================" << endl; 
-      }
-    }
-
-    return checksum_list ;
   }
 
 // End of class Verify_checksum
@@ -573,27 +585,36 @@ extern "C" {
     }
     path_c[*lenp]='\0';               // Add null character to the end of the string
     string str_path(path_c);          // Convert to string
-    
+
+    //Class checksum_tool
+    List_checksum chksum_tool;
+    chksum_tool.file_list(str_path,str_rootname); // List all files in the directory
 
     // Create checksum_list object
     // grab the input deck name
-    list<tuple<string,list<string>>> checksum_list;            // checksum list collection from all decks : filename, checksum list
-    List_checksum chksum_tool;
-    checksum_list=chksum_tool.chk_list(str_rootname,str_path); // Compute the checksums from the input deck and parse the output files
+    list<tuple<string,list<string>>> checksum_decks;             // checksum list collection from all decks : filename, checksum list
+    checksum_decks=chksum_tool.chk_decks(str_rootname,str_path); // Compute the checksums from the input deck
+
+    // Create checksum_list object
+    // grab the input deck name
+    chksum_tool.chk_list(str_rootname,str_path); // Compute the checksums from the input deck and parse the output files
 
 
     // Print the checksum list to the output file
     const char* blank=" ";
     int len_blank= strlen(blank);
 
-    for (const auto& item : checksum_list){
-      string filename="    File. . . .   "+get<0>(item);
-      const char* line=filename.c_str();
-      int len_line= strlen(line);
-      write_out_file(fd,line,&len_line);
-      int len_blanck=1;
-      write_out_file(fd," ",&len_blank);
-   
+
+
+    for (const auto& item : checksum_decks){
+       string deckline="    Input Deck Checksums . . . .   "+get<0>(item);
+       write_out_file(fd,blank,&len_blank);
+       const char* line=deckline.c_str();
+       int len_line= strlen(line);
+       write_out_file(fd,line,&len_line);
+       write_out_file(fd,blank,&len_blank);
+
+
       for (const auto& checksum : get<1>(item)){
         size_t pos = checksum.find_last_of("_");
         string title=checksum.substr(0,pos); // Remove the checksum value
@@ -606,9 +627,12 @@ extern "C" {
       write_out_file(fd,blank,&len_blank);
       write_out_file(fd,blank,&len_blank);
     }
-  
+
+    chksum_tool.print_outfiles(fd);
+    chksum_tool.print_outputfiles(fd);
+
+
   }
-  
 }
 
 
@@ -626,6 +650,7 @@ extern "C" {
 #ifdef MAIN
 
 void write_out_file(int * fd,const char * line,int * len_line){
+  printf("%s\n",  line);
   // Dummy routine to permit link out of Starter
 }
 
@@ -637,20 +662,9 @@ int main(int argc, char *argv[])
   string file=string(argv[1]);
 
   string path=verify_chksum_tool.get_path(file); // Get the directory of the file
-  list<tuple<string,list<string>>>  list = verify_chksum_tool.chk_list(file,path);
-  
-  cout << endl;
-  cout << "Checksum list from output files: " << endl;
-  cout << "==============================" << endl << endl; 
+  verify_chksum_tool.chk_list(file,path);
+  verify_chksum_tool.print_outfiles();
+  verify_chksum_tool.print_outputfiles();
 
-  for (const auto& item : list){
-    cout << "File: " << get<0>(item) << endl;
-    for (const auto& checksum : get<1>(item)){
-      string title=checksum.substr(0,checksum.length()-33); // Remove the checksum value
-      string digest=checksum.substr(checksum.length()-32); // Keep only the checksum value
-      cout << "    "<< title << " : " <<  digest << endl;
-    }
-    cout <<  endl; 
-  }
 }
 #endif

@@ -663,28 +663,18 @@ C
 
               ENDIF
 
+              if (ispmd==0)then
+                if (output_ptr%checksum%checksum_count > 0) then
+                    CALL checksum_option_checksum_file(output_ptr%checksum)   ! Deck checksums print
+                end if
+              endif
               CLOSE(UNIT=IOUT)
-              IF (ISPMD==0)THEN
-                 IF (OUTPUT_PTR%CHECKSUM%CHECKSUM_COUNT > 0 ) THEN
-                     IZIP=0
-                     CALL COMPUTE_BINARY_CHECKSUM(OUTPUT_PTR%checksum%files_checksum , 
-     *                                            C_LOC(OUTPUT_PTR%OUT_FILENAME),
-     *                                            LEN_TRIM(OUTPUT_PTR%OUT_FILENAME),
-     *                                            IZIP)
-                 ENDIF
-              ENDIF
 
               IF(ISPMD /=0) THEN
                  CALL DELETE_USER_FILE(IUSC4_FNAM,LEN_IUSC4_FNAM)
               ENDIF
 
               CLOSE(UNIT=IUHIS)
-
-              if (ispmd==0)then
-                if (output_ptr%checksum%checksum_count > 0) then
-                    CALL checksum_option_checksum_file(output_ptr%checksum,ROOTNAM,ROOTLEN,CHRUN)   ! Deck checksums print
-                end if
-              endif
 
               CALL MY_EXIT(0)
  

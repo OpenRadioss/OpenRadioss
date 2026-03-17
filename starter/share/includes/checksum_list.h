@@ -68,9 +68,11 @@ class List_checksum {
     std::list<std::string> th_file_list;                                            // .thy files
     std::list<std::string> anim_file_list;                                          // rootnameAxxx
     std::list<std::string> checksum_file_list;                                      // .checksum files
-    std::map<std::string,std::string> file_checksum_list;                           // File checksums : Filename, checksum
-    std::list<std::tuple<std::string,std::list<std::string>>> checksum_list ;       // extracted checksum list from the output files : Filename, checksum list
-    
+     // Output file hashes
+    // file_hash_list : list of tuples (filename, list of tuples (deck_checksum_option, checksum value), list of tuples (checksum filename, checksum value))
+    std::list<std::tuple<std::string,std::list<std::tuple<std::string,std::string>>,std::list<std::tuple<std::string,std::string>>>> output_files_hash_list;
+    std::list<std::tuple<std::string,std::string,bool,std::list<std::string>>> checksum_list ;               // extracted checksum list from the output files : Filename, checksum list
+    std::list<std::tuple<std::string,std::list<std::string>>> checksum_decks ;              // extracted checksum list from the output files : Filename, checksum list
     // -----------------------------------------------------------------------------------
     // Tool : get directory path from a file path
     // -----------------------------------------------------------------------------------
@@ -80,18 +82,24 @@ class List_checksum {
       std::string format_as_3_digits(int number);
       void remove_cr(std::string &line);
       std::string separator();
+      void write_out(int * fd,std::string line);
       int compare_lists(std::list<std::string> list1, std::list<std::string> list2);
+      bool compare_checksum_list(std::string file,std::string checksum);
       bool is_file_valid(std::string file);
-      void file_list(std::string directory,std::string rootname);
+
       void parse_output_files(std::string directory, std::string rootname);
       void parse_animation_files(std::string directory, std::string rootname);
       void parse_th_files(std::string directory, std::string rootname);
-      void parse_checksum_files(std::string directory, std::string rootname);
 
     public:
-      std::list<std::tuple<std::string,std::list<std::string>>> chk_list(std::string input,std::string directory);
+      void file_list(std::string directory,std::string rootname);
+      void chk_list(std::string input,std::string directory);
+      std::list<std::tuple<std::string,std::list<std::string>>> chk_decks(std::string input,std::string directory);
       std::string get_path(const std::string& filepath) ;
       List_checksum();
+      void print_outfiles(int *fd);
+      void print_outputfiles(int *fd);      
+
   }; 
 
   

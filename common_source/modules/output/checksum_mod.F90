@@ -234,7 +234,7 @@
 !||    file_descriptor_mod             ../engine/source/modules/file_descriptor_mod.F90
 !||    names_and_titles_mod            ../common_source/modules/names_and_titles_mod.F
 !||====================================================================
-        subroutine checksum_option_checksum_file(checksum,rootname,rootlen,chrun)
+        subroutine checksum_option_checksum_file(checksum)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -247,53 +247,28 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer :: rootlen                               ! length of the rootname
-          character(len=4) :: chrun                        ! run number
-          character(len=rootlen) :: rootname               ! rootname of the input file
           type(checksum_option_), intent(in) :: checksum   ! checksum structure with the deck fingerprints
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
           integer :: i
-          character(len=2048) :: checksum_file      ! Checksum output file
-          character(len=40) :: formated_date_time        ! date in same format as in the output file
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
-          checksum_file  = rootname(1:rootlen)//"_"//chrun//".checksum"
-          open(unit=fchecksum,file=trim(checksum_file),access="sequential",form="formatted",status="unknown")
-          formated_date_time = checksum%date(1:4)//"/"//checksum%date(5:6)//"/"//checksum%date(7:8)//"  "// &
-          &                                  checksum%time(1:2)//":"//checksum%time(3:4)//":"//checksum%time(5:6)
-          write(fchecksum,"(a)") " ************************************************************************"
-          write(fchecksum,"(a)") " **                                                                    **"
-          write(fchecksum,"(a)") " **                                                                    **"
-          write(fchecksum,"(a)") " **                           Checksum Digest                          **"
-          write(fchecksum,"(a)") " **                                                                    **"
-          write(fchecksum,"(a)") " **                                                                    **"
-          write(fchecksum,"(a)") " ************************************************************************"
-          write(fchecksum,"(a)") " ** OpenRadioss Software                                               **"
-          write(fchecksum,"(a)") " ** COPYRIGHT (C) 1986-2026 Altair Engineering, Inc.                   **"
-          write(fchecksum,"(a)") " ** Licensed under GNU Affero General Public License.                  **"
-          write(fchecksum,"(a)") " ** See License file.                                                  **"
-          write(fchecksum,"(a)") " ************************************************************************"
-          write(fchecksum,"(a,a)") " DECK ROOTNAME .............................:      ",rootname(1:rootlen)
-          write(fchecksum,"(a,a)") " EXECUTION COMPLETED .......................:      ",trim(formated_date_time)
-          write(fchecksum,"(a)") " "
-          write(fchecksum,"(a)") " DECK FINGERPRINTS"
-          write(fchecksum,"(a)") " -----------------"
+          write(iout,"(a)") " "
+          write(iout,"(a)") " "
+          write(iout,"(a)") " CHECKSUM OPTION: DECK FINGERPRINTS"
+          write(iout,"(a)") " ----------------------------------"
 
           do i=1,checksum%checksum_count
-            write(fchecksum,"(a,a)") "    CHECKSUM : ",trim( checksum%checksums(i))
+            write(iout,"(a,a)") "    CHECKSUM: ",trim( checksum%checksums(i))
           end do
 
-          write(fchecksum,"(a)") " "
-          write(fchecksum,"(a)") " OUTPUT FILES CHECKSUM DIGESTS"
-          write(fchecksum,"(a)") " -----------------------------"
-          call print_checksum_list(checksum%files_checksum,fchecksum )
-          write(fchecksum,"(a)") " "
-
-
-          close(unit=fchecksum)
+          write(iout,"(a)") " "
+          write(iout,"(a)") " OUTPUT FILES: CHECKSUM DIGESTS"
+          write(iout,"(a)") " ------------------------------"
+          call print_checksum_list(checksum%files_checksum,iout )
+          write(iout,"(a)") " "
 
         end subroutine checksum_option_checksum_file
 

@@ -95,7 +95,7 @@ extern "C" {
     void print_checksum_list( checksum* cs_output_files,int fd) {
         std::list<std::tuple<std::string, std::string>> checksum_list = cs_output_files->dump_list();
          for (const auto& entry : checksum_list) {
-            std::string str_line="    " + std::get<0>(entry) + " " + std::get<1>(entry); 
+            std::string str_line="    FILE: " +std::get<0>(entry) + " " + std::get<1>(entry); 
             int len_line=str_line.length();
             const char * c_line =  str_line.c_str();
             write_out_file(&fd,c_line,&len_line);

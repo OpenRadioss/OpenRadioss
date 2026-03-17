@@ -247,7 +247,7 @@ c
 !||    checksum_starter_option_mod   ../starter/source/output/checksum/checksum_option.F90
 !||    message_mod                   ../starter/share/message_module/message_mod.F
 !||====================================================================
-      SUBROUTINE F_ANEND(FILENAME,LEN_FILENAME,ROOTNAME,ROOTLEN,ENDDATE,ENDTIME,OUTPUT)
+      SUBROUTINE F_ANEND(OUTPUT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -267,29 +267,19 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER,INTENT(IN) :: ROOTLEN
-      INTEGER,INTENT(IN) :: LEN_FILENAME
-      CHARACTER(LEN=ROOTLEN),INTENT(IN)  :: ROOTNAME
-      CHARACTER(LEN=LEN_FILENAME),INTENT(IN),TARGET  :: FILENAME
-      CHARACTER(LEN=8),INTENT(IN) :: ENDDATE
-      CHARACTER(LEN=10),INTENT(IN) :: ENDTIME
       TYPE(OUTPUT_),INTENT(INOUT) :: OUTPUT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER IEX
       LOGICAL :: FILE_EXIST
-      CHARACTER(LEN=4)::CHRUN
-      INTEGER IZIP
 C
       CALL ANPRINT()
 C
-      CALL ANFILE()  ! Closes *000.ou File
       IF (OUTPUT%CHECKSUM%checksum_count >0)THEN
-         IZIP=0
-         CALL COMPUTE_BINARY_CHECKSUM(OUTPUT%CHECKSUM%FILES_CHECKSUM,C_LOC(FILENAME),LEN_FILENAME,IZIP )
-         CALL st_checksum_file_print(output,rootname,ROOTLEN,ENDDATE,ENDTIME)
+         CALL st_checksum_file_print(output)
       ENDIF
+      CALL ANFILE()  ! Closes *000.out File
 C
 #ifdef DNC
       CALL starter_lic_release();
