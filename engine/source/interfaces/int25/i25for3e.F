@@ -271,7 +271,7 @@ C
         IF(PENE(I) /= ZERO) THEN
 C
           DPENE(I) = MAX(ZERO,-VN(I)*DT1)
-          IF(TT /= ZERO)THEN 
+          IF(TT /= ZERO.AND.PENE_OLD_E(INDEX(I))/= ZERO)THEN 
             IF(PENE(I) > PENE_OLD_E(INDEX(I)) .AND.
      .         DPENE(I) < PENE(I)-PENE_OLD_E(INDEX(I)))THEN
               STIF(I) = (STIF_OLD_E(INDEX(I))*PENE_OLD_E(INDEX(I))+ STIF(I)*DPENE(I))
