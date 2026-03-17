@@ -270,7 +270,7 @@ C
         IF(PENE(I) /= ZERO) THEN
 C
           DPENE(I) = MAX(ZERO,-VN(I)*DT1)
-          IF(TT /= ZERO)THEN 
+          IF(TT /= ZERO.AND.PENE_OLD_E2S(INDX2(I),INDX1(I))/=ZERO)THEN  
             IF(PENE(I) > PENE_OLD_E2S(INDX2(I),INDX1(I)) .AND.
      .         DPENE(I) < PENE(I)-PENE_OLD_E2S(INDX2(I),INDX1(I)))THEN
               STIF(I) = (STIF_OLD_E2S(INDX2(I),INDX1(I))*PENE_OLD_E2S(INDX2(I),INDX1(I))+ STIF(I)*DPENE(I))
