@@ -894,8 +894,7 @@ C
 C
       CALL TRACE_OUT1()
 
-      CALL F_ANEND(OUT_FILE_NAME,LEN_TRIM(OUT_FILE_NAME),ROOTNAM,
-     *             ROOTLEN,ENDDATE,ENDTIME,OUTPUT)
+      CALL F_ANEND(OUTPUT)
 C---  
       print*,'done'
       RETURN

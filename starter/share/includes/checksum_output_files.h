@@ -81,7 +81,7 @@ public:
   void close_binary_file();
   std::list<std::string> Animation();
   std::list<std::string> Time_History();
-  std::list<std::string> Out_File(std::fstream *new_file);
+  void Out_File(std::fstream *new_file,std::list<std::tuple<std::string,std::string>> *deck_hash_list,std::list<std::tuple<std::string,std::string>> *file_hash_list);
   std::list<std::tuple<std::string,std::string>> Checksum_File(std::fstream *new_file);
 };
 

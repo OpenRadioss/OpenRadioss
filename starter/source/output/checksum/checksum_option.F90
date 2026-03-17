@@ -138,10 +138,10 @@
           end if
         end subroutine hm_read_checksum
 
-!! \brief Create Starter Checksum file
-!! \details Create rootnam_0000.checksum file
-!! \details with the MD5 checksum of the section between /CHECKSUM/START and /CHECKSUM/END
-!! \details And the Checksul of output.
+!! \brief Print Starter checksum section in the output file
+!! \details Write the checksum section into the starter .out file (unit iout)
+!! \details with the MD5 checksums of the section between /CHECKSUM/START and /CHECKSUM/END
+!! \details and the checksum information related to the output.
 !||====================================================================
 !||    st_checksum_file_print   ../starter/source/output/checksum/checksum_option.F90
 !||--- called by ------------------------------------------------------
@@ -151,7 +151,7 @@
 !||--- uses       -----------------------------------------------------
 !||    file_descriptor_mod      ../starter/source/modules/file_descriptor_mod.F90
 !||====================================================================
-        subroutine st_checksum_file_print(output,rootnam,rootlen,enddate,endtime)
+        subroutine st_checksum_file_print(output)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -166,10 +166,6 @@
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
           type(output_), intent(in) :: output
-          integer, intent(in) :: rootlen
-          character(len=rootlen), intent(in) :: rootnam
-          character(len=8):: enddate
-          character(len=10):: endtime
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -181,37 +177,17 @@
           character(len=64),target:: checksum
           character(len=ncharline):: assembled_checksum
           integer :: assembled_checksum_length
-          character(len=2048) :: checksum_file      ! Checksum output file
-          character(len=40) :: formated_date_time
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
           checksum_digest_count=deck_checksum_count(output%checksum%checksum_list)  ! Count real number of checksums in list
 
           if (checksum_digest_count > 0) then                                   ! There are checksum in the list
-            formated_date_time = enddate(1:4)//"/"//enddate(5:6)//"/"//enddate(7:8)//"  "// &
-            &                                  endtime(1:2)//":"//endtime(3:4)//":"//endtime(5:6)
 
-            checksum_file  = rootnam(1:rootlen)//"_"//"0000"//".checksum"
-            open(unit=fchecksum,file=trim(checksum_file),access="sequential",form="formatted",status="unknown")
-
-            write(fchecksum,"(a)") " ************************************************************************"
-            write(fchecksum,"(a)") " **                                                                    **"
-            write(fchecksum,"(a)") " **                                                                    **"
-            write(fchecksum,"(a)") " **                           Checksum Digest                          **"
-            write(fchecksum,"(a)") " **                                                                    **"
-            write(fchecksum,"(a)") " **                                                                    **"
-            write(fchecksum,"(a)") " ************************************************************************"
-            write(fchecksum,"(a)") " ** OpenRadioss Software                                               **"
-            write(fchecksum,"(a)") " ** COPYRIGHT (C) 1986-2026 Altair Engineering, Inc.                   **"
-            write(fchecksum,"(a)") " ** Licensed under GNU Affero General Public License.                  **"
-            write(fchecksum,"(a)") " ** See License file.                                                  **"
-            write(fchecksum,"(a)") " ************************************************************************"
-            write(fchecksum,"(a,a)") " DECK ROOTNAME .............................:      ",rootnam(1:rootlen)
-            write(fchecksum,"(a,a)") " EXECUTION COMPLETED .......................:      ",trim(formated_date_time)
-            write(fchecksum,"(a)") " "
-            write(fchecksum,"(a)") " DECK FINGERPRINTS"
-            write(fchecksum,"(a)") " -----------------"
+          write(iout,"(a)") " "
+          write(iout,"(a)") " "
+          write(iout,"(a)") " CHECKSUM OPTION: DECK FINGERPRINTS"
+          write(iout,"(a)") " ----------------------------------"
 
             do i=1,checksum_digest_count
 
@@ -221,18 +197,9 @@
               assembled_checksum(1:ncharline)=""
               assembled_checksum=checksum_title(1:len_title)//"_"//checksum(1:len_checksum)
               assembled_checksum_length=len_title+len_checksum+1
-              write(fchecksum,"(a,a)") "    CHECKSUM : ",trim(assembled_checksum)
+              write(iout,"(a,a)") "    CHECKSUM: ",trim(assembled_checksum)
 
             end do
-
-            ! Print the checksum of Starter output file (ROOTNAME_0000.out)
-            write(fchecksum,"(a)") " "
-            write(fchecksum,"(a)") " OUTPUT FILES CHECKSUM DIGESTS"
-            write(fchecksum,"(a)") " -----------------------------"
-            call print_checksum_list(output%checksum%files_checksum,fchecksum )
-            write(fchecksum,"(a)") " "
-
-            close(unit=fchecksum)
           end if
 
         end subroutine st_checksum_file_print
