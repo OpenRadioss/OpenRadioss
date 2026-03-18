@@ -221,6 +221,7 @@
           use sigeps125c_mod
           use sigeps127c_mod
           use sigeps128c_mod
+          use sigeps131c_mod
           use sigeps132c_mod
           use elbufdef_mod
           use dt_mod
@@ -1896,9 +1897,21 @@
                   ssp      ,thkn     ,lbuf%pla ,dpla     ,lbuf%epsd,       &
                   off      ,etse     ,thklyl   ,shf      ,sigy     ,       &
                   hardm    ,lbuf%seq ,l_sigb   ,lbuf%sigb)
+!
+              elseif (ilaw == 131) then
+                call sigeps131c(                                           &
+                  nel      ,matparam ,rho      ,nvartmp  ,vartmp   ,       &
+                  depsxx   ,depsyy   ,depsxy   ,depsyz   ,depszx   ,       &
+                  sigoxx   ,sigoyy   ,sigoxy   ,sigoyz   ,sigozx   ,       &
+                  signxx   ,signyy   ,signxy   ,signyz   ,signzx   ,       &
+                  ssp      ,lbuf%off ,lbuf%pla ,dpla     ,lbuf%seq ,       &
+                  etse     ,sigy     ,dt1      ,lbuf%epsd,el_temp  ,       &
+                  shf      ,thkn     ,thklyl   ,asrate   ,l_sigb   ,       &
+                  lbuf%sigb,epsd_pg  ,nuvar    ,uvar     ,inloc    ,       &
+                  varnl(1,it),ioff_duct)
 !       
-                elseif (ilaw == 132) then 
-                   call sigeps132c( &                     
+              elseif (ilaw == 132) then 
+                call sigeps132c( &                     
                   jlt      ,matparam   ,nuvar    ,nvartmp ,  uvar   ,      &
                   vartmp   ,rho        ,thkn     ,thklyl   , shf    ,      &
                   area    ,epsd_pg    ,npg      ,tt       ,npttot  ,      &

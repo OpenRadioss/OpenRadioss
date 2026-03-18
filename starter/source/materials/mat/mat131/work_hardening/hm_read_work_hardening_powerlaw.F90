@@ -1,0 +1,94 @@
+!Copyright>        OpenRadioss
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
+!Copyright>
+!Copyright>        This program is free software: you can redistribute it and/or modify
+!Copyright>        it under the terms of the GNU Affero General Public License as published by
+!Copyright>        the Free Software Foundation, either version 3 of the License, or
+!Copyright>        (at your option) any later version.
+!Copyright>
+!Copyright>        This program is distributed in the hope that it will be useful,
+!Copyright>        but WITHOUT ANY WARRANTY; without even the implied warranty of
+!Copyright>        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+!Copyright>        GNU Affero General Public License for more details.
+!Copyright>
+!Copyright>        You should have received a copy of the GNU Affero General Public License
+!Copyright>        along with this program.  If not, see <https://www.gnu.org/licenses/>.
+!Copyright>
+!Copyright>
+!Copyright>        Commercial Alternative: Altair Radioss Software
+!Copyright>
+!Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
+!Copyright>        software under a commercial license.  Contact Altair to discuss further if the
+!Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      module hm_read_work_hardening_powerlaw_mod
+      contains
+        subroutine hm_read_work_hardening_powerlaw(                            &
+          ikey     ,ihard    ,nupar_hard,upar_hard,is_available,               &
+          unitab   ,lsubmodel,iout     ,is_encrypted)
+!----------------------------------------------------------------
+!   M o d u l e s
+!----------------------------------------------------------------
+          use unitab_mod
+          use submodel_mod
+          use hm_option_read_mod
+          use constant_mod
+          use matparam_def_mod
+          use precision_mod, only : WP
+!----------------------------------------------------------------
+!   I m p l i c i t   T y p e s
+!----------------------------------------------------------------
+          implicit none
+!----------------------------------------------------------------
+!  I n p u t   A r g u m e n t s
+!----------------------------------------------------------------
+          integer,                 intent(in)    :: ikey                  !< material key
+          integer,                 intent(inout) :: ihard                 !< work hardening type
+          integer,                 intent(inout) :: nupar_hard            !< number of work hardening parameters
+          real(kind=WP),dimension(100),intent(inout) :: upar_hard         !< work hardening parameters
+          logical,                 intent(in)    :: is_available          !< availability flag
+          type(unit_type_),        intent(in)    :: unitab                !< units table
+          type(submodel_data),dimension(nsubmod),intent(in) :: lsubmodel  !< submodel data structure
+          integer,                 intent(in)    :: iout                  !< output unit
+          logical,                 intent(in)    :: is_encrypted          !< encryption flag
+!----------------------------------------------------------------
+!  L o c a l  V a r i a b l e s
+!----------------------------------------------------------------
+          real(kind=WP) :: ca,cb,cn,eps0
+!===============================================================================
+!            
+          !===================================================================
+          !< Power law hardening parameters
+          !===================================================================
+          call hm_get_float_array_index("HARD_POWERLAW_A"   ,ca  ,ikey,is_available,lsubmodel,unitab)
+          call hm_get_float_array_index("HARD_POWERLAW_B"   ,cb  ,ikey,is_available,lsubmodel,unitab)
+          call hm_get_float_array_index("HARD_POWERLAW_N"   ,cn  ,ikey,is_available,lsubmodel,unitab)
+          call hm_get_float_array_index("HARD_POWERLAW_EPS0",eps0,ikey,is_available,lsubmodel,unitab)
+          !< Work hardening type
+          ihard = 1
+          !< Default initial plastic strain
+          if (eps0 == zero) eps0 = em20
+          !< Number of parameters
+          nupar_hard = 4
+          !< Save hardening parameters
+          upar_hard(1) = ca
+          upar_hard(2) = cb
+          upar_hard(3) = cn
+          upar_hard(4) = eps0
+          !< Printing work hardening parameters
+          if (is_encrypted)then
+            write(iout,"(5X,A,//)") "CONFIDENTIAL DATA"
+          else
+            write(iout,1000) ca,cb,cn,eps0
+          endif
+! ------------------------------------------------------------------------------
+1000 format(/                                                                  &
+          5X,"-------------------------------------------------------",/       &
+          5X,"POWER LAW WORK HARDENING                               ",/,      &
+          5X,"-------------------------------------------------------",/,      &
+          5X,"INITIAL YIELD STRESS (A) . . . . . . . . . . . . . . .=",1PG20.13/&
+          5X,"HARDENING MODULUS (B). . . . . . . . . . . . . . . . .=",1PG20.13/&
+          5X,"HARDENING EXPONENT (N) . . . . . . . . . . . . . . . .=",1PG20.13/&
+          5X,"INITIAL PLASTIC STRAIN (EPS0). . . . . . . . . . . . .=",1PG20.13/)
+! -------------------------------------------------------------------------------
+        end subroutine hm_read_work_hardening_powerlaw
+      end module hm_read_work_hardening_powerlaw_mod

@@ -239,6 +239,7 @@
           use hm_read_mat128_mod
           use hm_read_mat129_mod
           use hm_read_mat130_mod
+          use hm_read_elasto_plastic_mod
           use hm_read_mat132_mod , only : hm_read_mat132
           use hm_read_mat133_mod , only : hm_read_mat133
           use hm_read_mat134_mod
@@ -1239,6 +1240,13 @@
                 parmat   ,unitab   ,lsubmodel,israte   ,mat_id   ,&
                 titr     ,table    ,ntable   ,nvartmp  ,imatvis  ,&
                 iunit    )
+!-------  
+             case ('LAW131','ELASTO_PLASTIC')
+              ilaw  = 131
+              call hm_read_elasto_plastic(&
+              &matparam ,nvartmp  ,parmat   ,unitab   ,mat_id   ,&
+              &titr     ,mtag     ,lsubmodel,iout     ,nuvar    ,&
+              &ilaw     ,israte   ,ntable   ,table    )
 !-------
              case('LAW132', 'LAMINATED_FRACTURE_DAIMLER_CAMANHO')
                ilaw = 132
@@ -1247,7 +1255,7 @@
                 mtag     ,parmat   ,unitab  ,ntable   ,table,    &
                 pm(1,i)  ,lsubmodel,israte   ,mat_id   ,titr ,    &
                 matparam ,nvartmp )   
-!-------  
+!-------
              case ('LAW133','GRANULAR')
               ilaw = 133
               call hm_read_mat133( &
