@@ -2085,6 +2085,7 @@
                 do ifl = 1, nfail      ! loop over fail models in current layer
                   uvarf  => fbuf%floc(ifl)%var
                   nvarf  =  fbuf%floc(ifl)%nvar
+                  vartmp => fbuf%floc(ifl)%vartmp
                   irupt  =  fbuf%floc(ifl)%ilawf
                   dam    => fbuf%floc(ifl)%dam
                   dfmax  => fbuf%floc(ifl)%dammx
@@ -2096,6 +2097,7 @@
                   fail_param => mat_elem%mat_param(imat)%fail(ifl)
                   nupar      =  mat_elem%mat_param(imat)%fail(ifl)%nuparam
                   nipar      =  mat_elem%mat_param(imat)%fail(ifl)%niparam
+                  nvartmp    =  mat_elem%mat_param(imat)%fail(ifl)%nvartmp
                   nfunc_fail =  mat_elem%mat_param(imat)%fail(ifl)%nfunc
                   ntabl_fail =  mat_elem%mat_param(imat)%fail(ifl)%ntable
                   uparamf    => mat_elem%mat_param(imat)%fail(ifl)%uparam(1:nupar)
@@ -2508,7 +2510,7 @@
                     &jlt      ,nupar    ,nvarf    ,nfunc_fail   ,ifunc_fail   ,&
                     &npf      ,table    ,tf       ,tt       ,uparamf  ,&
                     &ngl      ,el_len   ,dpla     ,epsd     ,uvarf    ,&
-                    &signxx   ,signyy   ,signxy   ,&
+                    &signxx   ,signyy   ,signxy   ,nvartmp  ,vartmp   ,&
                     &el_temp  ,foff     ,dfmax    ,tdel     ,ipt      ,&
                     &ipg      ,dmg_flag ,dmg_loc_scale,ntabl_fail,itabl_fail,&
                     &nipar    ,iparamf  ,gbuf%noff,off      ,nptt     ,&

@@ -1102,6 +1102,7 @@ c---
             DO IFL = 1, NFAIL      ! loop over fail models in current layer                                      
               UVARF  => FBUF%FLOC(IFL)%VAR
               NVARF  =  FBUF%FLOC(IFL)%NVAR                                 
+              VARTMP => FBUF%FLOC(IFL)%VARTMP
               IRUPT  =  FBUF%FLOC(IFL)%ILAWF                                
               DAM    => FBUF%FLOC(IFL)%DAM
               DFMAX  => FBUF%FLOC(IFL)%DAMMX 
@@ -1113,6 +1114,7 @@ c---
               FAIL_PARAM => MAT_ELEM%MAT_PARAM(IMAT)%FAIL(IFL)
               NUPAR      =  MAT_ELEM%MAT_PARAM(IMAT)%FAIL(IFL)%NUPARAM
               NIPAR      =  MAT_ELEM%MAT_PARAM(IMAT)%FAIL(IFL)%NIPARAM
+              nvartmp    =  MAT_ELEM%MAT_PARAM(IMAT)%FAIL(IFL)%nvartmp
               NFUNC_FAIL =  MAT_ELEM%MAT_PARAM(IMAT)%FAIL(IFL)%NFUNC
               NTABL_FAIL =  MAT_ELEM%MAT_PARAM(IMAT)%FAIL(IFL)%NTABLE
               UPARAMF    => MAT_ELEM%MAT_PARAM(IMAT)%FAIL(IFL)%UPARAM(1:NUPAR)
@@ -1549,7 +1551,7 @@ c
      1            JLT      ,NUPAR    ,NVARF    ,NFUNC_FAIL,IFUNC_FAIL,
      2            NPF      ,TABLE    ,TF       ,TT       ,UPARAMF  , 
      3            NGL      ,EL_LEN   ,DPLA     ,EPSPL    ,UVARF    ,     
-     4            SIGNXX   ,SIGNYY   ,SIGNXY   ,              
+     4            SIGNXX   ,SIGNYY   ,SIGNXY   ,NVARTMP  ,VARTMP   ,              
      5            EL_TEMP  ,FOFF     ,DFMAX    ,TDEL     ,IPT      ,
      6            IPG      ,DMG_FLAG ,DMG_LOC_SCALE,NTABL_FAIL,ITABL_FAIL,
      7            NIPAR    ,IPARAMF  ,GBUF%NOFF,OFF      ,NPTT     ,

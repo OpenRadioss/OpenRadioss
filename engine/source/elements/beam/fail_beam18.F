@@ -106,7 +106,7 @@ C
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I,IFL,IPT,NFUNC,IPY,IPZ,IPA,NVARF,NPARAM,IRUPT
+      INTEGER :: I,IFL,IPT,NFUNC,IPY,IPZ,IPA,NUVAR,NVARTMP,NPARAM,IRUPT
       INTEGER :: II(3)
       INTEGER ,DIMENSION(NEL) :: COUNT
       my_real :: T0,TM
@@ -118,7 +118,7 @@ C
       TYPE(L_BUFEL_) ,POINTER :: LBUF
       TYPE(BUF_FAIL_),POINTER :: FBUF
       my_real, DIMENSION(:), POINTER :: UVARF,DFMAX,TDEL
-      INTEGER, DIMENSION(:), POINTER :: FOFF
+      INTEGER, DIMENSION(:), POINTER :: FOFF,VARTMP
 C=======================================================================
 c      to avoid compilation error with unused arguments
 c      they will be necessary for next development step
@@ -134,8 +134,11 @@ C--------------------------------------
         II(I) = NEL*(I-1)
       ENDDO
       COUNT(1:NEL) = 0
+      IRUPT  =  FAIL%IRUPT                             
       NPARAM  = FAIL%NUPARAM
       NFUNC   = FAIL%NFUNC
+      NUVAR   = FAIL%NUVAR                              
+      NVARTMP = FAIL%NVARTMP                               
 C---------------------------------------
 C     START LOOP OVER INTEGRATION POINTS
 C---------------------------------------
@@ -143,8 +146,7 @@ C---------------------------------------
         LBUF   => ELBUF_STR%BUFLY(1)%LBUF(1,1,IPT)
         FBUF   => ELBUF_STR%BUFLY(1)%FAIL(1,1,IPT)  
         UVARF  => FBUF%FLOC(IFL)%VAR
-        NVARF  =  FBUF%FLOC(IFL)%NVAR                                 
-        IRUPT  =  FBUF%FLOC(IFL)%ILAWF                                
+        VARTMP => FBUF%FLOC(IFL)%VARTMP
         DFMAX  => FBUF%FLOC(IFL)%DAMMX 
         TDEL   => FBUF%FLOC(IFL)%TDEL   
         FOFF   => FBUF%FLOC(IFL)%OFF
@@ -214,7 +216,7 @@ c---------------
      .          TIME     ,EPSD     ,OFF      ,DFMAX,                        
      .          TDEL     ,IOUT     ,ISTDO    ,FAIL%IFUNC   ,
      .          EPSXX    ,AL       ,TSTAR    ,LBUF%DMGSCL ,
-     .          SNPC     ,NPF      ,STF      ,UVARF  ,NVARF,
+     .          SNPC     ,NPF      ,STF      ,UVARF  ,NUVAR,
      .          TF       ,IPT      ,FOFF     ,ISMSTR ,ELBUF_STR%GBUF%UELR ,NPT)
 c---------------  
         CASE (11)     ! Energy failure model                                           
@@ -222,7 +224,7 @@ c---------------
      .          NEL      ,NGL      ,NPARAM   ,FAIL%UPARAM ,
      .          TIME     ,EPSD     ,OFF      ,DFMAX,                        
      .          TDEL     ,IOUT     ,ISTDO    ,FAIL%IFUNC   ,
-     .          LBUF%DMGSCL,UVARF  ,NVARF    ,
+     .          LBUF%DMGSCL,UVARF  ,NUVAR    ,
      .          SNPC     ,NPF      ,STF      ,
      .          TF       ,IPT      ,FOFF     ,
      .          SIGNXX   ,SIGNXY   ,SIGNXZ   ,
@@ -234,7 +236,7 @@ c---------------
      .          NEL      ,NGL      ,NPARAM   ,FAIL%UPARAM,
      .          TIME     ,OFF      ,DFMAX    ,TDEL     ,                       
      .          IOUT     ,ISTDO    ,NFUNC    ,FAIL%IFUNC,LBUF%DMGSCL,
-     .          UVARF    ,NVARF    ,SNPC     ,NPF      ,
+     .          UVARF    ,NUVAR    ,SNPC     ,NPF      ,
      .          STF      ,TF       ,IPT      ,FOFF     ,
      .          SIGNXX   ,SIGNXY   ,SIGNXZ   ,DPLA_IPT ,AL,ELBUF_STR%GBUF%UELR ,NPT)
 
@@ -246,7 +248,7 @@ c---------------
      .          TIME     ,DPLA_IPT ,OFF      ,DFMAX,  
      .          TDEL     ,IOUT     ,ISTDO    ,EPSXX    ,
      .          IPT      ,SIGNXX   ,SIGNXY   ,SIGNXZ   ,
-     .          NVARF    ,UVARF    ,FOFF     ,ELBUF_STR%GBUF%UELR ,NPT)   
+     .          NUVAR    ,UVARF    ,FOFF     ,ELBUF_STR%GBUF%UELR ,NPT)   
 
 C--------------
         CASE (36)     ! visual failure model                                        
@@ -256,7 +258,7 @@ C--------------
      .                       IOUT     ,ISTDO    ,
      .                       SIGNXX   ,SIGNXY   ,SIGNXZ   ,
      .                       EPSXX    ,EPSXY    ,EPSXZ    ,
-     .                       NVARF    ,
+     .                       NUVAR    ,
      .                       UVARF    ,ISMSTR   ,DTIME    , IPT)
 c-------------
         CASE (39)     ! GENE1 failure model                                        
@@ -292,14 +294,13 @@ c-------------
         CASE (41)     ! TAB2 failure model         
           
           CALL FAIL_TAB2_IB(                         
-     .                       NEL  ,FAIL%NUPARAM ,FBUF%FLOC(IFL)%NVAR   ,FAIL%NFUNC  ,FAIL%IFUNC  ,
-     .                       NPF  ,TABLE   ,TF        ,TIME  ,FAIL%UPARAM  ,
-     .                       NGL  ,AL           ,DPLA_IPT  ,EPSD  ,FBUF%FLOC(IFL)%VAR,  
-     .                    SIGNXX  ,SIGNXY       ,SIGNXZ  , 
+     .                    NEL  ,FAIL%NUPARAM ,NUVAR   ,FAIL%NFUNC  ,FAIL%IFUNC  ,
+     .                    NPF  ,TABLE   ,TF        ,TIME  ,FAIL%UPARAM  ,
+     .                    NGL  ,AL           ,DPLA_IPT  ,EPSD  ,FBUF%FLOC(IFL)%VAR,  
+     .                    SIGNXX  ,SIGNXY       ,SIGNXZ  ,NVARTMP ,FBUF%FLOC(IFL)%VARTMP, 
      .                    TEMPEL  ,OFF          ,FBUF%FLOC(IFL)%DAMMX ,TDEL  ,LBUF%DMGSCL,
-     .                         IPT, NPT, FOFF, FAIL%NTABLE ,FAIL%TABLE,
-     .         ELBUF_STR%GBUF%UELR, 
-     .                      SNPC  ,STF  ,NTABLE) 
+     .                    IPT, NPT, FOFF, FAIL%NTABLE ,FAIL%TABLE,
+     .                    ELBUF_STR%GBUF%UELR,SNPC  ,STF  ,NTABLE) 
           DO I= 1,NEL
             IF (FOFF(I) == 0) COUNT(I) = COUNT(I) + 1
           END DO
