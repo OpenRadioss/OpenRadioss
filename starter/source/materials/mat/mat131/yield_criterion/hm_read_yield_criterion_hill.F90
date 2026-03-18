@@ -170,8 +170,8 @@
           5X,"HILL STRESS RATIO R23. . . . . . . . . . . . . . . . .=",1PG20.13/&
           5X,"HILL STRESS RATIO R31. . . . . . . . . . . . . . . . .=",1PG20.13)
 1003 format(                                                                   &
-          5X,"LANKFORD COEFFICIENT R00 . . . . . . . . . . . . . . .=",1PG20.13&
-          5X,"LANKFORD COEFFICIENT R45 . . . . . . . . . . . . . . .=",1PG20.13&
+          5X,"LANKFORD COEFFICIENT R00 . . . . . . . . . . . . . . .=",1PG20.13/&
+          5X,"LANKFORD COEFFICIENT R45 . . . . . . . . . . . . . . .=",1PG20.13/&
           5X,"LANKFORD COEFFICIENT R90 . . . . . . . . . . . . . . .=",1PG20.13/&
           5X,"DIRECTION OF MEASUREMENT DIR . . . . . . . . . . . . .=",I10/,   &
           5X,"   = 0: AVERAGE OF 0, 45 AND 90 DEGREES                ",/,      &
