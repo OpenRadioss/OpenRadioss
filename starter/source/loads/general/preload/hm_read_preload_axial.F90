@@ -110,7 +110,7 @@
                 end if
               end do
             end if
-            if (nn>0) np = np + 1
+            if ((iset+nn) > 0) np = np + 1
           end do
           npreload_a = np
 !
