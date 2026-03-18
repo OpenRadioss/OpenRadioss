@@ -5287,6 +5287,7 @@ C-----------------------------------------------------
      .                                   IRESP,NODES%X,NODES%XDP,NODES%V,DT1,NODES%MS0,NUMNOD,
      .                                   FLAG_GUIDED_CABLE_UPDATE,SFSAV,FSAV,OFFSAV)
               ENDIF
+              IF (NGUIDED_CABLE_G > 0) I7KGLO = 1
 C
 C-----------------------------------------------------
 C         INTERFACES 18 KINE

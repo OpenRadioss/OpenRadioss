@@ -453,7 +453,7 @@
               if ((guide(ig)%cont(i)%dist > average_length(ig)).or.(guide(ig)%cont(i)%node(2)==0)) then
                 anchor_node = guide(ig)%cont(i)%anchor_node
                 call ancmsg(msgid=3130,msgtype=msgerror,anmode=aninfo_blind_1,i1=id,c1=trim(titr),       &
-                              i2=itab(anchor_node))  
+                            r1=average_length(ig),i2=itab(anchor_node))  
               endif 
             end do  
           enddo   
