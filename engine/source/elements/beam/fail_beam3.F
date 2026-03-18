@@ -227,10 +227,10 @@ c---------------
 
          CASE (41)     ! TAB2 failure model    
            CALL FAIL_TAB2_B(                         
-     .                       NEL  ,FAIL%NUPARAM ,ELBUF_STR%GBUF%FAIL(1)%NVAR   ,FAIL%NFUNC  ,FAIL%IFUNC  ,
+     .                       NEL  ,FAIL%NUPARAM ,FAIL%NUVAR  ,FAIL%NFUNC  ,FAIL%IFUNC  ,
      .                       NPF  ,TABLE   ,TF        ,TIME  ,FAIL%UPARAM  ,
      .                       NGL  ,AL           ,DPLA  ,EPSD  ,ELBUF_STR%GBUF%FAIL(1)%VAR,  
-     .                        F1  ,AREA         ,
+     .                        F1  ,AREA         ,FAIL%NVARTMP ,ELBUF_STR%GBUF%FAIL(1)%VARTMP,
      .                    TEMPEL  ,OFF          ,ELBUF_STR%GBUF%FAIL(1)%DAMMX ,ELBUF_STR%GBUF%FAIL(1)%TDEL  ,
      .                FAIL%NTABLE ,FAIL%TABLE,
      .                      SNPC  ,STF  ,NTABLE ,ELBUF_STR%GBUF%DMGSCL)

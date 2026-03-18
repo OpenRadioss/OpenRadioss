@@ -190,26 +190,17 @@ C-------------------------------------------------------------------------------
 C--------------------------------------------------------------------------------
 C     Filling buffer tables
     !     NUVAR fields
-    !          NUVAR( 1) : 
-    !          NUVAR( 2) : 
-    !          NUVAR( 3) : 
-    !          NUVAR( 4) : Stores position1 of table interpolation "Compute the element size regularization factor"
-    !          NUVAR( 5) : Stores position2 
-    !          NUVAR( 6) : Stores position3
-    !          NUVAR( 7) : Stores position for interpolation function computing the strain rate dependency factor
-    !          NUVAR( 8) : Stores position 1 of table interpolation "COMPUTATION OF PLASTIC STRAIN AT FAILURE
-    !          NUVAR( 9) : Stores position 2
-    !          NUVAR(10) : Stores position 3
-    !          NUVAR(11) : Stores position 1 of table interpolation "COMPUTATION OF NECKING PLASTIC STRAIN
-    !          NUVAR(12) : Stores position 2
-    !          NUVAR(13) : Stores position 3
+    !          NUVAR( 1) : cumulated instability damage
+    !          NUVAR( 2) : cumulated necking critical damage
+    !          NUVAR( 3) : saved initial element size
 C--------------------------------------------------------------------------------
       FAIL%KEYWORD = 'TAB2' 
       FAIL%IRUPT   = IRUPT 
       FAIL%FAIL_ID = FAIL_ID 
       FAIL%NUPARAM = 25
       FAIL%NIPARAM = 1
-      FAIL%NUVAR   = 13
+      FAIL%NUVAR   = 3     !< state variables
+      FAIL%NVARTMP = 11    !< tmp variables to store last position used in function interpolation
       FAIL%NFUNC   = 4
       FAIL%NTABLE  = 3
       FAIL%NMOD    = 0

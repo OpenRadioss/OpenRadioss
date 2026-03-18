@@ -411,6 +411,7 @@
           &        idamp_freq_range,visctype
           integer :: ifunc(maxfunc)
           integer :: nvartmp_eos
+          integer ,dimension(:) ,pointer :: vartmp
 
           ! Float/Double
           real(kind=WP) :: facq0,e1,e2,e3,e4,e5,e6,alpha,tref,tmelt
@@ -2383,7 +2384,8 @@
               end if
 !
 !----
-              uvarf => fbuf%floc(ir)%var
+              uvarf  =>fbuf%floc(ir)%var
+              vartmp =>fbuf%floc(ir)%vartmp
               irupt  = fbuf%floc(ir)%ilawf
               nvarf  = fbuf%floc(ir)%nvar
               dfmax => fbuf%floc(ir)%dammx
@@ -2393,7 +2395,8 @@
               failparam => mat_elem%mat_param(imat)%fail(ir)
               nparam  = mat_elem%mat_param(imat)%fail(ir)%nuparam
               niparam = mat_elem%mat_param(imat)%fail(ir)%niparam
-              uparamf=>mat_elem%mat_param(imat)%fail(ir)%uparam(1:nparam)
+              nvartmp = mat_elem%mat_param(imat)%fail(ir)%nvartmp
+              uparamf=> mat_elem%mat_param(imat)%fail(ir)%uparam(1:nparam)
               iparamf=> mat_elem%mat_param(imat)%fail(ir)%iparam(1:niparam)
               nfunc  = mat_elem%mat_param(imat)%fail(ir)%nfunc
               ifunc(1:nfunc) = mat_elem%mat_param(imat)%fail(ir)%ifunc(1:nfunc)
@@ -2658,13 +2661,13 @@
               else if (irupt == 41) then
 !---- tabulated failure model version 2
                 call fail_tab2_s(&
-                &llt      ,nparam   ,nvarf    ,nfunc    ,ifunc    ,&
-                &npf      ,table    ,tf       ,tt       ,uparamf,&
-                &ngl      ,el_len   ,dpla     ,epsp     ,uvarf    ,&
-                &ss1      ,ss2      ,ss3      ,ss4      ,ss5      ,ss6      ,&
-                &el_temp  ,off      ,dfmax    ,tdel     ,lbuf%dmgscl,&
-                &gbuf%uelr,ipg      ,npg      ,lbuf%off ,ntabl_fail,itabl_fail,&
-                  gbuf%noff,voln      )
+                 llt      ,nparam   ,nvarf    ,nfunc    ,ifunc    ,&
+                 npf      ,table    ,tf       ,tt       ,uparamf,  &
+                 ngl      ,el_len   ,dpla     ,epsp     ,uvarf    ,&
+                 ss1      ,ss2      ,ss3      ,ss4      ,ss5      ,ss6      ,  &
+                 el_temp  ,off      ,dfmax    ,tdel     ,lbuf%dmgscl,          &
+                 gbuf%uelr,ipg      ,npg      ,lbuf%off ,ntabl_fail,itabl_fail,&
+                 gbuf%noff,voln     ,nvartmp  ,vartmp   )
 !
               else if (irupt == 42) then
 !---- inievo failure model

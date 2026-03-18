@@ -52,7 +52,7 @@
           nel   ,nuparam   ,nuvar   ,nfunc   ,ifunc  ,               &
           npf   ,table     ,tf      ,time    ,uparam ,               &
           ngl   ,aldt      ,dpla    ,epsp    ,uvar   ,               &
-          f1    ,area      ,                                         &
+          f1    ,area      ,nvartmp ,vartmp  ,                       &
           temp  ,off       ,dfmax   ,tdele   ,                       &
           ntablf,itablf    ,                                         &
           snpc  ,stf       ,ntable  ,dmgscl )
@@ -76,9 +76,11 @@
           integer                     ,intent(in)     :: nel      ! size of element group
           integer                     ,intent(in)     :: nuparam  ! size of parameter array
           integer                     ,intent(in)     :: nuvar    ! size of user variable array
+          integer                     ,intent(in)     :: nvartmp  ! 
           integer, dimension(nel)     ,intent(in)     :: ngl      ! element identifiers
           integer                     ,intent(in)     :: ntablf   ! number of table functions
           integer, dimension(ntablf)  ,intent(in)     :: itablf   ! table function identifiers
+          integer, dimension(nel,nvartmp)   ,intent(inout)  :: vartmp
 
           real(kind=WP)                     ,intent(in)     :: time     ! current time
           real(kind=WP), dimension(nuparam) ,intent(in)     :: uparam   ! user parameters
@@ -115,8 +117,7 @@
           integer :: i, j, nindx, itab_epsf, &
             itab_inst, itab_size, ireg, ndim, &
             log_scale1, log_scale2
-          integer, dimension(nel) :: indx, ipos2, iad, ilen
-          integer, dimension(nel, 3) :: ipos
+          integer, dimension(nel) :: indx, iad, ilen
           real(kind=WP) :: fcrit, dn, dcrit, ecrit, exp_ref, expo, el_ref, &
             sr_ref1, fscale_el, shrf, biaxf, sr_ref2, &
             fscale_sr, cjc, fscale_dlim, temp_ref, fscale_temp,rgtr1,rgtr2
@@ -231,10 +232,9 @@
           ! compute the temperature dependency factor
           if (ifunc(4) > 0) then
             var(1:nel)   = temp(1:nel)/temp_ref
-            ipos2(1:nel) = 1
             iad(1:nel)   = npf(ifunc(4)) / 2 + 1
-            ilen(1:nel)  = npf(ifunc(4)+1) / 2 - iad(1:nel) - ipos2(1:nel)
-            call vinter2(tf,iad,ipos2,ilen,nel,var,dft,tempfac)
+            ilen(1:nel)  = npf(ifunc(4)+1) / 2 - iad(1:nel) - vartmp(1:nel,1)
+            call vinter2(tf,iad,vartmp(1:nel,1),ilen,nel,var,dft,tempfac)
             tempfac(1:nel) = fscale_temp*tempfac(1:nel)
             tempfac2(1:nel) = tempfac(1:nel)
           else
@@ -252,7 +252,6 @@
                case(1)
                 xvec(1:nel,1)   = l0(1:nel)/el_ref
                 xvec(1:nel,2:3) = zero
-                ipos(1:nel,1:3) = 1
                 ! scale factor vs element size vs strain rate
                case(2)
                 xvec(1:nel,1)   = l0(1:nel)/el_ref
@@ -264,7 +263,6 @@
                   xvec(1:nel,2) = epsp(1:nel)/sr_ref1
                 end if
                 xvec(1:nel,3)   = zero
-                ipos(1:nel,1:3) = 1
               end select
             else if (ireg == 2) then
               select case (ndim)
@@ -272,22 +270,19 @@
                case(1)
                 xvec(1:nel,1)   = l0(1:nel)/el_ref
                 xvec(1:nel,2:3) = zero
-                ipos(1:nel,1:3) = 1
                 ! scale factor vs element size vs triaxiality
                case(2)
                 xvec(1:nel,1)   = l0(1:nel)/el_ref
                 xvec(1:nel,2)   = triax(1:nel)
                 xvec(1:nel,3)   = zero
-                ipos(1:nel,1:3) = 1
                 ! scale factor vs element size vs triaxiality vs lode parameter
                case(3)
                 xvec(1:nel,1)   = l0(1:nel)/el_ref
                 xvec(1:nel,2)   = triax(1:nel)
                 xvec(1:nel,3)   = xi(1:nel)
-                ipos(1:nel,1:3) = 1
               end select
             end if
-            call table_vinterp(table(itab_size),nel,nel,ipos,xvec,sizefac,dsize)
+            call table_vinterp(table(itab_size),nel,nel,vartmp(1:nel,2),xvec,sizefac,dsize)
             sizefac(1:nel) = sizefac(1:nel)*fscale_el
             if (ireg == 1) then
               do i = 1,nel
@@ -314,10 +309,9 @@
             else
               var(1:nel) = epsp(1:nel)/sr_ref2
             end if
-            ipos2(1:nel) = 1
             iad (1:nel) = npf(ifunc(2)) / 2 + 1
-            ilen(1:nel) = npf(ifunc(2)+1) / 2 - iad(1:nel) - ipos2(1:nel)
-            call vinter2(tf,iad,ipos2,ilen,nel,var,dft,ratefac)
+            ilen(1:nel) = npf(ifunc(2)+1) / 2 - iad(1:nel) - vartmp(1:nel,5)
+            call vinter2(tf,iad,vartmp(1:nel,5),ilen,nel,var,dft,ratefac)
             ratefac(1:nel) = fscale_sr*ratefac(1:nel)
           else if (cjc > zero) then
             do i=1,nel
@@ -355,22 +349,18 @@
              case (1)
               xvec(1:nel,1)   = triax(1:nel)
               xvec(1:nel,2:3) = zero
-              ipos(1:nel,1:3) = 1
               ! failure plastic strain vs triaxiality vs lode parameter
              case (2)
               xvec(1:nel,1)   = triax(1:nel)
               xvec(1:nel,2)   = xi(1:nel)
               xvec(1:nel,3)   = zero
-              ipos(1:nel,1:3) = 1
               ! failure plastic strain vs triaxiality vs lode parameter vs temperature
              case (3)
               xvec(1:nel,1)   = triax(1:nel)
               xvec(1:nel,2)   = xi(1:nel)
               xvec(1:nel,3)   = temp(1:nel)/temp_ref
-              ipos(1:nel,1:3) = 1
-              tempfac(1:nel)  = one
             end select
-            call table_vinterp(table(itab_epsf),nel,nel,ipos,xvec,epsf,depsf)
+            call table_vinterp(table(itab_epsf),nel,nel,vartmp(1:nel,6),xvec,epsf,depsf)
             epsf(1:nel) = epsf(1:nel)*fcrit
           else
             epsf(1:nel) = fcrit
@@ -387,22 +377,18 @@
              case(1)
               xvec(1:nel,1)   = triax(1:nel)
               xvec(1:nel,2:3) = zero
-              ipos(1:nel,1:3) = 1
+              call table_vinterp(table(itab_inst),nel,nel,vartmp(1:nel,9),xvec,epsl,depsl)
               ! instability plastic strain vs triaxiality vs lode
              case(2)
               xvec(1:nel,1)   = triax(1:nel)
               xvec(1:nel,2)   = xi(1:nel)
               xvec(1:nel,3)   = zero
-              ipos(1:nel,1:3) = 1
               ! instability plastic strain vs triaxiality vs lode vs temperature
              case(3)
               xvec(1:nel,1)   = triax(1:nel)
               xvec(1:nel,2)   = xi(1:nel)
               xvec(1:nel,3)   = temp(1:nel)/temp_ref
-              ipos(1:nel,1:3) = 1
-              tempfac2(1:nel) = one
             end select
-            call table_vinterp(table(itab_inst),nel,nel,ipos,xvec,epsl,depsl)
             epsl(1:nel) = epsl(1:nel)*ecrit
           else if (ecrit > zero) then
             epsl(1:nel) = ecrit

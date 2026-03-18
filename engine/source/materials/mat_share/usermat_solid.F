@@ -226,7 +226,8 @@ C-----------------------------------------------
       INTEGER NV46, NUMEL, INLOC, JSMS
       INTEGER I,NPAR,IADBUF,NFUNC,NUMTABL,NTABL_FAIL,ISRATE,SIZNUL,MX,IPG,NPTR,NPTS,
      .  IBID,IBIDON1,IBIDON2,IBIDON3,IBIDON4 ,N48,NIX,ILAW_USER,IGTYP,
-     .  NVARF,NVARVIS,IR,IRUPT,IMAT,ISVIS,IVISC,NUVARV,ISEQ,IADRUPBUF,IDEV,VISCTYPE
+     .  NVARF,NVARTMP,NVARVIS,IR,IRUPT,IMAT,ISVIS,IVISC,NUVARV,ISEQ,IADRUPBUF,IDEV,VISCTYPE
+      INTEGER, DIMENSION(:), POINTER  :: VARTMP
       my_real 
      .E1,E2,E3,E4,E5,E6,BID1,BID3,Q1,Q2,Q3,SS1,SS2,SS3,SS4,SS5,
      .SS6,WXXF,WYYF,WZZF,P2,EPSP,DAV,ASRATE,C1(MVSIZ),
@@ -1157,6 +1158,7 @@ C------------------------------------------------------------
           ENDIF
 c----             
           UVARF   => FBUF%FLOC(IR)%VAR     
+          VARTMP  => FBUF%FLOC(IR)%VARTMP     
           IRUPT    = FBUF%FLOC(IR)%ILAWF   
           NVARF    = FBUF%FLOC(IR)%NVAR    
           DFMAX   => FBUF%FLOC(IR)%DAMMX  
@@ -1171,6 +1173,7 @@ c
           NPAR    =  MAT_ELEM%MAT_PARAM(MX)%FAIL(IR)%NUPARAM 
           NIPAR   =  MAT_ELEM%MAT_PARAM(MX)%FAIL(IR)%NIPARAM
           UPARAMF => MAT_ELEM%MAT_PARAM(MX)%FAIL(IR)%UPARAM(1:NPAR) 
+          NVARTMP  = MAT_ELEM%MAT_PARAM(MX)%FAIL(IR)%NVARTMP
           IPARAMF => MAT_ELEM%MAT_PARAM(MX)%FAIL(IR)%IPARAM(1:NIPAR) 
           NFUNC   =  MAT_ELEM%MAT_PARAM(MX)%FAIL(IR)%NFUNC         
           IFUNC   => MAT_ELEM%MAT_PARAM(MX)%FAIL(IR)%IFUNC(1:NFUNC)
@@ -1467,7 +1470,7 @@ C---- Tabulated failure model version 2
      5          S1       ,S2       ,S3       ,S4       ,S5       ,S6       ,               
      6          EL_TEMP  ,OFF      ,DFMAX    ,TDEL     ,LBUF%DMGSCL,
      7          GBUF%UELR,IPG      ,NPG      ,LBUF%OFF ,NTABL_FAIL,ITABL_FAIL,
-     8          GBUF%NOFF,VOLN     )
+     8          GBUF%NOFF,VOLN     ,NVARTMP  ,VARTMP   )
 c
           ELSEIF (IRUPT == 42) THEN                                      
 C---- Inievo failure model
