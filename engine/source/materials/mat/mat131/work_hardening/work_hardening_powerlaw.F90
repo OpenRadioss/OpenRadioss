@@ -1,0 +1,69 @@
+!Copyright>        OpenRadioss
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
+!Copyright>
+!Copyright>        This program is free software: you can redistribute it and/or modify
+!Copyright>        it under the terms of the GNU Affero General Public License as published by
+!Copyright>        the Free Software Foundation, either version 3 of the License, or
+!Copyright>        (at your option) any later version.
+!Copyright>
+!Copyright>        This program is distributed in the hope that it will be useful,
+!Copyright>        but WITHOUT ANY WARRANTY; without even the implied warranty of
+!Copyright>        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+!Copyright>        GNU Affero General Public License for more details.
+!Copyright>
+!Copyright>        You should have received a copy of the GNU Affero General Public License
+!Copyright>        along with this program.  If not, see <https://www.gnu.org/licenses/>.
+!Copyright>
+!Copyright>
+!Copyright>        Commercial Alternative: Altair Radioss Software
+!Copyright>
+!Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
+!Copyright>        software under a commercial license.  Contact Altair to discuss further if the
+!Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      module work_hardening_powerlaw_mod
+      contains
+      subroutine work_hardening_powerlaw(                                      &
+        matparam ,nel      ,sigy     ,pla      ,dsigy_dpla)
+!----------------------------------------------------------------
+!   M o d u l e s
+!----------------------------------------------------------------
+        use matparam_def_mod
+        use constant_mod
+        use precision_mod, only : WP
+!----------------------------------------------------------------
+!   I m p l i c i t   T y p e s
+!----------------------------------------------------------------
+        implicit none
+!----------------------------------------------------------------
+!  I n p u t   A r g u m e n t s
+!----------------------------------------------------------------
+        type(matparam_struct_),        intent(in)    :: matparam   !< Material parameters data
+        integer,                       intent(in)    :: nel        !< Number of elements in the group
+        real(kind=WP), dimension(nel), intent(inout) :: sigy       !< Equivalent stress
+        real(kind=WP), dimension(nel), intent(inout) :: pla        !< Cumulated plastic strain
+        real(kind=WP), dimension(nel), intent(inout) :: dsigy_dpla !< Derivative of eq. stress w.r.t. cumulated plastic strain
+!----------------------------------------------------------------
+!  L o c a l  V a r i a b l e s
+!----------------------------------------------------------------
+        integer :: offset,i
+        real(kind=WP) :: ca,cb,cn,eps0
+        real(kind=WP), dimension(nel) :: pla_plus_eps0_log,                    &
+          pla_plus_eps0_pow_cn_minus_1
+!===============================================================================
+!
+        !=======================================================================
+        !< - Power law work hardening model
+        !=======================================================================
+        offset = matparam%iparam(4)
+        !< Recover work hardening parameters
+        ca   = matparam%uparam(offset + 1) !< Initial yield stress
+        cb   = matparam%uparam(offset + 2) !< Hardening modulus
+        cn   = matparam%uparam(offset + 3) !< Hardening exponent
+        eps0 = matparam%uparam(offset + 4) !< Initial plastic strain
+        pla_plus_eps0_log(1:nel) = log(pla(1:nel) + eps0)
+        sigy(1:nel) = ca + cb*(pla(1:nel) + eps0)**cn
+        pla_plus_eps0_pow_cn_minus_1(1:nel) = (pla(1:nel) + eps0)**(cn - one)
+        dsigy_dpla(1:nel) = cn*cb*pla_plus_eps0_pow_cn_minus_1(1:nel)
+!
+      end subroutine work_hardening_powerlaw
+      end module work_hardening_powerlaw_mod

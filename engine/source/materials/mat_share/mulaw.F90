@@ -265,6 +265,7 @@
           use sigeps128s_mod
           use sigeps129s_mod
           use sigeps130_mod
+          use sigeps131_mod
           use sigeps133_mod , only : sigeps133
           use sigeps134s_mod
           use sigeps163_mod
@@ -2111,6 +2112,17 @@
               sv1      ,sv2      ,sv3      ,sv4      ,sv5      ,sv6      ,     &
               rho0     ,rho      ,iresp    ,off      ,dt1      ,deltax   ,     &
               asrate   ,l_dmg    ,lbuf%dmg )
+!
+          else if (mtn == 131) then
+            call sigeps131(                                                    &
+              nel      ,matparam ,rho      ,nvartmp  ,vartmp   ,iresp    ,     &
+              de1      ,de2      ,de3      ,de4      ,de5      ,de6      ,     &
+              ep1      ,ep2      ,ep3      ,ep4      ,ep5      ,ep6      ,     &
+              so1      ,so2      ,so3      ,so4      ,so5      ,so6      ,     &
+              s1       ,s2       ,s3       ,s4       ,s5       ,s6       ,     &
+              ssp      ,off      ,defp     ,dpla     ,lbuf%seq ,et       ,     &
+              sigy     ,dt1      ,epsd     ,el_temp  ,israte   ,asrate   ,     &
+              nuvar    ,uvar     ,l_sigb   ,lbuf%sigb)
 !
           else if (mtn == 133) then
             call sigeps133( &
