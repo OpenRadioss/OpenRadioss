@@ -32,8 +32,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    table_mat_vinterp_mod   ../engine/source/materials/tools/table_mat_vinterp.F
 !||====================================================================
       SUBROUTINE NO_ASSO_PLAS76(
-     1     NEL     ,NUPARAM,NUVAR   ,NFUNC   ,IFUNC   ,NVARTMP ,
-     2     NPF     ,TF     ,TIME    ,TIMESTEP,UPARAM  ,VARTMP  ,
+     1     NEL     ,NUPARAM,NUVAR   ,NVARTMP ,
+     2     TIME    ,TIMESTEP,UPARAM ,VARTMP  ,
      3     RHO0    ,PLA    ,DPLA    ,ET      ,NUMTABL ,TABLE   ,
      3     DEPSXX  ,DEPSYY ,DEPSZZ  ,DEPSXY  ,DEPSYZ  ,DEPSZX  ,
      4     SIGOXX  ,SIGOYY ,SIGOZZ  ,SIGOXY  ,SIGOYZ  ,SIGOZX  ,
@@ -55,7 +55,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I N P U T   A r g u m e n t s 
 C-----------------------------------------------
-      INTEGER NEL,NUPARAM,NUVAR,NFUNC,NUMTABL
+      INTEGER NEL,NUPARAM,NUVAR,NUMTABL
       INTEGER ,INTENT(IN)    :: NVARTMP
       my_real,INTENT(IN) :: TIME,TIMESTEP
       my_real,DIMENSION(NUPARAM),INTENT(IN) :: UPARAM(NUPARAM)
@@ -80,17 +80,13 @@ C-----------------------------------------------
      .   UVAR
       TYPE(TABLE_4D_),DIMENSION(NUMTABL),INTENT(IN) :: TABLE
 C-----------------------------------------------
-C   VARIABLES FOR FUNCTION INTERPOLATION 
-C-----------------------------------------------
-      INTEGER :: NPF(SNPC), IFUNC(NFUNC)
-      my_real :: TF(STF)
-C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,II,ICONV,NINDX,ICAS,ITER,IQUAD
       INTEGER,PARAMETER :: FUNC_TRAC  = 1
       INTEGER,PARAMETER :: FUNC_COMP  = 2
       INTEGER,PARAMETER :: FUNC_SHEAR = 3
+      INTEGER,PARAMETER :: FUNC_NUP   = 4
       INTEGER,DIMENSION(NEL)   :: INDX,IAD,ILEN
       my_real :: G,AA1,AA2,C1,NUPC,XFAC
       my_real ,DIMENSION(NEL) :: PLAT,PLAC,PLAS,EPSPT,EPSPC,EPSPS,SIGT,
@@ -105,8 +101,7 @@ C-----------------------------------------------
      .    DPDT_C,DPDT_S,DPDT_T,DPDT,DLAM,CC,EPDT_MIN,DA0_DSIGS,
      .    EPDT_MAX,EPDC_MAX,EPDC_MIN,EPDS_MIN,EPDS_MAX,ASRATE
       my_real, DIMENSION(NEL,2)   :: XVEC
-      my_real, DIMENSION(NUMTABL) :: TFAC
-      my_real, DIMENSION(NFUNC)   :: YFAC
+      my_real, DIMENSION(NEL,1)   :: XVEC1
       LOGICAL :: CONV(NEL)
       my_real, PARAMETER :: SFAC = 1.05D0 ! Security factor of ICONV
 C
@@ -138,11 +133,6 @@ C
       EPDC_MAX = UPARAM(22)
       EPDS_MIN = UPARAM(23)
       EPDS_MAX = UPARAM(24)
-      TFAC(1)  = UPARAM(25)
-      TFAC(2)  = UPARAM(26)
-      TFAC(3)  = UPARAM(27)
-      YFAC(1)  = UPARAM(28)
-      YFAC(2)  = UPARAM(29)
 c
       ! Initialize plastic Poisson ratio
       IF (TIME == ZERO) THEN
@@ -173,22 +163,16 @@ C
       ! Computation of yield stresses
       XVEC(1:NEL,1)   = PLAT(1:NEL)
       XVEC(1:NEL,2)   = EPSPT(1:NEL)*XFAC
-      CALL TABLE_MAT_VINTERP(TABLE(FUNC_TRAC),NEL,NEL,VARTMP(1,1),XVEC,SIGT,DSIGT_DP)
-      SIGT     = SIGT*TFAC(1)
-      DSIGT_DP = DSIGT_DP*TFAC(1)
+      CALL TABLE_MAT_VINTERP(TABLE(FUNC_TRAC),NEL,NEL,VARTMP(1:NEL,1:2),XVEC,SIGT,DSIGT_DP)
       IF (TABLE(FUNC_COMP)%NOTABLE > 0) THEN 
         XVEC(1:NEL,1)   = PLAC(1:NEL)
         XVEC(1:NEL,2)   = EPSPC(1:NEL)*XFAC
-        CALL TABLE_MAT_VINTERP(TABLE(FUNC_COMP),NEL,NEL,VARTMP(1,3),XVEC,SIGC,DSIGC_DP)
-        SIGC     = SIGC*TFAC(2)
-        DSIGC_DP = DSIGC_DP*TFAC(2)
+        CALL TABLE_MAT_VINTERP(TABLE(FUNC_COMP),NEL,NEL,VARTMP(1:NEL,3:4),XVEC,SIGC,DSIGC_DP)
       ENDIF
       IF (TABLE(FUNC_SHEAR)%NOTABLE > 0) THEN 
         XVEC(1:NEL,1)   = PLAS(1:NEL)
         XVEC(1:NEL,2)   = EPSPS(1:NEL)*XFAC
-        CALL TABLE_MAT_VINTERP(TABLE(FUNC_SHEAR),NEL,NEL,VARTMP(1,5),XVEC,SIGS,DSIGS_DP)
-        SIGS     = SIGS*TFAC(3)
-        DSIGS_DP = DSIGS_DP*TFAC(3)
+        CALL TABLE_MAT_VINTERP(TABLE(FUNC_SHEAR),NEL,NEL,VARTMP(1:NEL,5:6),XVEC,SIGS,DSIGS_DP)
       ENDIF 
       ! Select case for tabulated yield stresses
       IF (ICAS == 0) THEN 
@@ -492,22 +476,16 @@ C
           ! Update yield stresses
           XVEC(1:NEL,1)   = PLAT(1:NEL)
           XVEC(1:NEL,2)   = EPSPT(1:NEL)*XFAC
-          CALL TABLE_MAT_VINTERP(TABLE(FUNC_TRAC),NEL,NEL,VARTMP(1,1),XVEC,SIGT,DSIGT_DP)
-          SIGT     = SIGT*TFAC(1)
-          DSIGT_DP = DSIGT_DP*TFAC(1)
+          CALL TABLE_MAT_VINTERP(TABLE(FUNC_TRAC),NEL,NEL,VARTMP(1:NEL,1:2),XVEC,SIGT,DSIGT_DP)
           IF (TABLE(FUNC_COMP)%NOTABLE > 0) THEN 
             XVEC(1:NEL,1)   = PLAC(1:NEL)
             XVEC(1:NEL,2)   = EPSPC(1:NEL)*XFAC
-            CALL TABLE_MAT_VINTERP(TABLE(FUNC_COMP),NEL,NEL,VARTMP(1,3),XVEC,SIGC,DSIGC_DP)
-            SIGC(1:NEL)     = SIGC*TFAC(2)
-            DSIGC_DP(1:NEL) = DSIGC_DP*TFAC(2)
+            CALL TABLE_MAT_VINTERP(TABLE(FUNC_COMP),NEL,NEL,VARTMP(1:NEL,3:4),XVEC,SIGC,DSIGC_DP)
           ENDIF
           IF (TABLE(FUNC_SHEAR)%NOTABLE > 0) THEN 
             XVEC(1:NEL,1)   = PLAS(1:NEL)
             XVEC(1:NEL,2)   = EPSPS(1:NEL)*XFAC
-            CALL TABLE_MAT_VINTERP(TABLE(FUNC_SHEAR),NEL,NEL,VARTMP(1,5),XVEC,SIGS,DSIGS_DP)
-            SIGS(1:NEL)     = SIGS*TFAC(3) 
-            DSIGS_DP(1:NEL) = DSIGS_DP*TFAC(3)
+            CALL TABLE_MAT_VINTERP(TABLE(FUNC_SHEAR),NEL,NEL,VARTMP(1:NEL,5:6),XVEC,SIGS,DSIGS_DP)
           ENDIF 
           ! Select case for tabulated yield stresses
           IF (ICAS == 0) THEN 
@@ -571,16 +549,13 @@ c
       !====================================================================
       ! - UPDATE PLASTIC POISSON RATIO
       !====================================================================
-      IF (IFUNC(1) > 0) THEN
-        IAD(1:NEL)  = NPF(IFUNC(1))   / 2 + 1
-        ILEN(1:NEL) = NPF(IFUNC(1)+1) / 2 - IAD(1:NEL) - VARTMP(1:NEL,8)
+      IF (TABLE(FUNC_NUP)%NOTABLE > 0) THEN
 !
-        CALL VINTER(TF,IAD,VARTMP(1:NEL,8),ILEN,NEL,PLA,DYDX,NUP)
-!        
-        UVAR(1:NEL,7) = YFAC(1) * NUP(1:NEL)
+        XVEC1(1:NEL,1) = PLA(1:NEL) 
+        CALL TABLE_MAT_VINTERP(TABLE(FUNC_NUP),NEL,NEL,VARTMP(1:NEL,8:8),XVEC,NUP,DYDX)
         UVAR(1:NEL,7) = MAX(ZERO, MIN(NUP(1:NEL), HALF))
+!
       END IF
-c
       !====================================================================
       ! - STORING NEW VALUES
       !====================================================================

@@ -1616,9 +1616,8 @@
 !
               elseif (ilaw == 76) then
 
-                call sigeps76c(&
-                  jlt      ,nuparam0 ,nuvar    ,nfunc    ,ifunc    ,&
-                  npf      ,tf       ,matparam ,tt       ,dt1      ,&
+                call sigeps76c(matparam ,                           &
+                  jlt      ,nuparam0 ,nuvar    ,tt       ,dt1      ,&
                   uparam0  ,uvar     ,rho      ,off      ,ngl      ,&
                   depsxx   ,depsyy   ,depsxy   ,depsyz   ,depszx   ,&
                   sigoxx   ,sigoyy   ,sigoxy   ,sigoyz   ,sigozx   ,&

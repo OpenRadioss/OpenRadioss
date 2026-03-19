@@ -882,11 +882,10 @@
 !-------
              case ('LAW76','SAMP')
               ilaw  = 76
-              call hm_read_mat76(&
-              &uparam   ,maxuparam,nuparam  ,nuvar    ,ifunc    ,&
-              &maxfunc  ,nfunc    ,parmat   ,unitab   ,mat_id   ,&
-              &mtag     ,titr     ,lsubmodel,pm(1,i)  ,israte   ,&
-              &matparam ,maxtabl  ,numtabl  ,itable   ,nvartmp  )
+              call hm_read_mat76(mat_param(mat_number),           &
+               maxuparam,nuparam  ,uparam   ,nuvar    ,nvartmp  , &
+               mtag     ,parmat   ,unitab   ,lsubmodel,israte   , &
+               iout     ,ntable   ,table    ,npropm   ,pm(1,i)  )
 !-------
              case ('LAW77')
               ilaw  = 77

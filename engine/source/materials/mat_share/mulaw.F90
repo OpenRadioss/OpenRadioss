@@ -1546,14 +1546,14 @@
             &ebuf%var,nvareos,mat_elem%mat_param, nvartmp_eos, ebuf%var)
 !
           else if (mtn == 76) then
-            call sigeps76(nel      ,npar     ,nuvar    ,nfunc    ,ifunc    ,ngl       ,&
-            &npf      ,tf       ,tt       ,dt1      ,uparam0   ,matparam  ,&
-            &rho0     ,dpla     ,et       ,ssp      ,sigy     ,uvar      ,&
-            &de1      ,de2      ,de3      ,de4      ,de5      ,de6       ,&
-            &so1      ,so2      ,so3      ,so4      ,so5      ,so6       ,&
-            &s1       ,s2       ,s3       ,s4       ,s5       ,s6        ,&
-            &off      ,epsd     ,defp     ,inloc    ,l_planl  ,lbuf%planl,&
-            &lbuf%dmg ,nvartmp  ,vartmp   )
+            call sigeps76(nel   ,npar     ,nuvar    ,ngl      ,           &
+             tt       ,dt1      ,uparam0   ,matparam,                     &
+             rho0     ,dpla     ,et       ,ssp      ,sigy     ,uvar      ,&
+             de1      ,de2      ,de3      ,de4      ,de5      ,de6       ,&
+             so1      ,so2      ,so3      ,so4      ,so5      ,so6       ,&
+             s1       ,s2       ,s3       ,s4       ,s5       ,s6        ,&
+             off      ,epsd     ,defp     ,inloc    ,l_planl  ,lbuf%planl,&
+             lbuf%dmg ,nvartmp  ,vartmp   )
 !
           else if (mtn == 78) then
             call sigeps78(nel ,npar,nuvar,nfunc,ifunc,npf ,&

@@ -32,8 +32,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    matparam_def_mod   ../common_source/modules/mat_elem/matparam_def_mod.F90
 !||====================================================================
       SUBROUTINE SIGEPS76(
-     1           NEL     ,NUPARAM ,NUVAR    ,NFUNC    ,IFUNC    ,NGL      ,
-     2           NPF     ,TF      ,TIME     ,TIMESTEP ,UPARAM   ,MATPARAM ,
+     1           NEL     ,NUPARAM ,NUVAR    ,NGL      ,
+     2           TIME    ,TIMESTEP,UPARAM   ,MATPARAM ,
      3           RHO0    ,DPLA    ,ET       ,SOUNDSP  ,YLD      ,UVAR     ,
      3           DEPSXX  ,DEPSYY  ,DEPSZZ   ,DEPSXY   ,DEPSYZ   ,DEPSZX   ,
      4           SIGOXX  ,SIGOYY  ,SIGOZZ   ,SIGOXY   ,SIGOYZ   ,SIGOZX   ,
@@ -44,6 +44,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MATPARAM_DEF_MOD
+      USE TABLE_MAT_VINTERP_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -51,13 +52,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
-#include      "tabsiz_c.inc"
+!#include      "tabsiz_c.inc"
 #include      "comlock.inc"
 #include      "units_c.inc"
 C=======================================================================
-      INTEGER, INTENT(IN) :: NEL,NFUNC,NUPARAM,NUVAR,INLOC,L_PLANL
+      INTEGER, INTENT(IN) :: NEL,NUPARAM,NUVAR,INLOC,L_PLANL
       INTEGER ,INTENT(IN)    :: NVARTMP
-      INTEGER, DIMENSION(NFUNC), INTENT(IN) :: IFUNC
       INTEGER, DIMENSION(NEL), INTENT(IN) :: NGL
       INTEGER ,DIMENSION(NEL,NVARTMP) ,INTENT(INOUT) :: VARTMP
       my_real, INTENT(IN) :: TIME,TIMESTEP
@@ -73,18 +73,14 @@ C=======================================================================
       my_real, DIMENSION(NEL,NUVAR), INTENT(INOUT) :: UVAR
       TYPE(MATPARAM_STRUCT_), INTENT(IN), TARGET :: MATPARAM
 C-----------------------------------------------
-C   VARIABLES FOR FUNCTION INTERPOLATION 
-C-----------------------------------------------
-      INTEGER :: NPF(SNPC)
-      my_real :: TF(STF)
-C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: I,IFORM,NUMTABL,NINDX,INDX(NEL)
-      INTEGER ,DIMENSION(NEL) :: IAD,ILEN
-      my_real :: EPSPF,EPSPR,YFAC2
+      INTEGER ,PARAMETER :: FUNC_DMG = 5
+      my_real :: EPSPF,EPSPR
       my_real ,DIMENSION(NEL) :: DF,PLA_DAM,SIG0XX,SIG0YY,
      .   SIG0ZZ,SIG0XY,SIG0YZ,SIG0ZX
+      my_real, DIMENSION(NEL,1) :: XVEC
       TYPE(TABLE_4D_),DIMENSION(:),POINTER :: TABLE
 C=======================================================================
 c
@@ -96,7 +92,6 @@ c
       IFORM = NINT(UPARAM(13)) ! Flag for plasticity 
                                !   = 0 associated (with quadratic yield criterion only)
                                !   = 1 not associated          
-      YFAC2 = UPARAM(29)       ! Damage function scale factor
       DO I = 1,NEL
         IF (OFF(I) < EM01) OFF(I) = ZERO
         IF (OFF(I) <  ONE) OFF(I) = OFF(I)*FOUR_OVER_5  
@@ -123,8 +118,8 @@ c
       !====================================================================
       IF (IFORM == 1) THEN  ! Associated plastic flow, Quadratic yield criterion
         CALL ASSO_PLAS76(     
-     1      NEL    ,NUPARAM,NUVAR   ,NFUNC   ,IFUNC   ,NVARTMP,
-     2      NPF    ,TF     ,TIME    ,TIMESTEP,UPARAM  ,VARTMP ,
+     1      NEL    ,NUPARAM,NUVAR   ,NVARTMP,
+     2      TIME   ,TIMESTEP,UPARAM ,VARTMP ,
      3      RHO0   ,PLA    ,DPLA    ,ET      ,NUMTABL ,TABLE  ,
      3      DEPSXX ,DEPSYY ,DEPSZZ  ,DEPSXY  ,DEPSYZ  ,DEPSZX ,
      4      SIG0XX ,SIG0YY ,SIG0ZZ  ,SIG0XY  ,SIG0YZ  ,SIG0ZX ,
@@ -132,8 +127,8 @@ c
      6      SOUNDSP,UVAR   ,OFF     ,EPSD    ,YLD     ,DMG    )
       ELSE ! Non-associated plastic flow
         CALL NO_ASSO_PLAS76(
-     1      NEL    ,NUPARAM,NUVAR   ,NFUNC   ,IFUNC   ,NVARTMP,
-     2      NPF    ,TF     ,TIME    ,TIMESTEP,UPARAM  ,VARTMP ,
+     1      NEL    ,NUPARAM,NUVAR   ,NVARTMP ,
+     2      TIME   ,TIMESTEP,UPARAM ,VARTMP  ,
      3      RHO0   ,PLA    ,DPLA    ,ET      ,NUMTABL ,TABLE  ,
      3      DEPSXX ,DEPSYY ,DEPSZZ  ,DEPSXY  ,DEPSYZ  ,DEPSZX ,
      4      SIG0XX ,SIG0YY ,SIG0ZZ  ,SIG0XY  ,SIG0YZ  ,SIG0ZX ,
@@ -151,14 +146,12 @@ c
         PLA_DAM(1:NEL) = PLA(1:NEL)
       ENDIF
 !
-      IF (IFUNC(2) > 0) THEN
+      IF (TABLE(FUNC_DMG)%NOTABLE > 0) THEN
         ! Tabulated damage
-        IAD(1:NEL)  = NPF(IFUNC(2))   / 2 + 1
-        ILEN(1:NEL) = NPF(IFUNC(2)+1) / 2 - IAD(1:NEL) - VARTMP(1:NEL,7)
 !
-        CALL VINTER(TF,IAD,VARTMP(1:NEL,7),ILEN,NEL,PLA_DAM,DF,DMG)
+        XVEC(1:NEL,1) = PLA_DAM(1:NEL) 
+        CALL TABLE_MAT_VINTERP(TABLE(FUNC_DMG),NEL,NEL,VARTMP(1:NEL,7:7),XVEC,DMG,DF)
 !        
-        DMG(1:NEL) = ABS(YFAC2)*DMG(1:NEL)
         DO I=1,NEL
           IF (DMG(I) >= ONE) THEN 
             DMG(I) = ONE
