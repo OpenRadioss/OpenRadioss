@@ -58,6 +58,7 @@
           use precision_mod , only : WP
           use stack_mod , only : stack_ply
           use element_mod , only :nixc,nixtg,nixs,nixs10,nixs16,nixs20
+          use cpp_i2dst3_mod , only : cpp_i2dst3
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -271,7 +272,7 @@
                             lb1,lb2,lb3,lb4,lc1, &
                             lc2,lc3,lc4,s  ,t  )
                         else
-                          call i2dst3(first,last, &
+                          call cpp_i2dst3(first,last, &
                             gapv,prov_e ,prov_n,tzinf,irtl,st,dmin, &
                             ignore, &
                             ix3, &

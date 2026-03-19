@@ -58,9 +58,9 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       integer, intent(in) :: first !< first index of the candidates
       integer, intent(in) :: last  !< last index of the candidates
-      INTEGER CAND_E(*),CAND_N(*),IRTL(*),IGNORE
+      INTEGER CAND_E(last),CAND_N(last),IRTL(*),IGNORE
       my_real
-     .   GAPV(*),TZINF,ST(2,*),DMIN(*)
+     .   GAPV(last),TZINF,ST(2,*),DMIN(*)
       INTEGER, DIMENSION(MVSIZ), INTENT(IN) :: IX3,IX4
       my_real, DIMENSION(MVSIZ), INTENT(INOUT) :: X1,X2,X3,X4
       my_real, DIMENSION(MVSIZ), INTENT(INOUT) :: Y1,Y2,Y3,Y4
@@ -78,8 +78,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "param_c.inc"
-#include      "vect07_c.inc"
+!#include      "param_c.inc"
+!#include      "vect07_c.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -131,22 +131,25 @@ C
 C
       DO I=first,last
        PENE(I) = MAX(P1(I),P2(I),P3(I),P4(I))
-C
+C      Independent IFs (reverse priority) to avoid ELSEIF chain
+C      Last match wins: P1 has highest priority
+       S(I) = ZERO
+       T(I) = ZERO
+       IF(P4(I)==PENE(I))THEN
+         S(I) = -LB4(I) - LC4(I)
+         T(I) =  LB4(I) - LC4(I)
+       ENDIF
+       IF(P3(I)==PENE(I))THEN
+         S(I) =  LB3(I) - LC3(I)
+         T(I) =  LB3(I) + LC3(I)
+       ENDIF
+       IF(P2(I)==PENE(I))THEN
+         S(I) =  LB2(I) + LC2(I)
+         T(I) = -LB2(I) + LC2(I)
+       ENDIF
        IF(P1(I)==PENE(I))THEN
          S(I) = -LB1(I) + LC1(I)
          T(I) = -LB1(I) - LC1(I)
-       ELSEIF(P2(I)==PENE(I))THEN
-         S(I) =  LB2(I) + LC2(I)
-         T(I) = -LB2(I) + LC2(I)
-       ELSEIF(P3(I)==PENE(I))THEN
-         S(I) =  LB3(I) - LC3(I)
-         T(I) =  LB3(I) + LC3(I)
-       ELSEIF(P4(I)==PENE(I))THEN
-         S(I) = -LB4(I) - LC4(I)
-         T(I) =  LB4(I) - LC4(I)
-       ELSE
-         S(I) = ZERO
-         T(I) = ZERO
        ENDIF
       ENDDO
 C
@@ -259,18 +262,19 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER TFLAG(*)
       integer, intent(in) :: first !< first index of the candidates
       integer, intent(in) :: last  !< last index of the candidates
+
+      INTEGER TFLAG(last)
 C     REAL
       my_real
-     .    XI(*),YI(*),ZI(*),XA(*),YA(*),ZA(*),
-     .    XB(*),YB(*),ZB(*),XC(*),YC(*),ZC(*),
-     .    NX(*),NY(*),NZ(*),LB(*),LC(*),P(*),GAPV(*)
+     .    XI(last),YI(last),ZI(last),XA(last),YA(last),ZA(last),
+     .    XB(last),YB(last),ZB(last),XC(last),YC(last),ZC(last),
+     .    NX(last),NY(last),NZ(last),LB(last),LC(last),P(last),GAPV(last)
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "vect07_c.inc"
+C#include      "vect07_c.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -279,7 +283,8 @@ C     REAL
       my_real
      .    XPA,YPA,ZPA,XPB,YPB,ZPB,XPC,YPC,ZPC,
      .    XAB,YAB,ZAB,XAC,YAC,ZAC,ALP,
-     .    S2,SX,SY,SZ,XP,YP,ZP
+     .    S2,SX,SY,SZ,XP,YP,ZP,
+     .    L_XAB,L_YAB,L_ZAB,L_NORM
 C--------1---------2---------3---------4---------5---------6---------7--
       DO I = first,last
        XAB = XB(I) - XA(I)
@@ -294,13 +299,13 @@ C
        NY(I) = ZAB*XAC - XAB*ZAC
        NZ(I) = XAB*YAC - YAB*XAC
 C
-       S2 = MAX(EM20,SQRT(NX(I)**2 + NY(I)**2 + NZ(I)**2))
-       NX(I) = NX(I) / S2
-       NY(I) = NY(I) / S2
-       NZ(I) = NZ(I) / S2
+       S2 = ONE / MAX(EM20,SQRT(NX(I)**2 + NY(I)**2 + NZ(I)**2))
+       NX(I) = NX(I) * S2
+       NY(I) = NY(I) * S2
+       NZ(I) = NZ(I) * S2
 C
-       P(I) = NX(I) * (XI(I) - XA(I)) 
-     .      + NY(I) * (YI(I) - YA(I)) 
+       P(I) = NX(I) * (XI(I) - XA(I))
+     .      + NY(I) * (YI(I) - YA(I))
      .      + NZ(I) * (ZI(I) - ZA(I))
 C
        XP = XI(I) - NX(I) * P(I)
@@ -323,32 +328,92 @@ C
        SY = ZPC*XPA - XPC*ZPA
        SZ = XPC*YPA - YPC*XPA
 C
-       LB(I) = (NX(I)*SX + NY(I)*SY + NZ(I)*SZ) / S2
+       LB(I) = (NX(I)*SX + NY(I)*SY + NZ(I)*SZ) * S2
 C
        SX = YPA*ZPB - ZPA*YPB
        SY = ZPA*XPB - XPA*ZPB
        SZ = XPA*YPB - YPA*XPB
 C
-       LC(I) = (NX(I)*SX + NY(I)*SY + NZ(I)*SZ) / S2
+       LC(I) = (NX(I)*SX + NY(I)*SY + NZ(I)*SZ) * S2
       ENDDO
 C
       DO I=first,last
        IF(ONE-LB(I)-LC(I)<ZERO)THEN
-         CALL I7LIN3(XI(I),YI(I),ZI(I),XB(I),YB(I),
-     .               ZB(I),XC(I),YC(I),ZC(I),NX(I),
-     .               NY(I),NZ(I),P(I),ALP)
+C        --- inlined I7LIN3(XI(I),YI(I),ZI(I),XB(I),YB(I),ZB(I),
+C                           XC(I),YC(I),ZC(I),NX(I),NY(I),NZ(I),P(I),ALP) ---
+         L_XAB = XC(I) - XB(I)
+         L_YAB = YC(I) - YB(I)
+         L_ZAB = ZC(I) - ZB(I)
+         ALP = (XI(I)-XB(I))*L_XAB
+     .       + (YI(I)-YB(I))*L_YAB
+     .       + (ZI(I)-ZB(I))*L_ZAB
+         L_NORM = ONE/MAX(EM20, L_XAB**2+L_YAB**2+L_ZAB**2)
+         ALP = ALP * L_NORM
+         ALP = MAX(ZERO,ALP)
+         ALP = MIN(ONE,ALP)
+         XP = XB(I) + ALP*L_XAB
+         YP = YB(I) + ALP*L_YAB
+         ZP = ZB(I) + ALP*L_ZAB
+         NX(I) = XI(I) - XP
+         NY(I) = YI(I) - YP
+         NZ(I) = ZI(I) - ZP
+         P(I) = SQRT(NX(I)**2 + NY(I)**2 + NZ(I)**2)
+         L_NORM = ONE / MAX(EM20, P(I))
+         NX(I) = NX(I) * L_NORM
+         NY(I) = NY(I) * L_NORM
+         NZ(I) = NZ(I) * L_NORM
         ELSEIF(LB(I)<ZERO)THEN
-         CALL I7LIN3(XI(I),YI(I),ZI(I),XC(I),YC(I),
-     .               ZC(I),XA(I),YA(I),ZA(I),NX(I),
-     .               NY(I),NZ(I),P(I),ALP)
+C        --- inlined I7LIN3(XI(I),YI(I),ZI(I),XC(I),YC(I),ZC(I),
+C                           XA(I),YA(I),ZA(I),NX(I),NY(I),NZ(I),P(I),ALP) ---
+         L_XAB = XA(I) - XC(I)
+         L_YAB = YA(I) - YC(I)
+         L_ZAB = ZA(I) - ZC(I)
+         ALP = (XI(I)-XC(I))*L_XAB
+     .       + (YI(I)-YC(I))*L_YAB
+     .       + (ZI(I)-ZC(I))*L_ZAB
+         L_NORM = ONE/MAX(EM20, L_XAB**2+L_YAB**2+L_ZAB**2)
+         ALP = ALP * L_NORM
+         ALP = MAX(ZERO,ALP)
+         ALP = MIN(ONE,ALP)
+         XP = XC(I) + ALP*L_XAB
+         YP = YC(I) + ALP*L_YAB
+         ZP = ZC(I) + ALP*L_ZAB
+         NX(I) = XI(I) - XP
+         NY(I) = YI(I) - YP
+         NZ(I) = ZI(I) - ZP
+         P(I) = SQRT(NX(I)**2 + NY(I)**2 + NZ(I)**2)
+         L_NORM = ONE / MAX(EM20, P(I))
+         NX(I) = NX(I) * L_NORM
+         NY(I) = NY(I) * L_NORM
+         NZ(I) = NZ(I) * L_NORM
           IF (TFLAG(I) == 0) THEN   ! only necessary for warped 4 node segments
             LC(I) = ONE - ALP
             LB(I) = ZERO
           ENDIF
         ELSEIF(LC(I)<ZERO)THEN
-         CALL I7LIN3(XI(I),YI(I),ZI(I),XA(I),YA(I),
-     .               ZA(I),XB(I),YB(I),ZB(I),NX(I),
-     .               NY(I),NZ(I),P(I),ALP)
+C        --- inlined I7LIN3(XI(I),YI(I),ZI(I),XA(I),YA(I),ZA(I),
+C                           XB(I),YB(I),ZB(I),NX(I),NY(I),NZ(I),P(I),ALP) ---
+         L_XAB = XB(I) - XA(I)
+         L_YAB = YB(I) - YA(I)
+         L_ZAB = ZB(I) - ZA(I)
+         ALP = (XI(I)-XA(I))*L_XAB
+     .       + (YI(I)-YA(I))*L_YAB
+     .       + (ZI(I)-ZA(I))*L_ZAB
+         L_NORM = ONE/MAX(EM20, L_XAB**2+L_YAB**2+L_ZAB**2)
+         ALP = ALP * L_NORM
+         ALP = MAX(ZERO,ALP)
+         ALP = MIN(ONE,ALP)
+         XP = XA(I) + ALP*L_XAB
+         YP = YA(I) + ALP*L_YAB
+         ZP = ZA(I) + ALP*L_ZAB
+         NX(I) = XI(I) - XP
+         NY(I) = YI(I) - YP
+         NZ(I) = ZI(I) - ZP
+         P(I) = SQRT(NX(I)**2 + NY(I)**2 + NZ(I)**2)
+         L_NORM = ONE / MAX(EM20, P(I))
+         NX(I) = NX(I) * L_NORM
+         NY(I) = NY(I) * L_NORM
+         NZ(I) = NZ(I) * L_NORM
           IF (TFLAG(I) == 0) THEN   ! only necessary for warped 4 node segments
             LB(I) = ALP
             LC(I) = ZERO
@@ -368,3 +433,4 @@ C
 C
       RETURN
       END
+
