@@ -87,7 +87,7 @@
 !||    timer_mod             ../engine/source/system/timer_mod.F90
 !||====================================================================
         subroutine mulaw8(timers,  output,                                  &
-        &                 lft,     llt,     mtn,              &
+        &                 llt,     mtn,              &
         &                 npt,     d1,      d2,      d3,      &
         &                 d4,      d5,      d6,      pm,      &
         &                 off,     sig,     eint,    rho,     &
@@ -140,7 +140,6 @@
           integer, intent(in) :: jsph
           integer, intent(in) :: jthe
           integer, intent(in) :: jtur
-          integer, intent(in) :: lft
           integer, intent(in) :: llt
           integer, intent(in) :: npt
           integer, intent(in) :: mtn
@@ -280,10 +279,10 @@
           real(kind=WP) :: bidon,bidon1,bidon2,bidon3,bidon4,bidon5
           real(kind=WP) tt_local
           !
-          real(kind=WP), dimension(:)  ,pointer :: sigp,siglp,strain,uvar,uvarf
-          real(kind=WP), dimension(:)  ,pointer :: dfmax,tdele,uparam0,uparam,uparamf
+          real(kind=WP), dimension(:)  ,pointer, contiguous :: sigp,siglp,strain,uvar,uvarf
+          real(kind=WP), dimension(:)  ,pointer, contiguous :: dfmax,tdele,uparam0,uparam,uparamf
           !
-          integer, dimension(:), pointer :: vartmp,itabl_fail,iparam,iparamf
+          integer, dimension(:), pointer, contiguous :: vartmp,itabl_fail,iparam,iparamf
           type(l_bufel_)  ,pointer :: lbuf
           !
           character option*256
@@ -291,7 +290,7 @@
           integer :: nrate
           real(kind=WP) :: fisokin
           real(kind=WP), dimension(nel), target :: vecnul
-          real(kind=WP), dimension(:), pointer  :: sigbxx,sigbyy,sigbzz,sigbxy,sigbyz,sigbzx
+          real(kind=WP), dimension(:), pointer, contiguous  :: sigbxx,sigbyy,sigbzz,sigbxy,sigbyz,sigbzx
           real(kind=WP), target :: nothing(1)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
@@ -299,7 +298,7 @@
           nothing = zero
           siglp => nothing
           dta = -huge(dta)
-          imat = mat(lft)
+          imat = mat(1)
           inloc   = mat_param(imat)%nloc
           ieos    = mat_param(imat)%ieos
           nuparam = mat_param(imat)%nuparam
@@ -329,9 +328,9 @@
           bidon3 = zero
           bidon4 = zero
           bidon5 = zero
-          cst1(lft:llt) = one
+          cst1(1:llt) = one
 
-          do i=lft,llt
+          do i=1,llt
             c1(i)  = pm(32,imat)
             rho0(i)= pm( 1,imat)
             vis(i) = zero
@@ -391,7 +390,7 @@
               enddo
             enddo
 !
-            israte = ipm(3,mat(lft))
+            israte = ipm(3,mat(1))
             if(israte>=1)then
               do i=1,llt
                 dav = (ep1(i)+ep2(i)+ep3(i))/twenty4
@@ -421,7 +420,7 @@
             vartmp => bufly%mat(1,1,ipt)%vartmp(1:llt*nvartmp)
             jpt=(ipt-1)*llt
 !
-            do i=lft,llt
+            do i=1,llt
               ep1(i) = d1(i,ipt)
               ep2(i) = d2(i,ipt)
               ep3(i) = d3(i,ipt)
@@ -438,16 +437,16 @@
             enddo
 !
             if (isorth /= 0) then
-              do i=lft,llt
+              do i=1,llt
                 ep4(i) = half*ep4(i)
                 ep5(i) = half*ep5(i)
                 ep6(i) = half*ep6(i)
               enddo
-              call mrotens(lft,llt,ep1,ep2,ep3,ep4,ep5,ep6,&
+              call mrotens(1,llt,ep1,ep2,ep3,ep4,ep5,ep6,&
               &r11,r12,r13,&
               &r21,r22,r23,&
               &r31,r32,r33)
-              do i=lft,llt
+              do i=1,llt
                 j = (i-1)*6
                 ep4(i) = two*ep4(i)
                 ep5(i) = two*ep5(i)
@@ -460,7 +459,7 @@
                 so6(i) = siglp(jj(6)+i)
               enddo
             else
-              do i=lft,llt
+              do i=1,llt
                 so1(i) = sigp(jj(1)+i)
                 so2(i) = sigp(jj(2)+i)
                 so3(i) = sigp(jj(3)+i)
@@ -493,7 +492,7 @@
               enddo
             endif
 !
-            do i=lft,llt
+            do i=1,llt
               de1(i) = ep1(i)*dt1
               de2(i) = ep2(i)*dt1
               de3(i) = ep3(i)*dt1
@@ -514,15 +513,15 @@
               es6(i) = strain(jj(6)+i)
             enddo
 !------compute of amu as in mmain after thermal expansion computation ---------------
-            do i=lft,llt
+            do i=1,llt
               df(i)  =  rho0(i)/rho(i)
             enddo
             if(mtn == 45) then     ! for compatibility with qa tests
-              do i=lft,llt
+              do i=1,llt
                 amu(i) =  one/df(i)-one
               enddo
             else
-              do i=lft,llt
+              do i=1,llt
                 amu(i) =  rho(i)/rho0(i)-one
               enddo
             endif
@@ -532,7 +531,7 @@
 !     compute undamaged effective stresses
 !---------------------------------------------------------
             if (dmg_flag > 0) then
-              do i = lft,llt
+              do i = 1,llt
                 so1(i) = so1(i)/max(lbuf%dmgscl(i),em20)
                 so2(i) = so2(i)/max(lbuf%dmgscl(i),em20)
                 so3(i) = so3(i)/max(lbuf%dmgscl(i),em20)
@@ -626,7 +625,7 @@
 !     strain rate
 !-------------------
               do i=1,llt
-                israte = ipm(3,mat(lft))
+                israte = ipm(3,mat(1))
                 if(israte == 0)then
                   dav = (ep1(i)+ep2(i)+ep3(i))*third
                   e1 = ep1(i) - dav
@@ -729,7 +728,7 @@
 !---  strain rate
 !
 !         do i=1,llt
-!           israte = ipm(3,mat(lft))
+!           israte = ipm(3,mat(1))
 !           if(israte == 0)then
 !             dav = (ep1(i)+ep2(i)+ep3(i)) * third
 !             e1 = ep1(i) - dav
@@ -774,7 +773,7 @@
             elseif(mtn == 48)then
 !---    strain rate
               do i=1,llt
-                israte = ipm(3,mat(lft))
+                israte = ipm(3,mat(1))
                 if(israte == 0)then
                   dav = (ep1(i)+ep2(i)+ep3(i)) * third
                   e1 = ep1(i) - dav
@@ -816,7 +815,7 @@
 
 !---    strain rate
               do i=1,llt
-                israte = ipm(3,mat(lft))
+                israte = ipm(3,mat(1))
                 if(israte == 0)then
                   dav = (ep1(i)+ep2(i)+ep3(i)) * third
                   e1 = ep1(i) - dav
@@ -861,7 +860,7 @@
 !     strain rate
 !-------------------
               do i=1,llt
-                israte = ipm(3,mat(lft))
+                israte = ipm(3,mat(1))
                 if(israte == 0)then
                   dav = (ep1(i)+ep2(i)+ep3(i))*third
                   e1 = ep1(i) - dav
@@ -894,7 +893,7 @@
 !     strain rate
 !-------------------
               do i=1,llt
-                israte = ipm(3,mat(lft))
+                israte = ipm(3,mat(1))
                 if(israte == 0)then
                   dav = (ep1(i)+ep2(i)+ep3(i))*third
                   e1 = ep1(i) - dav
@@ -958,12 +957,12 @@
 !
               if(mtn == 36.or.mtn == 44.or.mtn == 48.or.mtn == 56.&
               &or.mtn == 60)then
-                do i=lft,llt
+                do i=1,llt
                   tstar(i) = zero
                   epsp1(i) = epsd(i)
                 enddo
               else
-                do i=lft,llt
+                do i=1,llt
                   tstar(i) = zero
                   dav = (ep1(i)+ep2(i)+ep3(i))*third
                   e1 = ep1(i) - dav
@@ -1164,7 +1163,7 @@
 !     damaged stresses
 !---------------------------------------------------------
             if (dmg_flag > 0) then
-              do i = lft,llt
+              do i = 1,llt
                 s1(i) = s1(i)*lbuf%dmgscl(i)
                 s2(i) = s2(i)*lbuf%dmgscl(i)
                 s3(i) = s3(i)*lbuf%dmgscl(i)
@@ -1177,7 +1176,7 @@
             if ((itask==0).and.(imon_mat==1))call stoptime(TIMERS,121)
 !----------
             if (isorth /= 0) then
-              do i=lft,llt
+              do i=1,llt
                 siglp(jj(1)+i) = s1(i)
                 siglp(jj(2)+i) = s2(i)
                 siglp(jj(3)+i) = s3(i)
@@ -1185,20 +1184,20 @@
                 siglp(jj(5)+i) = s5(i)
                 siglp(jj(6)+i) = s6(i)
               enddo
-              call mrotens(lft,llt,&
+              call mrotens(1,llt,&
               &s1 ,s2 ,s3 ,&
               &s4 ,s5 ,s6 ,&
               &r11,r21,r31,&
               &r12,r22,r32,&
               &r13,r23,r33)
-              call mrotens(lft,llt,&
+              call mrotens(1,llt,&
               &sv1 ,sv2 ,sv3 ,&
               &sv4 ,sv5 ,sv6 ,&
               &r11,r21,r31,&
               &r12,r22,r32,&
               &r13,r23,r33)
             endif
-            do i=lft,llt
+            do i=1,llt
               sigp(jj(1)+i) = s1(i)
               sigp(jj(2)+i) = s2(i)
               sigp(jj(3)+i) = s3(i)
@@ -1221,7 +1220,7 @@
             enddo
 
             dta =half*dt1
-            do i=lft,llt
+            do i=1,llt
               dav=volgp(i,ipt)*off(i)*dta
               eint(i)=eint(i)+dav*(d1(i,ipt)*(sold1(i)+sigp(jj(1)+i))+&
               &d2(i,ipt)*(sold2(i)+sigp(jj(2)+i))+&
@@ -1235,13 +1234,13 @@
 !--------------------------------------------------
 !     pressure equalization
 !--------------------------------------------------
-          do i=lft,llt
+          do i=1,llt
             pnew(i) = -(sig(i,1) + sig(i,2) + sig(i,3)) * third
           enddo
 !----
           do ipt=1,npt
             sigp => bufly%lbuf(1,1,ipt)%sig(1:llt*6)
-            do i=lft,llt
+            do i=1,llt
               pp(i)=pnew(i) + (sigp(jj(1)+i) + sigp(jj(2)+i) + sigp(jj(3)+i)) * third
               sigp(jj(1)+i) =(sigp(jj(1)+i)-pp(i))*off(i)
               sigp(jj(2)+i) =(sigp(jj(2)+i)-pp(i))*off(i)
@@ -1257,7 +1256,7 @@
 !     define sound speed  (in all case)
 !     define dynamic viscosity (for viscous law)
 !-----------------------
-          do i=lft,llt
+          do i=1,llt
             if(ssp(i) == zero) ssp(i)=sqrt(c1(i)/rho0(i))
           enddo
 !-------------------------------------------
@@ -1275,7 +1274,7 @@
           &dmels,   nel,     ity,     jtur,&
           &jthe,    jsms)
 !
-          do i=lft,llt
+          do i=1,llt
             eint(i)=eint(i)/max(em15,vol(i))
           enddo
 !------------------------------------------

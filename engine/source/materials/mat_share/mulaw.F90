@@ -533,7 +533,7 @@
           real(kind=WP), dimension(nel), target  :: le_max
           real(kind=WP) :: wfextt !< external force work accumulation
 !----
-          real(kind=WP), dimension(:), pointer   :: uparam,uparam0,uparf,uvarf,dfmax,&
+          real(kind=WP), dimension(:), pointer, contiguous   :: uparam,uparam0,uparf,uvarf,dfmax,&
           &tdel,yldfac,dam,el_len,&
           &el_pla,damini
           real(kind=WP), dimension(nel), target :: el_pla_dum
@@ -545,7 +545,7 @@
           type(fail_param_) , pointer :: failparam
           logical :: logical_userl_avail
           real(kind=WP) :: user_uelr(mvsiz)
-          integer, dimension(:) ,pointer   :: fld_idx,foff,ifunc,itable,itabl_fail,iparf,iparam
+          integer, dimension(:) ,pointer, contiguous   :: fld_idx,foff,ifunc,itable,itabl_fail,iparf,iparam
           integer                          :: mat_comp,mat_smstr,mat_formu
           integer                          :: dmg_flag,lf_dammx,niparf
           integer :: nvartmp_eos
@@ -556,7 +556,7 @@
           integer :: k1,k2,k3,k4,k5,k6
           real(kind=WP) :: fisokin
           real(kind=WP), dimension(nel), target :: vecnul
-          real(kind=WP), dimension(:), pointer  :: sigbxx,sigbyy,sigbzz,sigbxy,sigbyz,sigbzx
+          real(kind=WP), dimension(:), pointer, contiguous  :: sigbxx,sigbyy,sigbzz,sigbxy,sigbyz,sigbzx
           real(kind=WP), dimension(nel) :: off_old
 !=======================================================================
           gbuf   => elbuf_tab(ng)%gbuf
@@ -949,6 +949,7 @@
             end if !(iselect>0) then
 !
             if (idtmin(1)==3.and.ismstr == 12) then
+#include "vectorize.inc"
               do i=1,nel
                 if (offg(i) <=one) cycle
                 es1(i)=mfxx(i)
@@ -1054,6 +1055,7 @@
 !---------------------------------------------------------
           ! -> isotropic stress softening
           if (dmg_flag == 1) then
+#include "vectorize.inc"
             do i = 1,nel
               so1(i) = so1(i)/max(lbuf%dmgscl(i),em20)
               so2(i) = so2(i)/max(lbuf%dmgscl(i),em20)
@@ -1064,6 +1066,7 @@
             end do
             ! -> orthotropic stress softening
           else if (dmg_flag == 6) then
+#include "vectorize.inc"
             do i = 1,nel
               so1(i) = so1(i)/max(lbuf%dmgscl(i+nel*(1-1)),em20)
               so2(i) = so2(i)/max(lbuf%dmgscl(i+nel*(2-1)),em20)
@@ -2193,6 +2196,7 @@
             end if
             !< Case where equivalent stress is computed in the material law
             if (elbuf_tab(ng)%bufly(ilay)%l_seq > 0) then
+#include "vectorize.inc"
               do i = 1,nel
                 dpla(i) = defp(i) - defp0(i)
                 lbuf%wpla(i) = lbuf%wpla(i) +                        &
@@ -2200,6 +2204,7 @@
               end do
               !< Default case using Von Mises stress
             else
+#include "vectorize.inc"
               do i = 1,nel
                 dpla(i) = defp(i) - defp0(i)
                 vm0(i)= sqrt(half*(                                  &
@@ -2685,17 +2690,16 @@
 !--------------------------------------------------------
 !     Shooting nodes algorithm activation
 !--------------------------------------------------------
-          do i = 1,nel
-            if ((off_old(i) > zero) .and. (off(i) == zero)) then
-              idel7nok = 1
-            end if
-          end do
+          if (any(off_old(1:nel) > zero .and. off(1:nel) == zero)) then
+            idel7nok = 1
+          end if
 !
 !--------------------------------------------------------
 !     damaged stresses
 !---------------------------------------------------------
           ! -> isotropic stress softening
           if (dmg_flag == 1) then
+#include "vectorize.inc"
             do i = 1,nel
               s1(i) = s1(i)*lbuf%dmgscl(i)
               s2(i) = s2(i)*lbuf%dmgscl(i)
@@ -2706,6 +2710,7 @@
             end do
             ! -> orthotropic stress softening
           else if (dmg_flag == 6) then
+#include "vectorize.inc"
             do i = 1,nel
               s1(i) = s1(i)*lbuf%dmgscl(i+nel*(1-1))
               s2(i) = s2(i)*lbuf%dmgscl(i+nel*(2-1))
@@ -2876,6 +2881,7 @@
 !------------------------------------------------------------
           if ((elbuf_tab(ng)%bufly(ilay)%l_pla > 0).and.(mtn /= 126)) then
             if (inloc > 0) then
+#include "vectorize.inc"
               do i=1,nel
                 if (off(i) == one) then
                   varnl(i) = defp(i)

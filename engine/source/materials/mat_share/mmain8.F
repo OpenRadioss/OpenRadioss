@@ -217,7 +217,7 @@ c     user-type laws
         ENDDO
 c
         CALL MULAW8(TIMERS,OUTPUT,
-     1   1,        NEL,      MTN,
+     1   NEL,      MTN,
      2   NPT,      D1,       D2,       D3,
      3   D4,       D5,       D6,       PM,
      4   OFF,      GBUF%SIG, GBUF%EINT,GBUF%RHO,
