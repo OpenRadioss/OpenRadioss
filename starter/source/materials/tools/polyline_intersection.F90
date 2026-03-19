@@ -59,7 +59,7 @@
 ! --------------------------------------------------------------------------------------------------
 !         Modules
 ! --------------------------------------------------------------------------------------------------
-          use constant_mod  ,only : zero,half,one,hundred,ep03
+          use constant_mod  ,only : zero,half,one,hundred,ep03,em9
           use precision_mod ,only : WP
 ! --------------------------------------------------------------------------------------------------
           implicit none
@@ -76,9 +76,9 @@
 !-----------------------------------------------
         integer :: i, j
         real(kind=WP) :: dx1, dy1, dx2, dy2, m1, m2, b1, b2
-        real(kind=WP) :: x1l, x1r, x2l, x2r, xL, xR
-        real(kind=WP) :: y1L, y1R, y2L, y2R, dL, dR, denom, root
-        real(kind=WP) :: epsx, epsy, slopes_eps, xrange, yrange
+        real(kind=WP) :: x1l, x1r, x2l, x2r, xL, xr
+        real(kind=WP) :: y1l, y1r, y2l, y2r, dL, dr, denom, root
+        real(kind=WP) :: epsx, epsy, slopes_eps, xrange, ymean, yr1,yr2
 !===================================================================================================
         ! Initialize
         found = .false.
@@ -97,9 +97,10 @@
 
         ! Dynamic tolerances scaled to data ranges
         xrange = max( abs(x1(n1) - x1(1)), abs(x2(n2) - x2(1)), one )
-        yrange = max( maxval(abs(y1 - sum(y1)/dble(n1))), maxval(abs(y2 - sum(y2)/dble(n2))), one )
-        epsx   = hundred  * epsilon(one) * xrange
-        epsy   = hundred  * epsilon(one) * yrange
+        yr1  = maxval(abs(y1 - sum(y1)/dble(n1)))
+        yr2  = maxval(abs(y2 - sum(y2)/dble(n2)))
+        epsx = hundred  * epsilon(one) * xrange
+        epsy = em9 * max(yr1, yr2)  ! estimated range of y values * 1.e-9
         slopes_eps = ep03 * epsilon(one)
 
         i = 1
@@ -133,40 +134,40 @@
 
            ! Overlap of x-intervals
            xL = max(x1l, x2l)
-           xR = min(x1r, x2r)
+           xr = min(x1r, x2r)
 
-           if (xR >= xL - epsx) then
+           if (xr >= xL - epsx) then
               ! Compute y values at overlap endpoints via linear interpolation
-              y1L = m1 * xL + b1
-              y1R = m1 * xR + b1
-              y2L = m2 * xL + b2
-              y2R = m2 * xR + b2
+              y1l = m1 * xL + b1
+              y1r = m1 * xr + b1
+              y2l = m2 * xL + b2
+              y2r = m2 * xr + b2
 
-              dL = y1L - y2L
-              dR = y1R - y2R
+              dL = y1l - y2l
+              dr = y1r - y2r
 
               ! Check endpoint hits
               if (abs(dL) <= epsy) then
                  xint = xL
-                 yint = half * (y1L + y2L)
+                 yint = half * (y1l + y2l)
                  found = .true.
                  return
-              else if (abs(dR) <= epsy) then
-                 xint = xR
-                 yint = half * (y1R + y2R)
+              else if (abs(dr) <= epsy) then
+                 xint = xr
+                 yint = half * (y1r + y2r)
                  found = .true.
                  return
               end if
 
-              ! General crossing in (xL, xR)
-              if (dL * dR < zero) then
+              ! General crossing in (xL, xr)
+              if (dL * dr < zero) then
                  ! Linear root interpolation for robust bracketing
-                 denom = dR - dL
+                 denom = dr - dL
                  if (abs(denom) > epsy) then
-                    root = xL - dL * (xR - xL) / denom
-                    ! Clamp root within [xL, xR] for safety
+                    root = xL - dL * (xr - xL) / denom
+                    ! Clamp root within [xL, xr] for safety
                     if (root < xL) root = xL
-                    if (root > xR) root = xR
+                    if (root > xr) root = xr
                     xint = root
                     yint = m1 * xint + b1
                     found = .true.
@@ -179,7 +180,7 @@
                  ! If colinear over the overlap, accept the left overlap point
                  if (abs((b1 - b2)) <= epsy) then
                     xint = xL
-                    yint = half * (y1L + y2L)
+                    yint = half * (y1l + y2l)
                     found = .true.
                     return
                  end if

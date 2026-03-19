@@ -287,12 +287,6 @@ c------------------
      .                     NFUNC    ,IFUNC    ,NPC      ,PLD      ,IOUT     ,
      .                     NFUNCT   ,FUNC_ID  ,NPROPM   ,PM(1,IMAT),MAT_PARAM(IMAT)%YOUNG0)       
 c------------------
-          CASE (76) 
-            CALL LAW76_UPD(IOUT   ,TITR    ,MAT_ID   ,NPARAM ,MAT_PARAM(IMAT) ,
-     .                     UPARAM ,NUMTABL ,ITABLE   ,TABLE   ,NFUNC    ,
-     .                     IFUNC  ,NPC     ,PLD      )       
-c
-c------------------
           CASE (77) 
             CALL LAW77_UPD(TITR    ,MAT_ID   ,NPARAM ,MAT_PARAM(IMAT) ,
      .                     UPARAM  ,NFUNC    ,IFUNC  ,NPC      ,PLD      )
