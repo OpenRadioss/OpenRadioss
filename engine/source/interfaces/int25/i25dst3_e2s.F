@@ -773,7 +773,7 @@ C
           IF(PENE2(EJ,I)==ZERO) THEN
              CAND_P(EJ,INDEX(I))=ZERO ! Reset CAND_P
              PENE_OLD_E2S(EJ,INDEX(I))=ZERO
-             STIF_OLD_E2S(EJ,INDEX(I))=MAX(STIF_OLD_E2S(EJ,INDEX(I)),STIF(EJ,I))
+             STIF_OLD_E2S(EJ,INDEX(I))=STIF(EJ,I)
           ENDIF
             DEBUG_E2E(EDGE_ID(1,I)==D_EM .AND. EDGE_ID(2,I) ==  D_ES,CAND_P(EJ,INDEX(I)))
             DEBUG_E2E(EDGE_ID(1,I)==D_EM .AND. EDGE_ID(2,I) ==  D_ES,EJ)

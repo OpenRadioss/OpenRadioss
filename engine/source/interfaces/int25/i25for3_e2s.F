@@ -218,7 +218,7 @@ C          Reduce PENE
           PENE(I)=MAX(ZERO,PENE(I)-CAND_P(INDX2(I),INDX1(I)))
           IF( PENE(I)==ZERO ) THEN
             PENE_OLD_E2S(INDX2(I),INDX1(I)) = ZERO
-            STIF_OLD_E2S(INDX2(I),INDX1(I)) = MAX(STIF_OLD_E2S(INDX2(I),INDX1(I)),STIF(I))
+            STIF_OLD_E2S(INDX2(I),INDX1(I)) = STIF(I)
           ENDIF
           IF( PENE(I)==ZERO )  STIF(I) = ZERO
         ENDDO
@@ -234,7 +234,7 @@ C            CAND_P < 0 <=> Initial penetration computed into the Starter => Do 
             CAND_P(INDX2(I),INDX1(I)) = -CAND_P(INDX2(I),INDX1(I)) ! back to negative value
             IF( PENE(I)==ZERO ) THEN
               PENE_OLD_E2S(INDX2(I),INDX1(I)) = ZERO
-              STIF_OLD_E2S(INDX2(I),INDX1(I)) = MAX(STIF_OLD_E2S(INDX2(I),INDX1(I)),STIF(I))
+              STIF_OLD_E2S(INDX2(I),INDX1(I)) = STIF(I)
             ENDIF
             IF( PENE(I)==ZERO )  STIF(I) = ZERO
           ELSE
@@ -247,7 +247,7 @@ C subtraction of the initial pene from the pene and the gap
             PENE(I)=MAX(ZERO,PENE(I)-CAND_P(INDX2(I),INDX1(I)))
             IF( PENE(I)==ZERO ) THEN
               PENE_OLD_E2S(INDX2(I),INDX1(I)) = ZERO
-              STIF_OLD_E2S(INDX2(I),INDX1(I)) = MAX(STIF_OLD_E2S(INDX2(I),INDX1(I)),STIF(I))
+              STIF_OLD_E2S(INDX2(I),INDX1(I)) = STIF(I)
             ENDIF
             IF( PENE(I)==ZERO )  STIF(I) = ZERO
           END IF
@@ -281,8 +281,8 @@ C
             PENE_OLD_E2S(INDX2(I),INDX1(I)) = PENE(I)
             STIF_OLD_E2S(INDX2(I),INDX1(I)) = STIF(I)
           ELSE
-            PENE_OLD_E2S(INDX2(I),INDX1(I)) = MAX(PENE_OLD_E2S(INDX2(I),INDX1(I)),PENE(I))
-            STIF_OLD_E2S(INDX2(I),INDX1(I)) = MAX(STIF_OLD_E2S(INDX2(I),INDX1(I)),STIF(I))
+            PENE_OLD_E2S(INDX2(I),INDX1(I)) = PENE(I)
+            STIF_OLD_E2S(INDX2(I),INDX1(I)) = STIF(I)
           ENDIF
         ENDIF
       ENDDO

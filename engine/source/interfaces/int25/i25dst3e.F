@@ -225,7 +225,7 @@ C
         IF(PENE2(I)==ZERO) THEN
           CAND_P(INDEX(I))=ZERO ! Reset CAND_P
           PENE_OLD_E(INDEX(I))=ZERO
-          STIF_OLD_E(INDEX(I))=MAX(STIF_OLD_E(INDEX(I)),STIF(I))
+          STIF_OLD_E(INDEX(I))=STIF(I)
         ENDIF
       ENDDO
 C
