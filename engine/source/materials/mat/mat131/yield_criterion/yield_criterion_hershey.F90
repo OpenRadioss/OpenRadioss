@@ -20,8 +20,27 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+!||====================================================================
+!||    yield_criterion_hershey_mod   ../engine/source/materials/mat/mat131/yield_criterion/yield_criterion_hershey.F90
+!||--- called by ------------------------------------------------------
+!||    elasto_plastic_eq_stress      ../engine/source/materials/mat/mat131/elasto_plastic_eq_stress.F90
+!||====================================================================
       module yield_criterion_hershey_mod
       contains
+!||====================================================================
+!||    yield_criterion_hershey        ../engine/source/materials/mat/mat131/yield_criterion/yield_criterion_hershey.F90
+!||--- called by ------------------------------------------------------
+!||    elasto_plastic_eq_stress       ../engine/source/materials/mat/mat131/elasto_plastic_eq_stress.F90
+!||--- calls      -----------------------------------------------------
+!||    valpvec_v                      ../engine/source/materials/mat/mat033/sigeps33.F
+!||    valpvecdp_v                    ../engine/source/materials/mat/mat033/sigeps33.F
+!||--- uses       -----------------------------------------------------
+!||    constant_mod                   ../common_source/modules/constant_mod.F
+!||    matparam_def_mod               ../common_source/modules/mat_elem/matparam_def_mod.F90
+!||    mvsiz_mod                      ../engine/share/spe_inc/mvsiz_mod.F90
+!||    precision_mod                  ../common_source/modules/precision_mod.F90
+!||    yield_criterion_vonmises_mod   ../engine/source/materials/mat/mat131/yield_criterion/yield_criterion_vonmises.F90
+!||====================================================================
       subroutine yield_criterion_hershey(                                      &
           matparam ,nel      ,seq      ,iresp    ,eltype   ,                   &
           signxx   ,signyy   ,signzz   ,signxy   ,signyz   ,signzx   ,         &

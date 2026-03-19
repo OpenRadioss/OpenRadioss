@@ -20,8 +20,32 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+!||====================================================================
+!||    elasto_plastic_trial_stress_mod   ../engine/source/materials/mat/mat131/elasto_plastic_trial_stress.F90
+!||--- called by ------------------------------------------------------
+!||    cppm_shells                       ../engine/source/materials/mat/mat131/return_mapping/cppm_shells.F90
+!||    cppm_solids                       ../engine/source/materials/mat/mat131/return_mapping/cppm_solids.F90
+!||    cutting_plane_shells              ../engine/source/materials/mat/mat131/return_mapping/cutting_plane_shells.F90
+!||    cutting_plane_solids              ../engine/source/materials/mat/mat131/return_mapping/cutting_plane_solids.F90
+!||    nice_shells                       ../engine/source/materials/mat/mat131/return_mapping/nice_shells.F90
+!||    nice_solids                       ../engine/source/materials/mat/mat131/return_mapping/nice_solids.F90
+!||====================================================================
       module elasto_plastic_trial_stress_mod
       contains
+!||====================================================================
+!||    elasto_plastic_trial_stress   ../engine/source/materials/mat/mat131/elasto_plastic_trial_stress.F90
+!||--- called by ------------------------------------------------------
+!||    cppm_shells                   ../engine/source/materials/mat/mat131/return_mapping/cppm_shells.F90
+!||    cppm_solids                   ../engine/source/materials/mat/mat131/return_mapping/cppm_solids.F90
+!||    cutting_plane_shells          ../engine/source/materials/mat/mat131/return_mapping/cutting_plane_shells.F90
+!||    cutting_plane_solids          ../engine/source/materials/mat/mat131/return_mapping/cutting_plane_solids.F90
+!||    nice_shells                   ../engine/source/materials/mat/mat131/return_mapping/nice_shells.F90
+!||    nice_solids                   ../engine/source/materials/mat/mat131/return_mapping/nice_solids.F90
+!||--- uses       -----------------------------------------------------
+!||    constant_mod                  ../common_source/modules/constant_mod.F
+!||    matparam_def_mod              ../common_source/modules/mat_elem/matparam_def_mod.F90
+!||    precision_mod                 ../common_source/modules/precision_mod.F90
+!||====================================================================
       subroutine elasto_plastic_trial_stress(                                  &
         matparam ,nel      ,soundsp  ,cstf     ,young    ,rho      ,           &
         depsxx   ,depsyy   ,depszz   ,depsxy   ,depsyz   ,depszx   ,           &

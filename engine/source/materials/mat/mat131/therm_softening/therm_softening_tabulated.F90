@@ -20,8 +20,25 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+!||====================================================================
+!||    therm_softening_tabulated_mod   ../engine/source/materials/mat/mat131/therm_softening/therm_softening_tabulated.F90
+!||--- called by ------------------------------------------------------
+!||    elasto_plastic_yield_stress     ../engine/source/materials/mat/mat131/elasto_plastic_yield_stress.F90
+!||====================================================================
       module therm_softening_tabulated_mod
       contains
+!||====================================================================
+!||    therm_softening_tabulated     ../engine/source/materials/mat/mat131/therm_softening/therm_softening_tabulated.F90
+!||--- called by ------------------------------------------------------
+!||    elasto_plastic_yield_stress   ../engine/source/materials/mat/mat131/elasto_plastic_yield_stress.F90
+!||--- calls      -----------------------------------------------------
+!||    table_mat_vinterp             ../engine/source/materials/tools/table_mat_vinterp.F
+!||--- uses       -----------------------------------------------------
+!||    constant_mod                  ../common_source/modules/constant_mod.F
+!||    matparam_def_mod              ../common_source/modules/mat_elem/matparam_def_mod.F90
+!||    precision_mod                 ../common_source/modules/precision_mod.F90
+!||    table_mat_vinterp_mod         ../engine/source/materials/tools/table_mat_vinterp.F
+!||====================================================================
       subroutine therm_softening_tabulated(                                    &
         matparam ,nel      ,sigy     ,temp     ,dsigy_dpla,dtemp_dpla,         &
         nvartmp  ,vartmp   )

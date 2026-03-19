@@ -20,9 +20,30 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+!||====================================================================
+!||    hm_read_therm_softening_mod   ../starter/source/materials/mat/mat131/therm_softening/hm_read_therm_softening.F90
+!||--- called by ------------------------------------------------------
+!||    hm_read_elasto_plastic        ../starter/source/materials/mat/mat131/hm_read_elasto_plastic.F90
+!||====================================================================
       module hm_read_therm_softening_mod
         implicit none
       contains
+!||====================================================================
+!||    hm_read_therm_softening                   ../starter/source/materials/mat/mat131/therm_softening/hm_read_therm_softening.F90
+!||--- called by ------------------------------------------------------
+!||    hm_read_elasto_plastic                    ../starter/source/materials/mat/mat131/hm_read_elasto_plastic.F90
+!||--- calls      -----------------------------------------------------
+!||    hm_read_therm_softening_johnsoncook       ../starter/source/materials/mat/mat131/therm_softening/hm_read_therm_softening_johnsoncook.F90
+!||    hm_read_therm_softening_tabulated         ../starter/source/materials/mat/mat131/therm_softening/hm_read_therm_softening_tabulated.F90
+!||    hm_read_therm_softening_zhao              ../starter/source/materials/mat/mat131/therm_softening/hm_read_therm_softening_zhao.F90
+!||--- uses       -----------------------------------------------------
+!||    elbuftag_mod                              ../starter/share/modules1/elbuftag_mod.F
+!||    hm_option_read_mod                        ../starter/share/modules1/hm_option_read_mod.F
+!||    hm_read_therm_softening_johnsoncook_mod   ../starter/source/materials/mat/mat131/therm_softening/hm_read_therm_softening_johnsoncook.F90
+!||    hm_read_therm_softening_tabulated_mod     ../starter/source/materials/mat/mat131/therm_softening/hm_read_therm_softening_tabulated.F90
+!||    hm_read_therm_softening_zhao_mod          ../starter/source/materials/mat/mat131/therm_softening/hm_read_therm_softening_zhao.F90
+!||    submodel_mod                              ../starter/share/modules1/submodel_mod.F
+!||====================================================================
         subroutine hm_read_therm_softening(                                    &
           ikey     ,type  ,itherm   ,nupar_therm ,upar_therm   ,               &
           is_available,unitab,lsubmodel,iout     ,is_encrypted ,               &

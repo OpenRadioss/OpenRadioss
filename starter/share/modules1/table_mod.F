@@ -37,6 +37,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    func_maxy                    ../starter/source/tools/curve/func_maxy.F
 !||    func_slope                   ../starter/source/tools/curve/func_slope.F
 !||    get_u_numtable               ../starter/source/user_interface/utable.F
+!||    hm_read_elasto_plastic       ../starter/source/materials/mat/mat131/hm_read_elasto_plastic.F90
 !||    hm_read_eos                  ../starter/source/materials/eos/hm_read_eos.F
 !||    hm_read_eos_compaction_tab   ../starter/source/materials/eos/hm_read_eos_compaction_tab.F90
 !||    hm_read_fail                 ../starter/source/materials/fail/hm_read_fail.F

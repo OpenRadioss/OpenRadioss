@@ -20,9 +20,48 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+!||====================================================================
+!||    hm_read_elasto_plastic_mod   ../starter/source/materials/mat/mat131/hm_read_elasto_plastic.F90
+!||--- called by ------------------------------------------------------
+!||    hm_read_mat                  ../starter/source/materials/mat/hm_read_mat.F90
+!||====================================================================
       module hm_read_elasto_plastic_mod
         implicit none
       contains
+!||====================================================================
+!||    hm_read_elasto_plastic            ../starter/source/materials/mat/mat131/hm_read_elasto_plastic.F90
+!||--- called by ------------------------------------------------------
+!||    hm_read_mat                       ../starter/source/materials/mat/hm_read_mat.F90
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                            ../starter/source/output/message/message.F
+!||    hm_get_floatv                     ../starter/source/devtools/hm_reader/hm_get_floatv.F
+!||    hm_get_intv                       ../starter/source/devtools/hm_reader/hm_get_intv.F
+!||    hm_get_string_index               ../starter/source/devtools/hm_reader/hm_get_string_index.F
+!||    hm_option_is_encrypted            ../starter/source/devtools/hm_reader/hm_option_is_encrypted.F
+!||    hm_read_elasticity                ../starter/source/materials/mat/mat131/elasticity/hm_read_elasticity.F90
+!||    hm_read_kinematic_hardening       ../starter/source/materials/mat/mat131/kinematic_hardening/hm_read_kinematic_hardening.F90
+!||    hm_read_self_heating              ../starter/source/materials/mat/mat131/self_heating/hm_read_self_heating.F90
+!||    hm_read_srate_dependency          ../starter/source/materials/mat/mat131/srate_dependency/hm_read_srate_dependency.F90
+!||    hm_read_therm_softening           ../starter/source/materials/mat/mat131/therm_softening/hm_read_therm_softening.F90
+!||    hm_read_work_hardening            ../starter/source/materials/mat/mat131/work_hardening/hm_read_work_hardening.F90
+!||    hm_read_yield_criterion           ../starter/source/materials/mat/mat131/yield_criterion/hm_read_yield_criterion.F90
+!||    init_mat_keyword                  ../starter/source/materials/mat/init_mat_keyword.F
+!||    mat_table_copy                    ../starter/source/materials/tools/mat_table_copy.F90
+!||--- uses       -----------------------------------------------------
+!||    elbuftag_mod                      ../starter/share/modules1/elbuftag_mod.F
+!||    hm_option_read_mod                ../starter/share/modules1/hm_option_read_mod.F
+!||    hm_read_elasticity_mod            ../starter/source/materials/mat/mat131/elasticity/hm_read_elasticity.F90
+!||    hm_read_kinematic_hardening_mod   ../starter/source/materials/mat/mat131/kinematic_hardening/hm_read_kinematic_hardening.F90
+!||    hm_read_self_heating_mod          ../starter/source/materials/mat/mat131/self_heating/hm_read_self_heating.F90
+!||    hm_read_srate_dependency_mod      ../starter/source/materials/mat/mat131/srate_dependency/hm_read_srate_dependency.F90
+!||    hm_read_therm_softening_mod       ../starter/source/materials/mat/mat131/therm_softening/hm_read_therm_softening.F90
+!||    hm_read_work_hardening_mod        ../starter/source/materials/mat/mat131/work_hardening/hm_read_work_hardening.F90
+!||    hm_read_yield_criterion_mod       ../starter/source/materials/mat/mat131/yield_criterion/hm_read_yield_criterion.F90
+!||    mat_table_copy_mod                ../starter/source/materials/tools/mat_table_copy.F90
+!||    message_mod                       ../starter/share/message_module/message_mod.F
+!||    submodel_mod                      ../starter/share/modules1/submodel_mod.F
+!||    table_mod                         ../starter/share/modules1/table_mod.F
+!||====================================================================
         subroutine hm_read_elasto_plastic(                                     &
           matparam ,nvartmp  ,parmat   ,unitab   ,mat_id   ,titr     ,mtag    ,&
           lsubmodel,iout     ,nuvar    ,ilaw     ,israte   ,ntable   ,table   )

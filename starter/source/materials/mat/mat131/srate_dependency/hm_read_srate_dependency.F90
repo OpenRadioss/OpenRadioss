@@ -20,9 +20,31 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+!||====================================================================
+!||    hm_read_srate_dependency_mod   ../starter/source/materials/mat/mat131/srate_dependency/hm_read_srate_dependency.F90
+!||--- called by ------------------------------------------------------
+!||    hm_read_elasto_plastic         ../starter/source/materials/mat/mat131/hm_read_elasto_plastic.F90
+!||====================================================================
       module hm_read_srate_dependency_mod
         implicit none
       contains
+!||====================================================================
+!||    hm_read_srate_dependency                     ../starter/source/materials/mat/mat131/srate_dependency/hm_read_srate_dependency.F90
+!||--- called by ------------------------------------------------------
+!||    hm_read_elasto_plastic                       ../starter/source/materials/mat/mat131/hm_read_elasto_plastic.F90
+!||--- calls      -----------------------------------------------------
+!||    hm_read_srate_dependency_cowpersymonds       ../starter/source/materials/mat/mat131/srate_dependency/hm_read_srate_dependency_cowpersymonds.F90
+!||    hm_read_srate_dependency_johnsoncook         ../starter/source/materials/mat/mat131/srate_dependency/hm_read_srate_dependency_johnsoncook.F90
+!||    hm_read_srate_dependency_nonlinear           ../starter/source/materials/mat/mat131/srate_dependency/hm_read_srate_dependency_nonlinear.F90
+!||    hm_read_srate_dependency_tabulated           ../starter/source/materials/mat/mat131/srate_dependency/hm_read_srate_dependency_tabulated.F90
+!||--- uses       -----------------------------------------------------
+!||    hm_option_read_mod                           ../starter/share/modules1/hm_option_read_mod.F
+!||    hm_read_srate_dependency_cowpersymonds_mod   ../starter/source/materials/mat/mat131/srate_dependency/hm_read_srate_dependency_cowpersymonds.F90
+!||    hm_read_srate_dependency_johnsoncook_mod     ../starter/source/materials/mat/mat131/srate_dependency/hm_read_srate_dependency_johnsoncook.F90
+!||    hm_read_srate_dependency_nonlinear_mod       ../starter/source/materials/mat/mat131/srate_dependency/hm_read_srate_dependency_nonlinear.F90
+!||    hm_read_srate_dependency_tabulated_mod       ../starter/source/materials/mat/mat131/srate_dependency/hm_read_srate_dependency_tabulated.F90
+!||    submodel_mod                                 ../starter/share/modules1/submodel_mod.F
+!||====================================================================
         subroutine hm_read_srate_dependency(                                   &
           ikey     ,type  ,iratedep ,nupar_ratedep,upar_ratedep,               &
           is_available,unitab,lsubmodel,iout     ,is_encrypted ,               &

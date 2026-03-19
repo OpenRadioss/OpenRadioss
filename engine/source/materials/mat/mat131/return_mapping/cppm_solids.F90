@@ -20,8 +20,32 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+!||====================================================================
+!||    cppm_solids_mod   ../engine/source/materials/mat/mat131/return_mapping/cppm_solids.F90
+!||--- called by ------------------------------------------------------
+!||    sigeps131         ../engine/source/materials/mat/mat131/sigeps131.F90
+!||====================================================================
       module cppm_solids_mod
       contains
+!||====================================================================
+!||    cppm_solids                              ../engine/source/materials/mat/mat131/return_mapping/cppm_solids.F90
+!||--- called by ------------------------------------------------------
+!||    sigeps131                                ../engine/source/materials/mat/mat131/sigeps131.F90
+!||--- calls      -----------------------------------------------------
+!||    elasto_plastic_eq_stress                 ../engine/source/materials/mat/mat131/elasto_plastic_eq_stress.F90
+!||    elasto_plastic_kinematic_hardening       ../engine/source/materials/mat/mat131/elasto_plastic_kinematic_hardening.F90
+!||    elasto_plastic_trial_stress              ../engine/source/materials/mat/mat131/elasto_plastic_trial_stress.F90
+!||    elasto_plastic_yield_stress              ../engine/source/materials/mat/mat131/elasto_plastic_yield_stress.F90
+!||    mstrain_rate                             ../engine/source/materials/mat_share/mstrain_rate.F
+!||--- uses       -----------------------------------------------------
+!||    constant_mod                             ../common_source/modules/constant_mod.F
+!||    elasto_plastic_eq_stress_mod             ../engine/source/materials/mat/mat131/elasto_plastic_eq_stress.F90
+!||    elasto_plastic_kinematic_hardening_mod   ../engine/source/materials/mat/mat131/elasto_plastic_kinematic_hardening.F90
+!||    elasto_plastic_trial_stress_mod          ../engine/source/materials/mat/mat131/elasto_plastic_trial_stress.F90
+!||    elasto_plastic_yield_stress_mod          ../engine/source/materials/mat/mat131/elasto_plastic_yield_stress.F90
+!||    matparam_def_mod                         ../common_source/modules/mat_elem/matparam_def_mod.F90
+!||    precision_mod                            ../common_source/modules/precision_mod.F90
+!||====================================================================
       subroutine cppm_solids(                                                  &
         nel      ,matparam ,rho      ,nvartmp  ,vartmp   ,iresp    ,           &
         depsxx   ,depsyy   ,depszz   ,depsxy   ,depsyz   ,depszx   ,           &

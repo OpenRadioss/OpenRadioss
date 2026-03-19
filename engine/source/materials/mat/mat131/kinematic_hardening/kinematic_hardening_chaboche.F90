@@ -20,8 +20,22 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+!||====================================================================
+!||    kinematic_hardening_chaboche_mod     ../engine/source/materials/mat/mat131/kinematic_hardening/kinematic_hardening_chaboche.F90
+!||--- called by ------------------------------------------------------
+!||    elasto_plastic_kinematic_hardening   ../engine/source/materials/mat/mat131/elasto_plastic_kinematic_hardening.F90
+!||====================================================================
       module kinematic_hardening_chaboche_mod
       contains
+!||====================================================================
+!||    kinematic_hardening_chaboche         ../engine/source/materials/mat/mat131/kinematic_hardening/kinematic_hardening_chaboche.F90
+!||--- called by ------------------------------------------------------
+!||    elasto_plastic_kinematic_hardening   ../engine/source/materials/mat/mat131/elasto_plastic_kinematic_hardening.F90
+!||--- uses       -----------------------------------------------------
+!||    constant_mod                         ../common_source/modules/constant_mod.F
+!||    matparam_def_mod                     ../common_source/modules/mat_elem/matparam_def_mod.F90
+!||    precision_mod                        ../common_source/modules/precision_mod.F90
+!||====================================================================
       subroutine kinematic_hardening_chaboche(                                 &
         matparam ,nel      ,l_sigb   ,dsigb_dlam,sigb      ,chard    ,         &
         normxx   ,normyy   ,normzz   ,normxy    ,normyz    ,normzx   ,         &

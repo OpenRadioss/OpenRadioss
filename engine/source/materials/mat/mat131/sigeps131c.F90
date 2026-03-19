@@ -20,8 +20,29 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+!||====================================================================
+!||    sigeps131c_mod   ../engine/source/materials/mat/mat131/sigeps131c.F90
+!||--- called by ------------------------------------------------------
+!||    mulawc           ../engine/source/materials/mat_share/mulawc.F90
+!||====================================================================
       module sigeps131c_mod
       contains
+!||====================================================================
+!||    sigeps131c                 ../engine/source/materials/mat/mat131/sigeps131c.F90
+!||--- called by ------------------------------------------------------
+!||    mulawc                     ../engine/source/materials/mat_share/mulawc.F90
+!||--- calls      -----------------------------------------------------
+!||    cppm_shells                ../engine/source/materials/mat/mat131/return_mapping/cppm_shells.F90
+!||    cutting_plane_shells       ../engine/source/materials/mat/mat131/return_mapping/cutting_plane_shells.F90
+!||    nice_shells                ../engine/source/materials/mat/mat131/return_mapping/nice_shells.F90
+!||--- uses       -----------------------------------------------------
+!||    constant_mod               ../common_source/modules/constant_mod.F
+!||    cppm_shells_mod            ../engine/source/materials/mat/mat131/return_mapping/cppm_shells.F90
+!||    cutting_plane_shells_mod   ../engine/source/materials/mat/mat131/return_mapping/cutting_plane_shells.F90
+!||    matparam_def_mod           ../common_source/modules/mat_elem/matparam_def_mod.F90
+!||    nice_shells_mod            ../engine/source/materials/mat/mat131/return_mapping/nice_shells.F90
+!||    precision_mod              ../common_source/modules/precision_mod.F90
+!||====================================================================
       subroutine sigeps131c(                                                   &
         nel      ,matparam ,rho      ,nvartmp  ,vartmp   ,                     &
         depsxx   ,depsyy   ,depsxy   ,depsyz   ,depszx   ,                     &

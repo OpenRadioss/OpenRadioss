@@ -39,6 +39,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    no_asso_qplas76c              ../engine/source/materials/mat/mat076/no_asso_qplas76c.F
 !||    rate_dependency_parameters    ../engine/source/materials/mat/mat132/rate_dependency_parameters.F90
 !||    s6zforc3                      ../engine/source/elements/solid/solide6z/s6zforc3.F90
+!||    self_heating_tabulated        ../engine/source/materials/mat/mat131/self_heating/self_heating_tabulated.F90
 !||    sigeps106                     ../engine/source/materials/mat/mat106/sigeps106.F90
 !||    sigeps106c                    ../engine/source/materials/mat/mat106/sigeps106c.F90
 !||    sigeps123                     ../engine/source/materials/mat/mat123/sigeps123.F90
@@ -55,9 +56,12 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    sigeps70                      ../engine/source/materials/mat/mat070/sigeps70.F
 !||    sigeps88                      ../engine/source/materials/mat/mat088/sigeps88.F90
 !||    sigeps88c                     ../engine/source/materials/mat/mat088/sigeps88c.F90
+!||    srate_dependency_tabulated    ../engine/source/materials/mat/mat131/srate_dependency/srate_dependency_tabulated.F90
 !||    strainrate_dependency         ../engine/source/materials/mat/mat123/strainrate_dependency.F90
 !||    strainrate_dependency_125c    ../engine/source/materials/mat/mat125/strainrate_dependency_125c.F90
 !||    strainrate_dependency_125s    ../engine/source/materials/mat/mat125/strainrate_dependency_125s.F90
+!||    therm_softening_tabulated     ../engine/source/materials/mat/mat131/therm_softening/therm_softening_tabulated.F90
+!||    work_hardening_tabulated      ../engine/source/materials/mat/mat131/work_hardening/work_hardening_tabulated.F90
 !||====================================================================
       MODULE TABLE_MAT_VINTERP_MOD
       CONTAINS
@@ -79,6 +83,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    no_asso_plas76                ../engine/source/materials/mat/mat076/no_asso_plas76.F
 !||    no_asso_qplas76c              ../engine/source/materials/mat/mat076/no_asso_qplas76c.F
 !||    rate_dependency_parameters    ../engine/source/materials/mat/mat132/rate_dependency_parameters.F90
+!||    self_heating_tabulated        ../engine/source/materials/mat/mat131/self_heating/self_heating_tabulated.F90
 !||    sigeps106                     ../engine/source/materials/mat/mat106/sigeps106.F90
 !||    sigeps106c                    ../engine/source/materials/mat/mat106/sigeps106c.F90
 !||    sigeps123                     ../engine/source/materials/mat/mat123/sigeps123.F90
@@ -95,9 +100,12 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    sigeps70                      ../engine/source/materials/mat/mat070/sigeps70.F
 !||    sigeps88                      ../engine/source/materials/mat/mat088/sigeps88.F90
 !||    sigeps88c                     ../engine/source/materials/mat/mat088/sigeps88c.F90
+!||    srate_dependency_tabulated    ../engine/source/materials/mat/mat131/srate_dependency/srate_dependency_tabulated.F90
 !||    strainrate_dependency         ../engine/source/materials/mat/mat123/strainrate_dependency.F90
 !||    strainrate_dependency_125c    ../engine/source/materials/mat/mat125/strainrate_dependency_125c.F90
 !||    strainrate_dependency_125s    ../engine/source/materials/mat/mat125/strainrate_dependency_125s.F90
+!||    therm_softening_tabulated     ../engine/source/materials/mat/mat131/therm_softening/therm_softening_tabulated.F90
+!||    work_hardening_tabulated      ../engine/source/materials/mat/mat131/work_hardening/work_hardening_tabulated.F90
 !||--- calls      -----------------------------------------------------
 !||    ancmsg                        ../engine/source/output/message/message.F
 !||    arret                         ../engine/source/system/arret.F

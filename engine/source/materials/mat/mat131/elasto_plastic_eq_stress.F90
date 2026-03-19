@@ -20,8 +20,43 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+!||====================================================================
+!||    elasto_plastic_eq_stress_mod   ../engine/source/materials/mat/mat131/elasto_plastic_eq_stress.F90
+!||--- called by ------------------------------------------------------
+!||    cppm_shells                    ../engine/source/materials/mat/mat131/return_mapping/cppm_shells.F90
+!||    cppm_solids                    ../engine/source/materials/mat/mat131/return_mapping/cppm_solids.F90
+!||    cutting_plane_shells           ../engine/source/materials/mat/mat131/return_mapping/cutting_plane_shells.F90
+!||    cutting_plane_solids           ../engine/source/materials/mat/mat131/return_mapping/cutting_plane_solids.F90
+!||    nice_shells                    ../engine/source/materials/mat/mat131/return_mapping/nice_shells.F90
+!||    nice_solids                    ../engine/source/materials/mat/mat131/return_mapping/nice_solids.F90
+!||====================================================================
       module elasto_plastic_eq_stress_mod
       contains
+!||====================================================================
+!||    elasto_plastic_eq_stress         ../engine/source/materials/mat/mat131/elasto_plastic_eq_stress.F90
+!||--- called by ------------------------------------------------------
+!||    cppm_shells                      ../engine/source/materials/mat/mat131/return_mapping/cppm_shells.F90
+!||    cppm_solids                      ../engine/source/materials/mat/mat131/return_mapping/cppm_solids.F90
+!||    cutting_plane_shells             ../engine/source/materials/mat/mat131/return_mapping/cutting_plane_shells.F90
+!||    cutting_plane_solids             ../engine/source/materials/mat/mat131/return_mapping/cutting_plane_solids.F90
+!||    nice_shells                      ../engine/source/materials/mat/mat131/return_mapping/nice_shells.F90
+!||    nice_solids                      ../engine/source/materials/mat/mat131/return_mapping/nice_solids.F90
+!||--- calls      -----------------------------------------------------
+!||    yield_criterion_barlat1989       ../engine/source/materials/mat/mat131/yield_criterion/yield_criterion_barlat1989.F90
+!||    yield_criterion_barlat2000       ../engine/source/materials/mat/mat131/yield_criterion/yield_criterion_barlat2000.F90
+!||    yield_criterion_hershey          ../engine/source/materials/mat/mat131/yield_criterion/yield_criterion_hershey.F90
+!||    yield_criterion_hill             ../engine/source/materials/mat/mat131/yield_criterion/yield_criterion_hill.F90
+!||    yield_criterion_vonmises         ../engine/source/materials/mat/mat131/yield_criterion/yield_criterion_vonmises.F90
+!||--- uses       -----------------------------------------------------
+!||    constant_mod                     ../common_source/modules/constant_mod.F
+!||    matparam_def_mod                 ../common_source/modules/mat_elem/matparam_def_mod.F90
+!||    precision_mod                    ../common_source/modules/precision_mod.F90
+!||    yield_criterion_barlat1989_mod   ../engine/source/materials/mat/mat131/yield_criterion/yield_criterion_barlat1989.F90
+!||    yield_criterion_barlat2000_mod   ../engine/source/materials/mat/mat131/yield_criterion/yield_criterion_barlat2000.F90
+!||    yield_criterion_hershey_mod      ../engine/source/materials/mat/mat131/yield_criterion/yield_criterion_hershey.F90
+!||    yield_criterion_hill_mod         ../engine/source/materials/mat/mat131/yield_criterion/yield_criterion_hill.F90
+!||    yield_criterion_vonmises_mod     ../engine/source/materials/mat/mat131/yield_criterion/yield_criterion_vonmises.F90
+!||====================================================================
       subroutine elasto_plastic_eq_stress(                                     &
           matparam ,nel      ,seq      ,iresp    ,eltype   ,                   &
           signxx   ,signyy   ,signzz   ,signxy   ,signyz   ,signzx   ,         &

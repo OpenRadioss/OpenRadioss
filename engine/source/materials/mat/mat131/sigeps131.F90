@@ -20,8 +20,29 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+!||====================================================================
+!||    sigeps131_mod   ../engine/source/materials/mat/mat131/sigeps131.F90
+!||--- called by ------------------------------------------------------
+!||    mulaw           ../engine/source/materials/mat_share/mulaw.F90
+!||====================================================================
       module sigeps131_mod
       contains
+!||====================================================================
+!||    sigeps131                  ../engine/source/materials/mat/mat131/sigeps131.F90
+!||--- called by ------------------------------------------------------
+!||    mulaw                      ../engine/source/materials/mat_share/mulaw.F90
+!||--- calls      -----------------------------------------------------
+!||    cppm_solids                ../engine/source/materials/mat/mat131/return_mapping/cppm_solids.F90
+!||    cutting_plane_solids       ../engine/source/materials/mat/mat131/return_mapping/cutting_plane_solids.F90
+!||    nice_solids                ../engine/source/materials/mat/mat131/return_mapping/nice_solids.F90
+!||--- uses       -----------------------------------------------------
+!||    constant_mod               ../common_source/modules/constant_mod.F
+!||    cppm_solids_mod            ../engine/source/materials/mat/mat131/return_mapping/cppm_solids.F90
+!||    cutting_plane_solids_mod   ../engine/source/materials/mat/mat131/return_mapping/cutting_plane_solids.F90
+!||    matparam_def_mod           ../common_source/modules/mat_elem/matparam_def_mod.F90
+!||    nice_solids_mod            ../engine/source/materials/mat/mat131/return_mapping/nice_solids.F90
+!||    precision_mod              ../common_source/modules/precision_mod.F90
+!||====================================================================
       subroutine sigeps131(                                                    &
         nel      ,matparam ,rho      ,nvartmp  ,vartmp   ,iresp    ,           &
         depsxx   ,depsyy   ,depszz   ,depsxy   ,depsyz   ,depszx   ,           &

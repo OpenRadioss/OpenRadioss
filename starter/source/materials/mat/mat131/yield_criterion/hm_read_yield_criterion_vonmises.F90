@@ -20,9 +20,22 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+!||====================================================================
+!||    hm_read_yield_criterion_vonmises_mod   ../starter/source/materials/mat/mat131/yield_criterion/hm_read_yield_criterion_vonmises.F90
+!||--- called by ------------------------------------------------------
+!||    hm_read_yield_criterion                ../starter/source/materials/mat/mat131/yield_criterion/hm_read_yield_criterion.F90
+!||====================================================================
       module hm_read_yield_criterion_vonmises_mod
         implicit none
       contains
+!||====================================================================
+!||    hm_read_yield_criterion_vonmises   ../starter/source/materials/mat/mat131/yield_criterion/hm_read_yield_criterion_vonmises.F90
+!||--- called by ------------------------------------------------------
+!||    hm_read_yield_criterion            ../starter/source/materials/mat/mat131/yield_criterion/hm_read_yield_criterion.F90
+!||--- uses       -----------------------------------------------------
+!||    hm_option_read_mod                 ../starter/share/modules1/hm_option_read_mod.F
+!||    submodel_mod                       ../starter/share/modules1/submodel_mod.F
+!||====================================================================
         subroutine hm_read_yield_criterion_vonmises(                           &
           icrit    ,nupar_crit,iout     ,is_encrypted)
 !----------------------------------------------------------------

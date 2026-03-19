@@ -23,17 +23,18 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !
 !||====================================================================
-!||    mat_table_copy_mod   ../starter/source/materials/tools/mat_table_copy.F90
+!||    mat_table_copy_mod       ../starter/source/materials/tools/mat_table_copy.F90
 !||--- called by ------------------------------------------------------
-!||    hm_read_mat106       ../starter/source/materials/mat/mat106/hm_read_mat106.F90
-!||    hm_read_mat123       ../starter/source/materials/mat/mat123/hm_read_mat123.F90
-!||    hm_read_mat125       ../starter/source/materials/mat/mat125/hm_read_mat125.F90
-!||    hm_read_mat128       ../starter/source/materials/mat/mat128/hm_read_mat128.F90
-!||    hm_read_mat130       ../starter/source/materials/mat/mat130/hm_read_mat130.F90
-!||    hm_read_mat132       ../starter/source/materials/mat/mat132/hm_read_mat132.F90
-!||    hm_read_mat133       ../starter/source/materials/mat/mat133/hm_read_mat133.F90
-!||    hm_read_mat163       ../starter/source/materials/mat/mat163/hm_read_mat163.F90
-!||    hm_read_mat87        ../starter/source/materials/mat/mat087/hm_read_mat87.F90
+!||    hm_read_elasto_plastic   ../starter/source/materials/mat/mat131/hm_read_elasto_plastic.F90
+!||    hm_read_mat106           ../starter/source/materials/mat/mat106/hm_read_mat106.F90
+!||    hm_read_mat123           ../starter/source/materials/mat/mat123/hm_read_mat123.F90
+!||    hm_read_mat125           ../starter/source/materials/mat/mat125/hm_read_mat125.F90
+!||    hm_read_mat128           ../starter/source/materials/mat/mat128/hm_read_mat128.F90
+!||    hm_read_mat130           ../starter/source/materials/mat/mat130/hm_read_mat130.F90
+!||    hm_read_mat132           ../starter/source/materials/mat/mat132/hm_read_mat132.F90
+!||    hm_read_mat133           ../starter/source/materials/mat/mat133/hm_read_mat133.F90
+!||    hm_read_mat163           ../starter/source/materials/mat/mat163/hm_read_mat163.F90
+!||    hm_read_mat87            ../starter/source/materials/mat/mat087/hm_read_mat87.F90
 !||====================================================================
       module mat_table_copy_mod
         implicit none
@@ -45,19 +46,20 @@
 !! \detail input functions/tables will be copied to local mat_param table storage
 
 !||====================================================================
-!||    mat_table_copy     ../starter/source/materials/tools/mat_table_copy.F90
+!||    mat_table_copy           ../starter/source/materials/tools/mat_table_copy.F90
 !||--- called by ------------------------------------------------------
-!||    hm_read_mat106     ../starter/source/materials/mat/mat106/hm_read_mat106.F90
-!||    hm_read_mat128     ../starter/source/materials/mat/mat128/hm_read_mat128.F90
-!||    hm_read_mat130     ../starter/source/materials/mat/mat130/hm_read_mat130.F90
-!||    hm_read_mat133     ../starter/source/materials/mat/mat133/hm_read_mat133.F90
-!||    hm_read_mat163     ../starter/source/materials/mat/mat163/hm_read_mat163.F90
-!||    hm_read_mat87      ../starter/source/materials/mat/mat087/hm_read_mat87.F90
+!||    hm_read_elasto_plastic   ../starter/source/materials/mat/mat131/hm_read_elasto_plastic.F90
+!||    hm_read_mat106           ../starter/source/materials/mat/mat106/hm_read_mat106.F90
+!||    hm_read_mat128           ../starter/source/materials/mat/mat128/hm_read_mat128.F90
+!||    hm_read_mat130           ../starter/source/materials/mat/mat130/hm_read_mat130.F90
+!||    hm_read_mat133           ../starter/source/materials/mat/mat133/hm_read_mat133.F90
+!||    hm_read_mat163           ../starter/source/materials/mat/mat163/hm_read_mat163.F90
+!||    hm_read_mat87            ../starter/source/materials/mat/mat087/hm_read_mat87.F90
 !||--- calls      -----------------------------------------------------
-!||    ancmsg             ../starter/source/output/message/message.F
-!||    mattab_usr2sys     ../starter/source/materials/tools/mattab_usr2sys.F
+!||    ancmsg                   ../starter/source/output/message/message.F
+!||    mattab_usr2sys           ../starter/source/materials/tools/mattab_usr2sys.F
 !||--- uses       -----------------------------------------------------
-!||    message_mod        ../starter/share/message_module/message_mod.F
+!||    message_mod              ../starter/share/message_module/message_mod.F
 !||====================================================================
         subroutine mat_table_copy(mat_param ,x2vect   ,x3vect   ,x4vect   , &
           x1scale   ,x2scale  ,x3scale  ,x4scale  , &

@@ -20,8 +20,31 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+!||====================================================================
+!||    nice_shells_mod   ../engine/source/materials/mat/mat131/return_mapping/nice_shells.F90
+!||--- called by ------------------------------------------------------
+!||    sigeps131c        ../engine/source/materials/mat/mat131/sigeps131c.F90
+!||====================================================================
       module nice_shells_mod
       contains
+!||====================================================================
+!||    nice_shells                              ../engine/source/materials/mat/mat131/return_mapping/nice_shells.F90
+!||--- called by ------------------------------------------------------
+!||    sigeps131c                               ../engine/source/materials/mat/mat131/sigeps131c.F90
+!||--- calls      -----------------------------------------------------
+!||    elasto_plastic_eq_stress                 ../engine/source/materials/mat/mat131/elasto_plastic_eq_stress.F90
+!||    elasto_plastic_kinematic_hardening       ../engine/source/materials/mat/mat131/elasto_plastic_kinematic_hardening.F90
+!||    elasto_plastic_trial_stress              ../engine/source/materials/mat/mat131/elasto_plastic_trial_stress.F90
+!||    elasto_plastic_yield_stress              ../engine/source/materials/mat/mat131/elasto_plastic_yield_stress.F90
+!||--- uses       -----------------------------------------------------
+!||    constant_mod                             ../common_source/modules/constant_mod.F
+!||    elasto_plastic_eq_stress_mod             ../engine/source/materials/mat/mat131/elasto_plastic_eq_stress.F90
+!||    elasto_plastic_kinematic_hardening_mod   ../engine/source/materials/mat/mat131/elasto_plastic_kinematic_hardening.F90
+!||    elasto_plastic_trial_stress_mod          ../engine/source/materials/mat/mat131/elasto_plastic_trial_stress.F90
+!||    elasto_plastic_yield_stress_mod          ../engine/source/materials/mat/mat131/elasto_plastic_yield_stress.F90
+!||    matparam_def_mod                         ../common_source/modules/mat_elem/matparam_def_mod.F90
+!||    precision_mod                            ../common_source/modules/precision_mod.F90
+!||====================================================================
       subroutine nice_shells(                                                  &
         nel      ,matparam ,rho      ,nvartmp  ,vartmp   ,                     &
         depsxx   ,depsyy   ,depsxy   ,depsyz   ,depszx   ,                     &

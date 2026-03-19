@@ -191,8 +191,6 @@
         !! \brief writes checksum in .out file
 !||====================================================================
 !||    checksum_option_outfile   ../common_source/modules/output/checksum_mod.F90
-!||--- called by ------------------------------------------------------
-!||    radioss2                  ../engine/source/engine/radioss2.F
 !||--- uses       -----------------------------------------------------
 !||    file_descriptor_mod       ../engine/source/modules/file_descriptor_mod.F90
 !||====================================================================

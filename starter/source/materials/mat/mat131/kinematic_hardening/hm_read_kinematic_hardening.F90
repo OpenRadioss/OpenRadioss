@@ -20,9 +20,28 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+!||====================================================================
+!||    hm_read_kinematic_hardening_mod   ../starter/source/materials/mat/mat131/kinematic_hardening/hm_read_kinematic_hardening.F90
+!||--- called by ------------------------------------------------------
+!||    hm_read_elasto_plastic            ../starter/source/materials/mat/mat131/hm_read_elasto_plastic.F90
+!||====================================================================
       module hm_read_kinematic_hardening_mod
         implicit none
       contains
+!||====================================================================
+!||    hm_read_kinematic_hardening                ../starter/source/materials/mat/mat131/kinematic_hardening/hm_read_kinematic_hardening.F90
+!||--- called by ------------------------------------------------------
+!||    hm_read_elasto_plastic                     ../starter/source/materials/mat/mat131/hm_read_elasto_plastic.F90
+!||--- calls      -----------------------------------------------------
+!||    hm_read_kinematic_hardening_chaboche       ../starter/source/materials/mat/mat131/kinematic_hardening/hm_read_kinematic_hardening_chaboche.F90
+!||    hm_read_kinematic_hardening_prager         ../starter/source/materials/mat/mat131/kinematic_hardening/hm_read_kinematic_hardening_prager.F90
+!||--- uses       -----------------------------------------------------
+!||    elbuftag_mod                               ../starter/share/modules1/elbuftag_mod.F
+!||    hm_option_read_mod                         ../starter/share/modules1/hm_option_read_mod.F
+!||    hm_read_kinematic_hardening_chaboche_mod   ../starter/source/materials/mat/mat131/kinematic_hardening/hm_read_kinematic_hardening_chaboche.F90
+!||    hm_read_kinematic_hardening_prager_mod     ../starter/source/materials/mat/mat131/kinematic_hardening/hm_read_kinematic_hardening_prager.F90
+!||    submodel_mod                               ../starter/share/modules1/submodel_mod.F
+!||====================================================================
         subroutine hm_read_kinematic_hardening(                                &
           ikey     ,type  ,ikine    ,nupar_kine  ,upar_kine    ,is_available,  &
           unitab,lsubmodel,iout     ,is_encrypted,mtag         ,chard       ) 

@@ -31,7 +31,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    build_msg                    ../common_source/tools/memory/my_alloc.F90
 !||    cdk6bc3                      ../engine/source/elements/sh3n/coquedk6/cdk6bc3.F
 !||    check_message_definition     ../common_source/modules/check_mod.F
-!||    checksum_option_outfile      ../common_source/modules/output/checksum_mod.F90
 !||    close_c                      ../common_source/tools/input_output/write_routines.c
 !||    condrmat                     ../engine/source/materials/mat/mat013/condrmat.F
 !||    coqini                       ../engine/source/elements/shell/coqini.F

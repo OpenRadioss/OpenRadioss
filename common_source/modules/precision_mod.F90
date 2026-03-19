@@ -78,10 +78,14 @@
 !||    coupling_sync                            ../engine/source/coupling/coupling_adapter.F90
 !||    coupling_write                           ../engine/source/coupling/coupling_adapter.F90
 !||    coupling_write_scalar                    ../engine/source/coupling/coupling_adapter.F90
+!||    cppm_shells                              ../engine/source/materials/mat/mat131/return_mapping/cppm_shells.F90
+!||    cppm_solids                              ../engine/source/materials/mat/mat131/return_mapping/cppm_solids.F90
 !||    crack_depth_init                         ../starter/source/materials/fail/windshield_alter/crack_depth_init.F90
 !||    create_plane_clause                      ../starter/source/model/sets/create_plane_clause.F90
 !||    crityld2000                              ../starter/source/materials/mat/mat087/law87_upd.F90
 !||    cross_product                            ../engine/source/constraints/general/rbody/velrot_explicit.F90
+!||    cutting_plane_shells                     ../engine/source/materials/mat/mat131/return_mapping/cutting_plane_shells.F90
+!||    cutting_plane_solids                     ../engine/source/materials/mat/mat131/return_mapping/cutting_plane_solids.F90
 !||    damping_funct_ini                        ../engine/source/assembly/damping_funct_ini.F90
 !||    damping_range_compute_param              ../starter/source/general_controls/damping/damping_range_compute_param.F90
 !||    damping_range_init                       ../starter/source/general_controls/damping/damping_range_init.F90
@@ -117,6 +121,10 @@
 !||    eikonal_remove_first                     ../starter/source/initial_conditions/detonation/eikonal_remove_first.F90
 !||    eikonal_solver                           ../starter/source/initial_conditions/detonation/eikonal_solver.F90
 !||    eikonal_sort_narrow_band                 ../starter/source/initial_conditions/detonation/eikonal_sort_narrow_band.F90
+!||    elasto_plastic_eq_stress                 ../engine/source/materials/mat/mat131/elasto_plastic_eq_stress.F90
+!||    elasto_plastic_kinematic_hardening       ../engine/source/materials/mat/mat131/elasto_plastic_kinematic_hardening.F90
+!||    elasto_plastic_trial_stress              ../engine/source/materials/mat/mat131/elasto_plastic_trial_stress.F90
+!||    elasto_plastic_yield_stress              ../engine/source/materials/mat/mat131/elasto_plastic_yield_stress.F90
 !||    elbufdef_mod                             ../common_source/modules/mat_elem/elbufdef_mod.F90
 !||    eos_param_mod                            ../common_source/modules/mat_elem/eos_param_mod.F90
 !||    eos_table_copy                           ../starter/source/materials/tools/eos_table_copy.F90
@@ -185,6 +193,10 @@
 !||    hm_read_bcs_wall                         ../starter/source/boundary_conditions/hm_read_bcs_wall.F90
 !||    hm_read_ebcs_cyclic                      ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_cyclic.F90
 !||    hm_read_ebcs_propellant                  ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_propellant.F90
+!||    hm_read_elasticity                       ../starter/source/materials/mat/mat131/elasticity/hm_read_elasticity.F90
+!||    hm_read_elasticity_isotropic             ../starter/source/materials/mat/mat131/elasticity/hm_read_elasticity_isotropic.F90
+!||    hm_read_elasticity_orthotropic           ../starter/source/materials/mat/mat131/elasticity/hm_read_elasticity_orthotropic.F90
+!||    hm_read_elasto_plastic                   ../starter/source/materials/mat/mat131/hm_read_elasto_plastic.F90
 !||    hm_read_eos_compaction                   ../starter/source/materials/eos/hm_read_eos_compaction.F90
 !||    hm_read_eos_compaction2                  ../starter/source/materials/eos/hm_read_eos_compaction2.F90
 !||    hm_read_eos_compaction_tab               ../starter/source/materials/eos/hm_read_eos_compaction_tab.F90
@@ -200,6 +212,9 @@
 !||    hm_read_funct_python                     ../starter/source/tools/curve/hm_read_funct_python.F90
 !||    hm_read_inivol                           ../starter/source/initial_conditions/inivol/hm_read_inivol.F90
 !||    hm_read_inter_guided_cable               ../starter/source/tools/seatbelts/hm_read_guided_cable.F90
+!||    hm_read_kinematic_hardening              ../starter/source/materials/mat/mat131/kinematic_hardening/hm_read_kinematic_hardening.F90
+!||    hm_read_kinematic_hardening_chaboche     ../starter/source/materials/mat/mat131/kinematic_hardening/hm_read_kinematic_hardening_chaboche.F90
+!||    hm_read_kinematic_hardening_prager       ../starter/source/materials/mat/mat131/kinematic_hardening/hm_read_kinematic_hardening_prager.F90
 !||    hm_read_mat                              ../starter/source/materials/mat/hm_read_mat.F90
 !||    hm_read_mat02_jc                         ../starter/source/materials/mat/mat002/hm_read_mat02_jc.F90
 !||    hm_read_mat02_predef                     ../starter/source/materials/mat/mat002/hm_read_mat02_predef.F90
@@ -225,8 +240,31 @@
 !||    hm_read_mat87                            ../starter/source/materials/mat/mat087/hm_read_mat87.F90
 !||    hm_read_mat88                            ../starter/source/materials/mat/mat088/hm_read_mat88.F90
 !||    hm_read_preload_axial                    ../starter/source/loads/general/preload/hm_read_preload_axial.F90
+!||    hm_read_self_heating                     ../starter/source/materials/mat/mat131/self_heating/hm_read_self_heating.F90
+!||    hm_read_self_heating_tabulated           ../starter/source/materials/mat/mat131/self_heating/hm_read_self_heating_tabulated.F90
+!||    hm_read_self_heating_taylor              ../starter/source/materials/mat/mat131/self_heating/hm_read_self_heating_taylor.F90
+!||    hm_read_srate_dependency                 ../starter/source/materials/mat/mat131/srate_dependency/hm_read_srate_dependency.F90
+!||    hm_read_srate_dependency_cowpersymonds   ../starter/source/materials/mat/mat131/srate_dependency/hm_read_srate_dependency_cowpersymonds.F90
+!||    hm_read_srate_dependency_johnsoncook     ../starter/source/materials/mat/mat131/srate_dependency/hm_read_srate_dependency_johnsoncook.F90
+!||    hm_read_srate_dependency_nonlinear       ../starter/source/materials/mat/mat131/srate_dependency/hm_read_srate_dependency_nonlinear.F90
+!||    hm_read_srate_dependency_tabulated       ../starter/source/materials/mat/mat131/srate_dependency/hm_read_srate_dependency_tabulated.F90
+!||    hm_read_therm_softening                  ../starter/source/materials/mat/mat131/therm_softening/hm_read_therm_softening.F90
+!||    hm_read_therm_softening_johnsoncook      ../starter/source/materials/mat/mat131/therm_softening/hm_read_therm_softening_johnsoncook.F90
+!||    hm_read_therm_softening_tabulated        ../starter/source/materials/mat/mat131/therm_softening/hm_read_therm_softening_tabulated.F90
+!||    hm_read_therm_softening_zhao             ../starter/source/materials/mat/mat131/therm_softening/hm_read_therm_softening_zhao.F90
 !||    hm_read_therm_stress                     ../starter/source/materials/therm/hm_read_therm_stress.F90
 !||    hm_read_visc_plas                        ../starter/source/materials/visc/hm_read_visc_plas.F90
+!||    hm_read_work_hardening                   ../starter/source/materials/mat/mat131/work_hardening/hm_read_work_hardening.F90
+!||    hm_read_work_hardening_linearvoce        ../starter/source/materials/mat/mat131/work_hardening/hm_read_work_hardening_linearvoce.F90
+!||    hm_read_work_hardening_powerlaw          ../starter/source/materials/mat/mat131/work_hardening/hm_read_work_hardening_powerlaw.F90
+!||    hm_read_work_hardening_tabulated         ../starter/source/materials/mat/mat131/work_hardening/hm_read_work_hardening_tabulated.F90
+!||    hm_read_work_hardening_voce              ../starter/source/materials/mat/mat131/work_hardening/hm_read_work_hardening_voce.F90
+!||    hm_read_yield_criterion                  ../starter/source/materials/mat/mat131/yield_criterion/hm_read_yield_criterion.F90
+!||    hm_read_yield_criterion_barlat1989       ../starter/source/materials/mat/mat131/yield_criterion/hm_read_yield_criterion_barlat1989.F90
+!||    hm_read_yield_criterion_barlat2000       ../starter/source/materials/mat/mat131/yield_criterion/hm_read_yield_criterion_barlat2000.F90
+!||    hm_read_yield_criterion_hershey          ../starter/source/materials/mat/mat131/yield_criterion/hm_read_yield_criterion_hershey.F90
+!||    hm_read_yield_criterion_hill             ../starter/source/materials/mat/mat131/yield_criterion/hm_read_yield_criterion_hill.F90
+!||    hm_read_yield_criterion_vonmises         ../starter/source/materials/mat/mat131/yield_criterion/hm_read_yield_criterion_vonmises.F90
 !||    i24intarea_fic                           ../engine/source/interfaces/int24/i24intarea_fic.F90
 !||    i2_surfi                                 ../starter/source/interfaces/inter3d1/i2_surfi.F90
 !||    i2_surfi_dim                             ../starter/source/interfaces/inter3d1/i2_surfi_dim.F90
@@ -264,6 +302,8 @@
 !||    jcook51                                  ../engine/source/materials/mat/mat051/jcook51.F90
 !||    jwl_eos_delta                            ../engine/source/materials/mat/mat041/jwl_eos_mod.F90
 !||    jwl_eos_state                            ../engine/source/materials/mat/mat041/jwl_eos_mod.F90
+!||    kinematic_hardening_chaboche             ../engine/source/materials/mat/mat131/kinematic_hardening/kinematic_hardening_chaboche.F90
+!||    kinematic_hardening_prager               ../engine/source/materials/mat/mat131/kinematic_hardening/kinematic_hardening_prager.F90
 !||    law02_upd                                ../starter/source/materials/mat/mat002/law02_upd.F90
 !||    law123_upd                               ../starter/source/materials/mat/mat123/law123_upd.F90
 !||    law129_init                              ../starter/source/materials/mat/mat129/law129_init.F90
@@ -308,6 +348,8 @@
 !||    negative_f_kink                          ../engine/source/materials/mat/mat123/failure_tools_mod.F90
 !||    negative_f_matrix                        ../engine/source/materials/mat/mat123/failure_tools_mod.F90
 !||    newman_raju                              ../common_source/fail/newman_raju.F90
+!||    nice_shells                              ../engine/source/materials/mat/mat131/return_mapping/nice_shells.F90
+!||    nice_solids                              ../engine/source/materials/mat/mat131/return_mapping/nice_solids.F90
 !||    nodal_arrays_mod                         ../common_source/modules/nodal_arrays.F90
 !||    offset_nproj                             ../engine/source/interfaces/shell_offset/offset_nproj.F90
 !||    order3                                   ../engine/source/materials/mat/mat130/sigeps130.F90
@@ -401,6 +443,8 @@
 !||    s6zupd11t12                              ../engine/source/elements/solid/solide6z/s6zupd11t12.F90
 !||    sdistor_ini                              ../engine/source/elements/solid/solide/sdistror_ini.F90
 !||    select_s2s                               ../starter/source/interfaces/inter3d1/select_s2s.F90
+!||    self_heating_tabulated                   ../engine/source/materials/mat/mat131/self_heating/self_heating_tabulated.F90
+!||    self_heating_taylor                      ../engine/source/materials/mat/mat131/self_heating/self_heating_taylor.F90
 !||    sensor_mod                               ../common_source/modules/sensor_mod.F90
 !||    sensor_python                            ../engine/source/tools/sensor/sensor_python.F90
 !||    sfem_mod                                 ../common_source/modules/elements/sfem_mod.F90
@@ -430,6 +474,8 @@
 !||    sigeps128s                               ../engine/source/materials/mat/mat128/sigeps128s.F90
 !||    sigeps129s                               ../engine/source/materials/mat/mat129/sigeps129s.F90
 !||    sigeps130                                ../engine/source/materials/mat/mat130/sigeps130.F90
+!||    sigeps131                                ../engine/source/materials/mat/mat131/sigeps131.F90
+!||    sigeps131c                               ../engine/source/materials/mat/mat131/sigeps131c.F90
 !||    sigeps132c                               ../engine/source/materials/mat/mat132/sigeps132c.F90
 !||    sigeps133                                ../engine/source/materials/mat/mat133/sigeps133.F90
 !||    sigeps134s                               ../engine/source/materials/mat/mat134/sigeps134s.F90
@@ -461,6 +507,10 @@
 !||    spmd_gather_nodal_scalar                 ../engine/source/mpi/nodes/spmd_gather_nodal_scalar.F
 !||    spmd_xv_inter_type1                      ../engine/source/mpi/nodes/spmd_sd_xv_inter1.F90
 !||    spring_functions_mod                     ../common_source/modules/spring_functions_mod.F90
+!||    srate_dependency_cowpersymonds           ../engine/source/materials/mat/mat131/srate_dependency/srate_dependency_cowpersymonds.F90
+!||    srate_dependency_johnsoncook             ../engine/source/materials/mat/mat131/srate_dependency/srate_dependency_johnsoncook.F90
+!||    srate_dependency_nonlinear               ../engine/source/materials/mat/mat131/srate_dependency/srate_dependency_nonlinear.F90
+!||    srate_dependency_tabulated               ../engine/source/materials/mat/mat131/srate_dependency/srate_dependency_tabulated.F90
 !||    stat_sphcel_full                         ../engine/source/output/sta/stat_sphcel_full.F90
 !||    stifint_icontrol                         ../starter/source/interfaces/interf1/stifint_icontrol.F90
 !||    strainrate_dependency                    ../engine/source/materials/mat/mat123/strainrate_dependency.F90
@@ -471,6 +521,9 @@
 !||    table_mat_vinterp_inv                    ../engine/source/materials/tools/table_mat_vinterp_inv.F90
 !||    test_jc_shell_detach                     ../engine/source/engine/node_spliting/detach_node.F90
 !||    therm_param_mod                          ../common_source/modules/mat_elem/therm_param_mod.F90
+!||    therm_softening_johnsoncook              ../engine/source/materials/mat/mat131/therm_softening/therm_softening_johnsoncook.F90
+!||    therm_softening_tabulated                ../engine/source/materials/mat/mat131/therm_softening/therm_softening_tabulated.F90
+!||    therm_softening_zhao                     ../engine/source/materials/mat/mat131/therm_softening/therm_softening_zhao.F90
 !||    thsechecksum                             ../engine/source/output/th/thchecksum.F90
 !||    tillotson                                ../common_source/eos/tillotson.F
 !||    transform_translate_in_local_skew        ../starter/source/model/transformation/transform_translate_in_local_skew.F90
@@ -487,12 +540,21 @@
 !||    visc_param_mod                           ../common_source/modules/mat_elem/visc_param_mod.F90
 !||    visc_plas                                ../engine/source/materials/visc/visc_plas.F90
 !||    w_inivel_str                             ../starter/source/restart/ddsplit/w_inivel_str.F90
+!||    work_hardening_linearvoce                ../engine/source/materials/mat/mat131/work_hardening/work_hardening_linearvoce.F90
+!||    work_hardening_powerlaw                  ../engine/source/materials/mat/mat131/work_hardening/work_hardening_powerlaw.F90
+!||    work_hardening_tabulated                 ../engine/source/materials/mat/mat131/work_hardening/work_hardening_tabulated.F90
+!||    work_hardening_voce                      ../engine/source/materials/mat/mat131/work_hardening/work_hardening_voce.F90
 !||    write_ale_grid                           ../common_source/output/restart/write_ale_grid.F90
 !||    write_bcs_wall                           ../common_source/output/restart/write_bcs_wall.F90
 !||    write_eosparam                           ../engine/source/output/restart/write_eosparam.F90
 !||    write_inivel                             ../engine/source/output/restart/write_inivel.F90
 !||    write_thermparam                         ../engine/source/output/restart/write_thermparam.F90
 !||    xyz16                                    ../engine/source/output/anim/generate/monvol_anim.F90
+!||    yield_criterion_barlat1989               ../engine/source/materials/mat/mat131/yield_criterion/yield_criterion_barlat1989.F90
+!||    yield_criterion_barlat2000               ../engine/source/materials/mat/mat131/yield_criterion/yield_criterion_barlat2000.F90
+!||    yield_criterion_hershey                  ../engine/source/materials/mat/mat131/yield_criterion/yield_criterion_hershey.F90
+!||    yield_criterion_hill                     ../engine/source/materials/mat/mat131/yield_criterion/yield_criterion_hill.F90
+!||    yield_criterion_vonmises                 ../engine/source/materials/mat/mat131/yield_criterion/yield_criterion_vonmises.F90
 !||====================================================================
       MODULE precision_mod
         IMPLICIT NONE

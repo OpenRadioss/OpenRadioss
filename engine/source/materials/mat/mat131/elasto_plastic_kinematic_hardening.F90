@@ -20,8 +20,36 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+!||====================================================================
+!||    elasto_plastic_kinematic_hardening_mod   ../engine/source/materials/mat/mat131/elasto_plastic_kinematic_hardening.F90
+!||--- called by ------------------------------------------------------
+!||    cppm_shells                              ../engine/source/materials/mat/mat131/return_mapping/cppm_shells.F90
+!||    cppm_solids                              ../engine/source/materials/mat/mat131/return_mapping/cppm_solids.F90
+!||    cutting_plane_shells                     ../engine/source/materials/mat/mat131/return_mapping/cutting_plane_shells.F90
+!||    cutting_plane_solids                     ../engine/source/materials/mat/mat131/return_mapping/cutting_plane_solids.F90
+!||    nice_shells                              ../engine/source/materials/mat/mat131/return_mapping/nice_shells.F90
+!||    nice_solids                              ../engine/source/materials/mat/mat131/return_mapping/nice_solids.F90
+!||====================================================================
       module elasto_plastic_kinematic_hardening_mod
       contains
+!||====================================================================
+!||    elasto_plastic_kinematic_hardening   ../engine/source/materials/mat/mat131/elasto_plastic_kinematic_hardening.F90
+!||--- called by ------------------------------------------------------
+!||    cppm_shells                          ../engine/source/materials/mat/mat131/return_mapping/cppm_shells.F90
+!||    cppm_solids                          ../engine/source/materials/mat/mat131/return_mapping/cppm_solids.F90
+!||    cutting_plane_shells                 ../engine/source/materials/mat/mat131/return_mapping/cutting_plane_shells.F90
+!||    cutting_plane_solids                 ../engine/source/materials/mat/mat131/return_mapping/cutting_plane_solids.F90
+!||    nice_shells                          ../engine/source/materials/mat/mat131/return_mapping/nice_shells.F90
+!||    nice_solids                          ../engine/source/materials/mat/mat131/return_mapping/nice_solids.F90
+!||--- calls      -----------------------------------------------------
+!||    kinematic_hardening_chaboche         ../engine/source/materials/mat/mat131/kinematic_hardening/kinematic_hardening_chaboche.F90
+!||    kinematic_hardening_prager           ../engine/source/materials/mat/mat131/kinematic_hardening/kinematic_hardening_prager.F90
+!||--- uses       -----------------------------------------------------
+!||    kinematic_hardening_chaboche_mod     ../engine/source/materials/mat/mat131/kinematic_hardening/kinematic_hardening_chaboche.F90
+!||    kinematic_hardening_prager_mod       ../engine/source/materials/mat/mat131/kinematic_hardening/kinematic_hardening_prager.F90
+!||    matparam_def_mod                     ../common_source/modules/mat_elem/matparam_def_mod.F90
+!||    precision_mod                        ../common_source/modules/precision_mod.F90
+!||====================================================================
       subroutine elasto_plastic_kinematic_hardening(                           &
           matparam ,nel      ,l_sigb   ,dsigb_dlam,dsigy_dpla,chard    ,       &
           normxx   ,normyy   ,normzz   ,normxy    ,normyz    ,normzx   ,       &

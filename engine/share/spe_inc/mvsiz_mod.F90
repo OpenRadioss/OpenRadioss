@@ -63,6 +63,11 @@
 !||    sz_dt1                          ../engine/source/elements/solid/solidez/sz_dt1.F90
 !||    usermat_shell                   ../engine/source/materials/mat_share/usermat_shell.F
 !||    usermat_solid                   ../engine/source/materials/mat_share/usermat_solid.F
+!||    yield_criterion_barlat1989      ../engine/source/materials/mat/mat131/yield_criterion/yield_criterion_barlat1989.F90
+!||    yield_criterion_barlat2000      ../engine/source/materials/mat/mat131/yield_criterion/yield_criterion_barlat2000.F90
+!||    yield_criterion_hershey         ../engine/source/materials/mat/mat131/yield_criterion/yield_criterion_hershey.F90
+!||    yield_criterion_hill            ../engine/source/materials/mat/mat131/yield_criterion/yield_criterion_hill.F90
+!||    yield_criterion_vonmises        ../engine/source/materials/mat/mat131/yield_criterion/yield_criterion_vonmises.F90
 !||====================================================================
       module mvsiz_mod
       implicit none
