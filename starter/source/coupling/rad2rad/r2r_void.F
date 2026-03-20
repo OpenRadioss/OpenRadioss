@@ -369,6 +369,8 @@ C
 C---------------Affectation of new shell property--------------C
             IPARTL(6,K)= NUM
             IPARTL(2,K)= NUMGEO
+C---------------IGEO(125) used to keep track of multidomiasn void property        
+            IGEO_TEMP(125,NUMGEO)=1
 
 C---------------Reallocation and filling of IGEO and GEO------C
 

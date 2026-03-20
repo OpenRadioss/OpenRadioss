@@ -155,7 +155,7 @@ C
      .    CALL BSIGINI(ELBUF_STR,
      .                 IGTYP      ,NEL    ,NSIGBEAM  ,SIGBEAM   ,PTBEAM,
      .                 IC(1,NFT+1),IGEO   )
-        IF (IUSER /= 0)
+        IF ((IUSER /= 0).and.(NUBEAM > 0))
      .    CALL BUSERINI(ELBUF_STR,
      .                  IC(1,NFT+1),SIGBEAM  ,NSIGBEAM ,PTBEAM ,IGEO  ,
      .                  NEL        )
