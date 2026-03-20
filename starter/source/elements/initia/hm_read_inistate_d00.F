@@ -2021,6 +2021,9 @@ C---------
                 ! check is SHELL is QEPH
                   IG   = IXC(6,IE)
                   IHBE = IGEO(10,IG)
+!               ! Void property created for multidomains - inistate is ignored
+                  IF (IGEO(125,IG)==1) CYCLE
+!
                   IF (IHBE==12 .OR. IHBE==24) THEN
                     NPGTMP = 4       
                   ELSE               
@@ -2126,6 +2129,9 @@ C------------------------------------
                     ! check is SHELL is QEPH
                     IG   = IXC(6,IE)
                     IHBE = IGEO(10,IG)
+!                   ! Void property created for multidomains - inistate is ignored
+                    IF (IGEO(125,IG)==1) CYCLE
+!
                     IF (IHBE==12 .OR. IHBE==24) THEN
                       NPGTMP = 4       
                     ELSE               
@@ -2313,6 +2319,9 @@ C------------------------------------
                     ! check is SHELL is QEPH
                     IG   = IXC(6,IE)
                     IHBE = IGEO(10,IG)
+!                   ! Void property created for multidomains - inistate is ignored
+                    IF (IGEO(125,IG)==1) CYCLE
+!
                     IF (IHBE==12 .OR. IHBE==24) THEN
                       NPGTMP = 4       
                     ELSE               
