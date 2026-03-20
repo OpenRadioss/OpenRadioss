@@ -127,7 +127,7 @@ C
       ! Process the line stored in KEYA here if needed
               IF(KEYA(1:14) == '/DT/NODA/CST/1' .OR. KEYA(1:8) == '/DYREL/1' .OR. KEYA(1:8) == '/KEREL/1' .OR.
      .           KEYA(1:14) == '/INIV/AXIS/X/2' .OR. KEYA(1:14) == '/INIV/AXIS/Y/2' .OR.
-     .           KEYA(1:14) == '/INIV/AXIS/Z/2')  THEN
+     .           KEYA(1:14) == '/INIV/AXIS/Z/2'.OR. KEYA(1:9) == '/ADYREL/1')  THEN
                 NB_GRNODE = NB_GRNODE + 1
               ELSEIF(KEYA(1:4) == '/H3D' .AND. KEYA(1:7) /= '/H3D/DT'  .AND.
      .               KEYA(1:10) /= '/H3D/TITLE'   .AND. KEYA(1:13) /= '/H3D/COMPRESS'   .AND.
@@ -188,7 +188,7 @@ C
                   READ(UNIT=tmp_engine, FMT='(A)', IOSTAT=IO_ERR2) CARTE
                 END DO
                 READ(CARTE, FMT=*) GRNODE(NB_GRNODE)
-              ELSEIF(KEYA(1:8) == '/DYREL/1') THEN
+              ELSEIF(KEYA(1:8) == '/DYREL/1' .OR. KEYA(1:9) == '/ADYREL/1') THEN
                 NB_GRNODE = NB_GRNODE + 1
 
                 DO WHILE (CARTE(1:1) == '#' .AND. IO_ERR2 == 0)
