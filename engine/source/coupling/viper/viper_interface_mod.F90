@@ -43,12 +43,13 @@
         logical :: ViperCoupling                              ! set in engine/source/input/freform.F with the engine flag /VIPER/ON
 
         type :: viper_coupling_
-          integer :: numon                                    ! number of 'alive' elements (i.e. not eroded/deleted/null)
+          integer :: numon                                    ! number of 'alive' elements (i.e. not eroded/deleted/null/rigid)
+          integer :: numrigid                                 ! number of 'rigid' elements
           integer :: io_dt                                    ! file id for printing time
           integer, dimension(:), allocatable :: ITABM1,IXEM1  ! nodal & elemental arrays for coupling re-indexing
           integer :: NUMELEv                                  ! total number of elements Viper will use
           integer :: NUMELEr                                  ! total number of elements Radioss has;
-          ! total has since been removed from main code, so storing here
+                                                              ! total has since been removed from main code, so storing here
           real(kind=wp):: TSTOP
           real(kind=wp):: DT_MIN
         end type viper_coupling_
@@ -128,7 +129,7 @@
           iNUMEL_SCG     = iNUMEL_SC+NUMELTG                          ! The total number of solids + 4-shells + 3-shells
           iNUMELEv_TOTAL = iNUMEL_SCG                                 ! The total number of elements used by Viper
           ioffset_4shell = NUMELS+NUMELQ                              ! The (assumed) index offset for 4-shells
-          ! (confirmed that NUMELS8,NUMELS10,NUMELS16,NUMELS20 are not in the array)
+                                                                      ! (confirmed that NUMELS8,NUMELS10,NUMELS16,NUMELS20 are not in the array)
           ioffset_3shell = ioffset_4shell+NUMELC+NUMELT+NUMELP+NUMELR ! The (assumed) index offset for 3-shells
           WRITE(ISTDO,"(a,I18)") "Radioss2Viper: the total number of elements used by Viper: ",iNUMELEv_TOTAL
           ALLOCATE(VIPER%ITABM1(NUMNOD))
@@ -137,8 +138,9 @@
 !         Initialize node ordering & send nodal masses to Viper
 !         Based upon the ordering of the element numbers in the 0000.out & from our experimentation,
 !         we are assuming the order of elements in ELBUF_TAB is the same as in 0000.out, therefore we are adding offsets as required
-          VIPER%NUMELEv = iNUMELEv_TOTAL
-          VIPER%numon   = iNUMELEv_TOTAL
+          VIPER%NUMELEv  = iNUMELEv_TOTAL
+          VIPER%numon    = iNUMELEv_TOTAL
+          VIPER%numrigid = 0               ! this will trigger a send on step 1 if there are rigid elements, but this is acceptable
           CALL RadiossViper_InitTab(NUMNOD,  NODES%ITAB,        VIPER%ITABM1,                        1,     0)              ! nodes
           CALL RadiossViper_InitTab(NUMELS,  IXS,               VIPER%IXEM1(1          :NUMELS),     NIXS,  0)              ! solids
           CALL RadiossViper_InitTab(NUMELC,  ELEMENT%SHELL%IXC, VIPER%IXEM1(1+NUMELS   :iNUMEL_SC),  NIXC,  ioffset_4shell) ! 4-shells
@@ -147,7 +149,7 @@
           CALL RadiossViper_ReceiveSendInitialNumbers(TSTOP,NUMNOD,NUMELS,NUMELC,NUMELTG)
           IF (TSTOP > 0.) THEN
             CALL RadiossViper_SendMass(NUMNOD,NODES%MS,VIPER%ITABM1)
-            CALL RadiossViper_SendInitialStatus(VIPER%numon,iNUMELEr_TOTAL,iNUMELEv_TOTAL,&
+            CALL RadiossViper_SendInitialStatus(VIPER%numon,VIPER%numrigid,iNUMELEr_TOTAL,iNUMELEv_TOTAL,&
               NPARG,NGROUP,VIPER%IXEM1,IPARG,ELBUF_TAB)  ! required to tell Viper of void elements
             TT_DOUBLE = TT
             TANIM     = 0.
@@ -213,7 +215,7 @@
           ! allocate array & initialise to illegal index
           allocate(itabtmp(idmax))
           do i = 1,idmax
-            itabtmp(i) = -1
+             itabtmp(i) = -1
           end do
 
           ! place the shuffled index in the array entry corresponding to the user id
@@ -345,13 +347,13 @@
 !||    viper_coupling_initialize        ../engine/source/coupling/viper/viper_interface_mod.F90
 !||--- calls      -----------------------------------------------------
 !||====================================================================
-        subroutine RadiossViper_SendInitialStatus(n,numele_radioss,numele_viper,nparg,ngroup,ixem1,iparg,elbuf_tab)
+        subroutine RadiossViper_SendInitialStatus(non,nrigid,numele_radioss,numele_viper,nparg,ngroup,ixem1,iparg,elbuf_tab)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
           integer, intent(in)    :: numele_radioss,numele_viper,nparg,ngroup
           integer, intent(in)    :: ixem1(numele_viper),iparg(nparg,ngroup)
-          integer, intent(out)   :: n
+          integer, intent(out)   :: non,nrigid
           type(ELBUF_STRUCT_),dimension(ngroup), intent(in):: elbuf_tab
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
@@ -366,8 +368,9 @@
           print*, "Radioss2Viper: SendInitialStatus: entering:", numele_radioss,numele_viper
 !         make new erosion arrary in Viper's order & determine the number of eroded elements
 !         first, we put them in a contigious array; we will sort and send only if the number of active elements has changed
-          n = 0
-          k = 0
+          non    = 0
+          nrigid = 0
+          k      = 0
           do i = 1,ngroup
             do j = 1,iparg(2,i)
               if (iparg(5,i)==1 .or. iparg(5,i)==3 .or. iparg(5,i)==7) then
@@ -377,11 +380,12 @@
               end if
               k = k + 1
               if (k <= numele_radioss) then
-                if (ELBUF_TAB(i)%GBUF%OFF(j) == 1 .and. ELBUF_TAB(i)%BUFLY(1)%ILAW > 0 .and. viper_element) then
-                  n = n + 1
-                  Evipertmp(k) = ELBUF_TAB(i)%GBUF%OFF(j)   ! pass element status (eroded or not)
+                if (ELBUF_TAB(i)%BUFLY(1)%ILAW > 0 .and. viper_element) then
+                  Evipertmp(k) = ELBUF_TAB(i)%GBUF%OFF(j)      ! pass element status
+                  if (Evipertmp(k) ==  1) non    = non    + 1  ! count number of active elements
+                  if (Evipertmp(k) == -1) nrigid = nrigid + 1  ! count number of active elements
                 else
-                  Evipertmp(k) = -1                         ! pass element status defined as void
+                  Evipertmp(k) = 0                             ! default status is eroded
                 end if
               end if
             end do
@@ -392,7 +396,7 @@
           end do
           if (iverbose) print*, "Radioss2Viper: _SendInitialStatus: filled secondary array"
           call SPMD_SEND(Eviper, numele_viper, 1, 9950, MPI_COMM_WORLD)
-          print*, "Radioss2Viper: SendInitialStatus: exiting", numele_radioss,numele_viper,n
+          print*, "Radioss2Viper: SendInitialStatus: exiting", numele_radioss,numele_viper,non,nrigid
 
         end subroutine RadiossViper_SendInitialStatus
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -406,22 +410,22 @@
 !||====================================================================
         subroutine RadiossViper_SendXVE( &
           numnod, numele_radioss, numele_viper, nparg, ngroup, &
-          numonIO, X, V, itabm1, ixem1, iparg, elbuf_tab)
+          numonIO, numrigidIO, X, V, itabm1, ixem1, iparg, elbuf_tab)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
           integer, intent(in)    :: numnod,numele_radioss,numele_viper,nparg,ngroup
           integer, intent(in)    :: itabm1(numnod),ixem1(numele_viper),iparg(nparg,ngroup)
-          integer, intent(inout) :: numonIO
+          integer, intent(inout) :: numonIO,numrigidIO
           real(kind=WP), intent(in)    :: X(3,numnod),V(3,numnod)
           type(ELBUF_STRUCT_),dimension(ngroup), intent(in) :: elbuf_tab
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer                :: i,j,k,n
+          integer                :: i,j,k,non,nrigid,nsend
           integer                :: Eviper(numele_viper),Evipertmp(numele_radioss)
           real(kind=WP), dimension(:), allocatable :: Xviper,Vviper
-          logical                :: viper_element
+          logical                :: viper_element,kill_element
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -445,8 +449,9 @@
           if (iverbose) print*, "Radioss2Viper: SendXVE: Sent position & velocity"
 !         make new erosion arrary in Viper's order & determine the number of eroded elements
 !         first, we put them in a contigious array; we will sort and send only if the number of active elements has changed
-          n = 0
-          k = 0
+          non    = 0
+          nrigid = 0
+          k      = 0
           do i = 1,ngroup
             do j = 1,iparg(2,i)
               if (iparg(5,i)==1 .or. iparg(5,i)==3 .or. iparg(5,i)==7) then
@@ -456,24 +461,34 @@
               end if
               k = k + 1
               if (k <= numele_radioss) then
-                if (ELBUF_TAB(i)%GBUF%OFF(j) == 1 .and. ELBUF_TAB(i)%BUFLY(1)%ILAW > 0 .and. viper_element) then
-                  n = n + 1
-                  Evipertmp(k) = ELBUF_TAB(i)%GBUF%OFF(j)   ! pass active status
+                if (ELBUF_TAB(i)%BUFLY(1)%ILAW > 0 .and. viper_element) then
+                  Evipertmp(k) = ELBUF_TAB(i)%GBUF%OFF(j)      ! pass status
+                  if (Evipertmp(k) ==  1) non    = non    + 1  ! count number of active elements
+                  if (Evipertmp(k) == -1) nrigid = nrigid + 1  ! count number of rigid elements
                 else
-                  Evipertmp(k) = -1                         ! failed, dead, null, eroded
+                  Evipertmp(k) = 0                             ! default status is eroded
                 end if
               end if
             end do
           end do
-          call SPMD_SEND(n, 1,  1, 9907, MPI_COMM_WORLD)
-          print*, "Radioss2Viper: SendXVE: numnod, nElements_prev, nElements = : ",numnod,numonIO,n
-          if (numonIO /= n) then
+          
+          ! Version that ignored rigid objects sent non & both codes sent/received Eviper if numonIO /= non
+          ! Once rigids were accounted for, then we need to ensure Eviper is passed if numonIO /= non or numrigidIO /= nrigid
+          ! while only sending one value so that disjoint versions of Viper & Radioss would still work
+          ! To achieve the above, use nsend, which is set to trigger / not trigger the MPI commands
+          nsend = non
+          if (numrigidIO /= nrigid) nsend = numonIO + 1
+          call SPMD_SEND(nsend,    1,  1, 9907, MPI_COMM_WORLD)
+          print*, "Radioss2Viper: SendXVE: numnod, nActive_prev, nActive, nRigid_prev, nRigid = : ", &
+          numnod,numonIO,non,numrigidIO,nrigid
+          if (numonIO /= non .or. numrigidIO /= nrigid) then
             do i = 1,numele_viper
               Eviper(i) = Evipertmp(ixem1(i))
             end do
             call SPMD_SEND(Eviper, numele_viper,  1, 9908, MPI_COMM_WORLD)
           end if
-          numonIO = n
+          numonIO    = non
+          numrigidIO = nrigid
           deallocate(Xviper)
           deallocate(Vviper)
         end subroutine RadiossViper_SendXVE
@@ -497,7 +512,7 @@
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
           real(kind=WP), dimension(:), allocatable :: Aviper!(3*numnod)
-          integer                :: i
+          integer                :: i,j
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
