@@ -2212,10 +2212,6 @@ C---------------------------------------------------------------------
          ITASK=0
          IRUNN_BIS = IRUNN
 
-         !IF (ISPMD==0)THEN
-         !   CALL checksum_option_outfile(OUTPUT%checksum)
-         !ENDIF
-
          CALL RESOL_HEAD(ELEMENT, NODES, ITASK        ,AF              ,IAF             ,IDATA      ,RDATA,
      .                   GRAPHE       ,IFLOW           ,RFLOW           ,
      .                   STACK        ,IRUNN_BIS       , TIMERS,

@@ -88,6 +88,7 @@ class List_checksum {
       bool is_file_valid(std::string file);
 
       void parse_output_files(std::string directory, std::string rootname);
+      void parse_checksum_files(std::string directory, std::string rootname);
       void parse_animation_files(std::string directory, std::string rootname);
       void parse_th_files(std::string directory, std::string rootname);
 

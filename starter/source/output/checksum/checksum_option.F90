@@ -165,7 +165,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
-          type(output_), intent(in) :: output
+          type(output_), intent(inout) :: output
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -181,13 +181,15 @@
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
           checksum_digest_count=deck_checksum_count(output%checksum%checksum_list)  ! Count real number of checksums in list
+          allocate(output%checksum%checksums(checksum_digest_count))                ! Create the array of checksums to keep the checksum digests for the output file section. Mandatory to use common 
+                                                                                    !        routine to write .checksum files for Starter & Engine
 
           if (checksum_digest_count > 0) then                                   ! There are checksum in the list
 
-          write(iout,"(a)") " "
-          write(iout,"(a)") " "
-          write(iout,"(a)") " CHECKSUM OPTION: DECK FINGERPRINTS"
-          write(iout,"(a)") " ----------------------------------"
+            write(iout,"(a)") " "
+            write(iout,"(a)") " "
+            write(iout,"(a)") " CHECKSUM OPTION: DECK FINGERPRINTS"
+            write(iout,"(a)") " ----------------------------------"
 
             do i=1,checksum_digest_count
 
@@ -198,7 +200,7 @@
               assembled_checksum=checksum_title(1:len_title)//"_"//checksum(1:len_checksum)
               assembled_checksum_length=len_title+len_checksum+1
               write(iout,"(a,a)") "    CHECKSUM: ",trim(assembled_checksum)
-
+              output%checksum%checksums(i)=assembled_checksum(1:assembled_checksum_length)
             end do
           end if
 

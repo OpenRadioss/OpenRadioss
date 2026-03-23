@@ -105,6 +105,7 @@ C-----------------------------------------------
       use checksum_check_mod
       use th_mod , only : TH_HAS_NODA_PEXT
       use hm_rbodies_add_main_node_mod
+      use analyse_arret_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -423,6 +424,7 @@ C       SEARCH RUN NUMBER
         LFNAME = 1
         ISTDI = 5
       ENDIF
+      NAMES_AND_TITLES%rootname = ROOTN(1:LENR)
 C------------------------------------------------
 C Read DYNA model & convert DYNA -> Radioss objects
 C------------------------------------------------
@@ -493,6 +495,9 @@ C
 
       ENDIF
       CALL TITRE1
+      ! Feed Output and Names_and_Titles structures with out filename and chrun (reduce cal stack)
+      OUTPUT%out_filename = TRIM(FILNAM)
+      NAMES_AND_TITLES%CHRUN=CHRUN(1:4)
 C------------------------------------------------
       ERR_MSG='OPEN OUTPUT FILE'
       ERR_CATEGORY='OPEN OUTPUT FILE'
@@ -877,6 +882,8 @@ C
       ENDIF
 c     print timers
       CALL PRINTIME(1,GOT_TIMER,STARTDATE,STARTTIME,ENDDATE,ENDTIME)
+      OUTPUT%checksum%date=ENDDATE
+      OUTPUT%checksum%time=ENDTIME
 C
       IF (IPID/=0) THEN
 #if CPP_mach == CPP_w95 || CPP_mach == CPP_win64_spmd || CPP_mach == CPP_p4win64_spmd || CPP_mach == CPP_wnt || CPP_mach == CPP_wmr || CPP_mach == CPP_p4win64 || CPP_mach == CPP_p4win32
@@ -894,7 +901,7 @@ C
 C
       CALL TRACE_OUT1()
 
-      CALL F_ANEND(OUTPUT)
+      CALL F_ANEND(OUTPUT,NAMES_AND_TITLES)
 C---  
       print*,'done'
       RETURN

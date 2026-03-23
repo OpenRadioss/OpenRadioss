@@ -666,11 +666,24 @@ C
 
               if (ispmd==0)then
                 if (output_ptr%checksum%checksum_count > 0) then
-                    CALL checksum_option_checksum_file(output_ptr%checksum)   ! Deck checksums print
+                    ! Write Checksum digest in output file
+                    CALL checksum_option_out_file(output_ptr%checksum)   ! Deck checksums print
                 end if
               endif
               CLOSE(UNIT=IOUT)
 
+              if (ispmd==0)then
+                if (output_ptr%checksum%checksum_count > 0) then
+                    IZIP=0
+                    CALL COMPUTE_BINARY_CHECKSUM(OUTPUT_PTR%checksum%files_checksum , 
+     *                                            C_LOC(OUTPUT_PTR%OUT_FILENAME),
+     *                                            LEN_TRIM(OUTPUT_PTR%OUT_FILENAME),
+     *                                            IZIP)
+
+                    CALL checksum_option_checksum_file(output_ptr%checksum,rootnam,rootlen,chrun)   ! Deck checksums print
+                end if
+              endif
+              
               IF(ISPMD /=0) THEN
                  CALL DELETE_USER_FILE(IUSC4_FNAM,LEN_IUSC4_FNAM)
               ENDIF
