@@ -21,7 +21,7 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    table_mat_vinterp_c1_mod   ../engine/source/materials/tools/table_mat_vinterp_c1.F90
+!||    table_mat_vinterp_c1_mod   ../starter/source/materials/tools/table_mat_vinterp_c1.F90
 !||====================================================================
       module table_mat_vinterp_c1_mod
       implicit none
