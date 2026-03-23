@@ -83,13 +83,13 @@
           !< Self-heating type
           iheat = 1
           !< Number of parameters
-          nupar_heat = 4
+          nupar_heat = 3
           !< Save self-heating parameters
-          matparam%therm%tini = t0
+          matparam%therm%tini  = t0
+          matparam%therm%rhocp = matparam%rho*cp
           upar_heat(1) = eta
-          upar_heat(2) = cp
-          upar_heat(3) = deis
-          upar_heat(4) = dead
+          upar_heat(2) = deis
+          upar_heat(3) = dead
           !< Printing self heating parameters
           if (is_encrypted)then
             write(iout,"(5X,A,//)") "CONFIDENTIAL DATA"

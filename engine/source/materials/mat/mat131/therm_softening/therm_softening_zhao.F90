@@ -70,8 +70,8 @@
         !=======================================================================
         offset = matparam%iparam(12)
         !< Recover thermal softening parameters
-        tref  = matparam%uparam(offset + 1) !< Reference temperature
-        mu    = matparam%uparam(offset + 2) !< Thermal softening slope
+        mu    = matparam%uparam(offset + 1) !< Thermal softening slope
+        tref  = matparam%therm%tref         !< Reference temperature
         !< Limit temperature to reference temperature + 1/mu to avoid negative yield stress
         temp(1:nel) = min(temp(1:nel), tref + one/mu)
         thermfac(1:nel) = one - mu*(temp(1:nel) - tref)

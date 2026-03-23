@@ -51,7 +51,8 @@
         signxx   ,signyy   ,signzz   ,signxy   ,signyz   ,signzx   ,           &
         soundsp  ,off      ,pla      ,dpla     ,seq      ,et       ,           &
         sigy     ,timestep ,epsd     ,temp     ,israte   ,asrate   ,           &
-        nuvar    ,uvar     ,l_sigb   ,sigb     )
+        nuvar    ,uvar     ,l_sigb   ,sigb     ,ieos     ,dpdm     ,           &
+        jthe     ,fheat    ,voln     )
 !----------------------------------------------------------------
 !   M o d u l e s
 !----------------------------------------------------------------
@@ -114,6 +115,11 @@
         real(kind=WP), dimension(nel,nuvar), intent(inout) :: uvar !< User variables
         integer,                       intent(in)    :: l_sigb     !< Size of backstress array
         real(kind=WP),dimension(nel,l_sigb),intent(inout) :: sigb  !< Backstress components for kinematic hardening
+        integer,                       intent(in)    :: ieos       !< Equation of state flag
+        real(kind=WP), dimension(nel), intent(inout) :: dpdm       !< Pressure derivative of the shear modulus for EOS coupling
+        integer,                       intent(in)    :: jthe       !< /HEAT/MAT flag 
+        real(kind=WP), dimension(nel), intent(inout) :: fheat      !< Heat energy accumulated for /HEAT/MAT
+        real(kind=WP), dimension(nel), intent(in)    :: voln       !< Current element volume
 !----------------------------------------------------------------
 !  L o c a l  V a r i a b l e s
 !----------------------------------------------------------------
@@ -139,7 +145,8 @@
               signxx   ,signyy   ,signzz   ,signxy   ,signyz   ,signzx   ,     &
               soundsp  ,off      ,pla      ,dpla     ,seq      ,et       ,     &
               sigy     ,timestep ,epsd     ,temp     ,israte   ,asrate   ,     &
-              l_sigb   ,sigb     ,nuvar    ,uvar     )
+              l_sigb   ,sigb     ,nuvar    ,uvar     ,ieos     ,dpdm     ,     &
+              jthe     ,fheat    ,voln     )
           !---------------------------------------------------------------------
           !< - Cutting Plane algorithm
           !---------------------------------------------------------------------
@@ -152,7 +159,8 @@
               signxx   ,signyy   ,signzz   ,signxy   ,signyz   ,signzx   ,     &
               soundsp  ,off      ,pla      ,dpla     ,seq      ,et       ,     &
               sigy     ,timestep ,epsd     ,temp     ,israte   ,asrate   ,     &
-              l_sigb   ,sigb     )
+              l_sigb   ,sigb     ,ieos     ,dpdm     ,jthe     ,fheat    ,     &
+              voln     )
           !---------------------------------------------------------------------
           !< - Closest Point Projection algorithm
           !---------------------------------------------------------------------     
@@ -165,7 +173,8 @@
               signxx   ,signyy   ,signzz   ,signxy   ,signyz   ,signzx   ,     &
               soundsp  ,off      ,pla      ,dpla     ,seq      ,et       ,     &
               sigy     ,timestep ,epsd     ,temp     ,israte   ,asrate   ,     &
-              l_sigb   ,sigb     )
+              l_sigb   ,sigb     ,ieos     ,dpdm     ,jthe     ,fheat    ,     &
+              voln     )
         end select
 !
        end subroutine sigeps131

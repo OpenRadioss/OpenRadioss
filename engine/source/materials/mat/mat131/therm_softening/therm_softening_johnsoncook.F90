@@ -71,9 +71,9 @@
         !=======================================================================
         offset = matparam%iparam(12)
         !< Recover thermal softening parameters
-        tref  = matparam%uparam(offset + 1) !< Reference temperature
-        tmelt = matparam%uparam(offset + 2) !< Melting temperature
-        m     = matparam%uparam(offset + 3) !< Thermal softening exponent
+        m     = matparam%uparam(offset + 1) !< Thermal softening exponent
+        tref  = matparam%therm%tref         !< Reference temperature
+        tmelt = matparam%therm%tmelt        !< Melting temperature
         !< Limit temperature to melting temperature
         temp(1:nel) = min(temp(1:nel),tmelt)
         !< Compute thermal softening factor and its derivative

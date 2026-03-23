@@ -51,7 +51,8 @@
         depsxx   ,depsyy   ,depszz   ,depsxy   ,depsyz   ,depszx   ,           &
         sigoxx   ,sigoyy   ,sigozz   ,sigoxy   ,sigoyz   ,sigozx   ,           &
         signxx   ,signyy   ,signzz   ,signxy   ,signyz   ,signzx   ,           &
-        eltype   ,shf      ,s13      ,s23      )
+        eltype   ,shf      ,s13      ,s23      ,s43      ,ieos     ,           &
+        dpdm     )
 !----------------------------------------------------------------
 !   M o d u l e s
 !----------------------------------------------------------------
@@ -93,6 +94,9 @@
         real(kind=WP), dimension(nel), intent(in)    :: shf      !< Shear factor for shells
         real(kind=WP), dimension(nel), intent(inout) :: s13      !< Compliance matrix component 13
         real(kind=WP), dimension(nel), intent(inout) :: s23      !< Compliance matrix component 23
+        real(kind=WP), dimension(nel), intent(inout) :: s43      !< Compliance matrix component 43
+        integer,                       intent(in)    :: ieos     !< Equation of state flag
+        real(kind=WP), dimension(nel), intent(inout) :: dpdm     !< Pressure derivative of the shear modulus for EOS coupling
 !----------------------------------------------------------------
 !  L o c a l  V a r i a b l e s
 !----------------------------------------------------------------
@@ -129,8 +133,13 @@
               cstf(1:nel,5,5) = matparam%shear
               cstf(1:nel,6,6) = matparam%shear
               !< Sound speed
-              soundsp(1:nel) = sqrt((matparam%bulk+four_over_3*matparam%shear)/&
-                                                                    rho(1:nel))
+              if (ieos > 0) then 
+                soundsp(1:nel) = sqrt((dpdm(1:nel) +                           &
+                                        four_over_3*matparam%shear)/rho(1:nel))
+              else
+                soundsp(1:nel) = sqrt((matparam%bulk+                          &
+                                        four_over_3*matparam%shear)/rho(1:nel))
+              endif
             !< Shells
             elseif (eltype == 2) then
               !< Elastic stiffness matrix
@@ -144,6 +153,7 @@
               !< Compliance matrix components for thickness update
               s13(1:nel) = - matparam%nu / matparam%young
               s23(1:nel) = - matparam%nu / matparam%young
+              s43(1:nel) = zero
               !< Sound speed
               soundsp(1:nel) = sqrt(cstf(1:nel,1,1)/rho(1:nel))
             endif 
@@ -167,8 +177,13 @@
               cstf(1:nel,5,5) = matparam%uparam(11)
               cstf(1:nel,6,6) = matparam%uparam(12)
               !< Sound speed
-              soundsp(1:nel) = sqrt((matparam%bulk+four_over_3*matparam%shear)/&
-                                                                rho(1:nel))
+              if (ieos > 0) then 
+                soundsp(1:nel) = sqrt((dpdm(1:nel) +                           &
+                                        four_over_3*matparam%shear)/rho(1:nel))
+              else
+                soundsp(1:nel) = sqrt((matparam%bulk+                          &
+                                        four_over_3*matparam%shear)/rho(1:nel))
+              endif
             !< Shells
             elseif (eltype == 2) then
               !< Elastic stiffness matrix
@@ -182,9 +197,79 @@
               !< Compliance matrix components for thickness update
               s13(1:nel) = - matparam%uparam(15)/ matparam%uparam(13)
               s23(1:nel) = - matparam%uparam(16)/ matparam%uparam(14)
+              s43(1:nel) = zero
               !< Sound speed
               soundsp(1:nel) = sqrt(max(cstf(1:nel,1,1),cstf(1:nel,2,2))/      &
                                                               rho(1:nel))       
+            endif
+          !---------------------------------------------------------------------
+          !< Anisotropic elastic model
+          !---------------------------------------------------------------------
+          case(3)
+            !< Solids
+            if (eltype == 1) then     
+              !< Elastic stiffness matrix
+              cstf(1:nel,1,1) = matparam%uparam(1)
+              cstf(1:nel,1,2) = matparam%uparam(2)
+              cstf(1:nel,1,3) = matparam%uparam(3)
+              cstf(1:nel,1,4) = matparam%uparam(4)
+              cstf(1:nel,1,5) = matparam%uparam(5)
+              cstf(1:nel,1,6) = matparam%uparam(6)
+              cstf(1:nel,2,1) = matparam%uparam(2)
+              cstf(1:nel,2,2) = matparam%uparam(7)
+              cstf(1:nel,2,3) = matparam%uparam(8)
+              cstf(1:nel,2,4) = matparam%uparam(9)
+              cstf(1:nel,2,5) = matparam%uparam(10)
+              cstf(1:nel,2,6) = matparam%uparam(11)
+              cstf(1:nel,3,1) = matparam%uparam(3)
+              cstf(1:nel,3,2) = matparam%uparam(8)
+              cstf(1:nel,3,3) = matparam%uparam(12)
+              cstf(1:nel,3,4) = matparam%uparam(13)
+              cstf(1:nel,3,5) = matparam%uparam(14)
+              cstf(1:nel,3,6) = matparam%uparam(15)
+              cstf(1:nel,4,1) = matparam%uparam(4)
+              cstf(1:nel,4,2) = matparam%uparam(9)
+              cstf(1:nel,4,3) = matparam%uparam(13)
+              cstf(1:nel,4,4) = matparam%uparam(16)
+              cstf(1:nel,4,5) = matparam%uparam(17)
+              cstf(1:nel,4,6) = matparam%uparam(18)
+              cstf(1:nel,5,1) = matparam%uparam(5)
+              cstf(1:nel,5,2) = matparam%uparam(10)
+              cstf(1:nel,5,3) = matparam%uparam(14)
+              cstf(1:nel,5,4) = matparam%uparam(17)
+              cstf(1:nel,5,5) = matparam%uparam(19)
+              cstf(1:nel,5,6) = matparam%uparam(20)
+              cstf(1:nel,6,1) = matparam%uparam(6)
+              cstf(1:nel,6,2) = matparam%uparam(11)
+              cstf(1:nel,6,3) = matparam%uparam(15)
+              cstf(1:nel,6,4) = matparam%uparam(18)
+              cstf(1:nel,6,5) = matparam%uparam(20)
+              cstf(1:nel,6,6) = matparam%uparam(21)
+              !< Sound speed
+              soundsp(1:nel) = sqrt(matparam%uparam(34)/rho(1:nel))
+            !< Shells
+            elseif (eltype == 2) then
+              !< Elastic stiffness matrix
+              cstf(1:nel,1,1) = matparam%uparam(22)
+              cstf(1:nel,1,2) = matparam%uparam(23)
+              cstf(1:nel,1,4) = matparam%uparam(24)
+              cstf(1:nel,2,1) = matparam%uparam(23)
+              cstf(1:nel,2,2) = matparam%uparam(25)
+              cstf(1:nel,2,4) = matparam%uparam(26)
+              cstf(1:nel,4,1) = matparam%uparam(24)
+              cstf(1:nel,4,2) = matparam%uparam(26)
+              cstf(1:nel,4,4) = matparam%uparam(27)
+              cstf(1:nel,5,5) = matparam%uparam(28)*shf(1:nel)
+              cstf(1:nel,5,6) = matparam%uparam(29)*shf(1:nel)
+              cstf(1:nel,6,5) = matparam%uparam(29)*shf(1:nel)
+              cstf(1:nel,6,6) = matparam%uparam(30)*shf(1:nel)  
+              !< Compliance matrix components for thickness update
+              s13(1:nel) = matparam%uparam(31)
+              s23(1:nel) = matparam%uparam(32)
+              s43(1:nel) = matparam%uparam(33)
+              !< Sound speed
+              soundsp(1:nel) = sqrt(max(cstf(1:nel,1,1),cstf(1:nel,2,2),       &
+                                            cstf(1:nel,4,4))/rho(1:nel))       
             endif
         end select
 !
@@ -193,16 +278,40 @@
         !=======================================================================
         signxx(1:nel) = sigoxx(1:nel) + cstf(1:nel,1,1)*depsxx(1:nel) +        &
                                         cstf(1:nel,1,2)*depsyy(1:nel) +        &
-                                        cstf(1:nel,1,3)*depszz(1:nel)
+                                        cstf(1:nel,1,3)*depszz(1:nel) +        &
+                                        cstf(1:nel,1,4)*depsxy(1:nel) +        &
+                                        cstf(1:nel,1,5)*depsyz(1:nel) +        &
+                                        cstf(1:nel,1,6)*depszx(1:nel)
         signyy(1:nel) = sigoyy(1:nel) + cstf(1:nel,2,1)*depsxx(1:nel) +        &
                                         cstf(1:nel,2,2)*depsyy(1:nel) +        &
-                                        cstf(1:nel,2,3)*depszz(1:nel)
+                                        cstf(1:nel,2,3)*depszz(1:nel) +        &
+                                        cstf(1:nel,2,4)*depsxy(1:nel) +        &
+                                        cstf(1:nel,2,5)*depsyz(1:nel) +        &
+                                        cstf(1:nel,2,6)*depszx(1:nel)
         signzz(1:nel) = sigozz(1:nel) + cstf(1:nel,3,1)*depsxx(1:nel) +        & 
                                         cstf(1:nel,3,2)*depsyy(1:nel) +        & 
-                                        cstf(1:nel,3,3)*depszz(1:nel)
-        signxy(1:nel) = sigoxy(1:nel) + cstf(1:nel,4,4)*depsxy(1:nel)
-        signyz(1:nel) = sigoyz(1:nel) + cstf(1:nel,5,5)*depsyz(1:nel)
-        signzx(1:nel) = sigozx(1:nel) + cstf(1:nel,6,6)*depszx(1:nel)
+                                        cstf(1:nel,3,3)*depszz(1:nel) +        &
+                                        cstf(1:nel,3,4)*depsxy(1:nel) +        &
+                                        cstf(1:nel,3,5)*depsyz(1:nel) +        &
+                                        cstf(1:nel,3,6)*depszx(1:nel)
+        signxy(1:nel) = sigoxy(1:nel) + cstf(1:nel,4,1)*depsxx(1:nel) +        &
+                                        cstf(1:nel,4,2)*depsyy(1:nel) +        &
+                                        cstf(1:nel,4,3)*depszz(1:nel) +        &
+                                        cstf(1:nel,4,4)*depsxy(1:nel) +        &
+                                        cstf(1:nel,4,5)*depsyz(1:nel) +        &
+                                        cstf(1:nel,4,6)*depszx(1:nel)
+        signyz(1:nel) = sigoyz(1:nel) + cstf(1:nel,5,1)*depsxx(1:nel) +        &
+                                        cstf(1:nel,5,2)*depsyy(1:nel) +        &
+                                        cstf(1:nel,5,3)*depszz(1:nel) +        &
+                                        cstf(1:nel,5,4)*depsxy(1:nel) +        &
+                                        cstf(1:nel,5,5)*depsyz(1:nel) +        &
+                                        cstf(1:nel,5,6)*depszx(1:nel)
+        signzx(1:nel) = sigozx(1:nel) + cstf(1:nel,6,1)*depsxx(1:nel) +        &
+                                        cstf(1:nel,6,2)*depsyy(1:nel) +        &
+                                        cstf(1:nel,6,3)*depszz(1:nel) +        &
+                                        cstf(1:nel,6,4)*depsxy(1:nel) +        &
+                                        cstf(1:nel,6,5)*depsyz(1:nel) +        &
+                                        cstf(1:nel,6,6)*depszx(1:nel)
 !
       end subroutine elasto_plastic_trial_stress
       end module elasto_plastic_trial_stress_mod
