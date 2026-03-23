@@ -31,7 +31,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      3   DT2T,    NELTST,  ITYPTST, AIRE,
      4   OFFG,    GEO,     PID,     VOL,
      5   VD2,     DELTAX,  VIS,     D1,
-     6   D2,      D3,      PNEW,    PSH,
+     6   D2,      D3,      PSH,
      7   MAT,     NGL,     QVIS,    SSP_EQ,
      8   XK,      NEL,     ITY,     ISMSTR,
      9   JTUR,    JTHE)
@@ -72,7 +72,7 @@ C-----------------------------------------------
      .   PM(NPROPM,*), OFF(*), RHO(*), RK(*), T(*), RE(*),STI(*),
      .   OFFG(*),GEO(NPROPG,*),
      .   VOL(*), VD2(*), DELTAX(*), SSP(*), AIRE(*), VIS(*), 
-     .   PSH(*), PNEW(*),QVIS(*) ,SSP_EQ(*), 
+     .   PSH(*), QVIS(*) ,SSP_EQ(*),
      .   D1(*), D2(*), D3(*), XK(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -138,7 +138,6 @@ C
         DO I=1,NEL
           CNS2=GEO(17,MX)*SSP(I)*AL(I)*RHO(I)
           PSH(I)=PM(88,MT)
-          PNEW(I)=0.
           QAA = QA*QA*AD(I)
           QX(I)=(QB+CNS1)*SSP(I)+AL(I) * QAA
      .     + VISI*(TWO*VIS(I)+CNS2) / MAX(EM20,RHO(I)*DELTAX(I))
@@ -152,7 +151,6 @@ C
         DO I=1,NEL
           CNS2=PM(94,MT)*SSP(I)*AL(I)*RHO(I)
           PSH(I)=PM(88,MT)
-          PNEW(I)=0.
           QAA = QA*QA*AD(I)
           QX(I)=(QB+CNS1)*SSP(I)+DELTAX(I) *QAA
      .     + VISI*(2.*VIS(I)+CNS2) / MAX(EM20,RHO(I)*DELTAX(I))

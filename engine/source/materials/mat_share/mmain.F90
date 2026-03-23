@@ -1760,7 +1760,7 @@
               &dt2t,     neltst,   ityptst,  aire,&
               &lbuf%off, geo,      pid,      voln,&
               &vd2,      deltax,   vis,      dxx,&
-              &dyy,      dzz,      pnew,     psh,&
+              &dyy,      dzz,      psh,&
               &mat,      ngl,      qvis,     ssp_eq,&
               &xk,       nel,      ity,      ismstr,&
               &jtur,     jthe)
