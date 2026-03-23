@@ -234,6 +234,8 @@ c
       CALL MY_EXIT(IEX)
       END
 
+      module analyse_arret_mod
+      contains
 !||====================================================================
 !||    f_anend                       ../starter/source/output/analyse/analyse_arret.F
 !||--- called by ------------------------------------------------------
@@ -247,13 +249,14 @@ c
 !||    checksum_starter_option_mod   ../starter/source/output/checksum/checksum_option.F90
 !||    message_mod                   ../starter/share/message_module/message_mod.F
 !||====================================================================
-      SUBROUTINE F_ANEND(OUTPUT)
+      SUBROUTINE F_ANEND(OUTPUT,NAMES_AND_TITLES)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE checksum_starter_option_mod
       USE output_mod
+      USE NAMES_AND_TITLES_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -267,12 +270,18 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE(NAMES_AND_TITLES_),INTENT(IN) :: NAMES_AND_TITLES
       TYPE(OUTPUT_),INTENT(INOUT) :: OUTPUT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER IEX
       LOGICAL :: FILE_EXIST
+      INTEGER :: IZIP
+      INTEGER :: LEN_FILENAME
+      INTEGER ROOTLEN
+      INTEGER :: LEN_TMP_NAME
+      CHARACTER(len=2048),TARGET :: TMP_NAME
 C
       CALL ANPRINT()
 C
@@ -280,6 +289,17 @@ C
          CALL st_checksum_file_print(output)
       ENDIF
       CALL ANFILE()  ! Closes *000.out File
+
+      IF (OUTPUT%CHECKSUM%checksum_count >0)THEN
+         IZIP=0 ! outfiles are not zipped
+         LEN_FILENAME = LEN_TRIM(OUTPUT%out_filename)
+         TMP_NAME = TRIM(OUTPUT%out_filename)
+         CALL COMPUTE_BINARY_CHECKSUM(OUTPUT%CHECKSUM%FILES_CHECKSUM,C_LOC(TMP_NAME),LEN_FILENAME,IZIP )
+         CALL checksum_option_checksum_file(OUTPUT%checksum,NAMES_AND_TITLES%rootname,LEN_TRIM(NAMES_AND_TITLES%rootname),
+     *                                      NAMES_AND_TITLES%chrun)
+      ENDIF
+
+
 C
 #ifdef DNC
       CALL starter_lic_release();
@@ -301,3 +321,5 @@ c
 c
       CALL MY_EXIT(IEX)
       END
+
+      end module analyse_arret_mod
