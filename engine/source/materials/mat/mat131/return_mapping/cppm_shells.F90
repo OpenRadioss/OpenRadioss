@@ -53,7 +53,8 @@
         soundsp  ,off      ,pla      ,dpla     ,seq      ,et       ,           &
         sigy     ,timestep ,epsd     ,temp     ,shf      ,thk      ,           &
         thkly    ,asrate   ,l_sigb   ,sigb     ,epsd_pg  ,                     &
-        nuvar    ,uvar     ,inloc    ,dplanl   )
+        nuvar    ,uvar     ,inloc    ,dplanl   ,jthe     ,fheat    ,           &
+        voln     )
 !----------------------------------------------------------------
 !   M o d u l e s
 !----------------------------------------------------------------
@@ -92,7 +93,7 @@
         real(kind=WP), dimension(nel), intent(inout) :: signyz    !< Current stress yz
         real(kind=WP), dimension(nel), intent(inout) :: signzx    !< Current stress zx
         real(kind=WP), dimension(nel), intent(inout) :: soundsp   !< Current sound speed
-        real(kind=WP), dimension(nel), intent(inout) :: off       !< Element failure flag
+        real(kind=WP), dimension(nel), intent(inout) :: off       !< Integration point failure flag
         real(kind=WP), dimension(nel), intent(inout) :: pla       !< Accumulated plastic strain
         real(kind=WP), dimension(nel), intent(inout) :: dpla      !< Plastic strain increment
         real(kind=WP), dimension(nel), intent(inout) :: seq       !< Equivalent stress
@@ -112,6 +113,9 @@
         real(kind=WP),dimension(nel,nuvar),intent(inout) :: uvar  !< User variables
         integer,                       intent(in)    :: inloc     !< Non-local reguarization flag
         real(kind=WP), dimension(nel), intent(in)    :: dplanl    !< Non-local plastic strain increment
+        integer,                       intent(in)    :: jthe      !< /HEAT/MAT flag
+        real(kind=WP), dimension(nel), intent(inout) :: fheat     !< Heat energy accumulated for /HEAT/MAT
+        real(kind=WP), dimension(nel), intent(in)    :: voln      !< Current element volume
 !----------------------------------------------------------------
 !  L o c a l  V a r i a b l e s
 !----------------------------------------------------------------
@@ -121,8 +125,9 @@
           dpla_dlam,dphi_dseq,dphi_dsigy,dphi_dlam,sig_dseqdsig,dsigy_dlam,    &
           dsigbxx_dlam,dsigbyy_dlam,dsigbzz_dlam,dsigbxy_dlam,chard,dlam_nl
         real(kind=WP), dimension(nel) :: pla0,normxx,normyy,normzz,normxy,     &
-          normyz,normzx,phi,young,dsigy_dpla,dtemp_dpla,s13,s23,depzz,         &
-          sigbxx,sigbyy,sigbzz,sigbxy,sigy0,dsigy0_dpla,dtemp0_dpla,zeros
+          normyz,normzx,phi,young,dsigy_dpla,dtemp_dpla,s13,s23,s43,depzz,     &
+          sigbxx,sigbyy,sigbzz,sigbxy,sigy0,dsigy0_dpla,dtemp0_dpla,zeros,     &
+          dpdm
         real(kind=WP) :: dX_dRes(2,2),detdRes_dX,Res(2),X(2),strs_d2sds2dsdlam,&
           dRes_dX(2,2),N_dsigdlam(6)
         logical :: converged
@@ -134,6 +139,7 @@
         integer, parameter :: nitermax = 500           !< Maximum number of plastic iterations
         real(kind=WP), parameter :: tol = 1.0d-8       !< Tolerance for plasticity convergence
         integer, parameter :: iresp = 0                !< Response type (0 - standard)
+        integer, parameter :: ieos = 0                 !< Equation of state type (0 - standard)
 
         logical, dimension(nel) :: active_elements_mask
         integer, dimension(nel) :: temp_all_indices
@@ -170,7 +176,7 @@
         signzz(1:nel) = zero
         sigozz(1:nel) = zero
         depszz(1:nel) = zero
-        !< Update element status flag
+        !< Update integration point status flag
         where (off(1:nel) < em01)
           off(1:nel) = zero
         end where
@@ -186,14 +192,15 @@
           depsxx   ,depsyy   ,depszz   ,depsxy   ,depsyz   ,depszx   ,         &
           sigoxx   ,sigoyy   ,sigozz   ,sigoxy   ,sigoyz   ,sigozx   ,         &
           signxx   ,signyy   ,signzz   ,signxy   ,signyz   ,signzx   ,         &
-          eltype   ,shf      ,s13      ,s23      )
+          eltype   ,shf      ,s13      ,s23      ,s43      ,ieos     ,         &
+          dpdm     )
 !
         !=======================================================================
         !< - Computation of the initial yield stress
         !=======================================================================
         call elasto_plastic_yield_stress(                                      &
           matparam ,nel      ,sigy     ,pla      ,epsd     ,dsigy_dpla,        &
-          nvartmp  ,vartmp   ,temp     ,dtemp_dpla)
+          nvartmp  ,vartmp   ,temp     ,dtemp_dpla,jthe    )
 !
         !=======================================================================
         !< - Backstress tensor computation for kinematic hardening models
@@ -219,7 +226,7 @@
           ipos0(1:nel,1:nvartmp) = 0
           call elasto_plastic_yield_stress(                                    &
             matparam ,nel      ,sigy0    ,zeros    ,epsd     ,dsigy0_dpla,     &
-            nvartmp  ,ipos0    ,temp     ,dtemp0_dpla)
+            nvartmp  ,ipos0    ,temp     ,dtemp0_dpla,jthe   )
           !< Update of the yield stress for kinematic hardening models
           sigy(1:nel) = (one - chard)*sigy(1:nel) + chard*sigy0(1:nel)
         endif
@@ -236,16 +243,6 @@
         !=======================================================================
         !< - Computation of the trial yield function and count yielding elements
         !=======================================================================
-        ! nindx  = 0
-        ! phi(1:nel) = (seq(1:nel)/sigy(1:nel))**2 - one
-        ! do i=1,nel
-        !   if (phi(i) >= zero .and. off(i) == one) then
-        !     nindx = nindx + 1
-        !     indx(nindx)  = i
-        !   else
-        !     phi(i) = zero
-        !   endif
-        ! enddo
         phi(1:nel) = (seq(1:nel) / sigy(1:nel))**2 - one
         active_elements_mask(1:nel) = (phi(1:nel) >= zero .and. off(1:nel) == one)
         nindx = COUNT(active_elements_mask(1:nel))
@@ -298,9 +295,12 @@
 !
               !<  c) Derivative of the stress tensor w.r.t the plastic multiplier
               !<  --------------------------------------------------------------
-              dsigxx_dlam = -(cstf(i,1,1)*normxx(i) + cstf(i,1,2)*normyy(i))
-              dsigyy_dlam = -(cstf(i,1,2)*normxx(i) + cstf(i,2,2)*normyy(i))
-              dsigxy_dlam = -(cstf(i,4,4)*normxy(i))
+              dsigxx_dlam = -(cstf(i,1,1)*normxx(i) + cstf(i,1,2)*normyy(i) +  &
+                              cstf(i,1,4)*normxy(i))
+              dsigyy_dlam = -(cstf(i,2,1)*normxx(i) + cstf(i,2,2)*normyy(i) +  &
+                              cstf(i,2,4)*normxy(i))
+              dsigxy_dlam = -(cstf(i,4,1)*normxx(i) + cstf(i,4,2)*normyy(i) +  &
+                              cstf(i,4,4)*normxy(i))
 !
               !<  d) Product dstrs_dlam * dsigeq_dsig
               !<  --------------------------------------------------------------
@@ -421,8 +421,12 @@
               dpla(i) = max(X(2),zero)
               !< Equivalent plastic strain                        
               pla(i)  = pla0(i) + dpla(i)
-              !< Temperature
-              temp(i) = temp(i) + dtemp_dpla(i)*dpla_dlam*dlam
+              !< Temperature or heating generation update for /HEAT/MAT
+              if (jthe /= 0) then
+                fheat(i) = fheat(i) + sigy(i)*dpla_dlam*dlam*voln(i)
+              else
+                temp(i)  = temp(i)  + dtemp_dpla(i)*dpla_dlam*dlam
+              endif
               !< Out-of-plane plastic strain for shell elements
               depzz(i) = depzz(i) + dlam*normzz(i)
 !
@@ -430,7 +434,7 @@
               !<  --------------------------------------------------------------
               call elasto_plastic_yield_stress(                                &
                 matparam ,1        ,sigy(i)  ,pla(i)   ,epsd(i) ,dsigy_dpla(i),&
-                nvartmp  ,vartmp(i,1:nvartmp),temp(i) ,dtemp_dpla(i))
+                nvartmp  ,vartmp(i,1:nvartmp),temp(i) ,dtemp_dpla(i),jthe     )
 !
               !<  e) Backstress tensor update
               !<  --------------------------------------------------------------
@@ -528,6 +532,7 @@
         if (inloc == 0) then 
           dezz(1:nel) = s13(1:nel)*(signxx(1:nel) - sigoxx(1:nel)) +           &
                         s23(1:nel)*(signyy(1:nel) - sigoyy(1:nel)) +           &
+                        s43(1:nel)*(signxy(1:nel) - sigoxy(1:nel)) +           & 
                         depzz(1:nel)
           thk(1:nel)  = thk(1:nel) + dezz(1:nel)*thkly(1:nel)*off(1:nel) 
         else
@@ -544,10 +549,15 @@
               endif
               !< Update the thickness variation
               dezz(i) = s13(i)*(cstf(i,1,1)*(depsxx(i) - dlam_nl*normxx(i))  + &
-                                cstf(i,1,2)*(depsyy(i) - dlam_nl*normyy(i))) + &
+                                cstf(i,1,2)*(depsyy(i) - dlam_nl*normyy(i))  + &
+                                cstf(i,1,4)*(depsxy(i) - dlam_nl*normxy(i))) + &
                         s23(i)*(cstf(i,2,1)*(depsxx(i) - dlam_nl*normxx(i))  + &
-                                cstf(i,2,2)*(depsyy(i) - dlam_nl*normyy(i)))   &
-                        + dlam_nl*normzz(i)
+                                cstf(i,2,2)*(depsyy(i) - dlam_nl*normyy(i))  + &
+                                cstf(i,2,4)*(depsxy(i) - dlam_nl*normxy(i))) + &
+                        s43(i)*(cstf(i,4,1)*(depsxx(i) - dlam_nl*normxx(i))  + &
+                                cstf(i,4,2)*(depsyy(i) - dlam_nl*normyy(i))  + &
+                                cstf(i,4,4)*(depsxy(i) - dlam_nl*normxy(i))) + &
+                        dlam_nl*normzz(i)
               thk(i)  = thk(i) + dezz(i)*thkly(i)*off(i)
             endif
           enddo

@@ -48,7 +48,8 @@
           ikey     ,type  ,itherm   ,nupar_therm ,upar_therm   ,               &
           is_available,unitab,lsubmodel,iout     ,is_encrypted ,               &
           ntab_therm  ,itab_therm   ,x2vect      ,x3vect       ,               &
-          x4vect   ,fscale          ,nvartmp     ,mtag         )   
+          x4vect   ,fscale          ,nvartmp     ,mtag         ,               &
+          matparam    )   
 !----------------------------------------------------------------
 !   M o d u l e s
 !----------------------------------------------------------------
@@ -87,6 +88,7 @@
           real(kind=WP), dimension(100), intent(inout) :: fscale          !< y  scale factor for tabulated thermal softening
           integer,                 intent(inout) :: nvartmp               !< Number of variables used in tabulated thermal softening
           type(mlaw_tag_),         intent(inout) :: mtag                  !< Material tag for internal variables in element buffer
+          type(matparam_struct_),  intent(inout) :: matparam              !< Material parameter data structure
 !===============================================================================
 !    
           !< Select thermal softening type
@@ -97,14 +99,14 @@
             case ('JOHN')
               call hm_read_therm_softening_johnsoncook(                        &
                 ikey     ,itherm   ,nupar_therm  ,upar_therm  ,is_available,   &
-                unitab   ,lsubmodel,iout         ,is_encrypted)
+                unitab   ,lsubmodel,iout         ,is_encrypted,matparam    )
             !===================================================================
             !< Zhao thermal softening parameters
             !===================================================================
             case ('ZHAO')
               call hm_read_therm_softening_zhao(                               &
                 ikey     ,itherm   ,nupar_therm  ,upar_therm  ,is_available,   &
-                unitab   ,lsubmodel,iout         ,is_encrypted)
+                unitab   ,lsubmodel,iout         ,is_encrypted,matparam    )
             !===================================================================
             !< Tabulated thermal softening parameters
             !===================================================================
@@ -112,12 +114,15 @@
               call hm_read_therm_softening_tabulated(                          &
                 ikey     ,itherm   ,ntab_therm,itab_therm  ,x2vect ,x3vect   , &
                 x4vect   ,fscale   ,nvartmp   ,is_available,unitab ,lsubmodel, &
-                iout     ,is_encrypted)
+                iout     ,is_encrypted,matparam)
           end select
 !
           !< Set temperature variable tag
           if (mtag%g_temp == 0) mtag%g_temp = 1
           if (mtag%l_temp == 0) mtag%l_temp = 1
+!
+          !< Activate heat source calculation in material
+          if (matparam%heat_flag == 0) matparam%heat_flag = 1
 !
 ! -------------------------------------------------------------------------------
         end subroutine hm_read_therm_softening

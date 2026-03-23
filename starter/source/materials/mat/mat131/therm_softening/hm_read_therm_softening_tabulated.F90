@@ -42,7 +42,7 @@
         subroutine hm_read_therm_softening_tabulated(                          &
           ikey     ,itherm   ,ntab_therm,itab_therm  ,x2vect ,x3vect   ,       &
           x4vect   ,fscale   ,nvartmp   ,is_available,unitab ,lsubmodel,       &
-          iout     ,is_encrypted)
+          iout     ,is_encrypted,matparam)
 
 !----------------------------------------------------------------
 !   M o d u l e s
@@ -74,44 +74,39 @@
           type(submodel_data),dimension(nsubmod),intent(in) :: lsubmodel  !< Submodel data structure
           integer,                 intent(in)    :: iout                  !< Output unit
           logical,                 intent(in)    :: is_encrypted          !< Encryption flag
+          type(matparam_struct_),  intent(inout) :: matparam              !< Material parameters data
 !----------------------------------------------------------------
 !  L o c a l  V a r i a b l e s
 !----------------------------------------------------------------
-          integer :: func_id
-          real(kind=WP) :: xscale,yscale,fcut
+          integer :: tab_id
+          real(kind=WP) :: tref
 !===============================================================================
 !       
           !===================================================================
           !< Tabulated thermal softening parameters
           !===================================================================
-          call hm_get_int_array_index  ("THERM_TAB_ID"    ,func_id,ikey,is_available,lsubmodel)
-          call hm_get_float_array_index("THERM_TAB_XSCALE",xscale ,ikey,is_available,lsubmodel,unitab)
-          call hm_get_float_array_index("THERM_TAB_YSCALE",yscale ,ikey,is_available,lsubmodel,unitab)
+          call hm_get_int_array_index  ("THERM_TAB_ID"    ,tab_id ,ikey,is_available,lsubmodel)
+          call hm_get_float_array_index("THERM_TAB_TREF"  ,tref   ,ikey,is_available,lsubmodel,unitab)
           !< Thermal softening type
           itherm = 3
-          !< Number of tabulated hardening functions/tables
+          !< Number of tabulated thermal softening functions/tables
           ntab_therm = 1
-          !< Check default values
-          if (xscale == zero) then 
-            call hm_get_floatv_dim('THERM_TAB_XSCALE',xscale,is_available,lsubmodel,unitab)
-          endif
-          if (yscale == zero) then
-            call hm_get_floatv_dim('THERM_TAB_YSCALE',yscale,is_available,lsubmodel,unitab)
-          endif
           !< Number of variables used in tabulated hardening
-          nvartmp = 1
+          nvartmp = 4
           !< Save table id
-          itab_therm(1) = func_id
+          itab_therm(1) = tab_id
+          !< Save reference temperature
+          matparam%therm%tref = tref
           !< Save scale factors
-          x2vect(1) = xscale
+          x2vect(1) = one
           x3vect(1) = one
           x4vect(1) = one
-          fscale(1) = yscale
+          fscale(1) = one
           !< Printing thermal softening parameters
           if (is_encrypted)then
             write(iout,"(5X,A,//)") "CONFIDENTIAL DATA"
           else
-            write(iout,1000) func_id,xscale,yscale
+            write(iout,1000) tab_id,tref
           endif
 ! ------------------------------------------------------------------------------
 1000 format(/                                                                  &
@@ -119,8 +114,7 @@
           5X,"TABULATED THERMAL SOFTENING                            ",/,      &
           5X,"-------------------------------------------------------",/,      &
           5X,"TABULATED SOFTENING FUNCTION ID (TAB_ID) . . . . . . .=",I10/    &
-          5X,"TEMPERATURE SCALE FACTOR (THERM_XSCALE). . . . . . . .=",1PG20.13/&
-          5X,"YIELD STRESS SCALE FACTOR (SRATE_YSCALE). . . . . . . =",1PG20.13/)
+          5X,"REFERENCE TEMPERATURE (TREF) . . . . . . . . . . . . .=",1PG20.13/)
 ! -------------------------------------------------------------------------------
         end subroutine hm_read_therm_softening_tabulated
       end module hm_read_therm_softening_tabulated_mod

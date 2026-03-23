@@ -40,7 +40,8 @@
 !||====================================================================
         subroutine hm_read_elasticity_isotropic(                               &
           ikey     ,ielas    ,nupar_elas,upar_elas,is_available,               &
-          unitab   ,lsubmodel,matparam ,parmat    ,iout     ,is_encrypted)
+          unitab   ,lsubmodel,matparam ,parmat    ,iout        ,is_encrypted,  &
+          mat_id   ,titr     )
 !----------------------------------------------------------------
 !   M o d u l e s
 !----------------------------------------------------------------
@@ -50,6 +51,7 @@
           use constant_mod
           use matparam_def_mod
           use precision_mod, only : WP
+          use message_mod
 !----------------------------------------------------------------
 !   I m p l i c i t   T y p e s
 !----------------------------------------------------------------
@@ -57,17 +59,19 @@
 !----------------------------------------------------------------
 !  I n p u t   A r g u m e n t s
 !----------------------------------------------------------------
-          integer,                 intent(in)    :: ikey                  !< material key
-          integer,                 intent(inout) :: ielas                 !< elastic model type
-          integer,                 intent(inout) :: nupar_elas            !< number of elastic parameters
-          real(kind=WP),dimension(100),intent(inout) :: upar_elas         !< elastic parameters
-          logical,                 intent(in)    :: is_available          !< availability flag
-          type(unit_type_),        intent(in)    :: unitab                !< units table
-          type(submodel_data),dimension(nsubmod),intent(in) :: lsubmodel  !< submodel data structure
-          type(matparam_struct_),  intent(inout) :: matparam              !< matparam data structure
-          real(kind=WP),           intent(inout) :: parmat(100)           !< material parameter global table 1
-          integer,                 intent(in)    :: iout                  !< output unit
-          logical,                 intent(in)    :: is_encrypted          !< encryption flag
+          integer,                 intent(in)    :: ikey                  !< Material key
+          integer,                 intent(inout) :: ielas                 !< Elastic model type
+          integer,                 intent(inout) :: nupar_elas            !< Number of elastic parameters
+          real(kind=WP),dimension(100),intent(inout) :: upar_elas         !< Elastic parameters
+          logical,                 intent(in)    :: is_available          !< Availability flag
+          type(unit_type_),        intent(in)    :: unitab                !< Units table
+          type(submodel_data),dimension(nsubmod),intent(in) :: lsubmodel  !< Submodel data structure
+          type(matparam_struct_),  intent(inout) :: matparam              !< Matparam data structure
+          real(kind=WP),           intent(inout) :: parmat(100)           !< Material parameter global table 1
+          integer,                 intent(in)    :: iout                  !< Output unit
+          logical,                 intent(in)    :: is_encrypted          !< Encryption flag
+          integer,                 intent(in)    :: mat_id                !< Material law user ID
+          character(len=nchartitle),intent(in)   :: titr                  !< Material law user title
 !----------------------------------------------------------------
 !  L o c a l  V a r i a b l e s
 !----------------------------------------------------------------
@@ -79,6 +83,17 @@
           !===================================================================
           call hm_get_float_array_index("ELAS_ISOT_E" ,young,ikey,is_available,lsubmodel,unitab)
           call hm_get_float_array_index("ELAS_ISOT_NU",nu   ,ikey,is_available,lsubmodel,unitab)
+          !< Check parameters values
+          if (nu < zero .or. nu >= half) then
+            call ancmsg(msgid=3129,                                            &                    
+                        msgtype=msgerror,                                      &
+                        anmode=aninfo_blind_2,                                 &
+                        i1=mat_id,                                             &
+                        c1=titr,                                               &
+                        c2="ELAS_ISOTROPIC",                                   &
+                        c3="POISSON'S RATIO MUST BE IN THE RANGE [0,0.5[.")
+
+          endif
           !< Fill MATPARAM values
           matparam%young = young
           matparam%nu    = nu
