@@ -202,7 +202,6 @@ C
         CNS1_0=FACPG*GEO(16,PID(1))
         CNS2_0=FACPG*GEO(17,PID(1))
         PSH(1:NEL)=PM(88,MT)
-        PNEW(1:NEL)=ZERO
         QAA_0 = QA*QA
         DTMIN(1:NEL) = GEO(172,PID(1)) 
         DO I=1,NEL
@@ -228,7 +227,6 @@ C           Same for VIS(I) since SOUNDSPEED is generally computed wrt RHO0, not
         QA =FACQ*GEO(14,PID(1))
         QB =FACQ*GEO(15,PID(1))
         PSH(1:NEL)=PM(88,MT)
-        PNEW(1:NEL)=ZERO
         QAA_0 = QA*QA
         DTMIN(1:NEL) = GEO(172,PID(1)) 
 
