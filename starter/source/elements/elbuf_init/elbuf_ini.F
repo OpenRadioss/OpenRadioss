@@ -670,6 +670,10 @@ c
                   FLOC%VAR = ZERO     
                   LFAIL = LFAIL + FLOC%NVAR*NEL + 1 
 c
+                  NVARTMP = MAT_PARAM(MX)%FAIL(J)%NVARTMP                          
+                  CALL MY_ALLOC(FLOC%VARTMP,NVARTMP*NEL)
+                  FLOC%VARTMP = 0     
+c
                   FLOC%LF_DAM  = FAIL_TAG(IRUPT)%LF_DAM                        
                   CALL MY_ALLOC(FLOC%DAM,FLOC%LF_DAM*NEL)
                   FLOC%DAM = ZERO   
@@ -1399,6 +1403,10 @@ c
                   FLOC%VAR = ZERO     
                   LFAIL = LFAIL + FLOC%NVAR*NEL + 1 
 c
+                  NVARTMP  = MAT_PARAM(MX)%FAIL(J)%NVARTMP                       
+                  CALL MY_ALLOC(FLOC%VARTMP,NVARTMP*NEL)
+                  FLOC%VARTMP = 0     
+c
                   FLOC%LF_DAM  = FAIL_TAG(IRUPT)%LF_DAM                        
                   CALL MY_ALLOC(FLOC%DAM,FLOC%LF_DAM*NEL)
                   FLOC%DAM = ZERO   
@@ -1504,11 +1512,14 @@ c
 c                LVISC = LVISC + NUVARV*NEL                                         
                 DO J = 1,NFAIL                                                     
                   FLOC=>ELBUF_TAB(NG)%INTLAY(IL)%FAIL(IR,IS)%FLOC(J)           
-                  FLOC%ILAWF = MAT_PARAM(IMAT(IL))%FAIL(J)%IRUPT 
-                  FLOC%IDFAIL = MAT_PARAM(IMAT(IL))%FAIL(J)%FAIL_ID                                              
-                  FLOC%NVAR  = MAT_PARAM(IMAT(IL))%FAIL(J)%NUVAR                             
+                  FLOC%ILAWF   = MAT_PARAM(IMAT(IL))%FAIL(J)%IRUPT 
+                  FLOC%IDFAIL  = MAT_PARAM(IMAT(IL))%FAIL(J)%FAIL_ID                                              
+                  FLOC%NVAR    = MAT_PARAM(IMAT(IL))%FAIL(J)%NUVAR                             
+                  NVARTMP      = MAT_PARAM(IMAT(IL))%FAIL(J)%NVARTMP                             
                   CALL MY_ALLOC(FLOC%VAR,FLOC%NVAR*NEL)
+                  CALL MY_ALLOC(FLOC%VARTMP,NVARTMP*NEL)
                   FLOC%VAR = ZERO                                                   
+                  FLOC%VARTMP = 0                                                   
                   LIFAIL = LIFAIL + FLOC%NVAR*NEL + 3                               
                 ENDDO                                                              
               ENDDO                                                                  
@@ -2108,6 +2119,10 @@ c
                       CALL MY_ALLOC(FLOC%VAR,FLOC%NVAR*NEL)
                       FLOC%VAR = ZERO     
                       LFAIL = LFAIL + FLOC%NVAR*NEL + 1 
+c
+                      NVARTMP  = MAT_PARAM(IMAT(IL))%FAIL(1)%NVARTMP                              
+                      CALL MY_ALLOC(FLOC%VARTMP,NVARTMP*NEL)
+                      FLOC%VARTMP = 0     
 c
                       FLOC%LF_DAM  = FAIL_TAG(IRUPT)%LF_DAM                        
                       CALL MY_ALLOC(FLOC%DAM,FLOC%LF_DAM*NEL)

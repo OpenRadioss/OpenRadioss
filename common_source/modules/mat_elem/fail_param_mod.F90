@@ -117,6 +117,7 @@
           integer       :: nuparam              !< number of real value paraameters
           integer       :: niparam              !< number of int value parameters
           integer       :: nuvar                !< number of internal state variables
+          integer       :: nvartmp              !< number of internal temporary variables
           integer       :: nfunc                !< number of functions
           integer       :: ntable               !< number of function tables
           integer       :: ntable4d             !< number of local function tables

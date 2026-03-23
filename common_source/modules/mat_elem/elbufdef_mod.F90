@@ -1143,6 +1143,7 @@
           integer  :: lf_off
           integer, dimension(:)  , pointer ::  indx => null()
           integer, dimension(:)  , pointer ::  off => null()
+          integer, dimension(:)  , pointer ::  vartmp => null()
           real(kind=WP), dimension(:)  , pointer ::  dam => null()
           real(kind=WP), dimension(:)  , pointer ::  var => null()
           real(kind=WP), dimension(:)  , pointer ::  dammx => null()
