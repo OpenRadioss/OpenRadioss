@@ -60,7 +60,7 @@
 !  L o c a l  V a r i a b l e s
 !----------------------------------------------------------------
         integer :: offset,i
-        real(kind=WP) :: eta,cp,deis,dead,rho
+        real(kind=WP) :: eta,deis,dead,rhocp
         real(kind=WP), dimension(nel) :: weight
 !===============================================================================
 !
@@ -69,11 +69,10 @@
         !=======================================================================
         offset = matparam%iparam(16)
         !< Recover self heating parameters
-        eta  = matparam%uparam(offset + 1) !< Taylor-Quinney coefficient
-        cp   = matparam%uparam(offset + 2) !< Thermal massic capacity
-        deis = matparam%uparam(offset + 3) !< Strain rates for the beginning of adiabatic transition
-        dead = matparam%uparam(offset + 4) !< Strain rates for the end of adiabatic transition
-        rho  = matparam%rho0               !< Material initial density
+        eta   = matparam%uparam(offset + 1) !< Taylor-Quinney coefficient
+        deis  = matparam%uparam(offset + 2) !< Strain rates for the beginning of adiabatic transition
+        dead  = matparam%uparam(offset + 3) !< Strain rates for the end of adiabatic transition
+        rhocp = matparam%therm%rhocp        !< Material thermal inertia
         !< Strain rate weight factor computation
         do i = 1,nel
           if (epsd(i) < deis) then
@@ -86,7 +85,7 @@
           endif
         enddo
         !< Update derivative of temperature w.r.t. cumulated plastic strain
-        dtemp_dpla(1:nel) = (eta/(rho*cp))*sigy(1:nel)*weight(1:nel)
+        dtemp_dpla(1:nel) = (eta/rhocp)*sigy(1:nel)*weight(1:nel)
 !
       end subroutine self_heating_taylor
       end module self_heating_taylor_mod

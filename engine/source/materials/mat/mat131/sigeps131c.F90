@@ -48,10 +48,11 @@
         depsxx   ,depsyy   ,depsxy   ,depsyz   ,depszx   ,                     &
         sigoxx   ,sigoyy   ,sigoxy   ,sigoyz   ,sigozx   ,                     &
         signxx   ,signyy   ,signxy   ,signyz   ,signzx   ,                     &
-        soundsp  ,off      ,pla      ,dpla     ,seq      ,et       ,           &
+        soundsp  ,loff     ,pla      ,dpla     ,seq      ,et       ,           &
         sigy     ,timestep ,epsd     ,temp     ,shf      ,thk      ,thkly    , &
         asrate   ,l_sigb   ,sigb     ,epsd_pg  ,nuvar    ,uvar     ,           &
-        inloc    ,dplanl   ,ioff_duct)
+        inloc    ,dplanl   ,ioff_duct,jthe     ,fheat    ,voln     ,           &
+        off      )
 !----------------------------------------------------------------
 !   M o d u l e s
 !----------------------------------------------------------------
@@ -89,7 +90,7 @@
         real(kind=WP), dimension(nel), intent(inout) :: signyz   !< Current stress yz
         real(kind=WP), dimension(nel), intent(inout) :: signzx   !< Current stress zx
         real(kind=WP), dimension(nel), intent(inout) :: soundsp  !< Current sound speed
-        real(kind=WP), dimension(nel), intent(inout) :: off      !< Element failure flag
+        real(kind=WP), dimension(nel), intent(inout) :: loff     !< Integration point failure flag
         real(kind=WP), dimension(nel), intent(inout) :: pla      !< Accumulated plastic strain
         real(kind=WP), dimension(nel), intent(inout) :: dpla     !< Plastic strain increment
         real(kind=WP), dimension(nel), intent(inout) :: seq      !< Equivalent stress
@@ -110,6 +111,10 @@
         integer,                       intent(in)    :: inloc     !< Non-local reguarization flag
         real(kind=WP), dimension(nel), intent(in)    :: dplanl    !< Non-local plastic strain increment
         integer,       dimension(nel), intent(inout) :: ioff_duct !< Ductile failure flag
+        integer,                       intent(in)    :: jthe      !< /HEAT/MAT flag
+        real(kind=WP), dimension(nel), intent(inout) :: fheat     !< Heat energy accumulated for /HEAT/MAT
+        real(kind=WP), dimension(nel), intent(in)    :: voln      !< Current element volume
+        real(kind=WP), dimension(nel), intent(inout) :: off       !< Element failure flag
 !----------------------------------------------------------------
 !  L o c a l  V a r i a b l e s
 !----------------------------------------------------------------
@@ -118,6 +123,14 @@
 !
         !< Retturn mapping algorithm flag
         ires = matparam%iparam(24)
+!
+        !< Check element failure flag and apply relaxation if necessary
+        where (off(1:nel) < em01)
+          off(1:nel) = zero
+        end where
+        where (off(1:nel) < one)
+          off(1:nel) = off(1:nel)*four_over_5
+        end where
 !
         !=======================================================================
         !< - Select return mapping algorithm
@@ -132,10 +145,11 @@
               depsxx   ,depsyy   ,depsxy   ,depsyz   ,depszx   ,               &
               sigoxx   ,sigoyy   ,sigoxy   ,sigoyz   ,sigozx   ,               &
               signxx   ,signyy   ,signxy   ,signyz   ,signzx   ,               &
-              soundsp  ,off      ,pla      ,dpla     ,seq      ,et       ,     &
+              soundsp  ,loff     ,pla      ,dpla     ,seq      ,et       ,     &
               sigy     ,timestep ,epsd     ,temp     ,shf      ,thk      ,     &
               thkly    ,asrate   ,l_sigb   ,sigb     ,epsd_pg  ,               &
-              nuvar    ,uvar     ,inloc    ,dplanl   )
+              nuvar    ,uvar     ,inloc    ,dplanl   ,jthe     ,fheat    ,     &
+              voln     )
           !---------------------------------------------------------------------
           !< - Cutting Plane algorithm
           !---------------------------------------------------------------------
@@ -145,10 +159,11 @@
               depsxx   ,depsyy   ,depsxy   ,depsyz   ,depszx   ,               &
               sigoxx   ,sigoyy   ,sigoxy   ,sigoyz   ,sigozx   ,               &
               signxx   ,signyy   ,signxy   ,signyz   ,signzx   ,               &
-              soundsp  ,off      ,pla      ,dpla     ,seq      ,et       ,     &
+              soundsp  ,loff     ,pla      ,dpla     ,seq      ,et       ,     &
               sigy     ,timestep ,epsd     ,temp     ,shf      ,thk      ,     &
               thkly    ,asrate   ,l_sigb   ,sigb     ,epsd_pg  ,               &
-              nuvar    ,uvar     ,inloc    ,dplanl   )
+              nuvar    ,uvar     ,inloc    ,dplanl   ,jthe     ,fheat    ,     &
+              voln     )
           !---------------------------------------------------------------------
           !< - Closest Point Projection algorithm
           !---------------------------------------------------------------------     
@@ -158,10 +173,11 @@
               depsxx   ,depsyy   ,depsxy   ,depsyz   ,depszx   ,               &
               sigoxx   ,sigoyy   ,sigoxy   ,sigoyz   ,sigozx   ,               &
               signxx   ,signyy   ,signxy   ,signyz   ,signzx   ,               &
-              soundsp  ,off      ,pla      ,dpla     ,seq      ,et       ,     &
+              soundsp  ,loff     ,pla      ,dpla     ,seq      ,et       ,     &
               sigy     ,timestep ,epsd     ,temp     ,shf      ,thk      ,     &
               thkly    ,asrate   ,l_sigb   ,sigb     ,epsd_pg  ,               &
-              nuvar    ,uvar     ,inloc    ,dplanl   )
+              nuvar    ,uvar     ,inloc    ,dplanl   ,jthe     ,fheat    ,     &
+              voln     )
         end select
 !
         !< Ductile failure activation

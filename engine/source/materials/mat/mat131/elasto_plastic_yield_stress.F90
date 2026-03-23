@@ -74,7 +74,7 @@
 !||====================================================================
       subroutine elasto_plastic_yield_stress(                                  &
         matparam ,nel      ,sigy     ,pla      ,epsd     ,dsigy_dpla,nvartmp  ,&
-        vartmp   ,temp     ,dtemp_dpla)
+        vartmp   ,temp     ,dtemp_dpla,jthe    )
 !----------------------------------------------------------------
 !   M o d u l e s
 !----------------------------------------------------------------
@@ -110,6 +110,7 @@
         integer, dimension(nel,nvartmp), intent(inout) :: vartmp     !< Temporary variables for tabulated hardening
         real(kind=WP), dimension(nel),   intent(inout) :: temp       !< Temperature
         real(kind=WP), dimension(nel),   intent(out)   :: dtemp_dpla !< Derivative of temperature w.r.t. cumulated plastic strain
+        integer,                         intent(in)    :: jthe       !< /HEAT/MAT flag
 !----------------------------------------------------------------
 !  L o c a l  V a r i a b l e s
 !----------------------------------------------------------------
@@ -181,25 +182,6 @@
         end select 
 !
         !=======================================================================
-        !< - Self-heating model
-        !=======================================================================
-        iheat = matparam%iparam(18)
-        select case (iheat)
-          !---------------------------------------------------------------------
-          !< Taylor Quinney (Extended) self heating
-          !---------------------------------------------------------------------
-          case (1)
-            call self_heating_taylor(                                          &
-              matparam ,nel     ,sigy    ,dtemp_dpla,epsd   )
-          !---------------------------------------------------------------------
-          !< Tabulated self heating
-          !---------------------------------------------------------------------
-          case (2)
-            call self_heating_tabulated(                                       &
-              matparam ,nel     ,sigy    ,dtemp_dpla,epsd   ,nvartmp ,vartmp  )
-        end select
-!
-        !=======================================================================
         !< - Select thermal softening model
         !=======================================================================
         itherm = matparam%iparam(14)
@@ -221,9 +203,31 @@
           !---------------------------------------------------------------------
           case(3)
             call therm_softening_tabulated(                                    &
-              matparam ,nel      ,sigy     ,temp     ,dsigy_dpla,dtemp_dpla   ,&
-              nvartmp  ,vartmp   )
+              matparam ,nel      ,sigy     ,temp     ,dsigy_dpla,              &
+              nvartmp  ,vartmp   ,pla      )
         end select
+!
+        !=======================================================================
+        !< - Self-heating model
+        !=======================================================================
+        iheat = matparam%iparam(18)
+        if (jthe == 0) then 
+          select case (iheat)
+            !-------------------------------------------------------------------
+            !< Taylor Quinney (Extended) self heating
+            !-------------------------------------------------------------------
+            case (1)
+              call self_heating_taylor(                                        &
+                matparam ,nel     ,sigy    ,dtemp_dpla,epsd   )
+            !-------------------------------------------------------------------
+            !< Tabulated self heating
+            !-------------------------------------------------------------------
+            case (2)
+              call self_heating_tabulated(                                     &
+                matparam ,nel     ,sigy    ,dtemp_dpla,epsd   ,nvartmp ,vartmp,&
+                temp     ,pla     )
+          end select
+        endif
 !
       end subroutine elasto_plastic_yield_stress
       end module elasto_plastic_yield_stress_mod

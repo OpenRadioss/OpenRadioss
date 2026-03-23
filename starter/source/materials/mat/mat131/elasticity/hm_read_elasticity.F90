@@ -43,7 +43,8 @@
 !||====================================================================
         subroutine hm_read_elasticity(                                         &
           ikey     ,type     ,ielas    ,nupar_elas,upar_elas,is_available,     &
-          unitab   ,lsubmodel,matparam ,parmat    ,iout     ,is_encrypted)
+          unitab   ,lsubmodel,matparam ,parmat    ,iout     ,is_encrypted,     &
+          mat_id   ,titr     )
 !----------------------------------------------------------------
 !   M o d u l e s
 !----------------------------------------------------------------
@@ -55,6 +56,7 @@
           use precision_mod, only : WP
           use hm_read_elasticity_isotropic_mod
           use hm_read_elasticity_orthotropic_mod
+          use hm_read_elasticity_anisotropic_mod
 !----------------------------------------------------------------
 !   I m p l i c i t   T y p e s
 !----------------------------------------------------------------
@@ -74,6 +76,8 @@
           real(kind=WP),           intent(inout) :: parmat(100)           !< material parameter global table 1
           integer,                 intent(in)    :: iout                  !< output unit
           logical,                 intent(in)    :: is_encrypted          !< encryption flag
+          integer, intent(in)                    :: mat_id                !< Material law user ID
+          character(len=nchartitle),intent(in)   :: titr                  !< Material law user title
 !===============================================================================
 ! 
           !< Select elasticity type
@@ -85,7 +89,7 @@
               call hm_read_elasticity_isotropic(                               &
                 ikey     ,ielas    ,nupar_elas,upar_elas,is_available,         &
                 unitab   ,lsubmodel,matparam  ,parmat   ,iout        ,         &
-                is_encrypted)
+                is_encrypted,mat_id,titr      )
             !===================================================================
             !< Orthotropic elasticity parameters
             !===================================================================
@@ -93,7 +97,15 @@
               call hm_read_elasticity_orthotropic(                             &
                 ikey     ,ielas    ,nupar_elas,upar_elas,is_available,         &
                 unitab   ,lsubmodel,matparam  ,parmat   ,iout        ,         &
-                is_encrypted)
+                is_encrypted,mat_id,titr      )
+            !===================================================================
+            !< Anisotropic elasticity parameters
+            !===================================================================
+            case ('ANIS')
+              call hm_read_elasticity_anisotropic(                             &
+                ikey     ,ielas    ,nupar_elas,upar_elas,is_available,         &
+                unitab   ,lsubmodel,matparam  ,parmat   ,iout        ,         &
+                is_encrypted,mat_id,titr      )
           end select
 ! -------------------------------------------------------------------------------
         end subroutine hm_read_elasticity

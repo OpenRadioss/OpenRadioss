@@ -111,6 +111,9 @@
           if (mtag%g_temp == 0) mtag%g_temp = 1
           if (mtag%l_temp == 0) mtag%l_temp = 1
 !
+          !< Activate heat source calculation in material
+          if (matparam%heat_flag == 0) matparam%heat_flag = 1
+!
 ! -------------------------------------------------------------------------------
         end subroutine hm_read_self_heating
       end module hm_read_self_heating_mod

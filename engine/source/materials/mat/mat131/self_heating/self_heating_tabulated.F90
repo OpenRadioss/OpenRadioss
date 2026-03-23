@@ -40,7 +40,8 @@
 !||    table_mat_vinterp_mod         ../engine/source/materials/tools/table_mat_vinterp.F
 !||====================================================================
       subroutine self_heating_tabulated(                                       &
-        matparam ,nel      ,sigy     ,dtemp_dpla,epsd     ,nvartmp  ,vartmp   )
+        matparam ,nel      ,sigy     ,dtemp_dpla,epsd     ,nvartmp  ,vartmp   ,&
+        temp     ,pla      )
 !----------------------------------------------------------------
 !   M o d u l e s
 !----------------------------------------------------------------
@@ -62,30 +63,34 @@
         real(kind=WP), dimension(nel), intent(in)    :: epsd       !< Equivalent strain rate
         integer,                       intent(in)    :: nvartmp    !< Number of temporary variables used in tabulated self heating
         integer,dimension(nel,nvartmp),intent(inout) :: vartmp     !< Temporary variables array
+        real(kind=WP), dimension(nel), intent(in)    :: temp       !< Temperature
+        real(kind=WP), dimension(nel), intent(in)    :: pla        !< Plastic strain
 !----------------------------------------------------------------
 !  L o c a l  V a r i a b l e s
 !----------------------------------------------------------------
-        integer :: offset,offset_var,i,ipos(nel,1)
-        real(kind=WP) :: eta,cp,rho
-        real(kind=WP), dimension(nel) :: weight,dweight,xvec(nel,1)
+        integer :: offset_tab,offset,offset_var,i
+        real(kind=WP) :: eta,rhocp
+        real(kind=WP), dimension(nel) :: weight,dweight,xvec(nel,3)
 !===============================================================================
 !
         !=======================================================================
         !< - Tabulated self-heating model
         !=======================================================================
-        offset = matparam%iparam(15)
+        offset_tab = matparam%iparam(15)
+        offset = matparam%iparam(16)
         offset_var = matparam%iparam(17)
         !< Recover self heating parameters
-        eta  = matparam%uparam(offset + 1) !< Taylor-Quinney coefficient
-        cp   = matparam%uparam(offset + 2) !< Thermal massic capacity
-        rho  = matparam%rho0               !< Material initial density
+        eta   = matparam%uparam(offset + 1) !< Taylor-Quinney coefficient
+        rhocp = matparam%therm%rhocp        !< Material thermal inertia
         !< Prepare input vectors for interpolation
         xvec(1:nel,1) = epsd(1:nel)
+        xvec(1:nel,2) = temp(1:nel)
+        xvec(1:nel,3) = pla(1:nel)
         !< Strain rate weight factor interpolation
-        call table_mat_vinterp(matparam%table(offset+1),nel,nel,               &
+        call table_mat_vinterp(matparam%table(offset_tab+1),nel,nel,           &
           vartmp(1:nel,offset_var+1),xvec,weight,dweight)
         !< Update derivative of temperature w.r.t. cumulated plastic strain
-        dtemp_dpla(1:nel) = (eta/(rho*cp))*sigy(1:nel)*weight(1:nel) 
+        dtemp_dpla(1:nel) = (eta/rhocp)*sigy(1:nel)*weight(1:nel)
 !
       end subroutine self_heating_tabulated
       end module self_heating_tabulated_mod

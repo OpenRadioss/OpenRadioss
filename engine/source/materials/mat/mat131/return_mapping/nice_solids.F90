@@ -54,7 +54,8 @@
         signxx   ,signyy   ,signzz   ,signxy   ,signyz   ,signzx   ,           &
         soundsp  ,off      ,pla      ,dpla     ,seq      ,et       ,           &
         sigy     ,timestep ,epsd     ,temp     ,israte   ,asrate   ,           &
-        l_sigb   ,sigb     ,nuvar    ,uvar     )
+        l_sigb   ,sigb     ,nuvar    ,uvar     ,ieos     ,dpdm     ,           &
+        jthe     ,fheat    ,voln     )
 !----------------------------------------------------------------
 !   M o d u l e s
 !----------------------------------------------------------------
@@ -118,6 +119,11 @@
         real(kind=WP),dimension(nel,l_sigb),intent(inout) :: sigb !< Backstress components for kinematic hardening        
         integer,                       intent(in)    :: nuvar     !< Number of user variables
         real(kind=WP),dimension(nel,nuvar), intent(inout) :: uvar !< User variables
+        integer,                       intent(in)    :: ieos      !< Equation of state flag
+        real(kind=WP), dimension(nel), intent(inout) :: dpdm      !< Pressure derivative of the shear modulus for EOS coupling
+        integer,                       intent(in)    :: jthe      !< /HEAT/MAT flag
+        real(kind=WP), dimension(nel), intent(inout) :: fheat     !< Heat energy accumulated for /HEAT/MAT
+        real(kind=WP), dimension(nel), intent(in)    :: voln      !< Current element volume
 !----------------------------------------------------------------
 !  L o c a l  V a r i a b l e s
 !----------------------------------------------------------------
@@ -129,11 +135,11 @@
           dsigbxx_dlam,dsigbyy_dlam,dsigbzz_dlam,dsigbxy_dlam,                 &
           dsigbyz_dlam,dsigbzx_dlam,chard,dphi
         real(kind=WP), dimension(nel) :: pla0,normxx,normyy,normzz,            &
-          normxy,normyz,normzx,phi,young,dsigy_dpla,dtemp_dpla,s13,s23,shf,    &
-          sigbxx,sigbyy,sigbzz,sigbxy,sigbyz,sigbzx,sigy0,dsigy0_dpla,         &
+          normxy,normyz,normzx,phi,young,dsigy_dpla,dtemp_dpla,s13,s23,s43,    &
+          shf,sigbxx,sigbyy,sigbzz,sigbxy,sigbyz,sigbzx,sigy0,dsigy0_dpla,     &
           dtemp0_dpla,zeros,dsigxx,dsigyy,dsigzz,dsigxy,dsigyz,dsigzx,phi0,    &
           sig0xx,sig0yy,sig0zz,sig0xy,sig0yz,sig0zx,seq0,norm0xx,norm0yy,      &
-          norm0zz,norm0xy,norm0yz,norm0zx
+          norm0zz,norm0xy,norm0yz,norm0zx,sigm
         real(kind=WP), dimension(nel,l_sigb) :: dsigb_dlam
         integer, dimension(nel,nvartmp) :: ipos0
 !
@@ -201,14 +207,15 @@
           depsxx   ,depsyy   ,depszz   ,depsxy   ,depsyz   ,depszx   ,         &
           sigoxx   ,sigoyy   ,sigozz   ,sigoxy   ,sigoyz   ,sigozx   ,         &
           signxx   ,signyy   ,signzz   ,signxy   ,signyz   ,signzx   ,         &
-          eltype   ,shf      ,s13      ,s23      )
+          eltype   ,shf      ,s13      ,s23      ,s43      ,ieos     ,         &
+          dpdm     )
 !
         !=======================================================================
         !< - Computation of the initial yield stress
         !=======================================================================
         call elasto_plastic_yield_stress(                                      &
           matparam ,nel      ,sigy     ,pla      ,epsd     ,dsigy_dpla,        &
-          nvartmp  ,vartmp   ,temp     ,dtemp_dpla)
+          nvartmp  ,vartmp   ,temp     ,dtemp_dpla,jthe    )
 !
         !=======================================================================
         !< - Backstress tensor computation for kinematic hardening models
@@ -247,7 +254,7 @@
           ipos0(1:nel,1:nvartmp) = 0
           call elasto_plastic_yield_stress(                                    &
             matparam ,nel      ,sigy0    ,zeros    ,epsd     ,dsigy0_dpla,     &
-            nvartmp  ,ipos0    ,temp     ,dtemp0_dpla)
+            nvartmp  ,ipos0    ,temp     ,dtemp0_dpla,jthe   )
           !< Update of the yield stress for kinematic hardening models
           sigy(1:nel) = (one - chard)*sigy(1:nel) + chard*sigy0(1:nel)
         endif
@@ -264,16 +271,6 @@
         !=======================================================================
         !< - Computation of the trial yield function and count yielding elements
         !=======================================================================
-        ! nindx  = 0
-        ! phi(1:nel) = (seq(1:nel)/sigy(1:nel))**2 - one
-        ! do i=1,nel
-        !   if (phi(i) >= zero .and. off(i) == one) then
-        !     nindx = nindx + 1
-        !     indx(nindx)  = i
-        !   else
-        !     phi(i) = zero
-        !   endif
-        ! enddo
         phi(1:nel) = (seq(1:nel) / sigy(1:nel))**2 - one
         active_elements_mask(1:nel) = (phi(1:nel) >= zero .and. off(1:nel) == one)
         where (.not. active_elements_mask(1:nel))
@@ -308,14 +305,23 @@
             !<  a) Derivatives of stress tensor w.r.t lambda
             !<  ----------------------------------------------------------------
             dsigxx_dlam = -(cstf(i,1,1)*norm0xx(i) + cstf(i,1,2)*norm0yy(i) +  &
-                            cstf(i,1,3)*norm0zz(i))
-            dsigyy_dlam = -(cstf(i,1,2)*norm0xx(i) + cstf(i,2,2)*norm0yy(i) +  &
-                            cstf(i,2,3)*norm0zz(i))
-            dsigzz_dlam = -(cstf(i,1,3)*norm0xx(i) + cstf(i,2,3)*norm0yy(i) +  &
-                            cstf(i,3,3)*norm0zz(i))
-            dsigxy_dlam = -(cstf(i,4,4)*norm0xy(i))
-            dsigyz_dlam = -(cstf(i,5,5)*norm0yz(i))
-            dsigzx_dlam = -(cstf(i,6,6)*norm0zx(i))
+                            cstf(i,1,3)*norm0zz(i) + cstf(i,1,4)*norm0xy(i) +  &
+                            cstf(i,1,5)*norm0yz(i) + cstf(i,1,6)*norm0zx(i))
+            dsigyy_dlam = -(cstf(i,2,1)*norm0xx(i) + cstf(i,2,2)*norm0yy(i) +  &
+                            cstf(i,2,3)*norm0zz(i) + cstf(i,2,4)*norm0xy(i) +  &
+                            cstf(i,2,5)*norm0yz(i) + cstf(i,2,6)*norm0zx(i))
+            dsigzz_dlam = -(cstf(i,3,1)*norm0xx(i) + cstf(i,3,2)*norm0yy(i) +  &
+                            cstf(i,3,3)*norm0zz(i) + cstf(i,3,4)*norm0xy(i) +  &
+                            cstf(i,3,5)*norm0yz(i) + cstf(i,3,6)*norm0zx(i))
+            dsigxy_dlam = -(cstf(i,4,1)*norm0xx(i) + cstf(i,4,2)*norm0yy(i) +  &
+                            cstf(i,4,3)*norm0zz(i) + cstf(i,4,4)*norm0xy(i) +  &
+                            cstf(i,4,5)*norm0yz(i) + cstf(i,4,6)*norm0zx(i))
+            dsigyz_dlam = -(cstf(i,5,1)*norm0xx(i) + cstf(i,5,2)*norm0yy(i) +  &
+                            cstf(i,5,3)*norm0zz(i) + cstf(i,5,4)*norm0xy(i) +  &
+                            cstf(i,5,5)*norm0yz(i) + cstf(i,5,6)*norm0zx(i))
+            dsigzx_dlam = -(cstf(i,6,1)*norm0xx(i) + cstf(i,6,2)*norm0yy(i) +  &
+                            cstf(i,6,3)*norm0zz(i) + cstf(i,6,4)*norm0xy(i) +  &
+                            cstf(i,6,5)*norm0yz(i) + cstf(i,6,6)*norm0zx(i))
 !
             !<  b) Assembling derivative of eq. stress sigeq w.r.t lambda
             !<  ----------------------------------------------------------------
@@ -425,14 +431,18 @@
             dpla(i) = max(dpla(i) + dpla_dlam*dlam,zero)
             !< Equivalent plastic strain
             pla(i)  = pla0(i) + dpla(i)
-            !< Temperature
-            temp(i) = temp(i) + dtemp_dpla(i)*dpla_dlam*dlam
+            !< Temperature or heating generation update for /HEAT/MAT
+            if (jthe /= 0) then
+              fheat(i) = fheat(i) + sigy(i)*dpla_dlam*dlam*voln(i)
+            else
+              temp(i)  = temp(i)  + dtemp_dpla(i)*dpla_dlam*dlam
+            endif
 !
             !<  d) Yield stress update
             !<  ----------------------------------------------------------------
             call elasto_plastic_yield_stress(                                  &
               matparam ,1        ,sigy(i)  ,pla(i)   ,epsd(i) ,dsigy_dpla(i),  &
-              nvartmp  ,vartmp(i,1:nvartmp),temp(i) ,dtemp_dpla(i))
+              nvartmp  ,vartmp(i,1:nvartmp),temp(i) ,dtemp_dpla(i),jthe     )
 !
             !<  e) Backstress tensor update
             !<  ----------------------------------------------------------------
@@ -515,7 +525,6 @@
           signyz(1:nel) = signyz(1:nel) + sigbyz(1:nel)
           signzx(1:nel) = signzx(1:nel) + sigbzx(1:nel)
         endif
-!
 !        
         !=======================================================================
         !< - Save remaining error after return mapping
@@ -527,6 +536,16 @@
         uvar(1:nel,5) = normxy(1:nel)
         uvar(1:nel,6) = normyz(1:nel)
         uvar(1:nel,7) = normzx(1:nel)
+!
+        !=======================================================================
+        !< - Equation of state coupling for solids
+        !=======================================================================       
+        if (ieos > 0) then
+          sigm(1:nel) = (signxx(1:nel) + signyy(1:nel) + signzz(1:nel))/three
+          signxx(1:nel) = signxx(1:nel) - sigm(1:nel)
+          signyy(1:nel) = signyy(1:nel) - sigm(1:nel)
+          signzz(1:nel) = signzz(1:nel) - sigm(1:nel)
+        endif
 !
        end subroutine nice_solids
        end module nice_solids_mod

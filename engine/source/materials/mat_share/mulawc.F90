@@ -1910,7 +1910,8 @@
                   etse     ,sigy     ,dt1      ,lbuf%epsd,el_temp  ,       &
                   shf      ,thkn     ,thklyl   ,asrate   ,l_sigb   ,       &
                   lbuf%sigb,epsd_pg  ,nuvar    ,uvar     ,inloc    ,       &
-                  varnl(1,it),ioff_duct)
+                  varnl(1,it),ioff_duct,jthe   ,fheat    ,vol_ipt  ,       &
+                  off      )
 !       
               elseif (ilaw == 132) then 
                 call sigeps132c( &                     

@@ -39,7 +39,7 @@
 !||====================================================================
         subroutine hm_read_therm_softening_zhao(                               &
           ikey     ,itherm   ,nupar_therm  ,upar_therm  ,is_available,         &
-          unitab   ,lsubmodel,iout         ,is_encrypted)
+          unitab   ,lsubmodel,iout         ,is_encrypted,matparam    )
 !----------------------------------------------------------------
 !   M o d u l e s
 !----------------------------------------------------------------
@@ -65,6 +65,7 @@
           type(submodel_data),dimension(nsubmod),intent(in) :: lsubmodel  !< Submodel data structure
           integer,                 intent(in)    :: iout                  !< Output unit
           logical,                 intent(in)    :: is_encrypted          !< Encryption flag
+          type(matparam_struct_),  intent(inout) :: matparam              !< Material parameter data structure
 !----------------------------------------------------------------
 !  L o c a l  V a r i a b l e s
 !----------------------------------------------------------------
@@ -79,10 +80,10 @@
           !< Thermal softening type
           itherm = 2
           !< Number of parameters
-          nupar_therm = 2
+          nupar_therm = 1
           !< Save thermal softening parameters
-          upar_therm(1) = tref
-          upar_therm(2) = mu
+          upar_therm(1) = mu
+          matparam%therm%tref  = tref
           !< Printing thermal softening parameters
           if (is_encrypted)then
             write(iout,"(5X,A,//)") "CONFIDENTIAL DATA"
