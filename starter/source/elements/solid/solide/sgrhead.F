@@ -33,7 +33,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    reorder_mod            ../starter/share/modules1/reorder_mod.F
 !||====================================================================
       SUBROUTINE SGRHEAD(
-     1       IXS        ,PM            ,GEO       ,INUM    ,ISEL   ,
+     1       IXS        ,PM            ,GEO       ,INUM    ,
      2       ITR1       ,EADD          ,INDEX     ,ITRI    ,IPARTS ,      
      3       ND         ,IGRSURF       ,IGRBRIC   ,ISOLNOD ,
      4       CEP        ,XEP           ,IXS10     ,IXS20   ,IXS16  ,
@@ -50,7 +50,6 @@ C     IPM(NPROPMI,NUMMAT)  ARRAY: MATERIAL PARAMETERS (integer)      E
 C     GEO(NPROPG,NUMGEO)   ARRAY: PROPERTY PARAMETERS (real)         E
 C     IGEO(NPROPGI,NUMGEO) ARRAY: PROPERTY PARAMETERS (integer)      E
 C     INUM(13,NUMELS)      ARRAY: WORKING                            E/S
-C     ISEL(NSELS)          ARRAY: SELECTED SOLIDS FOR TH            E/S
 C     ITR1(NSELS)          ARRAY: WORKING                            E/S
 C     EADD(NUMELS)         ARRAY: IDAM INDEXES / checkboard            S
 C     INDEX(NUMELS)        ARRAY: WORKING                            E/S
@@ -72,6 +71,7 @@ C-----------------------------------------------
       USE MATPARAM_DEF_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
       use element_mod , only : nixs
+      use get_sort_key_solid_mod , only : get_sort_key_solid
 C-----------------------------------------------
 C   I M P L I C I T   T Y P E S
 C-----------------------------------------------
@@ -89,8 +89,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
-      INTEGER IXS(NIXS,NUMELS),ISEL(*),INUM(16,*),IPARTS(*),
-     .        EADD(*),ITR1(*),INDEX(*),ITRI(8,*),
+      integer, parameter :: nb_key = 8
+      INTEGER IXS(NIXS,NUMELS),INUM(16,*),IPARTS(*),
+     .        EADD(*),ITR1(*),INDEX(*),ITRI(nb_key,*),
      .        ND, ISOLNOD(*), CEP(*),
      .        XEP(*),IXS10(6,*),IXS20(12,*),IXS16(8,*),
      .        NOD2ELS(*), ISOLOFF(*),
@@ -111,18 +112,14 @@ C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
       INTEGER 
-     .        I,J,K,L,IL,MLN, NG, ISSN, NPN, NN, N, MID, PID ,IREP,
+     .        I,J,K, NN,
      .        II,II0,JJ0,II1,JJ1,II2,JJ2,JJ,II3,JJ3,II4,JJ4,II5,JJ5,
-     .        II6,JJ6,JHBE,ISO,IGT,IINT,MODE,IEOS,IVISC,IVISC0,TSHELL, 
-     .        IPLAST, IALEL,MT,NFAIL,NFAIL0,ITET4,ICPRE,ICSTR,IRB ,
-     .        NLAY,NPTR,NPTS,NPTT,IMAT,INUM_R2R(1+R2R_SIU*NUMELS),
-     .        NSPHDIR,IPARTSPH,NUVAR,ISVIS,IBOLTP,ITET10,NLOC_FAIL,
+     .        II6,JJ6,MODE,
+     .        INUM_R2R(1+R2R_SIU*NUMELS),
      .        IPERT,STAT
       INTEGER WORK(70000)
       EXTERNAL MY_SHIFTL,MY_SHIFTR,MY_AND
       INTEGER MY_SHIFTL,MY_SHIFTR,MY_AND
-      INTEGER ID, JALE_FROM_MAT, JALE_FROM_PROP
-      CHARACTER(LEN=NCHARTITLE) :: TITR
       INTEGER, DIMENSION(:), ALLOCATABLE :: INDEX2
       INTEGER :: CLUSTER_TYP,CLUSTER_NEL
       INTEGER, DIMENSION(:), ALLOCATABLE :: SAVE_CLUSTER
@@ -178,175 +175,17 @@ C
       DO I=1,NUMELS
         XEP(I)=CEP(I)
       ENDDO
-C
-      DO I = 1, NUMELS
-        II = I
-        NPN = 1
-        JHBE= 1
-        JPOR=0
-        MID = IXS(1,II)
-        MLN = NINT(PM(19,ABS(MID)))
-        IF(MLN == 51)TRIMAT=4
-        IF (MID < 0) THEN
-          IF (MLN==6.AND.JPOR/=2) MLN=17
-          IF (MLN==46) MLN=47
-          MID = IABS(MID)
-        ENDIF
-        IF (MLN == 36 .or. MLN == 47) THEN
-          NUVAR = IPM(8,MID)
-        ELSE
-          NUVAR = 0   ! no matter what
-        ENDIF
-        PID= IXS(10,II)
-        ISO= ISOLNOD(II)
-        IPLAST= 1
-        ICPRE = 0
-        ICSTR = 0
-        IREP = 0
-        ISTRAIN = 0        
-        NFAIL0    = MAT_PARAM(MID)%NFAIL
-        NLOC_FAIL = MAT_PARAM(MID)%NLOC
-        IEOS = 0
-        IVISC0 = 0
-        NLAY  = 1
-        TSHELL = 0
-        ISVIS = 0
-        IF (PID/=0) THEN
-          NPN  = IGEO(4,PID)
-          ISSN = IABS(IGEO(5,PID))
-          IREP = IGEO(6,PID)
-          JHBE = IGEO(10,PID)
-          IGT  = IGEO(11,PID)
-          ISTRAIN = IGEO(12,PID)
-          ICPRE  = IABS(IGEO(13,PID))     
-          ICSTR  = IGEO(14,PID)    
-          IINT = IGEO(15,PID)
-          JCVT = IABS(IGEO(16,PID))
-          ITET4  = IGEO(20,PID)
-          ITET10 = IGEO(50,PID)
-          IF (IGT == 22) THEN                   
-            NLAY = IGEO(30,PID)                 
-            DO IL=1,NLAY                        
-              IMAT = IGEO(100+IL,PID)           
-              NFAIL0 = MAX(NFAIL0,MAT_PARAM(IMAT)%NFAIL)
-              IF (MAT_PARAM(IMAT)%IVISC > 0) IVISC0 = 1
-            ENDDO
-          ELSEIF (MAT_PARAM(MID)%IVISC > 0) THEN
-            IVISC0 = 1
-          ENDIF
-C IVISCO0 cannot put in the PID because is for MID (it can be used in IGEO)
-          IGEO(34,PID) = IVISC0
-c----------            
-          IF (IGT /= 15) IPLAST = IGEO(9,PID)
-          IF (IGT==15) JPOR=2*NINT(GEO(28,PID))
-          JCLOS=0
-          IF (GEO(130,PID)>0.) JCLOS=1
-C--------------Navier Storks Vis          
-          IF (GEO(16,PID)/=ZERO.OR.GEO(17,PID)/=ZERO) ISVIS=1
-        ENDIF
-        IF((JHBE == 14 .OR. JHBE == 222).AND.ISO==8) NUMELS8A=NUMELS8A+1
-        IF (JHBE == 12)  JHBE = 4
-        IF (JHBE==2)   JHBE = 0
-c        
-        JALE_FROM_MAT = NINT(PM(72,MID))
-        JALE_FROM_PROP = IGEO(62,PID)
-        JALE = MAX(JALE_FROM_MAT, JALE_FROM_PROP) !if inconsistent, error message was displayed in PART reader
-        JLAG=0
-        IF(JALE == 0 .AND. MLN /= 18)JLAG=1
-        JEUL=0
-        IF(JALE==2)THEN
-          JALE=0
-          JEUL=1
-        ELSEIF(JALE == 3) THEN
-          JLAG = 1
-          JALE = 1
-        ENDIF
-        IF(MLN/=50)JTUR=NINT(PM(70,MID))
-        JTHE=NINT(PM(71,MID))
-        IF (JLAG==0 .AND. PID/=0) ISSN=4
-C sorting on elem delete for rigidbody
-C IRB = 0 : active elem
-C IRB = 1 : inactive elem and optimized for SPMD
-C IRB = 2 : inactive elem but optimized to be active in SPMD
-        IRB = ISOLOFF(I)
-C
-        JSMS=0
-        IF(ISMS/=0)THEN
-          IF(IDTGRS/=0)THEN
-            IF(TAGPRT_SMS(IPARTS(II))/=0)JSMS=1
-          ELSE
-            JSMS=1
-          END IF
-        END IF
-        IEOS  = IPM(4,MID)
-C
-        NSPHDIR =IGEO(37,PID)
-        IPARTSPH=IGEO(38,PID)
-        IGEO(35,PID) = ISVIS
-C Bolt preloading flag
-        IBOLTP = 0
-        IF(NPRELOAD > 0)THEN
-          IBOLTP = IFLAG_BPRELOAD(II)
-        ENDIF
-        
-C
-C    1---------------------------------
-C
-C     classify shell16 after brick20
-        IF(ISO==16)ISO=21
-C       IGT =MY_SHIFTL(IGT,0)
-        JSMS=MY_SHIFTL(JSMS,26)
-        ISO =MY_SHIFTL(ISO,27)
-C       CAUTION ISO must remain in the strongest weight
-        ITRI(1,I)=ISO+JSMS+IGT
-C    2---------------------------------
-C       IPARTSPH=MY_SHIFTL(IPARTSPH,0)
-        ITRI(2,I)=IPARTSPH ! must remain alone for this key (part index)
-C    3---------------------------------
-C       JTHE=MY_SHIFTL(JTHE,0)
-        JTUR=MY_SHIFTL(JTUR,1)
-        JEUL=MY_SHIFTL(JEUL,2)
-        JLAG=MY_SHIFTL(JLAG,3)
-        JALE=MY_SHIFTL(JALE,4)
-        ISSN=MY_SHIFTL(ISSN,5)
-        JHBE=MY_SHIFTL(JHBE,9)
-        JPOR=MY_SHIFTL(JPOR,13)
-        IRB=MY_SHIFTL(IRB,18)
-        MLN =MY_SHIFTL(MLN,22)
-        ITRI(3,I)=MLN+JHBE+ISSN+JALE+JLAG+JEUL+JTUR+JTHE+JPOR+IRB
-C
-C    4---------------------------------
-        NPN   =MY_SHIFTL(NPN,3)
-        IPLAST=MY_SHIFTL(IPLAST,13)
-        ICPRE =MY_SHIFTL(ICPRE,16)
-        ICSTR =ICSTR/100+2*MOD(ICSTR/10,10)+4*MOD(ICSTR,10)
-        ICSTR =MY_SHIFTL(ICSTR,18)
-        IREP=MY_SHIFTL(IREP,20)
-        JCVT=MY_SHIFTL(JCVT,22)
-        IINT=MY_SHIFTL(IINT,24)
-        ISTRAIN=MY_SHIFTL(ISTRAIN,26)
-        ITET4=MY_SHIFTL(ITET4,27)
-        NFAIL  =  MY_SHIFTL(NFAIL0,29) 
-        ITRI(4,I)=JCLOS+NPN+IPLAST+ICPRE+ICSTR+IREP+IINT+JCVT+ISTRAIN
-     .           +ITET4+NFAIL
-C    5---------------------------------
-        ITRI(5,I)=MID
-C    6---------------------------------
-        ITRI(6,I)=PID
-C    7---------------------------------
-        IEOS      = MY_SHIFTL(IEOS,0) 
-        IVISC     = MY_SHIFTL(IVISC0,4)
-        NUVAR     = MY_SHIFTL(NUVAR,5) 
-        ISVIS     = MY_SHIFTL(ISVIS,15) 
-        IBOLTP    = MY_SHIFTL(IBOLTP,16)
-        ITET10    = MY_SHIFTL(ITET10,17)
-        NLOC_FAIL = MY_SHIFTL(NLOC_FAIL,19)
-C       next  = MY_SHIFTL(next,21)
-        ITRI(7,I)=IEOS+IVISC+NUVAR+ISVIS+IBOLTP+ITET10+NLOC_FAIL
-C    8---------------------------------        
-        ITRI(8,I )= DAMP_RANGE_PART(IPARTS(II))        
-      ENDDO
-C
+
+      itri(1:8,1:numels) = 0
+      call get_sort_key_solid(numels,nb_key,nummat,numgeo, 
+     .                                 npart,npropgi, 
+     .                                 npropmi,npropm,npropg, 
+     .                                 isms,idtgrs,npreload,trimat, 
+     .                                 iparts,isoloff,isolnod,iflag_bpreload,damp_range_part,tagprt_sms, 
+     .                                 itri,ixs,igeo, 
+     .                                 ipm,pm,geo, 
+     .                                 mat_param)
+
       MODE=0
       CALL MY_ORDERS( MODE, WORK, ITRI, INDEX, NUMELS , 8)
 C

@@ -35,7 +35,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .            NUMELC,IPM,NUMMAT,NUMGEO,POIN_PART_SHELL,
      .            MID_PID_SHELL,IPARTC,OFF,BUFMAT,
      .            MID_OLD,PID_OLD,MLN_OLD,RECHERCHE,TELT_PRO,
-     .            TABMP_L,MAT_PARAM,numeltg,iworksh)
+     .            TABMP_L,MAT_PARAM,numeltg,iworksh,elm_group)
 C-----------------------------------------------
 C            M o d u l e s
 C-----------------------------------------------
@@ -74,7 +74,8 @@ C     REAL OR REAL*8
       INTEGER, DIMENSION(2,*), INTENT(IN) :: POIN_PART_SHELL
       TYPE(MID_PID_TYPE), DIMENSION(*), INTENT(INOUT) :: MID_PID_SHELL
       TYPE(MATPARAM_STRUCT_) ,DIMENSION(NUMMAT), INTENT(IN) :: MAT_PARAM
-      integer, dimension(3,numelc+numeltg), intent(in) :: iworksh !< ply data for shell & shell3n elements            
+      integer, dimension(3,numelc+numeltg), intent(in) :: iworksh !< ply data for shell & shell3n elements
+      integer, dimension(numelc,2), intent(in) :: elm_group !< group id & number of element in the group for each element 
 C-----------------------------------------------
       INTEGER  NPN, MID, PID, MLN,
      .    ISTRAIN, ITHK, IHBE, IPLA, ISSN, I, J,
@@ -457,18 +458,21 @@ C ow            Q4
 
         ! --------------------
         IF(RECHERCHE==0) THEN
-         IF((WD_LOCAL==0.).AND.(MLN/=0)) THEN
-           POIDS = TELT * INVTREF
-           WD(I+OFF) = POIDS
-           POIN_PART = IPARTC(I)
-           POIN_MID = POIN_PART_SHELL(1,POIN_PART)
-           POIN_PID = POIN_PART_SHELL(2,POIN_PART)
-           IF(POIN_MID/=0.AND.POIN_PID/=0) MID_PID_SHELL(POIN_MID)%COST1D(POIN_PID) = TELT
-         ELSEIF((WD_LOCAL==0.).AND.(MLN==0)) THEN
-           WD(I+OFF) = 0.0001
-         ENDIF
+          IF((WD_LOCAL==0.).AND.(MLN/=0)) THEN
+            if(elm_group(i,2)>0.and.elm_group(i,2)<80) then
+              telt = telt * (18.248*(elm_group(i,2))**(-0.625))
+            endif                   
+            POIDS = TELT * INVTREF     
+            WD(I+OFF) = POIDS
+            POIN_PART = IPARTC(I)
+            POIN_MID = POIN_PART_SHELL(1,POIN_PART)
+            POIN_PID = POIN_PART_SHELL(2,POIN_PART)
+            IF(POIN_MID/=0.AND.POIN_PID/=0) MID_PID_SHELL(POIN_MID)%COST1D(POIN_PID) = TELT
+          ELSEIF((WD_LOCAL==0.).AND.(MLN==0)) THEN
+            WD(I+OFF) = 0.0001
+          ENDIF
         ELSE
-         TELT_PRO = TELT
+          TELT_PRO = TELT
         ENDIF
         ! --------------------
       ENDDO

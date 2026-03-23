@@ -660,6 +660,8 @@ C-----------------------------------------------
       use sfem_exclude_mod
       use hm_read_inter_guided_cable_mod, ONLY : hm_read_inter_guided_cable
       use hm_print_inter_guided_cable_mod, ONLY : hm_print_inter_guided_cable
+      use get_element_group_mod , only : get_element_group
+      use elm_group_mod , only : elm_group_
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -825,6 +827,7 @@ C-----------------------------------------------
       INTEGER, DIMENSION(:),ALLOCATABLE ::
      *        ISOLNOD,ISOLOFF,ISHEOFF,ITRUOFF,IPOUOFF,
      *        IRESOFF,ITRIOFF,IGRNRBY,IQUAOFF
+      integer, dimension(:), allocatable :: isolnod0,ishell3nod0
 C
       INTEGER(KIND=8) :: KVOISPH8,NUMSPH8,SIXSP8,LIMIT8
       INTEGER :: INTEGER_LIMIT32
@@ -1243,6 +1246,12 @@ C SPH
 C RWALL PENALTY   
       INTEGER :: SLN_PEN
       my_real, DIMENSION(:), ALLOCATABLE :: RWSTIF_PEN
+
+      integer, dimension(2) :: mold_int
+      integer, parameter :: nb_key = 8 
+      integer :: iwarnhb,n_entity
+      integer :: sh4tree_dim1,sh4tree_dim2,sh3tree_dim1,sh3tree_dim2
+      type(elm_group_) :: elm_group
 c=======================================================================
       IREAC = 0 
       PYTHON%NB_FUNCTS = 0
@@ -2130,7 +2139,7 @@ c in the skew, we put all the skews of the model
         XFRAME => SKEW
       END IF
 c      ALLOCATE(XFRAME(SXFRAME) ,STAT=stat)
-      ALLOCATE(EANI(SEANI) ,STAT=stat)
+      ALLOCATE(EANI(SEANI) ,STAT=stat)      
       IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='EANI')
       IF(SEANI > 0) EANI = 0
       IF(NUMELTG > 0) THEN
@@ -2138,6 +2147,8 @@ c      ALLOCATE(XFRAME(SXFRAME) ,STAT=stat)
       ELSE
         EANIT => EANIT2
       ENDIF
+      allocate(isolnod0(numels))
+      allocate(ishell3nod0(numeltg))
       PM   = 0
       SKEW = 0
       GEO  = 0
@@ -2781,6 +2792,19 @@ C--------------------------------------------
       LEVELMAX=0
       LSH4TRIM=0
       LSH3TRIM=0
+
+      if(nadmesh==0) then
+        sh4tree_dim1 = 0
+        sh4tree_dim2 = 0
+        sh3tree_dim1 = 0
+        sh3tree_dim2 = 0
+      else
+        sh4tree_dim1 = ksh4tree
+        sh4tree_dim2 = numelc
+        sh3tree_dim1 = ksh3tree
+        sh3tree_dim2 = numeltg
+      endif
+
       IF(NADMESH/=0)THEN
 
         ALLOCATE(SH4TREE(KSH4TREE,NUMELC),STAT=stat)
@@ -2837,6 +2861,8 @@ C--------------------------------------------
         ALLOCATE(SH4TRIM(0))
         ALLOCATE(SH3TRIM(0))
       END IF
+
+      
 
       IF(ISTATCND/=0)THEN
         ALLOCATE(MSCND(NUMNOD),INCND(NUMNOD),STAT=stat)
@@ -5895,6 +5921,60 @@ C
       ERR_MSG='DOMAIN DECOMPOSITION'
       ERR_CATEGORY='DOMAIN DECOMPOSITION'
       CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
+
+      iwarnhb = 0 
+
+#ifdef MYREAL8
+      n_entity = numels/2 + mod(numels,2)
+      j = 0
+      do i=1,n_entity        
+        mold_int = transfer(eani(i),mold_int)
+        j = j + 1
+        isolnod0(j) = mold_int(1)
+        if(j<numels) then
+          j = j + 1
+          isolnod0(j) = mold_int(2)
+        endif
+      end do      
+#else
+      n_entity = numels
+      do i=1,numels
+        isolnod0(i) = eani(i)
+      end do
+#endif  
+
+      j = 0
+#ifdef MYREAL8
+      n_entity = numeltg/2 + mod(numeltg,2)
+      do i=1,n_entity        
+        mold_int = transfer(eanit(i),mold_int)
+        j = j + 1
+        ishell3nod0(j) = mold_int(1)
+        if(j<numeltg) then
+          j = j + 1
+          ishell3nod0(j) = mold_int(2)
+        endif
+      end do      
+#else
+      n_entity = numeltg
+      do i=1,numeltg
+        ishell3nod0(i) = eanit(i)
+      end do
+#endif      
+
+      call get_element_group(numels,numelc,numeltg,nb_key, 
+     .                       nummat,numgeo,npart,npropgi, 
+     .                       npropmi,npropm,npropg,lipart1, 
+     .                       isms,idtgrs,npreload,icrack3d, 
+     .                       sh4tree_dim1,sh4tree_dim2,sh3tree_dim1,sh3tree_dim2, 
+     .                       ltitr,iwarnhb,trimat,nadmesh,iddlevel, 
+     .                       iparts,ipartc,ipartg,ipart,
+     .                       isoloff,isheoff,itrioff,isolnod0,ishell3nod0,
+     .                       iflag_bpreload,damp_range_part,tagprt_sms, 
+     .                       iworksh,ixs,ixc,ixtg, 
+     .                       igeo,ipm,sh4tree,sh3tree, 
+     .                       pm,geo,stack,mat_elem%mat_param,elm_group)
+      
       IF(IDDLEVEL==1) THEN
          NGROUP = 0
          LBUFEL = 0
@@ -5966,7 +6046,6 @@ C Average allowance normally sufficient if average group size> NVSIZ/2
       IF(.NOT. ALLOCATED(NPBY)) ALLOCATE(NPBY(0))
       IF(.NOT. ALLOCATED(LPBY)) ALLOCATE(LPBY(0))
       IF(.NOT. ALLOCATED( RBY)) ALLOCATE( RBY(0))
-
           CALL DOMETIS(
      1     IXS       ,IXQ      ,IXC      ,IXT     ,IXP      ,
      2     IXR       ,IXTG     ,CEP     ,GEO      ,
@@ -5986,8 +6065,7 @@ C Average allowance normally sufficient if average group size> NVSIZ/2
      6     POIN_PART_SHELL,POIN_PART_TRI,POIN_PART_SOL,
      7     MID_PID_SHELL,MID_PID_TRI,MID_PID_SOL,T_MONVOL,
      8     EBCS_TAG_CELL_SPMD,NPBY,LPBY,MAT_ELEM%MAT_PARAM,
-     9     iworksh)
-
+     9     iworksh,elm_group)
       DEALLOCATE(IWORK)
 C---------------------------
 C     Domdec SPH
@@ -6085,7 +6163,7 @@ C---------------------------------
 C
 C
         CALL SGRHEAD(
-     1       IXS     ,PM     ,GEO    ,INUM   ,BID13   ,
+     1       IXS     ,PM     ,GEO    ,INUM   ,
      2       ITRI1   ,EADD   ,INDEX1 ,ITRI2  ,IPARTS  ,
      3       ND      ,IGRSURF,IGRBRIC,EANI   ,
      4       CEP(OFF),ITRI3  ,IXS10  ,IXS20  ,IXS16   ,
@@ -6217,7 +6295,7 @@ C---------------------------------
        XNUM = ZERO
 C
        CALL CGRHEAD(
-     1   IXC     ,PM      ,GEO     ,INUM    ,BID13   ,
+     1   IXC     ,PM      ,GEO     ,INUM    ,
      2   ITR1    ,EADD    ,INDEX1  ,ITRI1   ,XNUM    ,
      3   IPARTC  ,ND      ,THKE    ,IGRSURF ,IGRSH4N ,
      4   CEP(OFF),XEP     ,IGEO    ,IPM     ,
@@ -6455,14 +6533,14 @@ C---------------------------------
        ENDIF
        IF(N2D==0)THEN
          CALL C3GRHEAD(
-     1     IXTG    ,PM      ,GEO      ,INUM    ,BID13   ,
+     1     IXTG    ,PM      ,GEO      ,INUM    ,
      2     ITR1    ,EADD    ,INDEX1   ,ITRI1   ,XNUM   ,
      3     IPARTG  ,ND      ,THKEC    ,IGRSURF ,IGRSH3N ,
      4     CEP(OFF),XEP      ,IXTG1   ,EANIT   ,
      5     IGEO    ,IPM     ,IPART    ,SH3TREE ,NOD2ELTG,
      6     ITRIOFF ,SH3TRIM ,TAGPRT_SMS,
      7     IWORKSH , STACK  ,DRAPE  ,RNOISE(1,MIN(SRNOISE2,NUMELC+1)),
-     8     MULTI_FVM , SH3ANG,DRAPEG,PTSH3N,MAT_ELEM%MAT_PARAM,
+     8     SH3ANG,DRAPEG,PTSH3N,MAT_ELEM%MAT_PARAM,
      9     DAMP_RANGE_PART)
        ELSE
          CALL T3GRHEAD(
@@ -11514,6 +11592,8 @@ C
          CLOSE(IFXM)
          CLOSE(IFXS) 
       ENDIF
+      if(allocated(isolnod0)) deallocate(isolnod0)
+      if(allocated(ishell3nod0)) deallocate(ishell3nod0)
 
       IF(ALLOCATED( DGAPINT ))  DEALLOCATE(DGAPINT)
 
