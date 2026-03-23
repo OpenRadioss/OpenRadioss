@@ -2124,7 +2124,8 @@
               s1       ,s2       ,s3       ,s4       ,s5       ,s6       ,     &
               ssp      ,off      ,defp     ,dpla     ,lbuf%seq ,et       ,     &
               sigy     ,dt1      ,epsd     ,el_temp  ,israte   ,asrate   ,     &
-              nuvar    ,uvar     ,l_sigb   ,lbuf%sigb)
+              nuvar    ,uvar     ,l_sigb   ,lbuf%sigb,matparam%ieos,dpdm ,     &
+              jthe     ,fheat    ,voln     )
 !
           else if (mtn == 133) then
             call sigeps133( &

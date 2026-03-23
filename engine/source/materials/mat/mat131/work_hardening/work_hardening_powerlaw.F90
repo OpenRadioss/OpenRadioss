@@ -61,8 +61,7 @@
 !----------------------------------------------------------------
         integer :: offset,i
         real(kind=WP) :: ca,cb,cn,eps0
-        real(kind=WP), dimension(nel) :: pla_plus_eps0_log,                    &
-          pla_plus_eps0_pow_cn_minus_1
+        real(kind=WP), dimension(nel) :: pla_plus_eps0_pow_cn_minus_1
 !===============================================================================
 !
         !=======================================================================
@@ -74,7 +73,6 @@
         cb   = matparam%uparam(offset + 2) !< Hardening modulus
         cn   = matparam%uparam(offset + 3) !< Hardening exponent
         eps0 = matparam%uparam(offset + 4) !< Initial plastic strain
-        pla_plus_eps0_log(1:nel) = log(pla(1:nel) + eps0)
         sigy(1:nel) = ca + cb*(pla(1:nel) + eps0)**cn
         pla_plus_eps0_pow_cn_minus_1(1:nel) = (pla(1:nel) + eps0)**(cn - one)
         dsigy_dpla(1:nel) = cn*cb*pla_plus_eps0_pow_cn_minus_1(1:nel)

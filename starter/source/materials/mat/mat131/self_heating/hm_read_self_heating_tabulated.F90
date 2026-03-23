@@ -92,7 +92,6 @@
           call hm_get_float_array_index("HEAT_TAYLOR_CP" ,cp     ,ikey,is_available,lsubmodel,unitab)
           call hm_get_int_array_index  ("HEAT_TAB_ID"    ,func_id,ikey,is_available,lsubmodel)
           call hm_get_float_array_index("HEAT_TAB_XSCALE",xscale ,ikey,is_available,lsubmodel,unitab)
-          call hm_get_float_array_index("HEAT_TAB_YSCALE",yscale ,ikey,is_available,lsubmodel,unitab)
           !< Self heating type
           iheat = 2
           !< Number of tabulated hardening functions/tables
@@ -101,29 +100,26 @@
           if (xscale == zero) then 
             call hm_get_floatv_dim('HEAT_TAB_XSCALE',xscale,is_available,lsubmodel,unitab)
           endif
-          if (yscale == zero) then
-            call hm_get_floatv_dim('HEAT_TAB_YSCALE',yscale,is_available,lsubmodel,unitab)
-          endif
           !< Number of variables used in tabulated hardening
-          nvartmp = 1
+          nvartmp = 3
           !< Save table id
           itab_heat(1) = func_id
           !< Save scale factors
           x2vect(1) = xscale
           x3vect(1) = one
           x4vect(1) = one
-          fscale(1) = yscale
+          fscale(1) = one
           !< Number of parameters
-          nupar_heat = 2
+          nupar_heat = 1
           !< Save self-heating parameters
-          matparam%therm%tini = t0
+          matparam%therm%tini  = t0
+          matparam%therm%rhocp = matparam%rho*cp
           upar_heat(1) = eta
-          upar_heat(2) = cp
           !< Printing thermal softening parameters
           if (is_encrypted)then
             write(iout,"(5X,A,//)") "CONFIDENTIAL DATA"
           else
-            write(iout,1000) t0,eta,cp,func_id,xscale,yscale
+            write(iout,1000) t0,eta,cp,func_id,xscale
           endif
 ! ------------------------------------------------------------------------------
 1000 format(/                                                                  &
@@ -134,8 +130,7 @@
           5X,"TAYLOR-QUINNEY COEFFICIENT (ETA) . . . . . . . . . . .=",1PG20.13/&
           5X,"THERMAL MASSIC CAPACITY (CP) . . . . . . . . . . . . .=",1PG20.13/&
           5X,"TABULATED FUNCTION ID. . . . . . . . . . . . . . . . .=",I10/&
-          5X,"STRAIN RATE SCALE FACTOR (HEAT_XSCALE) . . . . . . . .=",1PG20.13/&
-          5X,"ORDINATE SCALE FACTOR (HEAT_YSCALE). . . . . . . . . .=",1PG20.13)
+          5X,"STRAIN RATE SCALE FACTOR (ETA_XSCALE). . . . . . . . .=",1PG20.13/)
 ! -------------------------------------------------------------------------------
         end subroutine hm_read_self_heating_tabulated
       end module hm_read_self_heating_tabulated_mod

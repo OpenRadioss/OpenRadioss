@@ -210,6 +210,10 @@
           call hm_get_intv  ('MAT_IRES' ,ires   ,is_available, lsubmodel)
           if (ires == 0) ires = 2
 !
+          !< Initial and reference density
+          matparam%rho0 = rho0
+          matparam%rho  = rho0
+!
           !< Material header printing
           write(iout,1000) trim(titr),mat_id,ilaw
           write(iout,1001)
@@ -249,7 +253,8 @@
                 type = key(6:len(key))
                 call hm_read_elasticity(                                       &
                   ikey     ,type  ,ielas    ,nupar_elas,upar_elas,is_available,&
-                  unitab,lsubmodel,matparam ,parmat    ,iout     ,is_encrypted)
+                  unitab,lsubmodel,matparam ,parmat    ,iout     ,is_encrypted,&
+                  mat_id   ,titr  )
               !< Yield criterion
               case ('CRIT')
                 if (icrit /= 0) then 
@@ -313,7 +318,8 @@
                   ikey     ,type  ,itherm   ,nupar_therm ,upar_therm   ,       &
                   is_available,unitab,lsubmodel,iout     ,is_encrypted ,       &
                   ntab_therm  ,itab_therm   ,x2vect_therm,x3vect_therm ,       &
-                  x4vect_therm,fscale_therm ,nvartmp_therm,mtag        ) 
+                  x4vect_therm,fscale_therm ,nvartmp_therm,mtag        ,       &
+                  matparam     ) 
               !< Self-heating
               case ('HEAT')
                 if (iheat /= 0) then 
@@ -369,6 +375,17 @@
             icrit = 1
             call ancmsg(msgid=3125,                                            &                    
                         msgtype=msgwarning,                                    &
+                        anmode=aninfo_blind_2,                                 &
+                        i1=mat_id,                                             &
+                        c1=titr)
+          endif
+!
+          ! --------------------------------------------------------------------
+          !< Error if no hardening is defined
+          ! --------------------------------------------------------------------  
+          if (ihard == 0) then 
+            call ancmsg(msgid=3130,                                            &                    
+                        msgtype=msgerror,                                      &
                         anmode=aninfo_blind_2,                                 &
                         i1=mat_id,                                             &
                         c1=titr)
@@ -547,10 +564,6 @@
               x3scale  ,x4scale   ,fscale   ,ntable   ,table    ,ilaw     )
           endif
 !
-          !< Initial and reference density
-          matparam%rho0 = rho0
-          matparam%rho  = rho0
-!
           !< MTAG variable activation
           mtag%g_epsd = 1 !< Global equivalent strain rate
           mtag%l_epsd = 1 !< Local equivalent strain rate
@@ -569,6 +582,9 @@
           call init_mat_keyword(matparam ,"INCREMENTAL" )
           call init_mat_keyword(matparam ,"LARGE_STRAIN")
           call init_mat_keyword(matparam ,"HOOK")
+!
+          !< Material compatibility with /EOS option
+          call init_mat_keyword(matparam ,"EOS")
 !
           !< End of material definition printing
           write(iout,1003)
