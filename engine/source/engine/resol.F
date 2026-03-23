@@ -8829,7 +8829,7 @@ C===============================================================================
 
               IF (ViperCoupling) THEN
 C                Send positions to Viper
-                 CALL RadiossViper_SendXVE(NUMNOD,VIPER%NUMELEr,VIPER%NUMELEv,NPARG,NGROUP,viper%NUMON,
+                 CALL RadiossViper_SendXVE(NUMNOD,VIPER%NUMELEr,VIPER%NUMELEv,NPARG,NGROUP,viper%NUMON,viper%NUMRIGID,
      .                 NODES%X,NODES%V,VIPER%ITABM1,VIPER%IXEM1,IPARG,ELBUF_TAB)
                  CALL RadiossViper_SendKill(MSTOP,TSTOP,VIPER%TSTOP)
               ENDIF
