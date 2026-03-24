@@ -111,7 +111,6 @@ C-----------------------------------------------
 
       ELSEIF(IFLAG == 1) THEN
         DO I=1,NEL
-          EINT(I) = EINT(I) - HALF*DVOL(I)*(PNEW(I)+PSH(I))
           UNPMU   =  ONE+MU(I)
           RHO     = UNPMU*RHO0
           V0      = VNEW(I)*RHO/RHO0
@@ -121,6 +120,7 @@ C-----------------------------------------------
           dPdE(I) = BB  !partial derivative
           PNEW(I) = (AA+BB*EINT(I)/V0)/(ONE+BB*DVOL(I)/TWO/V0)   ! P(mu[n+1],E[n+1])
           PNEW(I) = MAX(PNEW(I),-GAMMA*PSTAR)*OFF(I)
+          EINT(I) = EINT(I) - HALF*DVOL(I)*(PNEW(I)+PSH(I))
         ENDDO
 
       ELSEIF(IFLAG == 2) THEN
