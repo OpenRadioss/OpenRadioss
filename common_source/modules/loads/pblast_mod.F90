@@ -37,6 +37,7 @@
 !||    hm_preread_pblast         ../starter/source/loads/pblast/hm_preread_pblast.F
 !||    hm_read_load_pressure     ../starter/source/loads/general/load_pressure/hm_read_load_pressure.F
 !||    hm_read_pblast            ../starter/source/loads/pblast/hm_read_pblast.F
+!||    init_h3d_engine           ../engine/source/output/h3d/h3d_build_fortran/init_h3d_engine.F90
 !||    lech3d                    ../engine/source/output/h3d/h3d_build_fortran/lech3d.F
 !||    lectur                    ../engine/source/input/lectur.F
 !||    load_pressure             ../engine/source/loads/general/load_pressure/load_pressure.F

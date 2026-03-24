@@ -272,6 +272,7 @@
 !||    inigrav_eos                              ../starter/source/initial_conditions/inigrav/inigrav_eos.F
 !||    inigrav_load                             ../starter/source/initial_conditions/inigrav/inigrav_load.F
 !||    init_bcs_nrf                             ../starter/source/boundary_conditions/init_bcs_nrf.F90
+!||    init_h3d_engine                          ../engine/source/output/h3d/h3d_build_fortran/init_h3d_engine.F90
 !||    init_inivol                              ../starter/source/initial_conditions/inivol/init_inivol.F90
 !||    init_inivol_2d_polygons                  ../starter/source/initial_conditions/inivol/init_inivol_2D_polygons.F90
 !||    init_mat_keyword                         ../starter/source/materials/mat/init_mat_keyword.F

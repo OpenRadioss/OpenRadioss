@@ -247,6 +247,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    iniphase                                 ../starter/source/initial_conditions/inivol/iniphase.F
 !||    init                                     ../common_source/modules/ale/ale_mod.F
 !||    init_bcs_nrf                             ../starter/source/boundary_conditions/init_bcs_nrf.F90
+!||    init_h3d_engine                          ../engine/source/output/h3d/h3d_build_fortran/init_h3d_engine.F90
 !||    init_idel_brick                          ../engine/source/modules/dt_mod.F
 !||    init_inivol                              ../starter/source/initial_conditions/inivol/init_inivol.F90
 !||    init_inivol_2d_polygons                  ../starter/source/initial_conditions/inivol/init_inivol_2D_polygons.F90

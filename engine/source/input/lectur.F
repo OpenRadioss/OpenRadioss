@@ -41,13 +41,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    lecfvbag               ../engine/source/input/lecfvbag.F
 !||    lecfvbag1              ../engine/source/input/lecfvbag1.F
 !||    lecfxinp               ../engine/source/input/lecfxinp.F
-!||    lech3d                 ../engine/source/output/h3d/h3d_build_fortran/lech3d.F
 !||    lecimpl                ../engine/source/input/lectur.F
 !||    lecinv                 ../engine/source/input/lecinv.F
 !||    lecnoise               ../engine/source/general_controls/computation/lecnoise.F
 !||    lecstat                ../engine/source/input/lecstat.F
 !||    ngr2usr                ../engine/source/input/freform.F
-!||    prelech3d              ../engine/source/output/h3d/h3d_build_fortran/prelech3d.F90
 !||    rbyonf                 ../engine/source/constraints/general/rbody/rbyonf.F
 !||    read_dynain            ../engine/source/output/dynain/read_dynain.F
 !||    rlink0                 ../engine/source/constraints/general/rlink/rlink0.F

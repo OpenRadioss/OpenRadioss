@@ -40,6 +40,7 @@
 !||    hm_read_cload               ../starter/source/loads/general/cload/hm_read_cload.F
 !||    hm_read_pcyl                ../starter/source/loads/general/load_pcyl/hm_read_pcyl.F
 !||    hm_read_pload               ../starter/source/loads/general/pload/hm_read_pload.F
+!||    init_h3d_engine             ../engine/source/output/h3d/h3d_build_fortran/init_h3d_engine.F90
 !||    lech3d                      ../engine/source/output/h3d/h3d_build_fortran/lech3d.F
 !||    lectur                      ../engine/source/input/lectur.F
 !||    prelech3d                   ../engine/source/output/h3d/h3d_build_fortran/prelech3d.F90

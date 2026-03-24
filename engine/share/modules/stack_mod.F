@@ -91,6 +91,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    imp_k_eig                      ../engine/stub/imp_k_eig.F
 !||    imp_solv                       ../engine/source/implicit/imp_solv.F
 !||    ini_tmax                       ../engine/source/output/ini_outmax.F
+!||    init_h3d_engine                ../engine/source/output/h3d/h3d_build_fortran/init_h3d_engine.F90
 !||    init_th                        ../engine/source/output/th/init_th.F
 !||    init_th0                       ../engine/source/output/th/init_th0.F
 !||    layini                         ../engine/source/elements/shell/coque/layini.F

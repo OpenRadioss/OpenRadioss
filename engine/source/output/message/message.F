@@ -174,6 +174,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    ind_ktot                     ../engine/source/implicit/ind_glob_k.F
 !||    ini_k0h                      ../engine/source/implicit/imp_solv.F
 !||    ini_kisc                     ../engine/source/implicit/lin_solv.F
+!||    init_h3d_engine              ../engine/source/output/h3d/h3d_build_fortran/init_h3d_engine.F90
 !||    inivel_start                 ../engine/source/loads/general/inivel/inivel_start.F90
 !||    inter7_collision_detection   ../engine/source/interfaces/intsort/inter7_collision_detection.F90
 !||    inter_count_node_curv        ../engine/source/interfaces/generic/inter_count_node_curv.F

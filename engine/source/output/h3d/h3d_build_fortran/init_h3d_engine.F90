@@ -20,6 +20,11 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+!||====================================================================
+!||    init_h3d_engine_mod   ../engine/source/output/h3d/h3d_build_fortran/init_h3d_engine.F90
+!||--- called by ------------------------------------------------------
+!||    radioss2              ../engine/source/engine/radioss2.F
+!||====================================================================
       module init_h3d_engine_mod
         implicit none
       contains
@@ -32,6 +37,31 @@
 !!          - Output information printing
 !!          - Sensor validation
 !!          - Interface output allocation (skid lines, frictional energy)
+!||====================================================================
+!||    init_h3d_engine    ../engine/source/output/h3d/h3d_build_fortran/init_h3d_engine.F90
+!||--- called by ------------------------------------------------------
+!||    radioss2           ../engine/source/engine/radioss2.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg             ../engine/source/output/message/message.F
+!||    arret              ../engine/source/system/arret.F
+!||    lech3d             ../engine/source/output/h3d/h3d_build_fortran/lech3d.F
+!||    prelech3d          ../engine/source/output/h3d/h3d_build_fortran/prelech3d.F90
+!||--- uses       -----------------------------------------------------
+!||    constant_mod       ../common_source/modules/constant_mod.F
+!||    elbufdef_mod       ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    groupdef_mod       ../common_source/modules/groupdef_mod.F
+!||    h3d_mod            ../engine/share/modules/h3d_mod.F
+!||    loads_mod          ../common_source/modules/loads/loads_mod.F90
+!||    matparam_def_mod   ../common_source/modules/mat_elem/matparam_def_mod.F90
+!||    message_mod        ../engine/share/message_module/message_mod.F
+!||    multi_fvm_mod      ../common_source/modules/ale/multi_fvm_mod.F90
+!||    my_alloc_mod       ../common_source/tools/memory/my_alloc.F90
+!||    output_mod         ../common_source/modules/output/output_mod.F90
+!||    pblast_mod         ../common_source/modules/loads/pblast_mod.F90
+!||    prelech3d_mod      ../engine/source/output/h3d/h3d_build_fortran/prelech3d.F90
+!||    sensor_mod         ../common_source/modules/sensor_mod.F90
+!||    stack_mod          ../engine/share/modules/stack_mod.F
+!||====================================================================
         subroutine init_h3d_engine(output, geo, igeo, ipm, ipart, h3d_data, multi_fvm, ipari, iparg, &
                                     tag_skins6, mds_label, mds_output_table, mds_nmat, max_depvar, &
                                     mds_ndepsvar, elbuf_str, stack, ibcl, iloadp, lloadp, loads, &

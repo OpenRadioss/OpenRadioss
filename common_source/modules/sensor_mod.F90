@@ -157,6 +157,7 @@
 !||    iniebcs                            ../starter/source/boundary_conditions/ebcs/iniebcs.F
 !||    iniparsen                          ../starter/source/tools/sensor/iniparsen.F
 !||    inisen                             ../starter/source/tools/sensor/inisen.F
+!||    init_h3d_engine                    ../engine/source/output/h3d/h3d_build_fortran/init_h3d_engine.F90
 !||    init_monvol                        ../starter/source/airbag/init_monvol.F
 !||    initia                             ../starter/source/elements/initia/initia.F
 !||    inivel_dt2                         ../engine/source/loads/general/inivel/inivel_dt2.F90

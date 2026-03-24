@@ -205,6 +205,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    imp_solv                                     ../engine/source/implicit/imp_solv.F
 !||    imp_tripi                                    ../engine/source/implicit/imp_int_k.F
 !||    iniresa                                      ../engine/source/output/restart/rdresa.F
+!||    init_h3d_engine                              ../engine/source/output/h3d/h3d_build_fortran/init_h3d_engine.F90
 !||    int2rupt                                     ../engine/source/interfaces/interf/int2rupt.F
 !||    intal1                                       ../engine/source/ale/inter/intal1.F
 !||    intal2                                       ../engine/source/ale/inter/intal2.F

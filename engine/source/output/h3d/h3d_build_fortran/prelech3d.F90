@@ -21,9 +21,10 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    prelech3d_mod   ../engine/source/output/h3d/h3d_build_fortran/prelech3d.F90
+!||    prelech3d_mod     ../engine/source/output/h3d/h3d_build_fortran/prelech3d.F90
 !||--- called by ------------------------------------------------------
-!||    lectur          ../engine/source/input/lectur.F
+!||    init_h3d_engine   ../engine/source/output/h3d/h3d_build_fortran/init_h3d_engine.F90
+!||    lectur            ../engine/source/input/lectur.F
 !||====================================================================
       module prelech3d_mod
       implicit none
@@ -31,7 +32,7 @@
 !||====================================================================
 !||    prelech3d                ../engine/source/output/h3d/h3d_build_fortran/prelech3d.F90
 !||--- called by ------------------------------------------------------
-!||    lectur                   ../engine/source/input/lectur.F
+!||    init_h3d_engine          ../engine/source/output/h3d/h3d_build_fortran/init_h3d_engine.F90
 !||--- calls      -----------------------------------------------------
 !||    create_h3d_arg_keyword   ../engine/source/output/h3d/h3d_build_fortran/create_h3d_arg_keyword.F
 !||    h3d_gene_keyword         ../engine/source/output/h3d/input_list/h3d_gene_keyword.F

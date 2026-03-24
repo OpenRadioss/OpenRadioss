@@ -28,8 +28,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    read_db         ../common_source/tools/input_output/read_db.F
 !||    read_dpdb       ../common_source/tools/input_output/read_db.F
 !||--- uses       -----------------------------------------------------
-!||    elbufdef_mod    ../common_source/modules/mat_elem/elbufdef_mod.F90
 !||    h3d_inc_mod     ../engine/share/modules/h3d_inc_mod.F
+!||    mat_elem_mod    ../common_source/modules/mat_elem/mat_elem_mod.F90
 !||====================================================================
       SUBROUTINE ALLOCBUF_AUTO(ELBUF_STR,MAT_ELEM,BUFLEN,NPT,ITY,ISNOD,NEWLEN,INLOC,
      .                         IDAMP_FREQ_RANGE)

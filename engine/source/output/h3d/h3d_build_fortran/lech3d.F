@@ -23,7 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
 !||    lech3d                    ../engine/source/output/h3d/h3d_build_fortran/lech3d.F
 !||--- called by ------------------------------------------------------
-!||    lectur                    ../engine/source/input/lectur.F
+!||    init_h3d_engine           ../engine/source/output/h3d/h3d_build_fortran/init_h3d_engine.F90
 !||--- calls      -----------------------------------------------------
 !||    ancmsg                    ../engine/source/output/message/message.F
 !||    arret                     ../engine/source/system/arret.F

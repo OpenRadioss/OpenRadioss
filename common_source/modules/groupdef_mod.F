@@ -414,6 +414,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    init_bcs_nrf                      ../starter/source/boundary_conditions/init_bcs_nrf.F90
 !||    init_bcs_wall                     ../starter/source/boundary_conditions/init_bcs_wall.F90
 !||    init_global_frontier_monvol       ../engine/source/airbag/init_global_monvol_frontier.F90
+!||    init_h3d_engine                   ../engine/source/output/h3d/h3d_build_fortran/init_h3d_engine.F90
 !||    init_inivol                       ../starter/source/initial_conditions/inivol/init_inivol.F90
 !||    init_inivol_2d_polygons           ../starter/source/initial_conditions/inivol/init_inivol_2D_polygons.F90
 !||    init_monvol                       ../starter/source/airbag/init_monvol.F

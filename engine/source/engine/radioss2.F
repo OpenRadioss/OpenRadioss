@@ -45,6 +45,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    inipar                       ../engine/source/mpi/init/inipar.F
 !||    iniresa                      ../engine/source/output/restart/rdresa.F
 !||    init_dyn_lib_struc           ../engine/share/modules/dynlib_mod.F
+!||    init_h3d_engine              ../engine/source/output/h3d/h3d_build_fortran/init_h3d_engine.F90
 !||    init_th0                     ../engine/source/output/th/init_th0.F
 !||    initime                      ../engine/source/system/timer_mod.F90
 !||    lecinp                       ../engine/source/input/lecinp.F
@@ -104,6 +105,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    group_mod                    ../engine/share/modules/group_mod.F
 !||    groupdef_mod                 ../common_source/modules/groupdef_mod.F
 !||    h3d_mod                      ../engine/share/modules/h3d_mod.F
+!||    init_h3d_engine_mod          ../engine/source/output/h3d/h3d_build_fortran/init_h3d_engine.F90
 !||    inoutfile_mod                ../common_source/modules/inoutfile_mod.F
 !||    interfaces_mod               ../common_source/modules/interfaces/interfaces_mod.F90
 !||    intstamp_glob_mod            ../engine/share/modules/intstamp_glob_mod.F

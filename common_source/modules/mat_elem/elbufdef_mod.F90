@@ -56,7 +56,6 @@
 !||    alew6                               ../engine/source/ale/grid/alew6.F
 !||    alewdx                              ../engine/source/ale/grid/alewdx.F
 !||    alloc_elbuf_imp                     ../engine/source/elements/elbuf/alloc_elbuf_imp.F
-!||    allocbuf_auto                       ../engine/source/elements/elbuf/allocbuf_auto.F
 !||    anim_nodal_p_elems                  ../engine/source/output/anim/generate/anim_nodal_p_elems.F
 !||    anim_nodal_ssp_elems                ../engine/source/output/anim/generate/anim_nodal_ssp_elems.F90
 !||    animig3d                            ../engine/source/output/anim/generate/animig3d.F
@@ -339,6 +338,7 @@
 !||    inirig_mat                          ../starter/source/elements/initia/inirig_mat.F
 !||    init_ale                            ../engine/source/ale/init_ale.F90
 !||    init_ale_arezon                     ../engine/source/ale/init_ale_arezon.F90
+!||    init_h3d_engine                     ../engine/source/output/h3d/h3d_build_fortran/init_h3d_engine.F90
 !||    init_inivol                         ../starter/source/initial_conditions/inivol/init_inivol.F90
 !||    init_inivol_2d_polygons             ../starter/source/initial_conditions/inivol/init_inivol_2D_polygons.F90
 !||    init_rwall_penalty                  ../starter/source/constraints/general/rwall/init_rwall_penalty.F90
