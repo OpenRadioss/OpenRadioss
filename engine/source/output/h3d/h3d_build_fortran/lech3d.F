@@ -178,6 +178,7 @@ C-----------------------------------------------
         INTEGER MLW, NEL, NG, JTURB, NLAY, NUVAR, IMAT, ISUBSTACK, ID_PLY_TMP
         INTEGER CPT_MOD,NMOD,CPT_LAWID,SIZE_INPUT
         INTEGER IERROR  ! Error value from Allocate
+        INTEGER INDEX_MDS_TMP  ! Temporary variable for INDEX_MAT_MDS(MDSVAR_INPUT(K))
  
         INTEGER LENR    ! Size of Remote interface receive values
 
@@ -2052,11 +2053,18 @@ c
                         H3D_KEYWORD_SHELL_SCALAR(J)%TEXT1 = "Damage:Damage index"
                       ENDIF 
 c
+                      ! Handle MDSVAR_INPUT(K) = 0 to avoid out-of-bounds access
+                      IF (MDSVAR_INPUT(K) > 0) THEN
+                        INDEX_MDS_TMP = INDEX_MAT_MDS(MDSVAR_INPUT(K))
+                      ELSE
+                        INDEX_MDS_TMP = 0
+                      ENDIF
+c
                       CALL CREATE_H3D_SHELL_SCALAR(H3D_DATA,H3D_KEYWORD_SHELL_SCALAR(J)%ID,N1,N2,ID_INPUT,
      .                           TRIM(H3D_KEYWORD_SHELL_SCALAR(J)%TEXT1),LEN_TRIM(H3D_KEYWORD_SHELL_SCALAR(J)%TEXT1),
      .                                 H3D_KEYWORD_SHELL_SCALAR(J)%COMMENT,80,IPART,KEY3_GLOB,
      .                                 LAYER_INPUT(K),IPT_INPUT(K),PLY_INPUT(K),GAUSS_INPUT(K),UVAR_INPUT(K),
-     .                                 INDEX_MAT_MDS(MDSVAR_INPUT(K)),MDSVAR_INPUT1(K),MDSVAR_INPUT2(K),
+     .                                 INDEX_MDS_TMP,MDSVAR_INPUT1(K),MDSVAR_INPUT2(K),
      .                                 MDS_LABEL_TMP,30,IDS_INPUT(K),MODES_INPUT(K),IGRPART)
                     END IF
                     IOK_H3DKEY_COMBINATION = 1
@@ -2334,11 +2342,18 @@ c
                         H3D_KEYWORD_SOLID_SCALAR(J)%TEXT1 = "Damage:Damage index"
                       ENDIF     
 c
+                      ! Handle MDSVAR_INPUT(K) = 0 to avoid out-of-bounds access
+                      IF (MDSVAR_INPUT(K) > 0) THEN
+                        INDEX_MDS_TMP = INDEX_MAT_MDS(MDSVAR_INPUT(K))
+                      ELSE
+                        INDEX_MDS_TMP = 0
+                      ENDIF
+c
                       CALL CREATE_H3D_SOLID_SCALAR(H3D_DATA,H3D_KEYWORD_SOLID_SCALAR(J)%ID,ID_INPUT,
      .                            TRIM(H3D_KEYWORD_SOLID_SCALAR(J)%TEXT1),LEN_TRIM(H3D_KEYWORD_SOLID_SCALAR(J)%TEXT1),
      .                                                 H3D_KEYWORD_SOLID_SCALAR(J)%COMMENT,80,IPART,KEY3_GLOB,
      .                            LAYER_INPUT(K),IR_INPUT(K),IS_INPUT(K),IT_INPUT(K),
-     .                            UVAR_INPUT(K),INDEX_MAT_MDS(MDSVAR_INPUT(K)),MDSVAR_INPUT1(K),
+     .                            UVAR_INPUT(K),INDEX_MDS_TMP,MDSVAR_INPUT1(K),
      .                            MDSVAR_INPUT2(K),MDS_LABEL_TMP,30,IDS_INPUT(K),MODES_INPUT(K),IGRPART)
                     END IF
                     IOK_H3DKEY_COMBINATION = 1
