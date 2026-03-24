@@ -69,6 +69,7 @@
                                     sensor_tab, pskids, nintskidold, ninterskid, nintstamp, numnod, &
                                     numnodg, ninter, numsphg, &
                                     npropg, npropgi, npropmi, lipart1, npari, nparg, &
+                                    ngroup, numels, sibcl, nloadp, sizloadp, slloadp, ngrpart, nsensor, &
                                     ispmd, iout, mcheck, &
                                     numelcg, numeltgg, numelsg, numeltrg, numelpg, numelrg, &
                                     numelqg, numsking, numgeo, nummat, numply)
@@ -114,6 +115,16 @@
       integer, intent(in) :: stf                                            !< Size of pld array
       integer, intent(in) :: numsphg                                        !< Global number of SPH particles
       
+      ! Array dimension parameters
+      integer, intent(in) :: ngroup                                         !< Number of groups
+      integer, intent(in) :: numels                                         !< Number of skin elements
+      integer, intent(in) :: sibcl                                          !< Size of boundary condition array
+      integer, intent(in) :: nloadp                                         !< Number of load cases
+      integer, intent(in) :: sizloadp                                       !< Size of load pointer array
+      integer, intent(in) :: slloadp                                        !< Size of load list pointer array
+      integer, intent(in) :: ngrpart                                        !< Number of interface groups
+      integer, intent(in) :: nsensor                                        !< Number of sensors
+      
       ! Interface and stamp dimensions
       integer, intent(in) :: nintskidold                                    !< Old number of skid interfaces
       integer, intent(in) :: nintstamp                                      !< Number of stamp interfaces
@@ -148,16 +159,16 @@
       integer, dimension(npropmi, nummat), intent(in) :: ipm                !< Integer material properties
       integer, dimension(lipart1, numgeo), intent(in) :: ipart              !< Part information
       integer, dimension(npari, ninter), intent(in) :: ipari                !< Integer interface properties
-      integer, dimension(nparg, ninter), intent(in) :: iparg                !< Real interface properties
+      integer, dimension(nparg, ngroup), intent(in) :: iparg                !< Real interface properties
       
       ! Node and element arrays
-      integer, dimension(numnod), intent(in) :: tag_skins6                  !< Skin element tags
+      integer, dimension(numels), intent(in) :: tag_skins6                     !< Skin element tags
       integer, dimension(max_depvar, mds_nmat), intent(in) :: mds_output_table !< MDS output table
-      integer, dimension(mds_nmat), intent(in) :: mds_ndepsvar              !< Number of dependent variables per material
-      integer, dimension(numnod), intent(in) :: ibcl                        !< Boundary condition flags
-      integer, dimension(numnod), intent(in) :: iloadp                      !< Load pointers
-      integer, dimension(numnod), intent(in) :: lloadp                      !< Load list pointers
-      integer, dimension(snpc), intent(in) :: npc                           !< Node pair contact array
+      integer, dimension(mds_nmat), intent(in) :: mds_ndepsvar                 !< Number of dependent variables per material
+      integer, dimension(sibcl), intent(in) :: ibcl                            !< boundary condition flags
+      integer, dimension(sizloadp*nloadp), intent(in) :: iloadp                !< load pointers
+      integer, dimension(slloadp), intent(in) :: lloadp                        !< Load list pointers
+      integer, dimension(snpc), intent(in) :: npc                              !< Node pair contact array
       
       ! Labels and data arrays
       character(len=64), dimension(1024, mds_nmat), intent(in) :: mds_label !< MDS variable labels
@@ -167,14 +178,14 @@
       ! Derived type structures
       type(H3D_DATABASE), intent(inout) :: h3d_data                         !< H3D database structure
       type(MULTI_FVM_STRUCT), intent(in) :: multi_fvm                       !< Multi-FVM structure
-      type(ELBUF_STRUCT_), dimension(ninter), intent(in) :: elbuf_str       !< Element buffer structure
+      type(ELBUF_STRUCT_), dimension(ngroup), intent(in) :: elbuf_str       !< Element buffer structure
       type(STACK_PLY), intent(in) :: stack                                  !< Ply stack structure
       type(LOADS_), intent(in) :: loads                                     !< Loads structure
       type(MATPARAM_STRUCT_), dimension(nummat), intent(inout) :: mat_param !< Material parameter structure
       type(PBLAST_), intent(in) :: pblast                                   !< Blast load structure
-      type(GROUP_), dimension(ninter), intent(in) :: igrpart                !< Interface group structure
+      type(GROUP_), dimension(ngrpart), intent(in) :: igrpart                !< Interface group structure
       type(SENSORS_), intent(in) :: sensors                                 !< Sensors structure
-      type(SENSOR_STR_), dimension(ninter), intent(in) :: sensor_tab        !< Sensor table
+      type(SENSOR_STR_), dimension(nsensor), intent(in) :: sensor_tab        !< Sensor table
       
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   LOCAL VARIABLES
