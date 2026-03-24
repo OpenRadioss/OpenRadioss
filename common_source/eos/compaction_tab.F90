@@ -148,7 +148,7 @@
        iform          = eos_struct%iparam(1)
        plasexp        = eos_struct%iparam(2)
 
-       niter = 20
+       niter = 30
        tol = em06
        IF(DT1 == zero) call compaction_tab_init(eos_struct,nel,nvartmp,vartmp,nvareos,vareos,rho,rho_tmd) ! initial condition : set vereos(1:nel,:)
 
