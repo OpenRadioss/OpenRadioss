@@ -90,11 +90,11 @@
           !< Tabulated hardening parameters
           !===================================================================
           call hm_get_int_array_index  ("HARD_TAB_ID"    ,tab_id,ikey,is_available,lsubmodel)
+          call hm_get_int_array_index  ("HARD_TAB_EXTRAP",flat  ,ikey,is_available,lsubmodel)
           call hm_get_float_array_index("HARD_TAB_XSCALE",xscale,ikey,is_available,lsubmodel,unitab)
           call hm_get_float_array_index("HARD_TAB_YSCALE",yscale,ikey,is_available,lsubmodel,unitab)
           call hm_get_int_array_index  ("SRATE_VFLAG"    ,vpflag,ikey,is_available,lsubmodel)
           call hm_get_float_array_index("SRATE_FCUT"     ,fcut  ,ikey,is_available,lsubmodel,unitab)
-          call hm_get_int_array_index  ("HARD_TAB_EXTRAP",flat  ,ikey,is_available,lsubmodel)
           !< Work hardening type
           ihard = 3
           !< Check default values
@@ -121,7 +121,7 @@
           fscale(1) = yscale
           !< Viscous formulation
           vpflag = min(max(vpflag,0),3)
-          if (vpflag == 0) vpflag = 2
+          if (vpflag == 0) vpflag = 1
           israte = 1
           if (fcut   == zero) fcut = 10000.0d0*unitab%fac_t_work
           !< Parmat global table
@@ -141,7 +141,7 @@
           5X,"WORK HARDENING TABULATED IDENTIFIER (TAB_ID) . . . . .=",I10/&
           5X,"STRAIN RATE SCALE FACTOR (SRATE_XSCALE). . . . . . . .=",1PG20.13/&
           5X,"YIELD STRESS SCALE FACTOR (YSCALE) . . . . . . . . . .=",1PG20.13/&
-          5X,'VISCOPLASTIC FLAG (VPFLAG). . . . . . . . . . . . . . =',I10/,   &
+          5X,'VISCOPLASTIC FLAG (VP) . . . . . . . . . . . . . . . .=',I10/,   &
           5X,'    = 1: SCALED YIELD STRESS WITH PLASTIC STRAIN RATE   ',/,     &
           5X,'    = 2: SCALED YIELD STRESS WITH TOTAL STRAIN RATE     ',/,     &
           5X,'    = 3: SCALED YIELD STRESS WITH DEVIATORIC STRAIN RATE',/,     &

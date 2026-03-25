@@ -114,7 +114,7 @@
           fscale(1) = yscale
           !< Viscous formulation
           vpflag = min(max(vpflag,0),3)
-          if (vpflag == 0) vpflag = 2
+          if (vpflag == 0) vpflag = 1
           israte = 1
           if (fcut   == zero) fcut = 10000.0d0*unitab%fac_t_work
           !< Parmat global table
@@ -134,7 +134,7 @@
           5X,"TABULATED DEPENDENCY FUNCTION ID (TAB_ID). . . . . . .=",I10/    &
           5X,"STRAIN RATE SCALE FACTOR (SRATE_XSCALE). . . . . . . .=",1PG20.13/&
           5X,"YIELD STRESS SCALE FACTOR (SRATE_YSCALE). . . . . . . =",1PG20.13/&
-          5X,'VISCOPLASTIC FLAG (VPFLAG). . . . . . . . . . . . . . =',I10/,   &
+          5X,'VISCOPLASTIC FLAG (VP) . . . . . . . . . . . . . . . .=',I10/,   &
           5X,'    = 1: SCALED YIELD STRESS WITH PLASTIC STRAIN RATE   ',/,     &
           5X,'    = 2: SCALED YIELD STRESS WITH TOTAL STRAIN RATE     ',/,     &
           5X,'    = 3: SCALED YIELD STRESS WITH DEVIATORIC STRAIN RATE',/,     &

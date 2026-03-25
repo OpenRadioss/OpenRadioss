@@ -47,7 +47,7 @@
           soundsp,pla     ,dpla    ,epsd    ,yld      ,                          &
           etse   ,gs      ,israte  ,asrate  ,off      ,                          &
           l_sigb ,sigb    ,inloc   ,dplanl  ,seq      ,                          &
-          loff   )
+          loff   ,nuvar   ,uvar    )
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                        Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -102,6 +102,8 @@
           real(kind=WP), dimension(nel), intent(in)            :: dplanl   !< Non-local plastic strain increment
           real(kind=WP), dimension(nel), intent(inout)         :: seq      !< Equivalent stress
           real(kind=WP), dimension(nel), intent(in)            :: loff     !< Flag for layer deletion status
+          integer, intent(in)                                  :: nuvar    !< Number of user variables
+          real(kind=WP), dimension(nel,nuvar), intent(inout)   :: uvar     !< User variables
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   local variables
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -191,7 +193,9 @@
             else
               epsd(1:nel) = asrate*epsp(1:nel) + (one-asrate)*epsd(1:nel)
             end if
-          end if
+          elseif (iflagsr == 1) then
+            epsd(1:nel) = uvar(1:nel,1)
+          endif
 !
           !< Barlat linear projection parameters
           !< - For xprime tensor
@@ -681,6 +685,7 @@
             do i = 1,nel
               dpdt    = dpla(i)/max(timestep,em20)
               epsd(i) = asrate*dpdt + (one - asrate)*epsd(i)
+              uvar(1:nel,1) = epsd(1:nel)
             end do
           end if
 !

@@ -361,7 +361,7 @@
           !< Error if no elastic law is defined
           ! --------------------------------------------------------------------
           if (ielas == 0) then 
-            call ancmsg(msgid=3124,                                            &                    
+            call ancmsg(msgid=3133,                                            &                    
                         msgtype=msgerror,                                      &
                         anmode=aninfo_blind_2,                                 &
                         i1=mat_id,                                             &
@@ -373,7 +373,7 @@
           ! --------------------------------------------------------------------          
           if (icrit == 0) then 
             icrit = 1
-            call ancmsg(msgid=3125,                                            &                    
+            call ancmsg(msgid=3134,                                            &                    
                         msgtype=msgwarning,                                    &
                         anmode=aninfo_blind_2,                                 &
                         i1=mat_id,                                             &
@@ -394,9 +394,9 @@
           ! --------------------------------------------------------------------
           !< Default strain rate treatment
           ! --------------------------------------------------------------------
-          !< Switch to filtered total strain rate
+          !< Switch to filtered plastic strain rate
           if (vpflag == 0) then 
-            vpflag = 2
+            vpflag = 1
             israte = 1
             parmat(4) = israte
             parmat(5) = 10000.0d0*unitab%fac_t_work       

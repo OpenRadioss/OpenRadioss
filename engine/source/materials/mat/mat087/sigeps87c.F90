@@ -155,7 +155,7 @@
               soundsp,pla     ,dpla    ,epsd    ,yld      ,                    &
               etse   ,gs      ,israte  ,asrate  ,off      ,                    &
               l_sigb ,sigb    ,inloc   ,dplanl  ,seq      ,                    &
-              loff   )
+              loff   ,nuvar   ,uvar    )
             !< Swift-Voce with Cowper-Symonds
            case(1)
             call mat87c_swift_voce(                                            &
@@ -168,7 +168,7 @@
               soundsp,pla     ,dpla    ,epsd    ,yld      ,                    &
               etse   ,gs      ,israte  ,asrate  ,off      ,                    &
               l_sigb ,sigb    ,inloc   ,dplanl  ,seq      ,                    &
-              loff   )
+              loff   ,nuvar   ,uvar    )
             !< Hansel
            case(2)
             call mat87c_hansel(                                                &
@@ -194,7 +194,7 @@
               soundsp,pla     ,dpla    ,epsd    ,yld      ,                    &
               etse   ,gs      ,israte  ,asrate  ,off      ,                    &
               l_sigb ,sigb    ,inloc   ,dplanl  ,seq      ,                    &
-              loff   )
+              loff   ,nuvar   ,uvar    )
           end select
         end subroutine sigeps87c
 ! ======================================================================================================================

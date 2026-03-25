@@ -87,14 +87,14 @@
           call hm_get_float_array_index("ELAS_ISOT_NU",nu   ,ikey,is_available,lsubmodel,unitab)
           !< Check parameters values
           if (nu < zero .or. nu >= half) then
-            call ancmsg(msgid=3131,                                            &                    
+            call ancmsg(msgid=3131,                                            &
                         msgtype=msgerror,                                      &
                         anmode=aninfo_blind_2,                                 &
                         i1=mat_id,                                             &
-                        c1=titr,                                               &
-                        c2="ELAS_ISOTROPIC",                                   &
-                        c3="POISSON'S RATIO MUST BE IN THE RANGE [0,0.5[.")
-
+                        c1="ERROR",                                            &
+                        c2=titr,                                               &
+                        c3="ELAS_ISOTROPIC",                                   &
+                        c4="POISSON'S RATIO MUST BE IN THE RANGE [0,0.5[.")
           endif
           !< Fill MATPARAM values
           matparam%young = young

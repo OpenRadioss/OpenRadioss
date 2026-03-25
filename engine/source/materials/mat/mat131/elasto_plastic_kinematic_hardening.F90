@@ -80,7 +80,7 @@
         real(kind=WP), dimension(nel), intent(in)    :: normxy     !< 1st derivative of equivalent stress wrt stress xy
         real(kind=WP), dimension(nel), intent(in)    :: normyz     !< 1st derivative of equivalent stress wrt stress yz
         real(kind=WP), dimension(nel), intent(in)    :: normzx     !< 1st derivative of equivalent stress wrt stress zx
-        real(kind=WP),                 intent(in)    :: dpla_dlam  !< Derivative of equivalent plastic strain w.r.t plastic multiplier
+        real(kind=WP), dimension(nel), intent(in)    :: dpla_dlam  !< Derivative of equivalent plastic strain w.r.t plastic multiplier
         real(kind=WP), dimension(nel,l_sigb),intent(in) :: sigb    !< Backstress components for kinematic hardening
 !----------------------------------------------------------------
 !  L o c a l  V a r i a b l e s

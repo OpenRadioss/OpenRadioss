@@ -108,9 +108,9 @@
           seq(1:nel) = sqrt(seq(1:nel))
           !< First order derivative of eq. stress
           inv_seq(1:nel) = one / max(seq(1:nel), em20)
-          normxx(1:nel) = inv_seq(1:nel)*( H*s_xx_minus_s_yy(1:nel) + G*s_zz_minus_s_xx(1:nel)) 
+          normxx(1:nel) = inv_seq(1:nel)*( H*s_xx_minus_s_yy(1:nel) - G*s_zz_minus_s_xx(1:nel)) 
           normyy(1:nel) = inv_seq(1:nel)*( F*s_yy_minus_s_zz(1:nel) - H*s_xx_minus_s_yy(1:nel))
-          normzz(1:nel) = inv_seq(1:nel)*(-G*s_zz_minus_s_xx(1:nel) - F*s_yy_minus_s_zz(1:nel))
+          normzz(1:nel) = inv_seq(1:nel)*( G*s_zz_minus_s_xx(1:nel) - F*s_yy_minus_s_zz(1:nel))
           normxy(1:nel) = inv_seq(1:nel) * N*two*signxy(1:nel)
           normyz(1:nel) = inv_seq(1:nel) * L*two*signyz(1:nel)
           normzx(1:nel) = inv_seq(1:nel) * M*two*signzx(1:nel)
@@ -166,6 +166,8 @@
           normyy(1:nel) = inv_seq(1:nel)*(-H*s_xx_minus_s_yy(1:nel) + F*signyy(1:nel))
           normzz(1:nel) = - normxx(1:nel) - normyy(1:nel)
           normxy(1:nel) = inv_seq(1:nel)*N*two*signxy(1:nel)     
+          normyz(1:nel) = zero
+          normzx(1:nel) = zero
           if (second_order) then 
             N2(1:nel,1:6,1:6) = zero
             N2(1:nel,1,1) = inv_seq(1:nel) * ((H+G) - normxx(1:nel)**two) 
