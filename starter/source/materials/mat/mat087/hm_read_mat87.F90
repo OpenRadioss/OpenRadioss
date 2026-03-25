@@ -476,11 +476,7 @@
           allocate (matparam%table (matparam%ntable ))
 !
           !< Number of user variables
-          if (iflag == 2) then
-            nuvar = 1 !< Martensite volume fraction for Hansel
-          else
-            nuvar = 0
-          end if
+          nuvar = 1
 !
           !< Material integer parameters
           matparam%iparam(1)  = iflag
@@ -720,8 +716,8 @@
 1009      format(/                                                                 &
             5X,"SWIFT-VOCE YIELD STRESS PARAMETERS:                    ",/,         &
             5X,"-----------------------------------                    ",/,         &
-            5X,"COWPER SEYMONDS EXPONENT P . . . . . . . . . . . . . .=",1PG20.13/  &
-            5X,"COWPER SEYMONDS COEFFICIENT C. . . . . . . . . . . . .=",1PG20.13/  &
+            5X,"COWPER SYMONDS EXPONENT P. . . . . . . . . . . . . . .=",1PG20.13/  &
+            5X,"COWPER SYMONDS COEFFICIENT C . . . . . . . . . . . . .=",1PG20.13/  &
             5X,"YIELD VOCE PARAMETER Q . . . . . . . . . . . . . . . .=",1PG20.13/  &
             5X,"YIELD VOCE PARAMETER B . . . . . . . . . . . . . . . .=",1PG20.13/  &
             5X,"YIELD VOCE PARAMETER K0. . . . . . . . . . . . . . . .=",1PG20.13/  &

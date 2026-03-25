@@ -262,7 +262,7 @@
               cstf(1:nel,5,5) = matparam%uparam(28)*shf(1:nel)
               cstf(1:nel,5,6) = matparam%uparam(29)*shf(1:nel)
               cstf(1:nel,6,5) = matparam%uparam(29)*shf(1:nel)
-              cstf(1:nel,6,6) = matparam%uparam(30)*shf(1:nel)  
+              cstf(1:nel,6,6) = matparam%uparam(30)*shf(1:nel)
               !< Compliance matrix components for thickness update
               s13(1:nel) = matparam%uparam(31)
               s23(1:nel) = matparam%uparam(32)
@@ -276,42 +276,45 @@
         !=======================================================================
         !< Elastic trial stress computation
         !=======================================================================
-        signxx(1:nel) = sigoxx(1:nel) + cstf(1:nel,1,1)*depsxx(1:nel) +        &
-                                        cstf(1:nel,1,2)*depsyy(1:nel) +        &
-                                        cstf(1:nel,1,3)*depszz(1:nel) +        &
-                                        cstf(1:nel,1,4)*depsxy(1:nel) +        &
-                                        cstf(1:nel,1,5)*depsyz(1:nel) +        &
-                                        cstf(1:nel,1,6)*depszx(1:nel)
-        signyy(1:nel) = sigoyy(1:nel) + cstf(1:nel,2,1)*depsxx(1:nel) +        &
-                                        cstf(1:nel,2,2)*depsyy(1:nel) +        &
-                                        cstf(1:nel,2,3)*depszz(1:nel) +        &
-                                        cstf(1:nel,2,4)*depsxy(1:nel) +        &
-                                        cstf(1:nel,2,5)*depsyz(1:nel) +        &
-                                        cstf(1:nel,2,6)*depszx(1:nel)
-        signzz(1:nel) = sigozz(1:nel) + cstf(1:nel,3,1)*depsxx(1:nel) +        & 
-                                        cstf(1:nel,3,2)*depsyy(1:nel) +        & 
-                                        cstf(1:nel,3,3)*depszz(1:nel) +        &
-                                        cstf(1:nel,3,4)*depsxy(1:nel) +        &
-                                        cstf(1:nel,3,5)*depsyz(1:nel) +        &
-                                        cstf(1:nel,3,6)*depszx(1:nel)
-        signxy(1:nel) = sigoxy(1:nel) + cstf(1:nel,4,1)*depsxx(1:nel) +        &
-                                        cstf(1:nel,4,2)*depsyy(1:nel) +        &
-                                        cstf(1:nel,4,3)*depszz(1:nel) +        &
-                                        cstf(1:nel,4,4)*depsxy(1:nel) +        &
-                                        cstf(1:nel,4,5)*depsyz(1:nel) +        &
-                                        cstf(1:nel,4,6)*depszx(1:nel)
-        signyz(1:nel) = sigoyz(1:nel) + cstf(1:nel,5,1)*depsxx(1:nel) +        &
-                                        cstf(1:nel,5,2)*depsyy(1:nel) +        &
-                                        cstf(1:nel,5,3)*depszz(1:nel) +        &
-                                        cstf(1:nel,5,4)*depsxy(1:nel) +        &
-                                        cstf(1:nel,5,5)*depsyz(1:nel) +        &
-                                        cstf(1:nel,5,6)*depszx(1:nel)
-        signzx(1:nel) = sigozx(1:nel) + cstf(1:nel,6,1)*depsxx(1:nel) +        &
-                                        cstf(1:nel,6,2)*depsyy(1:nel) +        &
-                                        cstf(1:nel,6,3)*depszz(1:nel) +        &
-                                        cstf(1:nel,6,4)*depsxy(1:nel) +        &
-                                        cstf(1:nel,6,5)*depsyz(1:nel) +        &
-                                        cstf(1:nel,6,6)*depszx(1:nel)
+#include "vectorize.inc"
+        do i = 1,nel
+          signxx(i) = sigoxx(i) + cstf(i,1,1)*depsxx(i) +                      &
+                                  cstf(i,1,2)*depsyy(i) +                      &
+                                  cstf(i,1,3)*depszz(i) +                      &
+                                  cstf(i,1,4)*depsxy(i) +                      &
+                                  cstf(i,1,5)*depsyz(i) +                      &
+                                  cstf(i,1,6)*depszx(i)
+          signyy(i) = sigoyy(i) + cstf(i,2,1)*depsxx(i) +                      &
+                                  cstf(i,2,2)*depsyy(i) +                      &
+                                  cstf(i,2,3)*depszz(i) +                      &
+                                  cstf(i,2,4)*depsxy(i) +                      &
+                                  cstf(i,2,5)*depsyz(i) +                      &
+                                  cstf(i,2,6)*depszx(i)
+          signzz(i) = sigozz(i) + cstf(i,3,1)*depsxx(i) +                      & 
+                                  cstf(i,3,2)*depsyy(i) +                      & 
+                                  cstf(i,3,3)*depszz(i) +                      &
+                                  cstf(i,3,4)*depsxy(i) +                      &
+                                  cstf(i,3,5)*depsyz(i) +                      &
+                                  cstf(i,3,6)*depszx(i)
+          signxy(i) = sigoxy(i) + cstf(i,4,1)*depsxx(i) +                      &
+                                  cstf(i,4,2)*depsyy(i) +                      &
+                                  cstf(i,4,3)*depszz(i) +                      &
+                                  cstf(i,4,4)*depsxy(i) +                      &
+                                  cstf(i,4,5)*depsyz(i) +                      &
+                                  cstf(i,4,6)*depszx(i)
+          signyz(i) = sigoyz(i) + cstf(i,5,1)*depsxx(i) +                      &
+                                  cstf(i,5,2)*depsyy(i) +                      &
+                                  cstf(i,5,3)*depszz(i) +                      &
+                                  cstf(i,5,4)*depsxy(i) +                      &
+                                  cstf(i,5,5)*depsyz(i) +                      &
+                                  cstf(i,5,6)*depszx(i)
+          signzx(i) = sigozx(i) + cstf(i,6,1)*depsxx(i) +                      &
+                                  cstf(i,6,2)*depsyy(i) +                      &
+                                  cstf(i,6,3)*depszz(i) +                      &
+                                  cstf(i,6,4)*depsxy(i) +                      &
+                                  cstf(i,6,5)*depsyz(i) +                      &
+                                  cstf(i,6,6)*depszx(i)
+        end do
 !
       end subroutine elasto_plastic_trial_stress
       end module elasto_plastic_trial_stress_mod

@@ -101,37 +101,40 @@
           nu13 = nu31*e1/e3
           !< Check parameters values
           if (nu12*nu21 >= one) then 
-            call ancmsg(msgid=3129,                                            &                    
+            call ancmsg(msgid=3131,                                            &
                         msgtype=msgerror,                                      &
                         anmode=aninfo_blind_2,                                 &
                         i1=mat_id,                                             &
-                        c1=titr,                                               &
-                        c2="ELAS_ORTHOTROPIC",                                 &
-                        c3="TO REMAIN NUMERICALLY STABLE, MATERIAL CONSTANTS   &
-                            E1, E2 AND NU21 MUST BE INPUT SUCH THAT NU12*NU21  &
-                            < 1, WHERE NU12 = NU21*E1/E2")
+                        c1="ERROR",                                            &
+                        c2=titr,                                               &
+                        c3="ELAS_ORTHOTROPIC",                                 &
+                        c4="TO REMAIN NUMERICALLY STABLE, MATERIAL CONSTANTS"//&
+                     " E1, E2 AND NU21 MUST BE INPUT SUCH THAT NU12*NU21< 1,"//&
+                     "  WHERE NU12 = NU21*E1/E2")
           endif
           if (nu13*nu31 >= one) then 
-            call ancmsg(msgid=3129,                                            &                    
+            call ancmsg(msgid=3131,                                            &
                         msgtype=msgerror,                                      &
                         anmode=aninfo_blind_2,                                 &
                         i1=mat_id,                                             &
-                        c1=titr,                                               &
-                        c2="ELAS_ORTHOTROPIC",                                 &
-                        c3="TO REMAIN NUMERICALLY STABLE, MATERIAL CONSTANTS   &
-                            E1, E3 AND NU31 MUST BE INPUT SUCH THAT NU13*NU31  &
-                            < 1, WHERE NU13 = NU31*E1/E3")
+                        c1="ERROR",                                            &
+                        c2=titr,                                               &
+                        c3="ELAS_ORTHOTROPIC",                                 &
+                        c4="TO REMAIN NUMERICALLY STABLE, MATERIAL CONSTANTS"//&
+                     " E1, E3 AND NU31 MUST BE INPUT SUCH THAT NU13*NU31< 1,"//&
+                     "  WHERE NU13 = NU31*E1/E3")
           endif
           if (nu23*nu32 >= one) then 
-            call ancmsg(msgid=3129,                                            &                    
+            call ancmsg(msgid=3131,                                            &
                         msgtype=msgerror,                                      &
                         anmode=aninfo_blind_2,                                 &
                         i1=mat_id,                                             &
-                        c1=titr,                                               &
-                        c2="ELAS_ORTHOTROPIC",                                 &
-                        c3="TO REMAIN NUMERICALLY STABLE, MATERIAL CONSTANTS   &
-                            E2, E3 AND NU32 MUST BE INPUT SUCH THAT NU23*NU32  &
-                            < 1, WHERE NU23 = NU32*E2/E3")
+                        c1="ERROR",                                            &
+                        c2=titr,                                               &
+                        c3="ELAS_ORTHOTROPIC",                                 &
+                        c4="TO REMAIN NUMERICALLY STABLE, MATERIAL CONSTANTS"//&
+                     " E2, E3 AND NU32 MUST BE INPUT SUCH THAT NU23*NU32< 1,"//&
+                     "  WHERE NU23 = NU32*E2/E3")
           endif
           !< Elasticity matrix for 2D plane stress
           a11  = e1/(one - nu12*nu21)

@@ -49,7 +49,7 @@
 !||====================================================================
         subroutine hm_read_yield_criterion_barlat2000(                         &
           ikey     ,icrit    ,nupar_crit,upar_crit,is_available,unitab   ,     &
-          lsubmodel,iout     ,is_encrypted,mat_id ,titr        )
+          lsubmodel,iout     ,is_encrypted,mat_id ,titr        ,ifit     )
 !----------------------------------------------------------------
 !   M o d u l e s
 !----------------------------------------------------------------
@@ -80,10 +80,11 @@
           logical,                 intent(in)    :: is_encrypted          !< Encryption flag
           integer,                 intent(in)    :: mat_id                !< Material ID
           character(len=nchartitle),intent(in)   :: titr                  !< Material law user title
+          integer,                 intent(in)    :: ifit                  !< Fitting flag
 !----------------------------------------------------------------
 !  L o c a l  V a r i a b l e s
 !----------------------------------------------------------------
-          integer :: ifit,info,k,error,niter,iok
+          integer :: info,k,error,niter,iok
           real(kind=WP) ::                                                     &
             gamma,delta,fct,yield,dx,dy,g1,g2,g3,g13,g23,g33,g15,g25,g35,      &
             df1,df2,df3,df13,df23,df33,df15,df25,df35,f1,f2,                   &
@@ -101,13 +102,10 @@
           !===================================================================
           !< Barlat (2000) yield criterion
           !===================================================================
-          !< Fitting flag
-          call hm_get_int_array_index("CRIT_BARL00_IFIT",ifit,ikey,is_available,lsubmodel)
-          ifit = max(0,min(ifit,1))
           !< Yield criterion type
           icrit = 5
           !< Classical Barlat 2000 coefficients
-          if (ifit == 0) then
+          if (ifit == 1) then
             call hm_get_float_array_index("CRIT_BARL00_A1" ,al(1),ikey,is_available,lsubmodel,unitab)
             call hm_get_float_array_index("CRIT_BARL00_A2" ,al(2),ikey,is_available,lsubmodel,unitab)
             call hm_get_float_array_index("CRIT_BARL00_A3" ,al(3),ikey,is_available,lsubmodel,unitab)
@@ -122,7 +120,7 @@
             end do
             if (expa == zero) expa = two
           !< Alternative fitting procedure based on yield stresses in specific loading directions
-          elseif (ifit == 1) then
+          elseif (ifit == 2) then
             call hm_get_float_array_index("CRIT_BARL00_SIG00",s00  ,ikey,is_available,lsubmodel,unitab)
             call hm_get_float_array_index("CRIT_BARL00_SIG45",s45  ,ikey,is_available,lsubmodel,unitab)
             call hm_get_float_array_index("CRIT_BARL00_SIG90",s90  ,ikey,is_available,lsubmodel,unitab)
@@ -230,11 +228,15 @@
                 al(k) = al(k) - dal(k)
                 if (al(k) > ep05)then
                   iok = 1
-                  call ancmsg(msgid=1608 ,                                     &
+                  call ancmsg(msgid=3131,                                      &
                     msgtype=msgerror,                                          &
                     anmode=aninfo_blind_2,                                     &
                     i1=mat_id,                                                 &
-                    c1=titr)
+                    c1="ERROR",                                                &
+                    c2=titr,                                                   &
+                    c3="CRIT_BARLAT2000_2",                                    &
+                    c4="NO CONVERGENCE IN IDENTIFICATION ALGORITHM PLEASE" //  &
+                       " CHECK YOUR INPUT")  
                   exit
                 endif
               enddo
@@ -283,11 +285,15 @@
                 al(6+k) = al(6+k) - dal78(k)
                 if (al(6+k) > ep05) then
                   iok = 1
-                  call ancmsg(msgid=1608 ,                                     &
+                  call ancmsg(msgid=3131,                                      &
                     msgtype=msgerror,                                          &
                     anmode=aninfo_blind_2,                                     &
                     i1=mat_id,                                                 &
-                    c1=titr)
+                    c1="ERROR",                                                &
+                    c2=titr,                                                   &
+                    c3="CRIT_BARLAT2000_2",                                    &
+                    c4="NO CONVERGENCE IN IDENTIFICATION ALGORITHM PLEASE" //  &
+                       " CHECK YOUR INPUT")  
                   exit
                 end if
               end do
@@ -299,11 +305,15 @@
               do k=1,8
                 if (al(k) <= zero .or. al(k) > ten) then
                   iok = 1
-                  call ancmsg(msgid=1608 ,                                     &
+                  call ancmsg(msgid=3131,                                      &
                     msgtype=msgerror,                                          &
                     anmode=aninfo_blind_2,                                     &
                     i1=mat_id,                                                 &
-                    c1=titr)
+                    c1="ERROR",                                                &
+                    c2=titr,                                                   &
+                    c3="CRIT_BARLAT2000_2",                                    &
+                    c4="NO CONVERGENCE IN IDENTIFICATION ALGORITHM PLEASE" //  &
+                       " CHECK YOUR INPUT")  
                   exit
                 endif
               enddo
@@ -323,11 +333,16 @@
           lp(3,3) = al(7)
           call dgeev("N","N",3,lp,3,wr,wi,vl,3,vr,3,work,102,info)
           if (minval(wr) <= zero) then
-            call ancmsg(msgid=3095,                                            &
+            call ancmsg(msgid=3131,                                            &
               msgtype=msgwarning,                                              &
               anmode=aninfo_blind_1,                                           &
               i1=mat_id,                                                       &
-              c1=titr)
+              c1="WARNING",                                                    &
+              c2=titr,                                                         &
+              c3="CRIT_BARLAT2000",                                            &
+              c4="INPUT OR IDENTIFIED COMBINATION OF ALPHA_i PARAMETERS" //    &
+               " MIGHT LEAD TO NON-CONVEX YIELD SURFACE. EIGENVALUES OF FIRST"//&
+               " LINEAR TRANSFORMATION LP MUST BE STRICTLY POSITIVE. ")    
           endif
           !< Check second linear transformation matrix principal values
           ! (must be positive to ensure convexity)
@@ -346,11 +361,16 @@
           !< Check second linear transformation matrix principal values
           ! (must be positive to ensure convexity)
           if (minval(wr) <= zero) then
-            call ancmsg(msgid=3102,                                            &
+            call ancmsg(msgid=3131,                                            &
               msgtype=msgwarning,                                              &
               anmode=aninfo_blind_1,                                           &
               i1=mat_id,                                                       &
-              c1=titr)
+              c1="WARNING",                                                    &
+              c2=titr,                                                         &
+              c3="CRIT_BARLAT2000",                                            &
+              c4="INPUT OR IDENTIFIED COMBINATION OF ALPHA_i PARAMETERS" //    &
+              " MIGHT LEAD TO NON-CONVEX YIELD SURFACE. EIGENVALUES OF SECOND"//&
+              " LINEAR TRANSFORMATION LPP MUST BE STRICTLY POSITIVE. ")
           endif
           !< Number of parameters
           nupar_crit = 11
@@ -371,7 +391,7 @@
             write(iout,"(5X,A,//)") "CONFIDENTIAL DATA"
           else
             write(iout,1000)
-            if (ifit == 0) then
+            if (ifit == 1) then
               write(iout,1007) expa,al(1),al(2),al(3),al(4),al(5),al(6),al(7),al(8)
             else
               write(iout,1006) expa,s00,s45,s90,sb,yield,r00,r45,r90,rb,al(1),al(2),al(3),al(4),al(5),al(6),al(7),al(8)
@@ -406,7 +426,7 @@
           5X,"ANISOTROPY COEFFICIENT ALPHA6. . . . . . . . . . . . .=",1PG20.13/&
           5X,"ANISOTROPY COEFFICIENT ALPHA7. . . . . . . . . . . . .=",1PG20.13/&
           5X,"ANISOTROPY COEFFICIENT ALPHA8. . . . . . . . . . . . .=",1PG20.13/)
-1007 format(/                                                                  &
+1007 format(                                                                   &
           5X,"EXPONENT OF YIELD CRITERION A. . . . . . . . . . . . .=",1PG20.13/&
           5X,"ANISOTROPY COEFFICIENT ALPHA1. . . . . . . . . . . . .=",1PG20.13/&
           5X,"ANISOTROPY COEFFICIENT ALPHA2. . . . . . . . . . . . .=",1PG20.13/&

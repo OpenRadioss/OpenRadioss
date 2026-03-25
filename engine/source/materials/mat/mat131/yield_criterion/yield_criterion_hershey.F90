@@ -340,6 +340,8 @@
               normyy(i) = dsigeq_dsig1*dsig1_dsigyy + dsigeq_dsig2*dsig2_dsigyy
               normzz(i) = -normxx(i) - normyy(i)
               normxy(i) = dsigeq_dsig1*dsig1_dsigxy + dsigeq_dsig2*dsig2_dsigxy
+              normyz(i) = zero
+              normzx(i) = zero
               !< Second order derivative of eq. stress  
               if (second_order) then
                 ab12_n2 = loc_ab12**(nexp - two)

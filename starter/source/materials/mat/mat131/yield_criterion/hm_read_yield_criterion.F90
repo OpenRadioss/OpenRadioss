@@ -101,10 +101,18 @@
           !=====================================================================
           !< Hill criterion parameters
           !=====================================================================
-          elseif (type(1:4) == 'HILL') then
+          elseif (type(1:6) == 'HILL_1') then
             call hm_read_yield_criterion_hill(                                 &
               ikey     ,icrit    ,nupar_crit,upar_crit,is_available,unitab ,   &
-              lsubmodel,iout     ,is_encrypted)     
+              lsubmodel,iout     ,is_encrypted,1      )     
+          elseif (type(1:6) == 'HILL_2') then
+            call hm_read_yield_criterion_hill(                                 &
+              ikey     ,icrit    ,nupar_crit,upar_crit,is_available,unitab ,   &
+              lsubmodel,iout     ,is_encrypted,2      )    
+          elseif (type(1:6) == 'HILL_3') then
+            call hm_read_yield_criterion_hill(                                 &
+              ikey     ,icrit    ,nupar_crit,upar_crit,is_available,unitab ,   &
+              lsubmodel,iout     ,is_encrypted,3      )    
           !=====================================================================
           !< Barlat 1989 criterion parameters
           !=====================================================================  
@@ -115,10 +123,14 @@
           !=====================================================================
           !< Barlat 2000 criterion parameters
           !=====================================================================  
-          elseif (type(1:10) == 'BARLAT2000') then
+          elseif (type(1:12) == 'BARLAT2000_1') then
             call hm_read_yield_criterion_barlat2000(                           &
               ikey     ,icrit    ,nupar_crit,upar_crit,is_available,unitab ,   &
-              lsubmodel,iout     ,is_encrypted,mat_id ,titr        )        
+              lsubmodel,iout     ,is_encrypted,mat_id ,titr        ,1      )     
+          elseif (type(1:12) == 'BARLAT2000_2') then
+            call hm_read_yield_criterion_barlat2000(                           &
+              ikey     ,icrit    ,nupar_crit,upar_crit,is_available,unitab ,   &
+              lsubmodel,iout     ,is_encrypted,mat_id ,titr        ,2      )     
           endif          
 ! -------------------------------------------------------------------------------
         end subroutine hm_read_yield_criterion

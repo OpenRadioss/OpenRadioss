@@ -128,13 +128,14 @@
           c2  = c
           call dgeev('N','N',6,c2,6,wr,wi,vl,6,vr,6,work,102,info)
           if (minval(wr) < -1.0d-6) then
-            call ancmsg(msgid=3131,                                            &                    
+            call ancmsg(msgid=3131,                                            &
                         msgtype=msgerror,                                      &
                         anmode=aninfo_blind_2,                                 &
                         i1=mat_id,                                             &
-                        c1=titr,                                               &
-                        c2="ELAS_ANISOTROPIC",                                 &
-                        c3="ELASTIC STIFFNESS MATRIX IS NOT POSITIVE DEFINITE.")
+                        c1="ERROR",                                            &
+                        c2=titr,                                               &
+                        c3="ELAS_ANISOTROPIC",                                 &
+                        c4="ELASTIC STIFFNESS MATRIX IS NOT POSITIVE DEFINITE.")
           endif
           !< Fill matparam values
           matparam%bulk  = (one/nine)*(c(1,1) + c(2,2) + c(3,3) +              & 

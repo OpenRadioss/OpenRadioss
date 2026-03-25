@@ -119,21 +119,25 @@
 !----------------------------------------------------------------
 !  L o c a l  V a r i a b l e s
 !----------------------------------------------------------------
-        integer :: i,j,ii,iter,nindx,indx(nel),vpflag,ikine
-        real(kind=WP), dimension(nel,6,6) :: cstf,N
-        real(kind=WP) :: dlam,dsigxx_dlam,dsigyy_dlam,dsigxy_dlam,dseq_dlam,   &
-          dpla_dlam,dphi_dseq,dphi_dsigy,dphi_dlam,sig_dseqdsig,dsigy_dlam,    &
-          dsigbxx_dlam,dsigbyy_dlam,dsigbzz_dlam,dsigbxy_dlam,chard,dlam_nl
+        integer :: i,j,ii,iter(nel),nindx,indx(nel),vpflag,ikine,nindx_1,      &
+          indx_1(nel)
+        real(kind=WP), dimension(nel,6,6) :: cstf,N,N_i
+        real(kind=WP) :: chard,dlam_nl
         real(kind=WP), dimension(nel) :: pla0,normxx,normyy,normzz,normxy,     &
           normyz,normzx,phi,young,dsigy_dpla,dtemp_dpla,s13,s23,s43,depzz,     &
           sigbxx,sigbyy,sigbzz,sigbxy,sigy0,dsigy0_dpla,dtemp0_dpla,zeros,     &
-          dpdm
-        real(kind=WP) :: dX_dRes(2,2),detdRes_dX,Res(2),X(2),strs_d2sds2dsdlam,&
-          dRes_dX(2,2),N_dsigdlam(6)
+          dpdm,dlam,dsigxx_dlam,dsigyy_dlam,dsigxy_dlam,dseq_dlam,dpla_dlam,   &
+          dphi_dseq,dphi_dsigy,dphi_dlam,sig_dseqdsig,dsigy_dlam,dsigbxx_dlam, &
+          dsigbyy_dlam,dsigbzz_dlam,dsigbxy_dlam,signxx_i,signyy_i,signzz_i,   &
+          signxy_i,signyz_i,signzx_i,epsd_i,sigy_i,pla_i,dsigy_dpla_i,temp_i,  &
+          seq_i,normxx_i,normyy_i,normzz_i,normxy_i,normyz_i,normzx_i,         &
+          dtemp_dpla_i,dpla_dlam_i,strs_d2sds2dsdlam
+        real(kind=WP) :: dX_dRes(nel,2,2),detdRes_dX(nel),Res(nel,2),X(nel,2), &
+          dRes_dX(nel,2,2),N_dsigdlam(nel,6)
         logical :: converged
-        real(kind=WP), dimension(nel,l_sigb) :: dsigb_dlam
+        real(kind=WP), dimension(nel,l_sigb) :: dsigb_dlam,sigb_i
         real(kind=WP), dimension(nel) :: signzz,sigozz,depszz,dezz
-        integer, dimension(nel,nvartmp) :: ipos0
+        integer, dimension(nel,nvartmp) :: ipos0,vartmp_i
 !
         integer, parameter :: eltype = 2               !< Element type (1 - Solids, 2 - Shells)
         integer, parameter :: nitermax = 500           !< Maximum number of plastic iterations
@@ -168,6 +172,7 @@
         dpla(1:nel) = zero
         !< Derivative of temperature w.r.t. cumulated plastic strain
         dtemp_dpla(1:nel) = zero
+        dtemp_dpla_i(1:nel) = zero
         !< Save the initial cumulated plastic strain value
         pla0(1:nel) = pla(1:nel)
         !< Initialize out-of-plane plastic strain increment for shell elements
@@ -210,8 +215,8 @@
           sigbyy(1:nel) = zero
           sigbzz(1:nel) = zero
           sigbxy(1:nel) = zero
-            !< Compute the backstress tensor from all C-R kinematic hardenings
-            do j = 1, l_sigb/6
+          !< Compute the backstress tensor from all C-R kinematic hardenings
+          do j = 1, l_sigb/6
             sigbxx(1:nel) = sigbxx(1:nel) + sigb(1:nel,6*(j-1) + 1)
             sigbyy(1:nel) = sigbyy(1:nel) + sigb(1:nel,6*(j-1) + 2)
             sigbzz(1:nel) = sigbzz(1:nel) + sigb(1:nel,6*(j-1) + 3)
@@ -253,252 +258,398 @@
         !=======================================================================
         if (nindx > 0) then
 !
-          indx(1:nindx) = PACK(temp_all_indices(1:nel), active_elements_mask(1:nel))
+          !< Extract the indices of the yielding elements
+          indx(1:nindx) = PACK(temp_all_indices(1:nel),active_elements_mask(1:nel))
 !
+          !< Initialisation of the iteration counter and convergence flag
+          iter(1:nel) = 0
+          converged = .false.
+!
+          !=====================================================================
+          !< - Initialisation of residue vector
+          !=====================================================================
           !< Loop over yielding elements
+#include "vectorize.inc"
           do ii = 1,nindx
             i = indx(ii)
-!
-            !===================================================================
-            !< - Initialisation of residue vector
-            !===================================================================
-            !< Initialization design variables
-            X(1) = zero !< Plastic multiplier dlambda
-            X(2) = zero !< Equivalent plastic strain increment qepsInc
-            Res(1) = (seq(i)/sigy(i))**2 - one
+            !< Initialization design variables          
+            X(i,1) = zero !< Plastic multiplier dlambda
+            X(i,2) = zero !< Equivalent plastic strain increment qepsInc
+            Res(i,1) = (seq(i)/sigy(i))**2 - one
             !< 2nd residue: Energy equivalence ystrs*qepsInc = dlambda*sig_dsigeqdsig
             !< Derivative of the equivalent plastic strain w.r.t the plastic mult.
-            sig_dseqdsig = signxx(i)*normxx(i) +                               &
-                           signyy(i)*normyy(i) +                               &
-                           signxy(i)*normxy(i)
-            dpla_dlam = sig_dseqdsig/max(sigy(i),em20)
-            Res(2) = X(2) - X(1)*dpla_dlam
+            sig_dseqdsig(i) = signxx(i)*normxx(i) + signyy(i)*normyy(i) +      &
+                              signxy(i)*normxy(i)
+            dpla_dlam(i) = sig_dseqdsig(i)/max(sigy(i),em20)
+            Res(i,2) = X(i,2) - X(i,1)*dpla_dlam(i)
+          enddo
 !
-            !< Initialization of the convergence flag
-            converged = .false.
-            !< Initialization return mapping number of interation
-            iter = 0
-!    
-            !< Iterative plastic correction procedure
-            do while ((.not.converged).and.(iter<nitermax))
+          !< Loop over yielding elements
+          do while (.not. converged) 
+!
+            !< Loop over yielding elements
+#include "vectorize.inc"
+            do ii = 1,nindx
+              i = indx(ii)
 !
               !< 0 - Preliminary computation: 
               !-----------------------------------------------------------------
 !
-              !<  a) Derivative of yield function w.r.t equivalent stress
-              !<  --------------------------------------------------------------
-              dphi_dseq  =  two*seq(i)/(sigy(i)**2)
+              !<  a) Switch to local index of yielding elements
+              !< ---------------------------------------------------------------
+              normxx_i(ii) = normxx(i) !< Normal xx component
+              normyy_i(ii) = normyy(i) !< Normal yy component
+              normzz_i(ii) = normzz(i) !< Normal zz component
+              normxy_i(ii) = normxy(i) !< Normal xy component
+              dsigy_dpla_i(ii) = dsigy_dpla(i) !< Derivative of yield stress w.r.t. plastic strain
+              dpla_dlam_i(ii) = dpla_dlam(i) !< Derivative of plastic strain increment w.r.t. plastic multiplier
+              epsd_i(ii)   = epsd(i)   !< Current value of plastic strain rate
+              dtemp_dpla_i(ii) = dtemp_dpla(i) !< Derivative of temperature w.r.t. plastic strain
+            enddo
 !
-              !<  b) Derivative of yield function w.r.t yield stress
-              !<  --------------------------------------------------------------
-              dphi_dsigy = -two*(seq(i)**2)/(sigy(i)**3)
+            if (nvartmp > 0) then 
+#include "vectorize.inc"
+              do ii = 1,nindx
+                i = indx(ii)  
+                !< Temporary variables for tabulated phenomena
+                vartmp_i(ii,1:nvartmp) = vartmp(i,1:nvartmp) 
+              enddo
+            endif
 !
-              !<  c) Derivative of the stress tensor w.r.t the plastic multiplier
+            !< Loop over yielding elements
+#include "vectorize.inc"
+            do ii = 1,nindx
+              i = indx(ii)
+!
+              !<  b) Derivative of yield function w.r.t equivalent stress
               !<  --------------------------------------------------------------
-              dsigxx_dlam = -(cstf(i,1,1)*normxx(i) + cstf(i,1,2)*normyy(i) +  &
-                              cstf(i,1,4)*normxy(i))
-              dsigyy_dlam = -(cstf(i,2,1)*normxx(i) + cstf(i,2,2)*normyy(i) +  &
-                              cstf(i,2,4)*normxy(i))
-              dsigxy_dlam = -(cstf(i,4,1)*normxx(i) + cstf(i,4,2)*normyy(i) +  &
-                              cstf(i,4,4)*normxy(i))
+              dphi_dseq(ii)  =  two*seq(i)/(sigy(i)**2)
+!
+              !<  c) Derivative of yield function w.r.t yield stress
+              !<  --------------------------------------------------------------
+              dphi_dsigy(ii) = -two*(seq(i)**2)/(sigy(i)**3)
+!
+              !<  d) Derivative of the stress tensor w.r.t the plastic multiplier
+              !<  --------------------------------------------------------------
+              dsigxx_dlam(ii) =                                                &
+                      -(cstf(i,1,1)*normxx_i(ii) + cstf(i,1,2)*normyy_i(ii) +  &
+                        cstf(i,1,4)*normxy_i(ii))
+              dsigyy_dlam(ii) =                                                &
+                      -(cstf(i,2,1)*normxx_i(ii) + cstf(i,2,2)*normyy_i(ii) +  &
+                        cstf(i,2,4)*normxy_i(ii))
+              dsigxy_dlam(ii) =                                                &
+                      -(cstf(i,4,1)*normxx_i(ii) + cstf(i,4,2)*normyy_i(ii) +  &
+                        cstf(i,4,4)*normxy_i(ii))
 !
               !<  d) Product dstrs_dlam * dsigeq_dsig
               !<  --------------------------------------------------------------
-              dseq_dlam = normxx(i)*dsigxx_dlam + normyy(i)*dsigyy_dlam +      &
-                          normxy(i)*dsigxy_dlam
+              dseq_dlam(ii) =                                                  &
+                 normxx_i(ii)*dsigxx_dlam(ii) + normyy_i(ii)*dsigyy_dlam(ii) + &
+                 normxy_i(ii)*dsigxy_dlam(ii)
 !
               !<  e) Product d2sigeq_dsig2 * dstrs_dlam
               !<  --------------------------------------------------------------
-              N_dsigdlam(1) = N(i,1,1)*dsigxx_dlam + N(i,1,2)*dsigyy_dlam +    &
-                              N(i,1,4)*dsigxy_dlam
-              N_dsigdlam(2) = N(i,2,1)*dsigxx_dlam + N(i,2,2)*dsigyy_dlam +    &
-                              N(i,2,4)*dsigxy_dlam
-              N_dsigdlam(4) = N(i,4,1)*dsigxx_dlam + N(i,4,2)*dsigyy_dlam +    &
-                              N(i,4,4)*dsigxy_dlam
+              N_dsigdlam(ii,1) =                                               &
+                      N(i,1,1)*dsigxx_dlam(ii) + N(i,1,2)*dsigyy_dlam(ii) +    &
+                      N(i,1,4)*dsigxy_dlam(ii)
+              N_dsigdlam(ii,2) =                                               &
+                      N(i,2,1)*dsigxx_dlam(ii) + N(i,2,2)*dsigyy_dlam(ii) +    &
+                      N(i,2,4)*dsigxy_dlam(ii)
+              N_dsigdlam(ii,4) =                                               &
+                      N(i,4,1)*dsigxx_dlam(ii) + N(i,4,2)*dsigyy_dlam(ii) +    &
+                      N(i,4,4)*dsigxy_dlam(ii)
+            enddo
 !
-              !<  f) Add the contribution of the backstress tensor to the derivative 
-              !   of the stress tensor w.r.t. plastic multiplier   
-              !<  --------------------------------------------------------------         
-              if (ikine > 0) then
-                !< f)i) - Derivative of backstress tensor w.r.t lambda
-                !<  ------------------------------------------------------------
-                call elasto_plastic_kinematic_hardening(                       &
-                  matparam ,1     ,l_sigb ,dsigb_dlam(i,1),dsigy_dpla(i),chard,&
-                  normxx(i),normyy(i),normzz(i),normxy(i),normyz(i),normzx(i), &
-                  dpla_dlam,sigb(i,1)) 
-                !< f)ii) Assembling the backstress contribution to the derivative  
-                !  of eq. stress w.r.t lambda
-                !<  ------------------------------------------------------------
-                dsigbxx_dlam = zero
-                dsigbyy_dlam = zero
-                dsigbzz_dlam = zero
-                dsigbxy_dlam = zero
-                do j = 1, l_sigb/6
-                  dsigbxx_dlam = dsigbxx_dlam + dsigb_dlam(i,6*(j-1) + 1)
-                  dsigbyy_dlam = dsigbyy_dlam + dsigb_dlam(i,6*(j-1) + 2)
-                  dsigbzz_dlam = dsigbzz_dlam + dsigb_dlam(i,6*(j-1) + 3)
-                  dsigbxy_dlam = dsigbxy_dlam + dsigb_dlam(i,6*(j-1) + 4)
+            !<  f) Add the contribution of the backstress tensor to the derivative 
+            !   of the stress tensor w.r.t. plastic multiplier   
+            !<  ----------------------------------------------------------------         
+            if (ikine > 0) then
+#include "vectorize.inc"
+              do ii = 1,nindx
+                i = indx(ii)
+                sigb_i(ii,1:l_sigb) = sigb(i,1:l_sigb) !< Backstress tensor
+              enddo
+              !< f)i) - Derivative of backstress tensor w.r.t lambda
+              !<  --------------------------------------------------------------
+              call elasto_plastic_kinematic_hardening(                         &
+                matparam ,nindx    ,l_sigb   ,dsigb_dlam(1:nindx,1:l_sigb),    &
+                dsigy_dpla_i,chard ,                                           &
+                normxx_i ,normyy_i ,normzz_i ,normxy_i  ,normyz_i    ,normzx_i,&
+                dpla_dlam_i,sigb_i(1:nindx,1:l_sigb))
+              !< f)ii) Assembling the backstress contribution to the derivative  
+              !  of eq. stress w.r.t lambda
+              !<  --------------------------------------------------------------
+              dsigbxx_dlam(1:nindx) = zero
+              dsigbyy_dlam(1:nindx) = zero
+              dsigbzz_dlam(1:nindx) = zero
+              dsigbxy_dlam(1:nindx) = zero
+              do j = 1, l_sigb/6
+#include "vectorize.inc"
+                do ii = 1,nindx
+                  dsigbxx_dlam(ii) = dsigbxx_dlam(ii) + dsigb_dlam(ii,6*(j-1)+1)
+                  dsigbyy_dlam(ii) = dsigbyy_dlam(ii) + dsigb_dlam(ii,6*(j-1)+2)
+                  dsigbzz_dlam(ii) = dsigbzz_dlam(ii) + dsigb_dlam(ii,6*(j-1)+3)
+                  dsigbxy_dlam(ii) = dsigbxy_dlam(ii) + dsigb_dlam(ii,6*(j-1)+4)
                 enddo
-                dseq_dlam = dseq_dlam - normxx(i)*dsigbxx_dlam -               &
-                                        normyy(i)*dsigbyy_dlam +               &
-                            (normxx(i)+normyy(i))*dsigbzz_dlam -               &
-                                        normxy(i)*dsigbxy_dlam
-                N_dsigdlam(1) = N_dsigdlam(1) -                                &
-                                   N(i,1,1)*(dsigbxx_dlam - dsigbzz_dlam) -    &
-                                   N(i,1,2)*(dsigbyy_dlam - dsigbzz_dlam) -    &
-                                   N(i,1,4)*dsigbxy_dlam
-                N_dsigdlam(2) = N_dsigdlam(2) -                                &
-                                   N(i,2,1)*(dsigbxx_dlam - dsigbzz_dlam) -    &
-                                   N(i,2,2)*(dsigbyy_dlam - dsigbzz_dlam) -    &
-                                   N(i,2,4)*dsigbxy_dlam
-                N_dsigdlam(4) = N_dsigdlam(4) -                                &
-                                   N(i,4,1)*(dsigbxx_dlam - dsigbzz_dlam) -    &
-                                   N(i,4,2)*(dsigbyy_dlam - dsigbzz_dlam) -    &
-                                   N(i,4,4)*dsigbxy_dlam
-              endif
+              enddo
+#include "vectorize.inc"
+              do ii = 1,nindx
+                i = indx(ii)
+                dseq_dlam(ii) = dseq_dlam(ii) - normxx_i(ii)*dsigbxx_dlam(ii)- &
+                                                normyy_i(ii)*dsigbyy_dlam(ii)+ &
+                                 (normxx_i(ii)+normyy_i(ii))*dsigbzz_dlam(ii)- &
+                                                normxy_i(ii)*dsigbxy_dlam(ii)
+                N_dsigdlam(ii,1) = N_dsigdlam(ii,1)                            &
+                    - N(i,1,1)*(dsigbxx_dlam(ii) - dsigbzz_dlam(ii))           &
+                    - N(i,1,2)*(dsigbyy_dlam(ii) - dsigbzz_dlam(ii))           &
+                    - N(i,1,4)*dsigbxy_dlam(ii)
+                N_dsigdlam(ii,2) = N_dsigdlam(ii,2)                            &
+                    - N(i,2,1)*(dsigbxx_dlam(ii) - dsigbzz_dlam(ii))           &
+                    - N(i,2,2)*(dsigbyy_dlam(ii) - dsigbzz_dlam(ii))           &
+                    - N(i,2,4)*dsigbxy_dlam(ii)
+                N_dsigdlam(ii,4) = N_dsigdlam(ii,4)                            &
+                    - N(i,4,1)*(dsigbxx_dlam(ii) - dsigbzz_dlam(ii))           &
+                    - N(i,4,2)*(dsigbyy_dlam(ii) - dsigbzz_dlam(ii))           &
+                    - N(i,4,4)*dsigbxy_dlam(ii)
+              enddo
+            endif
 !
+#include "vectorize.inc"
+            do ii = 1,nindx
+              i = indx(ii)            
               !<   g) Product strs * (d2sigeq_dsig2 * dstrs_dlam)
               !<  --------------------------------------------------------------
-              strs_d2sds2dsdlam = signxx(i)*N_dsigdlam(1) +                    &
-                                  signyy(i)*N_dsigdlam(2) +                    &
-                                  signxy(i)*N_dsigdlam(4)                  
+              strs_d2sds2dsdlam(ii) = signxx(i)*N_dsigdlam(ii,1) +             &
+                                      signyy(i)*N_dsigdlam(ii,2) +             &
+                                      signxy(i)*N_dsigdlam(ii,4)                  
 ! 
               !< 1 - Gradient of the residue vector
               !-----------------------------------------------------------------
 !
               !<  a) Derivative of the yield function w.r.t the plastic multiplier
               !<  --------------------------------------------------------------
-              dRes_dX(1,1) = dphi_dseq*dseq_dlam
+              dRes_dX(ii,1,1) = dphi_dseq(ii)*dseq_dlam(ii)
 !
               !<  b) Derivative of the yield function w.r.t the eq. plastic strain
               !<  --------------------------------------------------------------
-              dRes_dX(1,2) = dphi_dsigy*dsigy_dpla(i)
+              dRes_dX(ii,1,2) = dphi_dsigy(ii)*dsigy_dpla_i(ii)
 !
               !<  c) Derivative of energy equivalence residue w.r.t plastic multiplier
               !<  --------------------------------------------------------------
-              dRes_dX(2,1) = - dpla_dlam -                                     &
-                            (X(1)/sigy(i))*(dseq_dlam + strs_d2sds2dsdlam)
+              dRes_dX(ii,2,1) = - dpla_dlam_i(ii) -                            &
+                       (X(i,1)/sigy(i))*(dseq_dlam(ii) + strs_d2sds2dsdlam(ii))
 !
               !<  d) Derivative of energy equivalence residue w.r.t eq. plastic strain
               !<  --------------------------------------------------------------
-              dRes_dX(2,2) = one +                                             &
-                            ((sig_dseqdsig)/(sigy(i)**2))*dsigy_dpla(i)*X(1)
+              dRes_dX(ii,2,2) = one +                                          &
+                      ((sig_dseqdsig(i))/(sigy(i)**2))*dsigy_dpla_i(ii)*X(i,1)
 !
               !< 2 - Update design variables
               !-----------------------------------------------------------------
 !
               !<  a) Inverse of the gradient of residue vector 
               !<  --------------------------------------------------------------
-              dX_dRes(1,1) =  dRes_dX(2,2)
-              dX_dRes(1,2) = -dRes_dX(1,2)
-              dX_dRes(2,1) = -dRes_dX(2,1)
-              dX_dRes(2,2) =  dRes_dX(1,1)
-              detdRes_dX = dRes_dX(1,1)*dRes_dX(2,2)-dRes_dX(1,2)*dRes_dX(2,1)
-              detdRes_dX = sign(max(abs(detdRes_dX),em20),detdRes_dX)
-              dX_dRes(1:2,1:2) = (one/detdRes_dX)*dX_dRes(1:2,1:2)
+              dX_dRes(ii,1,1) =  dRes_dX(ii,2,2)
+              dX_dRes(ii,1,2) = -dRes_dX(ii,1,2)
+              dX_dRes(ii,2,1) = -dRes_dX(ii,2,1)
+              dX_dRes(ii,2,2) =  dRes_dX(ii,1,1)
+              detdRes_dX(ii) = dRes_dX(ii,1,1)*dRes_dX(ii,2,2) -               &
+                               dRes_dX(ii,1,2)*dRes_dX(ii,2,1)
+              detdRes_dX(ii) = sign(max(abs(detdRes_dX(ii)),em20),detdRes_dX(ii))
+              dX_dRes(ii,1,1) = (one/detdRes_dX(ii))*dX_dRes(ii,1,1)
+              dX_dRes(ii,1,2) = (one/detdRes_dX(ii))*dX_dRes(ii,1,2)
+              dX_dRes(ii,2,1) = (one/detdRes_dX(ii))*dX_dRes(ii,2,1)
+              dX_dRes(ii,2,2) = (one/detdRes_dX(ii))*dX_dRes(ii,2,2)
 !
               !<  b) Update the design variables
               !<  --------------------------------------------------------------
-              X(1) = X(1) - dX_dRes(1,1)*Res(1) - dX_dRes(1,2)*Res(2)
-              X(2) = X(2) - dX_dRes(2,1)*Res(1) - dX_dRes(2,2)*Res(2)
+              X(i,1) = X(i,1)-dX_dRes(ii,1,1)*Res(i,1)-dX_dRes(ii,1,2)*Res(i,2)
+              X(i,2) = X(i,2)-dX_dRes(ii,2,1)*Res(i,1)-dX_dRes(ii,2,2)*Res(i,2)
 !
               !< 3 - Computation of plastic multiplier and variables update
               !-----------------------------------------------------------------
 !
               !<  a) Computation of the plastic multiplier increment dlam
               !<  --------------------------------------------------------------
-              dlam = - dX_dRes(1,1)*Res(1) - dX_dRes(1,2)*Res(2)
+              dlam(ii) = - dX_dRes(ii,1,1)*Res(i,1) - dX_dRes(ii,1,2)*Res(i,2)
 !
               !<  b) Stress tensor update
               !<  --------------------------------------------------------------
-              signxx(i) = signxx(i) + dsigxx_dlam*dlam 
-              signyy(i) = signyy(i) + dsigyy_dlam*dlam
-              signxy(i) = signxy(i) + dsigxy_dlam*dlam
+              signxx_i(ii) = signxx(i) + dsigxx_dlam(ii)*dlam(ii)
+              signyy_i(ii) = signyy(i) + dsigyy_dlam(ii)*dlam(ii)
+              signxy_i(ii) = signxy(i) + dsigxy_dlam(ii)*dlam(ii)
 !
               !<  c) Update the plastic strain related variables
               !<  --------------------------------------------------------------
               !< Equivalent plastic strain increment
-              dpla(i) = max(X(2),zero)
+              dpla(i) = max(X(i,2),zero)
               !< Equivalent plastic strain                        
-              pla(i)  = pla0(i) + dpla(i)
-              !< Temperature or heating generation update for /HEAT/MAT
-              if (jthe /= 0) then
-                fheat(i) = fheat(i) + sigy(i)*dpla_dlam*dlam*voln(i)
-              else
-                temp(i)  = temp(i)  + dtemp_dpla(i)*dpla_dlam*dlam
-              endif
+              pla_i(ii) = pla0(i) + dpla(i)
               !< Out-of-plane plastic strain for shell elements
-              depzz(i) = depzz(i) + dlam*normzz(i)
-!
-              !<  d) Yield stress update
-              !<  --------------------------------------------------------------
-              call elasto_plastic_yield_stress(                                &
-                matparam ,1        ,sigy(i)  ,pla(i)   ,epsd(i) ,dsigy_dpla(i),&
-                nvartmp  ,vartmp(i,1:nvartmp),temp(i) ,dtemp_dpla(i),jthe     )
-!
-              !<  e) Backstress tensor update
-              !<  --------------------------------------------------------------
-              !< Update of the backstress tensor (if kinematic hardening)
-              if (ikine > 0) then
-                ! -> Remove kinematic hardening contribution
-                signxx(i) = signxx(i) + (sigbxx(i) - sigbzz(i))
-                signyy(i) = signyy(i) + (sigbyy(i) - sigbzz(i))
-                signxy(i) = signxy(i) + sigbxy(i)
-                ! -> Add the evolution of backstress tensor
-                sigbxx(i) = sigbxx(i) + dsigbxx_dlam*dlam
-                sigbyy(i) = sigbyy(i) + dsigbyy_dlam*dlam
-                sigbzz(i) = sigbzz(i) + dsigbzz_dlam*dlam
-                sigbxy(i) = sigbxy(i) + dsigbxy_dlam*dlam
-                ! -> Add the kinematic hardening contribution
-                signxx(i) = signxx(i) - (sigbxx(i) - sigbzz(i))
-                signyy(i) = signyy(i) - (sigbyy(i) - sigbzz(i))
-                signxy(i) = signxy(i) - sigbxy(i)
-                ! -> Update of the backstress components
-                do j = 1, l_sigb/6
-                  sigb(i,6*(j-1) + 1) = sigb(i,6*(j-1) + 1) +                  &
-                                       dsigb_dlam(i,6*(j-1) + 1)*dlam
-                  sigb(i,6*(j-1) + 2) = sigb(i,6*(j-1) + 2) +                  &
-                                       dsigb_dlam(i,6*(j-1) + 2)*dlam
-                  sigb(i,6*(j-1) + 3) = sigb(i,6*(j-1) + 3) +                  &
-                                       dsigb_dlam(i,6*(j-1) + 3)*dlam
-                  sigb(i,6*(j-1) + 4) = sigb(i,6*(j-1) + 4) +                  &
-                                       dsigb_dlam(i,6*(j-1) + 4)*dlam
-                enddo
-                !< Update of the yield stress for kinematic hardening models
-                sigy(i) = (one - chard)*sigy(i) + chard*sigy0(i)
-              endif
-!
-              !<  f) Equivalent stress update
-              !<  --------------------------------------------------------------
-              call elasto_plastic_eq_stress(                                   &
-                matparam ,1        ,seq(i)   ,iresp    ,eltype   ,             &
-                signxx(i),signyy(i),signzz(i),signxy(i),signyz(i),signzx(i),   &
-                normxx(i),normyy(i),normzz(i),normxy(i),normyz(i),normzx(i),   &
-                N(i,1,1) ,.true.   )
-!              
-              !<  g) Yield function update
-              !<  --------------------------------------------------------------
-              Res(1) = (seq(i)/sigy(i))**2 - one
-!
-              !<  h) Energy equivalence residue update
-              !<  --------------------------------------------------------------
-              sig_dseqdsig = signxx(i)*normxx(i) +                             &
-                             signyy(i)*normyy(i) +                             &
-                             signxy(i)*normxy(i)
-              dpla_dlam = sig_dseqdsig/max(sigy(i),em20)
-              Res(2) = X(2) - X(1)*dpla_dlam
-!
-              !< 4 - Update convergence flag and iterations number
-              !< ---------------------------------------------------------------  
-!
-              !<  a) Convergence flag
-              !<  --------------------------------------------------------------
-              converged = abs(Res(1))<tol .and. abs(Res(2))<tol  
-!
-              !<  b) Update iterations number
-              !<  --------------------------------------------------------------
-              iter = iter + 1
+              depzz(i) = depzz(i) + dlam(ii)*normzz(i)
             enddo
+!
+            !< Temperature or heating generation update for /HEAT/MAT
+            if (jthe /= 0) then
+#include "vectorize.inc"
+              do ii = 1,nindx
+                i = indx(ii) 
+                fheat(i) = fheat(i) + sigy(i)*dpla_dlam(i)*dlam(ii)*voln(i)
+                temp_i(ii) = temp(i)
+              enddo
+            else
+#include "vectorize.inc"
+              do ii = 1,nindx
+                i = indx(ii) 
+                temp_i(ii) = temp(i) + dtemp_dpla(i)*dpla_dlam(i)*dlam(ii)
+              enddo
+            endif
+!
+            !<  d) Yield stress update
+            !<  ----------------------------------------------------------------
+            call elasto_plastic_yield_stress(                                  &
+            matparam ,nindx    ,sigy_i   ,pla_i    ,epsd_i   ,dsigy_dpla_i,    &
+            nvartmp  ,vartmp_i(1:nindx,1:nvartmp)  ,temp_i   ,dtemp_dpla_i,    &
+            jthe  )              
+!
+            !<  e) Backstress tensor update
+            !<  ----------------------------------------------------------------
+            !< Update of the backstress tensor (if kinematic hardening)
+            if (ikine > 0) then
+#include "vectorize.inc"   
+              do ii = 1, nindx
+                i = indx(ii)
+                ! -> Remove kinematic hardening contribution
+                signxx_i(ii) = signxx_i(ii) + (sigbxx(i) - sigbzz(i))
+                signyy_i(ii) = signyy_i(ii) + (sigbyy(i) - sigbzz(i))
+                signxy_i(ii) = signxy_i(ii) + sigbxy(i)
+              enddo
+!DIR$ IVDEP
+              do ii = 1, nindx
+                i = indx(ii)              
+                ! -> Add the evolution of backstress tensor
+                sigbxx(i) = sigbxx(i) + dsigbxx_dlam(ii)*dlam(ii)
+                sigbyy(i) = sigbyy(i) + dsigbyy_dlam(ii)*dlam(ii)
+                sigbzz(i) = sigbzz(i) + dsigbzz_dlam(ii)*dlam(ii)
+                sigbxy(i) = sigbxy(i) + dsigbxy_dlam(ii)*dlam(ii)
+              enddo
+#include "vectorize.inc"   
+              do ii = 1, nindx
+                i = indx(ii)
+                ! -> Add the kinematic hardening contribution
+                signxx_i(ii) = signxx_i(ii) - (sigbxx(i) - sigbzz(i))
+                signyy_i(ii) = signyy_i(ii) - (sigbyy(i) - sigbzz(i))
+                signxy_i(ii) = signxy_i(ii) - sigbxy(i)
+              enddo
+#include "vectorize.inc"   
+              do ii = 1, nindx
+                i = indx(ii)
+                !< Update of the yield stress for kinematic hardening models
+                sigy_i(ii) = (one - chard)*sigy_i(ii) + chard*sigy0(i)                
+              enddo
+              ! -> Update of the backstress components
+              do j = 1, l_sigb/6
+!DIR$ IVDEP
+#include "vectorize.inc"
+                do ii = 1, nindx
+                  i = indx(ii)                
+                  sigb(i,6*(j-1) + 1) = sigb(i,6*(j-1) + 1) +                  &
+                                     dsigb_dlam(ii,6*(j-1) + 1)*dlam(ii)
+                  sigb(i,6*(j-1) + 2) = sigb(i,6*(j-1) + 2) +                  &
+                                     dsigb_dlam(ii,6*(j-1) + 2)*dlam(ii)
+                  sigb(i,6*(j-1) + 3) = sigb(i,6*(j-1) + 3) +                  &
+                                     dsigb_dlam(ii,6*(j-1) + 3)*dlam(ii)
+                  sigb(i,6*(j-1) + 4) = sigb(i,6*(j-1) + 4) +                  &
+                                     dsigb_dlam(ii,6*(j-1) + 4)*dlam(ii)
+                enddo
+              enddo
+            endif
+!
+            !<  f) Equivalent stress update
+            !<  ----------------------------------------------------------------
+            call elasto_plastic_eq_stress(                                     &
+              matparam ,nindx    ,seq_i   ,iresp    ,eltype   ,                &
+              signxx_i ,signyy_i ,signzz_i,signxy_i ,signyz_i ,signzx_i,       &
+              normxx_i ,normyy_i ,normzz_i,normxy_i ,normyz_i ,normzx_i,       &
+              N_i(1:nindx,1:6,1:6),.true. )
+! 
+#include "vectorize.inc" 
+            do ii = 1, nindx
+              i = indx(ii)  
+!             
+              !<  g) Recopy of local variables to global arrays
+              !<  ----------------------------------------------------------------
+              signxx(i) = signxx_i(ii) !< Current value of stress component xx
+              signyy(i) = signyy_i(ii) !< Current value of stress component yy
+              signxy(i) = signxy_i(ii) !< Current value of stress component xy
+              seq(i)    = seq_i(ii)    !< Equivalent stress
+              sigy(i)   = sigy_i(ii)   !< Yield stress
+              pla(i)    = pla_i(ii)    !< Equivalent plastic strain
+              temp(i)   = temp_i(ii)   !< Temperature
+              normxx(i) = normxx_i(ii) !< Normal component xx 
+              normyy(i) = normyy_i(ii) !< Normal component yy 
+              normzz(i) = normzz_i(ii) !< Normal component zz 
+              normxy(i) = normxy_i(ii) !< Normal component xy 
+              dsigy_dpla(i) = dsigy_dpla_i(ii) !< Derivative of yield stress w.r.t. plastic strain
+              dtemp_dpla(i) = dtemp_dpla_i(ii) !< Derivative of temperature w.r.t. plastic strain
+            enddo
+!
+#include "vectorize.inc" 
+            do ii = 1, nindx
+              i = indx(ii) 
+              N(i,1:6,1:6) = N_i(ii,1:6,1:6) !< Derivative of the normal w.r.t the stress tensor 
+            enddo
+!
+            if (nvartmp > 0) then
+#include "vectorize.inc" 
+              do ii = 1, nindx
+                i = indx(ii)
+                !< Temporary variables for tabulated phenomena
+                vartmp(i,1:nvartmp) = vartmp_i(ii,1:nvartmp) 
+              enddo
+            endif 
+!
+#include "vectorize.inc" 
+            do ii = 1, nindx
+              i = indx(ii)    
+              !<  h) Yield function update
+              !<  --------------------------------------------------------------
+              Res(i,1) = (seq(i)/sigy(i))**2 - one
+!
+              !<  i) Energy equivalence residue update
+              !<  --------------------------------------------------------------
+              sig_dseqdsig(i) = signxx_i(ii)*normxx_i(ii) +                    &
+                                signyy_i(ii)*normyy_i(ii) +                    &
+                                signxy_i(ii)*normxy_i(ii)
+              dpla_dlam(i) = sig_dseqdsig(i)/max(sigy(i),em20)
+              Res(i,2) = X(i,2) - X(i,1)*dpla_dlam(i)
+!
+              !<  j) Update iterations number
+              !< ---------------------------------------------------------------           
+              iter(i) = iter(i) + 1
+            enddo
+!
+            !<  k) Update the list of yielding elements 
+            !<  ----------------------------------------------------------------
+            nindx_1 = 0
+            indx_1 = 0
+            do ii = 1, nindx
+              i = indx(ii)  
+              if (((abs(Res(i,1)) >= tol).or.(abs(Res(i,2)) >= tol)) .and.     &
+                  (iter(i) < nitermax)) then 
+                nindx_1 = nindx_1 + 1 
+                indx_1(nindx_1) = i
+              endif
+            enddo
+!
+            !< 4 - Update the number of yielding elements for the next iteration 
+            !       and check convergence
+            !-------------------------------------------------------------------
+            nindx = nindx_1
+            indx = 0
+            indx(1:nindx) = indx_1(1:nindx)
+            if (nindx == 0) converged = .true.
+!
           enddo
 !
           !< Update the hourglass stabilization variable
@@ -539,11 +690,11 @@
           do i = 1, nel 
             if (off(i) == one) then 
               !< Computation of the non-local plastic multiplier for shell elements
-              sig_dseqdsig = signxx(i)*normxx(i) +                             & 
-                             signyy(i)*normyy(i) +                             &
-                             signxy(i)*normxy(i)
-              if (sig_dseqdsig > em01) then 
-                dlam_nl = sigy(i)*dplanl(i)/sig_dseqdsig
+              sig_dseqdsig(i) = signxx(i)*normxx(i) +                          & 
+                                signyy(i)*normyy(i) +                          &
+                                signxy(i)*normxy(i)
+              if (sig_dseqdsig(i) > em01) then 
+                dlam_nl = sigy(i)*dplanl(i)/sig_dseqdsig(i)
               else
                 dlam_nl = zero
               endif
