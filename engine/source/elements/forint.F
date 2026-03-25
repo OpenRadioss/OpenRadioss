@@ -243,7 +243,7 @@ C-----------------------------------------------
       my_real, INTENT(IN) :: DTFAC1(102),DTMIN1(102)
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
       type (glob_therm_) ,intent(inout)    :: glob_therm
-      TYPE(SFEM_) ,INTENT(INOUT) :: SFEM  
+      TYPE(global_sfem_) ,INTENT(INOUT) :: SFEM  
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -416,12 +416,12 @@ C---------
      D   ISTRA,      ITASK,           TEMP,       FTHE,
      E   FTHESKY,    IEXPAN,          GRESAV,     GRTH,
      F   IGRTH(NF1), MSSA(NF1),       DMELS(NF1), TABLE,
-     G   XDP,      sfem%SFEM_NODVAR,  VOLN,       CONDN,
+     G   XDP,      sfem%lag%nodvar,  VOLN,       CONDN,
      H   CONDNSKY,   D,               SENSORS,    IPRI,
      I   MAT_ELEM,   IBID,            DT,         IDEL7NOK,NSVOIS,IBID,
      *   SNPC,       STF,             SBUFMAT,    SVIS,IDTMINS,IRESP,
      *   IDEL7NG,    MAXFUNC,         USERL_AVAIL, GLOB_THERM,
-     V   impl_s,     idyna,           sfem%S_SFEM_NODVAR,fake_size,nv46,  sfem%itag_nsfem )
+     V   impl_s,     idyna,           sfem%S_SFEM_NODVAR,fake_size,nv46,sfem%lag%need_it(nf1:nf1+nel-1) )
 C
             IF (NSECT > 0) THEN 
               K0=NSTRF(25)                                             
@@ -467,12 +467,12 @@ c---------
      D   D,                   GRESAV,              GRTH,                IGRTH(OFF_IGRTH+NF1),
      E   TABLE,               MSSA(NF1),           DMELS(NF1),          IGEO,
      F   XDP,                 VOLN,                CONDN,               CONDNSKY,
-     G   sfem%SFEM_NODVAR,    ITAGND,              SENSORS,             IPRI,
+     G   sfem%lag%nodvar,    ITAGND,              SENSORS,             IPRI,
      H   MAT_ELEM,            IBID,                DT,                  IDEL7NOK,
      I   SNPC,                STF,                 SBUFMAT,             SVIS,
      J   NSVOIS,              IDTMINS,             IDEL7NG,             MAXFUNC ,     
      V   USERL_AVAIL,         GLOB_THERM,          impl_s,              idyna ,
-     W   sfem%S_SFEM_NODVAR,  sfem%itag_nsfem )
+     W   sfem%S_SFEM_NODVAR,  sfem%lag%need_it(nf1:nf1+nel-1))
 c
             IF(NSECT>0)THEN 
               K0=NSTRF(25)                                             

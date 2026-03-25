@@ -43,7 +43,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    time_mod          ../engine/share/modules/time_mod.F
 !||    timer_mod         ../engine/source/system/timer_mod.F90
 !||====================================================================
-      SUBROUTINE PRINTIME(T,ITHERM,OUTPUT)
+      SUBROUTINE PRINTIME(T,ITHERM,OUTPUT,sfem)
 C     timers display routine
 C-----------------------------------------------
 C   M o d u l e s
@@ -52,6 +52,7 @@ C-----------------------------------------------
       USE TIME_MOD
       USE INOUTFILE_MOD
       USE OUTPUT_MOD
+      use sfem_mod , only : global_sfem_
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -80,6 +81,7 @@ C-----------------------------------------------
       TYPE(TIMER_), INTENT(INOUT) :: T
       INTEGER ,INTENT(IN) :: ITHERM
       TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT
+      type(global_sfem_), intent(in) :: sfem !< global fem data
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -283,14 +285,14 @@ C
       WRITE(ISTDO,*)'                          ** CPU USER TIME **'
       WRITE(ISTDO,*)' '
 
-        CALL PRINT_SUMMARY(1,MAX_NB_TIMER,CPUTIME,TITLES,ISTDO,ITHERM) 
+        CALL PRINT_SUMMARY(1,MAX_NB_TIMER,CPUTIME,TITLES,ISTDO,ITHERM,sfem) 
 
       WRITE(IOUT,*)' '
       WRITE(IOUT,*)'                          ** CPU USER TIME **'
       WRITE(IOUT,*)' '
 
         
-        CALL PRINT_SUMMARY(1,MAX_NB_TIMER,CPUTIME,TITLES,IOUT,ITHERM) 
+        CALL PRINT_SUMMARY(1,MAX_NB_TIMER,CPUTIME,TITLES,IOUT,ITHERM,sfem) 
 
 
 
@@ -439,7 +441,7 @@ C
        WRITE(IOUT,*)'                          ** ELAPSED TIME **'    
        WRITE(IOUT,*)' '                                               
         
-        CALL PRINT_SUMMARY(2,MAX_NB_TIMER,REALTIME,TITLES,IOUT,ITHERM) 
+        CALL PRINT_SUMMARY(2,MAX_NB_TIMER,REALTIME,TITLES,IOUT,ITHERM,sfem) 
 
        IF(.FALSE.)THEN
         WRITE(IOUT,*)' '

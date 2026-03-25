@@ -44,17 +44,49 @@
         ! ----------------------------------------------------------------------------------------------------------------------
         ! T y p e s
         ! ----------------------------------------------------------------------------------------------------------------------
-!
-        type sfem_
-          integer :: isfem                                     !< flag of smoothing FEM (nodal pressure)
-          integer :: ne_sfem                                   !< Number of nodes excluded from SFEM
-          integer :: s_sfem_nodvar                             !< size of work array sfem_nodvar,sfem_nodvar_ale:  2*numnod
-!                    
-          integer,dimension(:),  allocatable         ::  in_sfem         !< in_sfem(ne_sfem) list of nodes excluded from SFEM
-          integer,dimension(:),  allocatable         ::  itag_nsfem      !< itag_nsfem(numnod) tag of nodes =0 will be excluded
-          real(kind=WP) ,dimension(:), allocatable   ::  sfem_nodvar     !< work arrary(2*numnod)
-          real(kind=WP) ,dimension(:), allocatable   ::  sfem_nodvar_ale !< work arrary(2*numnod)
+        type spmd_
+          integer :: s_size !< number of entity to send
+          integer :: r_size  !< number of entity to receive
+          integer, dimension(:), allocatable :: send_iad !< address array for sending data
+          integer, dimension(:), allocatable :: rcv_iad  !< address array for receiving data
+
+          real(kind=WP), dimension(:,:), allocatable :: r_buffer !< buffer for receiving data
+          real(kind=WP), dimension(:,:), allocatable :: s_buffer !< buffer for sending data
+        end type spmd_               
+        
+        type sfem_                    
+          integer, dimension(:), allocatable :: need_it !< array to know if we need to compute SFEM contribution for each element
+
+          integer :: tetra_fsky_dim1 !< first dimension of the array tetra_fsky
+          integer :: tetra_fsky_dim2 !< second dimension of the array tetra_fsky
+          integer :: sub_tetra_fsky_dim2(2) !< second dimension of the array tetra_fsky for each sub case (4 or 10 nodes / ismstr)
+          real(kind=WP), dimension(:,:), allocatable :: tetra_fsky !< Fsky array for tetra elements
+          real(kind=WP) ,dimension(:), allocatable :: nodvar     !< work arrary(2*numnod)  
+
+          integer, dimension(:,:), allocatable :: tetra4_iad !< address array for tetra4 SFEM
+          integer :: node_nb !< number of nodes connected to tetra element with SFEM option
+          integer, dimension(:), allocatable :: node_list !< list of nodes connected to tetra element with SFEM option
+          integer, dimension(:), allocatable :: node_iad !< ! adress of the first contribution of a node
+
+          integer :: s_request_nb !< number of request for sending data
+          integer :: r_request_nb !< number of request for receiving data
+          integer, dimension(:), allocatable :: s_request !< array of request for sending data
+          integer, dimension(:), allocatable :: r_request !< array of request for receiving data
+          integer, dimension(:), allocatable :: s_index !< array of processor index for sending data
+          integer, dimension(:), allocatable :: r_index !< array of processor index for receiving data
+
+          type(spmd_), dimension(:), allocatable :: spmd !< spmd data structure   
         end type sfem_
+
+        type global_sfem_
+          integer :: isfem !< flag of smoothing FEM (nodal pressure)
+          integer :: ne_sfem !< Number of nodes excluded from SFEM        
+          integer :: s_sfem_nodvar !< size of work array sfem_nodvar:  2*numnod               
+          integer,dimension(:),  allocatable ::  in_sfem !< in_sfem(ne_sfem) list of nodes excluded from SFEM
+          integer,dimension(:),  allocatable ::  itag_nsfem !< itag_nsfem(numnod) tag of nodes =0 will be excluded        
+          type(sfem_) :: ale
+          type(sfem_) :: lag
+        end type global_sfem_
 !
 !===================================================================================================
       contains
@@ -80,8 +112,8 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer , INTENT (IN   )       :: numnod                                    
-          type(sfem_),INTENT(INOUT)      :: sfem
+          integer , INTENT (IN   ) :: numnod                                    
+          type(global_sfem_),INTENT(INOUT) :: sfem
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -95,41 +127,11 @@
             sfem%itag_nsfem = 1
           else 
             sfem%s_sfem_nodvar = 1 
+            call my_alloc(sfem%in_sfem,0)
+            call my_alloc(sfem%itag_nsfem,0)            
           end if
-          call my_alloc(sfem%sfem_nodvar,sfem%s_sfem_nodvar)
-          call my_alloc(sfem%sfem_nodvar_ale,sfem%s_sfem_nodvar)
+          call my_alloc(sfem%lag%nodvar,sfem%s_sfem_nodvar)
+          call my_alloc(sfem%ale%nodvar,sfem%s_sfem_nodvar)
         end subroutine allocate_sfem
-!! \brief initialization sfem type
-!||====================================================================
-!||    sfem_init   ../common_source/modules/elements/sfem_mod.F90
-!||--- called by ------------------------------------------------------
-!||    resol       ../engine/source/engine/resol.F
-!||====================================================================
-        subroutine sfem_init(sfem)
-! ----------------------------------------------------------------------------------------------------------------------
-!                                                   Modules
-! ----------------------------------------------------------------------------------------------------------------------
-! ----------------------------------------------------------------------------------------------------------------------
-!                                                   Implicit none
-! ----------------------------------------------------------------------------------------------------------------------
-          implicit none
-! ----------------------------------------------------------------------------------------------------------------------
-!                                                   Arguments
-! ----------------------------------------------------------------------------------------------------------------------
-          type(sfem_),INTENT(INOUT)                           :: sfem
-! ----------------------------------------------------------------------------------------------------------------------
-!                                                   Local variables
-! ----------------------------------------------------------------------------------------------------------------------
-          integer  :: i,n
-! ----------------------------------------------------------------------------------------------------------------------
-!                                                   Body
-! ----------------------------------------------------------------------------------------------------------------------
-! ----------------------------------------------------------------------------------------------------------------------
-          do i =1,sfem%ne_sfem
-            n  = sfem%in_sfem(i)
-            sfem%itag_nsfem(n) = 0
-          end do
-!          
-        end subroutine sfem_init
       end module sfem_mod
 

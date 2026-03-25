@@ -277,7 +277,7 @@ c     TYPE (CLUSTER_) ,DIMENSION(NCLUSTER) :: CLUSTER
       TYPE(PBLAST_)    ,INTENT(INOUT) :: PBLAST
       TYPE(RBE3_)      ,INTENT(INOUT) :: RBE3
       TYPE(RWALL_)     ,INTENT(INOUT) :: RWALL
-      TYPE(SFEM_)      ,INTENT(IN   ) :: SFEM
+      TYPE(global_sfem_),INTENT(IN  ) :: SFEM
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------

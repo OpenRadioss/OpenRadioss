@@ -28,9 +28,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    foat_to_6_float   ../engine/source/system/parit.F
 !||====================================================================
       SUBROUTINE S4VOLNOD_SM(
-     1   VOLNOD6, V,       NC1,     NC2,
+     1   V,       NC1,     NC2,
      2   NC3,     NC4,     VOL0,    AMU,
-     3   OFFG,    SAV,     NEL,     ISMSTR)
+     3   OFFG,    SAV,     NEL,     ISMSTR,sfem,nft)
+        use sfem_mod, only : sfem_
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -43,12 +44,14 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER, INTENT(IN) :: ISMSTR
+      integer, intent(in) :: nft !< address of the first element of this group
       INTEGER NC1(*),NC2(*),NC3(*),NC4(*),NEL
       DOUBLE PRECISION
-     .   VOLNOD6(6,2*NUMNOD),SAV(NEL,9)
+     .   SAV(NEL,9)
 C     REAL
       my_real
      .   V(3,*),OFFG(*),VOL0(*),AMU(*)
+      type(sfem_), intent(inout) :: sfem
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -60,7 +63,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, K,INDEX(MVSIZ),NE_SM,J
 C     REAL
-
+      integer :: my_address
       DOUBLE PRECISION
      .   X41, Y41, Z41, X42, Y42, Z42, X43, Y43, Z43,
      .   DVOL,DETDP,B1DP,C1DP,D1DP
@@ -79,12 +82,16 @@ C     REAL
      .   VX1(MVSIZ), VX2(MVSIZ), VX3(MVSIZ), VX4(MVSIZ), 
      .   VY1(MVSIZ), VY2(MVSIZ), VY3(MVSIZ), VY4(MVSIZ), 
      .   VZ1(MVSIZ), VZ2(MVSIZ), VZ3(MVSIZ), VZ4(MVSIZ) 
-
-      DOUBLE PRECISION
-     .   DET6(6,MVSIZ)
 C----------------------------
 C     NODAL COORDINATES     
 C----------------------------
+      do i=1,nel
+        do j=1,4
+          my_address = sfem%tetra4_iad(j,i+nft)
+          sfem%tetra_fsky(my_address,2) = vol0(i)
+        enddo
+      enddo    
+
        NE_SM = 0
 C-----case ISMSTR=1,11,2,12
       IF(ISMSTR==1.OR.ISMSTR==11)THEN
@@ -240,32 +247,24 @@ C-----rho/rho0=1+AMU(t)-dvol
        ENDDO
       END IF ! (TT==ZERO) THEN
 
-      !Parith-On treatment
-      CALL FOAT_TO_6_FLOAT(1  ,NE_SM  ,VOL ,DET6 )
 
-      IF(ISMSTR==1.OR.ISMSTR==11)THEN
-        DO I=1,NEL
-          !Parith-On treatment
-          DO K=1,6
-            VOLNOD6(K,NC1(I)) = VOLNOD6(K,NC1(I)) + DET6(K,I)
-            VOLNOD6(K,NC2(I)) = VOLNOD6(K,NC2(I)) + DET6(K,I)
-            VOLNOD6(K,NC3(I)) = VOLNOD6(K,NC3(I)) + DET6(K,I)
-            VOLNOD6(K,NC4(I)) = VOLNOD6(K,NC4(I)) + DET6(K,I)
-          ENDDO
-        ENDDO
-      ELSE
+      if(ismstr==1.or.ismstr==11)then
+        do i=1,nel
+          do j=1,4
+            my_address = sfem%tetra4_iad(4+j,i+nft)
+            sfem%tetra_fsky(my_address,1) = vol(i)
+          enddo
+        enddo
+      else
 #include "vectorize.inc"
-        DO J=1,NE_SM
-          I = INDEX(J)
-          !Parith-On treatment
-          DO K=1,6
-            VOLNOD6(K,NC1(I)) = VOLNOD6(K,NC1(I)) + DET6(K,J)
-            VOLNOD6(K,NC2(I)) = VOLNOD6(K,NC2(I)) + DET6(K,J)
-            VOLNOD6(K,NC3(I)) = VOLNOD6(K,NC3(I)) + DET6(K,J)
-            VOLNOD6(K,NC4(I)) = VOLNOD6(K,NC4(I)) + DET6(K,J)
-          ENDDO
-        ENDDO
-      ENDIF
-C
+        do j=1,ne_sm
+          i = index(j)
+          do k=1,4
+            my_address = sfem%tetra4_iad(4+k,i+nft)          
+            sfem%tetra_fsky(my_address,1) = vol(j)
+          enddo
+        enddo
+      endif 
+
       RETURN
-      END
+      END      

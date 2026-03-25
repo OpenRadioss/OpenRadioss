@@ -153,7 +153,7 @@ C-----------------------------------------------
       type(glob_therm_) ,intent(inout) :: GLOB_THERM
       type(rbe3_) ,intent(inout) :: RBE3
       type(rwall_),intent(inout) :: RWALL
-      type(sfem_), intent(inout) :: SFEM
+      type(global_sfem_), intent(inout) :: SFEM
 C----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

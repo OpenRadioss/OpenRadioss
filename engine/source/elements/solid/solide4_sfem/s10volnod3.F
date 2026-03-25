@@ -29,9 +29,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    s10volj           ../engine/source/elements/solid/solide4_sfem/s10volj.F
 !||====================================================================
       SUBROUTINE S10VOLNOD3(
-     1   VOLNOD6, X,       NC,      OFFG,
+     1   X,       NC,      OFFG,
      2   VOLG,    XDP,     NEL,     NPT,
-     3   ISMSTR)
+     3   ISMSTR,sfem,nft)
+      use sfem_mod, only: sfem_
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -48,13 +49,15 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER, INTENT(IN) :: NPT
       INTEGER, INTENT(IN) :: ISMSTR
+      integer, intent(in) :: nft !< address of the first element of this group      
       INTEGER NEL,NC(MVSIZ,10)
       DOUBLE PRECISION
      .   VOLNOD6(6,2*NUMNOD)
 C     REAL
       my_real
      .   X(3,NUMNOD),OFFG(NEL)
-      DOUBLE PRECISION , DIMENSION(3,SXDP/3), INTENT(IN) :: XDP     
+      DOUBLE PRECISION , DIMENSION(3,SXDP/3), INTENT(IN) :: XDP
+      type(sfem_), intent(inout) :: sfem
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -62,6 +65,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, K,N1,N2,NN,N
+      integer :: j,my_address
       INTEGER IP,K1,K2,K3,K4,K5,K6,K7,K8,K9,K10
       INTEGER IPERM1(10),IPERM2(10),IPERM(10,4)
       DATA IPERM1/0,0,0,0,1,2,3,1,2,3/
@@ -180,21 +184,12 @@ c
        ENDIF
       ENDDO
 
-      !Parith-On treatment
-      CALL FOAT_TO_6_FLOAT(1  ,NEL  ,VOLG ,DET6 )
-
-      DO I=1,NEL
-C----------------------------------
-C VOLUME <0 SERA TESTE DANS S4DERI3
-C----------------------------------
-        !Parith-On treatment
-        DO K=1,6
-          VOLNOD6(K,NC(I,1)) = VOLNOD6(K,NC(I,1)) + DET6(K,I)
-          VOLNOD6(K,NC(I,2)) = VOLNOD6(K,NC(I,2)) + DET6(K,I)
-          VOLNOD6(K,NC(I,3)) = VOLNOD6(K,NC(I,3)) + DET6(K,I)
-          VOLNOD6(K,NC(I,4)) = VOLNOD6(K,NC(I,4)) + DET6(K,I)
-        ENDDO
-      ENDDO
+      do j=1,4
+        do i=1,nel
+          my_address = sfem%tetra4_iad(j,i+nft)
+          sfem%tetra_fsky(my_address,1) = volg(i)
+        enddo
+      enddo
 C
       RETURN
-      END
+      END      

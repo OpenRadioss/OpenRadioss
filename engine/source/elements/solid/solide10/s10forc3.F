@@ -111,7 +111,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      I   SNPC,            STF,        SBUFMAT,    SVIS,
      J   NSVOIS,          IDTMINS,    IDEL7NG,    MAXFUNC,
      V   USERL_AVAIL,     GLOB_THERM, impl_s,     idyna  ,
-     W   S_SFEM_NODVAR,  ITAG_NSFEM )
+     W   S_SFEM_NODVAR,  need_it)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -176,7 +176,7 @@ C-----------------------------------------------
      .        IPARTS(*),IXS10(6,*),IADS10(6,*),IPM(*),ITASK,GRTH(*),
      .        IGRTH(*),IGEO(NPROPGI,*),IOUTPRT,H3D_STRAIN
       INTEGER NELTST,ITYPTST,OFFSET,NEL,NG,ISTRAIN,ISOLNOD,IEXPAN,ITAGDN(*)      
-      INTEGER, DIMENSION(NUMNOD), INTENT(IN)    :: ITAG_NSFEM
+      integer, dimension(nel), intent(in) :: need_it !< sfem option computation status for each element
       DOUBLE PRECISION  XDP(3,*)
       
       my_real DT2T
@@ -536,24 +536,18 @@ C-----------------------------
      6   NEL,      IREP)
       ENDIF
       IF(ICP >0 .AND. ISMSTR/=10) THEN
-         DO I=LFT,LLT
-          IF(GBUF%OFF(I) == ZERO) CYCLE
-          ISUM = ITAG_NSFEM(NC(I,1)) + ITAG_NSFEM(NC(I,2)) +
-     .           ITAG_NSFEM(NC(I,3)) + ITAG_NSFEM(NC(I,4))
-          IF (ISUM < 4) CYCLE
-          SUM=SFEM_NODVAR(NC(I,1))*ITAG_NSFEM(NC(I,1))+
-     .        SFEM_NODVAR(NC(I,2))*ITAG_NSFEM(NC(I,2))+
-     .        SFEM_NODVAR(NC(I,3))*ITAG_NSFEM(NC(I,3))+
-     .        SFEM_NODVAR(NC(I,4))*ITAG_NSFEM(NC(I,4))
-          JACGM(I)=SUM/ISUM
-         ENDDO
+        DO I=LFT,LLT
+          IF(GBUF%OFF(I) == ZERO) CYCLE                 
+          if(need_it(i)==0) cycle
+          SUM=SFEM_NODVAR(NC(I,1))+SFEM_NODVAR(NC(I,2))+
+     .        SFEM_NODVAR(NC(I,3))+SFEM_NODVAR(NC(I,4))
+          JACGM(I)=SUM/4
+        ENDDO
       ELSEIF(ICP >0 .AND. ISMSTR==10) THEN
          DO I=LFT,LLT
           ITAG10(I) = 1
           IF(GBUF%OFF(I) == ZERO) ITAG10(I)=0
-          ISUM = ITAG_NSFEM(NC(I,1)) + ITAG_NSFEM(NC(I,2)) +
-     .           ITAG_NSFEM(NC(I,3)) + ITAG_NSFEM(NC(I,4))
-          IF (ISUM < 4) ITAG10(I)=0
+          if(need_it(i)==0) ITAG10(I)=0
          ENDDO
       ENDIF
 C-----------------------------

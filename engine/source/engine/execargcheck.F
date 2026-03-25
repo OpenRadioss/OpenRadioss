@@ -74,8 +74,9 @@ C-----------------------------------------------
        LOGICAL :: CONDITION
        CHARACTER C
        INTEGER IARGC,CDL_CASE,IJK
+       integer :: debug_name_len
        CHARACTER :: LAST_LETTER,SEPARATOR
-       CHARACTER(LEN=2096) ARGS2,ARGS_REDUCE,ARGP
+       CHARACTER(LEN=2096) ARGS2,ARGS_REDUCE,ARGP,debug_name
        CHARACTER(LEN=4096) ULIBC
        PARAMETER (LENLIST=20)
        CHARACTER(LEN=12):: ARGLIST(LENLIST)
@@ -151,6 +152,7 @@ C-----------------------------------------------
         CDL_CASE = 0
         IF(ARGS_REDUCE(1:9)=='-OUTFILE=') CDL_CASE = 1
         IF(ARGS_REDUCE(1:8)=='-INFILE=') CDL_CASE = 2
+        if(args_reduce(1:7)=='-DEBUG=') cdl_case = 3
         IF(CDL_CASE==0) THEN
           SELECT CASE (ARGS)
 C------------------------------------------------
@@ -266,33 +268,36 @@ C------------------------------------------------
          !       -OUTFILE=... option
          ! -----------------------------
             CASE(1)
-
-                OUTFILE_NAME_LEN = LEN_TRIM(ARGS2) - 9
-                OUTFILE_NAME(1:OUTFILE_NAME_LEN) = ARGS2(10:LEN_TRIM(ARGS2))
-                OUTFILE_BOOL=.TRUE.
-                DO IJK=1,OUTFILE_NAME_LEN
-                    LAST_LETTER = OUTFILE_NAME(IJK:IJK)
-                ENDDO
-                IF(LAST_LETTER/=SEPARATOR) THEN
-                    OUTFILE_NAME(1:OUTFILE_NAME_LEN+1) = 
-     .                       OUTFILE_NAME(1:OUTFILE_NAME_LEN)//SEPARATOR
-                    OUTFILE_NAME_LEN = OUTFILE_NAME_LEN + 1
-                ENDIF
+              OUTFILE_NAME_LEN = LEN_TRIM(ARGS2) - 9
+              OUTFILE_NAME(1:OUTFILE_NAME_LEN) = ARGS2(10:LEN_TRIM(ARGS2))
+              OUTFILE_BOOL=.TRUE.
+              DO IJK=1,OUTFILE_NAME_LEN
+                LAST_LETTER = OUTFILE_NAME(IJK:IJK)
+              ENDDO
+              IF(LAST_LETTER/=SEPARATOR) THEN
+                OUTFILE_NAME(1:OUTFILE_NAME_LEN+1) = 
+     .                   OUTFILE_NAME(1:OUTFILE_NAME_LEN)//SEPARATOR
+                OUTFILE_NAME_LEN = OUTFILE_NAME_LEN + 1
+              ENDIF
          ! -----------------------------
          !       -INFILE=... option
          ! -----------------------------
             CASE(2)
-                INFILE_NAME_LEN = LEN_TRIM(ARGS2) - 8
-                INFILE_NAME(1:INFILE_NAME_LEN) = ARGS2(9:LEN_TRIM(ARGS2))
-                INFILE_BOOL=.TRUE.
-                DO IJK=1,INFILE_NAME_LEN
-                    LAST_LETTER = INFILE_NAME(IJK:IJK)
-                ENDDO
-                IF(LAST_LETTER/=SEPARATOR) THEN
-                    INFILE_NAME(1:INFILE_NAME_LEN+1) = 
-     .                       INFILE_NAME(1:INFILE_NAME_LEN)//SEPARATOR
-                    INFILE_NAME_LEN = INFILE_NAME_LEN + 1
-                ENDIF
+              INFILE_NAME_LEN = LEN_TRIM(ARGS2) - 8
+              INFILE_NAME(1:INFILE_NAME_LEN) = ARGS2(9:LEN_TRIM(ARGS2))
+              INFILE_BOOL=.TRUE.
+              DO IJK=1,INFILE_NAME_LEN
+                LAST_LETTER = INFILE_NAME(IJK:IJK)
+              ENDDO
+              IF(LAST_LETTER/=SEPARATOR) THEN
+                INFILE_NAME(1:INFILE_NAME_LEN+1) = 
+     .                    INFILE_NAME(1:INFILE_NAME_LEN)//SEPARATOR
+                INFILE_NAME_LEN = INFILE_NAME_LEN + 1
+              ENDIF
+            case(3)
+              debug_name_len = len_trim(args2) - 7
+              debug_name(1:debug_name_len) = args2(8:len_trim(args2))
+
             END SELECT
 !   ------------------------------------------------
         ENDIF
