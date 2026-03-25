@@ -247,7 +247,7 @@ C-----------------------------------------------
       TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT !< output structure
       TYPE(PYTHON_) :: PYTHON
       type (glob_therm_) ,intent(inout)   :: glob_therm
-      TYPE (SFEM_) ,INTENT(INOUT) :: SFEM
+      TYPE (global_sfem_) ,INTENT(INOUT) :: SFEM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -806,10 +806,12 @@ C
           
          !---------------------------------------------
          ! TETRA4 : SMOOTH FINITE ELEMENT FORMULATIONS
-         !---------------------------------------------
+         !---------------------------------------------          
 !$OMP SINGLE
           IF(SFEM%ISFEM == 1) THEN
-            CALL S4ALESFEM(IPARG,IXS,X,ELBUF_TAB,SFEM%SFEM_NODVAR_ALE,SFEM%S_SFEM_NODVAR,PM,IAD_ELEM,FR_ELEM)
+            if(itask==0) call startime(timers,timer_sfem)
+            CALL S4ALESFEM(IPARG,IXS,X,ELBUF_TAB,sfem%ale%nodvar,SFEM%S_SFEM_NODVAR,PM,ispmd,sfem%ale)
+            if(itask==0) call stoptime(timers,timer_sfem)
           ENDIF
 !$OMP END SINGLE
 
@@ -879,14 +881,14 @@ C
      D                  ISTRA,           ITASK,           BID,             BID,
      E                  BID,             IBID,            GRESAV,          GRTH,
      F                  IGRTH,           MSSA,            DMELS,           TABLE,
-     G                  XDP,        SFEM%SFEM_NODVAR_ALE, VOLN,            BID,
+     G                  XDP,        sfem%ale%nodvar, VOLN,            BID,
      H                  BID,             D,               SENSORS,         IOUTPRT,
      I                  MAT_ELEM,        IBID,            DT,              IDEL7NOK,
      J                  NSVOIS,          SZ_BUFVOIS,      SNPC,            STF,
      K                  SBUFMAT,         SVIS,            IDTMINS,         IRESP, 
      *                  IDEL7NG,         MAXFUNC,         USERL_AVAIL,     GLOB_THERM, 
      V                  impl_s,          idyna,           SFEM%S_SFEM_NODVAR,ale%global%s_flux,
-     W                  ale%global%nv46,SFEM%itag_nsfem)
+     W                  ale%global%nv46,sfem%ale%need_it(nf1:nf1+nel-1))
 C
                   ELSEIF (ITY == 1 .AND. ISOLNOD /= 4) THEN
                     NULLIFY(pQMV); 
@@ -1068,14 +1070,14 @@ C     ALE ON / OFF
      D                  ISTRA,           ITASK,           BID,             BID,
      E                  BID,             IBID,            GRESAV,          GRTH,
      F                  IGRTH,           MSSA,            DMELS,           TABLE,
-     G                  XDP,        SFEM%SFEM_NODVAR_ALE, VOLN,            BID,
+     G                  XDP,        sfem%ale%nodvar, VOLN,            BID,
      H                  BID,             D,               SENSORS,         IOUTPRT,
      I                  MAT_ELEM,        IBID,            DT,              IDEL7NOK,
      J                  NSVOIS,          SZ_BUFVOIS,      SNPC,            STF,
      K                  SBUFMAT,         SVIS,            IDTMINS,         IRESP, 
      *                  IDEL7NG,         MAXFUNC,         USERL_AVAIL,     GLOB_THERM, 
      V                  impl_s,          idyna,         SFEM%S_SFEM_NODVAR,ale%global%s_flux,
-     W                  ale%global%nv46,SFEM%itag_nsfem)
+     W                  ale%global%nv46,sfem%ale%need_it(nf1:nf1+nel-1))
 
                     ELSEIF(ITY == 1 .AND. ISOLNOD /= 4)THEN
                       NULLIFY(pQMV); 

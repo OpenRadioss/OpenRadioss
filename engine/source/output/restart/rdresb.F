@@ -282,7 +282,7 @@ C-----------------------------------------------
       TYPE(nodal_arrays_)   ,INTENT(INOUT)                 :: NODES
       TYPE(RBE3_)           ,INTENT(INOUT)                 :: RBE3
       TYPE(RWALL_)          ,INTENT(INOUT)                 :: RWALL
-      TYPE(SFEM_)           ,INTENT(INOUT)                 :: SFEM
+      TYPE(global_sfem_)    ,INTENT(INOUT)                 :: SFEM
       INTEGER, INTENT(IN) :: LIFLOW
       INTEGER, INTENT(IN) :: LRFLOW
       my_real, INTENT(INOUT) :: FORNEQS(3,NUMNOD)

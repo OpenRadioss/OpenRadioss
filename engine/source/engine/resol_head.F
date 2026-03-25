@@ -201,7 +201,7 @@ C     REAL
       type (pblast_) ,intent(inout)           :: PBLAST
       type (rbe3_) ,intent(inout)             :: RBE3
       type (rwall_), intent(inout)            :: RWALL
-      type (sfem_), intent(inout)             :: SFEM
+      type (global_sfem_), intent(inout) :: SFEM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

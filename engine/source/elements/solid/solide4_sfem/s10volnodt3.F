@@ -33,13 +33,14 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    elbufdef_mod      ../common_source/modules/mat_elem/elbufdef_mod.F90
 !||====================================================================
       SUBROUTINE S10VOLNODT3(
-     1   ELBUF_TAB,VOLNOD6,  X,        NC,
+     1   ELBUF_TAB,  X,        NC,
      2   OFFG,     SAV,      XDP,      NEL,
-     3   NPT)
+     3   NPT,sfem,nft)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
+      use sfem_mod, only: sfem_
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -56,14 +57,16 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER, INTENT(IN) :: NPT
       INTEGER, INTENT(IN) ::NEL
+      integer, intent(in) :: nft !< address of the first element of this group
       INTEGER, DIMENSION(MVSIZ,10),INTENT(IN) :: NC
       DOUBLE PRECISION
-     .   VOLNOD6(6,2*NUMNOD),SAV(NEL,30)
+     .  SAV(NEL,30)
       DOUBLE PRECISION , DIMENSION(3,SXDP/3), INTENT(IN) :: XDP     
 C     REAL
       my_real
      .   X(3,NUMNOD),OFFG(NEL)
       TYPE (ELBUF_STRUCT_), TARGET  :: ELBUF_TAB
+      type(sfem_), intent(inout) :: sfem
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -75,7 +78,7 @@ C-----------------------------------------------
       INTEGER IPERM1(10),IPERM2(10)
       DATA IPERM1/0,0,0,0,1,2,3,1,2,3/
       DATA IPERM2/0,0,0,0,2,3,1,4,4,4/
-
+      integer :: j,my_address
       my_real
      .  MFXX(MVSIZ),MFXY(MVSIZ),MFXZ(MVSIZ),
      .  MFYX(MVSIZ),MFYY(MVSIZ),MFYZ(MVSIZ),
@@ -84,8 +87,7 @@ C-----------------------------------------------
      .  VX0(MVSIZ,10),VY0(MVSIZ,10),VZ0(MVSIZ,10),VOLP(MVSIZ)
       DOUBLE PRECISION 
      .   XX(MVSIZ,10), YY(MVSIZ,10), ZZ(MVSIZ,10),
-     .   X0(MVSIZ,10), Y0(MVSIZ,10), Z0(MVSIZ,10),
-     .   DET6(6,MVSIZ)
+     .   X0(MVSIZ,10), Y0(MVSIZ,10), Z0(MVSIZ,10)
 C-----
       TYPE(L_BUFEL_) ,POINTER :: LBUF     
 C----------------------------
@@ -150,7 +152,7 @@ C----------------------------
         VZ0(I,N)=ZZ(I,N)-Z0(I,N)-VZ0(I,NPE)
         ENDDO
        ENDDO 
-      IBID = 1      
+      IBID = 1   
       DO IP=1,NPT
          LBUF => ELBUF_TAB%BUFLY(IBID)%LBUF(IP,IBID,IBID)
          CALL S10PIJTO3(PX,PY,PZ,LBUF%PIJ,NEL)
@@ -169,16 +171,11 @@ C----------------------------
          ELSE
            VOLP(I) = JAC(I)*LBUF%VOL(I)
          ENDIF
-        ENDDO
-        
-        !Parith-On treatment
-        CALL FOAT_TO_6_FLOAT(1  ,NEL  ,VOLP ,DET6 )
-        
-        DO I=1,NEL
-          VOLNOD6(1:6,NC(I,IP)) = VOLNOD6(1:6,NC(I,IP)) + DET6(1:6,I)
-        ENDDO
+         my_address = sfem%tetra4_iad(ip,i+nft)
+         sfem%tetra_fsky(my_address,ip) = volp(i)
+        ENDDO   
 C      
-      END DO !IP=1,NPT
+      END DO !IP=1,NPT  
 C
       RETURN
       END SUBROUTINE S10VOLNODT3

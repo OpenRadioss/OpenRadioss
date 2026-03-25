@@ -94,7 +94,7 @@ C-----------------------------------------------
       TYPE (LOADS_)          ,INTENT(IN) :: LOADS
       type (glob_therm_)     ,intent(in) :: GLOB_THERM
       type (PBLAST_)         ,intent(in) :: PBLAST
-      type (SFEM_)           ,intent(in) :: SFEM
+      type (global_sfem_)    ,intent(in) :: SFEM
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------

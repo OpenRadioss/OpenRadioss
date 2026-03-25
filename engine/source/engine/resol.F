@@ -774,6 +774,7 @@ C-----------------------------------------------
               use init_ale_mod , only : init_ale
               use sfem_mod
               use init_global_boundary_list_mod , only : init_global_boundary_list
+              use sfem_init_mod , only : sfem_init
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1003,7 +1004,7 @@ c
               type (PBLAST_) ,intent(inout)                      :: PBLAST
               type (rbe3_) ,intent(inout)                        :: RBE3
               type (rwall_) ,intent(inout)                       :: RWALL
-              type (sfem_) ,intent(inout)                        :: SFEM  
+              type (global_sfem_) ,intent(inout) :: SFEM  
 C
               INTEGER ,INTENT(IN) :: NDAMP_VREL,NDAMP_VREL_RBYG
               INTEGER ,INTENT(IN) :: ID_DAMP_VREL(NDAMP_VREL),FR_DAMP_VREL(NSPMD+2,NDAMP_VREL)
@@ -2063,7 +2064,11 @@ C Init var parallel SMP
               ENDIF
 
               ! TETRA4 : SMOOTH FINITE ELEMENT FORMULATIONS
-              CALL sfem_init(SFEM)
+              !CALL sfem_init(SFEM)
+              l1 = 1+nixs*numels+nsvois*nixs ! address of ixs10
+              call sfem_init(numels,numels10,numels8,numnod,ngroup, 
+     .                       nparg,ispmd,nspmd, 
+     .                       iparg,ixs,ixs(l1),sfem,nodes)
 
 C========================================================================================
 C                                    NON PARALLEL SECTION (SMP)
@@ -3124,10 +3129,13 @@ C TETRA4 : SMOOTH FINITE ELEMENT FORMULATIONS
 C---------------------------------------------
               IF(SFEM%ISFEM == 1) THEN
                 IF(GLOB_THERM%ITHERM == 0)THEN
+                  if(imon>0) call startime(timers,timer_sfem)               
                   L1 = 1+NIXS*NUMELS + NSVOIS*NIXS
-                  CALL S4LAGSFEM(IPARG, IXS, NODES%X, NODES%V, ELBUF_TAB, sfem%SFEM_NODVAR, sfem%S_SFEM_NODVAR,
-     .                           NODES%BOUNDARY_ADD, NODES%BOUNDARY, IXS(L1), NODES%XDP, SXDP,
-     .                           NUMNOD, NODES%BOUNDARY_SIZE , NSPMD, NUMELS, NUMELS8, NUMELS10,  NPARG, NGROUP, IRESP)
+                  CALL S4LAGSFEM(IPARG, IXS, NODES%X, NODES%V, ELBUF_TAB, sfem%lag%nodvar, sfem%S_SFEM_NODVAR,
+     .                           IXS(L1), NODES%XDP, SXDP,
+     .                           NUMNOD, NSPMD, NUMELS, NUMELS8, NUMELS10,  NPARG, NGROUP, IRESP,
+     .                           0,ispmd,sfem%lag)    
+                  if(imon>0) call stoptime(timers,timer_sfem)
                 ENDIF
               ENDIF
 
@@ -3381,6 +3389,18 @@ C-----------------------------------------------
 !$OMP END PARALLEL
 C
               ENDIF
+
+              IF(SFEM%ISFEM == 1) THEN
+                IF(GLOB_THERM%ITHERM == 0)THEN
+                  L1 = 1+NIXS*NUMELS + NSVOIS*NIXS
+                  if(imon>0) call startime(timers,timer_sfem)               
+                  CALL S4LAGSFEM(IPARG, IXS, NODES%X, NODES%V, ELBUF_TAB, sfem%lag%nodvar, sfem%S_SFEM_NODVAR,
+     .                           IXS(L1), NODES%XDP, SXDP,
+     .                           NUMNOD, NSPMD, NUMELS, NUMELS8, NUMELS10,  NPARG, NGROUP, IRESP,
+     .                           1,ispmd,sfem%lag)  
+                  if(imon>0) call stoptime(timers,timer_sfem)
+                ENDIF
+              ENDIF              
 C--------------------------------------------------------
 C       ALE flux + forces
 C--------------------------------------------------------
@@ -9388,7 +9408,7 @@ C--- //0 ----------------
                   IF(NVOLU > 0)  CALL FVSTATS(MONVOL)
                   CALL STOPTIME(TIMERS,TIMER_RESOL)
                   IF(IMONM>0) CALL PRINTIME_INTERF(INTERFACES%INTBUF_TAB,IPARI,INTLIST,NBINTC,TIMERS%REALTIME(1)*0.01D0)
-                  CALL PRINTIME(TIMERS,GLOB_THERM%ITHERM,OUTPUT)
+                  CALL PRINTIME(TIMERS,GLOB_THERM%ITHERM,OUTPUT,sfem)
                 ELSE
                   CALL ADD_ELAPSED_TIME_MON_OFF(TIMERS)
                 ENDIF
@@ -9570,7 +9590,7 @@ C
                   IF(NVOLU > 0)  CALL FVSTATS(MONVOL)
                   CALL STOPTIME(TIMERS,TIMER_RESOL)
                   IF(IMONM>0) CALL PRINTIME_INTERF(INTERFACES%INTBUF_TAB,IPARI,INTLIST,NBINTC,TIMERS%REALTIME(1)*0.01D0)
-                  CALL PRINTIME(TIMERS,GLOB_THERM%ITHERM,OUTPUT)
+                  CALL PRINTIME(TIMERS,GLOB_THERM%ITHERM,OUTPUT,sfem)
                 ELSE
                   CALL ADD_ELAPSED_TIME_MON_OFF(TIMERS)
                 ENDIF

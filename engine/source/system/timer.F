@@ -29,8 +29,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- uses       -----------------------------------------------------
 !||    timer_mod       ../engine/source/system/timer_mod.F90
 !||====================================================================
-      SUBROUTINE PRINT_SUMMARY(FLAG,NTIMAX,TABTIME,TITLES,OUT_ID,ITHERM)
-        use timer_mod , only : timer_ale_elm
+      SUBROUTINE PRINT_SUMMARY(FLAG,NTIMAX,TABTIME,TITLES,OUT_ID,ITHERM,sfem)
+        use timer_mod
+        use sfem_mod , only : global_sfem_
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -57,7 +58,8 @@ C-----------------------------------------------
         INTEGER, INTENT(IN) :: OUT_ID ! file descriptor
         INTEGER, INTENT(IN) :: NTIMAX ! max number of timer
         CHARACTER(LEN=9), INTENT(INOUT) :: TITLES(NTIMAX) ! number of columns
-        REAL, INTENT(INOUT) :: TABTIME(NTIMAX,PARASIZ) 
+        REAL, INTENT(INOUT) :: TABTIME(NTIMAX,PARASIZ)
+        type(global_sfem_), intent(in) :: sfem !< global fem data
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -222,8 +224,12 @@ C
           FIELDS(5 )=44    ; TITLES(FIELDS(5 )) = 'FIXVEL'
           FIELDS(6 )=45    ; TITLES(FIELDS(6 )) = 'RBE3'
           FIELDS(7 )=46    ; TITLES(FIELDS(7 )) = 'GRAV'
-
-          NFIELDS = 7
+          FIELDS(8 )=timer_sfem    ; TITLES(FIELDS(8 )) = 'SFEM'        
+          if(sfem%isfem == 1) then
+            nfields = 8
+          else
+             nfields = 7
+          end if
           CALL PRINT_BLOCK("** KIN COND & TASK0 TIME **",TABTIME,NTIMAX,
      .                      FLAG,OUT_ID,NFIELDS,FIELDS,TITLES)
 

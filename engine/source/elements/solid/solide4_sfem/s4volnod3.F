@@ -29,9 +29,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    foat_to_6_float   ../engine/source/system/parit.F
 !||====================================================================
       SUBROUTINE S4VOLNOD3(
-     1   VOLNOD6, X,       NC1,     NC2,
+     1   X,       NC1,     NC2,
      2   NC3,     NC4,     OFFG,    XDP,
-     3   NEL,     ISMSTR)
+     3   NEL,     ISMSTR,sfem,nft)
+
+      use sfem_mod, only : sfem_
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -46,14 +48,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      integer, intent(in) :: nft !< address of the first element of this group
       INTEGER, INTENT(IN) :: ISMSTR
       INTEGER NC1(*),NC2(*),NC3(*),NC4(*),NEL
-      DOUBLE PRECISION
-     .   VOLNOD6(6,2*NUMNOD)
       DOUBLE PRECISION , DIMENSION(3,SXDP/3), INTENT(IN) :: XDP     
 C     REAL
       my_real
      .   X(3,*),OFFG(*)
+      type(sfem_), intent(inout) :: sfem
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -62,6 +64,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, K
+      integer :: j,my_address
 C     REAL
 
       my_real
@@ -74,8 +77,7 @@ C     REAL
      .   Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ),
      .   Z1(MVSIZ), Z2(MVSIZ), Z3(MVSIZ), Z4(MVSIZ)
 
-      DOUBLE PRECISION
-     .   DET6(6,MVSIZ),DETDP
+      DOUBLE PRECISION DETDP
 C----------------------------
 C     NODAL COORDINATES     
 C----------------------------
@@ -173,21 +175,13 @@ C
        ENDIF
       ENDDO
 
-      !Parith-On treatment
-      CALL FOAT_TO_6_FLOAT(1  ,NEL  ,DET ,DET6 )
+      do i=1,nel
+        do j=1,4
+          my_address = sfem%tetra4_iad(j,i+nft)
+          sfem%tetra_fsky(my_address,1) = det(i)
+        enddo
+      enddo
 
-      DO I=1,NEL
-C----------------------------------
-C VOLUME <0 SERA TESTE DANS S4DERI3
-C----------------------------------
-        !Parith-On treatment
-        DO K=1,6
-          VOLNOD6(K,NC1(I)) = VOLNOD6(K,NC1(I)) + DET6(K,I)
-          VOLNOD6(K,NC2(I)) = VOLNOD6(K,NC2(I)) + DET6(K,I)
-          VOLNOD6(K,NC3(I)) = VOLNOD6(K,NC3(I)) + DET6(K,I)
-          VOLNOD6(K,NC4(I)) = VOLNOD6(K,NC4(I)) + DET6(K,I)
-        ENDDO
-      ENDDO
 C
       RETURN
-      END
+      END      

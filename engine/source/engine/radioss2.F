@@ -361,7 +361,7 @@ C-------------------------------------------------------------------------------
       TYPE(rbe3_) :: rbe3
       TYPE(coupling_type) :: coupling
       TYPE(rwall_) :: rwall
-      TYPE(sfem_)  :: sfem
+      TYPE(global_sfem_)  :: sfem
 C------------------------------------------------------------------
 C to build a IBM PARALLEL version
 C In starter : define install parameter nspmd 

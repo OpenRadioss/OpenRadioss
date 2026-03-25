@@ -56,6 +56,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
         INTEGER :: NCYCLE_DEBUG                         !< Engine Cycle number
         integer :: nspmd_debug !< number of processors
         integer :: ispmd_debug !< processor id
+
 !       Double precision, dimension (:), allocatable:: detach_shell
 
 
