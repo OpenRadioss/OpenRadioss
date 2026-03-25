@@ -70,6 +70,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    sptri                   ../starter/source/elements/sph/sptri.F
 !||    t3grtails               ../starter/source/elements/solid_2d/tria/t3grtails.F
 !||    table_interp            ../starter/source/tools/curve/table_tools.F
+!||    table_mat_vinterp_c1    ../starter/source/materials/tools/table_mat_vinterp_c1.F90
 !||    table_vinterp           ../starter/source/tools/curve/table_tools.F
 !||    tribox3                 ../starter/stub/fvmbags_stub.F
 !||    tritri3                 ../starter/stub/fvmbags_stub.F

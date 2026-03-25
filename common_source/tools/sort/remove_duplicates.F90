@@ -23,8 +23,7 @@
 
 
 !||====================================================================
-!||    remove_duplicates_mod           ../common_source/tools/sort/remove_duplicates.F90
-!||--- called by ------------------------------------------------------
+!||    remove_duplicates_mod   ../common_source/tools/sort/remove_duplicates.F90
 !||====================================================================
       module remove_duplicates_mod
 
@@ -39,6 +38,12 @@
 ! ======================================================================================================================
 !! \brief This subroutine is removing duplicated values in an ordered array
 !! \details precondition : array is already sorted, complexity O(n)
+!||====================================================================
+!||    real_remove_duplicates   ../common_source/tools/sort/remove_duplicates.F90
+!||--- uses       -----------------------------------------------------
+!||    constant_mod             ../common_source/modules/constant_mod.F
+!||    precision_mod            ../common_source/modules/precision_mod.F90
+!||====================================================================
         subroutine real_remove_duplicates(array, n, user_tol)
           use precision_mod , only : WP
           use constant_mod , only : zero
@@ -87,6 +92,12 @@
 ! ======================================================================================================================
 !! \brief This subroutine is removing duplicated values in an ordered array
 !! \details precondition : array is already sorted, complexity O(n)
+!||====================================================================
+!||    integer_remove_duplicates   ../common_source/tools/sort/remove_duplicates.F90
+!||--- uses       -----------------------------------------------------
+!||    constant_mod                ../common_source/modules/constant_mod.F
+!||    precision_mod               ../common_source/modules/precision_mod.F90
+!||====================================================================
         subroutine integer_remove_duplicates(array, n, user_tol)
           use precision_mod , only : WP
           use constant_mod , only : zero

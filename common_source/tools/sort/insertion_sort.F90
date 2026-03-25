@@ -144,12 +144,9 @@
 !! \brief This subroutine is sorting array of size n with insertion sorting algorithm
 !! \details resulting index are provided
 !||====================================================================
-!||    real_insertion_sort_with_index   ../common_source/tools/sort/insertion_sort.F90
-!||--- called by ------------------------------------------------------
-!||    clipping_weiler_atherton         ../common_source/tools/clipping/polygon_clipping_mod.F90
-!||    eikonal_sort_narrow_band         ../starter/source/initial_conditions/detonation/eikonal_sort_narrow_band.F90
+!||    real_insertion_sort   ../common_source/tools/sort/insertion_sort.F90
 !||--- uses       -----------------------------------------------------
-!||    precision_mod                    ../common_source/modules/precision_mod.F90
+!||    precision_mod         ../common_source/modules/precision_mod.F90
 !||====================================================================
         subroutine real_insertion_sort(array, n)
           use precision_mod , only : WP
@@ -188,10 +185,7 @@
 !! \brief This subroutine is sorting array of size n with insertion sorting algorithm
 !! \details resulting index are provided
 !||====================================================================
-!||    integer_insertion_sort_with_index   ../common_source/tools/sort/insertion_sort.F90
-!||--- called by ------------------------------------------------------
-!||    eikonal_init_sorting                ../starter/source/initial_conditions/detonation/eikonal_init_sorting.F90
-!||    eikonal_init_start_list_2d          ../starter/source/initial_conditions/detonation/eikonal_init_start_list_2d.F90
+!||    integer_insertion_sort   ../common_source/tools/sort/insertion_sort.F90
 !||====================================================================
         subroutine integer_insertion_sort(array, n)
           implicit none

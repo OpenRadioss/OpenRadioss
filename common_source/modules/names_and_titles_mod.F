@@ -49,6 +49,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    checkmp                           ../starter/source/elements/initia/initia.F
 !||    checkrby                          ../starter/source/constraints/general/rbody/checkrby.F
 !||    checksum_option_checksum_file     ../common_source/modules/output/checksum_mod.F90
+!||    checksum_option_out_file          ../common_source/modules/output/checksum_mod.F90
 !||    checksum_output_option_mod        ../common_source/modules/output/checksum_mod.F90
 !||    checksum_restart_read             ../common_source/modules/output/checksum_mod.F90
 !||    checksum_restart_write            ../common_source/modules/output/checksum_mod.F90
@@ -122,6 +123,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    elt_box                           ../starter/source/model/sets/fill_clause_elt_box.F
 !||    eos_param_mod                     ../common_source/modules/mat_elem/eos_param_mod.F90
 !||    eosfun_usr2sys                    ../starter/source/materials/tools/eosfun_usr2sys.F90
+!||    f_anend                           ../starter/source/output/analyse/analyse_arret.F
 !||    facebox                           ../starter/source/model/box/bigbox.F
 !||    fail_param_mod                    ../common_source/modules/mat_elem/fail_param_mod.F90
 !||    fill_buffer_51                    ../starter/source/materials/mat/mat051/fill_buffer_51.F

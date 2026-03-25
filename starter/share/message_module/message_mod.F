@@ -1221,6 +1221,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    szrefderi3                           ../starter/source/elements/solid/solide/srefsta3.F
 !||    t3grhead                             ../starter/source/elements/solid_2d/tria/t3grhead.F
 !||    t3grtails                            ../starter/source/elements/solid_2d/tria/t3grtails.F
+!||    table_mat_vinterp_c1                 ../starter/source/materials/tools/table_mat_vinterp_c1.F90
 !||    table_slope                          ../starter/source/materials/tools/table_slope.F
 !||    tag_node_from_1d_2d_elem             ../starter/source/model/sets/tag_node_from_1D_2D_elem.F
 !||    tag_node_from_part_sphcel            ../starter/source/model/sets/tag_node_from_part_sphcel.F90

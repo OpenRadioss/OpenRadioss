@@ -65,6 +65,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    trace_in1                         ../starter/source/system/trace_back.F
 !||    trace_out1                        ../starter/source/system/trace_back.F
 !||--- uses       -----------------------------------------------------
+!||    analyse_arret_mod                 ../starter/source/output/analyse/analyse_arret.F
 !||    checksum_check_mod                ../starter/source/output/checksum/checksum_check.F90
 !||    checksum_starter_option_mod       ../starter/source/output/checksum/checksum_option.F90
 !||    defaults_mod                      ../starter/source/modules/defaults_mod.F90

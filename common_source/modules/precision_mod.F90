@@ -286,6 +286,7 @@
 !||    inivel_start                             ../engine/source/loads/general/inivel/inivel_start.F90
 !||    intbuf_fric_mod                          ../common_source/modules/interfaces/intbuf_fric_mod.F90
 !||    intbufdef_mod                            ../common_source/modules/interfaces/intbufdef_mod.F90
+!||    integer_remove_duplicates                ../common_source/tools/sort/remove_duplicates.F90
 !||    inter7_candidate_pairs                   ../engine/source/interfaces/intsort/inter7_candidate_pairs.F90
 !||    inter7_collision_detection               ../engine/source/interfaces/intsort/inter7_collision_detection.F90
 !||    inter7_deserialize                       ../engine/source/interfaces/intsort/inter7_candidate_pairs.F90
@@ -392,7 +393,9 @@
 !||    read_mat25_tsaiwu                        ../starter/source/materials/mat/mat025/read_mat25_tsaiwu.F90
 !||    read_thermparam                          ../engine/source/output/restart/read_thermparam.F90
 !||    real_array_reindex                       ../common_source/tools/sort/array_reindex.F90
+!||    real_insertion_sort                      ../common_source/tools/sort/insertion_sort.F90
 !||    real_insertion_sort_with_index           ../common_source/tools/sort/insertion_sort.F90
+!||    real_remove_duplicates                   ../common_source/tools/sort/remove_duplicates.F90
 !||    redef3                                   ../engine/source/elements/spring/redef3.F90
 !||    redef_seatbelt                           ../engine/source/tools/seatbelts/redef_seatbelt.F90
 !||    resol_alloc_nitsche                      ../engine/source/engine/resol_alloc.F90

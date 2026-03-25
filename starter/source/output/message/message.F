@@ -860,6 +860,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    szrefderi3                           ../starter/source/elements/solid/solide/srefsta3.F
 !||    t3grhead                             ../starter/source/elements/solid_2d/tria/t3grhead.F
 !||    t3grtails                            ../starter/source/elements/solid_2d/tria/t3grtails.F
+!||    table_mat_vinterp_c1                 ../starter/source/materials/tools/table_mat_vinterp_c1.F90
 !||    tagnod_r2r                           ../starter/source/coupling/rad2rad/tagnod_r2r.F
 !||    tagnods_r2r                          ../starter/source/coupling/rad2rad/tagnod_r2r.F
 !||    tinit3                               ../starter/source/elements/truss/tinit3.F

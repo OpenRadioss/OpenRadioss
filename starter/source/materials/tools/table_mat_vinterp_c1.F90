@@ -39,15 +39,12 @@
 !! \details     DYDX(nel) is the slope (output)
 
 !||====================================================================
-!||    table_mat_vinterp_c1   ../engine/source/materials/tools/table_mat_vinterp_c1.F90
+!||    table_mat_vinterp_c1   ../starter/source/materials/tools/table_mat_vinterp_c1.F90
 !||--- calls      -----------------------------------------------------
-!||    ancmsg                 ../engine/source/output/message/message.F
-!||    arret                  ../engine/source/system/arret.F
+!||    ancmsg                 ../starter/source/output/message/message.F
+!||    arret                  ../starter/source/system/arret.F
 !||--- uses       -----------------------------------------------------
-!||    constant_mod           ../common_source/modules/constant_mod.F
-!||    message_mod            ../engine/share/message_module/message_mod.F
-!||    precision_mod          ../common_source/modules/precision_mod.F90
-!||    table4d_mod            ../common_source/modules/table4d_mod.F
+!||    message_mod            ../starter/share/message_module/message_mod.F
 !||====================================================================
         subroutine table_mat_vinterp_c1(table,dimx,nel,ipos,xx,yy,dydx, opt_extrapolate)
 

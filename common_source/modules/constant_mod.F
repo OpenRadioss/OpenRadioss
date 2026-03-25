@@ -256,6 +256,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    inivel_dt2                               ../engine/source/loads/general/inivel/inivel_dt2.F90
 !||    inivel_start                             ../engine/source/loads/general/inivel/inivel_start.F90
 !||    inivol_set                               ../starter/source/initial_conditions/inivol/inivol_set.F
+!||    integer_remove_duplicates                ../common_source/tools/sort/remove_duplicates.F90
 !||    inter11_duplicate_edge                   ../engine/source/engine/node_spliting/detach_node.F90
 !||    inter7_candidate_pairs                   ../engine/source/interfaces/intsort/inter7_candidate_pairs.F90
 !||    inter7_collision_detection               ../engine/source/interfaces/intsort/inter7_collision_detection.F90
@@ -347,6 +348,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    read_mat25_crasurv                       ../starter/source/materials/mat/mat025/read_mat25_crasurv.F90
 !||    read_mat25_tsaiwu                        ../starter/source/materials/mat/mat025/read_mat25_tsaiwu.F90
 !||    read_sensor_python                       ../starter/source/tools/sensor/hm_read_sensor_python.F90
+!||    real_remove_duplicates                   ../common_source/tools/sort/remove_duplicates.F90
 !||    redef3                                   ../engine/source/elements/spring/redef3.F90
 !||    redef_seatbelt                           ../engine/source/tools/seatbelts/redef_seatbelt.F90
 !||    resol_alloc_nitsche                      ../engine/source/engine/resol_alloc.F90

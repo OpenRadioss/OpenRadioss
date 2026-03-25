@@ -27,7 +27,7 @@
 !||--- called by ------------------------------------------------------
 !||    arret                           ../engine/source/system/arret.F
 !||    checksum_option_checksum_file   ../common_source/modules/output/checksum_mod.F90
-!||    checksum_option_outfile         ../common_source/modules/output/checksum_mod.F90
+!||    checksum_option_out_file        ../common_source/modules/output/checksum_mod.F90
 !||    checksum_restart_read           ../common_source/modules/output/checksum_mod.F90
 !||    checksum_restart_write          ../common_source/modules/output/checksum_mod.F90
 !||    mulawc                          ../engine/source/materials/mat_share/mulawc.F90

@@ -414,6 +414,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- calls      -----------------------------------------------------
 !||    c_h3d_close_file                 ../engine/source/output/h3d/h3d_build_cpp/c_h3d_close_file.cpp
 !||    checksum_option_checksum_file    ../common_source/modules/output/checksum_mod.F90
+!||    checksum_option_out_file         ../common_source/modules/output/checksum_mod.F90
 !||    close_c                          ../common_source/tools/input_output/write_routines.c
 !||    compute_binary_checksum          ../common_source/output/checksum/checksum.cpp
 !||    cur_fil_c                        ../common_source/tools/input_output/write_routines.c
