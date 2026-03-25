@@ -43,7 +43,7 @@
 !||    eikonal_compute_adjacent         ../starter/source/initial_conditions/detonation/eikonal_compute_adjacent.F90
 !||    eikonal_init_mixture_vel         ../starter/source/initial_conditions/detonation/eikonal_ini_mixture_vel.F90
 !||    eikonal_init_sorting             ../starter/source/initial_conditions/detonation/eikonal_init_sorting.F90
-!||    eikonal_init_start_list_2d       ../starter/source/initial_conditions/detonation/eikonal_init_start_list_2d.F90
+!||    eikonal_init_start_list          ../starter/source/initial_conditions/detonation/eikonal_init_start_list.F90
 !||    eikonal_remove_first             ../starter/source/initial_conditions/detonation/eikonal_remove_first.F90
 !||    eikonal_sort_narrow_band         ../starter/source/initial_conditions/detonation/eikonal_sort_narrow_band.F90
 !||--- uses       -----------------------------------------------------
@@ -51,7 +51,7 @@
 !||    eikonal_compute_adjacent_mod     ../starter/source/initial_conditions/detonation/eikonal_compute_adjacent.F90
 !||    eikonal_init_mixture_vel_mod     ../starter/source/initial_conditions/detonation/eikonal_ini_mixture_vel.F90
 !||    eikonal_init_sorting_mod         ../starter/source/initial_conditions/detonation/eikonal_init_sorting.F90
-!||    eikonal_init_start_list_2d_mod   ../starter/source/initial_conditions/detonation/eikonal_init_start_list_2d.F90
+!||    eikonal_init_start_list_mod      ../starter/source/initial_conditions/detonation/eikonal_init_start_list.F90
 !||    eikonal_remove_first_mod         ../starter/source/initial_conditions/detonation/eikonal_remove_first.F90
 !||    eikonal_sort_narrow_band_mod     ../starter/source/initial_conditions/detonation/eikonal_sort_narrow_band.F90
 !||====================================================================
@@ -68,7 +68,7 @@
           use eikonal_sort_narrow_band_mod , only : eikonal_sort_narrow_band
           use eikonal_remove_first_mod , only : eikonal_remove_first
           use eikonal_compute_adjacent_mod , only : eikonal_compute_adjacent
-          use eikonal_init_start_list_2d_mod , only : eikonal_init_start_list_2d
+          use eikonal_init_start_list_mod , only : eikonal_init_start_list
           use eikonal_init_mixture_vel_mod , only : eikonal_init_mixture_vel
           use detonators_mod , only : detonators_struct_
           use precision_mod, only : WP
@@ -120,7 +120,9 @@
           integer :: n_queue
           integer, allocatable, dimension(:) :: idx_ng  !< group identifier for a given solid elem
           integer, allocatable, dimension(:) :: idx_i   !< local id in group
-          integer, allocatable, dimension(:) :: elem_list, uelem_list !< user identifier
+          integer, allocatable, dimension(:) :: elem_list !< local to global ids
+          integer, allocatable, dimension(:) ::  uelem_list !< user ids
+          integer, allocatable, dimension(:) :: elem_list_bij !< global to local ids
           real(kind=WP), allocatable, dimension(:) :: vel
           real(kind=WP) :: vel_adj(6)   ! tria 3<6, quad:4<6, hexa 6
           real(kind=WP), allocatable, dimension(:) :: tdet   !< detonation time
@@ -133,7 +135,6 @@
           integer :: nstart !< number of deotnation points (centroids)  ! can be adapt later from mesh nodes to elem centroid (spherical wave from node to centroid)
           integer,allocatable,dimension(:) :: start_elem_list
           real(kind=WP),allocatable,dimension(:) :: start_elem_tdet
-          integer, allocatable, dimension(:) :: elem_list_bij
           integer :: num_new_activated, list_new_activated(6)
           real(kind=WP) :: dx,dy,dz,dl,s, tmp
           real(kind=WP) :: Dcj !< Detonation velocity (law5 and 97)
@@ -265,9 +266,9 @@
           ! ensuring same order of treatment
           call eikonal_init_sorting(neldet, numel, elem_list, uelem_list, idx_ng , idx_i, elem_list_bij, xel, vel)
 
-          call eikonal_init_start_list_2d(nstart, start_elem_list, start_elem_tdet, detonators, numel, numnod, &
+          call eikonal_init_start_list(nstart, start_elem_list, start_elem_tdet, detonators, numel, numnod, &
             nvois, nod2el, knod2el, ale_connectivity, elem_list_bij, neldet, xel, x,&
-            nix, ix, mat_det, vel, uelem_list)
+            nix, ix, mat_det, vel, uelem_list, elem_list)
 
           if(nstart == 0)then
             !DEALLOCATE

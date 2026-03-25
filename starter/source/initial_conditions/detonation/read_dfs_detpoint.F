@@ -83,7 +83,7 @@ C-----------------------------------------------
       INTEGER              :: I,MAT,IGU,IGS,MDET,DET_ID,IDET
       INTEGER              :: NODE_ID1,uID1,UID,internal_ID,NNOD
       INTEGER              :: UNUSED
-      my_real              :: XC, YC, ZC, TDET
+      my_real              :: XC, YC, ZC, TDET, R0
       CHARACTER*40         :: MESS
       CHARACTER(LEN=NCHARTITLE) :: TITR
       CHARACTER*32         :: MSG_C2
@@ -126,6 +126,7 @@ C-----------------------------------------------
           MSG_C2 = '/DFS/DETPOINT/NODE'
           CALL HM_GET_INTV('rad_det_Ishadow', I_SHADOW, IS_AVAILABLE_SHADOW, LSUBMODEL)
           CALL HM_GET_FLOATV('rad_det_time', TDET, IS_AVAILABLE, LSUBMODEL,UNITAB)
+          CALL HM_GET_FLOATV('R0_shadow', R0, IS_AVAILABLE, LSUBMODEL,UNITAB)
           CALL HM_GET_INTV('rad_det_materialid', MAT, IS_AVAILABLE, LSUBMODEL)
           CALL HM_GET_INTV('rad_det_node1', uID1, IS_AVAILABLE, LSUBMODEL)
           XC=ZERO
@@ -135,6 +136,7 @@ C-----------------------------------------------
           MSG_C2 = '/DFS/DETPOINT/SET'
           CALL HM_GET_INTV('rad_det_Ishadow', I_SHADOW, IS_AVAILABLE_SHADOW, LSUBMODEL)
           CALL HM_GET_FLOATV('rad_det_time', TDET, IS_AVAILABLE, LSUBMODEL,UNITAB)
+          CALL HM_GET_FLOATV('R0_shadow', R0, IS_AVAILABLE, LSUBMODEL,UNITAB)
           CALL HM_GET_INTV('rad_det_materialid', MAT, IS_AVAILABLE, LSUBMODEL)
           CALL HM_GET_INTV('rad_det_grnod1', uID1, IS_AVAILABLE, LSUBMODEL)
           XC=ZERO
@@ -162,6 +164,18 @@ C-----------------------------------------------
             CALL ANCMSG(MSGID=102,MSGTYPE=MSGWARNING,ANMODE=ANINFO_BLIND_1,
      .                  I1=DET_ID,
      .                  C1='INVALID I_SHADOW FLAG. FLAG IS SET TO 0',
+     .                  C2=MSG_C2,
+     .                  I2=MDET)
+          END IF
+        ENDIF
+
+        !default value for shadowing flag
+        IF(R0 < ZERO)THEN
+          IF(I_SHADOW /= 0)THEN
+            R0 = ZERO
+            CALL ANCMSG(MSGID=102,MSGTYPE=MSGWARNING,ANMODE=ANINFO_BLIND_1,
+     .                  I1=DET_ID,
+     .                  C1='INVALID R0_SHADOW VALUE. OPTIONAL INITIALIZATION RADIUS MUST BE POSITIVE',
      .                  C2=MSG_C2,
      .                  I2=MDET)
           END IF
@@ -281,9 +295,9 @@ C-----------------------------------------------
           IF(IS_ENCRYPTED)THEN
             WRITE(IOUT,1001)
           ELSEIF(IS_NODE_DEFINED)THEN
-            WRITE(IOUT,1401) DET_ID,I_SHADOW,uID1,XC,YC,ZC,TDET,MDET
+            WRITE(IOUT,1401) DET_ID,I_SHADOW,R0,uID1,XC,YC,ZC,TDET,MDET
           ELSEIF(IS_GRNOD_DEFINED)THEN
-            WRITE(IOUT,1402) DET_ID,I_SHADOW,uID1,NNOD,TDET,MDET
+            WRITE(IOUT,1402) DET_ID,I_SHADOW,R0,uID1,NNOD,TDET,MDET
           ELSE
             WRITE(IOUT,1400) DET_ID,XC,YC,ZC,TDET,MDET
           ENDIF
@@ -294,6 +308,7 @@ C-----------------------------------------------
           DETONATORS%POINT(IDET)%XDET = XC
           DETONATORS%POINT(IDET)%YDET = YC
           DETONATORS%POINT(IDET)%ZDET = ZC
+          DETONATORS%POINT(IDET)%R0 = R0
           DETONATORS%POINT(IDET)%GRNOD_ID = internal_ID
         END IF
 
@@ -318,6 +333,7 @@ C-----------------------------------------------
      &          'DETONATION POINT (NODE)    ',I10,/5X,
      &          '-----------------------    ',/5X,
      &          'SHADOWING FLAG            =',I10     ,/5X,
+     &          ' R0_SHADOW (OPTIONAL)     =',1PG20.13,/5X,
      &          'NODE ID                   =',I10     ,/5X,
      &          ' X-COORDINATE             =',1PG20.13,/5X,
      &          ' Y-COORDINATE             =',1PG20.13,/5X,
@@ -328,9 +344,10 @@ C-----------------------------------------------
      &          'DETONATION POINT (SET)     ',I10,/5X,
      &          '----------------------     ',/5X,
      &          'SHADOWING FLAG            =',I10     ,/5X,
+     &          ' R0_SHADOW (OPTIONAL)     =',1PG20.13,/5X,
      &          'SET ID                    =',I10     ,/5X,
      &          ' NUMBER OF NODES          =',I10,/5X,
      &          'DETONATION TIME           =',1PG20.13,/5X,
      &          'EXPLOSIVE MATERIAL NUMBER =',I10 )
-C-----------------------------------------------            
+C-----------------------------------------------
       END SUBROUTINE

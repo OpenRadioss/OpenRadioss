@@ -91,6 +91,7 @@ C-----------------------------------------------
           my_real :: XDET
           my_real :: YDET
           my_real :: ZDET
+          my_real :: R0
           !optional list of nodes
           INTEGER :: GRNOD_ID
           INTEGER :: NNOD
