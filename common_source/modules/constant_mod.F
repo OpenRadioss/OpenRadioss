@@ -100,7 +100,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    eikonal_godunov_operator_3d              ../starter/source/initial_conditions/detonation/eikonal_godunov_operator_3d.F90
 !||    eikonal_init_mixture_vel                 ../starter/source/initial_conditions/detonation/eikonal_ini_mixture_vel.F90
 !||    eikonal_init_sorting                     ../starter/source/initial_conditions/detonation/eikonal_init_sorting.F90
-!||    eikonal_init_start_list_2d               ../starter/source/initial_conditions/detonation/eikonal_init_start_list_2d.F90
+!||    eikonal_init_start_list                  ../starter/source/initial_conditions/detonation/eikonal_init_start_list.F90
 !||    eikonal_remove_first                     ../starter/source/initial_conditions/detonation/eikonal_remove_first.F90
 !||    eikonal_solver                           ../starter/source/initial_conditions/detonation/eikonal_solver.F90
 !||    elasto_plastic_eq_stress                 ../engine/source/materials/mat/mat131/elasto_plastic_eq_stress.F90
