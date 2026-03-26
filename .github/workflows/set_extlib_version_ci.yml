@@ -41,7 +41,7 @@ jobs:
 
       # Get last git modifications
       - name: Checkout git sources
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           path: ${{ env.WORKDIR }}
           clean: 'true'

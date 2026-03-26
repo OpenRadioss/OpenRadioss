@@ -101,7 +101,7 @@ jobs:
 
       # Get last git modifications, don't clean before (way to keep persistent obj files)
       - name: Checkout git sources
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           path: ${{ env.WORKDIR }}
           clean: 'false'
@@ -171,7 +171,7 @@ jobs:
 
       # Upload artifact (since V4 we can't upload artifact using the same name, each one must be unique)
       - name: Upload built artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: bins-${{ matrix.os }}-${{ matrix.precision }}-${{ matrix.build }}
           path: ${{ env.WORKDIR }}/exec
@@ -179,7 +179,7 @@ jobs:
 
       # We upload extlib only once, arbitrary choice
       - name: Upload extlib artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: extlib.zip
           path: ${{ env.WORKDIR }}/extlib.zip
@@ -187,7 +187,7 @@ jobs:
 
       # Close the branch (= restrict push to team devopsadmins) if needed
       # Owner is not mandatory here ... PAT is sufficient ??? seems that as servbot has permissions on this repo so his PAT is sufficient ...
-      - uses: octokit/request-action@v2.x
+      - uses: octokit/request-action@v3.x
         id: close_branch_build
         env:
           GITHUB_TOKEN: ${{ env.SERVBOT_PAT }}
@@ -256,7 +256,7 @@ jobs:
 
       # Get git related to the commit
       - name: Checkout git sources
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           lfs: 'false'
 
@@ -267,27 +267,27 @@ jobs:
       # Download artifacts (since V4 we must download all needed artifacts, we could do it using wildcard but it doesn't work ... see https://github.com/actions/download-artifact/issues/337)
       # Using hard name waiting for this issue to be fixed
       # - name: Download artifacts
-      #   uses: actions/download-artifact@v4
+      #   uses: actions/download-artifact@v8
       #   with:
       #     name: bins-${{ matrix.os }}-${{ matrix.precision }}-*
       #     path: exec
       #     merge-multiple: true
       - name: Download artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           # name: "bins-${{ matrix.os }}-${{ matrix.precision }}-*"
           name: bins-${{ matrix.os }}-${{ matrix.precision }}-starter_linux64_gf
           path: exec
           merge-multiple: true
       - name: Download artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           # name: "bins-${{ matrix.os }}-${{ matrix.precision }}-*"
           name: bins-${{ matrix.os }}-${{ matrix.precision }}-engine_linux64_gf_ompi
           path: exec
           merge-multiple: true
       - name: Download extlib artifact
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: extlib.zip
 
@@ -370,7 +370,7 @@ jobs:
 
       # Close the branch (= restrict push to team devopsadmins) if needed
       # Owner is not mandatory here ... PAT is sufficient ??? seems that as servbot has permissions on this repo so his PAT is sufficient ...
-      - uses: octokit/request-action@v2.x
+      - uses: octokit/request-action@v3.x
         id: close_branch_qa
         env:
           GITHUB_TOKEN: ${{ env.SERVBOT_PAT }}
@@ -479,7 +479,7 @@ jobs:
 
       # Get last git modifications, don't clean before (way to keep persistent obj files)
       - name: Checkout git sources
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           path: ${{ env.WORKDIR }}
           clean: 'false'
@@ -541,7 +541,7 @@ jobs:
 
       # Upload artifact (since V4 we can't upload artifact using the same name, each one must be unique)
       - name: Upload built artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: bins-${{ matrix.os }}-${{ matrix.precision }}-${{ matrix.build }}
           path: ${{ env.WORKDIR }}/exec
@@ -550,7 +550,7 @@ jobs:
       # Close the branch (= restrict push to team devopsadmins) if needed
       # Owner is not mandatory here ... PAT is sufficient ??? seems that as servbot has permissions on this repo so his PAT is sufficient ...
       - name: Close the branch if errors
-        uses: octokit/request-action@v2.x
+        uses: octokit/request-action@v3.x
         id: close_branch_build
         env:
           GITHUB_TOKEN: ${{ env.SERVBOT_PAT }}
@@ -601,13 +601,13 @@ jobs:
 
       # Get git related to the commit
       - name: Checkout git sources
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           lfs: 'false'
 
       # Get OpenRadioss extras from dedicated repository
       - name: Checkout git EXTRA sources
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           lfs: 'true'
           clean: 'false'
@@ -626,27 +626,27 @@ jobs:
       # Download artifacts (since V4 we must download all needed artifacts, we could do it using wildcard but it doesn't work ... see https://github.com/actions/download-artifact/issues/337)
       # Using hard name waiting for this issue to be fixed
       # - name: Download artifacts
-      #   uses: actions/download-artifact@v4
+      #   uses: actions/download-artifact@v8
       #   with:
       #     name: bins-${{ matrix.os }}-${{ matrix.precision }}-*
       #     path: exec
       #     merge-multiple: true
       - name: Download artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           # name: "bins-${{ matrix.os }}-${{ matrix.precision }}-*"
           name: bins-${{ matrix.os }}-${{ matrix.precision }}-starter_win64
           path: exec
           merge-multiple: true
       - name: Download artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           # name: "bins-${{ matrix.os }}-${{ matrix.precision }}-*"
           name: bins-${{ matrix.os }}-${{ matrix.precision }}-engine_win64_impi
           path: exec
           merge-multiple: true
       - name: Download extlib artifact
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: extlib.zip
           
@@ -708,7 +708,7 @@ jobs:
 
       # Close the branch (= restrict push to team devopsadmins) if needed
       # Owner is not mandatory here ... PAT is sufficient ??? seems that as servbot has permissions on this repo so his PAT is sufficient ...
-      - uses: octokit/request-action@v2.x
+      - uses: octokit/request-action@v3.x
         id: close_branch_qa
         env:
           GITHUB_TOKEN: ${{ env.SERVBOT_PAT }}

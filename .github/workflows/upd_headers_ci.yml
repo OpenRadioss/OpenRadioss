@@ -31,7 +31,7 @@ jobs:
     steps:
 
       # Get last git modifications, WS is not persistent here
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           lfs: 'false'
           # Use a PAT else the push won't trigger the next workflow

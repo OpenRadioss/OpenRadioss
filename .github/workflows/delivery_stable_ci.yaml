@@ -131,7 +131,7 @@ jobs:
 
       # Get last git modifications, don't clean before (way to keep persistent obj files)
       - name: Checkout git sources
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           path: ${{ env.WORKDIR }}
           clean: 'false'
@@ -217,7 +217,7 @@ jobs:
 
       # Upload artifact (since V4 we can't upload artifact using the same name, each one must be unique)
       - name: Upload built artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: bins-${{ matrix.os }}-${{ matrix.precision }}-${{ matrix.build }}
           path: ${{ env.WORKDIR }}/exec
@@ -225,7 +225,7 @@ jobs:
 
       # We upload extlib only once, arbitrary choice
       - name: Upload extlib artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: extlib.zip
           path: ${{ env.WORKDIR }}/extlib.zip
@@ -233,7 +233,7 @@ jobs:
 
       # Close the branch (= restrict push to team devopsadmins) if needed
       # Owner is not mandatory here ... PAT is sufficient ??? seems that as servbot has permissions on this repo so his PAT is sufficient ...
-      - uses: octokit/request-action@v2.x
+      - uses: octokit/request-action@v3.x
         id: close_branch_build
         env:
           GITHUB_TOKEN: ${{ env.SERVBOT_PAT }}
@@ -337,7 +337,7 @@ jobs:
 
       # Get last git modifications, don't clean before (way to keep persistent obj files)
       - name: Checkout git sources
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           path: ${{ env.WORKDIR }}
           clean: 'false'
@@ -401,7 +401,7 @@ jobs:
 
       # Upload artifact (since V4 we can't upload artifact using the same name, each one must be unique)
       - name: Upload built artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: bins-${{ matrix.os }}-${{ matrix.precision }}-${{ matrix.build }}
           path: ${{ env.WORKDIR }}/exec
@@ -410,7 +410,7 @@ jobs:
       # Close the branch (= restrict push to team devopsadmins) if needed
       # Owner is not mandatory here ... PAT is sufficient ??? seems that as servbot has permissions on this repo so his PAT is sufficient ...
       - name: Close the branch if errors
-        uses: octokit/request-action@v2.x
+        uses: octokit/request-action@v3.x
         id: close_branch_build
         env:
           GITHUB_TOKEN: ${{ env.SERVBOT_PAT }}
@@ -482,7 +482,7 @@ jobs:
 
       # Get last git modifications, don't clean before (way to go faster)
       - name: Checkout git sources
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           path: ${{ env.WORKDIR }}
           lfs: 'false'
@@ -490,7 +490,7 @@ jobs:
 
       # Get OpenRadioss extras from dedicated repository
       - name: Checkout git EXTRA sources
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           lfs: 'true'
           clean: 'false'
@@ -500,7 +500,7 @@ jobs:
 
       # Get OpenRadioss gui in Tools repository
       - name: Checkout git Tools sources
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           lfs: 'true'
           clean: 'false'
@@ -510,7 +510,7 @@ jobs:
 
       # Download ALL artifacts (including extlib.zip)
       - name: Download ALL artifacts for packaging
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           merge-multiple: true
           path: "${{ env.WORKDIR }}/exec_tmp"
@@ -607,7 +607,7 @@ jobs:
             echo "EOF"
           } >> $GITHUB_ENV
 
-      - uses: octokit/request-action@v2.x
+      - uses: octokit/request-action@v3.x
         id: get_commit_author
         env:
           GITHUB_TOKEN: ${{ env.SERVBOT_PAT }}
@@ -683,16 +683,57 @@ jobs:
               --tag_prefix ${{ env.DELIVERY_TAG_PREFIX }} 
 
       - name: Create a new GitHub Discussion Annoucement
-        id: create-discussion
-        uses: abirismyname/create-discussion@v2.1.0
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}      
+        uses: actions/github-script@v8
         with:
-          title: OpenRadioss Stable Update (${{ env.LAST_STABLE_TAG_NAME }})
-          body: |
-            We're excited to announce a new **stable release of OpenRadioss!**  
-            This version, based on **tag ${{ env.LAST_STABLE_TAG_NAME }}**, brings improved stability and performance based on community feedback.
-            🔹 [Get it now](https://github.com/${{ github.repository }}/releases/tag/${{ env.DELIVERY_TAG_PREFIX }}${{ env.DATEOFTHETAG }})
-            Please, try it out and share your appreciated feedback, thanks!
-          repository-id: ${{ secrets.DISCUSSION_REPO_ID }}
-          category-id: ${{ secrets.DISCUSSION_CAT_ID }}  
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            // Get the discussion categories for your repository
+            const { data: repository } = await github.rest.repos.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo
+            });
+
+            // Create discussion using GraphQL
+            const query = `
+              query {
+                repository(owner: "${context.repo.owner}", name: "${context.repo.repo}") {
+                  id
+                  discussionCategories(first: 10) {
+                    nodes {
+                      id
+                      name
+                    }
+                  }
+                }
+              }
+            `;
+
+            const result = await github.graphql(query);
+            const repoId = result.repository.id;
+            const categories = result.repository.discussionCategories.nodes;
+            
+            // Use first available category or create with a default
+            const categoryId = categories.length > 0 ? categories[0].id : null;
+            
+            if (categoryId) {
+              const createMutation = `
+                mutation CreateDiscussion($repositoryId: ID!, $categoryId: ID!, $title: String!, $body: String!) {
+                  createDiscussion(input: {repositoryId: $repositoryId, categoryId: $categoryId, title: $title, body: $body}) {
+                    discussion {
+                      url
+                    }
+                  }
+                }
+              `;
+              
+              const discussion = await github.graphql(createMutation, {
+                repositoryId: repoId,
+                categoryId: categoryId,
+                title: `OpenRadioss Stable Update (${process.env.LAST_STABLE_TAG_NAME})`,
+                body: `We're excited to announce a new **stable release of OpenRadioss!**\nThis version, based on **tag ${process.env.LAST_STABLE_TAG_NAME}**, brings improved stability and performance based on community feedback.\n🔹 [Get it now](https://github.com/${context.repo.owner}/${context.repo.repo}/releases/tag/XXXX)\nPlease, try it out and share your appreciated feedback, thanks!`
+              });
+              
+              console.log(`Discussion created: ${discussion.createDiscussion.discussion.url}`);
+            } else {
+              console.log('No discussion categories found. Please create discussion categories first.');
+            }                

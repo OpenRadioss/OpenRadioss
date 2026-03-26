@@ -21,7 +21,7 @@ jobs:
       # Registry variable can't be a secret but can be a simple variable defined at organization level
       image: "internal.artifacts.altair.com/radioss-docker-local/rd-linux64-common:latest"          
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Detect workflow changes
         run: |
           # fetch base branch
@@ -84,7 +84,7 @@ jobs:
           md5sum exec/* || echo "Nothing in exec/" 
 
       # Get last git modifications, WS is not persistent here
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           lfs: 'false'
           ref: refs/pull/${{ github.event.number }}/merge
@@ -119,14 +119,14 @@ jobs:
 
       # Upload artifact (since V4 we can't upload artifact using the same name, each one must be unique) 
       - name: Upload built artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: bins-${{ matrix.os }}-${{ matrix.precision }}-${{ matrix.build }}
           path: exec
 
       # We upload extlib only once, arbitrary choice
       - name: Upload extlib artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: extlib.zip
           path: extlib.zip
@@ -191,7 +191,7 @@ jobs:
           md5sum exec/* || echo "Nothing in exec/" 
 
       # Get last git modifications, WS is not persistent here
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           lfs: 'false'
           ref: refs/pull/${{ github.event.number }}/merge
@@ -226,7 +226,7 @@ jobs:
 
       # Upload artifact (since V4 we can't upload artifact using the same name, each one must be unique) 
       - name: Upload built artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: bins-${{ matrix.os }}-${{ matrix.precision }}-${{ matrix.build }}
           path: exec
@@ -270,7 +270,7 @@ jobs:
           md5sum exec/* || echo "Nothing in exec/" 
 
       # Get last git modifications, WS is not persistent here
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           lfs: 'false'
           ref: refs/pull/${{ github.event.number }}/merge
@@ -337,7 +337,7 @@ jobs:
     steps:
 
       # Get git related to the commit
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           lfs: 'false'
           ref: refs/pull/${{ github.event.number }}/merge
@@ -349,25 +349,25 @@ jobs:
       # Download artifacts (since V4 we must download all needed artifacts, we could do it using wildcard but it doesn't work ... see https://github.com/actions/download-artifact/issues/337)
       # Using hard name waiting for this issue to be fixed
       # - name: Download artifacts
-      #   uses: actions/download-artifact@v4
+      #   uses: actions/download-artifact@v8
       #   with:
       #     name: bins-${{ matrix.os }}-${{ matrix.precision }}-*
       #     path: exec
       #     merge-multiple: true
       - name: Download artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: bins-${{ matrix.os }}-${{ matrix.precision }}-starter_linux64_gf
           path: exec
           merge-multiple: true
       - name: Download artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: bins-${{ matrix.os }}-${{ matrix.precision }}-engine_linux64_gf_ompi
           path: exec
           merge-multiple: true
       - name: Download extlib artifact
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: extlib.zip
 
