@@ -26,6 +26,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_read_admas                            ../starter/source/tools/admas/hm_read_admas.F
 !||    hm_read_bem                              ../starter/source/loads/bem/hm_read_bem.F
 !||    hm_read_ebcs_inlet                       ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_inlet.F
+!||    hm_read_elasticity_anisotropic           ../starter/source/materials/mat/mat131/elasticity/hm_read_elasticity_anisotropic.F90
 !||    hm_read_elasticity_isotropic             ../starter/source/materials/mat/mat131/elasticity/hm_read_elasticity_isotropic.F90
 !||    hm_read_elasticity_orthotropic           ../starter/source/materials/mat/mat131/elasticity/hm_read_elasticity_orthotropic.F90
 !||    hm_read_fail_inievo                      ../starter/source/materials/fail/inievo/hm_read_fail_inievo.F

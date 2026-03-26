@@ -148,7 +148,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_read_slipring                     ../starter/source/tools/seatbelts/hm_read_slipring.F
 !||    hm_read_sphio                        ../starter/source/loads/sph/hm_read_sphio.F
 !||    hm_read_srate_dependency_tabulated   ../starter/source/materials/mat/mat131/srate_dependency/hm_read_srate_dependency_tabulated.F90
-!||    hm_read_therm_softening_tabulated    ../starter/source/materials/mat/mat131/therm_softening/hm_read_therm_softening_tabulated.F90
 !||    hm_read_visc_prony                   ../starter/source/materials/visc/hm_read_visc_prony.F
 !||    hm_read_work_hardening_tabulated     ../starter/source/materials/mat/mat131/work_hardening/hm_read_work_hardening_tabulated.F90
 !||    read_impdisp                         ../starter/source/constraints/general/impvel/read_impdisp.F

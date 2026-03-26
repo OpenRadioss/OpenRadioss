@@ -33,9 +33,11 @@
 !||--- called by ------------------------------------------------------
 !||    hm_read_elasticity             ../starter/source/materials/mat/mat131/elasticity/hm_read_elasticity.F90
 !||--- calls      -----------------------------------------------------
+!||    ancmsg                         ../starter/source/output/message/message.F
 !||    hm_get_float_array_index       ../starter/source/devtools/hm_reader/hm_get_float_array_index.F
 !||--- uses       -----------------------------------------------------
 !||    hm_option_read_mod             ../starter/share/modules1/hm_option_read_mod.F
+!||    message_mod                    ../starter/share/message_module/message_mod.F
 !||    submodel_mod                   ../starter/share/modules1/submodel_mod.F
 !||====================================================================
         subroutine hm_read_elasticity_isotropic(                               &

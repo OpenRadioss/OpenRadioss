@@ -85,6 +85,7 @@
 !||    h3d_solid_scalar_1                       ../engine/source/output/h3d/h3d_results/h3d_solid_scalar_1.F
 !||    hist2                                    ../engine/source/output/th/hist2.F
 !||    hm_read_elasticity                       ../starter/source/materials/mat/mat131/elasticity/hm_read_elasticity.F90
+!||    hm_read_elasticity_anisotropic           ../starter/source/materials/mat/mat131/elasticity/hm_read_elasticity_anisotropic.F90
 !||    hm_read_elasticity_isotropic             ../starter/source/materials/mat/mat131/elasticity/hm_read_elasticity_isotropic.F90
 !||    hm_read_elasticity_orthotropic           ../starter/source/materials/mat/mat131/elasticity/hm_read_elasticity_orthotropic.F90
 !||    hm_read_elasto_plastic                   ../starter/source/materials/mat/mat131/hm_read_elasto_plastic.F90
