@@ -35,6 +35,8 @@
         ! insertion sort for real and integer arrays
         !    index array allows to determine the bijection between unsorted and sorted arrays
 
+        ! With long lists (n > ~1000) use stlsort
+
       implicit none
 
       contains

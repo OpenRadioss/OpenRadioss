@@ -62,20 +62,17 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-        INTEGER N,ERROR,PERM(N)
-C     REAL
-        my_real
-     .    A(N)
+        INTEGER,INTENT(IN) :: N           !< list size
+        INTEGER,INTENT(INOUT) :: ERROR    !< error code: 0 if no error, -1 if N < 1
+        INTEGER,INTENT(INOUT) :: PERM(N)  !< permutations indexes of the sorted list
+        my_real, INTENT(INOUT) :: A(N)    !< list to be sorted
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
         INTEGER :: STACKLEN
         INTEGER :: TRESHOLD
+        PARAMETER( STACKLEN = 128 ,TRESHOLD = 9 ) ! the max STACKLEN <= 1 + 2 x log2 (N+1)/(TRESHOLD + 2)
         INTEGER :: DONE
-C the max STACKLEN <= 1 + 2 x log2 (N+1)/(TRESHOLD + 2)
-        PARAMETER( STACKLEN = 128 ,
-     .             TRESHOLD   =  9 )
-C
         INTEGER :: I
         INTEGER :: IPLUS1
         INTEGER :: J
@@ -87,12 +84,10 @@ C
         INTEGER :: RLEN
         INTEGER :: TOP
         INTEGER :: STACK(STACKLEN)
-C     REAL
-        my_real
-     .          RK, RV
-C
+        my_real :: RK, RV
+C-----------------------------------------------
         ERROR = 0
-C
+
         IF  (N < 1)  THEN
           ERROR = -1
           RETURN
@@ -106,7 +101,7 @@ C
         DO  I = 1, N
           PERM(I) = I
         ENDDO
-C
+
         TOP = 1
         LEFT = 1
         RIGHT = N
@@ -116,13 +111,11 @@ C
           DONE = 0
         ENDIF
 
-c     QUICKSORT
-c
+       ! QUICKSORT
         DO WHILE (DONE /= 1)
           RK = A((LEFT+RIGHT)/2)
           A((LEFT+RIGHT)/2) = A(LEFT)
           A(LEFT) = RK
-C
           K = PERM((LEFT+RIGHT)/2)
           PERM((LEFT+RIGHT)/2) = PERM(LEFT)
           PERM(LEFT) = K
@@ -174,15 +167,15 @@ C
               PERM(J) = K
             ENDIF
           ENDDO
-C
+
           RK = A(LEFT)
           A(LEFT) = A(J)
           A(J) = RK
-C
+
           K = PERM(LEFT)
           PERM(LEFT) = PERM(J)
           PERM(J) = K
-C
+
           LLEN = J-LEFT
           RLEN = RIGHT - I + 1
 
@@ -213,9 +206,8 @@ C
             TOP = TOP + 2
           ENDIF
         END DO
-c
-c     INSERTION SORT
-c
+
+        ! INSERTION SORT
         I = N - 1
         IPLUS1 = N
         DO WHILE (I > 0)
@@ -234,13 +226,10 @@ c
             A(JMINUS1) = RK
             PERM(JMINUS1) = K
           ENDIF
-C
           IPLUS1 = I
           I = I - 1
         ENDDO
-c
+
         RETURN
-c
-c     -------------------
-c
+C-----------------------------------------------
       end
