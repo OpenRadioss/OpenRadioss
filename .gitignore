@@ -36,3 +36,4 @@ extlib.zip
 *.cpp.json
 *.c.json
 .devcontainer/**
+.idea/
