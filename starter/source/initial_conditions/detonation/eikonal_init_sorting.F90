@@ -40,7 +40,6 @@
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
           use constant_mod, only : zero, ep21
-          use insertion_sort_mod , only : integer_insertion_sort_with_index
           use precision_mod, only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
@@ -73,7 +72,7 @@
           allocate(indx(neldet))
 
           indx(1:neldet) = [(kk, kk=1,neldet)]
-          call integer_insertion_sort_with_index(uelem_list, indx, neldet)
+          call stlsort_int_int(neldet, indx, uelem_list)
 
           !sort other arrays with same order usin indx array
           int_tmp_array(:)  = elem_list(:)     ; elem_list(:)    = int_tmp_array(indx(:))
