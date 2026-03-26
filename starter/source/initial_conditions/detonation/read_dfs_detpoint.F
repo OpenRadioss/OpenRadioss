@@ -143,6 +143,7 @@ C-----------------------------------------------
           YC=ZERO
           ZC=ZERO
         ELSE
+          R0 = ZERO
           I_SHADOW = 0
           MSG_C2 = '/DFS/DETPOINT'
           CALL HM_GET_FLOATV('rad_det_locationA_X', XC, IS_AVAILABLE, LSUBMODEL, UNITAB)
