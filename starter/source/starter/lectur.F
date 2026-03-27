@@ -4518,7 +4518,7 @@ C--------------------------------------------
       !new Reader
       CALL READ_DETONATORS(ITABM1   ,ITAB      ,IGRNOD  ,
      .                     PM       ,IPM       ,X       ,UNITAB ,
-     .                     LSUBMODEL,DETONATORS)
+     .                     LSUBMODEL,DETONATORS,XFRAME  ,IFRAME)
       CALL TRACE_OUT1()
 C--------------------------------------------
 C     A.L.E.

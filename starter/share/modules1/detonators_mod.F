@@ -87,6 +87,12 @@ C-----------------------------------------------
           LOGICAL :: IS_MAT_VALID = .FALSE.
           INTEGER :: MAT = 0
           INTEGER :: SHADOW = 0
+          INTEGER :: iframe1 = 0 ! optional frame (1st sym plane)
+          INTEGER :: iframe2 = 0 ! optional frame (2nd sym plane)
+          my_real :: O1(3)=0. ! origin for iframe1
+          my_real :: O2(3)=0. ! origin for iframe2
+          my_real :: N1(3)=0. ! normal vector from plane defined with iframe1
+          my_real :: N2(3)=0. ! normal vector from plane defined with iframe1
           my_real :: TDET
           my_real :: XDET
           my_real :: YDET

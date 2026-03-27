@@ -43,7 +43,7 @@
 !||====================================================================
         subroutine eikonal_init_start_list(nstart, start_elem_list, start_elem_tdet, detonators, numel, numnod, &
           nvois, nod2el, knod2el, ale_connectivity, elem_list_bij, neldet, xel, x, &
-          nix, ix, mat_det, vel, uelem_list, elem_list)
+          nix, ix, mat_det, vel, uelem_list, elem_list, isym, itag_boundFaces, Lmax)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -52,6 +52,7 @@
           use ale_connectivity_mod , only : t_ale_connectivity
           use precision_mod, only : WP
           use insertion_sort_mod , only : integer_insertion_sort_with_index
+          use eikonal_bcs_sym_tag_mod , only : eikonal_bcs_sym_tag
           !use RESTMOD , only : itab  !for debug prurpose (user identifiers of nodes)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
@@ -82,6 +83,9 @@
           integer,intent(in) :: ix(nix,numel)
           integer,intent(in) :: mat_det
           real(kind=WP),intent(in) :: vel(neldet)
+          integer, intent(inout) :: isym(2)
+          integer,intent(inout) :: itag_boundFaces(neldet,nvois) ! for a given explosive element, several faces may be related by planes of symmetry
+          real(kind=WP),intent(in) :: Lmax
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -95,6 +99,7 @@
           integer,allocatable,dimension(:) :: itag_elem
           integer :: iad1,lgth !< variable for ale_connectivity elem-elem buffer
           integer :: iev, iel, ie
+          integer:: I_frame1, I_frame2
           real(kind=WP) :: dx,dy,dz,dl,tdet,dcj
           real(kind=WP) :: xdet, ydet, zdet !< detonator location
           real(kind=WP) :: r0  !optionnal initialization radius
@@ -115,6 +120,8 @@
           ndet_pts = detonators%n_det_point
           do idet = 1, ndet_pts
             I_shadow_flag = detonators%point(idet)%shadow
+            I_frame1 = detonators%point(idet)%iframe1
+            I_frame2 = detonators%point(idet)%iframe2
             nnod = detonators%point(idet)%nnod
             itag_elem(1:numel) = 0
             ! loop over detonation points
@@ -302,6 +309,13 @@
               end if
 
             end do ! next inod
+
+            ! symmetry condition
+            If(I_frame1 > 0 .or. I_frame2 > 0)then
+              ! we do have a plane of symmetry => defining tags for mirror elements
+              call eikonal_bcs_sym_tag(neldet, elem_list, uelem_list, numnod, x, nix, numel, ix, &
+                                        detonators, idet, itag_boundFaces, isym, nvois, Lmax)
+            endif
 
           end do !next idet
 
