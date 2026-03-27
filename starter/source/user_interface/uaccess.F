@@ -295,6 +295,7 @@ C
 !||    hm_read_sphio       ../starter/source/loads/sph/hm_read_sphio.F
 !||    i11sti3             ../starter/source/interfaces/inter3d1/i11sti3.F
 !||    i20sti3e            ../starter/source/interfaces/inter3d1/i20sti3.F
+!||    i25sti_edg          ../starter/source/interfaces/inter3d1/i25sti_edg.F
 !||    init_skew45         ../starter/source/elements/joint/rjoint/rini45.F
 !||    inspcnd             ../starter/source/elements/sph/inspcnd.F
 !||    rini32              ../starter/source/properties/spring/hm_read_prop32.F

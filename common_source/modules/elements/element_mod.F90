@@ -558,6 +558,7 @@
 !||    i25gapm                             ../starter/source/interfaces/inter3d1/i25sti3.F
 !||    i25ini_gap_n                        ../starter/source/interfaces/inter3d1/i25neigh.F
 !||    i25sti3                             ../starter/source/interfaces/inter3d1/i25sti3.F
+!||    i25sti_edg                          ../starter/source/interfaces/inter3d1/i25sti_edg.F
 !||    i25surfi                            ../starter/source/interfaces/inter3d1/i25surfi.F
 !||    i2_surfi                            ../starter/source/interfaces/inter3d1/i2_surfi.F90
 !||    i2buc1                              ../starter/source/interfaces/inter3d1/i2buc1.F

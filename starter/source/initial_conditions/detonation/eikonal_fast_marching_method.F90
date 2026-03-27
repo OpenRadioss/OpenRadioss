@@ -36,24 +36,24 @@
 !! \details Connectivity is provided with nod2el and knod2el arrays
 !! \details updown(:) array is used to define narrow band 1:frozen, 0:narrow_band, -1:far
 !||====================================================================
-!||    eikonal_fast_marching_method     ../starter/source/initial_conditions/detonation/eikonal_fast_marching_method.F90
+!||    eikonal_fast_marching_method   ../starter/source/initial_conditions/detonation/eikonal_fast_marching_method.F90
 !||--- called by ------------------------------------------------------
-!||    eikonal_solver                   ../starter/source/initial_conditions/detonation/eikonal_solver.F90
+!||    eikonal_solver                 ../starter/source/initial_conditions/detonation/eikonal_solver.F90
 !||--- calls      -----------------------------------------------------
-!||    eikonal_compute_adjacent         ../starter/source/initial_conditions/detonation/eikonal_compute_adjacent.F90
-!||    eikonal_init_mixture_vel         ../starter/source/initial_conditions/detonation/eikonal_ini_mixture_vel.F90
-!||    eikonal_init_sorting             ../starter/source/initial_conditions/detonation/eikonal_init_sorting.F90
-!||    eikonal_init_start_list          ../starter/source/initial_conditions/detonation/eikonal_init_start_list.F90
-!||    eikonal_remove_first             ../starter/source/initial_conditions/detonation/eikonal_remove_first.F90
-!||    eikonal_sort_narrow_band         ../starter/source/initial_conditions/detonation/eikonal_sort_narrow_band.F90
+!||    eikonal_compute_adjacent       ../starter/source/initial_conditions/detonation/eikonal_compute_adjacent.F90
+!||    eikonal_init_mixture_vel       ../starter/source/initial_conditions/detonation/eikonal_ini_mixture_vel.F90
+!||    eikonal_init_sorting           ../starter/source/initial_conditions/detonation/eikonal_init_sorting.F90
+!||    eikonal_init_start_list        ../starter/source/initial_conditions/detonation/eikonal_init_start_list.F90
+!||    eikonal_remove_first           ../starter/source/initial_conditions/detonation/eikonal_remove_first.F90
+!||    eikonal_sort_narrow_band       ../starter/source/initial_conditions/detonation/eikonal_sort_narrow_band.F90
 !||--- uses       -----------------------------------------------------
-!||    detonators_mod                   ../starter/share/modules1/detonators_mod.F
-!||    eikonal_compute_adjacent_mod     ../starter/source/initial_conditions/detonation/eikonal_compute_adjacent.F90
-!||    eikonal_init_mixture_vel_mod     ../starter/source/initial_conditions/detonation/eikonal_ini_mixture_vel.F90
-!||    eikonal_init_sorting_mod         ../starter/source/initial_conditions/detonation/eikonal_init_sorting.F90
-!||    eikonal_init_start_list_mod      ../starter/source/initial_conditions/detonation/eikonal_init_start_list.F90
-!||    eikonal_remove_first_mod         ../starter/source/initial_conditions/detonation/eikonal_remove_first.F90
-!||    eikonal_sort_narrow_band_mod     ../starter/source/initial_conditions/detonation/eikonal_sort_narrow_band.F90
+!||    detonators_mod                 ../starter/share/modules1/detonators_mod.F
+!||    eikonal_compute_adjacent_mod   ../starter/source/initial_conditions/detonation/eikonal_compute_adjacent.F90
+!||    eikonal_init_mixture_vel_mod   ../starter/source/initial_conditions/detonation/eikonal_ini_mixture_vel.F90
+!||    eikonal_init_sorting_mod       ../starter/source/initial_conditions/detonation/eikonal_init_sorting.F90
+!||    eikonal_init_start_list_mod    ../starter/source/initial_conditions/detonation/eikonal_init_start_list.F90
+!||    eikonal_remove_first_mod       ../starter/source/initial_conditions/detonation/eikonal_remove_first.F90
+!||    eikonal_sort_narrow_band_mod   ../starter/source/initial_conditions/detonation/eikonal_sort_narrow_band.F90
 !||====================================================================
         subroutine eikonal_fast_marching_method(&
           ix,nix,numel,x,numnod, &

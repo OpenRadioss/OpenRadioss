@@ -34,8 +34,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    inter_dcod_function    ../starter/source/interfaces/reader/inter_dcod_function.F
 !||    inter_dcod_sensor      ../starter/source/interfaces/reader/inter_dcod_sensor.F
 !||    ngr2usr                ../starter/source/system/nintrr.F
+!||    ngr2usrnn              ../starter/source/system/ngr2usrnn.F90
 !||--- uses       -----------------------------------------------------
 !||    message_mod            ../starter/share/message_module/message_mod.F
+!||    ngr2usrnn_mod          ../starter/source/system/ngr2usrnn.F90
 !||    submodel_mod           ../starter/share/modules1/submodel_mod.F
 !||====================================================================
       SUBROUTINE HM_READ_INTER_TYPE25(

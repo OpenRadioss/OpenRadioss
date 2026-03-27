@@ -28,7 +28,6 @@ C  |         I24MAIN_TRI                       /intsort/i24main_tri.F
 !||--- called by ------------------------------------------------------
 !||    i23main_tri   ../engine/source/interfaces/intsort/i23main_tri.F
 !||    i24main_tri   ../engine/source/interfaces/intsort/i24main_tri.F
-!||    i25main_tri   ../engine/source/interfaces/intsort/i25main_tri.F
 !||    i7main_tri    ../engine/source/interfaces/intsort/i7main_tri.F
 !||====================================================================
       SUBROUTINE I7XSAVE(

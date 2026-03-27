@@ -799,6 +799,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    i25pwr3e                             ../starter/source/interfaces/inter3d1/i25pwr3e.F
 !||    i25sors                              ../starter/source/interfaces/inter3d1/i25sors.F
 !||    i25sti3                              ../starter/source/interfaces/inter3d1/i25sti3.F
+!||    i25sti_edg                           ../starter/source/interfaces/inter3d1/i25sti_edg.F
 !||    i25surfi                             ../starter/source/interfaces/inter3d1/i25surfi.F
 !||    i2_surfi                             ../starter/source/interfaces/inter3d1/i2_surfi.F90
 !||    i2buc1                               ../starter/source/interfaces/inter3d1/i2buc1.F
@@ -1000,6 +1001,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    newdbl2                              ../starter/source/system/sysfus.F
 !||    ngr2usr                              ../starter/source/system/nintrr.F
 !||    ngr2usrn                             ../starter/source/system/nintrr.F
+!||    ngr2usrnn                            ../starter/source/system/ngr2usrnn.F90
 !||    nintlst                              ../starter/source/system/nintrr.F
 !||    nintlst2                             ../starter/source/system/nintrr.F
 !||    nintlstn                             ../starter/source/system/nintrr.F

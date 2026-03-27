@@ -22,24 +22,23 @@
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
 !||====================================================================
-!||    i25xsave_mod   ../engine/source/interfaces/intsort/i25xsave_mod.F90
+!||    i25xsave_mod   ../engine/source/interfaces/intsort/i25xsave.F90
 !||--- called by ------------------------------------------------------
-!||    i25main_tri   ../engine/source/interfaces/intsort/i25main_tri.F
+!||    i25main_tri    ../engine/source/interfaces/intsort/i25main_tri.F
 !||====================================================================
         module i25xsave_mod
             implicit none
            contains
 !! \brief computes variables for sorting criteria, xsav, xmin
-!||====================================================================
-!||    inter7_penetration   ../engine/source/interfaces/intsort/inter7_penetration.F90
-!||--- called by ------------------------------------------------------
-!||    i25main_tri   ../engine/source/interfaces/intsort/i25main_tri.F
-!||--- uses       -----------------------------------------------------
-!||    collision_mod        ../engine/source/interfaces/intsort/collision_mod.F
-!||    constant_mod         ../common_source/modules/constant_mod.F
-!||    precision_mod        ../common_source/modules/precision_mod.F90
-!||====================================================================
 
+!||====================================================================
+!||    i25xsave        ../engine/source/interfaces/intsort/i25xsave.F90
+!||--- called by ------------------------------------------------------
+!||    i25main_tri     ../engine/source/interfaces/intsort/i25main_tri.F
+!||--- uses       -----------------------------------------------------
+!||    constant_mod    ../common_source/modules/constant_mod.F
+!||    precision_mod   ../common_source/modules/precision_mod.F90
+!||====================================================================
         subroutine i25xsave( x, nsv, msr, nsn, nmn, &
                     itask, xsav, xmin, ymin, zmin, &
                     xmax, ymax, zmax, c_max, curv_max, &

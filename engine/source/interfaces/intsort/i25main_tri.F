@@ -33,7 +33,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    i25gapmsave                  ../engine/source/interfaces/intsort/i25gapmsave.F
 !||    i25trc_e2s                   ../engine/source/interfaces/intsort/i25trc_e2s.F
 !||    i25trc_edg                   ../engine/source/interfaces/intsort/i25trc_edg.F
-!||    i7xsave                      ../engine/source/interfaces/intsort/i7xsave.F
+!||    i25xsave                     ../engine/source/interfaces/intsort/i25xsave.F90
 !||    my_barrier                   ../engine/source/system/machine.F
 !||    spmd_rnum25                  ../engine/source/mpi/interfaces/spmd_i7tool.F
 !||    spmd_rnum25_edge             ../engine/source/mpi/interfaces/spmd_rnum25_edge.F
@@ -50,6 +50,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- uses       -----------------------------------------------------
 !||    check_sorting_criteria_mod   ../engine/source/interfaces/intsort/check_sorting_criteria.F90
 !||    h3d_mod                      ../engine/share/modules/h3d_mod.F
+!||    i25xsave_mod                 ../engine/source/interfaces/intsort/i25xsave.F90
 !||    imp_intbuf                   ../engine/share/modules/imp_mod_def.F90
 !||    intbufdef_mod                ../common_source/modules/interfaces/intbufdef_mod.F90
 !||    message_mod                  ../engine/share/message_module/message_mod.F

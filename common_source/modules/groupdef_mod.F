@@ -491,6 +491,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    mv_matv                           ../engine/source/airbag/monv_imp0.F
 !||    ngr2usr                           ../engine/source/input/freform.F
 !||    ngr2usrn                          ../starter/source/system/nintrr.F
+!||    ngr2usrnn                         ../starter/source/system/ngr2usrnn.F90
 !||    nintrigr                          ../starter/source/system/nintrr.F
 !||    nl_solv                           ../engine/source/implicit/nl_solv.F
 !||    nodald                            ../engine/source/output/anim/generate/nodald.F

@@ -239,6 +239,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    i16rstn                                  ../engine/source/interfaces/int16/i16lagm.F
 !||    i20rstn                                  ../engine/source/interfaces/int16/i20lagm.F
 !||    i24intarea_fic                           ../engine/source/interfaces/int24/i24intarea_fic.F90
+!||    i25xsave                                 ../engine/source/interfaces/intsort/i25xsave.F90
 !||    i2_surfi                                 ../starter/source/interfaces/inter3d1/i2_surfi.F90
 !||    i8rstn                                   ../engine/source/interfaces/int16/i8lagm.F
 !||    idealgas                                 ../common_source/eos/idealgas.F

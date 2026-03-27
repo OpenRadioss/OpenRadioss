@@ -655,6 +655,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    i25pwr3_e2s                       ../starter/source/interfaces/inter3d1/i25pwr3_e2s.F
 !||    i25pwr3e                          ../starter/source/interfaces/inter3d1/i25pwr3e.F
 !||    i25sti3                           ../starter/source/interfaces/inter3d1/i25sti3.F
+!||    i25sti_edg                        ../starter/source/interfaces/inter3d1/i25sti_edg.F
 !||    i2buc1                            ../starter/source/interfaces/inter3d1/i2buc1.F
 !||    i2surfs                           ../starter/source/interfaces/inter3d1/i2surfs.F
 !||    i2tid3                            ../starter/source/interfaces/inter3d1/i2tid3.F

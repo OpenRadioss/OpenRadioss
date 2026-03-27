@@ -21,10 +21,18 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    i25sti_edg        ../starter/source/interfaces/inter3d1/i25sti_edg.F
+!||    i25sti_edg              ../starter/source/interfaces/inter3d1/i25sti_edg.F
 !||--- called by ------------------------------------------------------
-!||    inint3            ../starter/source/interfaces/inter3d1/inint3.F
+!||    inint3                  ../starter/source/interfaces/inter3d1/inint3.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                  ../starter/source/output/message/message.F
+!||    friction_parts_search   ../starter/source/interfaces/inter3d1/i7sti3.F
+!||    get_u_geo               ../starter/source/user_interface/uaccess.F
+!||    i11coq                  ../starter/source/interfaces/inter3d1/i11coq.F
+!||    i11fil                  ../starter/source/interfaces/inter3d1/i11coq.F
+!||    my_exit                 ../starter/source/output/analyse/analyse.c
 !||--- uses       -----------------------------------------------------
+!||    message_mod             ../starter/share/message_module/message_mod.F
 !||====================================================================
       SUBROUTINE I25STI_EDG(
      1 NEDGE    ,LEDGE     ,STFE       ,STFM      ,IGAP      ,

@@ -26,6 +26,7 @@ C
 !||--- called by ------------------------------------------------------
 !||    i11sti3       ../starter/source/interfaces/inter3d1/i11sti3.F
 !||    i20sti3e      ../starter/source/interfaces/inter3d1/i20sti3.F
+!||    i25sti_edg    ../starter/source/interfaces/inter3d1/i25sti_edg.F
 !||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE I11COQ(IRECT,IXC,IXTG,NINT,NEL,
@@ -160,6 +161,7 @@ C
 !||--- called by ------------------------------------------------------
 !||    i11sti3       ../starter/source/interfaces/inter3d1/i11sti3.F
 !||    i20sti3e      ../starter/source/interfaces/inter3d1/i20sti3.F
+!||    i25sti_edg    ../starter/source/interfaces/inter3d1/i25sti_edg.F
 !||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE I11FIL(IRECT,IXT,IXP,IXR,NINT,NELT,

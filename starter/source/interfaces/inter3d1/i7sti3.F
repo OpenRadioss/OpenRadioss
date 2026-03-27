@@ -1260,6 +1260,7 @@ C
 !||    i24sti3                         ../starter/source/interfaces/inter3d1/i24sti3.F
 !||    i25gapm                         ../starter/source/interfaces/inter3d1/i25sti3.F
 !||    i25sti3                         ../starter/source/interfaces/inter3d1/i25sti3.F
+!||    i25sti_edg                      ../starter/source/interfaces/inter3d1/i25sti_edg.F
 !||    i7sti3                          ../starter/source/interfaces/inter3d1/i7sti3.F
 !||--- uses       -----------------------------------------------------
 !||====================================================================

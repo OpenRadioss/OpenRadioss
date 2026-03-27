@@ -21,9 +21,9 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    eikonal_init_start_list_mod      ../starter/source/initial_conditions/detonation/eikonal_init_start_list.F90
+!||    eikonal_init_start_list_mod    ../starter/source/initial_conditions/detonation/eikonal_init_start_list.F90
 !||--- called by ------------------------------------------------------
-!||    eikonal_fast_marching_method     ../starter/source/initial_conditions/detonation/eikonal_fast_marching_method.F90
+!||    eikonal_fast_marching_method   ../starter/source/initial_conditions/detonation/eikonal_fast_marching_method.F90
 !||====================================================================
       module eikonal_init_start_list_mod
       implicit none

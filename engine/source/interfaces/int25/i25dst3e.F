@@ -24,6 +24,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    i25dst3e   ../engine/source/interfaces/int25/i25dst3e.F
 !||--- called by ------------------------------------------------------
 !||    i25mainf   ../engine/source/interfaces/int25/i25mainf.F
+!||--- uses       -----------------------------------------------------
+!||    tri7box    ../engine/share/modules/tri7box.F
 !||====================================================================
       SUBROUTINE I25DST3E(
      1   JLT    ,CAND_S,CAND_M,H1S   ,H2S   ,

@@ -158,6 +158,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    i25dst3_21                      ../engine/source/interfaces/int25/i25dst3_21.F
 !||    i25dst3_22                      ../engine/source/interfaces/int25/i25dst3_22.F
 !||    i25dst3_3                       ../engine/source/interfaces/int25/i25dst3_3.F
+!||    i25dst3e                        ../engine/source/interfaces/int25/i25dst3e.F
 !||    i25for3                         ../engine/source/interfaces/int25/i25for3.F
 !||    i25for3_e2s                     ../engine/source/interfaces/int25/i25for3_e2s.F
 !||    i25for3e                        ../engine/source/interfaces/int25/i25for3e.F
