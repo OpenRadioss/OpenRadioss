@@ -118,7 +118,7 @@
           real(kind=WP), dimension(6), intent(in) :: bound !< bounding box of the
           real(kind=WP), intent(in) :: tzinf !< influence zone thickness
           real(kind=WP), dimension(nrtm,2), intent(in) :: segment_data !< length & gap of each main segment
-          real(kind=WP), dimension(nsn), intent(in) :: dmin !< minimum distance to the main segments
+          real(kind=WP), dimension(nsn), intent(inout) :: dmin !< minimum distance to the main segments
           real(kind=WP), dimension(numelc+numeltg), intent(in) :: thk !< thickness of each element
           real(kind=WP), dimension(npart), intent(in) :: thk_part !< thickness of each part
           real(kind=WP), dimension(3,numnod), intent(in) :: x !< coordinates of all the nodes
