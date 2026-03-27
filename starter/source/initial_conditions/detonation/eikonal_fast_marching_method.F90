@@ -73,6 +73,7 @@
           use detonators_mod , only : detonators_struct_
           use precision_mod, only : WP
           use eikonal_init_sorting_mod , only : eikonal_init_sorting
+          use eikonal_Lmax_mod , only : eikonal_Lmax
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -142,11 +143,15 @@
           integer :: mid
           integer :: ishadow !< shadowing option for detonators (Eikonal equation solver)
           real(kind=WP) :: fac
+          integer :: isym(2) !< flag for symmetry condition (0: no symmetry, 1 : iframe defined)
+          integer,allocatable,dimension(:,:) :: itag_boundFaces ! for a given explosive element, several faces may be related by planes of symmetry
+          real(kind=WP) :: Lmax
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
 
           mat_det = detonators%point(idet)%mat
+          isym(1:2) = 0
 
           !numbering
           neldet = 0
@@ -262,13 +267,16 @@
             end if
           end do
 
+          call eikonal_Lmax(neldet, xel, Lmax, nvois)
+
           !parith/on requires same order of treatment whatever is the domain decomposition (renumbered occurred in ddsplit)
           ! ensuring same order of treatment
           call eikonal_init_sorting(neldet, numel, elem_list, uelem_list, idx_ng , idx_i, elem_list_bij, xel, vel)
 
+          allocate(itag_boundFaces(neldet,nvois)) ; itag_boundFaces(:,:) = 0
           call eikonal_init_start_list(nstart, start_elem_list, start_elem_tdet, detonators, numel, numnod, &
             nvois, nod2el, knod2el, ale_connectivity, elem_list_bij, neldet, xel, x,&
-            nix, ix, mat_det, vel, uelem_list, elem_list)
+            nix, ix, mat_det, vel, uelem_list, elem_list, isym, itag_boundFaces, Lmax)
 
           if(nstart == 0)then
             !DEALLOCATE
@@ -341,7 +349,7 @@
             call eikonal_compute_adjacent(ie, ALE_CONNECTIVITY,neldet, &
               tdet,tdet_adj,vel,vel_adj,xel,xel_adj,numel,elem_list_bij, &
               updown, num_new_activated, list_new_activated,  mat_det, &
-              nix,ix, nvois )
+              nix,ix,nvois,itag_boundFaces,numnod,x)
 
             !we may init only updated tdet from previous call above
             do ii=1,n_queue
@@ -383,6 +391,7 @@
           if(allocated(priority_queue_id))deallocate(priority_queue_id)
           if(allocated(priority_queue_tt))deallocate(priority_queue_tt)
           if(allocated(elem_list_bij))deallocate(elem_list_bij)
+          if(allocated(itag_boundFaces))deallocate(itag_boundFaces)
 
         end subroutine eikonal_fast_marching_method
 ! ----------------------------------------------------------------------------------------------------------------------

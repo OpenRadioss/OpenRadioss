@@ -94,7 +94,7 @@
           if (a == ep21 .and. b == ep21 .and. c == ep21) return
           if (a == ep21 .and. b == ep21)then
             m=5
-            if(c == tt_adj(6))m=6  !supposing x axis fior adj elems 2,4
+            if(c == tt_adj(6))m=6  !supposing x axis for adj elems 2,4
             dx = (xel(1)-xel_adj(1,m))
             dy = (xel(2)-xel_adj(2,m))
             dz = (xel(3)-xel_adj(3,m))
@@ -105,7 +105,7 @@
             tt = min(tt, tt_candidate)
           else if (a == ep21 .and. c ==ep21)then
             l=2
-            if(b == tt_adj(4))l=4  !supposing x axis fior adj elems 2,4
+            if(b == tt_adj(4))l=4  !supposing x axis for adj elems 2,4
             dx = (xel(1)-xel_adj(1,l))
             dy = (xel(2)-xel_adj(2,l))
             dz = (xel(3)-xel_adj(3,l))
@@ -116,7 +116,7 @@
             tt = min(tt, tt_candidate)
           else if (b == ep21 .and. c == ep21) then
             k=1
-            if(a==tt_adj(3))k=3  !supposing x axis fior adj elems 1,3
+            if(a==tt_adj(3))k=3  !supposing x axis for adj elems 1,3
             dx = (xel(1)-xel_adj(1,k))
             dy = (xel(2)-xel_adj(2,k))
             dz = (xel(3)-xel_adj(3,k))
