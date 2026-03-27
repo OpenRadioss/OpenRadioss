@@ -2022,7 +2022,7 @@ C---------
                   IG   = IXC(6,IE)
                   IHBE = IGEO(10,IG)
 !               ! Void property created for multidomains - inistate is ignored
-                  IF (IGEO(125,IG)==1) CYCLE
+                  IF ((IGEO(11,IG)==0).AND.(IGEO(125,IG)==1)) CYCLE
 !
                   IF (IHBE==12 .OR. IHBE==24) THEN
                     NPGTMP = 4       
@@ -2130,7 +2130,7 @@ C------------------------------------
                     IG   = IXC(6,IE)
                     IHBE = IGEO(10,IG)
 !                   ! Void property created for multidomains - inistate is ignored
-                    IF (IGEO(125,IG)==1) CYCLE
+                    IF ((IGEO(11,IG)==0).AND.(IGEO(125,IG)==1)) CYCLE
 !
                     IF (IHBE==12 .OR. IHBE==24) THEN
                       NPGTMP = 4       
@@ -2320,7 +2320,7 @@ C------------------------------------
                     IG   = IXC(6,IE)
                     IHBE = IGEO(10,IG)
 !                   ! Void property created for multidomains - inistate is ignored
-                    IF (IGEO(125,IG)==1) CYCLE
+                    IF ((IGEO(11,IG)==0).AND.(IGEO(125,IG)==1)) CYCLE
 !
                     IF (IHBE==12 .OR. IHBE==24) THEN
                       NPGTMP = 4       
