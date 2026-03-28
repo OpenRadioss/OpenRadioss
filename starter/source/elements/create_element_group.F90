@@ -20,6 +20,11 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+!||====================================================================
+!||    create_element_group_mod   ../starter/source/elements/create_element_group.F90
+!||--- called by ------------------------------------------------------
+!||    get_element_group          ../starter/source/elements/get_element_group.F90
+!||====================================================================
       module create_element_group_mod
         implicit none
       contains
@@ -28,6 +33,12 @@
 ! ======================================================================================================================
 !! \brief Creation of entity groups based on the same keys
 !! \details
+!||====================================================================
+!||    create_element_group   ../starter/source/elements/create_element_group.F90
+!||--- called by ------------------------------------------------------
+!||    get_element_group      ../starter/source/elements/get_element_group.F90
+!||--- calls      -----------------------------------------------------
+!||====================================================================
         subroutine create_element_group(entity_nb,nb_key,elm_group_data,sort_key,iddlevel)
 
 ! ----------------------------------------------------------------------------------------------------------------------

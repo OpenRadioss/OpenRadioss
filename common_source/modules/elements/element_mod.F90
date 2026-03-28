@@ -395,10 +395,14 @@
 !||    genh3d                              ../engine/source/output/h3d/h3d_results/genh3d.F
 !||    genoutp                             ../engine/source/output/sty/genoutp.F
 !||    genstat                             ../engine/source/output/sta/genstat.F
+!||    get_element_group                   ../starter/source/elements/get_element_group.F90
 !||    get_nodal_ipart                     ../engine/source/output/h3d/h3d_results/h3d_skin_ixskin.F
 !||    get_q4l                             ../engine/source/output/sta/stat_c_strafg.F
 !||    get_q4lsys                          ../engine/source/output/sta/sta_c_get_q4lsys.F
 !||    get_skew45                          ../starter/source/elements/joint/rjoint/rini45.F
+!||    get_sort_key_shell                  ../starter/source/elements/shell/get_sort_key_shell.F90
+!||    get_sort_key_shell3n                ../starter/source/elements/sh3n/get_sort_key_shell3n.F90
+!||    get_sort_key_solid                  ../starter/source/elements/solid/get_sort_key_solid.F90
 !||    get_t3l                             ../engine/source/output/sta/stat_c_strafg.F
 !||    get_t3lsys                          ../engine/source/output/sta/sta_c_get_t3lsys.F
 !||    getphase                            ../starter/source/initial_conditions/inivol/getphase.F

@@ -105,6 +105,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    fxbgrav                             ../starter/source/constraints/fxbody/fxbgrav.F
 !||    fxbtagn                             ../starter/source/constraints/fxbody/fxbtagn.F
 !||    genani1                             ../starter/source/output/anim/genani1.F
+!||    get_element_group                   ../starter/source/elements/get_element_group.F90
 !||    get_size_inter24                    ../starter/source/spmd/get_size_tag.F
 !||    get_size_numnod_local               ../starter/source/spmd/get_size_tag.F
 !||    globmat                             ../starter/source/materials/globmat.F
@@ -337,6 +338,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    monvol_deallocate                   ../starter/share/modules1/monvol_struct_mod.F
 !||    multi_connectivity                  ../starter/source/multifluid/multi_connectivity.F
 !||    multi_unplug_neighbors              ../starter/source/multifluid/multi_unplug_neighbors.F
+!||    my_real_tot_int_transfer            ../starter/source/system/my_real_to_int_transfer.F90
 !||    nbfunct                             ../starter/source/tools/curve/nbfunc.F
 !||    nlocal                              ../starter/source/spmd/node/ddtools.F
 !||    nodm11                              ../starter/source/materials/mat/mat011/nodm11.F
@@ -485,10 +487,12 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    drape_mod                           ../starter/share/modules1/drape_mod.F
 !||    dsgraph_mod                         ../starter/share/modules1/dsgraph_mod.F
 !||    elbuftag_mod                        ../starter/share/modules1/elbuftag_mod.F
+!||    elm_group_mod                       ../starter/source/modules/elm_group_mod.F90
 !||    fractal_elem_renum_mod              ../starter/source/materials/fail/fractal/fractal_elem_spmd_renum.F90
 !||    front_mod                           ../starter/share/modules1/front_mod.F
 !||    func2d_mod                          ../starter/share/modules1/func2d_mod.F
 !||    fvbag_mod                           ../starter/share/modules1/fvbag_mod.F
+!||    get_element_group_mod               ../starter/source/elements/get_element_group.F90
 !||    group_mod                           ../starter/share/modules1/group_mod.F
 !||    hierarchy_rbody_mod                 ../starter/source/constraints/general/rbody/hierarchy_rbody.F90
 !||    hm_option_read_mod                  ../starter/share/modules1/hm_option_read_mod.F
@@ -518,6 +522,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    message_mod                         ../starter/share/message_module/message_mod.F
 !||    mid_pid_mod                         ../starter/share/modules1/mid_pid_mod.F
 !||    monvol_struct_mod                   ../starter/share/modules1/monvol_struct_mod.F
+!||    my_real_tot_int_transfer_mod        ../starter/source/system/my_real_to_int_transfer.F90
 !||    nod2el_mod                          ../starter/share/modules1/nod2el_mod.F
 !||    option_mod                          ../starter/share/modules1/options_mod.F
 !||    python_duplicate_nodes_mod          ../starter/source/spmd/domain_decomposition/python_duplicate_nodes.F90

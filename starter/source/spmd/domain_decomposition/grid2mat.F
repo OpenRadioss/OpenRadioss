@@ -45,6 +45,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- uses       -----------------------------------------------------
 !||    cluster_mod                     ../starter/share/modules1/cluster_mod.F
 !||    consider_edge_mod               ../starter/source/spmd/domain_decomposition/consider_edge.F
+!||    elm_group_mod                   ../starter/source/modules/elm_group_mod.F90
 !||    format_mod                      ../starter/share/modules1/format_mod.F90
 !||    front_mod                       ../starter/share/modules1/front_mod.F
 !||    get_metis_arguments_mod         ../starter/source/spmd/domain_decomposition/get_metis_arguments.F90

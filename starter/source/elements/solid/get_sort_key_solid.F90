@@ -20,6 +20,12 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+!||====================================================================
+!||    get_sort_key_solid_mod   ../starter/source/elements/solid/get_sort_key_solid.F90
+!||--- called by ------------------------------------------------------
+!||    get_element_group        ../starter/source/elements/get_element_group.F90
+!||    sgrhead                  ../starter/source/elements/solid/solide/sgrhead.F
+!||====================================================================
       module get_sort_key_solid_mod
         implicit none
       contains
@@ -28,6 +34,13 @@
 ! ======================================================================================================================
 !! \brief Initialization of the sorting keys for the solid elements based on their properties, material and part ids, etc...
 !! \details
+!||====================================================================
+!||    get_sort_key_solid   ../starter/source/elements/solid/get_sort_key_solid.F90
+!||--- called by ------------------------------------------------------
+!||    get_element_group    ../starter/source/elements/get_element_group.F90
+!||    sgrhead              ../starter/source/elements/solid/solide/sgrhead.F
+!||--- uses       -----------------------------------------------------
+!||====================================================================
         subroutine get_sort_key_solid(numels,nb_key,nummat,numgeo, &
                                       npart,npropgi, &
                                       npropmi,npropm,npropg, &

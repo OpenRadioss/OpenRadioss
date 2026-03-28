@@ -221,6 +221,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    genani1                              ../starter/source/output/anim/genani1.F
 !||    get_skew                             ../starter/source/elements/joint/rjoint/rini33.F
 !||    get_skew45                           ../starter/source/elements/joint/rjoint/rini45.F
+!||    get_sort_key_shell3n                 ../starter/source/elements/sh3n/get_sort_key_shell3n.F90
 !||    get_u_func_y                         ../starter/source/user_interface/uaccess.F
 !||    get_u_geo                            ../starter/source/user_interface/uaccess.F
 !||    get_u_mat                            ../starter/source/user_interface/uaccess.F

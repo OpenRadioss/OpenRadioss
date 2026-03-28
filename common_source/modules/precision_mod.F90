@@ -167,6 +167,7 @@
 !||    funct_python_update_elements             ../engine/source/tools/curve/funct_python_update_elements.F90
 !||    geom_vec                                 ../engine/source/ale/alemuscl/geom_vec.F90
 !||    get_convexity_normals                    ../engine/source/interfaces/interf/get_convexity_normals.F90
+!||    get_element_group                        ../starter/source/elements/get_element_group.F90
 !||    get_list_remnode                         ../starter/source/interfaces/inter3d1/get_list_remnode.F90
 !||    get_neighbour_surface                    ../engine/source/interfaces/interf/get_neighbour_surface.F90
 !||    get_neighbour_surface_from_remote_proc   ../engine/source/interfaces/interf/get_neighbour_surface_from_remote_proc.F90
@@ -174,6 +175,9 @@
 !||    get_segment_criteria                     ../engine/source/interfaces/interf/get_segment_criteria.F90
 !||    get_segment_normal                       ../engine/source/interfaces/interf/get_segment_normal.F90
 !||    get_segment_orientation                  ../engine/source/interfaces/interf/get_segment_orientation.F90
+!||    get_sort_key_shell                       ../starter/source/elements/shell/get_sort_key_shell.F90
+!||    get_sort_key_shell3n                     ../starter/source/elements/sh3n/get_sort_key_shell3n.F90
+!||    get_sort_key_solid                       ../starter/source/elements/solid/get_sort_key_solid.F90
 !||    get_volume_area                          ../engine/source/airbag/get_volume_area.F90
 !||    ghost_shells_mod                         ../engine/source/engine/node_spliting/ghost_shells.F90
 !||    glob_therm_mod                           ../common_source/modules/mat_elem/glob_therm_mod.F90
@@ -348,6 +352,7 @@
 !||    multi_muscl_compute_pressure             ../engine/source/multifluid/multi_muscl_compute_pressure.F90
 !||    multi_solve_eint                         ../engine/source/multifluid/multi_solve_eint.F90
 !||    multimat_param_mod                       ../common_source/modules/multimat_param_mod.F90
+!||    my_real_tot_int_transfer                 ../starter/source/system/my_real_to_int_transfer.F90
 !||    negative_f_kink                          ../engine/source/materials/mat/mat123/failure_tools_mod.F90
 !||    negative_f_matrix                        ../engine/source/materials/mat/mat123/failure_tools_mod.F90
 !||    newman_raju                              ../common_source/fail/newman_raju.F90

@@ -28,7 +28,6 @@
 !||    alewdx                           ../engine/source/ale/grid/alewdx.F
 !||    anim_nodal_ssp_elems             ../engine/source/output/anim/generate/anim_nodal_ssp_elems.F90
 !||    build_connectivity               ../engine/source/multifluid/connectivity.F
-!||    c3grhead                         ../starter/source/elements/sh3n/coque3n/c3grhead.F
 !||    c_ixfloc                         ../starter/source/restart/ddsplit/c_ixfloc.F
 !||    c_multi_vel                      ../starter/source/restart/ddsplit/c_multi_vel.F
 !||    c_vois                           ../starter/source/restart/ddsplit/c_vois.F

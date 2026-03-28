@@ -20,6 +20,11 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+!||====================================================================
+!||    get_element_group_mod   ../starter/source/elements/get_element_group.F90
+!||--- called by ------------------------------------------------------
+!||    lectur                  ../starter/source/starter/lectur.F
+!||====================================================================
       module get_element_group_mod
         implicit none
       contains
@@ -28,6 +33,23 @@
 ! ======================================================================================================================
 !! \brief Creation of homogeneous super groups of elements based on the element properties, material and part ids, etc...
 !! \details
+!||====================================================================
+!||    get_element_group          ../starter/source/elements/get_element_group.F90
+!||--- called by ------------------------------------------------------
+!||    lectur                     ../starter/source/starter/lectur.F
+!||--- calls      -----------------------------------------------------
+!||    create_element_group       ../starter/source/elements/create_element_group.F90
+!||    get_sort_key_shell         ../starter/source/elements/shell/get_sort_key_shell.F90
+!||    get_sort_key_shell3n       ../starter/source/elements/sh3n/get_sort_key_shell3n.F90
+!||    get_sort_key_solid         ../starter/source/elements/solid/get_sort_key_solid.F90
+!||--- uses       -----------------------------------------------------
+!||    create_element_group_mod   ../starter/source/elements/create_element_group.F90
+!||    elm_group_mod              ../starter/source/modules/elm_group_mod.F90
+!||    get_sort_key_shell3n_mod   ../starter/source/elements/sh3n/get_sort_key_shell3n.F90
+!||    get_sort_key_shell_mod     ../starter/source/elements/shell/get_sort_key_shell.F90
+!||    get_sort_key_solid_mod     ../starter/source/elements/solid/get_sort_key_solid.F90
+!||    stack_mod                  ../starter/share/modules1/stack_mod.F
+!||====================================================================
         subroutine get_element_group(numels,numelc,numeltg,nb_key, &
                                         nummat,numgeo,npart,npropgi, &
                                         npropmi,npropm,npropg,lipart1, &

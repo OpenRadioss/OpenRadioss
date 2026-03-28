@@ -20,6 +20,12 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+!||====================================================================
+!||    get_sort_key_shell3n_mod   ../starter/source/elements/sh3n/get_sort_key_shell3n.F90
+!||--- called by ------------------------------------------------------
+!||    c3grhead                   ../starter/source/elements/sh3n/coque3n/c3grhead.F
+!||    get_element_group          ../starter/source/elements/get_element_group.F90
+!||====================================================================
       module get_sort_key_shell3n_mod
         implicit none
       contains
@@ -28,6 +34,18 @@
 ! ======================================================================================================================
 !! \brief Initialization of the sorting keys for the shell3n elements based on their properties, material and part ids, etc...
 !! \details
+!||====================================================================
+!||    get_sort_key_shell3n   ../starter/source/elements/sh3n/get_sort_key_shell3n.F90
+!||--- called by ------------------------------------------------------
+!||    c3grhead               ../starter/source/elements/sh3n/coque3n/c3grhead.F
+!||    get_element_group      ../starter/source/elements/get_element_group.F90
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                 ../starter/source/output/message/message.F
+!||    fretitl2               ../starter/source/starter/freform.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod            ../starter/share/message_module/message_mod.F
+!||    stack_mod              ../starter/share/modules1/stack_mod.F
+!||====================================================================
         subroutine get_sort_key_shell3n(numelc,numeltg,nb_key,nummat,numgeo, &
                                       npart,nadmesh,lipart1,npropgi, &
                                       npropmi,npropm,npropg,icrack3d, &

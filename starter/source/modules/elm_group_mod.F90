@@ -20,6 +20,14 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+!||====================================================================
+!||    elm_group_mod       ../starter/source/modules/elm_group_mod.F90
+!||--- called by ------------------------------------------------------
+!||    dometis             ../starter/source/spmd/domain_decomposition/grid2mat.F
+!||    get_element_group   ../starter/source/elements/get_element_group.F90
+!||    initwg              ../starter/source/spmd/domain_decomposition/initwg.F
+!||    lectur              ../starter/source/starter/lectur.F
+!||====================================================================
       module elm_group_mod
 
         type elm_group_

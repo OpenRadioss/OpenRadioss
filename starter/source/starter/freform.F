@@ -677,6 +677,7 @@ C-----------------------------------------------
 !||    ecrsub2                       ../starter/source/model/assembling/hm_read_subset.F
 !||    fsdcod                        ../starter/source/system/fsdcod.F
 !||    genani1                       ../starter/source/output/anim/genani1.F
+!||    get_sort_key_shell3n          ../starter/source/elements/sh3n/get_sort_key_shell3n.F90
 !||    hireorbe3                     ../starter/source/constraints/general/rbe3/hm_read_rbe3.F
 !||    hm_print_inter_guided_cable   ../starter/source/tools/seatbelts/hm_print_inter_guided_cable.F90
 !||    hm_read_fxb1                  ../starter/source/constraints/fxbody/hm_read_fxb.F

@@ -179,6 +179,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    genani1                           ../starter/source/output/anim/genani1.F
 !||    genh3d                            ../engine/source/output/h3d/h3d_results/genh3d.F
 !||    get_skew45                        ../starter/source/elements/joint/rjoint/rini45.F
+!||    get_sort_key_shell3n              ../starter/source/elements/sh3n/get_sort_key_shell3n.F90
 !||    gr_entity_ini                     ../starter/source/model/group/gr_entity_ini.F
 !||    groupdef_mod                      ../common_source/modules/groupdef_mod.F
 !||    h3d_gene_keyword                  ../engine/source/output/h3d/input_list/h3d_gene_keyword.F

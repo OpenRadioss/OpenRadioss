@@ -37,6 +37,7 @@ C NEW ROUTINE TO FILL THE WEIGHT TABLE
 !||    initwg_x             ../starter/source/spmd/domain_decomposition/initwg_x.F
 !||--- uses       -----------------------------------------------------
 !||    ddweights_mod        ../starter/share/modules1/ddweights_mod.F
+!||    elm_group_mod        ../starter/source/modules/elm_group_mod.F90
 !||    mid_pid_mod          ../starter/share/modules1/mid_pid_mod.F
 !||====================================================================
       SUBROUTINE INITWG(WD,PM,GEO,IXS,IXQ,
