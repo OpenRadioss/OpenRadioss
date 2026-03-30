@@ -87,7 +87,7 @@
           call hm_get_float_array_index("ELAS_ISOT_NU",nu   ,ikey,is_available,lsubmodel,unitab)
           !< Check parameters values
           if (nu < zero .or. nu >= half) then
-            call ancmsg(msgid=3129,                                            &                    
+            call ancmsg(msgid=3131,                                            &                    
                         msgtype=msgerror,                                      &
                         anmode=aninfo_blind_2,                                 &
                         i1=mat_id,                                             &
