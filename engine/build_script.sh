@@ -407,10 +407,39 @@ else
     fi
 fi
 
-Fortran_path=`which $Fortran_comp`
-C_path=`which $C_comp`
-CPP_path=`which $CPP_comp`
-CXX_path=`which $CXX_comp`
+Fortran_path=`which $Fortran_comp 2>/dev/null`
+C_path=`which $C_comp 2>/dev/null`
+CPP_path=`which $CPP_comp 2>/dev/null`
+CXX_path=`which $CXX_comp 2>/dev/null`
+
+# Validate compilers are found
+if [ -z "$Fortran_path" ]
+then
+  echo " "
+  echo "-- Error: Fortran compiler '$Fortran_comp' not found in PATH"
+  echo "-- Please install it or add its location to your PATH"
+  echo " "
+  cd ..
+  exit 1
+fi
+if [ -z "$C_path" ]
+then
+  echo " "
+  echo "-- Error: C compiler '$C_comp' not found in PATH"
+  echo "-- Please install it or add its location to your PATH"
+  echo " "
+  cd ..
+  exit 1
+fi
+if [ -z "$CXX_path" ]
+then
+  echo " "
+  echo "-- Error: C++ compiler '$CXX_comp' not found in PATH"
+  echo "-- Please install it or add its location to your PATH"
+  echo " "
+  cd ..
+  exit 1
+fi
 
 
 # Apply cmake
