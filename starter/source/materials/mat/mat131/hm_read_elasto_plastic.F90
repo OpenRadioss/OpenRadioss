@@ -384,7 +384,7 @@
           !< Error if no hardening is defined
           ! --------------------------------------------------------------------  
           if (ihard == 0) then 
-            call ancmsg(msgid=3130,                                            &                    
+            call ancmsg(msgid=3132,                                            &                    
                         msgtype=msgerror,                                      &
                         anmode=aninfo_blind_2,                                 &
                         i1=mat_id,                                             &
