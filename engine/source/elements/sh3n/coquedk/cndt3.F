@@ -98,7 +98,7 @@ C
      .                                   .AND. IGMAT > 0 )) THEN
         ELSE
 ! take into account nonlinear stiffnening laws      
-          F_OSET(JFT:JLT)= ONE + ZEP2*ABS(ZOFFSET(JFT:JLT))/THK0(JFT:JLT)
+          F_OSET(JFT:JLT)= ONE + HALF*ABS(ZOFFSET(JFT:JLT))/THK0(JFT:JLT)
           IF (MTN == 58 .or. MTN == 158) THEN 
               IFLAG = 1
               CALL CSSP2A11(PM   ,IMAT  ,SSP  ,A1   ,JLT   ,IFLAG)
@@ -112,7 +112,7 @@ C
           END IF
         END IF
       ELSE
-        F_OSET(JFT:JLT)= ONE + ZEP2*ABS(ZOFFSET(JFT:JLT))/THK0(JFT:JLT)
+        F_OSET(JFT:JLT)= ONE + HALF*ABS(ZOFFSET(JFT:JLT))/THK0(JFT:JLT)
         IF(IGTYP==1.OR.IGTYP==9) THEN 
           DO I=JFT,JLT
             FAC = F_OSET(I)

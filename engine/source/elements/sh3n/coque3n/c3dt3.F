@@ -102,7 +102,7 @@ C
                 ENDIF
           ENDDO       
         ELSE
-           F_OSET(JFT:JLT)= ONE + ZEP2*ABS(ZOFFSET(JFT:JLT))/THK0(JFT:JLT)
+           F_OSET(JFT:JLT)= ONE + HALF*ABS(ZOFFSET(JFT:JLT))/THK0(JFT:JLT)
            DO  I=JFT,JLT
             A1(I) = PM(24,IMAT)
             G(I)  = PM(22,IMAT)
@@ -191,7 +191,7 @@ c dt = 2/w = sqrt( 2*(m+dmelc)/k)
         ENDIF
 C
       ELSE ! NODADT=0
-        F_OSET(JFT:JLT)= ONE + ZEP2*ABS(ZOFFSET(JFT:JLT))/THK0(JFT:JLT)
+        F_OSET(JFT:JLT)= ONE + HALF*ABS(ZOFFSET(JFT:JLT))/THK0(JFT:JLT)
         IF(IGTYP==1.OR.IGTYP==9) THEN 
           DO I=JFT,JLT
             F_DTE(I) = ONE/SQRT(F_OSET(I))
