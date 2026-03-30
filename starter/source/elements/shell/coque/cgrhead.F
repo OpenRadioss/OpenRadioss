@@ -190,6 +190,8 @@ C
         IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                           C1='XNUM_RNOISE')
+      ELSE
+        ALLOCATE(XNUM_RNOISE(NPERTURB,0),STAT=stat)
       ENDIF
 C    
       CALL MY_ALLOC(INDEX2,NUMELC)
