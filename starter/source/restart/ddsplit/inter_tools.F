@@ -7402,7 +7402,7 @@ C---  Split of KERMNODE -> IBUF1
             SIZ2 = 0
             DO M=1,SIZ
                N = INTBUF_TAB%REMNODE_EDG(L+M-1)
-               IF(INTBUF_TAB%LEDGE(7+(K-1)*NLEDGE)/=3) THEN
+               IF(INTBUF_TAB%LEDGE(7+(N-1)*NLEDGE)/=3) THEN
                   ES1=INTBUF_TAB%LEDGE(1+(N-1)*NLEDGE)
                   KS1=0
                   IF(ES1/=0) KS1=SEGLOC(ES1)
@@ -7416,7 +7416,7 @@ C--           Local segment - local id is stored
 C--           Remote segment - line is stored as ITAB1 / ITAB2 (2 values)
                     SIZ2 = SIZ2 + 2
                   ENDIF
-               ELSEIF(INTBUF_TAB%LEDGE(7+(K-1)*NLEDGE)==3) THEN
+               ELSEIF(INTBUF_TAB%LEDGE(7+(N-1)*NLEDGE)==3) THEN
                   ES1=INTBUF_TAB%LEDGE(15+(N-1)*NLEDGE)
                   IF(CEP(ES1)==PROC) THEN
 C--           Local segment - local id is stored
@@ -7464,7 +7464,7 @@ C
 C
             DO M=1,SIZ
                N = INTBUF_TAB%REMNODE_EDG(L+M-1)
-               IF(INTBUF_TAB%LEDGE(7+(K-1)*NLEDGE)/=3) THEN
+               IF(INTBUF_TAB%LEDGE(7+(N-1)*NLEDGE)/=3) THEN
                  KS1=0
                  ES1=INTBUF_TAB%LEDGE(1+(N-1)*NLEDGE)
                  IF(ES1/=0) KS1=SEGLOC(ES1)
@@ -7481,7 +7481,7 @@ C-- Remote segment - line is stored as ITAB1 / ITAB2 (2 values)
                    IBUF2(SIZ2+1) = ITAB(INTBUF_TAB%LEDGE(6+(N-1)*NLEDGE))
                    SIZ2 = SIZ2+2
                  ENDIF
-               ELSEIF(INTBUF_TAB%LEDGE(7+(K-1)*NLEDGE)==3) THEN
+               ELSEIF(INTBUF_TAB%LEDGE(7+(N-1)*NLEDGE)==3) THEN
                  ES1=INTBUF_TAB%LEDGE(15+(N-1)*NLEDGE)
                  IF(CEP(ES1)==PROC) THEN
 C-- Local segment - local id is stored
