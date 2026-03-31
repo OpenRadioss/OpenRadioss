@@ -53,6 +53,8 @@ file(GLOB_RECURSE source_files  ${source_directory}/source/*.F ${source_director
 file(GLOB_RECURSE c_source_files ${source_directory}/source/*.c ${source_directory}/stub/*.c ${source_directory}/share/*.c ${source_directory}/../common_source/*.c )
 #C++ source files
 file(GLOB_RECURSE cpp_source_files ${source_directory}/source/*.cpp ${source_directory}/stub/*.cpp ${source_directory}/share/*.cpp ${source_directory}/../common_source/*.cpp )
+#CUDA source files (.cu) - only compiled when NVIDIA HPC SDK is used
+file(GLOB_RECURSE cuda_source_files ${source_directory}/source/*.cu ${source_directory}/stub/*.cu ${source_directory}/share/*.cu ${source_directory}/../common_source/*.cu )
 file(GLOB_RECURSE include_files ${include_directory}/*.inc ${include_directory}/*.h ${source_directory}/../common_source/*.inc ${source_directory}/../common_source/*.h )
 
 # Get the Fortran compiler name
@@ -61,6 +63,8 @@ get_filename_component(Fortran_COMPILER_NAME ${CMAKE_Fortran_COMPILER} NAME)
 # Check if the Fortran compiler name contains "ifx" or "ifort"
 string(FIND "${Fortran_COMPILER_NAME}" "ifx" Fortran_COMPILER_CONTAINS_IFX)
 string(FIND "${Fortran_COMPILER_NAME}" "ifort" Fortran_COMPILER_CONTAINS_IFORT)
+# Check if the Fortran compiler name contains "nvfortran"
+string(FIND "${Fortran_COMPILER_NAME}" "nvfortran" Fortran_COMPILER_CONTAINS_NVFORTRAN)
 
 set(MUMPS_VERSION "5.5.1")
 
@@ -123,6 +127,8 @@ file(GLOB_RECURSE c_source_files ${source_directory}/source/*.c ${source_directo
 
 #C++ source files
 file(GLOB_RECURSE cpp_source_files ${source_directory}/source/*.cpp ${source_directory}/com/*.cpp ${source_directory}/share/*.cpp ${source_directory}/../common_source/*.cpp )
+#CUDA source files (.cu) - only compiled when NVIDIA HPC SDK is used
+file(GLOB_RECURSE cuda_source_files ${source_directory}/source/*.cu ${source_directory}/com/*.cu ${source_directory}/share/*.cu ${source_directory}/../common_source/*.cu )
 
 file(GLOB_RECURSE include_files ${include_directory}/*.inc ${include_directory}/*.h  ${include_directory}/com/*.inc ${include_directory}/com/*.h ${source_directory}/../common_source/*.inc ${source_directory}/../common_source/*.h ../thid_party_com/*.h )
 
@@ -323,8 +329,22 @@ else()
   message(STATUS "No coupling library selected")
 endif()
 
+# CUDA source files (.cu) — requires gpu_cc to be defined (NVIDIA HPC SDK builds).
+# For non-GPU builds, discard any .cu files found during globbing;
+# the Fortran module shell_gpu_mod provides stub implementations via #ifdef WITH_CUDA.
+if (NOT DEFINED gpu_cc OR gpu_cc STREQUAL "")
+  set(cuda_source_files "")
+endif()
 
-add_executable (${EXEC_NAME} ${source_files} ${source_files_common} ${c_source_files} ${cpp_source_files} ${Build_includes_directory}/engine_message_description.inc ${Build_includes_directory}/__foo.inc )
+# Always exclude the C stub; Fortran module stubs handle the non-CUDA case
+list(FILTER c_source_files EXCLUDE REGEX "shell_gpu_stub\\.c$")
+
+if (cuda_source_files)
+  message(STATUS "CUDA source files: ${cuda_source_files}")
+endif()
+
+
+add_executable (${EXEC_NAME} ${source_files} ${source_files_common} ${c_source_files} ${cpp_source_files} ${cuda_source_files} ${Build_includes_directory}/engine_message_description.inc ${Build_includes_directory}/__foo.inc )
 
 add_dependencies(${EXEC_NAME} extlib)
 
@@ -335,6 +355,11 @@ add_custom_command(TARGET ${EXEC_NAME}
                   )
 
 target_include_directories(${EXEC_NAME} PRIVATE ${include_dir_list}  )
+
+# Define WITH_CUDA preprocessor macro when CUDA source files are compiled
+if (cuda_source_files)
+  target_compile_definitions(${EXEC_NAME} PRIVATE WITH_CUDA)
+endif()
 
 if(precice STREQUAL "1")
   message(STATUS "Linking with preCICE libraries")

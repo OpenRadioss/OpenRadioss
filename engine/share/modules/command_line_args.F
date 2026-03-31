@@ -30,4 +30,5 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
       MODULE COMMAND_LINE_ARGS_MOD
         INTEGER :: GOT_PREVIEW = 0
+        INTEGER :: GPU = 0
       END MODULE COMMAND_LINE_ARGS_MOD

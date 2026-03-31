@@ -16,39 +16,27 @@ if ( DEFINED MPI )
   if ( mpiver STREQUAL "smp")
      set (mpi_suf "" )
   elseif ( mpiver STREQUAL "ompi")
-
-    # Default: use HPC-X OpenMPI bundled with NVIDIA HPC SDK
-    # Override by setting NVHPC env var to the versioned SDK root
-    set (nvhpcx_root "/opt/nvidia/hpc_sdk/Linux_x86_64/26.3/comm_libs/13.1/hpcx/hpcx-2.25.1/ompi")
-    if (DEFINED ENV{NVHPC})
-      # Discover HPC-X path from NVHPC env variable
-      file(GLOB _hpcx_dirs "$ENV{NVHPC}/comm_libs/*/hpcx/*/ompi")
-      list(LENGTH _hpcx_dirs _hpcx_count)
-      if (_hpcx_count GREATER 0)
-        list(GET _hpcx_dirs -1 nvhpcx_root)
-      endif()
-    endif()
-
-    set (mpi_inc "-I${nvhpcx_root}/include/")
-    set (mpi_lib "-L${nvhpcx_root}/lib -lmpi -lmpi_mpifh" )
+      set( unused_dummy_arg "-Werror=unused-dummy-argument") 
+      set (mpi_inc "-I/opt/openmpi-nv/include/")
+      set (mpi_lib "-L/opt/openmpi-nv/lib -lmpi_mpifh -lmpi -lopen-rte -lopen-pal -lhwloc -levent -levent_pthreads -lpmix -libverbs -lnl-3 -lnl-route-3" )
 
     if (mpi_os STREQUAL "1")
-
+      
       set (mpi_inc " ")
-      set (mpi_lib "-lmpi -lmpi_mpifh" )
+      set (mpi_lib "-lmpi_mpifh -lmpi -lopen-rte -lopen-pal -lhwloc -levent -levent_pthreads -lpmix -libverbs -lnl-3 -lnl-route-3" )
     else()
       if ( DEFINED mpi_root )
         set (mpi_inc "-I${mpi_root}/include/")
-        set (mpi_lib "-L${mpi_root}/lib -lmpi -lmpi_mpifh" )
+        set (mpi_lib "-L${mpi_root}/lib -lmpi_mpifh -lmpi -lopen-rte -lopen-pal -lhwloc -levent -levent_pthreads -lpmix -libverbs -lnl-3 -lnl-route-3" )        
       else()
-        set (mpi_inc "-I${nvhpcx_root}/include/")
-        set (mpi_lib "-L${nvhpcx_root}/lib -lmpi -lmpi_mpifh" )
+        set (mpi_inc "-I/opt/openmpi-nv/include/")
+        set (mpi_lib "-L/opt/openmpi-nv/lib -lmpi_mpifh -lmpi -lopen-rte -lopen-pal -lhwloc -levent -levent_pthreads -lpmix -libverbs -lnl-3 -lnl-route-3" )
 
         if ( DEFINED mpi_incdir )
             set (mpi_inc "-I${mpi_incdir}")
         endif()
         if ( DEFINED mpi_libdir )
-            set (mpi_lib "-L${mpi_libdir} -lmpi -lmpi_mpifh")
+            set (mpi_lib "-L${mpi_libdir} -lmpi_mpifh -lmpi -lopen-rte -lopen-pal -lhwloc -levent -levent_pthreads -lpmix -libverbs -lnl-3 -lnl-route-3")
         endif()
 
       endif()
@@ -56,12 +44,109 @@ if ( DEFINED MPI )
 
     set (mpi_suf "_${mpiver}" )
     set (mpi_flag "-DMPI ${mpi_inc}")
+  elseif ( mpiver STREQUAL "impi")
+  # Intel MPI 
+  set (mpi_suf "_${mpiver}" )
+  #MPI     
+  set (mpi_flag "-DMPI -I$ENV{I_MPI_ROOT}/include/ ")
+  set (mpi_lib "-L$ENV{I_MPI_ROOT}/lib -L$ENV{I_MPI_ROOT}/lib/release  -lmpi -lmpifort")
   else()
     message( FATAL_ERROR "\n ERROR : -mpi=${mpiver} not available for this platform\n\n" )
   endif()
 endif ()
 
+#if ( DEFINED MPI )
+#  set ( mpiver "${MPI}" )
+#  if ( mpiver STREQUAL "smp")
+#     set (mpi_suf "" )
+#  elseif ( mpiver STREQUAL "ompi")
+#
+#    # Default: use HPC-X OpenMPI bundled with NVIDIA HPC SDK
+#    # Override by setting NVHPC env var to the versioned SDK root
+#    set (nvhpcx_root "/opt/nvidia/hpc_sdk/Linux_x86_64/26.3/comm_libs/13.1/hpcx/hpcx-2.25.1/ompi")
+#    if (DEFINED ENV{NVHPC})
+#      # Discover HPC-X path from NVHPC env variable
+#      file(GLOB _hpcx_dirs "$ENV{NVHPC}/comm_libs/*/hpcx/*/ompi")
+#      list(LENGTH _hpcx_dirs _hpcx_count)
+#      if (_hpcx_count GREATER 0)
+#        list(GET _hpcx_dirs -1 nvhpcx_root)
+#      endif()
+#    endif()
+#
+#    set (mpi_inc "-I${nvhpcx_root}/include/")
+#    set (mpi_lib "-L${nvhpcx_root}/lib -lmpi -lmpi_mpifh" )
+#
+#    if (mpi_os STREQUAL "1")
+#
+#      set (mpi_inc " ")
+#      set (mpi_lib "-lmpi -lmpi_mpifh" )
+#    else()
+#      if ( DEFINED mpi_root )
+#        set (mpi_inc "-I${mpi_root}/include/")
+#        set (mpi_lib "-L${mpi_root}/lib -lmpi -lmpi_mpifh" )
+#      else()
+#        set (mpi_inc "-I${nvhpcx_root}/include/")
+#        set (mpi_lib "-L${nvhpcx_root}/lib -lmpi -lmpi_mpifh" )
+#
+#        if ( DEFINED mpi_incdir )
+#            set (mpi_inc "-I${mpi_incdir}")
+#        endif()
+#        if ( DEFINED mpi_libdir )
+#            set (mpi_lib "-L${mpi_libdir} -lmpi -lmpi_mpifh")
+#        endif()
+#
+#      endif()
+#    endif()
+#
+#    set (mpi_suf "_${mpiver}" )
+#    set (mpi_flag "-DMPI ${mpi_inc}")
+#  else()
+#    message( FATAL_ERROR "\n ERROR : -mpi=${mpiver} not available for this platform\n\n" )
+#  endif()
+#endif ()
+
 set ( RELNAME ${arch}${mpi_suf} )
+
+
+# GPU compute capability target (e.g. cc80 for A100, cc90 for H100, cc120 for B200)
+# Override with -Dgpu_cc=ccXX on the cmake command line
+# Used for both OpenACC offloading and CUDA (.cu) source file compilation
+if ( NOT DEFINED gpu_cc )
+  set ( gpu_cc "cc80" )
+endif()
+
+# CUDA toolkit path discovery
+# Override by setting NVHPC_CUDA_HOME or CUDA_HOME env vars
+set ( cuda_home "/usr/local/cuda" )
+if (DEFINED ENV{NVHPC_CUDA_HOME})
+  set ( cuda_home "$ENV{NVHPC_CUDA_HOME}" )
+elseif (DEFINED ENV{CUDA_HOME})
+  set ( cuda_home "$ENV{CUDA_HOME}" )
+endif()
+
+
+# OpenACC GPU offloading
+# ----------------------
+if ( openacc STREQUAL "1" )
+
+  message (STATUS "OpenACC enabled  – GPU target: ${gpu_cc}")
+  message (STATUS "CUDA toolkit    : ${cuda_home}")
+
+  # Flags injected into Fortran and linker when OpenACC is active
+  # Note: -cuda / -cudaforlibs removed — they cause a deadlock with mem:managed
+  #       on Blackwell GPUs (cc120) and are not needed for pure OpenACC offloading.
+  #       Device data management is handled by !$ACC DATA directives.
+  set ( acc_fort_flags  "-acc -gpu=${gpu_cc} -Minfo=accel -Mdetail" )
+  set ( acc_c_flags     "" )
+  set ( acc_link_flags  "-acc -gpu=${gpu_cc}" )
+  set ( acc_link_libs   "-L${cuda_home}/lib64 -lnvToolsExt" )
+
+else()
+  set ( acc_fort_flags  "" )
+  set ( acc_c_flags     "" )
+  set ( acc_link_flags  "" )
+  set ( acc_link_libs   "" )
+endif()
 
 
 # Third party libraries
@@ -143,7 +228,13 @@ endif()
 #   -Munroll       Enable loop unrolling
 #   -Mvect=simd    Enable SIMD vectorization
 #   -Minform=warn  Report warnings and above
-set( fort_flags "-Mnofma -mp -traceback -Mextend -Munroll -Mvect=simd -Minform=warn -Mlarge_arrays  -I${nv_sdk_inc}")
+#   When OpenACC is enabled the following are appended:
+#   -acc           Enable OpenACC directives
+#   -gpu=ccXX      Target GPU compute capability
+#   -cuda          Enable CUDA interoperability
+#   -Minfo=accel   Print accelerator mapping information
+set( fort_flags "-Mnofma -mp -traceback -Mextend -Munroll -Mvect=simd -Minform=warn  -I${nv_sdk_inc} ${acc_fort_flags}")
+#set(GPUFLAGS "-O3   -Mextend -gpu=cc120,mem:managed -acc -cuda -cudaforlibs -Minline -Minfo=accel -Mextend -Mnofma -fopenmp -DMYREAL8 -DMPI -DNO_SERIALIZE -I${OMPI_ROOT}/include/ -DCPP_mach=CPP_p4linux964 -DCPP_rel=75 -g -traceback")
 
 
 if ( debug STREQUAL "1" )
@@ -160,32 +251,58 @@ set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS
 set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS
   "-g -O0 -mp ${h3d_inc} ${zlib_inc} ${md5_inc} ${precision_flag} ${cppmach} ${cpprel} -std=c++14 ${mpi_flag}" )
 
+# CUDA source files (.cu) - compiled as CXX with nvc++
+if (cuda_source_files)
+  set_source_files_properties(${cuda_source_files} PROPERTIES LANGUAGE CXX)
+  set_source_files_properties(${cuda_source_files} PROPERTIES COMPILE_FLAGS
+    "-g -O0 -cuda -gpu=${gpu_cc} -mp -Minfo=accel --diag_suppress cuda_compile ${h3d_inc} ${zlib_inc} ${md5_inc} ${precision_flag} ${cppmach} ${cpprel} -std=c++17 ${mpi_flag}" )
+endif()
+
 else ()
 
 # Fortran (optimized)
 set_source_files_properties( ${source_files} PROPERTIES COMPILE_FLAGS
-  "-O2 ${fort_flags} ${wo_linalg} ${precision_flag} ${cppmach} ${cpprel} -DCPP_comp=f90 -DCOMP_NVFORTRAN=1 ${mpi_flag} ${ADF}" )
+  "-O3 ${fort_flags} ${wo_linalg} ${precision_flag} ${cppmach} ${cpprel} -DCPP_comp=f90 -DCOMP_NVFORTRAN=1 ${mpi_flag} ${ADF}" )
 
 # C source files
 set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS
-  "-w -O2 -mp ${h3d_inc} ${zlib_inc} ${md5_inc} ${precision_flag} ${cppmach} ${cpprel} ${mpi_flag}" )
+  "-w -O3 -mp ${h3d_inc} ${zlib_inc} ${md5_inc} ${precision_flag} ${cppmach} ${cpprel} ${mpi_flag}" )
 
 # CXX source files
 set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS
-  "-w -O2 -mp ${h3d_inc} ${zlib_inc} ${md5_inc} ${precision_flag} ${cppmach} ${cpprel} -std=c++14 ${mpi_flag}" )
+  "-w -O3 -mp ${h3d_inc} ${zlib_inc} ${md5_inc} ${precision_flag} ${cppmach} ${cpprel} -std=c++14 ${mpi_flag}" )
+
+# CUDA source files (.cu) - compiled as CXX with nvc++
+if (cuda_source_files)
+  set_source_files_properties(${cuda_source_files} PROPERTIES LANGUAGE CXX)
+  set_source_files_properties(${cuda_source_files} PROPERTIES COMPILE_FLAGS
+    "-w -O3 -cuda -gpu=${gpu_cc} -mp -Minfo=accel --diag_suppress cuda_compile ${h3d_inc} ${zlib_inc} ${md5_inc} ${precision_flag} ${cppmach} ${cpprel} -std=c++17 ${mpi_flag}" )
+endif()
 
 endif()
 
 
+# CUDA (.cu) source file linking
+if (cuda_source_files)
+  set ( cuda_link_flags "-cuda -gpu=${gpu_cc}" )
+  set ( cuda_link_libs  "-L${cuda_home}/lib64 -lcudart" )
+  message (STATUS "CUDA sources detected – GPU target: ${gpu_cc}")
+  message (STATUS "CUDA toolkit: ${cuda_home}")
+else()
+  set ( cuda_link_flags "" )
+  set ( cuda_link_libs  "" )
+endif()
+
+
 # Linking flags
-set (CMAKE_EXE_LINKER_FLAGS "-Wl,--export-dynamic -Wl,-no-pie -mp" )
+set (CMAKE_EXE_LINKER_FLAGS "-Wl,--export-dynamic -Wl,-no-pie -mp ${acc_link_flags} ${cuda_link_flags}" )
 string(STRIP ${CMAKE_EXE_LINKER_FLAGS} CMAKE_EXE_LINKER_FLAGS)
 
 # Libraries
 if ( static_link STREQUAL "1" )
-  set (LINK "rt ${zlib_lib} ${md5_lib} ${mpi_lib} -ldl -Bstatic_pgi -Bstatic_c++libs" )
+  set (LINK "rt ${zlib_lib} ${md5_lib} ${mpi_lib} ${acc_link_libs} ${cuda_link_libs} -ldl -Bstatic_pgi -Bstatic_c++libs" )
 else()
-  set (LINK "rt ${zlib_lib} ${md5_lib} ${mpi_lib} -ldl" )
+  set (LINK "rt ${zlib_lib} ${md5_lib} ${mpi_lib} ${acc_link_libs} ${cuda_link_libs} -ldl" )
 endif()
 string(STRIP ${LINK} LINK)
 

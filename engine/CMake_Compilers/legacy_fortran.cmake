@@ -579,6 +579,7 @@ set_source_files_properties( ${source_directory}/source/output/restart/write_joi
 set_source_files_properties( ${source_directory}/source/output/restart/wrrest.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
 set_source_files_properties( ${source_directory}/source/output/restart/read_joint.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
 set_source_files_properties( ${source_directory}/source/output/restart/wrcomm.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
+set_source_files_properties( ${source_directory}/source/elements/shell/coque/shell_gpu_mod.F90 PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
 set_source_files_properties( ${source_directory}/source/elements/xelem/xforc3.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
 set_source_files_properties( ${source_directory}/source/elements/xelem/xanim28.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
 set_source_files_properties( ${source_directory}/source/elements/xelem/xforc31.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )

@@ -6,7 +6,7 @@ import shutil
 
 fortran_ext = ['.F']
 fortran90_ext = ['.F90']
-cpp_ext = ['.h', '.cpp', '.c','.hpp','.cxx']
+cpp_ext = ['.h', '.cpp', '.c','.hpp','.cxx', '.cu']
 cfg_ext = ['.cfg']
 starter_deck_ext = ['_0000.rad']
 engine_deck_ext = ['_0001.rad']

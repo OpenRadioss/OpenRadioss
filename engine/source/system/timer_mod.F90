@@ -146,13 +146,14 @@
         integer, parameter :: TIMER_EXRBYV    =     12
         integer, parameter :: TIMER_EXSPMDV   =     13
         integer, parameter :: TIMER_MADYMO    =     14
-        integer, parameter :: TIMER_CONT_CRIT =     15  
+        integer, parameter :: TIMER_CONT_CRIT =     15
         integer, parameter :: TIMER_COMM_CRIT =     16
         integer, parameter :: TIMER_CONT_BUK  =     17
         integer, parameter :: TIMER_CONT_GFRONT=    18
         integer, parameter :: TIMER_CONT_OPT  =     19
+        integer, parameter :: TIMER_GPU_SHELL     =   153
         integer, parameter :: TIMER_AMS       =     39
-        integer, parameter :: TIMER_BEG_CRIT  =     56        
+        integer, parameter :: TIMER_BEG_CRIT  =     56
         integer, parameter :: TIMER_EOF_CRIT  =     57
         integer, parameter :: TIMER_EOF_SORT  =     58
         integer, parameter :: TIMER_TMP1      =    150
@@ -183,8 +184,8 @@
         integer, parameter :: TIMER_T25BUC    =      136
         integer, parameter :: TIMER_T25BUCE2E =      137
         integer, parameter :: TIMER_T25TRCE   =      138
-        integer, parameter :: timer_ale_elm   =      151  
-        integer, parameter :: timer_sfem      =      152           
+        integer, parameter :: timer_ale_elm   =      151
+        integer, parameter :: timer_sfem      =      152
         type timer_
           real, dimension(:,:), allocatable :: timer
           real, dimension(:), allocatable :: cputime

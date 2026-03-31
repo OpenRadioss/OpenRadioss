@@ -23,4 +23,4 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C PARASIZ defini dans task_c.inc
 C.../TIMERR/
       INTEGER NTIMAX,LTIMERR
-      PARAMETER(NTIMAX = 150)
+      PARAMETER(NTIMAX = 200)
