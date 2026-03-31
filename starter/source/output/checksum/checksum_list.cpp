@@ -235,7 +235,7 @@ bool List_checksum::is_integer(const std::string s) {
   // -----------------------------------------------------------------------------------
   bool List_checksum::compare_checksum_list(std::string file,std::string checksum){
       for (const auto& item :output_files_hash_list){
-           for (const auto& hash_item : get<2>(item)){
+           for (const auto& hash_item : get<3>(item)){
                 if (get<0>(hash_item) == file){
                   if (get<1>(hash_item) == checksum){
                       return true;
@@ -262,7 +262,7 @@ bool List_checksum::is_integer(const std::string s) {
   // -------------------------------------------------------------------------------------------------------------------------------------------------
   
     for (const auto& item : checksum_file_list){ 
-
+      bool sign_check=false;
       string outfile;
       if ( directory.length() > 0 ){
           outfile = directory + item;
@@ -286,7 +286,7 @@ bool List_checksum::is_integer(const std::string s) {
              
 
              out.Checksum( &new_file, &deck_hash_list,&file_hash_list );
-             output_files_hash_list.push_back(make_tuple(outfile,deck_hash_list,file_hash_list)); // Add the file, deck checksum list and file checksum list in specific list
+             output_files_hash_list.push_back(make_tuple(outfile,sign_check,deck_hash_list,file_hash_list)); // Add the file, deck checksum list and file checksum list in specific list
 
              new_file.close();
             // checksum_list.push_back(make_tuple(outfile,checksum_list_out)); // Add the checksum list to the collection
@@ -365,13 +365,13 @@ bool List_checksum::is_integer(const std::string s) {
           string deckline="    File . . . .   "+get<0>(item);
           write_out(fd,deckline);
           write_out(fd,"            Deck Checksums");
-          for (const auto& hash_item : get<1>(item)){
+          for (const auto& hash_item : get<2>(item)){
             string hashline="                   "+get<0>(hash_item)+"   "+get<1>(hash_item);
             write_out(fd,hashline);
           }
           write_out(fd," ");
           write_out(fd,"            File Checksums");
-          for (const auto& hash_item : get<2>(item)){
+          for (const auto& hash_item : get<3>(item)){
             string hashline="                   "+get<0>(hash_item)+"   "+get<1>(hash_item);
             write_out(fd,hashline);
           }

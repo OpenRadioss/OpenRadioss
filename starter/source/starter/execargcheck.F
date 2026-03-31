@@ -103,7 +103,7 @@ C-----------------------------------------------
      .    '-INSPIRE_ALM' , '-FLUSH_RST', '-CHECK',
      .    '-HSTP_READ' , '-HSTP_WRITE', '-RXALEA', '-RSEED',
      .    '-PREVIEW',
-     .    '-GRP_SIZE' , '-PYTHON' , '-THNMS1','-CHECKSUM_READ'/
+     .    '-GRP_SIZE' , '-PYTHON' , '-THNMS1','-CHECKSUM_REPORT'/
        INTEGER :: RUNQA
        CHARACTER (LEN=255) :: STR
 C-----------------------------------------------
@@ -189,7 +189,7 @@ c
 !       ------------------------
         
         OUTPUT%TH%DUMP_THNMS1_FILE = 0
-        OUTPUT%CHECKSUM%ST_CHECKSUM_READ = 0
+        OUTPUT%CHECKSUM%ST_CHECKSUM_REPORT = 0
 
        ARGS2(1:2096) = ''
 
@@ -315,8 +315,8 @@ C------------------------------------------------
 C------------------------------------------------
             CASE ( '-THNMS1')
                 OUTPUT%TH%DUMP_THNMS1_FILE = 1
-            CASE ( '-CHECKSUM_READ')
-                OUTPUT%CHECKSUM%ST_CHECKSUM_READ = 1
+            CASE ( '-CHECKSUM_REPORT')
+                OUTPUT%CHECKSUM%ST_CHECKSUM_REPORT = 1
                 IF (PCHECKSUMI==0) PCHECKSUMI = I
             CASE ( '-METIS_SEED') 
                ! nothing here, called again in grid2mat
@@ -339,7 +339,7 @@ C------------------------------------------------
      *                 ARGP == '-TIMER' .OR. ARGP =='-DYLIB'.OR.
      *                 ARGP == '-DYNAMIC_LIB' .OR. ARGP == '-DD_TUNING'.OR.
      *                 ARGP == '-RSEED' .OR. ARGP == '-RXALEA'.OR. ARGP== "-METIS_SEED" .OR.
-     *                 ARGP == '-GRP_SIZE' .OR. ARGP == '-MDS_LIBPATH' .OR. ARGP == '-MDSDIR' .OR. ARGP == '-CHECKSUM_READ' )THEN 
+     *                 ARGP == '-GRP_SIZE' .OR. ARGP == '-MDS_LIBPATH' .OR. ARGP == '-MDSDIR' .OR. ARGP == '-CHECKSUM_REPORT' )THEN 
                        ERR = 0
                    ELSE
                        ERR = 1
@@ -1302,7 +1302,7 @@ C-----------------------------------------------
      *                  'Optional value, set the seed value for nodal random noise'
        WRITE(6,'(A,A)') '  -python                              : ',
      *                  'Python function in model is safe and can be used'
-       WRITE(6,'(A,A)') '  -checksum_read [rootname]            : ',
+       WRITE(6,'(A,A)') '  -checksum_report [rootname]            : ',
      *                  'Parse output files for /CHECKSUM fingerprints and [rootname].report file'
 
        WRITE(6,'(A)') ' '
