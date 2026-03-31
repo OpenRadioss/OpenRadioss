@@ -223,8 +223,8 @@ C First task check the exec arguments (fill common)
       ! Options not requiering Starter deck read
       ! ----------------------------------------
       
-      ! -checksum_read [rootname]
-      IF ( OUTPUT%CHECKSUM%ST_CHECKSUM_READ == 1 ) THEN
+      ! -checksum_report [rootname]
+      IF ( OUTPUT%CHECKSUM%ST_CHECKSUM_REPORT == 1 ) THEN
          CALL CHECKSUM_CHECK(OUTPUT%CHECKSUM%ROOTNAME,PATH,CPUNAM,ARCHTITLE,IRESP)
          STOP
       ENDIF

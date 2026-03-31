@@ -70,7 +70,7 @@ class List_checksum {
     std::list<std::string> checksum_file_list;                                      // .checksum files
      // Output file hashes
     // file_hash_list : list of tuples (filename, list of tuples (deck_checksum_option, checksum value), list of tuples (checksum filename, checksum value))
-    std::list<std::tuple<std::string,std::list<std::tuple<std::string,std::string>>,std::list<std::tuple<std::string,std::string>>>> output_files_hash_list;
+    std::list<std::tuple<std::string,bool,std::list<std::tuple<std::string,std::string>>,std::list<std::tuple<std::string,std::string>>>> output_files_hash_list;
     std::list<std::tuple<std::string,std::string,bool,std::list<std::string>>> checksum_list ;               // extracted checksum list from the output files : Filename, checksum list
     std::list<std::tuple<std::string,std::list<std::string>>> checksum_decks ;              // extracted checksum list from the output files : Filename, checksum list
     // -----------------------------------------------------------------------------------
