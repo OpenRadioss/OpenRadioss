@@ -62,6 +62,11 @@ function my_help()
   echo " -cwipi=[path to cwipi root directory] : enable cwipi coupling"
   echo " "
   echo " -no-python : do not link with python"
+  echo " "
+  echo " -openacc                            : enable OpenACC GPU offloading (NVIDIA compiler only)"
+  echo "   -gpu-cc=[ccXX]                    : GPU compute capability target (default: cc80)"
+  echo "                                       e.g. cc80 (A100), cc90 (H100), cc120 (B200)"
+  echo "                                       Set NVHPC_CUDA_HOME or CUDA_HOME to override CUDA toolkit path"
   echo " " 
   echo " " 
 }
@@ -105,6 +110,8 @@ precice="0"
 coupling_exe=""
 cwipi=0
 cwipi_path=""
+openacc=0
+gpu_cc=""
 com=0
 release=0
 ad=none
@@ -259,6 +266,16 @@ else
        if [ "$arg" == "-no-python" ]
        then
          no_python=1
+       fi
+
+       if [ "$arg" == "-openacc" ]
+       then
+         openacc=1
+       fi
+
+       if [ "$arg" == "-gpu-cc" ]
+       then
+         gpu_cc=`echo $var|awk -F '=' '{print $2}'`
        fi
 
        if [ "$arg" == "-release" ]
@@ -452,7 +469,7 @@ then
   CXX_path_w=`cygpath.exe -m "${CXX_path}"`
   cmake.exe .. -G "Unix Makefiles" -Darch=${arch} -Dprecision=${prec} ${MPI} -Ddebug=${debug} -DEXEC_NAME=${engine_exec} -Dstatic_link=$static_link -Dmpi_os=${mpi_os} ${mpi_root} ${mpi_libdir} ${mpi_incdir} ${dc} ${mumps_root} ${scalapack_root} ${lapack_root} -DCMAKE_BUILD_TYPE=Release -Dno_python=${no_python}  -Dstatic_link=$static_link -DCMAKE_BUILD_TYPE=Release -DCMAKE_Fortran_COMPILER="${Fortran_path_w}" -DCMAKE_C_COMPILER="${C_path_w}" -DCMAKE_CPP_COMPILER="${CPP_path_w}" -DCMAKE_CXX_COMPILER="${CXX_path_w}" ${la}
 else
-  cmake .. -Darch=${arch} -Dprecision=${prec} ${MPI} -Ddebug=${debug} -DEXEC_NAME=${engine_exec} -Dstatic_link=$static_link -Dmpi_os=${mpi_os} -Dsanitize=${sanitize} ${mpi_root} ${mpi_libdir} ${mpi_incdir} ${dc} ${mumps_root} ${scalapack_root} ${lapack_root} -Dno_python=${no_python} -Dstatic_link=$static_link -DCMAKE_BUILD_TYPE=Release -DCMAKE_Fortran_COMPILER=${Fortran_path} -DCMAKE_C_COMPILER=${C_path} -DCMAKE_CPP_COMPILER=${CPP_path} -DCMAKE_CXX_COMPILER=${CXX_path}  ${la} -Dprecice=${precice} -Dcwipi=${cwipi} -Dcwipi_path=${cwipi_path}
+  cmake .. -Darch=${arch} -Dprecision=${prec} ${MPI} -Ddebug=${debug} -DEXEC_NAME=${engine_exec} -Dstatic_link=$static_link -Dmpi_os=${mpi_os} -Dsanitize=${sanitize} ${mpi_root} ${mpi_libdir} ${mpi_incdir} ${dc} ${mumps_root} ${scalapack_root} ${lapack_root} -Dno_python=${no_python} -Dstatic_link=$static_link -Dopenacc=${openacc} ${gpu_cc:+-Dgpu_cc=${gpu_cc}} -DCMAKE_BUILD_TYPE=Release -DCMAKE_Fortran_COMPILER=${Fortran_path} -DCMAKE_C_COMPILER=${C_path} -DCMAKE_CPP_COMPILER=${CPP_path} -DCMAKE_CXX_COMPILER=${CXX_path}  ${la} -Dprecice=${precice} -Dcwipi=${cwipi} -Dcwipi_path=${cwipi_path}
 
 fi
 

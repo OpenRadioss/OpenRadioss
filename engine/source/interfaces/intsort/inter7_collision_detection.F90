@@ -26,7 +26,7 @@
 !||    inter_sort_07                    ../engine/source/interfaces/int07/inter_sort_07.F
 !||====================================================================
       MODULE INTER7_COLLISION_DETECTION_MOD
-      implicit none
+        implicit none
       CONTAINS
 !||====================================================================
 !||    inter7_collision_detection   ../engine/source/interfaces/intsort/inter7_collision_detection.F90
