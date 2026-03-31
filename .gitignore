@@ -38,3 +38,5 @@ extlib.zip
 *.c.json
 .devcontainer/**
 .idea/
+*.s
+*.backup

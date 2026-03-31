@@ -26,7 +26,7 @@
 !||    inter7_filter_cand       ../engine/source/interfaces/intsort/inter7_filter_cand.F90
 !||====================================================================
       MODULE INTER7_GATHER_CAND_MOD
-      implicit none
+        implicit none
       CONTAINS
 !||====================================================================
 !||    inter7_gather_cand   ../engine/source/interfaces/int07/inter7_gather_cand.F90

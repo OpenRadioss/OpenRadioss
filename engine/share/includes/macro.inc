@@ -130,6 +130,7 @@
 #define MACRO_TIMER_AMS            39
 #define MACRO_TIMER_TMP1          150
 #define MACRO_TIMER_TMP2          149
+#define MACRO_TIMER_GPU_SHELL     153
 
 #define MACRO_TIMER_ALEMAIN        110
 #define MACRO_TIMER_MULTIFVM       111

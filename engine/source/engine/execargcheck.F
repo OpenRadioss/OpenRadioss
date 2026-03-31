@@ -115,6 +115,7 @@ C-----------------------------------------------
        MDS_PATHI = 0
        MDS_DIRI = 0
        GOT_PREVIEW= 0
+       GPU = 0
 
        ! Initialize MDS_PATH Array
        MDS_PATH=''
@@ -221,6 +222,8 @@ C -MEM-MAP
              GOT_INSPIRE_ALM=1
           CASE ( '-INSPIRE')
              GOT_INSPIRE=1
+          CASE ( '-GPU')
+             GPU=1
 C------------------------------------------------
 C -NORST : no restart file command
           CASE ( '-NORST')
