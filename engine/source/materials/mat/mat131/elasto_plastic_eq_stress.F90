@@ -73,6 +73,7 @@
         use yield_criterion_hill_mod
         use yield_criterion_barlat1989_mod
         use yield_criterion_barlat2000_mod
+        use elasto_plastic_second_order_numerical_mod
 !----------------------------------------------------------------
 !   I m p l i c i t   T y p e s
 !----------------------------------------------------------------
@@ -144,7 +145,15 @@
             call yield_criterion_barlat1989(                                   &          
               matparam ,nel      ,seq      ,signxx   ,signyy   ,signxy   ,     &
               normxx   ,normyy   ,normzz   ,normxy   ,normyz   ,normzx   )
-            N(:,:,:) = zero
+            if (second_order) then
+              call elasto_plastic_second_order_numerical(                      &
+                matparam ,nel      ,eltype   ,icrit    ,                       &
+                signxx   , signyy  ,signzz   ,signxy   ,signyz   ,signzx   ,   &
+                normxx   ,normyy   ,normzz   ,normxy   ,normyz   ,normzx   ,   &
+                N        )
+            else
+              N(1:nel,1:6,1:6) = zero
+            endif
           !---------------------------------------------------------------------
           !< Barlat 2000 yield criterion
           !---------------------------------------------------------------------
@@ -152,7 +161,15 @@
             call yield_criterion_barlat2000(                                   &          
               matparam ,nel      ,seq      ,signxx   ,signyy   ,signxy   ,     &
               normxx   ,normyy   ,normzz   ,normxy   ,normyz   ,normzx   )
-            N(:,:,:) = zero
+            if (second_order) then
+              call elasto_plastic_second_order_numerical(                      &
+                matparam ,nel      ,eltype   ,icrit    ,                       &
+                signxx   , signyy  ,signzz   ,signxy   ,signyz   ,signzx   ,   &
+                normxx   ,normyy   ,normzz   ,normxy   ,normyz   ,normzx   ,   &
+                N        )
+            else
+              N(1:nel,1:6,1:6) = zero
+            endif
         end select
 !
       end subroutine elasto_plastic_eq_stress
