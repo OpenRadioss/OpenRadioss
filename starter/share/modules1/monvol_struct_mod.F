@@ -1198,7 +1198,7 @@ C-----------------------------------------------
       INTEGER(8) :: graph_ptr
       INTEGER :: IELEM,ICOMP, EDGES_A(5),EDGES_B(5), NB_REVERSED
       INTEGER :: NPT_A, NPT_B, IELEM1, IELEM2, ELTYP1, ELTYP2, NB_COMMON_NODE, 
-     .     NODELIST1(4), NODELIST2(4), ELEM1ID, ELEM2ID, ELEMTG, ELEMC, IELEMTG, IELEMC
+     .     NODELIST1(4), NODELIST2(4), ELEM1ID, ELEM2ID, ELEMTG, ELEMC, IELEMTG, IELEMC,SEG1ID,SEG2ID
       LOGICAL :: lFOUND, lFOUND_ADJ
       INTEGER :: NB_DUPLICATED_ELTS
       INTEGER, DIMENSION(:), ALLOCATABLE :: DUPLICATED_ELTS
@@ -1648,26 +1648,26 @@ C      endif !(debug_output)
       ALLOCATE(DUPLICATED_ELTS(NB_DUPLICATED_ELTS * 2))
       CALL TAB1_GET(duplicate_ptr, DUPLICATED_ELTS)
       DO JJ = 1, NB_DUPLICATED_ELTS
-         ELEM1ID = SURF%ELEM(DUPLICATED_ELTS(2 * (JJ - 1) + 1))
-         ELEM2ID = SURF%ELEM(DUPLICATED_ELTS(2 * (JJ - 1) + 2))
-!     ELEM1D is already oriented, ELEM2ID has to be oriented reversely
+         SEG1ID = DUPLICATED_ELTS(2 * (JJ - 1) + 1)
+         SEG2ID = DUPLICATED_ELTS(2 * (JJ - 1) + 2)
+!     ELEM1D is already oriented, SEG2ID has to be oriented reversely
          ELTYP1 = SURF%ELTYP(DUPLICATED_ELTS(2 * (JJ - 1) + 1))
          ELTYP2 = SURF%ELTYP(DUPLICATED_ELTS(2 * (JJ - 1) + 2))
          IF (ELTYP1 == ELTYP2) THEN
-            II(1:4) = SURF%NODES(ELEM1ID, 1:4)
+            II(1:4) = SURF%NODES(SEG1ID, 1:4)
             IF (ELTYP1 == 7) THEN
 !     Triangles
-               SURF%NODES(ELEM2ID, 1:4) = (/ II(2), II(1), II(3), II(4) /)
+               SURF%NODES(SEG2ID, 1:4) = (/ II(2), II(1), II(3), II(4) /)
             ELSE
 !     Quads
-               SURF%NODES(ELEM2ID, 1:4) = (/ II(1), II(4), II(3), II(2) /)
+               SURF%NODES(SEG2ID, 1:4) = (/ II(1), II(4), II(3), II(2) /)
             ENDIF
          ELSE
 !     Target element is necessarily the triangle
-            II(1:4) = SURF%NODES(ELEM2ID,1:4)  
+            II(1:4) = SURF%NODES(SEG2ID,1:4)  
             EDGES_A(1:5) = (/ II(1:3), II(1), 0 /) 
             NPT_A = 3 
-            II(1:4) = SURF%NODES(ELEM1ID,1:4)  
+            II(1:4) = SURF%NODES(SEG1ID,1:4)  
             EDGES_B(1:5) = (/ II(1:4), II(1) /)
             NPT_B = 4   
             !--CHECK PATTERN (CURRENT vs ADJACENT)
@@ -1684,11 +1684,11 @@ C      endif !(debug_output)
                IF(lFOUND)EXIT
             ENDDO
             IF(lFOUND)THEN
-               II(1:4) = SURF%NODES(ELEM2ID, 1:4) 
+               II(1:4) = SURF%NODES(SEG2ID, 1:4) 
                IF(NPT_A == 4)THEN
-                  SURF%NODES(ELEM2ID,1:4)=(/ II(1), II(4), II(3), II(2) /)
+                  SURF%NODES(SEG2ID,1:4)=(/ II(1), II(4), II(3), II(2) /)
                ELSE
-                  SURF%NODES(ELEM2ID,1:4)=(/ II(2), II(1), II(3), II(4) /)
+                  SURF%NODES(SEG2ID,1:4)=(/ II(2), II(1), II(3), II(4) /)
                ENDIF
             ENDIF
          ENDIF
