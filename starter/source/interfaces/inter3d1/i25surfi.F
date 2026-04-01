@@ -45,7 +45,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      8                    IS2SE   ,IS2PT   ,IS2ID    ,PARAMETERS,
      A                    NIN25   ,FLAG_ELEM_INTER25 ,IGRSLIN     ,
      B                    LEDGE   ,EBINFLG ,NEDGE    ,NMN_1D    ,
-     C                    MSR_1D   )
+     C                    MSR_1D  )
 C============================================================================
 C-----------------------------------------------
 C   M o d u l e s
@@ -146,38 +146,50 @@ c-----------------------------------------------------------------
 c     surface S2
 c-----------------------------------------------------------------
       NEDGE_L = 0
-      LINE_SEG = .TRUE.
+      IF(IEDG >0) THEN
+         LINE_SEG = .TRUE.
+      ELSE
+         LINE_SEG = .FALSE.
+      ENDIF
       SELECT CASE (ILEV)
 C-----attention: ISU2=ISU1 /=0            
         CASE(1)
           NRTM = IGRSURF(ISU1)%NSEG
           IF(IEDG >0.AND.ISU3>0) NEDGE_L =IGRSLIN(ISU3)%NSEG
-          DO J=1,IGRSURF(ISU1)%NSEG
-             IF(IGRSURF(ISU1)%ELTYP(J)==1.OR.IGRSURF(ISU1)%ELTYP(J)==3
-     .          .OR.IGRSURF(ISU1)%ELTYP(J)==7) LINE_SEG = .FALSE.
-          ENDDO
+          IF(IEDG > 0) THEN
+            DO J=1,IGRSURF(ISU1)%NSEG
+              IF(IGRSURF(ISU1)%ELTYP(J)==1.OR.IGRSURF(ISU1)%ELTYP(J)==3
+     .          .OR.IGRSURF(ISU1)%ELTYP(J)==7.OR.IGRSURF(ISU1)%ELTYP(J)==0) LINE_SEG = .FALSE.
+            ENDDO
+          ENDIF
+          IF(ISU3==0) LINE_SEG = .FALSE.
         CASE(2)
           NRTM = IGRSURF(ISU1)%NSEG
           NRTS = IGRSURF(ISU2)%NSEG
           NRTM = NRTM + NRTS
           IF(IEDG >0.AND.ISU3>0) NEDGE_L =IGRSLIN(ISU3)%NSEG
           IF(IEDG >0.AND.ISU4>0) NEDGE_L =NEDGE_L + IGRSLIN(ISU4)%NSEG
-          DO J=1,IGRSURF(ISU1)%NSEG
+          IF(IEDG > 0) THEN
+            DO J=1,IGRSURF(ISU1)%NSEG
              IF(IGRSURF(ISU1)%ELTYP(J)==1.OR.IGRSURF(ISU1)%ELTYP(J)==3
-     .          .OR.IGRSURF(ISU1)%ELTYP(J)==7) LINE_SEG = .FALSE.
-          ENDDO
-          DO J=1,IGRSURF(ISU2)%NSEG
+     .          .OR.IGRSURF(ISU1)%ELTYP(J)==7.OR.IGRSURF(ISU1)%ELTYP(J)==0) LINE_SEG = .FALSE.
+            ENDDO
+            DO J=1,IGRSURF(ISU2)%NSEG
              IF(IGRSURF(ISU2)%ELTYP(J)==1.OR.IGRSURF(ISU2)%ELTYP(J)==3
-     .          .OR.IGRSURF(ISU2)%ELTYP(J)==7) LINE_SEG = .FALSE.
-          ENDDO
+     .          .OR.IGRSURF(ISU2)%ELTYP(J)==7.OR.IGRSURF(ISU2)%ELTYP(J)==0) LINE_SEG = .FALSE.
+            ENDDO
+          ENDIF
+          IF(ISU3==0.AND.ISU4==0) LINE_SEG = .FALSE.
         CASE(3)
           NRTM = IGRSURF(ISU2)%NSEG
           LINE_SEG = .FALSE.
       END SELECT
+
       IF(LINE_SEG) THEN
          NRTM = 0
          NRTS = 0
       ENDIF
+
 c-----------------------------------------------------------------
       ALLOCATE(INDEX(2*NRTM),IRECTMP(6,NRTM),STAT=stat)
       IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
@@ -216,7 +228,7 @@ c---------------------------------------
 
 !!            IAD = IAD+1
           ENDDO
-          IRECTMP(5,L) = IGRSURF(ISU2)%ELTYP(J) ! MSEGTYP
+          IRECTMP(5,L) = IGRSURF(ISU2)%ELTYP(J) ! MSEGTYP 
           CALL IN24COQ_SOL3(IRECTMP(1,L) ,IXC ,IXTG ,IRECTMP(5,L) ,X  ,
      .                 KNOD2ELC ,KNOD2ELTG ,NOD2ELC ,NOD2ELTG,
      .                 KNOD2ELS,NOD2ELS,IXS ,IXS10 ,IXS16 ,IXS20 )
@@ -297,7 +309,7 @@ c          ALLOCATE(TAGNOD(NUMNOD),STAT=stat)
           IF(ISU3 /= 0)THEN
             DO J=1,IGRSLIN(ISU3)%NSEG
                LINE_TYP = IGRSLIN(ISU3)%ELTYP(J)
-               IF(LINE_TYP /= 1.AND.LINE_TYP /= 3.AND.LINE_TYP /= 7) THEN
+               IF(LINE_TYP /= 1.AND.LINE_TYP /= 3.AND.LINE_TYP /= 7.AND.LINE_TYP /= 0) THEN
                  NEDGEP = NEDGEP + 1  
                  N= IGRSLIN(ISU3)%NODES(J,1)
                  IF(TAGNOD(N)==0) THEN
@@ -315,7 +327,7 @@ c          ALLOCATE(TAGNOD(NUMNOD),STAT=stat)
           IF(ISU4 /= 0 .AND.ILEV /=1.AND.ILEV/=3)THEN
             DO J=1,IGRSLIN(ISU4)%NSEG
                LINE_TYP = IGRSLIN(ISU4)%ELTYP(J)
-               IF(LINE_TYP /= 1.AND.LINE_TYP /= 3.AND.LINE_TYP /= 7) THEN
+               IF(LINE_TYP /= 1.AND.LINE_TYP /= 3.AND.LINE_TYP /= 7.AND.LINE_TYP /= 0) THEN
                  NEDGEP = NEDGEP + 1  
                  N= IGRSLIN(ISU4)%NODES(J,1)
                  IF(TAGNOD(N)==0) THEN
@@ -382,7 +394,7 @@ c          ALLOCATE(TAGNOD(NUMNOD),STAT=stat)
           IF(ISU3 /= 0)THEN
             DO J=1,IGRSLIN(ISU3)%NSEG
                LINE_TYP = IGRSLIN(ISU3)%ELTYP(J)
-               IF(LINE_TYP /= 1.AND.LINE_TYP /= 3.AND.LINE_TYP /= 7) THEN
+               IF(LINE_TYP /= 1.AND.LINE_TYP /= 3.AND.LINE_TYP /= 7.AND.LINE_TYP /= 0) THEN
                  NEDGEP = NEDGEP + 1  
                  LEDGE(5,NEDGEP) = IGRSLIN(ISU3)%NODES(J,1)
                  LEDGE(6,NEDGEP) = IGRSLIN(ISU3)%NODES(J,2)
@@ -405,7 +417,7 @@ c          ALLOCATE(TAGNOD(NUMNOD),STAT=stat)
           IF(ISU4 /= 0 .AND.ILEV /=1.AND.ILEV/=3)THEN
             DO J=1,IGRSLIN(ISU4)%NSEG
                LINE_TYP = IGRSLIN(ISU4)%ELTYP(J)
-               IF(LINE_TYP /= 1.AND.LINE_TYP /= 3.AND.LINE_TYP /= 7) THEN
+               IF(LINE_TYP /= 1.AND.LINE_TYP /= 3.AND.LINE_TYP /= 7.AND.LINE_TYP /= 0) THEN
                  NEDGEP = NEDGEP + 1  
                  LEDGE(5,NEDGEP) = IGRSLIN(ISU4)%NODES(J,1)
                  LEDGE(6,NEDGEP) = IGRSLIN(ISU4)%NODES(J,2)
