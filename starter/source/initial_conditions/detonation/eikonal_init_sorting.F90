@@ -29,9 +29,9 @@
       implicit none
       contains
 !||====================================================================
-!||    eikonal_init_sorting                ../starter/source/initial_conditions/detonation/eikonal_init_sorting.F90
+!||    eikonal_init_sorting           ../starter/source/initial_conditions/detonation/eikonal_init_sorting.F90
 !||--- called by ------------------------------------------------------
-!||    eikonal_fast_marching_method        ../starter/source/initial_conditions/detonation/eikonal_fast_marching_method.F90
+!||    eikonal_fast_marching_method   ../starter/source/initial_conditions/detonation/eikonal_fast_marching_method.F90
 !||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
 !||====================================================================
