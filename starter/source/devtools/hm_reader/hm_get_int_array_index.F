@@ -139,7 +139,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_read_thgrsurf                         ../starter/source/output/th/hm_read_thgrsurf.F
 !||    hm_read_work_hardening_tabulated         ../starter/source/materials/mat/mat131/work_hardening/hm_read_work_hardening_tabulated.F90
 !||    hm_read_xref                             ../starter/source/loads/reference_state/xref/hm_read_xref.F
-!||    hm_read_yield_criterion_barlat2000       ../starter/source/materials/mat/mat131/yield_criterion/hm_read_yield_criterion_barlat2000.F90
 !||    hm_read_yield_criterion_hill             ../starter/source/materials/mat/mat131/yield_criterion/hm_read_yield_criterion_hill.F90
 !||    hm_set                                   ../starter/source/model/sets/hm_set.F
 !||    hm_surfnod                               ../starter/source/groups/hm_surfnod.F

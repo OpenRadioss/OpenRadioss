@@ -36,7 +36,6 @@
 !||    ancmsg                               ../starter/source/output/message/message.F
 !||    crityld2000                          ../starter/source/materials/mat/mat087/law87_upd.F90
 !||    hm_get_float_array_index             ../starter/source/devtools/hm_reader/hm_get_float_array_index.F
-!||    hm_get_int_array_index               ../starter/source/devtools/hm_reader/hm_get_int_array_index.F
 !||    invert                               ../starter/source/constraints/general/rbe3/hm_read_rbe3.F
 !||    prodmatvect                          ../starter/source/materials/mat/mat087/law87_upd.F90
 !||    r_yld2000                            ../starter/source/materials/mat/mat087/law87_upd.F90
