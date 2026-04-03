@@ -426,7 +426,7 @@ C=======================================================================
         IF(NE /= 0) THEN
           IF(STF(NE)==0) CYCLE   ! We do not retain the Destruit facets
         ELSE
-          IF(STFE(I)==ZERO) CYCLE   ! We do not retain the Destruit facets
+          IF(STFE(IEDG)==ZERO) CYCLE   ! We do not retain the Destruit facets
         ENDIF
 
         IF(IABS(LEDGE(7,IEDG))==1) CYCLE ! Main solid edge
@@ -460,7 +460,7 @@ C=======================================================================
         ZZ1=X(3,N1)
         ZZ2=X(3,N2)
 
-        IF(LEDGE(7,I)==3)THEN
+        IF(LEDGE(7,IEDG)==3)THEN
           XMAX_EDGM=MAX(XX1,XX2) ! +TZINF
           XMIN_EDGM=MIN(XX1,XX2)! -TZINF
           YMAX_EDGM=MAX(YY1,YY2) ! +TZINF

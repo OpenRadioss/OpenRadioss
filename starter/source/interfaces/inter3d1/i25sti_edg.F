@@ -353,6 +353,7 @@ C------------------------------------
              MG=IXR(1,NELR)
              MT = IXR(5,NELR)
              IP = IPARTR(NELR)
+             DX1 = ZERO 
              IF ( IGAP == 5.AND.THK_M /= ZERO) THEN
                DX1=THK_M_SCALE*HALF*THK_M
              ELSEIF(IP > 0)THEN
