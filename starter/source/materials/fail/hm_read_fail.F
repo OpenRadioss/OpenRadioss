@@ -145,7 +145,7 @@ C-----------------------------------------------
       INTEGER ,DIMENSION(:) ,ALLOCATABLE :: FAIL_MAT_NUM,FAIL_ID_ARRAY
       CHARACTER MESS*40
       CHARACTER(LEN = NCHARKEY) :: KEY
-      CHARACTER(LEN=NCHARTITLE) :: TITR
+      CHARACTER(LEN=NCHARTITLE) :: TITLE
 C----------------------------------      
       my_real UNITAB_SUB(4)
       CHARACTER(LEN=NCHARLINE) :: IUSER_KEY
@@ -284,13 +284,14 @@ c
             MAT_PARAM(IMAT)%NFAIL = MAT_PARAM(IMAT)%NFAIL + 1
             IFL   = MAT_PARAM(IMAT)%NFAIL
             ILAW  = MAT_PARAM(IMAT)%ILAW
+            TITLE = MAT_PARAM(IMAT)%TITLE
 c-------  ----------------------------------------------------------------
 c
             IF (KEY(1:5) == 'JOHNS') THEN
               IRUPT = 1
               CALL HM_READ_FAIL_JOHNSON(MAT_PARAM(IMAT)%FAIL(IFL),
-     .             MAT_ID   ,FAIL_ID  ,ILAW   ,IRUPT   ,IXFEM    ,
-     .             MAT_PARAM(IMAT)%TITLE ,LSUBMODEL ,UNITAB )
+     .             MAT_ID   ,FAIL_ID   ,ILAW   ,IRUPT   ,IXFEM    ,
+     .             TITLE    ,LSUBMODEL ,UNITAB )
 c---
 c     
             ELSEIF (KEY(1:5) == 'TBUTC') THEN 
@@ -369,7 +370,8 @@ c
             ELSEIF (KEY(1:6) == 'ENERGY') THEN
               IRUPT = 11
               CALL HM_READ_FAIL_ENERGY(MAT_PARAM(IMAT)%FAIL(IFL),
-     .             MAT_ID   ,FAIL_ID  ,IRUPT    ,LSUBMODEL,UNITAB)
+     .             TITLE   ,MAT_ID   ,FAIL_ID  ,IRUPT  ,
+     .             NTABLE  ,TABLE    ,LSUBMODEL,UNITAB )
 c
             ELSEIF (KEY(1:11) == 'FRACTAL_DMG') THEN 
               IRUPT = 12                    

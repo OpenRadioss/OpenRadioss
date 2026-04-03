@@ -1331,14 +1331,13 @@ c
      6               DMG_FLAG  ,DMG_LOC_SCALE ,ALDT  ,TSTAR     ,ISMSTR    )                                
 c
               CASE (11)     !    Energy failure model
-                CALL FAIL_ENERGY_C(
-     1               NEL       ,NUPAR     ,NVARF     ,NFUNC_FAIL   ,IFUNC_FAIL     , 
-     2               UPARAMF   ,UVARF     ,NPF       ,TF       ,TT         , 
-     3               NGL       ,IPG       ,ILAYER    ,IT       ,EPSPL      ,  
-     4               AREA      ,THKN      ,DMG_FLAG  , 
-     5               DMG_LOC_SCALE ,OFF   ,FOFF      ,DFMAX    ,TDEL       ,
-     6               SIGNXX    ,SIGNYY    ,SIGNXY    ,SIGNYZ   ,SIGNZX     ,
-     7               DEPSXX    ,DEPSYY    ,DEPSXY    ,DEPSYZ   ,DEPSZX     )     
+                call fail_energy_c(fail_param ,                      
+     &               nel       ,nvarf     ,nvartmp   ,uvarf    ,vartmp     ,
+     &               ngl       ,ipg       ,ilayer    ,it       ,epspl      ,
+     &               area      ,thkn      ,dmg_flag  ,tt       ,            
+     &               dmg_loc_scale ,off   ,foff      ,dfmax    ,tdel       ,
+     &               signxx    ,signyy    ,signxy    ,signyz   ,signzx     ,
+     &               depsxx    ,depsyy    ,depsxy    ,depsyz   ,depszx     )
 c
               CASE (13)     !    Chang-Chang failure model
                 CALL FAIL_CHANGCHANG_C(

@@ -2286,14 +2286,13 @@
                     &dmg_flag  ,dmg_loc_scale ,aldt  ,tstar     ,ismstr    )
 !
                    case (11)     !    energy failure model
-                    call fail_energy_c(&
-                    &nel       ,nupar     ,nvarf     ,nfunc_fail   ,ifunc_fail     ,&
-                    &uparamf   ,uvarf     ,npf       ,tf       ,tt         ,&
-                    &ngl       ,ipg       ,ilayer    ,it       ,epsd       ,&
-                    &area      ,thkn      ,dmg_flag  ,&
-                    &dmg_loc_scale ,off   ,foff      ,dfmax    ,tdel       ,&
-                    &signxx    ,signyy    ,signxy    ,signyz   ,signzx     ,&
-                    &depsxx    ,depsyy    ,depsxy    ,depsyz   ,depszx     )
+                    call fail_energy_c(fail_param    ,                      &
+                     nel       ,nvarf     ,nvartmp   ,uvarf    ,vartmp     ,&
+                     ngl       ,ipg       ,ilayer    ,it       ,epsd       ,&
+                     area      ,thkn      ,dmg_flag  ,tt       ,            &
+                     dmg_loc_scale ,off   ,foff      ,dfmax    ,tdel       ,&
+                     signxx    ,signyy    ,signxy    ,signyz   ,signzx     ,&
+                     depsxx    ,depsyy    ,depsxy    ,depsyz   ,depszx     )
 !
                    case (13)     !    chang-chang failure model
                     call fail_changchang_c(&

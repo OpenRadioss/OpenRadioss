@@ -2524,12 +2524,12 @@
 !
               else if(irupt == 11)then
 !---- energy failure
-                call fail_energy_s(&
-                &llt      ,nparam   ,nvarf    ,nfunc    ,ifunc    ,npf      ,&
-                &tf       ,tt       ,dt1      ,uparamf,ngl ,epsp     ,&
-                &uvarf    ,off      ,dfmax    ,tdel     ,lbuf%dmgscl,&
-                &ss1      ,ss2      ,ss3      ,ss4      ,ss5      ,ss6      ,&
-                &de1      ,de2      ,de3      ,de4      ,de5      ,de6      )
+                call fail_energy_s(failparam  ,  &
+                 llt      ,nvarf    ,nvartmp  ,uvarf    ,vartmp   ,    &
+                 tt       ,dt1      ,ngl      ,epsp     ,&
+                 off      ,dfmax    ,tdel     ,lbuf%dmgscl,&
+                 ss1      ,ss2      ,ss3      ,ss4      ,ss5      ,ss6      ,&
+                 de1      ,de2      ,de3      ,de4      ,de5      ,de6      )
               else if (irupt == 13) then
 !---- chang - chang
                 call fail_changchang_s(&

@@ -28,9 +28,9 @@
       module mulaw_mod
         implicit none
       contains
-! ======================================================================================================================
+! =================================================================================================
 !                                                   mmain
-! ======================================================================================================================
+! =================================================================================================
 !! \brief main routine for advanced Material Computation for brick/quad/thickshell/sph elements
 !||====================================================================
 !||    mulaw                   ../engine/source/materials/mat_share/mulaw.F90
@@ -536,8 +536,7 @@
           real(kind=WP) :: wfextt !< external force work accumulation
 !----
           real(kind=WP), dimension(:), pointer, contiguous   :: uparam,uparam0,uparf,uvarf,dfmax,&
-          &tdel,yldfac,dam,el_len,&
-          &el_pla,damini
+          &tdel,yldfac,dam,el_len,el_pla,damini
           real(kind=WP), dimension(nel), target :: el_pla_dum
           real(kind=WP), dimension(:), allocatable ,target  :: bufzero
           type(l_bufel_)  ,pointer         :: lbuf
@@ -2298,7 +2297,7 @@
               varftmp=> fbuf%floc(ir)%vartmp
               irupt  =  fbuf%floc(ir)%ilawf
               nvarf  =  fbuf%floc(ir)%nvar
-              nvarftmp= matparam%fail(ir)%nvartmp
+              nvarf  =  fbuf%floc(ir)%nvar
               dfmax  => fbuf%floc(ir)%dammx
               damini => fbuf%floc(ir)%damini
               tdel   => fbuf%floc(ir)%tdel
@@ -2309,8 +2308,9 @@
               failparam => matparam%fail(ir)
               nparf  =  matparam%fail(ir)%nuparam
               niparf =  matparam%fail(ir)%niparam
-              uparf=> matparam%fail(ir)%uparam(1:nparf)
-              iparf=> matparam%fail(ir)%iparam(1:niparf)
+              nvarftmp= matparam%fail(ir)%nvartmp
+              uparf  => matparam%fail(ir)%uparam(1:nparf)
+              iparf => matparam%fail(ir)%iparam(1:niparf)
               nfunc  =  matparam%fail(ir)%nfunc
               fld_idx=> fbuf%floc(ir)%indx
               ifunc  => matparam%fail(ir)%ifunc(1:nfunc)
@@ -2435,12 +2435,12 @@
                 &mfzx     ,mfzy     ,mfzz     ,lbuf%dmgscl)
               else if (irupt == 11) then
 !---- energy failure
-                call fail_energy_s(&
-                &nel      ,nparf    ,nvarf    ,nfunc    ,ifunc    ,npf      ,&
-                &tf       ,tt       ,dt1      ,uparf    ,ngl      ,epsp1    ,&
-                &uvarf    ,off      ,dfmax    ,tdel     ,lbuf%dmgscl,&
-                &s1       ,s2       ,s3       ,s4       ,s5       ,s6       ,&
-                &de1      ,de2      ,de3      ,de4      ,de5      ,de6      )
+                call fail_energy_s(mat_elem%mat_param(imat)%fail(ir)  , &
+                 nel      ,nvarf    ,nvarftmp ,uvarf    ,varftmp   ,          &
+                 tt       ,dt1      ,ngl      ,epsp1    ,&
+                 off      ,dfmax    ,tdel     ,lbuf%dmgscl,&
+                 s1       ,s2       ,s3       ,s4       ,s5       ,s6       ,&
+                 de1      ,de2      ,de3      ,de4      ,de5      ,de6      )
               else if (irupt == 13) then
 !---- chang - chang
                 call fail_changchang_s(&

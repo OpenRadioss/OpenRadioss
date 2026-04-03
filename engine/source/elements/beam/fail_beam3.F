@@ -106,14 +106,11 @@ C
       TYPE (FAIL_PARAM_)      ,INTENT(IN)    :: FAIL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
-C-----------------------------------------------
- 
+C----------------------------------------------- 
       INTEGER :: I,IFL,NFUNC,NPARAM,IRUPT
+      INTEGER :: NUVAR,NVARTMP
       my_real :: T0, TM
       my_real ,DIMENSION(NEL) :: TSTAR
- 
-C
- 
 C=======================================================================
 c      to avoid compilation error with unused arguments
 c      they will be necessary for next development step
@@ -122,15 +119,16 @@ c-----------------------------------------------------
 C--------------------------------------   
       NPARAM  = FAIL%NUPARAM
       NFUNC   = FAIL%NFUNC
+      NUVAR   = FAIL%NUVAR
+      NVARTMP = FAIL%NVARTMP
 c-----------------------------------------            
       IRUPT = ELBUF_STR%GBUF%FAIL(1)%ILAWF    
 c-------------------------------------
 c     progressive element erosion      
 c
       DO I = 1,NEL   
-
-            IF (OFF(I) < EM01)  OFF(I) = ZERO
-            IF (OFF(I) < ONE )  OFF(I) = OFF(I)*FOUR_OVER_5
+        IF (OFF(I) < EM01)  OFF(I) = ZERO
+        IF (OFF(I) < ONE )  OFF(I) = OFF(I)*FOUR_OVER_5
       ENDDO      
                             
 c-----------------------------------------            
@@ -171,14 +169,13 @@ c---------------
         
 c--------------- 
         CASE (11)     ! Energy failure model                                        
-          CALL FAIL_ENERGY_B(NEL      ,NGL      ,NPARAM   ,FAIL%UPARAM,
+          CALL FAIL_ENERGY_B(FAIL ,NEL      ,NGL      ,
      .         TIME     ,EPSD     ,OFF      ,ELBUF_STR%GBUF%FAIL(1)%DAMMX,                        
-     .         ELBUF_STR%GBUF%FAIL(1)%TDEL  ,IOUT     ,ISTDO    ,FAIL%IFUNC   ,
-     .         AREA     ,F1       ,F2       ,F3       ,
-     .         M1       ,M2       ,M3       ,SNPC     ,NPF    ,STF     ,
-     .         TF       ,EPSXX    ,EPSXY    ,EPSXZ    ,KXX    ,KYY     ,
-     .         KZZ      ,ELBUF_STR%GBUF%FAIL(1)%NVAR,ELBUF_STR%GBUF%FAIL(1)%VAR,
-     .         ELBUF_STR%GBUF%DMGSCL)
+     .         ELBUF_STR%GBUF%FAIL(1)%TDEL  ,IOUT     ,ISTDO    ,AREA     ,
+     .         F1       ,F2       ,F3       ,M1       ,M2       ,
+     .         M3       ,EPSXX    ,EPSXY    ,EPSXZ    ,KXX    ,KYY     ,
+     .         KZZ      ,NUVAR    ,ELBUF_STR%GBUF%FAIL(1)%VAR,
+     .         ELBUF_STR%GBUF%DMGSCL,NVARTMP,ELBUF_STR%GBUF%FAIL(1)%VARTMP)
 c--------------- 
 
         CASE (30)     !    BIQUAD                                                  

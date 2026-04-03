@@ -27,16 +27,18 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- calls      -----------------------------------------------------
 !||    finter          ../engine/source/tools/curve/finter.F
 !||====================================================================
-      SUBROUTINE FAIL_ENERGY_B(
-     .           NEL      ,NGL      ,NUPARAM  ,UPARAM   ,
+      SUBROUTINE FAIL_ENERGY_B(FAIL ,NEL      ,NGL      ,
      .           TIME     ,EPSD     ,OFF      ,DFMAX    ,       
-     .           TDEL     ,IOUT     ,ISTDO    ,IFUNC    ,
-     .           AREA     ,F1       ,
-     .           F2       ,F3       ,M1       ,M2       ,
-     .           M3       ,SNPC     ,NPF      ,STF      , 
-     .           TF       ,EPSXX    ,EPSXY    ,EPSXZ    ,
+     .           TDEL     ,IOUT     ,ISTDO    ,AREA     ,
+     .           F1       ,F2       ,F3       ,M1       ,M2       ,
+     .           M3       ,EPSXX    ,EPSXY    ,EPSXZ    ,
      .           KXX      ,KYY      ,KZZ      ,NVAR     ,
-     .           UVAR     ,DMGSCL )
+     .           UVAR     ,DMGSCL   ,NVARTMP  ,VARTMP   )
+! ---------------------------- ----------------------------------------------------------------------
+!         Modules
+! --------------------------------------------------------------------------------------------------
+          use fail_param_mod
+          use table_mat_vinterp_mod
 C-----------------------------------------------
 c    energy failure model for standard beams (TYPE 3)
 C-----------------------------------------------
@@ -51,20 +53,15 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER                     ,INTENT(IN)    :: NEL     ! size of element group
-      INTEGER                     ,INTENT(IN)    :: NUPARAM ! size of parameter array
       INTEGER                     ,INTENT(IN)    :: IOUT    ! output file unit
       INTEGER                     ,INTENT(IN)    :: ISTDO   ! output file unit
-      INTEGER                     ,INTENT(IN)    :: SNPC 
-      INTEGER                     ,INTENT(IN)    :: STF       
       INTEGER ,DIMENSION(NEL)     ,INTENT(IN)    :: NGL     ! table of element identifiers
-      INTEGER ,DIMENSION(100)     ,INTENT(IN)    :: IFUNC   ! table of functions identifiers
-      INTEGER ,DIMENSION(SNPC)    ,INTENT(IN)    :: NPF
       INTEGER                     ,INTENT(IN)    :: NVAR
+      INTEGER                     ,INTENT(IN)    :: NVARTMP
+      INTEGER ,DIMENSION(NEL,NVARTMP),INTENT(INOUT) :: VARTMP
       my_real                     ,INTENT(IN)    :: TIME    ! current time
       my_real                     ,INTENT(IN)    :: AREA
-      my_real ,DIMENSION(NUPARAM) ,INTENT(IN)    :: UPARAM  ! failure model parameter array
       my_real ,DIMENSION(NEL)     ,INTENT(IN)    :: EPSD    ! strain rate
-      my_real ,DIMENSION(STF)     ,INTENT(IN)    :: TF
       my_real ,DIMENSION(NEL)     ,INTENT(INOUT) :: OFF     ! flag
       my_real ,DIMENSION(NEL)     ,INTENT(INOUT) :: DFMAX   ! maximum damage
       my_real ,DIMENSION(NEL)     ,INTENT(INOUT) :: TDEL    ! deactivation time
@@ -74,19 +71,18 @@ C-----------------------------------------------
       my_real ,DIMENSION(NEL)     ,INTENT(IN)    :: KXX,KYY,KZZ
       my_real ,DIMENSION(NEL,NVAR),INTENT(INOUT) :: UVAR    ! User variable
       my_real, DIMENSION(NEL)     ,INTENT(INOUT) :: DMGSCL 
+      type (fail_param_)          ,intent(inout) :: fail    !< failure model data structure
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: I,J,NINDX
       INTEGER ,DIMENSION(NEL) :: INDX
-      my_real :: RFAC,R1,R2,IE_SP,DYDX,RIEF1,RIEF2,XFAC,FINTER
-      EXTERNAL FINTER
-      my_real ,DIMENSION(NEL) :: DAMAGE
+      my_real :: R1,R2,IE_SP,RIEF1,RIEF2
+      my_real ,DIMENSION(NEL) :: DAMAGE,RFAC,DYDX
 C=======================================================================
       NINDX = 0  
-      RIEF1    = UPARAM(1)             
-      RIEF2    = UPARAM(2)           
-      XFAC     = UPARAM(4)           
+      RIEF1 = FAIL%UPARAM(1)             
+      RIEF2 = FAIL%UPARAM(2)           
       DO I=1,NEL
         DAMAGE(I) = ZERO
         UVAR(I,1) = UVAR(I,1) + (
@@ -94,16 +90,17 @@ C=======================================================================
      .              M1(I)*KXX(I)   + M2(I)*KYY(I)   + M3(I)*KZZ(I))
       ENDDO
 c-----------------------------
+      if (fail%table4d(1)%notable > 0) then
+        call table_mat_vinterp(fail%table4d(1),nel,nel,vartmp,epsd,rfac,dydx)
+        rfac(:) = max(rfac(:),em20)
+      else
+        rfac(:) = one
+      end if
+!
       DO I=1,NEL
         IF (OFF(I) == ONE ) THEN
-          IF (IFUNC(1) /= 0) THEN
-            RFAC = FINTER(IFUNC(1),EPSD(I)*XFAC,NPF,TF,DYDX)
-            RFAC = MAX(RFAC,EM20)
-          ELSE
-            RFAC = ONE
-          ENDIF  
-          R1 = RIEF1*RFAC
-          R2 = RIEF2*RFAC
+          R1 = RIEF1*RFAC(I)
+          R2 = RIEF2*RFAC(I)
           IE_SP = UVAR(I,1)/AREA
 
           IF (IE_SP > R1) THEN
