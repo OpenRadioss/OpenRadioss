@@ -2572,14 +2572,13 @@
                 &off      ,table    ,dfmax    ,tdel     ,nfunc     ,ifunc     )
               else if (irupt == 24) then
 !   --- orthotropic strain failure
-                call fail_orthstrain(&
-                &llt      ,nparam   ,nvarf    ,nfunc    ,ifunc    ,&
-                &npf      ,tf       ,tt       ,dt1      ,uparamf,ismstr,&
-                &ep1      ,ep2      ,ep3      ,ep4      ,ep5      ,ep6     ,&
-                &es1      ,es2      ,es3      ,es4      ,es5      ,es6     ,&
-                &ss1      ,ss2      ,ss3      ,ss4      ,ss5      ,ss6     ,&
-                &uvarf    ,off      ,ipg      ,ngl      ,dfmax    ,tdel    ,&
-                &gbuf%uelr,npg      ,deltax   ,lf_dammx )
+                call fail_orthstrain(failparam,                               &
+                 llt      ,nvarf    ,tt       ,dt1      ,ismstr   ,           &
+                 ep1      ,ep2      ,ep3      ,ep4      ,ep5      ,ep6     ,  &
+                 es1      ,es2      ,es3      ,es4      ,es5      ,es6     ,  &
+                 ss1      ,ss2      ,ss3      ,ss4      ,ss5      ,ss6     ,  &
+                 uvarf    ,off      ,ipg      ,ngl      ,dfmax    ,tdel    ,  &
+                 gbuf%uelr,npg      ,deltax   ,lf_dammx ,nvartmp  ,vartmp  )
               else if (irupt == 27) then
 ! ---   extended mohr coulomb failure model
                 call fail_emc(&

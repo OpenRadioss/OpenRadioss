@@ -31,14 +31,18 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    jacobiew          ../engine/source/materials/mat/mat033/sigeps33.F
 !||    vinter2           ../engine/source/tools/curve/vinter.F
 !||====================================================================
-              SUBROUTINE FAIL_ORTHSTRAIN ( 
-     1        NEL      ,NUPARAM,NUVAR  ,NFUNC   ,IFUNC , 
-     2        NPF      ,TF     ,TIME   ,TIMESTEP,UPARAM ,ISMSTR   , 
-     3        EPSPXX   ,EPSPYY ,EPSPZZ ,EPSPXY  ,EPSPYZ ,EPSPZX   ,
-     4        EPSXX    ,EPSYY  ,EPSZZ  ,EPSXY   ,EPSYZ  ,EPSZX    ,
-     5        SIGNXX   ,SIGNYY ,SIGNZZ ,SIGNXY  ,SIGNYZ ,SIGNZX   ,
-     6        UVAR     ,OFF    ,IPT    ,NGL     ,DFMAX  ,TDEL     ,
-     7        UELR     ,NPT    ,DELTAX ,LF_DAMMX)
+              SUBROUTINE FAIL_ORTHSTRAIN (FAIL ,
+     1        NEL      ,NUVAR  ,TIME   ,TIMESTEP,ISMSTR ,
+     2        EPSPXX   ,EPSPYY ,EPSPZZ ,EPSPXY  ,EPSPYZ ,EPSPZX   , 
+     3        EPSXX    ,EPSYY  ,EPSZZ  ,EPSXY   ,EPSYZ  ,EPSZX    ,
+     4        SIGNXX   ,SIGNYY ,SIGNZZ ,SIGNXY  ,SIGNYZ ,SIGNZX   ,
+     5        UVAR     ,OFF    ,IPT    ,NGL     ,DFMAX  ,TDEL     ,
+     6        UELR     ,NPT    ,DELTAX ,LF_DAMMX,NVARTMP,VARTMP   )
+! ---------------------------- ----------------------------------------------------------------------
+!         Modules
+! --------------------------------------------------------------------------------------------------
+          use fail_param_mod
+          use table_mat_vinterp_mod
 C-----------------------------------------------
 c    Orthotropic strain failure model
 C-----------------------------------------------
@@ -54,17 +58,10 @@ C---------+---------+---+---+--------------------------------------------
 C VAR     | SIZE    |TYP| RW| DEFINITION
 C---------+---------+---+---+--------------------------------------------
 C NEL     |  1      | I | R | SIZE OF THE ELEMENT GROUP NEL 
-C NUPARAM |  1      | I | R | SIZE OF THE USER PARAMETER ARRAY
 C NUVAR   |  1      | I | R | NUMBER OF USER ELEMENT VARIABLES
-C---------+---------+---+---+--------------------------------------------
-C MFUNC   |  1      | I | R | NUMBER FUNCTION USED FOR THIS USER LAW not used
-C KFUNC   | NFUNC   | I | R | FUNCTION INDEX not used
-C NPF     |  *      | I | R | FUNCTION ARRAY   
-C TF      |  *      | F | R | FUNCTION ARRAY 
 C---------+---------+---+---+--------------------------------------------
 C TIME    |  1      | F | R | CURRENT TIME
 C TIMESTEP|  1      | F | R | CURRENT TIME STEP
-C UPARAM  | NUPARAM | F | R | USER MATERIAL PARAMETER ARRAY
 C EPSPXX  | NEL     | F | R | STRAIN RATE XX
 C EPSPYY  | NEL     | F | R | STRAIN RATE YY
 C ...     |         |   |   |
@@ -81,61 +78,79 @@ C OFF     | NEL     | F |R/W| DELETED ELEMENT FLAG (=1. ON, =0. OFF)
 C---------+---------+---+---+--------------------------------------------
 C   I N P U T   A r g u m e n t s
 C--------------------------------------------
-      INTEGER :: NEL,NUPARAM,NUVAR,IPT,NPT,ISMSTR,LF_DAMMX
+      INTEGER :: NEL,NUVAR,IPT,NPT,ISMSTR,LF_DAMMX
+      INTEGER ,INTENT(IN) :: NVARTMP
       INTEGER ,DIMENSION(NEL) :: NGL
       my_real :: TIME,TIMESTEP
-      my_real ,DIMENSION(NUPARAM) :: UPARAM
       my_real ,DIMENSION(NEL) ,INTENT(IN) :: EPSXX,EPSYY,EPSZZ,
      .  EPSXY,EPSYZ,EPSZX,EPSPXX,EPSPYY,EPSPZZ,EPSPXY,EPSPYZ,EPSPZX
       my_real ,DIMENSION(NEL)     :: UELR,DELTAX,
      .  SIGNXX,SIGNYY,SIGNZZ,SIGNXY,SIGNYZ,SIGNZX
+      type (fail_param_) ,intent(in) :: fail    !< failure model data structure
 C-----------------------------------------------
 C   I N P U T   O U T P U T   A r g u m e n t s 
 C-----------------------------------------------
+      INTEGER ,DIMENSION(NEL,NVARTMP) ,INTENT(INOUT) :: VARTMP
       my_real UVAR(NEL,NUVAR),OFF(NEL),TDEL(NEL)
       my_real, DIMENSION(NEL,LF_DAMMX), INTENT(INOUT) :: DFMAX
-C-----------------------------------------------
-C   VARIABLES FOR FUNCTION INTERPOLATION 
-C-----------------------------------------------
-      INTEGER NPF(*), NFUNC, IFUNC(NFUNC) 
-      my_real FINTER ,TF(*) 
-      EXTERNAL FINTER 
-C-----------------------------------------------
-C        Y = FINTER(IFUNC(J),X,NPF,TF,DYDX)
-C        Y       : y = f(x)
-C        X       : x
-C        DYDX    : f'(x) = dy/dx
-C        IFUNC(J): FUNCTION INDEX
-C              J : FIRST(J=1), SECOND(J=2) .. FUNCTION USED FOR THIS LAW
-C        NPF,TF  : FUNCTION PARAMETER
+      TARGET :: UVAR
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,NINDX,FAILI,MODE,XX,XY,YY,ZZ,YZ,ZX,IFUNC_SIZ,STRDEF,STRFLAG,
-     .    M11T, M11C,M22T,M22C,M33T,M33C,M12T,M12C,M23T,M23C,M31T,M31C
-      INTEGER ,DIMENSION(NEL)    :: INDX,IPOSP,IADP,ILENP
+      INTEGER :: I,J,K,L,M
+      INTEGER :: NINDX,NINDX_ON,STRDEF,STRFLAG
+      INTEGER :: MODE,XX,XY,YY,ZZ,YZ,ZX
+      INTEGER :: M11T,M11C,M22T,M22C,M33T,M33C,M12T,M12C,M23T,M23C,M31T,M31C
+      INTEGER :: NROT
+      INTEGER ,DIMENSION(NEL)    :: INDX,INDX_ON,FAILI
       INTEGER ,DIMENSION(NEL,12) :: FMODE
-      my_real  ODAM(NEL,12),EPSP(NEL,6),SIGO(NEL,6),FSIZE(NEL),
-     .   ESCAL(NEL),DYDX(NEL)
+      my_real  ODAM(NEL,12),EPSP(NEL,6),SIGO(NEL,6),ESCAL(NEL),DYDX(NEL)
       my_real ,DIMENSION(NEL)  :: EPS11,EPS22,EPS33,EPS12,EPS23,EPS31,
      .     EPSP11,EPSP22,EPSP33,EPSP12,EPSP23,EPSP31,
      .     EPSM1,EPSM2,EPSM3,EPSM4,EPSM5,EPSM6,
      .     EPSM7,EPSM8,EPSM9,EPSM10,EPSM11,EPSM12
-      my_real  FRATE,EPSPREF,EPDOT,ALPHA,DEPSM,DEPS,FACT,
+      my_real  EPSPREF,FCUT,ALPHA,DEPSM,DEPS,FACT,
      .    ET1,ET2,ET12,EC1,EC2,EC12,ET3,EC3,EC23,ET23,EC31,ET31,
      .    ET1M,ET2M,ET12M,EC1M,EC2M,EC12M,ET3M,EC3M,EC23M,ET23M,EC31M,ET31M,
      .    DI,DAMXX,DAMYY,DAMXY,DAMZZ,DAMYZ,DAMZX, 
-     .    ODAMXX,ODAMYY,ODAMXY,ODAMZZ,ODAMYZ,ODAMZX,FSCALE_SIZ,REF_SIZ
+     .    ODAMXX,ODAMYY,ODAMXY,ODAMZZ,ODAMYZ,ODAMZX,REF_SIZ
+      my_real  EPS_1,EPS_2
       my_real  EPSTENS(3,3),EPSTENS2(3,3),EPS_PR(3),VECT_PR(3,3),
      .         EPSPTENS(3,3),EPSPTENS2(3,3),EPSP_PR(3)
-      INTEGER  NROT,K,L,M
+      my_real ,DIMENSION(NEL) :: FRATE,EPDOT
+      my_real ,DIMENSION(:), POINTER :: FSIZE
 C=======================================================================
-      ALPHA      = MIN(TWO*PI*UPARAM(16)*MAX(TIMESTEP,EM20),ONE)
-      EPSPREF    = UPARAM(17)
-      FSCALE_SIZ = UPARAM(26)
-      REF_SIZ    = UPARAM(27)
-      STRDEF     = NINT(UPARAM(28))
-      IFUNC_SIZ  = IFUNC(13)
+      STRDEF  = FAIL%IPARAM(1)
+!
+      REF_SIZ = FAIL%UPARAM(1) 
+      FCUT    = FAIL%UPARAM(2) 
+      EPSPREF = FAIL%UPARAM(3) 
+      ET1     = FAIL%UPARAM(4) 
+      ET1M    = FAIL%UPARAM(5) 
+      ET2     = FAIL%UPARAM(6) 
+      ET2M    = FAIL%UPARAM(7) 
+      EC1     = FAIL%UPARAM(8) 
+      EC1M    = FAIL%UPARAM(9) 
+      EC2     = FAIL%UPARAM(10)
+      EC2M    = FAIL%UPARAM(11)
+      ET12    = FAIL%UPARAM(12)
+      ET12M   = FAIL%UPARAM(13)
+      EC12    = FAIL%UPARAM(14)
+      EC12M   = FAIL%UPARAM(15)
+      ET3     = FAIL%UPARAM(16)
+      ET3M    = FAIL%UPARAM(17)
+      EC3     = FAIL%UPARAM(18)
+      EC3M    = FAIL%UPARAM(19)
+      ET23    = FAIL%UPARAM(20)
+      ET23M   = FAIL%UPARAM(21)
+      EC23    = FAIL%UPARAM(22)
+      EC23M   = FAIL%UPARAM(23)
+      ET31    = FAIL%UPARAM(24)
+      ET31M   = FAIL%UPARAM(25)
+      EC31    = FAIL%UPARAM(26)
+      EC31M   = FAIL%UPARAM(27)
+!
+      ALPHA = MIN(TWO*PI*FCUT*TIMESTEP,ONE)
 c----------------------------------------------
 c     strain transformation following input definition
 c-------------------
@@ -359,25 +374,18 @@ c
           EPSP23(1:NEL) = HALF*EPSPYZ(1:NEL)
           EPSP31(1:NEL) = HALF*EPSPZX(1:NEL)
       END SELECT
-c------------------------------
-c     Element size scale factor
-      IF (IFUNC_SIZ > 0) THEN
-        IF (UVAR(1,13)==ZERO) THEN 
+!----------------------------------------------
+      !  Element size scale factor
+      FSIZE => UVAR(1:NEL,13)
+      IF (FSIZE(1) == ZERO) THEN
+        IF (FAIL%TABLE4D(13)%NOTABLE > 0) THEN 
           ESCAL(1:NEL) = DELTAX(1:NEL) / REF_SIZ
-          IPOSP(1:NEL) = 0
-          IADP (1:NEL) = NPF(IFUNC_SIZ) / 2 + 1
-          ILENP(1:NEL) = NPF(IFUNC_SIZ  + 1) / 2 - IADP(1:NEL) - IPOSP(1:NEL)
-          CALL VINTER2(TF,IADP,IPOSP,ILENP,NEL,ESCAL,DYDX,FSIZE)
-          FSIZE(1:NEL) = FSCALE_SIZ * FSIZE(1:NEL)
-          UVAR(1:NEL,13) = FSIZE(1:NEL)
+          call table_mat_vinterp(fail%table4d(13),nel,nel,vartmp(1:nel,13:13),escal,fsize,dydx)
         ELSE
-          FSIZE(1:NEL) = UVAR(1:NEL,13)
+          FSIZE(1:NEL) = ONE
         ENDIF
-      ELSE
-        FSIZE(1:NEL) = ONE
       ENDIF
-c------------------------------
-c
+!----------------------------------------------
       XX=1
       YY=2
       ZZ=3
@@ -385,13 +393,13 @@ c
       YZ=5
       ZX=6
       M11T = 1
-      M11C = 4
       M22T = 2 
+      M12T = 3
+      M11C = 4
       M22C = 5
+      M12C = 6
       M33T = 7
       M33C = 8
-      M12T = 3
-      M12C = 6
       M23T = 9
       M23C = 10
       M31T = 11
@@ -427,372 +435,365 @@ c strain rate filtering
           EPSP(I,ZX) = ZERO
         ENDIF
       ENDDO 
-c
-c damage and failure calculation in each mode (dir)
-c
+!---------------------------------------------------------------------
+      ! list of active elements
+!---------------------------------------------------------------------
       NINDX = 0  
-      INDX(1:NEL) = 0
-      FMODE(1:NEL,1:12) = 0
-      DO I=1, NEL
-        IF (OFF(I) == ONE) THEN
-          ET1    = UPARAM(4)
-          ET1M   = UPARAM(5)
-          ET2    = UPARAM(6)
-          ET2M   = UPARAM(7) 
-          EC1    = UPARAM(8)
-          EC1M   = UPARAM(9)
-          EC2    = UPARAM(10)
-          EC2M   = UPARAM(11)
-          ET12   = UPARAM(12)
-          ET12M  = UPARAM(13)
-          EC12   = UPARAM(14)                       
-          EC12M  = UPARAM(15)
-          ET3    = UPARAM(18)
-          ET3M   = UPARAM(19)
-          EC3    = UPARAM(20)
-          EC3M   = UPARAM(21)
-          ET23   = UPARAM(22)
-          ET23M  = UPARAM(23)
-          EC23   = UPARAM(24)
-          EC23M  = UPARAM(25)
-          ET31   = UPARAM(22)
-          ET31M  = UPARAM(23)
-          EC31   = UPARAM(24)
-          EC31M  = UPARAM(25)
-c
-          FAILI = 0
-c
-c         MODE XX TRACTION
-c
-          MODE  = 1
-          EPDOT = ABS(EPSP(I,XX))/EPSPREF
-          IF (IFUNC(MODE) > 0) THEN
-            FRATE = FINTER(IFUNC(MODE),EPDOT,NPF,TF,DYDX)
-          ELSE
-            FRATE = ONE
+      nindx_on = 0  
+      do i=1,nel
+        if (off(i) == one) then
+          nindx_on = nindx_on + 1
+          indx_on(nindx_on) = i  
+        end if
+      end do
+!---------------------------------------------------------------------
+      ! failure and damage calculation in each mode (dir)
+!---------------------------------------------------------------------
+      faili(1:nel)      = 0
+      fmode(1:nel,1:12) = 0
+      NINDX = 0  
+!
+      mode = m11t   ! traction xx
+      if (fail%table4d(mode)%notable > 0) then 
+        epdot(1:nel) = abs(epsp(1:nel,xx)) / epspref
+        call table_mat_vinterp(fail%table4d(mode),nel,nel,vartmp(1:nel,mode:mode),epdot,frate,dydx)
+      else
+        frate(:) = one
+      end if
+      do j = 1,nindx_on
+        i = indx_on(j)
+        FRATE(I) = FRATE(I)*FSIZE(I)
+        EPS_2 = FRATE(I) * ET1M
+        EPS_1 = FRATE(I) * ET1
+        DEPS = MAX(EPS11(I) - EPS_1, ZERO)
+        IF (DEPS > ZERO .AND. DFMAX(I,1+MODE) < ONE) THEN
+          DEPSM = EPS_2 - EPS_1
+          FACT  = EPS_2 / MAX(EPS11(I),EM20)
+          DI = FACT*DEPS/MAX(DEPSM,EM20)
+          DFMAX(I,1+MODE) = MAX(DFMAX(I,1+MODE), DI)
+          IF (DFMAX(I,1+MODE) >= ONE) THEN
+            FAILI(I) = 1
+            FMODE(I,MODE) = 1
+            DFMAX(I,1+MODE) = ONE
+            EPSM1(I) = EPS_2
           ENDIF
-          FRATE = FRATE*FSIZE(I)
-          ET1M = FRATE * ET1M
-          ET1  = FRATE * ET1
-          DEPS = MAX(EPS11(I) - ET1, ZERO)
-          IF (DEPS > ZERO .AND. DFMAX(I,1+MODE) < ONE) THEN
-            DEPSM = (ET1M - ET1)
-            FACT  = ET1M / MAX(EPS11(I),EM20)
-            DI = FACT*DEPS/MAX(DEPSM,EM20)
-            DFMAX(I,1+MODE) = MAX(DFMAX(I,1+MODE), DI)
-            IF (DFMAX(I,1+MODE) >= ONE) THEN
-              FAILI = 1
-              FMODE(I,MODE) = 1
-              DFMAX(I,1+MODE) = ONE
-              EPSM1(I) = ET1M
-            ENDIF
+        ENDIF
+      end do
+!
+      mode = m22t   ! traction yy
+      if (fail%table4d(mode)%notable > 0) then 
+        epdot(1:nel) = abs(epsp(1:nel,yy)) / epspref
+        call table_mat_vinterp(fail%table4d(mode),nel,nel,vartmp(1:nel,mode:mode),epdot,frate,dydx)
+      else
+        frate(:) = one
+      end if
+      do j = 1,nindx_on
+        i = indx_on(j)
+        FRATE(I) = FRATE(I)*FSIZE(I)
+        EPS_2 = FRATE(I) * ET2M
+        EPS_1 = FRATE(I) * ET2
+        DEPS  = MAX(EPS22(I) - EPS_1, ZERO)
+        IF (DEPS > ZERO .AND. DFMAX(I,1+MODE) < ONE) THEN
+          DEPSM = EPS_2 - EPS_1
+          FACT  = EPS_2 / MAX(EPS22(I),EM20)
+          DI    = FACT * DEPS / MAX(DEPSM,EM20) 
+          DFMAX(I,1+MODE) = MAX(DFMAX(I,1+MODE), DI)
+          IF (DFMAX(I,1+MODE) >= ONE) THEN
+            FAILI(I) = 1
+            FMODE(I,MODE) = 1
+            DFMAX(I,1+MODE) = ONE
+            EPSM2(I) = EPS_2
           ENDIF
-c
-c         MODE YY TRACTION
-c
-          MODE  = 2
-          EPDOT = ABS(EPSP(I,YY))/EPSPREF
-          IF (IFUNC(MODE) > 0) THEN
-            FRATE = FINTER(IFUNC(MODE),EPDOT,NPF,TF,DYDX)
-          ELSE
-            FRATE = ONE
+        ENDIF
+      end do
+!
+      mode = m12t   ! traction xy
+      if (fail%table4d(mode)%notable > 0) then 
+        epdot(1:nel) = abs(epsp(1:nel,xy)) / epspref
+        call table_mat_vinterp(fail%table4d(mode),nel,nel,vartmp(1:nel,mode:mode),epdot,frate,dydx)
+      else
+        frate(:) = one
+      end if
+      do j = 1,nindx_on
+        i = indx_on(j)
+        FRATE(I) = FRATE(I)*FSIZE(I)
+        EPS_2 = FRATE(I) * ET12M
+        EPS_1  = FRATE(I) * ET12
+        DEPS  = MAX(EPS12(I) - EPS_1, ZERO)
+        IF (DEPS > ZERO .AND. DFMAX(I,1+MODE) < ONE) THEN
+          DEPSM = EPS_2 - EPS_1
+          FACT  = EPS_2 / MAX(EPS12(I),EM20)
+          DI    = FACT * DEPS / MAX(DEPSM,EM20)
+          DFMAX(I,1+MODE) = MAX(DFMAX(I,1+MODE), DI)
+          IF (DFMAX(I,1+MODE) >= ONE) THEN
+            FAILI(I) = 1
+            FMODE(I,MODE) = 1
+            DFMAX(I,1+MODE) = ONE
+            EPSM3(I) = EPS_2
           ENDIF
-          FRATE = FRATE*FSIZE(I)
-          ET2M = FRATE * ET2M
-          ET2  = FRATE * ET2
-          DEPS = MAX(EPS22(I) - ET2, ZERO)
-          IF (DEPS > ZERO .AND. DFMAX(I,1+MODE) < ONE) THEN
-            DEPSM = (ET2M - ET2)
-            FACT  = ET2M / MAX(EPS22(I),EM20)
-            DI    = FACT * DEPS / MAX(DEPSM,EM20) 
-            DFMAX(I,1+MODE) = MAX(DFMAX(I,1+MODE), DI)
-            IF (DFMAX(I,1+MODE) >= ONE) THEN
-              FAILI = 1
-              FMODE(I,MODE) = 1
-              DFMAX(I,1+MODE) = ONE
-              EPSM2(I) = ET2M
-            ENDIF
+        ENDIF
+      end do
+!
+      mode = m11c   ! compression xx
+      if (fail%table4d(mode)%notable > 0) then 
+        epdot(1:nel) = abs(epsp(1:nel,xx)) / epspref
+        call table_mat_vinterp(fail%table4d(mode),nel,nel,vartmp(1:nel,mode:mode),epdot,frate,dydx)
+      else
+        frate(:) = one
+      end if
+      do j = 1,nindx_on
+        i = indx_on(j)
+        FRATE(I) = FRATE(I)*FSIZE(I)
+        EPS_2 = FRATE(I) * EC1M
+        EPS_1 = FRATE(I) * EC1
+        DEPS  = MAX(-EPS11(I) - EPS_1, ZERO)
+        IF (DEPS > ZERO .AND. DFMAX(I,1+MODE) < ONE) THEN
+          DEPSM = EPS_2 - EPS_1
+          FACT  = EPS_2 / MAX(ABS(EPS11(I)),EM20)
+          DI    = FACT * DEPS / MAX(DEPSM,EM20)
+          DFMAX(I,1+MODE) = MAX(DFMAX(I,1+MODE), DI)
+          IF (DFMAX(I,1+MODE) >= ONE) THEN
+            FAILI(I) = 1
+            FMODE(I,MODE) = 1
+            DFMAX(I,1+MODE) = ONE
+            EPSM4(I) = -EPS_2
           ENDIF
-c
-c         MODE XY TRACTION
-c
-          MODE  = 3
-          EPDOT = ABS(EPSP(I,XY))/EPSPREF
-          IF (IFUNC(MODE) > 0) THEN
-            FRATE = FINTER(IFUNC(MODE),EPDOT,NPF,TF,DYDX)
-          ELSE
-            FRATE = ONE
+        ENDIF
+      end do
+!
+      mode = m22c   ! compression yy
+      if (fail%table4d(mode)%notable > 0) then 
+        epdot(1:nel) = abs(epsp(1:nel,yy)) / epspref
+        call table_mat_vinterp(fail%table4d(mode),nel,nel,vartmp(1:nel,mode:mode),epdot,frate,dydx)
+      else
+        frate(:) = one
+      end if
+      do j = 1,nindx_on
+        i = indx_on(j)
+        FRATE(I) = FRATE(I)*FSIZE(I)
+        EPS_2 = FRATE(I) * EC2M
+        EPS_1 = FRATE(I) * EC2
+        DEPS  = MAX(-EPS22(I) - EPS_1, ZERO)
+        IF (DEPS > ZERO .AND. DFMAX(I,1+MODE) < ONE) THEN
+          DEPSM = EPS_2 - EPS_1
+          FACT  = EPS_2 / MAX(ABS(EPS22(I)),EM20)
+          DI    = FACT * DEPS / MAX(DEPSM,EM20)
+          DFMAX(I,1+MODE) = MAX(DFMAX(I,1+MODE), DI)
+          IF (DFMAX(I,1+MODE) >= ONE) THEN
+            FAILI(I) = 1
+            FMODE(I,MODE) = 1
+            DFMAX(I,1+MODE) = ONE
+            EPSM5(I) = -EPS_2
           ENDIF
-          FRATE = FRATE*FSIZE(I)
-          ET12M = FRATE * ET12M
-          ET12  = FRATE * ET12
-          DEPS  = MAX(EPS12(I) - ET12, ZERO)
-          IF (DEPS > ZERO .AND. DFMAX(I,1+MODE) < ONE) THEN
-            DEPSM = (ET12M - ET12)
-            FACT  = ET12M / MAX(EPS12(I),EM20)
-            DI    = FACT * DEPS / MAX(DEPSM,EM20)
-            DFMAX(I,1+MODE) = MAX(DFMAX(I,1+MODE), DI)
-            IF (DFMAX(I,1+MODE) >= ONE) THEN
-              FAILI = 1
-              FMODE(I,MODE) = 1
-              DFMAX(I,1+MODE) = ONE
-              EPSM3(I) = ET12M
-            ENDIF
+        ENDIF
+      end do
+!
+      mode = m12c   ! compression xy
+      if (fail%table4d(mode)%notable > 0) then 
+        epdot(1:nel) = abs(epsp(1:nel,xy)) / epspref
+        call table_mat_vinterp(fail%table4d(mode),nel,nel,vartmp(1:nel,mode:mode),epdot,frate,dydx)
+      else
+        frate(:) = one
+      end if
+      do j = 1,nindx_on
+        i = indx_on(j)
+        FRATE(I) = FRATE(I)*FSIZE(I)
+        EPS_2 = FRATE(I) * EC12M
+        EPS_1 = FRATE(I) * EC12
+        DEPS  = MAX(-EPS12(I) - EPS_1, ZERO)
+        IF (DEPS > ZERO .AND. DFMAX(I,1+MODE) < ONE) THEN
+          DEPSM = EPS_2 - EPS_1
+          FACT  = EPS_2 / MAX(ABS(EPS12(I)),EM20)
+          DI    = FACT * DEPS / MAX(DEPSM,EM20)
+          DFMAX(I,1+MODE) = MAX(DFMAX(I,1+MODE), DI)
+          IF (DFMAX(I,1+MODE) >= ONE) THEN
+            FAILI(I) = 1
+            FMODE(I,MODE) = 1
+            DFMAX(I,1+MODE) = ONE
+            EPSM6(I) = -EPS_2
           ENDIF
-c
-c           MODE XX COMPRESSION
-c         
-          MODE  = 4
-          EPDOT = ABS(EPSP(I,XX))/EPSPREF
-          IF (IFUNC(MODE) > 0) THEN
-            FRATE = FINTER(IFUNC(MODE),EPDOT,NPF,TF,DYDX)
-          ELSE
-            FRATE = ONE
+        ENDIF
+      end do
+!
+      mode = m33t   ! traction zz
+      if (fail%table4d(mode)%notable > 0) then 
+        epdot(1:nel) = abs(epsp(1:nel,zz)) / epspref
+        call table_mat_vinterp(fail%table4d(mode),nel,nel,vartmp(1:nel,mode:mode),epdot,frate,dydx)
+      else
+        frate(:) = one
+      end if
+      do j = 1,nindx_on
+        i = indx_on(j)
+        FRATE(I) = FRATE(I)*FSIZE(I)
+        EPS_2 = FRATE(I) * ET3M
+        EPS_1 = FRATE(I) * ET3
+        DEPS  = MAX(EPS33(I) - EPS_1, ZERO)
+        IF (DEPS > ZERO .AND. DFMAX(I,1+MODE) < ONE) THEN
+          DEPSM = EPS_2 - EPS_1
+          FACT  = EPS_2 / MAX(EPS33(I),EM20)
+          DI    = FACT * DEPS / MAX(DEPSM,EM20)
+          DFMAX(I,1+MODE) = MAX(DFMAX(I,1+MODE), DI)
+          IF (DFMAX(I,1+MODE) >= ONE) THEN
+            FAILI(I) = 1
+            FMODE(I,MODE) = 1
+            DFMAX(I,1+MODE) = ONE
+            EPSM7(I) = EPS_2
           ENDIF
-          FRATE = FRATE*FSIZE(I)
-          EC1M = FRATE * EC1M
-          EC1  = FRATE * EC1
-          DEPS = MAX(-EPS11(I) - EC1, ZERO)
-          IF (DEPS > ZERO .AND. DFMAX(I,1+MODE) < ONE) THEN
-            DEPSM = (EC1M - EC1)
-            FACT = EC1M / MAX(ABS(EPS11(I)),EM20)
-            DI = FACT * DEPS / MAX(DEPSM,EM20)
-            DFMAX(I,1+MODE) = MAX(DFMAX(I,1+MODE), DI)
-            IF (DFMAX(I,1+MODE) >= ONE) THEN
-              FAILI = 1
-              FMODE(I,MODE) = 1
-              DFMAX(I,1+MODE) = ONE
-              EPSM4(I) = -EC1M
-            ENDIF
+        ENDIF
+      end do
+!
+      mode = m33c   ! compression zz
+      if (fail%table4d(mode)%notable > 0) then 
+        epdot(1:nel) = abs(epsp(1:nel,zz)) / epspref
+        call table_mat_vinterp(fail%table4d(mode),nel,nel,vartmp(1:nel,mode:mode),epdot,frate,dydx)
+      else
+        frate(:) = one
+      end if
+      do j = 1,nindx_on
+        i = indx_on(j)
+        FRATE(I) = FRATE(I)*FSIZE(I)
+        EPS_2 = FRATE(I) * EC3M
+        EPS_1 = FRATE(I) * EC3
+        DEPS  = MAX(-EPS33(I) - EPS_1, ZERO)
+        IF (DEPS > ZERO .AND. DFMAX(I,1+MODE) < ONE) THEN
+          DEPSM = EPS_2 - EPS_1
+          FACT  = EPS_2 / MAX(ABS(EPS33(I)),EM20)
+          DI    = FACT * DEPS / MAX(DEPSM,EM20)
+          DFMAX(I,1+MODE) = MAX(DFMAX(I,1+MODE), DI)
+          IF (DFMAX(I,1+MODE) >= ONE) THEN
+            FAILI(I) = 1
+            FMODE(I,MODE) = 1
+            DFMAX(I,1+MODE) = ONE
+            EPSM8(I) = -EPS_2
           ENDIF
-c
-c           MODE YY COMPRESSION   
-c         
-          MODE = 5
-          EPDOT = ABS(EPSP(I,YY))/EPSPREF
-          IF (IFUNC(MODE) > 0) THEN
-            FRATE = FINTER(IFUNC(MODE),EPDOT,NPF,TF,DYDX)
-          ELSE
-            FRATE = ONE
+        ENDIF
+      end do
+!
+      mode = m23t   ! traction yz
+      if (fail%table4d(mode)%notable > 0) then 
+        epdot(1:nel) = abs(epsp(1:nel,yz)) / epspref
+        call table_mat_vinterp(fail%table4d(mode),nel,nel,vartmp(1:nel,mode:mode),epdot,frate,dydx)
+      else
+        frate(:) = one
+      end if
+      do j = 1,nindx_on
+        i = indx_on(j)
+        FRATE(I) = FRATE(I)*FSIZE(I)
+        EPS_2 = FRATE(I) * ET23M
+        EPS_1 = FRATE(I) * ET23
+        DEPS  = MAX(EPS23(I) - EPS_1, ZERO)
+        IF (DEPS > ZERO .AND. DFMAX(I,1+MODE) < ONE) THEN
+          DEPSM = EPS_2 - EPS_1
+          FACT  = EPS_2 / MAX(EPS23(I),EM20)
+          DI    = FACT * DEPS / MAX(DEPSM,EM20)
+          DFMAX(I,1+MODE) = MAX(DFMAX(I,1+MODE), DI)
+          IF (DFMAX(I,1+MODE) >= ONE) THEN
+            FAILI(I) = 1
+            FMODE(I,MODE) = 1
+            DFMAX(I,1+MODE) = ONE
+            EPSM9(I) = EPS_2
           ENDIF
-          FRATE = FRATE*FSIZE(I)
-          EC2M = FRATE * EC2M
-          EC2  = FRATE * EC2
-          DEPS = MAX(-EPS22(I) - EC2, ZERO)
-          IF (DEPS > ZERO .AND. DFMAX(I,1+MODE) < ONE) THEN
-            DEPSM = (EC2M - EC2)
-            FACT  = EC2M / MAX(ABS(EPS22(I)),EM20)
-            DI = FACT * DEPS / MAX(DEPSM,EM20)
-            DFMAX(I,1+MODE) = MAX(DFMAX(I,1+MODE), DI)
-            IF (DFMAX(I,1+MODE) >= ONE) THEN
-              FAILI = 1
-              FMODE(I,MODE) = 1
-              DFMAX(I,1+MODE) = ONE
-              EPSM5(I) = -EC2M
-            ENDIF
+        ENDIF
+      end do
+!
+      mode = m23c   ! compression yz
+      if (fail%table4d(mode)%notable > 0) then 
+        epdot(1:nel) = abs(epsp(1:nel,yz)) / epspref
+        call table_mat_vinterp(fail%table4d(mode),nel,nel,vartmp(1:nel,mode:mode),epdot,frate,dydx)
+      else
+        frate(:) = one
+      end if
+      do j = 1,nindx_on
+        i = indx_on(j)
+        FRATE(I) = FRATE(I)*FSIZE(I)
+        EPS_2 = FRATE(I) * EC23M
+        EPS_1 = FRATE(I) * EC23
+        DEPS  = MAX(-EPS23(I) - EPS_1, ZERO)
+        IF (DEPS > ZERO .AND. DFMAX(I,1+MODE) < ONE) THEN
+          DEPSM = EPS_2 - EPS_1
+          FACT  = EPS_2 / MAX(ABS(EPS23(I)),EM20)
+          DI    = FACT * DEPS / MAX(DEPSM,EM20)
+          DFMAX(I,1+MODE) = MAX(DFMAX(I,1+MODE), DI)
+          IF (DFMAX(I,1+MODE) >= ONE) THEN
+            FAILI(I) = 1
+            FMODE(I,MODE) = 1
+            DFMAX(I,1+MODE) = ONE
+            EPSM10(I) = -EPS_2
           ENDIF
-c
-c         MODE XY COMPRESSION
-c
-          MODE  = 6
-          EPDOT = ABS(EPSP(I,XY))/EPSPREF
-          IF (IFUNC(MODE) > 0) THEN
-            FRATE = FINTER(IFUNC(MODE),EPDOT,NPF,TF,DYDX)
-          ELSE
-            FRATE = ONE
+        ENDIF
+      end do
+!
+      mode = m31t   ! traction zx
+      if (fail%table4d(mode)%notable > 0) then 
+        epdot(1:nel) = abs(epsp(1:nel,zx)) / epspref
+        call table_mat_vinterp(fail%table4d(mode),nel,nel,vartmp(1:nel,mode:mode),epdot,frate,dydx)
+      else
+        frate(:) = one
+      end if
+      do j = 1,nindx_on
+        i = indx_on(j)
+        FRATE(I) = FRATE(I)*FSIZE(I)
+        EPS_2 = FRATE(I) * ET31M
+        EPS_1 = FRATE(I) * ET31
+        DEPS  = MAX(EPS31(I) - EPS_1, ZERO)
+        IF (DEPS > ZERO .AND. DFMAX(I,1+MODE) < ONE) THEN
+          DEPSM = EPS_2 - EPS_1
+          FACT  = EPS_2 / MAX(EPS31(I),EM20)
+          DI    = FACT * DEPS / MAX(DEPSM,EM20)
+          DFMAX(I,1+MODE) = MAX(DFMAX(I,1+MODE), DI)
+          IF (DFMAX(I,1+MODE) >= ONE) THEN
+            FAILI(I) = 1
+            FMODE(I,MODE) = 1
+            DFMAX(I,1+MODE) = ONE
+            EPSM11(I) = EPS_2
           ENDIF
-          FRATE = FRATE*FSIZE(I)
-          EC12M = FRATE * EC12M
-          EC12  = FRATE * EC12
-          DEPS  = MAX(-EPS12(I) - EC12, ZERO)
-          IF (DEPS > ZERO .AND. DFMAX(I,1+MODE) < ONE) THEN
-            DEPSM = (EC12M - EC12)
-            FACT  = EC12M / MAX(ABS(EPS12(I)),EM20)
-            DI = FACT * DEPS / MAX(DEPSM,EM20)
-            DFMAX(I,1+MODE) = MAX(DFMAX(I,1+MODE), DI)
-            IF (DFMAX(I,1+MODE) >= ONE) THEN
-              FAILI = 1
-              FMODE(I,MODE) = 1
-              DFMAX(I,1+MODE) = ONE
-              EPSM6(I) = -EC12M
-            ENDIF
+        ENDIF
+      end do
+!
+      mode = m31c   ! compression zx
+      if (fail%table4d(mode)%notable > 0) then 
+        epdot(1:nel) = abs(epsp(1:nel,zx)) / epspref
+        call table_mat_vinterp(fail%table4d(mode),nel,nel,vartmp(1:nel,mode:mode),epdot,frate,dydx)
+      else
+        frate(:) = one
+      end if
+      do j = 1,nindx_on
+        i = indx_on(j)
+        FRATE(I) = FRATE(I)*FSIZE(I)
+        EPS_2 = FRATE(I) * EC31M
+        EPS_1 = FRATE(I) * EC31
+        DEPS  = MAX(-EPS31(I) - EPS_1, ZERO)
+        IF (DEPS > ZERO .AND. DFMAX(I,1+MODE) < ONE) THEN
+          DEPSM = EPS_2 - EPS_1
+          FACT  = EPS_2 / MAX(ABS(EPS31(I)),EM20)
+          DI    = FACT * DEPS / MAX(DEPSM,EM20)
+          DFMAX(I,1+MODE) = MAX(DFMAX(I,1+MODE), DI)
+          IF (DFMAX(I,1+MODE) >= ONE) THEN
+            FAILI(I) = 1
+            FMODE(I,MODE) = 1
+            DFMAX(I,1+MODE) = ONE
+            EPSM12(I) = -EPS_2
           ENDIF
-c
-c         MODE ZZ Traction
-c
-          MODE  = M33T
-          EPDOT = ABS(EPSP(I,ZZ))/EPSPREF
-          IF (IFUNC(MODE) > 0) THEN
-            FRATE = FINTER(IFUNC(MODE),EPDOT,NPF,TF,DYDX)
-          ELSE
-            FRATE = ONE
-          ENDIF
-          FRATE = FRATE*FSIZE(I)
-          ET3M = FRATE * ET3M
-          ET3  = FRATE * ET3
-          DEPS = MAX(EPS33(I) - ET3, ZERO)
-          IF (DEPS > ZERO .AND. DFMAX(I,1+MODE) < ONE) THEN
-            DEPSM = (ET3M - ET3)
-            FACT = ET3M / MAX(EPS33(I),EM20)
-            DI = FACT * DEPS / MAX(DEPSM,EM20)
-            DFMAX(I,1+MODE) = MAX(DFMAX(I,1+MODE), DI)
-            IF (DFMAX(I,1+MODE) >= ONE) THEN
-              FAILI = 1
-              FMODE(I,MODE) = 1
-              DFMAX(I,1+MODE) = ONE
-              EPSM7(I) = ET3M
-            ENDIF
-          ENDIF
-c
-c         MODE ZZ Compression
-c
-          MODE  = M33C
-          EPDOT = ABS(EPSP(I,ZZ))/EPSPREF
-          IF (IFUNC(MODE) > 0) THEN
-            FRATE = FINTER(IFUNC(MODE),EPDOT,NPF,TF,DYDX)
-          ELSE
-            FRATE = ONE
-          ENDIF
-          FRATE = FRATE*FSIZE(I)
-          EC3M = FRATE * EC3M
-          EC3  = FRATE * EC3
-          DEPS = MAX(-EPS33(I) - EC3, ZERO)
-          IF (DEPS > ZERO .AND. DFMAX(I,1+MODE) < ONE) THEN
-            DEPSM = (EC3M - EC3)
-            FACT = EC3M / MAX(ABS(EPS33(I)),EM20)
-            DI = FACT * DEPS / MAX(DEPSM,EM20)
-            DFMAX(I,1+MODE) = MAX(DFMAX(I,1+MODE), DI)
-            IF (DFMAX(I,1+MODE) >= ONE) THEN
-              FAILI = 1
-              FMODE(I,MODE) = 1
-              DFMAX(I,1+MODE) = ONE
-              EPSM8(I) = -EC3M
-            ENDIF
-          ENDIF
-c
-c         MODE YZ TRACT
-c
-          MODE  = M23T
-          EPDOT = ABS(EPSP(I,YZ))/EPSPREF
-          IF (IFUNC(MODE) > 0) THEN
-            FRATE = FINTER(IFUNC(MODE),EPDOT,NPF,TF,DYDX)
-          ELSE
-            FRATE = ONE
-          ENDIF
-          FRATE = FRATE*FSIZE(I)
-          ET23M = FRATE * ET23M
-          ET23  = FRATE * ET23
-          DEPS  = MAX(EPS23(I) - ET23, ZERO)
-          IF (DEPS > ZERO .AND. DFMAX(I,1+MODE) < ONE) THEN
-            DEPSM = (ET23M - ET23)
-            FACT = ET23M / MAX(EPS23(I),EM20)
-            DI = FACT * DEPS / MAX(DEPSM,EM20)
-            DFMAX(I,1+MODE) = MAX(DFMAX(I,1+MODE), DI)
-            IF (DFMAX(I,1+MODE) >= ONE) THEN
-              FAILI = 1
-              FMODE(I,MODE) = 1
-              DFMAX(I,1+MODE) = ONE
-              EPSM9(I) = ET23M
-            ENDIF
-          ENDIF
-c
-c         MODE YZ COMP
-c
-          MODE  = M23C
-          EPDOT = ABS(EPSP(I,YZ))/EPSPREF
-          IF (IFUNC(MODE) > 0) THEN
-            FRATE = FINTER(IFUNC(MODE),EPDOT,NPF,TF,DYDX)
-          ELSE
-            FRATE = ONE
-          ENDIF
-          FRATE = FRATE*FSIZE(I)
-          EC23M = FRATE * EC23M
-          EC23  = FRATE * EC23
-          DEPS  = MAX(-EPS23(I) - EC23, ZERO)
-          IF (DEPS > ZERO .AND. DFMAX(I,1+MODE) < ONE) THEN
-            DEPSM = (EC23M - EC23)
-            FACT  = EC23M / MAX(ABS(EPS23(I)),EM20)
-            DI = FACT * DEPS / MAX(DEPSM,EM20)
-            DFMAX(I,1+MODE) = MAX(DFMAX(I,1+MODE), DI)
-            IF (DFMAX(I,1+MODE) >= ONE) THEN
-              FAILI = 1
-              FMODE(I,MODE) = 1
-              DFMAX(I,1+MODE) = ONE
-              EPSM10(I) = -EC23M
-            ENDIF
-          ENDIF
-c
-c         MODE ZX Traction
-c
-          MODE  = M31T
-          EPDOT = ABS(EPSP(I,ZX))/EPSPREF
-          IF (IFUNC(MODE) > 0) THEN
-            FRATE = FINTER(IFUNC(MODE),EPDOT,NPF,TF,DYDX)
-          ELSE
-            FRATE = ONE
-          ENDIF
-          FRATE = FRATE*FSIZE(I)
-          ET31M = FRATE * ET31M
-          ET31  = FRATE * ET31
-          DEPS  = MAX(EPS31(I) - ET31, ZERO)
-          IF (DEPS > ZERO .AND. DFMAX(I,1+MODE) < ONE) THEN
-            DEPSM = (ET31M - ET31)
-            FACT  = ET31M / MAX(EPS31(I),EM20)
-            DI = FACT * DEPS / MAX(DEPSM,EM20)
-            DFMAX(I,1+MODE) = MAX(DFMAX(I,1+MODE), DI)
-            IF (DFMAX(I,1+MODE) >= ONE) THEN
-              FAILI = 1
-              FMODE(I,MODE) = 1
-              DFMAX(I,1+MODE) = ONE
-              EPSM11(I) = ET31M
-            ENDIF
-          ENDIF
-c
-c         mode ZX comp
-c
-          MODE  = M31C  ! Mode 12
-          EPDOT = ABS(EPSP(I,ZX))/EPSPREF
-          IF (IFUNC(MODE) > 0) THEN
-            FRATE = FINTER(IFUNC(MODE),EPDOT,NPF,TF,DYDX)
-          ELSE
-            FRATE = ONE
-          ENDIF
-          FRATE = FRATE*FSIZE(I)
-          EC31M = FRATE * EC31M
-          EC31  = FRATE * EC31
-          DEPS  = MAX(-EPS31(I) - EC31, ZERO)
-          IF (DEPS > ZERO .AND. DFMAX(I,1+MODE) < ONE) THEN
-            DEPSM = (EC31M - EC31)
-            FACT  = EC31M / MAX(ABS(EPS31(I)),EM20)
-            DI = FACT * DEPS / MAX(DEPSM,EM20)
-            DFMAX(I,1+MODE) = MAX(DFMAX(I,1+MODE), DI)
-            IF (DFMAX(I,1+MODE) >= ONE) THEN
-              FAILI = 1
-              FMODE(I,MODE) = 1
-              DFMAX(I,1+MODE) = ONE
-              EPSM12(I) = -EC31M
-            ENDIF
-          ENDIF
-c
-c
-          IF (FAILI == 1) THEN
-            FAILI   = 0
-            UELR(I) = UELR(I)+1
-            NINDX   = NINDX + 1  
-            INDX(NINDX) = I
-            IF (UELR(I) >= NPT) THEN
-              TDEL(I) = TIME 
-              OFF(I)  = ZERO
-            ENDIF
+        ENDIF
+      end do
+!---------------------------------------
+      DO I = 1,NEL
+        IF (FAILI(I) == 1) THEN
+          UELR(I) = UELR(I)+1
+          NINDX   = NINDX + 1  
+          INDX(NINDX) = I
+          IF (UELR(I) >= NPT) THEN
+            TDEL(I) = TIME 
+            OFF(I)  = ZERO
           ENDIF
         ENDIF
       ENDDO  
 c------------------------
 c     Apply damage to stress
+c     damage / direction is equal to the max of damages par mode in the same direction
 c------------------------
       DO I=1, NEL
         IF (OFF(I) == ONE) THEN 
-c damage / direction is equal to the max of damages par mode in the same direction
           DAMXX  = MAX(DFMAX(I,2) ,DFMAX(I,5) )
           DAMYY  = MAX(DFMAX(I,3) ,DFMAX(I,6) )
           DAMZZ  = MAX(DFMAX(I,8) ,DFMAX(I,9) )

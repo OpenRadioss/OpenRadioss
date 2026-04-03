@@ -34,9 +34,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_option_read_mod        ../starter/share/modules1/hm_option_read_mod.F
 !||    submodel_mod              ../starter/share/modules1/submodel_mod.F
 !||====================================================================
-       SUBROUTINE HM_READ_FAIL_ORTHSTRAIN(
-     .            FAIL     ,FAIL_ID  ,IRUPT    ,LSUBMODEL,UNITAB   ,
-     .            FAIL_TAG )
+       SUBROUTINE HM_READ_FAIL_ORTHSTRAIN(FAIL,FAIL_TAG , 
+     .            TITLE   ,MAT_ID   ,FAIL_ID  ,IRUPT    ,
+     .            NTABLE  ,TABLE    ,LSUBMODEL,UNITAB   )
 C-----------------------------------------------
 c    ROUTINE DESCRIPTION :
 c    Read orthotropic strain  failure model parameters
@@ -44,10 +44,14 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE FAIL_PARAM_MOD
+      USE ELBUFTAG_MOD
       USE UNITAB_MOD
       USE SUBMODEL_MOD
+      USE MESSAGE_MOD 
       USE HM_OPTION_READ_MOD
-      USE ELBUFTAG_MOD
+      use table_mod
+      use func_table_copy_mod
+      use names_and_titles_mod , only : nchartitle
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -59,18 +63,25 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER            ,INTENT(IN) :: MAT_ID        ! material model ID
       INTEGER            ,INTENT(IN) :: FAIL_ID       ! failure model ID
       INTEGER            ,INTENT(IN) :: IRUPT         ! failure model type number
       TYPE(UNIT_TYPE_)   ,INTENT(IN) :: UNITAB        ! table of input units
       TYPE(SUBMODEL_DATA),INTENT(IN) :: LSUBMODEL(*)  ! submodel table
       TYPE(FAIL_PARAM_)  ,INTENT(INOUT) :: FAIL       ! failure model data structure
       TYPE(FAIL_TAG_)    ,INTENT(INOUT) :: FAIL_TAG   ! failure model data structure
+      integer            ,intent(in)    :: ntable     !< number of function tables in Radioss input
+      type(ttable) ,dimension(ntable) ,intent(in) :: table  !< input table array
+      character(len=nchartitle),intent(in)  :: title  !< material model title
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: IDAM,ISOLID,STRDEF
+      INTEGER :: I,NF,STRDEF,IERROR
       INTEGER ,PARAMETER :: NFUNC = 13
-      INTEGER ,DIMENSION(NFUNC) :: IFUNC
+      INTEGER ,DIMENSION(NFUNC) :: IFUNC,FUNC_ID
+      my_real :: x1scale,x2scale
+      my_real ,DIMENSION(NFUNC) :: YSCALE
+      my_real, dimension(1) :: x2vect
       my_real :: EPSPREF,ET1,ET2,ET12,EC1,EC2,EC12,ET3,EC3,EC23,ET23,EC31,ET31,
      .    ET1M,ET2M,ET12M,EC1M,EC2M,EC12M,ET3M,EC3M,EC23M,ET23M,EC31M,ET31M,
      .    FSCALE_SIZ,REF_SIZ,PTHKF,
@@ -180,20 +191,19 @@ c
       PTHKF = MAX(PTHKF,-ONE)
       IF (FCUT  == ZERO) FCUT = 10000.0D0*UNITAB%FAC_T_WORK
 !
-      IDAM = 0
-      ISOLID = 0
       IF (STRDEF == 0) STRDEF = 1
-      IF (IDAM == 0) IDAM = 1 ! => linear damage, default value for shells
-c                    IDAM = 2   => linear stress softening, the only choice for solids
+      FUNC_ID(:) = IFUNC(:)
 c-----------------------------------------------------
       FAIL%KEYWORD = 'ORTHSTRAIN' 
       FAIL%IRUPT   = IRUPT 
       FAIL%FAIL_ID = FAIL_ID 
-      FAIL%NUPARAM = 28
-      FAIL%NIPARAM = 0
+      FAIL%NUPARAM = 27
+      FAIL%NIPARAM = 1
       FAIL%NUVAR   = 13
-      FAIL%NFUNC   = NFUNC
+      FAIL%NVARTMP = 13
+      FAIL%NFUNC   = 0
       FAIL%NTABLE  = 0
+      FAIL%NTABLE4D= NFUNC
       FAIL%NMOD    = 12
       FAIL%PTHK    = PTHKF
 c            
@@ -201,6 +211,7 @@ c
       ALLOCATE (FAIL%IPARAM(FAIL%NIPARAM))
       ALLOCATE (FAIL%IFUNC (FAIL%NFUNC))
       ALLOCATE (FAIL%TABLE (FAIL%NTABLE))
+      ALLOCATE (FAIL%TABLE4D(FAIL%NTABLE4D))
       ALLOCATE (FAIL%MODE  (FAIL%NMOD))
 c
       ! Modes of failure
@@ -217,12 +228,26 @@ c
       FAIL%MODE(10) = "Failure negative shear YZ"
       FAIL%MODE(11) = "Failure positive shear ZX"
       FAIL%MODE(12) = "Failure negative shear ZX"
-c
-      FAIL%IFUNC(1:NFUNC) = IFUNC(1:NFUNC)
-c
-      FAIL%UPARAM(1)  = IDAM    
-      FAIL%UPARAM(2)  = 0        ! PTHK
-      FAIL%UPARAM(3)  = ISOLID   ! not used 
+!
+! ----------------------------------------------------------------------------------------------------------------------
+      ! create local function table using input function ID
+      nf = 1
+      x1scale      = one
+      x2scale      = one
+      x2vect(:)    = zero
+      yscale(1:12) = one
+      yscale(13)   = FSCALE_SIZ
+      do i = 1,nfunc
+        call func_table_copy(fail%table4d(i),title  ,mat_id   ,      
+     .           nf      ,ifunc(i),x2vect  ,x1scale ,x2scale  ,yscale(i)  ,      
+     .           ntable  ,table   ,ierror  )
+      end do
+! ----------------------------------------------------------------------------------------------------------------------
+      FAIL%IPARAM(1)  = STRDEF                                     
+!                                                                  
+      FAIL%UPARAM(1)  = REF_SIZ  
+      FAIL%UPARAM(2)  = FCUT
+      FAIL%UPARAM(3)  = EPSPREF
       FAIL%UPARAM(4)  = ET1
       FAIL%UPARAM(5)  = ET1M
       FAIL%UPARAM(6)  = ET2
@@ -235,35 +260,30 @@ c
       FAIL%UPARAM(13) = ET12M
       FAIL%UPARAM(14) = EC12
       FAIL%UPARAM(15) = EC12M
-      FAIL%UPARAM(16) = FCUT
-      FAIL%UPARAM(17) = EPSPREF
-      FAIL%UPARAM(18) = ET3
-      FAIL%UPARAM(19) = ET3M
-      FAIL%UPARAM(20) = EC3
-      FAIL%UPARAM(21) = EC3M
-      FAIL%UPARAM(22) = ET23
-      FAIL%UPARAM(23) = ET23M
-      FAIL%UPARAM(24) = EC23
-      FAIL%UPARAM(25) = EC23M
-      FAIL%UPARAM(22) = ET31
-      FAIL%UPARAM(23) = ET31M
-      FAIL%UPARAM(24) = EC31
-      FAIL%UPARAM(25) = EC31M
-      FAIL%UPARAM(26) = FSCALE_SIZ
-      FAIL%UPARAM(27) = REF_SIZ
-      FAIL%UPARAM(28) = STRDEF
+      FAIL%UPARAM(16) = ET3
+      FAIL%UPARAM(17) = ET3M
+      FAIL%UPARAM(18) = EC3
+      FAIL%UPARAM(19) = EC3M
+      FAIL%UPARAM(20) = ET23
+      FAIL%UPARAM(21) = ET23M
+      FAIL%UPARAM(22) = EC23
+      FAIL%UPARAM(23) = EC23M
+      FAIL%UPARAM(24) = ET31
+      FAIL%UPARAM(25) = ET31M
+      FAIL%UPARAM(26) = EC31
+      FAIL%UPARAM(27) = EC31M
 c-----------------------------------------------------
       IF (IS_ENCRYPTED) THEN
         WRITE(IOUT, 1000)
        ELSE
         WRITE(IOUT, 1000) FAIL_ID,PTHKF,STRDEF,EPSPREF,FCUT,
-     .     IFUNC(13),FSCALE_SIZ,REF_SIZ,
-     .     ET1,ET1M,IFUNC(1)   ,EC1,EC1M,IFUNC(4),
-     .     ET2,ET2M,IFUNC(2)   ,EC2,EC2M,IFUNC(5),
-     .     ET3,ET3M,IFUNC(7)   ,EC3,EC3M,IFUNC(8),
-     .     ET12,ET12M,IFUNC(3) ,EC12,EC12M,IFUNC(6),
-     .     ET23,ET23M,IFUNC(9) ,EC23,EC23M,IFUNC(10),
-     .     ET31,ET31M,IFUNC(11),EC31,EC31M,IFUNC(12)
+     .     FUNC_ID(13),FSCALE_SIZ,REF_SIZ,
+     .     ET1,ET1M,FUNC_ID(1)   ,EC1,EC1M,FUNC_ID(4),
+     .     ET2,ET2M,FUNC_ID(2)   ,EC2,EC2M,FUNC_ID(5),
+     .     ET3,ET3M,FUNC_ID(7)   ,EC3,EC3M,FUNC_ID(8),
+     .     ET12,ET12M,FUNC_ID(3) ,EC12,EC12M,FUNC_ID(6),
+     .     ET23,ET23M,FUNC_ID(9) ,EC23,EC23M,FUNC_ID(10),
+     .     ET31,ET31M,FUNC_ID(11),EC31,EC31M,FUNC_ID(12)
       ENDIF
 c-----------------------------------------------------
 1000  FORMAT(

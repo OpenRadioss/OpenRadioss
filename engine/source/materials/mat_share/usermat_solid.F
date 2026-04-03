@@ -1367,14 +1367,13 @@ C---- tabulated failure model
      5         OFF      ,TABLE    ,DFMAX    ,TDEL  ,NFUNC    ,IFUNC )                                      
           ELSEIF (IRUPT == 24) THEN                                      
 c   --- Orthotropic strain failure
-              CALL FAIL_ORTHSTRAIN(
-     1        LLT      ,NPAR     ,NVARF    ,NFUNC    ,IFUNC    ,
-     2        NPF      ,TF       ,TT       ,DT1      ,UPARAMF  ,ISMSTR  ,
+              CALL FAIL_ORTHSTRAIN(FAILPARAM,
+     1        LLT      ,NVARF    ,TT       ,DT1      ,ISMSTR   ,
      3        EP1      ,EP2      ,EP3      ,EP4      ,EP5      ,EP6     ,
      4        ES1      ,ES2      ,ES3      ,ES4      ,ES5      ,ES6     ,
      5        S1       ,S2       ,S3       ,S4       ,S5       ,S6      ,
      6        UVARF    ,OFF      ,IPG      ,NGL      ,DFMAX    ,TDEL    ,
-     7        GBUF%UELR,NPG      ,DELTAX   ,LF_DAMMX )
+     7        GBUF%UELR,NPG      ,DELTAX   ,LF_DAMMX ,NVARTMP  ,VARTMP  )
           ELSEIF (IRUPT == 27) THEN                                      
 c ---   extended mohr coulomb failure model                                             
               CALL FAIL_EMC(

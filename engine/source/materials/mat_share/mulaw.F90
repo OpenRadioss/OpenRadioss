@@ -2297,7 +2297,6 @@
               varftmp=> fbuf%floc(ir)%vartmp
               irupt  =  fbuf%floc(ir)%ilawf
               nvarf  =  fbuf%floc(ir)%nvar
-              nvarf  =  fbuf%floc(ir)%nvar
               dfmax  => fbuf%floc(ir)%dammx
               damini => fbuf%floc(ir)%damini
               tdel   => fbuf%floc(ir)%tdel
@@ -2475,14 +2474,13 @@
                 &off      ,table    ,dfmax    ,tdel     ,nfunc     ,ifunc     )
               else if (irupt == 24) then
 !   --- orthotropic strain failure
-                call fail_orthstrain(&
-                &nel      ,nparf    ,nvarf    ,nfunc    ,ifunc    ,&
-                &npf      ,tf       ,tt       ,dt1      ,uparf    ,ismstr   ,&
-                &ep1      ,ep2      ,ep3      ,ep4      ,ep5      ,ep6      ,&
-                &es1      ,es2      ,es3      ,es4      ,es5      ,es6      ,&
-                &s1       ,s2       ,s3       ,s4       ,s5       ,s6       ,&
-                &uvarf    ,off      ,ipg      ,ngl      ,dfmax    ,tdel     ,&
-                &gbuf%uelr,npg      ,deltax   ,lf_dammx )
+                call fail_orthstrain(failparam,                             &
+                nel      ,nvarf    ,tt       ,dt1      ,ismstr   ,          &
+                ep1      ,ep2      ,ep3      ,ep4      ,ep5      ,ep6      ,&
+                es1      ,es2      ,es3      ,es4      ,es5      ,es6      ,&
+                s1       ,s2       ,s3       ,s4       ,s5       ,s6       ,&
+                uvarf    ,off      ,ipg      ,ngl      ,dfmax    ,tdel     ,&
+                gbuf%uelr,npg      ,deltax   ,lf_dammx ,nvarftmp ,varftmp)
               else if (irupt == 27) then
 ! ---   extended mohr coulomb failure model
                 call fail_emc(&
