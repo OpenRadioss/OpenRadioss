@@ -110,8 +110,9 @@ C-----------------------------------------------
           DO I=1,NEL
             IF(IPART(I+NFT) /= IDP)CYCLE
             RATIO = MIN(MAX(ZERO,KVOL(IMAT,I)), ONE)
-            UVAR(I,1+KK)   = RATIO
-            UVAR(I,23+KK)  = RATIO
+            UVAR(I,1+KK)   = RATIO                                 !Vfrac(t)
+            UVAR(I,11+KK)  = RATIO*ELBUF_TAB(NG)%GBUF%VOL(I)       !vol(t)  <=> LBUF%VOL(I) for MLW=151
+            UVAR(I,23+KK)  = RATIO                                 !vfrac(t=0) : if relaxation to initial state is required
           ENDDO
         ENDDO
         DO I=1,NEL
