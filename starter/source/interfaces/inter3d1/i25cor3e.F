@@ -84,10 +84,10 @@ C-----------------------------------------------
 
           N1(I)=LEDGE(5,CAND_S(I))
           N2(I)=LEDGE(6,CAND_S(I))
+          I1=LEDGE(1,CAND_S(I))
+          J1=LEDGE(2,CAND_S(I))
  
           IF(LEDGE(7,CAND_S(I))/=3) THEN
-            I1=LEDGE(1,CAND_S(I))
-            J1=LEDGE(2,CAND_S(I))
 
             IF(I1 >0) THEN
 
@@ -109,10 +109,10 @@ C-----------------------------------------------
           M1(I)=LEDGE(5,CAND_M(I))
           M2(I)=LEDGE(6,CAND_M(I))
 
-          IF(LEDGE(7,CAND_M(I))/=3) THEN
+          I2=LEDGE(1,CAND_M(I))
+          J2=LEDGE(2,CAND_M(I))
 
-            I2=LEDGE(1,CAND_M(I))
-            J2=LEDGE(2,CAND_M(I))
+          IF(LEDGE(7,CAND_M(I))/=3) THEN
 
             IF(I1 >0) THEN
 

@@ -47,7 +47,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      G      JAS    ,IBS    ,JBS    ,ITAB   , EDGE_ID,
      H      INTFRIC,IPARTFRIC_E,IPARTFRICSI,IPARTFRICMI,
      I      IGAP   ,GAP_E_L,IGSTI  ,KMIN   ,KMAX   ,
-     J      ISTIF_MSDT,DTSTIF,STIFMSDT_EDG ,PARAMETERS)
+     J      ISTIF_MSDT,DTSTIF,STIFMSDT_EDG ,PARAMETERS,
+     K      TYPEDGS )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
