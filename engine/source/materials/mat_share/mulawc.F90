@@ -2342,14 +2342,13 @@
                     endif
 !
                    case (24)     !    orthotropic strain failure model
-                    call fail_orthstrain_c(&
-                    &nel       ,nupar     ,nvarf     ,uparamf   ,uvarf     ,&
-                    &nfunc_fail    ,ifunc_fail    ,npf       ,tf        ,ngl       ,&
-                    &tt        ,dt1       ,ipg       ,ilayer    ,it        ,&
-                    &epsxx     ,epsyy     ,epsxy     ,dmg_flag  ,dmg_loc_scale ,&
-                    &epspxx    ,epspyy    ,epspxy    ,aldt      ,ismstr    ,&
-                    &signxx    ,signyy    ,signxy    ,lf_dammx  ,&
-                    &off       ,offly     ,foff      ,dfmax     ,tdel      )
+                    call fail_orthstrain_c(fail_param,                            &
+                     nel       ,nvarf     ,uvarf     ,nvartmp   ,vartmp    ,      &
+                     tt        ,dt1       ,ipg       ,ilayer    ,it        ,      &
+                     epsxx     ,epsyy     ,epsxy     ,dmg_flag  ,dmg_loc_scale,   &
+                     epspxx    ,epspyy    ,epspxy    ,aldt      ,ismstr    ,      &
+                     lf_dammx  ,ngl       ,&
+                     off       ,offly     ,foff      ,dfmax     ,tdel      )
 !
                    case (25)     !    nxt failure
                     call fail_nxt_c(&

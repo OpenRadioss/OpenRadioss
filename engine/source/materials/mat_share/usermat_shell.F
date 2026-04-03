@@ -1387,14 +1387,13 @@ c
                 ENDIF
 c
               CASE (24)     !    Orthotropic strain failure model
-                CALL FAIL_ORTHSTRAIN_C(
-     1              NEL       ,NUPAR     ,NVARF     ,UPARAMF   ,UVARF     ,
-     2              NFUNC_FAIL,IFUNC_FAIL,NPF       ,TF        ,NGL       ,
-     3              TT        ,DT1       ,IPG       ,ILAYER    ,IT        , 
-     4              EPSXX     ,EPSYY     ,EPSXY     ,DMG_FLAG  ,DMG_LOC_SCALE ,
-     5              EPSPXX    ,EPSPYY    ,EPSPXY    ,ALDT      ,ISMSTR    ,
-     6              SIGNXX    ,SIGNYY    ,SIGNXY    ,LF_DAMMX  ,   
-     7              OFF       ,OFFLY     ,FOFF      ,DFMAX     ,TDEL      )
+                call fail_orthstrain_c(fail_param,                              
+     &               nel       ,nvarf     ,uvarf     ,nvartmp   ,vartmp  ,      
+     &               tt        ,dt1       ,ipg       ,ilayer    ,it        ,    
+     &               epsxx     ,epsyy     ,epsxy     ,dmg_flag  ,dmg_loc_scale ,
+     &               epspxx    ,epspyy    ,epspxy    ,aldt      ,ismstr    ,    
+     &               lf_dammx  ,ngl       ,    
+     &               off       ,offly     ,foff      ,dfmax     ,tdel      )
 c
               CASE (25)     !    NXT Failure
                 CALL FAIL_NXT_C(
