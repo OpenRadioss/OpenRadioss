@@ -147,7 +147,7 @@
 !
         integer, parameter :: eltype = 1               !< Element type (1 - Solids, 2 - Shells)
         integer, parameter :: nitermax = 500           !< Maximum number of plastic iterations
-        real(kind=WP), parameter :: tol = 1.0d-8       !< Tolerance for plasticity convergence
+        real(kind=WP), parameter :: tol = 1.0d-6       !< Tolerance for plasticity convergence
         logical, dimension(nel) :: active_elements_mask
         integer, dimension(nel) :: temp_all_indices
         zeros(1:nel) = zero

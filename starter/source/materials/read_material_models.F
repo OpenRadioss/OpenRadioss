@@ -55,7 +55,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .             BUFMAT      ,SBUFMAT  ,IPM      ,PM       ,UNITAB   ,
      .             MULTI_FVM   ,FAILWAVE ,NLOC_DMG ,LSUBMODEL,TABLE    ,
      .             LTITR       ,USERL_AVAIL,MAT_NUMBER,
-     .             NPC         ,TF       ,SNPC     ,NPTS    ,BUFLEN)
+     .             NPC         ,TF       ,SNPC     ,NPTS    ,BUFLEN    ,
+     .             IRESP       )
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -118,6 +119,7 @@ C-----------------------------------------------
       INTEGER,INTENT(IN) :: SNPC, NPTS
       INTEGER,INTENT(IN) :: NPC(SNPC)
       my_real,INTENT(IN) :: TF(NPTS)
+      INTEGER,INTENT(IN) :: IRESP
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -165,7 +167,7 @@ c-------------------------------------------------------------------
      .     MULTI_FVM   ,UNITAB      ,LSUBMODEL   ,TABLE       ,
      .     SBUFMAT     ,NPROPMI     ,NPROPM      ,
      .     IALELAG     ,NTABLE      ,NUMMAT      ,HM_NUMMAT   ,
-     .     LTITR       ,USERL_AVAIL,MAT_NUMBER   )
+     .     LTITR       ,USERL_AVAIL,MAT_NUMBER   ,IRESP       )
 
 c-------------------------------------------------------------------
 c     /EOS : Equations of State P=P(µ,E)
