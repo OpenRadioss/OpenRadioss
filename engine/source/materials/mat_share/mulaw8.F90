@@ -942,11 +942,13 @@
               lf_dammx = bufly%fail(1,1,ipt)%floc(ir)%lf_dammx
               nvarf =  bufly%fail(1,1,ipt)%floc(ir)%nvar
               uvarf => bufly%fail(1,1,ipt)%floc(ir)%var
+              vartmp => bufly%fail(1,1,ipt)%floc(ir)%vartmp
               dfmax => bufly%fail(1,1,ipt)%floc(ir)%dammx
               tdele => bufly%fail(1,1,ipt)%floc(ir)%tdel
 !
               npar    = mat_param(imat)%fail(ir)%nuparam
               niparf  = mat_param(imat)%fail(ir)%niparam
+              nvartmp = mat_param(imat)%fail(ir)%nvartmp
               uparamf =>mat_param(imat)%fail(ir)%uparam(1:npar)
               iparamf =>mat_param(imat)%fail(ir)%iparam(1:niparf)
               nfunc   = mat_param(imat)%fail(ir)%nfunc
@@ -1083,12 +1085,12 @@
 !
 !----        energy failure
               elseif(irupt == 11)then
-                call fail_energy_s(&
-                &llt      ,npar     ,nvarf    ,nfunc    ,ifunc    ,npf      ,&
-                &tf       ,tt       ,dt1      ,uparamf,ngl ,epsp1    ,&
-                &uvarf    ,off      ,dfmax    ,tdele    ,lbuf%dmgscl,&
-                &s1       ,s2       ,s3       ,s4       ,s5       ,s6       ,&
-                &de1      ,de2      ,de3      ,de4      ,de5      ,de6      )
+                call fail_energy_s(mat_param(imat)%fail(ir)  , &
+                 llt      ,nvarf    ,nvartmp  ,uvarf    ,vartmp   , &
+                 tt       ,dt1      ,ngl      ,epsp1    ,&
+                 off      ,dfmax    ,tdele    ,lbuf%dmgscl,&
+                 s1       ,s2       ,s3       ,s4       ,s5       ,s6       ,&
+                 de1      ,de2      ,de3      ,de4      ,de5      ,de6      )
               elseif (irupt == 23) then
 !---- tabulated failure model
                 call fail_tab_s(&

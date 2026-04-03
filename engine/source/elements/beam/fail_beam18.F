@@ -220,14 +220,11 @@ c---------------
      .          TF       ,IPT      ,FOFF     ,ISMSTR ,ELBUF_STR%GBUF%UELR ,NPT)
 c---------------  
         CASE (11)     ! Energy failure model                                           
-          CALL FAIL_ENERGY_IB(
-     .          NEL      ,NGL      ,NPARAM   ,FAIL%UPARAM ,
-     .          TIME     ,EPSD     ,OFF      ,DFMAX,                        
-     .          TDEL     ,IOUT     ,ISTDO    ,FAIL%IFUNC   ,
-     .          LBUF%DMGSCL,UVARF  ,NUVAR    ,
-     .          SNPC     ,NPF      ,STF      ,
-     .          TF       ,IPT      ,FOFF     ,
-     .          SIGNXX   ,SIGNXY   ,SIGNXZ   ,
+          CALL FAIL_ENERGY_IB(FAIL ,NEL      ,NGL      ,
+     .          TIME     ,EPSD     ,OFF      ,DFMAX    ,                        
+     .          TDEL     ,IOUT     ,ISTDO    ,LBUF%DMGSCL,
+     .          NUVAR    ,UVARF    ,NVARTMP  ,VARTMP   ,
+     .          IPT      ,FOFF     ,SIGNXX   ,SIGNXY   ,SIGNXZ   ,
      .          DEPSXX   ,DEPSXY   ,DEPSXZ   ,ELBUF_STR%GBUF%UELR ,NPT)
 
 c--------------- 
