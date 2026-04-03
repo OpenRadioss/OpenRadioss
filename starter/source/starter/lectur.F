@@ -2191,7 +2191,8 @@ c---------------------------------------------------------------
      .     RWORK       ,SRWORK   ,IPM      ,PM         ,UNITAB    ,
      .     MULTI_FVM   ,FAILWAVE ,NLOC_DMG ,LSUBMODEL  ,TABLE     ,
      .     LTITR       ,USERL_AVAIL,MAT_NUMBER,
-     .     NPC         ,TF       ,SNPC     ,NPTS       ,SBUFMAT   )
+     .     NPC         ,TF       ,SNPC     ,NPTS       ,SBUFMAT   ,
+     .     IRESP       )
 c---------------------------------------------------------------
       ALLOCATE(BUFMAT(SBUFMAT)    ,STAT=stat)
       IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,

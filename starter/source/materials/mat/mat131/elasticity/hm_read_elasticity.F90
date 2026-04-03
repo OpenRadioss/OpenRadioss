@@ -46,7 +46,7 @@
         subroutine hm_read_elasticity(                                         &
           ikey     ,type     ,ielas    ,nupar_elas,upar_elas,is_available,     &
           unitab   ,lsubmodel,matparam ,parmat    ,iout     ,is_encrypted,     &
-          mat_id   ,titr     )
+          mat_id   ,titr     ,iresp    )
 !----------------------------------------------------------------
 !   M o d u l e s
 !----------------------------------------------------------------
@@ -80,6 +80,7 @@
           logical,                 intent(in)    :: is_encrypted          !< encryption flag
           integer, intent(in)                    :: mat_id                !< Material law user ID
           character(len=nchartitle),intent(in)   :: titr                  !< Material law user title
+          integer, intent(in)                    :: iresp                 !< Flag for single precision
 !===============================================================================
 ! 
           !< Select elasticity type
@@ -107,7 +108,7 @@
               call hm_read_elasticity_anisotropic(                             &
                 ikey     ,ielas    ,nupar_elas,upar_elas,is_available,         &
                 unitab   ,lsubmodel,matparam  ,parmat   ,iout        ,         &
-                is_encrypted,mat_id,titr      )
+                is_encrypted,mat_id,titr      ,iresp    )
           end select
 ! -------------------------------------------------------------------------------
         end subroutine hm_read_elasticity

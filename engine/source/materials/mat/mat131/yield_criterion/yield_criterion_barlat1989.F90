@@ -104,40 +104,47 @@
             c*(abs(two*k2(i)))**m
           if (seq(i) > zero) then
             seq(i) = exp((one/m)*log(half*seq(i)))
+!
+            !< Unnormalized equivalent stress
+            seq(i) = seq(i)*normsig(i)
+!
+            !< Derivative of equivalent stress w.r.t k1 and k2
+            dseq_dk1 = ((seq(i)/normsig(i))**(one-m))*(a/two)*(                  &
+                     sign(one,k1(i) + k2(i))*(abs(k1(i) + k2(i)))**(m-one)       &
+                   + sign(one,k1(i) - k2(i))*(abs(k1(i) - k2(i)))**(m-one))
+            dseq_dk2 = ((seq(i)/normsig(i))**(one-m))*((a/two)*(                 &
+                     sign(one,k1(i) + k2(i))*(abs(k1(i) + k2(i)))**(m-one)       &
+                   - sign(one,k1(i) - k2(i))*(abs(k1(i) - k2(i)))**(m-one))      &
+                   + c*(abs(two*k2(i)))**(m-one))
+!
+            !< Derivative of k1 w.r.t stress tensor components
+            dk1_dsigxx = half
+            dk1_dsigyy = h/two
+!
+            !< Derivative of k2 w.r.t stress tensor components
+            dk2_dsigxx = (signxx(i)-h*signyy(i))/                               &
+                         (max(normsig(i)*four*k2(i),em20))
+            dk2_dsigyy = -h*(signxx(i)-h*signyy(i))/                            &
+                         (max(normsig(i)*four*k2(i),em20))
+            dk2_dsigxy = (p**2)*signxy(i)/max(normsig(i)*k2(i),em20)
+!
+            !< Assembling the derivative of the eq. stress w.r.t stress tensor
+            normxx(i) = dseq_dk1*dk1_dsigxx + dseq_dk2*dk2_dsigxx
+            normyy(i) = dseq_dk1*dk1_dsigyy + dseq_dk2*dk2_dsigyy
+            normzz(i) = -(normxx(i) + normyy(i))
+            normxy(i) = dseq_dk2*dk2_dsigxy       
+            normyz(i) = zero
+            normzx(i) = zero
+!
           else
-            seq(i) = zero
+            seq(i)    = zero
+            normxx(i) = zero
+            normyy(i) = zero
+            normzz(i) = zero
+            normxy(i) = zero
+            normyz(i) = zero
+            normzx(i) = zero
           end if
-!
-          !< Unnormalized equivalent stress
-          seq(i) = seq(i)*normsig(i)
-!
-          !< Derivative of equivalent stress w.r.t k1 and k2
-          dseq_dk1 = ((seq(i)/normsig(i))**(one-m))*(a/two)*(                  &
-                   sign(one,k1(i) + k2(i))*(abs(k1(i) + k2(i)))**(m-one)       &
-                 + sign(one,k1(i) - k2(i))*(abs(k1(i) - k2(i)))**(m-one))
-          dseq_dk2 = ((seq(i)/normsig(i))**(one-m))*((a/two)*(                 &
-                   sign(one,k1(i) + k2(i))*(abs(k1(i) + k2(i)))**(m-one)       &
-                 - sign(one,k1(i) - k2(i))*(abs(k1(i) - k2(i)))**(m-one))      &
-                 + c*(abs(two*k2(i)))**(m-one))
-!
-          !< Derivative of k1 w.r.t stress tensor components
-          dk1_dsigxx = half
-          dk1_dsigyy = h/two
-!
-          !< Derivative of k2 w.r.t stress tensor components
-          dk2_dsigxx = (signxx(i)-h*signyy(i))/                               &
-                       (max(normsig(i)*four*k2(i),em20))
-          dk2_dsigyy = -h*(signxx(i)-h*signyy(i))/                            &
-                       (max(normsig(i)*four*k2(i),em20))
-          dk2_dsigxy = (p**2)*signxy(i)/max(normsig(i)*k2(i),em20)
-!
-          !< Assembling the derivative of the eq. stress w.r.t stress tensor
-          normxx(i) = dseq_dk1*dk1_dsigxx + dseq_dk2*dk2_dsigxx
-          normyy(i) = dseq_dk1*dk1_dsigyy + dseq_dk2*dk2_dsigyy
-          normzz(i) = -(normxx(i) + normyy(i))
-          normxy(i) = dseq_dk2*dk2_dsigxy       
-          normyz(i) = zero
-          normzx(i) = zero
         enddo
 !
       end subroutine yield_criterion_barlat1989

@@ -64,7 +64,8 @@
 !||====================================================================
         subroutine hm_read_elasto_plastic(                                     &
           matparam ,nvartmp  ,parmat   ,unitab   ,mat_id   ,titr     ,mtag    ,&
-          lsubmodel,iout     ,nuvar    ,ilaw     ,israte   ,ntable   ,table   )
+          lsubmodel,iout     ,nuvar    ,ilaw     ,israte   ,ntable   ,table   ,&
+          iresp    )
 !----------------------------------------------------------------
 !   M o d u l e s
 !----------------------------------------------------------------
@@ -107,6 +108,7 @@
           integer, intent(inout)                    :: israte            !< Strain rate filtering flag
           integer, intent(in)                       :: ntable            !< Size of table data structure
           type(ttable),dimension(ntable),intent(in) :: table             !< Table data structure
+          integer, intent(in)                       :: iresp             !< Flag for single precision
 !----------------------------------------------------------------
 !  L o c a l  V a r i a b l e s
 !----------------------------------------------------------------
@@ -254,7 +256,7 @@
                 call hm_read_elasticity(                                       &
                   ikey     ,type  ,ielas    ,nupar_elas,upar_elas,is_available,&
                   unitab,lsubmodel,matparam ,parmat    ,iout     ,is_encrypted,&
-                  mat_id   ,titr  )
+                  mat_id   ,titr  ,iresp    )
               !< Yield criterion
               case ('CRIT')
                 if (icrit /= 0) then 

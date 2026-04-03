@@ -209,7 +209,7 @@
         &                    multi_fvm   ,unitab      ,lsubmodel   ,table     ,&
         &                    sbufmat     ,npropmi     ,npropm      ,           &
         &                    ialelag     ,ntable      ,nummat      ,hm_nummat ,&
-        &                    ltitr       ,userl_avail ,mat_number  )
+        &                    ltitr       ,userl_avail ,mat_number  ,iresp     )
 ! --------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! --------------------------------------------------------------------------------------------------
@@ -280,6 +280,7 @@
           type(multi_fvm_struct),intent(inout)                        :: multi_fvm
           type(matparam_struct_) ,dimension(nummat) ,intent(inout)    :: mat_param
           target :: mat_param
+          integer, intent(in) :: iresp
 ! -----------------------------------------------------------------------------
 !     Local variables
 ! -----------------------------------------------------------------------------
@@ -1247,7 +1248,7 @@
               call hm_read_elasto_plastic(&
               &matparam ,nvartmp  ,parmat   ,unitab   ,mat_id   ,&
               &titr     ,mtag     ,lsubmodel,iout     ,nuvar    ,&
-              &ilaw     ,israte   ,ntable   ,table    )
+              &ilaw     ,israte   ,ntable   ,table    ,iresp    )
 !-------
              case('LAW132', 'LAMINATED_FRACTURE_DAIMLER_CAMANHO')
                ilaw = 132

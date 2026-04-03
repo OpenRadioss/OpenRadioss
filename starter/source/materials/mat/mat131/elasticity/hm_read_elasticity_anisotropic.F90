@@ -43,7 +43,7 @@
         subroutine hm_read_elasticity_anisotropic(                             &
           ikey     ,ielas    ,nupar_elas,upar_elas,is_available,               &
           unitab   ,lsubmodel,matparam ,parmat    ,iout     ,is_encrypted,     &
-          mat_id   ,titr      )
+          mat_id   ,titr     ,iresp    )
 !----------------------------------------------------------------
 !   M o d u l e s
 !----------------------------------------------------------------
@@ -74,13 +74,14 @@
           logical,                 intent(in)    :: is_encrypted          !< encryption flag
           integer, intent(in)                    :: mat_id                !< Material law user ID
           character(len=nchartitle),intent(in)   :: titr                  !< Material law user title
+          integer, intent(in)                    :: iresp                 !< Flag for single precision
 !----------------------------------------------------------------
 !  L o c a l  V a r i a b l e s
 !----------------------------------------------------------------
           integer :: i,j,ipiv(6),ipiv2d(3),info
           real(kind=WP) :: dmn,dmx,c(6,6),c2(6,6),s(6,6),s2d(3,3),c2d(3,3)
           real(kind=WP) :: sbd(2,2),cbd(2,2),detsbd
-          real(kind=8)  :: wr(6),wi(6),vl(6,6),vr(6,6),work(102)
+          real(kind=WP) :: wr(6),wi(6),vl(6,6),vr(6,6),work(102)
 !===============================================================================
 ! 
           !=====================================================================
@@ -126,7 +127,12 @@
           c(6,5) = c(5,6)
           !< Check that elasticity matrix is positive definite
           c2  = c
-          call dgeev('N','N',6,c2,6,wr,wi,vl,6,vr,6,work,102,info)
+          info = 0
+          if (iresp == 0) then 
+            call dgeev('N','N',6,c2,6,wr,wi,vl,6,vr,6,work,102,info)  
+          else
+            call sgeev('N','N',6,c2,6,wr,wi,vl,6,vr,6,work,102,info)
+          endif
           if (minval(wr) < -1.0d-6) then
             call ancmsg(msgid=3131,                                            &
                         msgtype=msgerror,                                      &
@@ -153,7 +159,12 @@
           do i = 1,6
             s(i,i) = one
           enddo
-          call dgesv(6, 6, c2, 6, ipiv, s, 6, info)  
+          info = 0
+          if (iresp == 0) then 
+            call dgesv(6, 6, c2, 6, ipiv, s, 6, info)  
+          else
+            call sgesv(6, 6, c2, 6, ipiv, s, 6, info)
+          endif
           !< 2D Compliance matrix for plane stress
           s2d(1,1) = s(1,1)
           s2d(1,2) = s(1,2)
@@ -169,7 +180,12 @@
           do i = 1,3
             c2d(i,i) = one
           enddo
-          call dgesv(3, 3, s2d, 3, ipiv2d, c2d, 3, info)
+          info = 0
+          if (iresp == 0) then 
+            call dgesv(3, 3, s2d, 3, ipiv2d, c2d, 3, info)
+          else
+            call sgesv(3, 3, s2d, 3, ipiv2d, c2d, 3, info)
+          endif
           !< Compliance matrix for bending of shells
           sbd(1,1) = s(5,5)
           sbd(1,2) = s(5,6)
