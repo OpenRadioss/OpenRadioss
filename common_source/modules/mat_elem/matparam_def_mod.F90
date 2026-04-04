@@ -69,7 +69,6 @@
 !||    fill_buffer_51                           ../starter/source/materials/mat/mat051/fill_buffer_51.F
 !||    fill_buffer_51_0                         ../starter/source/materials/mat/mat051/fill_buffer_51_0.F
 !||    fsdcod                                   ../starter/source/system/fsdcod.F
-!||    func_comp                                ../starter/source/materials/mat/mat076/law76_upd.F
 !||    funct_python_update_elements             ../engine/source/tools/curve/funct_python_update_elements.F90
 !||    genani                                   ../engine/source/output/anim/generate/genani.F
 !||    gendynain                                ../engine/source/output/dynain/gendynain.F
@@ -303,7 +302,6 @@
 !||    law42_upd                                ../starter/source/materials/mat/mat042/law42_upd.F
 !||    law58_upd                                ../starter/source/materials/mat/mat058/law58_upd.F
 !||    law70_upd                                ../starter/source/materials/mat/mat070/law70_upd.F
-!||    law76_upd                                ../starter/source/materials/mat/mat076/law76_upd.F
 !||    law77_upd                                ../starter/source/materials/mat/mat077/law77_upd.F
 !||    law81_upd                                ../starter/source/materials/mat/mat081/law81_upd.F90
 !||    law87_upd                                ../starter/source/materials/mat/mat087/law87_upd.F90

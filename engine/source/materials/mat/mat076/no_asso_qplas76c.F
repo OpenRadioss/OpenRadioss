@@ -26,7 +26,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    sigeps76c               ../engine/source/materials/mat/mat076/sigeps76c.F
 !||--- calls      -----------------------------------------------------
 !||    table_mat_vinterp       ../engine/source/materials/tools/table_mat_vinterp.F
-!||    vinter                  ../engine/source/tools/curve/vinter.F
 !||--- uses       -----------------------------------------------------
 !||    table4d_mod             ../common_source/modules/table4d_mod.F
 !||    table_mat_vinterp_mod   ../engine/source/materials/tools/table_mat_vinterp.F

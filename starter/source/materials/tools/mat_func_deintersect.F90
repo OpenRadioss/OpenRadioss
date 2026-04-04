@@ -23,10 +23,21 @@
 !||====================================================================
 !||    mat_func_deintersect_mod   ../starter/source/materials/tools/mat_func_deintersect.F90
 !||--- called by ------------------------------------------------------
+!||    hm_read_mat76              ../starter/source/materials/mat/mat076/hm_read_mat76.F
 !||====================================================================
        module mat_func_deintersect_mod
        contains
        
+!||====================================================================
+!||    mat_func_deintersect        ../starter/source/materials/tools/mat_func_deintersect.F90
+!||--- called by ------------------------------------------------------
+!||    hm_read_mat76               ../starter/source/materials/mat/mat076/hm_read_mat76.F
+!||--- calls      -----------------------------------------------------
+!||    polyline_intersection       ../starter/source/materials/tools/polyline_intersection.F90
+!||    table_values_2d             ../starter/source/materials/tools/table_values_2d.F
+!||--- uses       -----------------------------------------------------
+!||    polyline_intersection_mod   ../starter/source/materials/tools/polyline_intersection.F90
+!||====================================================================
        subroutine mat_func_deintersect(func1 ,func2  ,ierror, intersections)
 
  ! \brief check intersection between 1d or 2d function tables

@@ -21,8 +21,9 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    law76_func_comp_mod   ./starter/source/mat/mat076/law76_func_comp.F90
+!||    law76_func_comp_mod   ../starter/source/materials/mat/mat076/law76_func_comp.F90
 !||--- called by ------------------------------------------------------
+!||    hm_read_mat76         ../starter/source/materials/mat/mat076/hm_read_mat76.F
 !||====================================================================
        module law76_func_comp_mod
          implicit none
@@ -35,8 +36,9 @@
         !----------------------------------------------------------------------
 
 !||====================================================================
-!||    law76_func_comp   ../starter/source/mat/mat076/law76_func_comp.F90
+!||    law76_func_comp   ../starter/source/materials/mat/mat076/law76_func_comp.F90
 !||--- called by ------------------------------------------------------
+!||    hm_read_mat76     ../starter/source/materials/mat/mat076/hm_read_mat76.F
 !||--- uses       -----------------------------------------------------
 !||====================================================================
         subroutine law76_func_comp(func_tens,func_shear,func_comp,nptmax,nup)

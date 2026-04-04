@@ -21,15 +21,16 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    sigeps76           ../engine/source/materials/mat/mat076/sigeps76.F
+!||    sigeps76                ../engine/source/materials/mat/mat076/sigeps76.F
 !||--- called by ------------------------------------------------------
-!||    mulaw              ../engine/source/materials/mat_share/mulaw.F90
+!||    mulaw                   ../engine/source/materials/mat_share/mulaw.F90
 !||--- calls      -----------------------------------------------------
-!||    asso_plas76        ../engine/source/materials/mat/mat076/asso_plas76.F
-!||    no_asso_plas76     ../engine/source/materials/mat/mat076/no_asso_plas76.F
-!||    vinter             ../engine/source/tools/curve/vinter.F
+!||    asso_plas76             ../engine/source/materials/mat/mat076/asso_plas76.F
+!||    no_asso_plas76          ../engine/source/materials/mat/mat076/no_asso_plas76.F
+!||    table_mat_vinterp       ../engine/source/materials/tools/table_mat_vinterp.F
 !||--- uses       -----------------------------------------------------
-!||    matparam_def_mod   ../common_source/modules/mat_elem/matparam_def_mod.F90
+!||    matparam_def_mod        ../common_source/modules/mat_elem/matparam_def_mod.F90
+!||    table_mat_vinterp_mod   ../engine/source/materials/tools/table_mat_vinterp.F
 !||====================================================================
       SUBROUTINE SIGEPS76(
      1           NEL     ,NUPARAM ,NUVAR    ,NGL      ,

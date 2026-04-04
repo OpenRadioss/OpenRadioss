@@ -746,7 +746,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    law69_nlsqf_auto                  ../starter/source/materials/tools/law69_nlsqf_auto.F
 !||    law69_upd                         ../starter/source/materials/mat/mat069/law69_upd.F
 !||    law70_upd                         ../starter/source/materials/mat/mat070/law70_upd.F
-!||    law76_upd                         ../starter/source/materials/mat/mat076/law76_upd.F
 !||    law77_upd                         ../starter/source/materials/mat/mat077/law77_upd.F
 !||    law90_upd                         ../starter/source/materials/mat/mat090/law90_upd.F
 !||    law92_nlsqf                       ../starter/source/materials/mat/mat092/law92_nlsqf.F90

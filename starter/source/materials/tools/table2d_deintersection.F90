@@ -23,6 +23,7 @@
 !||====================================================================
 !||    table2d_deintersection_mod   ../starter/source/materials/tools/table2d_deintersection.F90
 !||--- called by ------------------------------------------------------
+!||    hm_read_mat76                ../starter/source/materials/mat/mat076/hm_read_mat76.F
 !||====================================================================
        module table2d_deintersection_mod
          implicit none
@@ -43,6 +44,7 @@
 !||====================================================================
 !||    table2d_deintersection   ../starter/source/materials/tools/table2d_deintersection.F90
 !||--- called by ------------------------------------------------------
+!||    hm_read_mat76            ../starter/source/materials/mat/mat076/hm_read_mat76.F
 !||--- uses       -----------------------------------------------------
 !||====================================================================
         subroutine table2d_deintersection(mat_table ,intersections)

@@ -21,16 +21,17 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    sigeps76c          ../engine/source/materials/mat/mat076/sigeps76c.F
+!||    sigeps76c               ../engine/source/materials/mat/mat076/sigeps76c.F
 !||--- called by ------------------------------------------------------
-!||    mulawc             ../engine/source/materials/mat_share/mulawc.F90
+!||    mulawc                  ../engine/source/materials/mat_share/mulawc.F90
 !||--- calls      -----------------------------------------------------
-!||    asso_qplas76c      ../engine/source/materials/mat/mat076/asso_qplas76c.F
-!||    no_asso_lplas76c   ../engine/source/materials/mat/mat076/no_asso_lplas76c.F
-!||    no_asso_qplas76c   ../engine/source/materials/mat/mat076/no_asso_qplas76c.F
-!||    vinter             ../engine/source/tools/curve/vinter.F
+!||    asso_qplas76c           ../engine/source/materials/mat/mat076/asso_qplas76c.F
+!||    no_asso_lplas76c        ../engine/source/materials/mat/mat076/no_asso_lplas76c.F
+!||    no_asso_qplas76c        ../engine/source/materials/mat/mat076/no_asso_qplas76c.F
+!||    table_mat_vinterp       ../engine/source/materials/tools/table_mat_vinterp.F
 !||--- uses       -----------------------------------------------------
-!||    matparam_def_mod   ../common_source/modules/mat_elem/matparam_def_mod.F90
+!||    matparam_def_mod        ../common_source/modules/mat_elem/matparam_def_mod.F90
+!||    table_mat_vinterp_mod   ../engine/source/materials/tools/table_mat_vinterp.F
 !||====================================================================
       SUBROUTINE SIGEPS76C(MATPARAM  ,
      1     NEL     ,NUPARAM ,NUVAR   ,TIME    ,TIMESTEP,

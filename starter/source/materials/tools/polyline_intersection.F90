@@ -24,6 +24,7 @@
 !||    polyline_intersection_mod   ../starter/source/materials/tools/polyline_intersection.F90
 !||--- called by ------------------------------------------------------
 !||    diffuse_necking_2d          ../starter/source/materials/fail/diffuse_necking_2d.F90
+!||    mat_func_deintersect        ../starter/source/materials/tools/mat_func_deintersect.F90
 !||====================================================================
        module polyline_intersection_mod
          implicit none
@@ -53,6 +54,7 @@
 !||    polyline_intersection   ../starter/source/materials/tools/polyline_intersection.F90
 !||--- called by ------------------------------------------------------
 !||    diffuse_necking_2d      ../starter/source/materials/fail/diffuse_necking_2d.F90
+!||    mat_func_deintersect    ../starter/source/materials/tools/mat_func_deintersect.F90
 !||--- uses       -----------------------------------------------------
 !||====================================================================
         subroutine polyline_intersection(n1, n2, x1, y1, x2, y2, xint, yint, found)

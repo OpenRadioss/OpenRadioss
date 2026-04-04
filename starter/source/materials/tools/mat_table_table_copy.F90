@@ -26,6 +26,7 @@
 !||    mat_table_table_copy_mod   ../starter/source/materials/tools/mat_table_table_copy.F90
 !||--- called by ------------------------------------------------------
 !||    hm_read_mat129             ../starter/source/materials/mat/mat129/hm_read_mat129.F90
+!||    hm_read_mat76              ../starter/source/materials/mat/mat076/hm_read_mat76.F
 !||====================================================================
       module mat_table_table_copy_mod
       implicit none
@@ -38,6 +39,7 @@
 !||    mat_table_table_copy   ../starter/source/materials/tools/mat_table_table_copy.F90
 !||--- called by ------------------------------------------------------
 !||    hm_read_mat129         ../starter/source/materials/mat/mat129/hm_read_mat129.F90
+!||    hm_read_mat76          ../starter/source/materials/mat/mat076/hm_read_mat76.F
 !||--- calls      -----------------------------------------------------
 !||    mattab_usr2sys         ../starter/source/materials/tools/mattab_usr2sys.F
 !||--- uses       -----------------------------------------------------

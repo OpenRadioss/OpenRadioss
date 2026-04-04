@@ -204,7 +204,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    fredec_key_3id_t                     ../starter/source/starter/freform.F
 !||    freerr                               ../starter/source/starter/freform.F
 !||    fsdcod                               ../starter/source/system/fsdcod.F
-!||    func_comp                            ../starter/source/materials/mat/mat076/law76_upd.F
 !||    func_inters_c                        ../starter/source/tools/curve/func_inters.F
 !||    func_inters_shear                    ../starter/source/tools/curve/func_inters.F
 !||    func_maxy                            ../starter/source/tools/curve/func_maxy.F
@@ -920,7 +919,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    law69_nlsqf_auto                     ../starter/source/materials/tools/law69_nlsqf_auto.F
 !||    law69_upd                            ../starter/source/materials/mat/mat069/law69_upd.F
 !||    law70_upd                            ../starter/source/materials/mat/mat070/law70_upd.F
-!||    law76_upd                            ../starter/source/materials/mat/mat076/law76_upd.F
 !||    law77_upd                            ../starter/source/materials/mat/mat077/law77_upd.F
 !||    law87_upd                            ../starter/source/materials/mat/mat087/law87_upd.F90
 !||    law90_upd                            ../starter/source/materials/mat/mat090/law90_upd.F

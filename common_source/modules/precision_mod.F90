@@ -241,6 +241,7 @@
 !||    hm_read_mat169_arup                      ../starter/source/materials/mat/mat169/hm_read_mat169.F90
 !||    hm_read_mat50                            ../starter/source/materials/mat/mat050/hm_read_mat50.F90
 !||    hm_read_mat57                            ../starter/source/materials/mat/mat057/hm_read_mat57.F90
+!||    hm_read_mat76                            ../starter/source/materials/mat/mat076/hm_read_mat76.F
 !||    hm_read_mat81                            ../starter/source/materials/mat/mat081/hm_read_mat81.F90
 !||    hm_read_mat87                            ../starter/source/materials/mat/mat087/hm_read_mat87.F90
 !||    hm_read_mat88                            ../starter/source/materials/mat/mat088/hm_read_mat88.F90
@@ -318,6 +319,7 @@
 !||    law163_upd                               ../starter/source/materials/mat/mat163/law163_upd.F90
 !||    law190_upd                               ../starter/source/materials/mat/mat190/law190_upd.F90
 !||    law42c_ini                               ../starter/source/materials/mat/mat042/law42c_ini.F90
+!||    law76_func_comp                          ../starter/source/materials/mat/mat076/law76_func_comp.F90
 !||    law81_upd                                ../starter/source/materials/mat/mat081/law81_upd.F90
 !||    law87_upd                                ../starter/source/materials/mat/mat087/law87_upd.F90
 !||    law92_guess                              ../starter/source/materials/mat/mat092/law92_nlsqf.F90
@@ -333,6 +335,7 @@
 !||    mat87c_swift_voce                        ../engine/source/materials/mat/mat087/mat87c_swift_voce.F90
 !||    mat87c_tabulated                         ../engine/source/materials/mat/mat087/mat87c_tabulated.F90
 !||    mat87c_tabulated_3dir_ortho              ../engine/source/materials/mat/mat087/mat87c_tabulated_3dir_ortho.F90
+!||    mat_func_deintersect                     ../starter/source/materials/tools/mat_func_deintersect.F90
 !||    mat_hardening_to_fail                    ../starter/source/materials/mat/mat_hardening_to_fail.F90
 !||    mat_table_copy                           ../starter/source/materials/tools/mat_table_copy.F90
 !||    mat_table_table_copy                     ../starter/source/materials/tools/mat_table_table_copy.F90
@@ -527,6 +530,7 @@
 !||    strainrate_dependency_125c               ../engine/source/materials/mat/mat125/strainrate_dependency_125c.F90
 !||    strainrate_dependency_125s               ../engine/source/materials/mat/mat125/strainrate_dependency_125s.F90
 !||    sz_dt1                                   ../engine/source/elements/solid/solidez/sz_dt1.F90
+!||    table2d_deintersection                   ../starter/source/materials/tools/table2d_deintersection.F90
 !||    table_mat_vinterp_c1                     ../engine/source/materials/tools/table_mat_vinterp_c1.F90
 !||    table_mat_vinterp_inv                    ../engine/source/materials/tools/table_mat_vinterp_inv.F90
 !||    test_jc_shell_detach                     ../engine/source/engine/node_spliting/detach_node.F90

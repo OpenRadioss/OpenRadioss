@@ -22,8 +22,6 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
 !||    table2d_intersect   ../starter/source/tools/curve/table2d_intersect.F
-!||--- called by ------------------------------------------------------
-!||    law76_upd           ../starter/source/materials/mat/mat076/law76_upd.F
 !||--- uses       -----------------------------------------------------
 !||    table_mod           ../starter/share/modules1/table_mod.F
 !||====================================================================

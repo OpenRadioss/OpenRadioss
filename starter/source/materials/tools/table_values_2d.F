@@ -21,10 +21,11 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    table_values_2d   ../starter/source/materials/tools/table_values_2d.F
+!||    table_values_2d        ../starter/source/materials/tools/table_values_2d.F
 !||--- called by ------------------------------------------------------
-!||    func_table_copy   ../starter/source/materials/tools/func_table_copy.F90
-!||    law70_table       ../starter/source/materials/mat/mat070/law70_table.F
+!||    func_table_copy        ../starter/source/materials/tools/func_table_copy.F90
+!||    law70_table            ../starter/source/materials/mat/mat070/law70_table.F
+!||    mat_func_deintersect   ../starter/source/materials/tools/mat_func_deintersect.F90
 !||====================================================================
        SUBROUTINE TABLE_VALUES_2D(LEN,NPTF,XI,YI,XF,YF)
 C-----------------------------------------------

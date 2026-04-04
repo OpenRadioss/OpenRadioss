@@ -21,22 +21,30 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    hm_read_mat76            ../starter/source/materials/mat/mat076/hm_read_mat76.F
+!||    hm_read_mat76                ../starter/source/materials/mat/mat076/hm_read_mat76.F
 !||--- called by ------------------------------------------------------
-!||    hm_read_mat              ../starter/source/materials/mat/hm_read_mat.F90
+!||    hm_read_mat                  ../starter/source/materials/mat/hm_read_mat.F90
 !||--- calls      -----------------------------------------------------
-!||    ancmsg                   ../starter/source/output/message/message.F
-!||    hm_get_floatv            ../starter/source/devtools/hm_reader/hm_get_floatv.F
-!||    hm_get_floatv_dim        ../starter/source/devtools/hm_reader/hm_get_floatv_dim.F
-!||    hm_get_intv              ../starter/source/devtools/hm_reader/hm_get_intv.F
-!||    hm_option_is_encrypted   ../starter/source/devtools/hm_reader/hm_option_is_encrypted.F
-!||    init_mat_keyword         ../starter/source/materials/mat/init_mat_keyword.F
+!||    ancmsg                       ../starter/source/output/message/message.F
+!||    hm_get_floatv                ../starter/source/devtools/hm_reader/hm_get_floatv.F
+!||    hm_get_floatv_dim            ../starter/source/devtools/hm_reader/hm_get_floatv_dim.F
+!||    hm_get_intv                  ../starter/source/devtools/hm_reader/hm_get_intv.F
+!||    hm_option_is_encrypted       ../starter/source/devtools/hm_reader/hm_option_is_encrypted.F
+!||    init_mat_keyword             ../starter/source/materials/mat/init_mat_keyword.F
+!||    law76_func_comp              ../starter/source/materials/mat/mat076/law76_func_comp.F90
+!||    mat_func_deintersect         ../starter/source/materials/tools/mat_func_deintersect.F90
+!||    mat_table_table_copy         ../starter/source/materials/tools/mat_table_table_copy.F90
+!||    table2d_deintersection       ../starter/source/materials/tools/table2d_deintersection.F90
 !||--- uses       -----------------------------------------------------
-!||    elbuftag_mod             ../starter/share/modules1/elbuftag_mod.F
-!||    hm_option_read_mod       ../starter/share/modules1/hm_option_read_mod.F
-!||    message_mod              ../starter/share/message_module/message_mod.F
-!||    submodel_mod             ../starter/share/modules1/submodel_mod.F
-!||    table_mod                ../starter/share/modules1/table_mod.F
+!||    elbuftag_mod                 ../starter/share/modules1/elbuftag_mod.F
+!||    hm_option_read_mod           ../starter/share/modules1/hm_option_read_mod.F
+!||    law76_func_comp_mod          ../starter/source/materials/mat/mat076/law76_func_comp.F90
+!||    mat_func_deintersect_mod     ../starter/source/materials/tools/mat_func_deintersect.F90
+!||    mat_table_table_copy_mod     ../starter/source/materials/tools/mat_table_table_copy.F90
+!||    message_mod                  ../starter/share/message_module/message_mod.F
+!||    submodel_mod                 ../starter/share/modules1/submodel_mod.F
+!||    table2d_deintersection_mod   ../starter/source/materials/tools/table2d_deintersection.F90
+!||    table_mod                    ../starter/share/modules1/table_mod.F
 !||====================================================================
       SUBROUTINE HM_READ_MAT76(MAT_PARAM,
      .                         MAXUPARAM,NUPARAM  ,UPARAM   ,NUVAR    ,NVARTMP ,

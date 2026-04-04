@@ -54,6 +54,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    sigeps50s                     ../engine/source/materials/mat/mat050/sigeps50s.F90
 !||    sigeps57c                     ../engine/source/materials/mat/mat057/sigeps57c.F90
 !||    sigeps70                      ../engine/source/materials/mat/mat070/sigeps70.F
+!||    sigeps76                      ../engine/source/materials/mat/mat076/sigeps76.F
+!||    sigeps76c                     ../engine/source/materials/mat/mat076/sigeps76c.F
 !||    sigeps88                      ../engine/source/materials/mat/mat088/sigeps88.F90
 !||    sigeps88c                     ../engine/source/materials/mat/mat088/sigeps88c.F90
 !||    srate_dependency_tabulated    ../engine/source/materials/mat/mat131/srate_dependency/srate_dependency_tabulated.F90
@@ -98,6 +100,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    sigeps50s                     ../engine/source/materials/mat/mat050/sigeps50s.F90
 !||    sigeps57c                     ../engine/source/materials/mat/mat057/sigeps57c.F90
 !||    sigeps70                      ../engine/source/materials/mat/mat070/sigeps70.F
+!||    sigeps76                      ../engine/source/materials/mat/mat076/sigeps76.F
+!||    sigeps76c                     ../engine/source/materials/mat/mat076/sigeps76c.F
 !||    sigeps88                      ../engine/source/materials/mat/mat088/sigeps88.F90
 !||    sigeps88c                     ../engine/source/materials/mat/mat088/sigeps88c.F90
 !||    srate_dependency_tabulated    ../engine/source/materials/mat/mat131/srate_dependency/srate_dependency_tabulated.F90
