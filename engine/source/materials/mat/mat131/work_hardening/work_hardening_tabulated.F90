@@ -65,7 +65,7 @@
 !----------------------------------------------------------------
 !  L o c a l  V a r i a b l e s
 !----------------------------------------------------------------
-        integer :: offset
+        integer :: offset,offset_tab,offset_var
         real(kind=WP) :: xvec(nel,2)
         logical :: flag_extrap
 !===============================================================================
@@ -73,15 +73,18 @@
         !=======================================================================
         !< - Tabulated work hardening model
         !=======================================================================
-        offset = matparam%iparam(4)
+        offset_tab = matparam%iparam(2)
+        offset = matparam%iparam(6)
+        offset_var = matparam%iparam(4)
         !< Recover flat extrapolation flag from work hardening parameters
         flag_extrap = (matparam%uparam(offset + 1) == 0)
         !< Prepare input vectors for interpolation
         xvec(1:nel,1) = pla(1:nel)
         xvec(1:nel,2) = epsd(1:nel)
         !< Interpolate to get sigy and dsigy_dpla
-        call table_mat_vinterp(matparam%table(1),nel,nel,vartmp(1:nel,1),     &
-          xvec(1:nel,1),sigy(1:nel),dsigy_dpla(1:nel),flag_extrap)
+        call table_mat_vinterp(matparam%table(offset_tab+1),nel,nel,           &
+          vartmp(1:nel,offset_var+1),xvec(1:nel,1),sigy(1:nel),                &
+          dsigy_dpla(1:nel),flag_extrap)
 !
       end subroutine work_hardening_tabulated
       end module work_hardening_tabulated_mod

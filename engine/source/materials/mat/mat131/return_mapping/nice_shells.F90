@@ -149,7 +149,7 @@
         !< - Initialisation of computation on time step
         !=======================================================================
         !< Viscoplastic formulation flag
-        vpflag = matparam%iparam(10)
+        vpflag = matparam%iparam(12)
         !< Total strain-rate computation
         if (vpflag > 1) then
           epsd(1:nel) = asrate*epsd_pg(1:nel) + (one-asrate)*epsd(1:nel)
@@ -158,9 +158,9 @@
           epsd(1:nel) = uvar(1:nel,1)
         endif
         !< Kinematic hardening flag
-        ikine = matparam%iparam(22)
+        ikine = matparam%iparam(24)
         !< Mixed kinematic/isotropic hardening parameter
-        chard = matparam%uparam(matparam%iparam(20) + 1)
+        chard = matparam%uparam(matparam%iparam(22) + 1)
         !< Initialisation of the hourglass control variable
         et(1:nel) = one
         !< Increment of cumulated plastic strain
@@ -199,7 +199,7 @@
           sigoxx   ,sigoyy   ,sigozz   ,sigoxy   ,sigoyz   ,sigozx   ,         &
           signxx   ,signyy   ,signzz   ,signxy   ,signyz   ,signzx   ,         &
           eltype   ,shf      ,s13      ,s23      ,s43      ,ieos     ,         &
-          dpdm     )
+          dpdm     ,nvartmp  ,vartmp   ,epsd     )
 !
         !=======================================================================
         !< - Computation of the initial yield stress

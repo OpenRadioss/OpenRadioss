@@ -69,7 +69,7 @@
         !=======================================================================
         !< - Johnson-Cook thermal softening model
         !=======================================================================
-        offset = matparam%iparam(12)
+        offset = matparam%iparam(14)
         !< Recover thermal softening parameters
         m     = matparam%uparam(offset + 1) !< Thermal softening exponent
         tref  = matparam%therm%tref         !< Reference temperature

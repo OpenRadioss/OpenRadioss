@@ -117,7 +117,7 @@
         !=======================================================================
         !< - Hershey yield criterion and its derivatives
         !=======================================================================
-        offset = matparam%iparam(2)
+        offset = matparam%iparam(3)
         !< Hershey exponent
         nexp = matparam%uparam(offset + 1)
         !< Compute constant

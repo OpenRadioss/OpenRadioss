@@ -67,7 +67,7 @@
         !=======================================================================
         !< - Taylor-Quinney (extended) self-heating model
         !=======================================================================
-        offset = matparam%iparam(16)
+        offset = matparam%iparam(18)
         !< Recover self heating parameters
         eta   = matparam%uparam(offset + 1) !< Taylor-Quinney coefficient
         deis  = matparam%uparam(offset + 2) !< Strain rates for the beginning of adiabatic transition

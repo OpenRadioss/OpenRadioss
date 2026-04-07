@@ -68,7 +68,7 @@
         !=======================================================================
         !< - Zhao thermal softening model
         !=======================================================================
-        offset = matparam%iparam(12)
+        offset = matparam%iparam(14)
         !< Recover thermal softening parameters
         mu    = matparam%uparam(offset + 1) !< Thermal softening slope
         tref  = matparam%therm%tref         !< Reference temperature

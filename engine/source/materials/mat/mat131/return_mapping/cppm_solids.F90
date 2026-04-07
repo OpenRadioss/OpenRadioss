@@ -157,7 +157,7 @@
         !< - Initialisation of computation on time step
         !=======================================================================
         !< Viscoplastic formulation flag
-        vpflag = matparam%iparam(10)
+        vpflag = matparam%iparam(12)
         !< Total or deviatoric strain rate for scaled yield stress formulation
         if (vpflag > 1 .and. vpflag < 3) then
           idev = vpflag - 2
@@ -166,9 +166,9 @@
             epspxx   ,epspyy   ,epspzz   ,epspxy   ,epspyz   ,epspzx   )
         endif
         !< Kinematic hardening flag
-        ikine = matparam%iparam(22)
+        ikine = matparam%iparam(24)
         !< Mixed kinematic/isotropic hardening parameter
-        chard = matparam%uparam(matparam%iparam(20) + 1)
+        chard = matparam%uparam(matparam%iparam(22) + 1)
         !< Initialisation of the hourglass control variable
         et(1:nel) = one
         !< Increment of cumulated plastic strain
@@ -195,7 +195,7 @@
           sigoxx   ,sigoyy   ,sigozz   ,sigoxy   ,sigoyz   ,sigozx   ,         &
           signxx   ,signyy   ,signzz   ,signxy   ,signyz   ,signzx   ,         &
           eltype   ,shf      ,s13      ,s23      ,s43      ,ieos     ,         &
-          dpdm     )
+          dpdm     ,nvartmp  ,vartmp   ,epsd     )
 !
         !=======================================================================
         !< - Computation of the initial yield stress

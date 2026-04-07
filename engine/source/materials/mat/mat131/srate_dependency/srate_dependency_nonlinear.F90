@@ -67,7 +67,7 @@
         !=======================================================================
         !< - Non-linear strain rate dependency
         !=======================================================================
-        offset = matparam%iparam(7)
+        offset = matparam%iparam(9)
         !< Recover strain rate dependency parameters
         cs  = matparam%uparam(offset + 1) !< Non-linear strain rate dependency exponent
         dps = matparam%uparam(offset + 2) !< Reference strain rate

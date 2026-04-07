@@ -127,7 +127,7 @@
 !===============================================================================
 !
         !< Retturn mapping algorithm flag
-        ires = matparam%iparam(24)
+        ires = matparam%iparam(26)
 !
         !=======================================================================
         !< - Select return mapping algorithm

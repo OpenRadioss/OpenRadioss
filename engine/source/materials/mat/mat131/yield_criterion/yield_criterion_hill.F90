@@ -88,7 +88,7 @@
         !=======================================================================
         !< - Hill (1948) yield criterion and its derivatives
         !=======================================================================
-        offset = matparam%iparam(2)
+        offset = matparam%iparam(3)
         !< Hill coefficients
         F = matparam%uparam(offset + 1)
         G = matparam%uparam(offset + 2)

@@ -67,7 +67,7 @@
         !=======================================================================
         !< - Voce work hardening model
         !=======================================================================
-        offset = matparam%iparam(4)
+        offset = matparam%iparam(6)
         !< Recover work hardening parameters
         r0 = matparam%uparam(offset + 1) !< Initial yield stress
         q1 = matparam%uparam(offset + 2) !< Voce 1 saturation stress
