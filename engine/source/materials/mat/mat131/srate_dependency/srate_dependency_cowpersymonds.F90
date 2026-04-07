@@ -67,7 +67,7 @@
         !=======================================================================
         !< - Cowper-Symonds strain rate dependency
         !=======================================================================
-        offset = matparam%iparam(7)
+        offset = matparam%iparam(9)
         !< Recover strain rate dependency parameters
         c = matparam%uparam(offset + 1) !< Cowper-Symonds strain rate sensitivity coefficient
         p = matparam%uparam(offset + 2) !< Strain rate dependency exponent

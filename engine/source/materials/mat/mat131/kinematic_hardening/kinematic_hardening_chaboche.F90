@@ -76,16 +76,16 @@
         !=======================================================================
         !< - Chaboche-Rousselier kinematic hardening model
         !=======================================================================
-        offset = matparam%iparam(20) + 1
+        offset = matparam%iparam(22) + 1
         !< Recover kinematic hardening parameters
-        ckh(1) = matparam%uparam(offset + 1) !< 
-        akh(1) = matparam%uparam(offset + 2) !<
-        ckh(2) = matparam%uparam(offset + 3) !< 
-        akh(2) = matparam%uparam(offset + 4) !<
-        ckh(3) = matparam%uparam(offset + 5) !< 
-        akh(3) = matparam%uparam(offset + 6) !<
-        ckh(4) = matparam%uparam(offset + 7) !< 
-        akh(4) = matparam%uparam(offset + 8) !<
+        ckh(1) = matparam%uparam(offset + 1) !< Chaboche kinematic hardening parameter for the 1st backstress component
+        akh(1) = matparam%uparam(offset + 2) !< Chaboche kinematic hardening parameter for the 1st backstress component
+        ckh(2) = matparam%uparam(offset + 3) !< Chaboche kinematic hardening parameter for the 2nd backstress component
+        akh(2) = matparam%uparam(offset + 4) !< Chaboche kinematic hardening parameter for the 2nd backstress component
+        ckh(3) = matparam%uparam(offset + 5) !< Chaboche kinematic hardening parameter for the 3rd backstress component
+        akh(3) = matparam%uparam(offset + 6) !< Chaboche kinematic hardening parameter for the 3rd backstress component
+        ckh(4) = matparam%uparam(offset + 7) !< Chaboche kinematic hardening parameter for the 4th backstress component
+        akh(4) = matparam%uparam(offset + 8) !< Chaboche kinematic hardening parameter for the 4th backstress component
         !< Compute the backstress components derivative w.r.t plastic multiplier
         do k = 1, 4
           factor1 = chard * akh(k) * ckh(k)

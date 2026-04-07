@@ -67,7 +67,7 @@
         !=======================================================================
         !< - Power law work hardening model
         !=======================================================================
-        offset = matparam%iparam(4)
+        offset = matparam%iparam(6)
         !< Recover work hardening parameters
         ca   = matparam%uparam(offset + 1) !< Initial yield stress
         cb   = matparam%uparam(offset + 2) !< Hardening modulus

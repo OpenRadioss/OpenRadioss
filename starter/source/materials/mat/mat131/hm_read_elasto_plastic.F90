@@ -115,14 +115,16 @@
           integer :: ielas,icrit,ihard,iratedep,itherm,iheat,ikine
           integer :: nupar_elas,nupar_crit,nupar_hard,nupar_ratedep,           &
             nupar_therm,nupar_heat,nupar_kine
-          integer :: ntab_hard,nvartmp_hard,ntab_srate,nvartmp_srate,          &
-            ntab_therm,nvartmp_therm,ntab_heat,nvartmp_heat
+          integer :: ntab_elas,nvartmp_elas,ntab_hard,nvartmp_hard,ntab_srate, &
+            nvartmp_srate,ntab_therm,nvartmp_therm,ntab_heat,nvartmp_heat
           integer :: vpflag,ires
-          integer, dimension(100) :: itab_hard,itab_srate,itab_therm,itab_heat
-          real(kind=WP), dimension(100) :: x2vect_hard,x3vect_hard,x4vect_hard,&
-            fscale_hard,x2vect_srate,x3vect_srate,x4vect_srate,fscale_srate,   &
-            x2vect_therm,x3vect_therm,x4vect_therm,fscale_therm,x2vect_heat,   &
-            x3vect_heat,x4vect_heat,fscale_heat
+          integer, dimension(100) :: itab_elas,itab_hard,itab_srate,itab_therm,&
+            itab_heat
+          real(kind=WP), dimension(100) :: x2vect_elas,x3vect_elas,x4vect_elas,&
+            fscale_elas,x2vect_hard,x3vect_hard,x4vect_hard,fscale_hard,       &
+            x2vect_srate,x3vect_srate,x4vect_srate,fscale_srate,x2vect_therm,  &
+            x3vect_therm,x4vect_therm,fscale_therm,x2vect_heat,x3vect_heat,    &
+            x4vect_heat,fscale_heat
           real(kind=WP), dimension(100) :: upar_elas,upar_crit,upar_hard,      &
             upar_ratedep,upar_therm,upar_heat,upar_kine
 !
@@ -159,16 +161,19 @@
           nupar_heat    = 0
           nupar_kine    = 0
           ! -> Number of tables
+          ntab_elas     = 0
           ntab_hard     = 0
           ntab_srate    = 0
           ntab_therm    = 0
           ntab_heat     = 0
           ! -> Id of tables
+          itab_elas     = 0
           itab_hard     = 0
           itab_srate    = 0
           itab_therm    = 0
           itab_heat     = 0
           ! -> Number of temporary variables
+          nvartmp_elas  = 0
           nvartmp_hard  = 0
           nvartmp_srate = 0
           nvartmp_therm = 0
@@ -176,6 +181,10 @@
           ! -> Iso-kinetic hardening parameter
           chard         = 0
           ! -> Scale factors for tables
+          x2vect_elas   = zero
+          x3vect_elas   = zero
+          x4vect_elas   = zero
+          fscale_elas   = zero
           x2vect_hard   = zero
           x3vect_hard   = zero
           x4vect_hard   = zero
@@ -256,7 +265,9 @@
                 call hm_read_elasticity(                                       &
                   ikey     ,type  ,ielas    ,nupar_elas,upar_elas,is_available,&
                   unitab,lsubmodel,matparam ,parmat    ,iout     ,is_encrypted,&
-                  mat_id   ,titr  ,iresp    )
+                  mat_id   ,titr  ,iresp    ,ntab_elas,itab_elas ,x2vect_elas ,&
+                  x3vect_elas,x4vect_elas,fscale_elas,nvartmp_elas,israte     ,&
+                  vpflag   )
               !< Yield criterion
               case ('CRIT')
                 if (icrit /= 0) then 
@@ -408,7 +419,7 @@
           !< Filling buffer tables
           ! --------------------------------------------------------------------
           !< Number of integer material parameters
-          matparam%niparam = 24
+          matparam%niparam = 26
           !< Number of real material parameters
           matparam%nuparam = nupar_elas + nupar_crit +                         &
                              nupar_hard + nupar_ratedep +                      &
@@ -420,8 +431,10 @@
             nuvar = 1
           endif
           !< Number of tables and temporary variables
-          matparam%ntable = ntab_hard + ntab_srate + ntab_therm + ntab_heat
-          nvartmp = nvartmp_hard + nvartmp_srate + nvartmp_therm + nvartmp_heat
+          matparam%ntable = ntab_elas + ntab_hard + ntab_srate + ntab_therm +  &
+            ntab_heat
+          nvartmp = nvartmp_elas + nvartmp_hard + nvartmp_srate +              &
+            nvartmp_therm + nvartmp_heat
 !
           !< Allocation of material parameters tables
           allocate(matparam%iparam(matparam%niparam))
@@ -431,36 +444,38 @@
           !< Integer material parameter
           ! -> Elastic parameters 
           matparam%iparam(1)  = ielas                               !< Elastic model type
-          matparam%iparam(2)  = nupar_elas                          !< Address of elastic last real parameter
+          matparam%iparam(2)  = ntab_elas                           !< Number of the last elasticity table
+          matparam%iparam(3)  = nupar_elas                          !< Address of elastic last real parameter
+          matparam%iparam(4)  = nvartmp_elas                        !< Address of elastic last temporary variable
           ! -> Yield criterion parameters
-          matparam%iparam(3)  = icrit                               !< Yield criterion type
-          matparam%iparam(4)  = matparam%iparam(2) + nupar_crit     !< Address of yield criterion last real parameter
+          matparam%iparam(5)  = icrit                               !< Yield criterion type
+          matparam%iparam(6)  = matparam%iparam(3) + nupar_crit     !< Address of yield criterion last real parameter
           ! -> Work hardening parameters
-          matparam%iparam(5)  = ihard                               !< Work hardening model type
-          matparam%iparam(6)  = ntab_hard                           !< Number of the last work hardening table
-          matparam%iparam(7)  = matparam%iparam(4) + nupar_hard     !< Address of work hardening last real parameter
-          matparam%iparam(8)  = nvartmp_hard                        !< Address of work hardening last temporary variable
+          matparam%iparam(7)  = ihard                               !< Work hardening model type
+          matparam%iparam(8)  = matparam%iparam(2) + ntab_hard      !< Number of the last work hardening table
+          matparam%iparam(9)  = matparam%iparam(6) + nupar_hard     !< Address of work hardening last real parameter
+          matparam%iparam(10) = matparam%iparam(4) + nvartmp_hard   !< Address of work hardening last temporary variable
           ! -> Strain rate dependency parameters
-          matparam%iparam(9)  = iratedep                            !< Strain rate dependency model type
-          matparam%iparam(10) = vpflag                              !< Viscoplastic flag
-          matparam%iparam(11) = matparam%iparam(6) + ntab_srate     !< Number of the last strain rate dependency table
-          matparam%iparam(12) = matparam%iparam(7) + nupar_ratedep  !< Address of strain rate dependency last real parameter
-          matparam%iparam(13) = matparam%iparam(8) + nvartmp_srate  !< Address of strain rate dependency last temporary variable
+          matparam%iparam(11) = iratedep                            !< Strain rate dependency model type
+          matparam%iparam(12) = vpflag                              !< Viscoplastic flag
+          matparam%iparam(13) = matparam%iparam(8)  + ntab_srate    !< Number of the last strain rate dependency table
+          matparam%iparam(14) = matparam%iparam(9)  + nupar_ratedep !< Address of strain rate dependency last real parameter
+          matparam%iparam(15) = matparam%iparam(10) + nvartmp_srate !< Address of strain rate dependency last temporary variable
           ! -> Thermal softening parameters
-          matparam%iparam(14) = itherm                              !< Thermal softening model type
-          matparam%iparam(15) = matparam%iparam(11) + ntab_therm    !< Number of the last thermal softening table
-          matparam%iparam(16) = matparam%iparam(12) + nupar_therm   !< Address of thermal softening last real parameter
-          matparam%iparam(17) = matparam%iparam(13) + nvartmp_therm !< Address of thermal softening last temporary variable
+          matparam%iparam(16) = itherm                              !< Thermal softening model type
+          matparam%iparam(17) = matparam%iparam(13) + ntab_therm    !< Number of the last thermal softening table
+          matparam%iparam(18) = matparam%iparam(14) + nupar_therm   !< Address of thermal softening last real parameter
+          matparam%iparam(19) = matparam%iparam(15) + nvartmp_therm !< Address of thermal softening last temporary variable
           ! -> Self-heating parameters
-          matparam%iparam(18) = iheat                               !< Self-heating model type
-          matparam%iparam(19) = matparam%iparam(15) + ntab_heat     !< Number of the last self-heating table
-          matparam%iparam(20) = matparam%iparam(16) + nupar_heat    !< Address of self-heating last real parameter
-          matparam%iparam(21) = matparam%iparam(17) + nvartmp_heat  !< Address of self-heating last temporary variable
+          matparam%iparam(20) = iheat                               !< Self-heating model type
+          matparam%iparam(21) = matparam%iparam(17) + ntab_heat     !< Number of the last self-heating table
+          matparam%iparam(22) = matparam%iparam(18) + nupar_heat    !< Address of self-heating last real parameter
+          matparam%iparam(23) = matparam%iparam(19) + nvartmp_heat  !< Address of self-heating last temporary variable
           ! -> Kinematic hardening parameters
-          matparam%iparam(22) = ikine                               !< Kinematic hardening model type
-          matparam%iparam(23) = matparam%iparam(20) + nupar_kine + 1!< Address of kinematic hardening last real parameter
+          matparam%iparam(24) = ikine                               !< Kinematic hardening model type
+          matparam%iparam(25) = matparam%iparam(22) + nupar_kine + 1!< Address of kinematic hardening last real parameter
           ! -> Flag for return mapping algorithm
-          matparam%iparam(24) = ires                                !< Return mapping flag
+          matparam%iparam(26) = ires                                !< Return mapping flag
 !
           !< Real material parameters
           ! -> Elastic parameters
@@ -468,32 +483,32 @@
             matparam%uparam(i) = upar_elas(i)
           enddo
           ! -> Yield criterion parameters
-          offset = matparam%iparam(2)
+          offset = matparam%iparam(3)
           do i = 1,nupar_crit
             matparam%uparam(offset+i) = upar_crit(i)
           enddo
           ! -> Work hardening parameters
-          offset = matparam%iparam(4)
+          offset = matparam%iparam(6)
           do i = 1,nupar_hard
             matparam%uparam(offset+i) = upar_hard(i)
           enddo
           ! -> Strain rate dependency parameters
-          offset = matparam%iparam(7)
+          offset = matparam%iparam(9)
           do i = 1,nupar_ratedep
             matparam%uparam(offset+i) = upar_ratedep(i)
           enddo
           ! -> Thermal softening parameters
-          offset = matparam%iparam(12)
+          offset = matparam%iparam(14)
           do i = 1,nupar_therm
             matparam%uparam(offset+i) = upar_therm(i)
           enddo
           ! -> Self-heating parameters
-          offset = matparam%iparam(16)
+          offset = matparam%iparam(18)
           do i = 1,nupar_heat
             matparam%uparam(offset+i) = upar_heat(i)
           enddo
           ! -> Kinematic hardening parameters
-          offset = matparam%iparam(20)
+          offset = matparam%iparam(22)
           matparam%uparam(offset+1) = chard
           do i = 1,nupar_kine
             matparam%uparam(offset+1+i) = upar_kine(i)
@@ -501,10 +516,25 @@
 !
           !< Material tables
           if (matparam%ntable > 0) then  
+            ! -> Tabulated elasticity
+            if (ntab_elas > 0) then            
+              do i = 1, ntab_elas
+                matparam%table(i)%notable = itab_elas(i)
+                x1scale   = one
+                x2scale   = one
+                x3scale   = one
+                x4scale   = one
+                x2vect(i) = x2vect_elas(i)
+                x3vect(i) = x3vect_elas(i)
+                x4vect(i) = x4vect_elas(i)
+                fscale(i) = fscale_elas(i)
+              enddo
+            endif
             ! -> Tabulated work-hardening   
             if (ntab_hard > 0) then 
+              offset = matparam%iparam(2)              
               do i = 1, ntab_hard
-                matparam%table(i)%notable = itab_hard(i)
+                matparam%table(offset+i)%notable = itab_hard(i)
                 x1scale   = one
                 x2scale   = one
                 x3scale   = one
@@ -517,7 +547,7 @@
             endif
             ! -> Tabulated strain rate dependency
             if (ntab_srate > 0) then
-              offset = matparam%iparam(6)
+              offset = matparam%iparam(8)
               do i = 1, ntab_srate
                 matparam%table(offset+i)%notable = itab_srate(i)
                 x1scale = one
@@ -532,7 +562,7 @@
             endif
             ! -> Tabulated thermal softening
             if (ntab_therm > 0) then
-              offset = matparam%iparam(11)
+              offset = matparam%iparam(13)
               do i = 1, ntab_therm
                 matparam%table(offset+i)%notable = itab_therm(i)
                 x1scale = one
@@ -547,7 +577,7 @@
             endif
             ! -> Tabulated self-heating
             if (ntab_heat > 0) then
-              offset = matparam%iparam(15)
+              offset = matparam%iparam(17)
               do i = 1, ntab_heat
                 matparam%table(offset+i)%notable = itab_heat(i)
                 x1scale = one

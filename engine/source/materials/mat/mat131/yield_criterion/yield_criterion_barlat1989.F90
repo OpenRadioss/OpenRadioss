@@ -79,7 +79,7 @@
         !=======================================================================
         !< - Barlat (1989) yield criterion and its derivatives
         !=======================================================================
-        offset = matparam%iparam(2)
+        offset = matparam%iparam(3)
         !< Barlat 1989 coefficients
         c = matparam%uparam(offset + 1)
         a = matparam%uparam(offset + 2)

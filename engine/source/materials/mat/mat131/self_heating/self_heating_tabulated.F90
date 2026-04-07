@@ -76,9 +76,9 @@
         !=======================================================================
         !< - Tabulated self-heating model
         !=======================================================================
-        offset_tab = matparam%iparam(15)
-        offset = matparam%iparam(16)
-        offset_var = matparam%iparam(17)
+        offset_tab = matparam%iparam(17)
+        offset = matparam%iparam(18)
+        offset_var = matparam%iparam(19)
         !< Recover self heating parameters
         eta   = matparam%uparam(offset + 1) !< Taylor-Quinney coefficient
         rhocp = matparam%therm%rhocp        !< Material thermal inertia

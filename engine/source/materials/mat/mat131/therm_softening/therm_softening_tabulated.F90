@@ -78,8 +78,8 @@
         !< Reference temperature
         tref = matparam%therm%tref
         !< Table offset
-        offset = matparam%iparam(11)
-        offset_var = matparam%iparam(13)
+        offset = matparam%iparam(13)
+        offset_var = matparam%iparam(15)
         !< Prepare input vectors for interpolation
         xvec(1:nel,1) = pla(1:nel)
         xvec(1:nel,2) = tref

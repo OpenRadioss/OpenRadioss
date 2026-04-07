@@ -67,7 +67,7 @@
         !=======================================================================
         !< - Select strain rate dependency model
         !=======================================================================
-        offset = matparam%iparam(7)
+        offset = matparam%iparam(9)
         !< Recover strain rate dependency parameters
         cjc     = matparam%uparam(offset + 1) !< Johnson-Cook strain rate sensitivity coefficient
         epsdref = matparam%uparam(offset + 2) !< Reference strain rate

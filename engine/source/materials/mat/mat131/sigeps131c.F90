@@ -122,7 +122,7 @@
 !===============================================================================
 !
         !< Retturn mapping algorithm flag
-        ires = matparam%iparam(24)
+        ires = matparam%iparam(26)
 !
         !< Check element failure flag and apply relaxation if necessary
         where (off(1:nel) < em01)

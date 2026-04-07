@@ -91,7 +91,7 @@
         !=======================================================================
         !< - Select kinematic hardening model
         !=======================================================================
-        ikine = matparam%iparam(22)
+        ikine = matparam%iparam(24)
         select case(ikine)
           !---------------------------------------------------------------------
           !< Prager kinematic hardening model

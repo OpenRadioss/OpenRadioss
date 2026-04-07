@@ -73,8 +73,8 @@
         !< - Tabulated strain rate dependency model
         !=======================================================================
         !< Table offset
-        offset = matparam%iparam(6)
-        offset_var = matparam%iparam(8)
+        offset = matparam%iparam(8)
+        offset_var = matparam%iparam(10)
         !< Prepare input vectors for interpolation
         xvec(1:nel,1) = epsd(1:nel)
         !< Interpolate to get srate_fac and dfact_depsd

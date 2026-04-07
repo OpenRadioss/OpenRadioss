@@ -91,7 +91,7 @@
         !=======================================================================
         !< - Barlat (2000) yield criterion and its derivatives
         !=======================================================================
-        offset = matparam%iparam(2)
+        offset = matparam%iparam(3)
         !< Barlat 2000 coefficients
         lp11  = matparam%uparam(offset + 1)
         lp12  = matparam%uparam(offset + 2)

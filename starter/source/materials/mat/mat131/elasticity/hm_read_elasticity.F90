@@ -46,7 +46,8 @@
         subroutine hm_read_elasticity(                                         &
           ikey     ,type     ,ielas    ,nupar_elas,upar_elas,is_available,     &
           unitab   ,lsubmodel,matparam ,parmat    ,iout     ,is_encrypted,     &
-          mat_id   ,titr     ,iresp    )
+          mat_id   ,titr     ,iresp    ,ntab_elas ,itab_elas,x2vect      ,     &
+          x3vect   ,x4vect   ,fscale   ,nvartmp   ,israte   ,vpflag      )
 !----------------------------------------------------------------
 !   M o d u l e s
 !----------------------------------------------------------------
@@ -59,6 +60,7 @@
           use hm_read_elasticity_isotropic_mod
           use hm_read_elasticity_orthotropic_mod
           use hm_read_elasticity_anisotropic_mod
+          use hm_read_elasticity_viscous_isotropic_mod
 !----------------------------------------------------------------
 !   I m p l i c i t   T y p e s
 !----------------------------------------------------------------
@@ -66,21 +68,30 @@
 !----------------------------------------------------------------
 !  I n p u t   A r g u m e n t s
 !----------------------------------------------------------------
-          integer,                 intent(in)    :: ikey                  !< material key
-          character(len=20),       intent(in)    :: type                  !< keyword type
-          integer,                 intent(inout) :: ielas                 !< elastic model type
-          integer,                 intent(inout) :: nupar_elas            !< number of elastic parameters
-          real(kind=WP),dimension(100),intent(inout) :: upar_elas         !< elastic parameters
-          logical,                 intent(in)    :: is_available          !< availability flag
-          type(unit_type_),        intent(in)    :: unitab                !< units table
-          type(submodel_data),dimension(nsubmod),intent(in) :: lsubmodel  !< submodel data structure
-          type(matparam_struct_),  intent(inout) :: matparam              !< matparam data structure
-          real(kind=WP),           intent(inout) :: parmat(100)           !< material parameter global table 1
-          integer,                 intent(in)    :: iout                  !< output unit
-          logical,                 intent(in)    :: is_encrypted          !< encryption flag
+          integer,                 intent(in)    :: ikey                  !< Material key
+          character(len=20),       intent(in)    :: type                  !< Keyword type
+          integer,                 intent(inout) :: ielas                 !< Elastic model type
+          integer,                 intent(inout) :: nupar_elas            !< Number of elastic parameters
+          real(kind=WP),dimension(100),intent(inout) :: upar_elas         !< Elastic parameters
+          logical,                 intent(in)    :: is_available          !< Availability flag
+          type(unit_type_),        intent(in)    :: unitab                !< Units table
+          type(submodel_data),dimension(nsubmod),intent(in) :: lsubmodel  !< Submodel data structure
+          type(matparam_struct_),  intent(inout) :: matparam              !< Matparam data structure
+          real(kind=WP),           intent(inout) :: parmat(100)           !< Material parameter global table 1
+          integer,                 intent(in)    :: iout                  !< Output unit
+          logical,                 intent(in)    :: is_encrypted          !< Encryption flag
           integer, intent(in)                    :: mat_id                !< Material law user ID
           character(len=nchartitle),intent(in)   :: titr                  !< Material law user title
           integer, intent(in)                    :: iresp                 !< Flag for single precision
+          integer,                 intent(inout) :: ntab_elas             !< Number of tabulated elasticity dependency functions/tables
+          integer,       dimension(100), intent(inout) :: itab_elas       !< Identifiers of tabulated elasticity dependency functions/tables
+          real(kind=WP), dimension(100), intent(inout) :: x2vect          !< x2 scale factor for tabulated elasticity dependency
+          real(kind=WP), dimension(100), intent(inout) :: x3vect          !< x3 scale factor for tabulated elasticity dependency
+          real(kind=WP), dimension(100), intent(inout) :: x4vect          !< x4 scale factor for tabulated elasticity dependency
+          real(kind=WP), dimension(100), intent(inout) :: fscale          !< y  scale factor for tabulated elasticity dependency
+          integer,                 intent(inout) :: nvartmp               !< Number of variables used in tabulated elasticity dependency
+          integer,                 intent(inout) :: israte                !< Strain rate filtering flag
+          integer,                 intent(inout) :: vpflag                !< Viscous formulation flag
 !===============================================================================
 ! 
           !< Select elasticity type
@@ -109,6 +120,16 @@
                 ikey     ,ielas    ,nupar_elas,upar_elas,is_available,         &
                 unitab   ,lsubmodel,matparam  ,parmat   ,iout        ,         &
                 is_encrypted,mat_id,titr      ,iresp    )
+            !===================================================================
+            !< Viscous isotropic elasticity parameters
+            !===================================================================
+            case ('VISC')
+              call hm_read_elasticity_viscous_isotropic(                       &
+                ikey     ,ielas    ,nupar_elas,upar_elas,is_available,         &
+                unitab   ,lsubmodel,matparam  ,parmat   ,iout        ,         &
+                is_encrypted,mat_id,titr      ,ntab_elas,itab_elas   ,         &
+                x2vect   ,x3vect   ,x4vect    ,fscale   ,nvartmp     ,         &
+                israte   ,vpflag   )
           end select
 ! -------------------------------------------------------------------------------
         end subroutine hm_read_elasticity
