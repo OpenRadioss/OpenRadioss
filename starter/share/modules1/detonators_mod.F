@@ -30,6 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    detcord0                       ../starter/source/initial_conditions/detonation/detcord0.F
 !||    ecran1                         ../starter/source/initial_conditions/detonation/ecran1.F
 !||    ecran2                         ../starter/source/initial_conditions/detonation/ecran2.F
+!||    eikonal_bcs_sym_tag            ../starter/source/initial_conditions/detonation/eikonal_bcs_sym_tag.F90
 !||    eikonal_fast_marching_method   ../starter/source/initial_conditions/detonation/eikonal_fast_marching_method.F90
 !||    eikonal_init_start_list        ../starter/source/initial_conditions/detonation/eikonal_init_start_list.F90
 !||    eikonal_solver                 ../starter/source/initial_conditions/detonation/eikonal_solver.F90

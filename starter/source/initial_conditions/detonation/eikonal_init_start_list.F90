@@ -38,8 +38,10 @@
 !||--- called by ------------------------------------------------------
 !||    eikonal_fast_marching_method        ../starter/source/initial_conditions/detonation/eikonal_fast_marching_method.F90
 !||--- calls      -----------------------------------------------------
+!||    eikonal_bcs_sym_tag                 ../starter/source/initial_conditions/detonation/eikonal_bcs_sym_tag.F90
 !||--- uses       -----------------------------------------------------
 !||    detonators_mod                      ../starter/share/modules1/detonators_mod.F
+!||    eikonal_bcs_sym_tag_mod             ../starter/source/initial_conditions/detonation/eikonal_bcs_sym_tag.F90
 !||====================================================================
         subroutine eikonal_init_start_list(nstart, start_elem_list, start_elem_tdet, detonators, numel, numnod, &
           nvois, nod2el, knod2el, ale_connectivity, elem_list_bij, neldet, xel, x, &

@@ -20,9 +20,20 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+!||====================================================================
+!||    eikonal_lmax_mod               ../starter/source/initial_conditions/detonation/eikonal_Lmax.F90
+!||--- called by ------------------------------------------------------
+!||    eikonal_fast_marching_method   ../starter/source/initial_conditions/detonation/eikonal_fast_marching_method.F90
+!||====================================================================
       module eikonal_Lmax_mod
       implicit none
       contains
+!||====================================================================
+!||    eikonal_lmax                   ../starter/source/initial_conditions/detonation/eikonal_Lmax.F90
+!||--- called by ------------------------------------------------------
+!||    eikonal_fast_marching_method   ../starter/source/initial_conditions/detonation/eikonal_fast_marching_method.F90
+!||--- uses       -----------------------------------------------------
+!||====================================================================
         subroutine eikonal_Lmax(neldet, xel, Lmax, nvois)
 !! \brief Initialization of detonation velocity in case of mixture (multimaterial law)
 !! \details laws 51 and 151

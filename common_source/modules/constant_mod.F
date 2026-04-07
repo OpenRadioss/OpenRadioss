@@ -94,6 +94,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    ebcs8_inlet                              ../engine/source/boundary_conditions/ebcs/ebcs8_inlet.F90
 !||    ebcs_cyclic_surface_matching_2d          ../starter/source/boundary_conditions/ebcs/ebcs_cyclic_surface_matching_2d.F90
 !||    ebcs_cyclic_surface_matching_3d          ../starter/source/boundary_conditions/ebcs/ebcs_cyclic_surface_matching_3d.F90
+!||    eikonal_bcs_sym_tag                      ../starter/source/initial_conditions/detonation/eikonal_bcs_sym_tag.F90
 !||    eikonal_compute_adjacent                 ../starter/source/initial_conditions/detonation/eikonal_compute_adjacent.F90
 !||    eikonal_fast_marching_method             ../starter/source/initial_conditions/detonation/eikonal_fast_marching_method.F90
 !||    eikonal_godunov_operator_2d              ../starter/source/initial_conditions/detonation/eikonal_godunov_operator_2d.F90
@@ -101,6 +102,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    eikonal_init_mixture_vel                 ../starter/source/initial_conditions/detonation/eikonal_ini_mixture_vel.F90
 !||    eikonal_init_sorting                     ../starter/source/initial_conditions/detonation/eikonal_init_sorting.F90
 !||    eikonal_init_start_list                  ../starter/source/initial_conditions/detonation/eikonal_init_start_list.F90
+!||    eikonal_lmax                             ../starter/source/initial_conditions/detonation/eikonal_Lmax.F90
 !||    eikonal_remove_first                     ../starter/source/initial_conditions/detonation/eikonal_remove_first.F90
 !||    eikonal_solver                           ../starter/source/initial_conditions/detonation/eikonal_solver.F90
 !||    elasto_plastic_eq_stress                 ../engine/source/materials/mat/mat131/elasto_plastic_eq_stress.F90

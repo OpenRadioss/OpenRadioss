@@ -20,9 +20,21 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+!||====================================================================
+!||    eikonal_bcs_sym_tag_mod   ../starter/source/initial_conditions/detonation/eikonal_bcs_sym_tag.F90
+!||--- called by ------------------------------------------------------
+!||    eikonal_init_start_list   ../starter/source/initial_conditions/detonation/eikonal_init_start_list.F90
+!||====================================================================
       module eikonal_bcs_sym_tag_mod
       implicit none
       contains
+!||====================================================================
+!||    eikonal_bcs_sym_tag       ../starter/source/initial_conditions/detonation/eikonal_bcs_sym_tag.F90
+!||--- called by ------------------------------------------------------
+!||    eikonal_init_start_list   ../starter/source/initial_conditions/detonation/eikonal_init_start_list.F90
+!||--- uses       -----------------------------------------------------
+!||    detonators_mod            ../starter/share/modules1/detonators_mod.F
+!||====================================================================
         subroutine eikonal_bcs_sym_tag(neldet, elem_list, uelem_list, numnod, x, nix, numel, ix, &
                                         detonators, idet, itag_boundFaces, ISYM, nvois, Lmax)
 ! ----------------------------------------------------------------------------------------------------------------------
