@@ -33,7 +33,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_option_read_mod     ../starter/share/modules1/hm_option_read_mod.F
 !||    submodel_mod           ../starter/share/modules1/submodel_mod.F
 !||====================================================================
-      SUBROUTINE HM_PREREAD_GRAV(NUM    ,IGRNOD,LSUBMODEL)
+      SUBROUTINE HM_PREREAD_GRAV(NUM    ,IGRNOD,LSUBMODEL,N_NRBODY)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -56,6 +56,7 @@ C-----------------------------------------------
 C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRNOD)  :: IGRNOD
       TYPE(SUBMODEL_DATA),INTENT(IN)::LSUBMODEL(*)
+      INTEGER, INTENT(IN) :: N_NRBODY
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -91,6 +92,7 @@ C--------------------------------------------------
 C--------------------------------------------------
         IF (IGU /= 0) THEN
           IGS = NGR2USRN(IGU,IGRNOD,NGRNOD,NN)
+          NN = NN + N_NRBODY
         ELSE
           NN = NUMNOD
         ENDIF
