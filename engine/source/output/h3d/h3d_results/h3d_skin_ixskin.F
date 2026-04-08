@@ -80,8 +80,7 @@ C-----------------------------------------------
      .        JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,    
      .        NVAUX   ,JPOR    ,KCVT    ,JCLOSE  ,JPLASOL ,    
      .        IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,    
-     .        ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    , 
-     .        NN,NN1,N1,IDB
+     .        ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS
 C-----------------------------------------------
        NSKIN =0
       IF (NUMSKIN> NUMSKINP) THEN      
@@ -362,8 +361,7 @@ C-----------------------------------------------
      .        JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,    
      .        NVAUX   ,JPOR    ,KCVT    ,JCLOSE  ,JPLASOL ,    
      .        IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,    
-     .        ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS   ,
-     .        NN,ICS,ISOLNOD
+     .        ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS
 C-----------------------------------------------
        DO NG=1,NGROUP
         CALL INITBUF(IPARG    ,NG      ,                      
@@ -421,7 +419,7 @@ C-----------------------------------------------
      .        NVAUX   ,JPOR    ,KCVT    ,JCLOSE  ,JPLASOL ,    
      .        IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,    
      .        ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS   ,
-     .        NN,ICS,ISOLNOD,NN1,JJ,II,K1,K2,NF(3),NSKIN2,IDB
+     .        ICS,ISOLNOD,JJ
       INTEGER FACES(4, 6), PWR(7), LL
       DATA PWR/1,2,4,8,16,32,64/
       DATA FACES/4,3,2,1,
@@ -529,7 +527,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NL, N1, N2, N3, N4, J, 
-     .        IAD ,NP ,IFUNC ,NPRES ,N,NSKIN_I,NSKINP0,IERR,IXST,SHIFT
+     .        IAD ,NP ,N,NSKIN_I,NSKINP0,IERR,IXST,SHIFT
       INTEGER, DIMENSION(:), ALLOCATABLE  :: ITAGN
       INTEGER, DIMENSION(:,:), ALLOCATABLE  :: IRECT
 C=======================================================================
@@ -784,7 +782,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NL, N1, N2, N3, N4, 
-     .        IAD ,NP ,IFUNC ,NPRES,NSKIN0,NSKIN1,N,I,PID0,SHIFT
+     .        IAD ,NP ,NSKIN0,NSKIN1,N,I,PID0,SHIFT
 C=======================================================================
 C-----IXSKIN(1,*):ipart;IXSKIN(2:5,*):N1-4,IXSKIN(6,*):pid;IXSKIN(7,*):usr_id
        PID0 =0
@@ -966,7 +964,7 @@ C-----------------------------------------------
      .        NVAUX   ,JPOR    ,KCVT    ,JCLOSE  ,JPLASOL ,    
      .        IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,    
      .        ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    , 
-     .        NN,NN1,N1,IDB
+     .        NN1
 C-----------------------------------------------
        DO NG=1,NGROUP
         ISOLNOD = IPARG(28,NG)

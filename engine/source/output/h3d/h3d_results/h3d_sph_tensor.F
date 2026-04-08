@@ -81,13 +81,11 @@ C-----------------------------------------------
       my_real
      .   EVAR(6,MVSIZ)
       my_real
-     .   VG(5),VLY(5),VE(5),VONM
-      my_real
      .   G11,G22,G33,G12,G21,G23,G32,G13,G31,
      .   L11,L22,L33,L12,L21,L23,L32,L13,L31,
      .   S11,S22,S33,S12,S21,S23,S32,S13,S31
       INTEGER I, NG, NEL, 
-     .        MLW, NUVAR,IALEL,
+     .        MLW, NUVAR,
      .        NN1,NN2,NN3,NN4,NUVARR
       INTEGER 
      .        ISOLNOD,IVISC,

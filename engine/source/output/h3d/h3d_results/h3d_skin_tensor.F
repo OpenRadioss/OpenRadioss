@@ -78,16 +78,12 @@ C-----------------------------------------------
       my_real
      .   EVAR(3,MVSIZ),DIR(MVSIZ,2),DIRB(MVSIZ,2)
       my_real
-     .   F_EXP,F_STR,F_GAUSS(9)
+     .   F_EXP,F_GAUSS(9)
       INTEGER I, NEL, NPTR, NPTS, NPTT, NLAY, ILAY, 
-     .        IR,IS,IT,IL,MLW, NUVAR,IUS,LENF,PTF,PTM,PTS,NFAIL,
-     .        N,NN,K,K1,K2,JTURB,MT,IMID,IALEL,IPID,ISH3N,NNI,
-     .        NN1,NN2,NN3,NN4,NN5,NN6,NN9,NF,BUF,NVARF,
-     .        IHBE,NPTM,NPG, MPT,IPT,IADD,IADR,IPMAT,IFAILT,
-     .        IIGEO,IADI,ISUBSTACK,ITHK,
-     .        ID_PLY,NB_PLYOFF,NG,NSKIN,ICSTR
+     .        IR,IS,IT,MLW,
+     .        N,NG,NSKIN,ICSTR
       INTEGER ISOLNOD, IVISC, 
-     .        ISTRAIN,KCVT,IOR_TSH,MT1,ICSIG,PTI,IOK,IPRT,IOK_PART(MVSIZ),
+     .        ISTRAIN,KCVT,IOR_TSH,IOK_PART(MVSIZ),
      .        JJ(6),IS_WRITTEN_TENSOR(MVSIZ),MLWI,MID,PID
 
       TYPE(G_BUFEL_)  ,POINTER :: GBUF     
@@ -849,7 +845,6 @@ C     REAL
      .   Z1(MVSIZ), Z2(MVSIZ), Z3(MVSIZ), Z4(MVSIZ),
      .   RX(MVSIZ) ,RY(MVSIZ) ,RZ(MVSIZ) ,
      .   SX(MVSIZ) ,SY(MVSIZ) ,SZ(MVSIZ) ,
-     .   TX(MVSIZ) ,TY(MVSIZ) ,TZ(MVSIZ) ,
      .   E1X(MVSIZ),E2X(MVSIZ),E3X(MVSIZ),
      .   E1Y(MVSIZ),E2Y(MVSIZ),E3Y(MVSIZ),
      .   E1Z(MVSIZ),E2Z(MVSIZ),E3Z(MVSIZ),

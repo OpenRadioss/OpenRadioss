@@ -73,7 +73,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, NBC, L, KCUR, J, 
      .        NH3D,IREC,NBSENS
-      CHARACTER TITLE*72, TITLE2*80, LINE*120
+      CHARACTER LINE*120
       CHARACTER(LEN=NCHARKEY)::KEY2
       CHARACTER(LEN=NCHARKEY)::KEY3
       CHARACTER(LEN=NCHARKEY)::KEY4
@@ -84,7 +84,6 @@ C-----------------------------------------------
       CHARACTER(LEN=NCHARKEY)::KEYTMP
       CHARACTER(LEN=NCHARLINE100)::CARTE
 C
-      my_real X0,Y0,Z0,VNX,VNY,VNZ,V0
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------=

@@ -95,9 +95,9 @@ C-----------------------------------------------
      .   XN(8*MVSIZ) , YN(8*MVSIZ) , ZN(8*MVSIZ), 
      .   DXN(8*MVSIZ) ,DYN(8*MVSIZ) , DZN(8*MVSIZ) 
       INTEGER I, II, J, NEL, NPTR, NPTS, NPTT, NLAY, ILAY, 
-     .        IR,IS,IT,IL,MLW, NUVAR,IALEL,IPID,NNI
+     .        IR,IS,IT,IL,MLW, NUVAR,IPID,NNI
       INTEGER PID(MVSIZ), 
-     .        ISOLNOD,IVISC,NPTG,TSHELL,TSH_ORT,IPT,N,
+     .        ISOLNOD,IVISC,NPTG,TSHELL,IPT,N,
      .        ISTRAIN,KCVT,IOR_TSH,MT1,ICSIG,IOK,IOK_PART(MVSIZ),
      .        JJ(6),IS_WRITTEN_TENSOR(MVSIZ),KK(8)
 
