@@ -984,7 +984,7 @@ C
      G        IXR       , IMERGE2    ,IADMERGE2  ,NEL       ,DEFAULTS  ,
      H        GLOB_THERM,IBEAM_VECTOR,RBEAM_VECTOR)
 C
-       ELSEIF( MTN == 13) THEN
+       ELSEIF( IRIGID_MAT>0) THEN
 C Rigid material
            LFT=1
            LLT=NEL

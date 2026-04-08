@@ -74,7 +74,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,K,KK,N,NSL,
      .   ISPHER,IDIR,ID,ICDG,NSL_XTRA,
-     .   NRB,NUMSL_TMP,IFOUND,IM_ID(NRBYKIN),NM,IM,IACTI
+     .   NRB,NUMSL_TMP,IFOUND,IM_ID(NRBYKIN),NM,IM,IACTI,NUMSL1
       CHARACTER(LEN=NCHARTITLE)::TITR
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: TABSL
       INTEGER, DIMENSION(:), ALLOCATABLE :: INDEX,IKINE1
@@ -99,9 +99,10 @@ C   NPBY(14,N) = NUMBER OF XTRA_NODE with Iflag=1
 C   NPBY(15,N) = NUMBER OF XTRA_NODE with Iflag=2
 C   NPBY(16,N) = NUMBER OF XTRA_NODE with Iflag=3
 C=======================================================================
-      IF (NUMSL > 0) THEN
-        ALLOCATE(TABSL(2,NUMSL))
-        ALLOCATE(INDEX(3*NUMSL))
+      NUMSL1 = NPBY(2,NRBYKIN) + NPBY(11,NRBYKIN) ! effective number<allocated size due to reductions
+      IF (NUMSL1 > 0) THEN
+        ALLOCATE(TABSL(2,NUMSL1))
+        ALLOCATE(INDEX(3*NUMSL1))
         TABSL=0
         INDEX=0
       END IF
