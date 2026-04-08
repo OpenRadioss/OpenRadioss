@@ -91,7 +91,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      my_real VALUE(3),P
+      my_real VALUE(3)
       INTEGER I, NEL, NPTR, NPTS, NPTT, NLAY, ILAY, MLW, JTURB, 
      .        OFFSET,IHBE,NPG,MPT,IPT,ISUBSTACK,ITHK,NERCVOIS(*),NESDVOIS(*),LERCVOIS(*),LESDVOIS(*)
       INTEGER NPT_ALL,IPLY,

@@ -88,28 +88,11 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       my_real
-     .   EVAR(MVSIZ),DAM1(MVSIZ),DAM2(MVSIZ),
-     .   WPLA(MVSIZ),DMAX(MVSIZ),WPMAX(MVSIZ),FAIL(MVSIZ),
-     .   EPST1(MVSIZ),EPST2(MVSIZ),EPSF1(MVSIZ),EPSF2(MVSIZ),
-     .   VALUE(MVSIZ),VG(5),VLY(5),VE(5),MASS(MVSIZ)
-      my_real
-     .   OFF, P,VONM2,S1,S2,S12,S3,DMGMX,FAC,
-     .   DIR1_1,DIR1_2,DIR2_1,DIR2_2,AA,BB,V1,V2,V3,X21,X32,X34,
-     .   X41,Y21,Y32,Y34,Y41,Z21,Z32,Z34,Z41,SUMA,VR,VS,X31,Y31,
-     .   Z31,E11,E12,E13,E21,E22,E23,SUM,AREA,X2L,VAR,
-     .   E1X,E1Y,E1Z,E2X,E2Y,E2Z,E3X,E3Y,E3Z,RX,RY,RZ,SX,SY,SZ,
-     .   RHO0,THK0,XX1,XX2,XX3,YY1,YY2,YY3,ZZ1,ZZ2,ZZ3,A0
-      INTEGER I, NG, 
-     .        IR,IS,IT,IL,MLW, NUVAR,IUS,LENF,PTF,PTM,PTS,NFAIL,
-     .        N,NN,K,K1,K2,JTURB,MT,IMID,IALEL,IPID,ISH3N,NNI,
-     .        NN1,NN2,NN3,NN4,NN5,NN6,NN9,NF,BUF,NVARF,
-     .        OFFSET,IHBE,NPTM,NPG, MPT,IPT,IADD,IADR,IPMAT,IFAILT,
-     .        IIGEO,IADI,ISUBSTACK,ITHK,NERCVOIS(*),NESDVOIS(*),
-     .        LERCVOIS(*),LESDVOIS(*),ID_PLY,NB_PLYOFF,IOK,N1,N2,N3,N4
-      INTEGER 
-     .        PTE(4),PTP(4),PTMAT(4),PTVAR(4),NPT_ALL,IPLY,
-     .        ID_ELEM_TMP(MVSIZ),NIX,IOK_PART(MVSIZ),JJ(5),NPGT,IUVAR,
-     .        IS_WRITTEN_VALUE(MVSIZ)
+     .   FAIL(MVSIZ)
+      INTEGER I, NG,
+     .        NN3,
+     .        NERCVOIS(*),NESDVOIS(*),
+     .        LERCVOIS(*),LESDVOIS(*)
  
 C-----------------------------------------------
 c      print *,'LAYER_INPUT',LAYER_INPUT
