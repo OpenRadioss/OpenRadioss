@@ -68,7 +68,7 @@
           integer, intent(in) :: nel !< number of elements in the group
           integer, intent(in) :: nuvar !< number of user variables
           integer, intent(in) :: nvartmp !< number of user variables temporairy
-          integer, dimension(nel,nvartmp), intent(inout) :: vartmp !< user variables temporairy 
+          integer, dimension(nel,nvartmp), intent(inout) :: vartmp !< user variables temporairy
           !
           real(kind=WP), dimension(nel,nuvar), intent(inout) :: uvar !< user variables
           type(matparam_struct_), intent(in) :: matparam !< material parameters data
@@ -97,7 +97,7 @@
 !                                                   local variables
 ! ----------------------------------------------------------------------------------------------------------------------
           integer :: fs, i,nfunc,idx, ndx
-          integer , dimension(nel) :: iad,ipos,ilen,indx
+          integer , dimension(nel) :: indx
           real(kind=WP)                                                    &
             :: e1,e2,nu12,nu21,slimt1,slimc1, slimt2,slimc2,               &
             slims,gammaf,gammar, tsdm, d,                                  &
@@ -105,7 +105,7 @@
             g12,limit_sig, eint, deint,a11,tauxy, w33,w13,w23,             &
             g13,g23,nu13,nu31,nu23,nu32,slimt3,slimc3,tauzx,               &
             tauyz,c11,c12,c13,c21,c22,c23,c31,c32,c33,                     &
-            e3, slims13,slims23,scale,limit_strain,x,eps_eq
+            e3, slims13,slims23,scale,limit_strain,eps_eq
           real(kind=WP) , dimension(nel) ::  em11t,xt,em11c,xc, em22t,yt,  &
             em22c,yc,gamma,tau,ems,sc,    &
             ef11t,ef11c, m1t,m1c,al1t,    &
@@ -117,8 +117,6 @@
             sc13,sc23,zc,zt,gamma1, gamma2, &
             tau1,tau2, m2t, m2c, efs , ms,  &
             check,epsfailure
-
-          real(kind=WP) , dimension(nel) ::  yy, dydx
 !!======================================================================
 !
           ! FS  ! type of failure yield surface method
@@ -222,51 +220,51 @@
           !
           fs = nint(matparam%uparam(76))
           ! update of parameters
-           nfunc = matparam%ntable 
-           if(nfunc > 0) call strainrate_dependency_125s(nel, matparam , epsp, vartmp, nvartmp ,  &
-                                                        em11t,    xt,     em11c,    xc,      &
-                                                        em22t,    yt,     em22c,    yc,      &
-                                                        em33t,    zt,     em33c,    zc,      &
-                                                        gamma,    tau,    ems,      sc,      &
-                                                        gamma1,   tau1,   ems13,    sc13,    &
-                                                        gamma2,   tau2,   ems23,    sc23,    &
-                                                        al1t,     m1t,    al1c,     m1c,     &
-                                                        al2t,     m2t,    al2c,     m2c,     &
-                                                        al3t,     m3t,    al3c,      m3c,    &
-                                                        als,       ms,    als13,    ms13,    &
-                                                        als23,     ms23,   ef11t,   ef11c,   &
-                                                        ef22t,     ef22c,  ef33t,   ef33c,   &
-                                                        efs  ,     efs13, efs23,     epsfailure    ) 
+          nfunc = matparam%ntable
+          if(nfunc > 0) call strainrate_dependency_125s(nel, matparam , epsp, vartmp, nvartmp ,  &
+            em11t,    xt,     em11c,    xc,      &
+            em22t,    yt,     em22c,    yc,      &
+            em33t,    zt,     em33c,    zc,      &
+            gamma,    tau,    ems,      sc,      &
+            gamma1,   tau1,   ems13,    sc13,    &
+            gamma2,   tau2,   ems23,    sc23,    &
+            al1t,     m1t,    al1c,     m1c,     &
+            al2t,     m2t,    al2c,     m2c,     &
+            al3t,     m3t,    al3c,      m3c,    &
+            als,       ms,    als13,    ms13,    &
+            als23,     ms23,   ef11t,   ef11c,   &
+            ef22t,     ef22c,  ef33t,   ef33c,   &
+            efs  ,     efs13, efs23,     epsfailure    )
           ! element deletion check
           ndx = 0
           indx(:)=0
           do i=1,nel
-               eps_eq =  two_third* (epsxx(i)**2 + epsyy(i)**2 + epszz(i)**2 + &
-                                     epsxy(i)**2 + epsyz(i)**2 + epszx(i)**2 ) 
-              eps_eq = sqrt(eps_eq)
-              if(off(i) < one ) then
-                   off(i) = four_over_5*off(i)
-                   if(off(i) < em01) off(i) = zero
-              elseif(eps_eq >= epsfailure(i) ) then
-                   off(i) = four_over_5
-               endif  
+            eps_eq =  two_third* (epsxx(i)**2 + epsyy(i)**2 + epszz(i)**2 + &
+              epsxy(i)**2 + epsyz(i)**2 + epszx(i)**2 )
+            eps_eq = sqrt(eps_eq)
+            if(off(i) < one ) then
+              off(i) = four_over_5*off(i)
+              if(off(i) < em01) off(i) = zero
+            elseif(eps_eq >= epsfailure(i) ) then
+              off(i) = four_over_5
+            endif
           enddo
-         !
+          !
           do i=1,nel
-              if(off(i) == zero) then
-                 signxx(i) = zero
-                 signyy(i) = zero
-                 signzz(i) = zero
-                 signxy(i) = zero
-                 signyz(i) = zero
-                 signzx(i) = zero
-              else 
-                 ndx = ndx + 1
-                 indx(ndx) = i
-              endif
+            if(off(i) == zero) then
+              signxx(i) = zero
+              signyy(i) = zero
+              signzz(i) = zero
+              signxy(i) = zero
+              signyz(i) = zero
+              signzx(i) = zero
+            else
+              ndx = ndx + 1
+              indx(ndx) = i
+            endif
           end do
           if(ndx == 0) return
-       !
+          !
           select  case (fs)
            case(-1)
             ! uncoupled formulation
@@ -313,12 +311,12 @@
               limit_strain = epsxx(i)**2 + epsyy(i)**2 + epszz(i)**2 +  &
                 epsxy(i)**2  + epszx(i)**2 + epsyz(i)**2
               if(check(i) >= zero .and. limit_strain > uvar(i,2) .and. dmg(i,1) /= two .and. dmg(i,1) >= zero) then
-                 w11 = one
-                 w22 = one 
-                 w33 = one
-                 w12 = one
-                 w23 = one
-                 w13 = one
+                w11 = one
+                w22 = one
+                w33 = one
+                w12 = one
+                w23 = one
+                w13 = one
                 if(epsxx(i) > zero )then
                   w11 =  epsxx(i)/ef11t(i)
                   w11 = exp(m1t(i)*log(w11))/al1t(i)  ! (esp/epsf)^m/alpha
@@ -361,9 +359,9 @@
                 endif
                 !
                 if(epsyz(i) /= zero) then
-                 w23 = abs(epsyz(i))/efs23(i)
-                 w23 = exp(ms23(i)*log(w23))/als23(i)
-                 w23 = exp(-w23)
+                  w23 = abs(epsyz(i))/efs23(i)
+                  w23 = exp(ms23(i)*log(w23))/als23(i)
+                  w23 = exp(-w23)
                 endif
               else ! unlaod
                 w11 = dmg(i,2)
@@ -517,7 +515,7 @@
                   end if ! dmg(i,13) >= one
                   dmg(i,1) = max(dmg(i,1), dmg(i,8),dmg(i,9),dmg(i,10),dmg(i,11),dmg(i,12),dmg(i,13))
                 elseif(dmg(i,1) == -two) then  ! to follow zero stress when slim = zero  in loading and unloading
-                   if(dmg(i,8) >= one  ) then
+                  if(dmg(i,8) >= one  ) then
                     if(signxx(i) >= zero .and. slimt1 == zero ) then
                       signxx(i) = zero
                       signyy(i) = zero
@@ -525,7 +523,7 @@
                       signxy(i) = zero
                       signzx(i) = zero
                       signyz(i) = zero
-                     !! dmg(i,8) = two
+                      !! dmg(i,8) = two
                     elseif(signxx(i) < zero .and. -slimc1 == zero) then
                       signxx(i) = zero
                       signyy(i) = zero
@@ -533,7 +531,7 @@
                       signxy(i) = zero
                       signzx(i) = zero
                       signyz(i) = zero
-                     !! dmg(i,8) = two
+                      !! dmg(i,8) = two
                     endif
                   elseif(dmg(i,9) >= one ) then
                     if(signyy(i) >= zero .and. slimt2 == zero ) then
@@ -543,7 +541,7 @@
                       signxy(i) = zero
                       signzx(i) = zero
                       signyz(i) = zero
-                    !!  dmg(i,9) = two
+                      !!  dmg(i,9) = two
                     elseif(signyy(i) < zero .and. slimc2 == zero) then
                       signxx(i) = zero
                       signyy(i) = zero
@@ -551,7 +549,7 @@
                       signxy(i) = zero
                       signzx(i) = zero
                       signyz(i) = zero
-                    !!  dmg(i,9) = two
+                      !!  dmg(i,9) = two
                     endif
                   elseif(dmg(i,10) >= one ) then
                     if(signzz(i) > zero .and.  slimt3 == zero ) then
@@ -561,7 +559,7 @@
                       signxy(i) = zero
                       signzx(i) = zero
                       signyz(i) = zero
-                     !! dmg(i,10) = two
+                      !! dmg(i,10) = two
                     else if(signzz(i) < zero .and. -slimc3 == zero) then
                       signxx(i) = zero
                       signyy(i) = zero
@@ -569,7 +567,7 @@
                       signxy(i) = zero
                       signzx(i) = zero
                       signyz(i) = zero
-                     !! dmg(i,10) = two
+                      !! dmg(i,10) = two
                     endif
                   elseif( dmg(i,11) >= one .and.  slims == zero ) then
                     signxy(i) = zero

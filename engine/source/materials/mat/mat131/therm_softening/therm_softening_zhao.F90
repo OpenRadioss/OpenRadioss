@@ -41,13 +41,13 @@
 !----------------------------------------------------------------
 !   M o d u l e s
 !----------------------------------------------------------------
-        use matparam_def_mod
-        use constant_mod
-        use precision_mod, only : WP
+          use matparam_def_mod
+          use constant_mod
+          use precision_mod, only : WP
 !----------------------------------------------------------------
 !   I m p l i c i t   T y p e s
 !----------------------------------------------------------------
-        implicit none
+          implicit none
 !----------------------------------------------------------------
 !  I n p u t   A r g u m e n t s
 !----------------------------------------------------------------
@@ -79,5 +79,5 @@
         dsigy_dpla(1:nel) = dsigy_dpla(1:nel)*thermfac(1:nel) - sigy(1:nel)*mu*dtemp_dpla(1:nel)
         sigy(1:nel) = sigy(1:nel)*thermfac(1:nel)
 !
-      end subroutine therm_softening_zhao
+        end subroutine therm_softening_zhao
       end module therm_softening_zhao_mod

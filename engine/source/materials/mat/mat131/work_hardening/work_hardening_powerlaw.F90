@@ -41,13 +41,13 @@
 !----------------------------------------------------------------
 !   M o d u l e s
 !----------------------------------------------------------------
-        use matparam_def_mod
-        use constant_mod
-        use precision_mod, only : WP
+          use matparam_def_mod
+          use constant_mod
+          use precision_mod, only : WP
 !----------------------------------------------------------------
 !   I m p l i c i t   T y p e s
 !----------------------------------------------------------------
-        implicit none
+          implicit none
 !----------------------------------------------------------------
 !  I n p u t   A r g u m e n t s
 !----------------------------------------------------------------
@@ -78,5 +78,5 @@
                               pla_plus_eps0_pow_cn_minus_1(1:nel)
         dsigy_dpla(1:nel) = cn*cb*pla_plus_eps0_pow_cn_minus_1(1:nel)
 !
-      end subroutine work_hardening_powerlaw
+        end subroutine work_hardening_powerlaw
       end module work_hardening_powerlaw_mod

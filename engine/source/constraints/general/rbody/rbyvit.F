@@ -62,7 +62,7 @@ C     REAL
 C----------------------------------------------3
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER  J,K,N,KK,IFAIL,ICOMM,IM
+      INTEGER  J,K,N,KK,IFAIL,IM
       my_real
      .       FN, FT,EXPN,EXPT
       my_real, DIMENSION(:), ALLOCATABLE ::  

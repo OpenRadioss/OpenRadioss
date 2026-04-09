@@ -52,16 +52,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NG, 
-     . NPGGTYPNLOC
+      INTEGER NG
       INTEGER ! global variables 
-     . G_POSZXYZ,
-     . G_VR_REPCVTN,
      . G_FORPGPINCH,G_MOMPGPINCH,G_EPGPINCHXZ,G_EPGPINCHYZ,G_EPGPINCHZZ
-      INTEGER  ! layer variables
-     . LY_UELR1PG
-      INTEGER  ! local variables
-     . L_VKVLADB
 c-------------------------------------------------
 c      copy the element buffer : ELBUF_SRC -> ELBUF_TGT
 c      target must be allocated

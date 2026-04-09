@@ -178,8 +178,8 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 C  ds010   21/2/00  +1
-      INTEGER M, NSN, IJD, ISK, I, N, J,NI,NJ,J1,
-     .        K,L,ID,JD,ND,IMD,NIDOF,IR
+      INTEGER M, NSN, I, N, J,NI,NJ,J1,
+     .        K,ID,ND,IMD,NIDOF,IR
 C     REAL
       my_real
      .   XS,YS,ZS,XS1,YS1,ZS1, KDD(6,6),BD(6)
@@ -656,7 +656,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NDL
 C     REAL
       my_real
      .    XS,YS,ZS, K(6),KII(6)
@@ -722,8 +721,8 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 C  ds010   21/2/00  +1
-      INTEGER M, NSN, IJD, ISK, I, N, J,NI,NJ,J1,
-     .        K,L,ID,JD,ND,IMD,NIDOF
+      INTEGER M, NSN, I, N, J1,
+     .        K,ID,ND
 C     REAL
       my_real
      .   XS,YS,ZS,BD(6)
@@ -784,7 +783,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, MI,MJ
+      INTEGER I, MI
 C     REAL
       my_real
      .   B(3)
@@ -835,8 +834,8 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 C  ds010   21/2/00  +1
-      INTEGER M, NSN, IJD, ISK, I, N, J,NI,NJ,J1,
-     .        K,L,ID,JD,ND,IMD,NIDOF
+      INTEGER M, NSN, I, N, J1,
+     .        K,ID,ND
 C     REAL
       my_real
      .   XS,YS,ZS,BD(6),AC(3,*) ,ACR(3,*)
@@ -906,7 +905,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, K,ID,NL,NI,NJ,NDOFI,ND,IR,IDM
+      INTEGER I, J, K,NDOFI,ND
       my_real KDD(6,6),BD(6),XS,YS,ZS
 C------------------------------------
 C     velocities of the secondary nodes

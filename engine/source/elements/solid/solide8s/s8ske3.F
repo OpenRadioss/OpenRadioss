@@ -183,7 +183,6 @@ c
 
        my_real
      . HH(2,MVSIZ),C1,!GG(MVSIZ),
-     . M(9,MVSIZ),
      . LAMDA,NU,GG
        my_real
      .   A11(MVSIZ), A12(MVSIZ), A13(MVSIZ), 

@@ -119,7 +119,6 @@ C-----------------------------------------------
       integer :: isolnod,n_entity
       real(kind=WP), dimension(3,12) :: node_pos
       real(kind=WP), dimension(mvsiz,3,12) :: a,b,c
-      real(kind=WP), dimension(3) :: a0,b0,c0
 
       integer :: flag
       integer :: s_proc_nb_1,r_proc_nb_1,s_proc_nb_2,r_proc_nb_2,s_proc_nb_3,r_proc_nb_3

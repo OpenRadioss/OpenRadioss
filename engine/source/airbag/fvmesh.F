@@ -76,15 +76,15 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER ILVOUT, NLAYER, NFACMAX, NPPMAX, I, J, IEL, N1, N2, N3,
-     .        NN1, NN2, NN3, GRBRIC, IAD, NPOLY, NNS, ITAGB(NBRIC),
-     .        NVMAX, NG, INFO, ICUT, NVERTS, NF1, NF2, NF3, NF4, NS,
+     .        NN1, NN2, NN3, NPOLY, NNS, ITAGB(NBRIC),
+     .        NVMAX, INFO, ICUT, NVERTS, NF1, NF2, NF3, NF4, NS,
      .        NSMAX, NV, K, KK, NNP, NPOLMAX, NRPMAX, N, M, MM, NPOLH,
      .        NPOLB, ITY, NN, NPHMAX, NPOLHMAX, JJ, JJJ, II,
      .        NNS_OLD, NNP_OLD, NPA, JMAX, IMAX, JJMAX, NP, NNTR,
      .        NPOLY_OLD, IPSURF, IC1, IC2, NHOL, NELP, NPOLH_OLD,
      .        L, LL, IFV, NNS2, NPOLY2, NPL, POLC, NSPOLY, NCPOLY,
-     .        NPOLHF, NNB, FILEN, LENP, LENH, IP, JMIN, LENIMAX,
-     .        LENRMAX, KKK, NSEG, IMIN, NFAC, N4, NN4, IB, IFOUND,
+     .        NPOLHF, LENP, LENH, IP, LENIMAX,
+     .        LENRMAX, KKK, NSEG, IMIN, NFAC, N4, NN4, IFOUND,
      .        ITAGBA(NBA), IBSA(NBA), NALL, III,
      .        NNS_ANIM, NBZ, NBNEDGE, NNS3, NPOLY_NEW, NNSP, NEDGE,
      .        ITYZ, INZ, J0, NNS1, K0, I1, I2, IDEP, NSTR, NCTR, IIZ,
@@ -103,12 +103,11 @@ C-----------------------------------------------
      .        AREAMAX, VOLPH, AREAP, AREAEL, VPX, VPY, VPZ, 
      .        V1X, V1Y, V1Z, V2X, V2Y, V2Z, NRM1, VX, VY, VZ, SS,
      .        NORMF(3,4), KSI, ETA, VX1, VY1, VZ1, VX2, VY2, VZ2,
-     .        VMIN, VTMP, X4, Y4, Z4, X14, Y14, Z14, NORMA(3,NELA),
+     .        VMIN, X4, Y4, Z4, X14, Y14, Z14, NORMA(3,NELA),
      .        DD2, XN(3), ZLMIN, ZLMAX, ZL, VNORM, VX3, VY3, VZ3, LZ,
-     .        DZ, ALPHA, GAMAI, CPAI, CPBI, CPCI, RMWI, PINI, TI, CPI,
-     .        CVI, RHOI, ZL1, ZL2, ZL3, ZLC, VAL, XXX(3,NNF),
+     .        DZ, ALPHA,
+     .        ZL1, ZL2, ZL3, ZLC, VAL, XXX(3,NNF),
      .        XXXA(3,NNA)
-      CHARACTER CHFVB*7, CHMESH*5, FILNAM*116
 C
       INTEGER, ALLOCATABLE :: FACET(:,:), IPOLY(:,:),
      .                        IELNOD(:,:), POLH(:,:), IPOLY_F(:,:),
@@ -122,9 +121,9 @@ C
       my_real
      .       , ALLOCATABLE :: NORMT(:,:), POLY(:,:), RPOLY(:,:),
      .                        RPOLY_F(:,:), VOLU(:), PNODES(:,:),
-     .                        PHOLES(:,:), RPOLY_OLD(:), VOLUSORT(:),
+     .                        PHOLES(:,:), RPOLY_OLD(:),
      .                        VOLU_OLD(:), RPOLY_F_OLD(:,:),
-     .                        RFVNOD_OLD(:,:), XNEW(:,:), RNEDGE(:,:),
+     .                        RNEDGE(:,:),
      .                        AREF(:,:), RFVNOD2(:,:), XNS(:,:), 
      .                        XNS2(:,:), XXXSA(:,:)
 C

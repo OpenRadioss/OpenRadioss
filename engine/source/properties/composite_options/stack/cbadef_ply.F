@@ -60,13 +60,8 @@ C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
       INTEGER I, J, EP, IUN, NPLAT0
       MY_REAL 
-     .   THK,DETJ,DET,
-     .   TFN(3,2),BCX,BCY,
-     .   V1(2),V2(2),RV1,RV2,
-     .   C1,C2,VT1,VT2,BC1,BC2,VB1,
-     .   VJF1(2,3),VJF(3,3),TBI(2,2),TBC(2,2)
-      MY_REAL 
-     .   A_1,C11,C12,C21,C22,CC,BETA1,KSI1,KSIY1,BETA2,KSI2,KSIY2
+     .   BCX,BCY,
+     .   C1,C2,VT1,VT2
 c       PARAMETER (PG=.577350269189626)
 c       PARAMETER (PG1=-.577350269189626)
 C--------------------------

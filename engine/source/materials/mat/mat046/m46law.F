@@ -106,14 +106,13 @@ C-----------------------------------------------
      .  DE1(MVSIZ),DE2(MVSIZ),DE3(MVSIZ),DE4(MVSIZ),DE5(MVSIZ),DE6(MVSIZ),
      .  SV1(MVSIZ),SV2(MVSIZ),SV3(MVSIZ),SV4(MVSIZ),SV5(MVSIZ),SV6(MVSIZ),
      .  SO1(MVSIZ),SO2(MVSIZ),SO3(MVSIZ),SO4(MVSIZ),SO5(MVSIZ),SO6(MVSIZ)
-      INTEGER NPAR,IADBUF,I,IBID,MX
+      INTEGER NPAR,I,IBID,MX
       my_real  FACQ0
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
       MX = MAT(1)
       NPAR   = IPM(9,MX)
-      IADBUF = IPM(7,MX)
       FACQ0 = ONE
       
 C

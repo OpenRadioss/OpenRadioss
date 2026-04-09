@@ -89,24 +89,21 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   EVAR(MVSIZ),
-     .   OFF, P, VONM2, VONM, S1, S2, S12, S3, VALUE,
-     .   A1,B1,B2,B3,YEQ,F1,M1,M2,M3, FAC, DAM1(MVSIZ),DAM2(MVSIZ),
-     .   WPLA(MVSIZ), DMAX(MVSIZ),WPMAX(MVSIZ),
+     .   OFF, VONM2, S1, S2, S12, FAC,
      .   FAIL(MVSIZ),SIGE(MVSIZ,5)
       INTEGER I, NG, NEL, ISS, N, J, MLW, NUVAR, IUS, 
-     .        ISTRAIN,NN, K1, K2,JTURB,MT,IMID, IALEL,IPID,
-     .        NN1,NN2,NN3,NN4,NN5,NN6,NN7,NN8,NN9,NN10,NF,
-     .        LLL,NINTLAY,NFAIL,
-     .        OFFSET,K,II,II_L,INC,KK,IHBE, 
-     .        NPTM,NPG, NBVU, I1, MPT, NEL5, NEL8,
+     .        ISTRAIN,JTURB,IPID,
+     .        NN1,NN3,NN4,NN5,NN6,
+     .        NINTLAY,NFAIL,
+     .        OFFSET,K,II,INC,IHBE, 
+     .        NPTM,NPG, I1, MPT, NEL5, NEL8,
      .        IPT,BUF,NPTR,NPTS,NPTT,NLAY,IR,IS,PTF,LENF,IL,
-     .        IADR,IPMAT,PID(MVSIZ),MAT(MVSIZ),MATLY(MVSIZ*100),
+     .        IADR,IPMAT,PID(MVSIZ),MAT(MVSIZ),
      .        NEL_PLY,ILAYER,IFLAG,JJ(5)
       INTEGER IE, ISHPLYXFEM, ILAST, NUVARV, 
-     .        IVISC,IPMAT_IPLY,NUVARD,MAT_IPLY,
-     .        MATPLY,LL,IPLYC,I3,I2
+     .        IVISC,LL
       INTEGER PLYS,IPLY,PLYELEMS(NUMELC),ELC,NS1,MATL,
-     .   IIGEO,IADI,ISUBSTACK
+     .   ISUBSTACK
       REAL R4
       TYPE(G_BUFEL_)    ,POINTER :: GBUF     
       TYPE(BUF_LAY_)    ,POINTER :: BUFLY     

@@ -114,13 +114,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      integer :: itrimat,ijk
+      integer :: itrimat
       my_real, DIMENSION(:), POINTER :: UVAR,VOLG,VOLP,pDDVOL
-      INTEGER NG, I, K, II, NF1, NFIRST, NLAST, LLT_
-      INTEGER :: IB, IE, NIN, NBF, NBL, K0, K1, IBM, J, IE_M, IDLOC, IPOS, ICELL, NCELL, MCELL, tNB, J1, J2, IBV
+      INTEGER NG, I, K, II, NF1, NFIRST, NLAST
       integer :: s_flux_vois,n_entity0,n_entity,n_neighbor,n_node_per_elm
-      my_real :: VFRAC
-      TYPE(BUF_MAT_)  ,POINTER :: MBUF
       real(kind=WP), dimension(:,:,:), allocatable, save :: flux_vois_mat
       type(array_type_my_real_2d), dimension(nspmd) :: s_alpha,r_alpha
       type(array_type_my_real_3d), dimension(:), allocatable :: s_flux_neigh,r_flux_neigh

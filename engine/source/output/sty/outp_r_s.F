@@ -61,15 +61,12 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J, JJ,K,L
       INTEGER NG, NEL, NFT, IAD, ITY, LFT, LLT,
-     .        JJ_OLD, NGF, NGL, NN, LEN, NUVAR, NPTT, NPTS,
-     .        LIAD
+     .        JJ_OLD, NGF, NGL, NN
       INTEGER RESP0,WRTLEN,RES,COMPTEUR
       INTEGER, DIMENSION(NSPGROUP) :: JJ_LOC
       INTEGER, DIMENSION(NSPGROUP+1,NSPMD) :: ADRESS 
       my_real
      .   WA(SIZLOC),WAP0(SIZ_WR),WAP0_LOC(SIZP0)
-      my_real
-     .   FUNC(6)
 C
       TYPE(G_BUFEL_)  ,POINTER :: GBUF
 C-----------------------------------------------      

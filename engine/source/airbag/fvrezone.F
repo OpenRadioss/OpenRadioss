@@ -53,7 +53,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER K1, K2, KIBJET, KIBHOL, KIBALE, IADPOLH, IADPOLHO, N,
+      INTEGER K1, K2, KIBJET, KIBHOL, KIBALE, N,
      .        ITYP, NNS, NTG, NBRIC, KI1, KI2, NNFV1, NTRFV1, NPOLY1,
      .        NPOLH1, NNFV0, NTRFV0, NPOLY0, NPOLH0, IFV, IMESH, NSTEP,
      .        ILVOUT, NNA
@@ -180,9 +180,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, IEL, N1, N2, N3, NN1, NN2, NN3, J, JJ, K, KK, NNT,
-     .        L, NN, PNTR0(NNTR0), PNTR1(NNTR1), NNT1, NNT0, LL, NNTI,
-     .        INNER, INN(3), NTI, ICUT, NB, NNB, NBI, M, II, I1, I2,
+      INTEGER I, IEL, N1, N2, N3, J, JJ, K, KK, NNT,
+     .        L, NN, PNTR0(NNTR0), PNTR1(NNTR1), NNT1, NNT0, LL,
+     .        NB, NNB, NBI, II, I1, I2,
      .        NNSA
       my_real
      .        KSI, ETA, X1, Y1, Z1, X2, Y2, Z2, X3, Y3, Z3, 
@@ -193,13 +193,12 @@ C-----------------------------------------------
      .        ZZ, BBOX0(6,NPOLH0), BBOX1(6,NPOLH1), CRIT, XMIN1, XMAX1,
      .        YMIN1, YMAX1, ZMIN1, ZMAX1, XMIN0, XMAX0, YMIN0,
      .        YMAX0, ZMIN0, ZMAX0, VOLU0(NPOLH0), DXB, DYB, DZB, VOLB,
-     .        VOL, VOLG, VOLT, RR, MASS0, QX0, QY0, QZ0, ENER0, MASS1,
+     .        VOL, VOLT, RR, MASS0, QX0, QY0, QZ0, ENER0, MASS1,
      .        QX1, QY1, QZ1, ENER1, GAMA, FAC, XXX(3,NNF), XXXA(3,NNA)
-      INTEGER, ALLOCATABLE :: PTRI1(:,:), PTRI0(:,:), TCUT(:), ITAGT(:),
+      INTEGER, ALLOCATABLE :: PTRI1(:,:), PTRI0(:,:),
      .                        BB(:,:), INB(:), INB_TMP(:), LISTB(:)
       my_real
      .       , ALLOCATABLE :: XB(:,:), XXXSA(:,:)
-      CHARACTER NAME*18
 C
       my_real
      .        DLAMCH
@@ -814,7 +813,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, IEL, N1, N2, N3, II
+      INTEGER I, IEL, N1, N2, N3
       my_real
      .        XX, YY, ZZ, ST, X1, Y1, Z1, X2, Y2, Z2, X3, Y3, Z3,
      .        VX1, VY1, VZ1, VX2, VY2, VZ2, VX3, VY3, VZ3, NX1, NY1,

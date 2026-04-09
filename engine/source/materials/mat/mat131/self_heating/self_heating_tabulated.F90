@@ -45,14 +45,14 @@
 !----------------------------------------------------------------
 !   M o d u l e s
 !----------------------------------------------------------------
-        use matparam_def_mod
-        use constant_mod
-        use table_mat_vinterp_mod
-        use precision_mod, only : WP
+          use matparam_def_mod
+          use constant_mod
+          use table_mat_vinterp_mod
+          use precision_mod, only : WP
 !----------------------------------------------------------------
 !   I m p l i c i t   T y p e s
 !----------------------------------------------------------------
-        implicit none
+          implicit none
 !----------------------------------------------------------------
 !  I n p u t   A r g u m e n t s
 !----------------------------------------------------------------
@@ -92,5 +92,5 @@
         !< Update derivative of temperature w.r.t. cumulated plastic strain
         dtemp_dpla(1:nel) = (eta/rhocp)*sigy(1:nel)*weight(1:nel)
 !
-      end subroutine self_heating_tabulated
+        end subroutine self_heating_tabulated
       end module self_heating_tabulated_mod

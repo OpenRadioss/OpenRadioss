@@ -39,31 +39,31 @@
 !||    precision_mod                 ../common_source/modules/precision_mod.F90
 !||    table_mat_vinterp_mod         ../engine/source/materials/tools/table_mat_vinterp.F
 !||====================================================================
-      subroutine therm_softening_tabulated(                                    &
-        matparam ,nel      ,sigy     ,temp     ,dsigy_dpla,                    &
-        nvartmp  ,vartmp   ,pla      )
+        subroutine therm_softening_tabulated(                                    &
+          matparam ,nel      ,sigy     ,temp     ,dsigy_dpla,                    &
+          nvartmp  ,vartmp   ,pla      )
 !----------------------------------------------------------------
 !   M o d u l e s
 !----------------------------------------------------------------
-        use matparam_def_mod
-        use constant_mod
-        use table_mat_vinterp_mod
-        use precision_mod, only : WP
+          use matparam_def_mod
+          use constant_mod
+          use table_mat_vinterp_mod
+          use precision_mod, only : WP
 !----------------------------------------------------------------
 !   I m p l i c i t   T y p e s
 !----------------------------------------------------------------
-        implicit none
+          implicit none
 !----------------------------------------------------------------
 !  I n p u t   A r g u m e n t s
 !----------------------------------------------------------------
-        type(matparam_struct_),          intent(in)    :: matparam   !< Material parameters data
-        integer,                         intent(in)    :: nel        !< Number of elements in the group
-        real(kind=WP),   dimension(nel), intent(inout) :: sigy       !< Equivalent stress
-        real(kind=WP),   dimension(nel), intent(inout) :: temp       !< Temperature
-        real(kind=WP),   dimension(nel), intent(inout) :: dsigy_dpla !< Derivative of eq. stress w.r.t. cumulated plastic strain
-        integer,                         intent(in)    :: nvartmp    !< Number of variables used in tabulated thermal softening
-        integer, dimension(nel,nvartmp), intent(inout) :: vartmp     !< Temporary variables for tabulated thermal softening
-        real(kind=WP),   dimension(nel), intent(in)    :: pla        !< Plastic strain
+          type(matparam_struct_),          intent(in)    :: matparam   !< Material parameters data
+          integer,                         intent(in)    :: nel        !< Number of elements in the group
+          real(kind=WP),   dimension(nel), intent(inout) :: sigy       !< Equivalent stress
+          real(kind=WP),   dimension(nel), intent(inout) :: temp       !< Temperature
+          real(kind=WP),   dimension(nel), intent(inout) :: dsigy_dpla !< Derivative of eq. stress w.r.t. cumulated plastic strain
+          integer,                         intent(in)    :: nvartmp    !< Number of variables used in tabulated thermal softening
+          integer, dimension(nel,nvartmp), intent(inout) :: vartmp     !< Temporary variables for tabulated thermal softening
+          real(kind=WP),   dimension(nel), intent(in)    :: pla        !< Plastic strain
 !----------------------------------------------------------------
 !  L o c a l  V a r i a b l e s
 !----------------------------------------------------------------
@@ -95,5 +95,5 @@
         dsigy_dpla(1:nel) = dsigy_dpla(1:nel)*(yldth(1:nel)/yldth0(1:nel))
         sigy(1:nel) = sigy(1:nel)*(yldth(1:nel)/yldth0(1:nel))
 !
-      end subroutine therm_softening_tabulated
+        end subroutine therm_softening_tabulated
       end module therm_softening_tabulated_mod

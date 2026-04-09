@@ -71,7 +71,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, NTYP,NN,K1,IAD,IS,J,N,NOD,NUMN,ID,NMT,IROT,
+      INTEGER I, NTYP,NN,K1,IAD,IS,J,N,NOD,NUMN,NMT,IROT,
      .        IERR1,IERR2,IERR3,IERR4,IERR5,IERR6
 C-------IMONV(NMONV)--number of nodes in each mv.----------------------
       NMONV = 0
@@ -226,8 +226,8 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER
-     .        I,J,K,N,L,NL,NJ,NI,J1,M,NSN,N1,N2,NK,ID,
-     .        JI,K10,K11,K12,K13,K14,KFI,NS
+     .        I,J,K,N,NI,M,NSN,ID,
+     .        JI,K10,K11,K12,K13,K14,KFI
 C----------------------------
       LNS2=0
       DO J=1,NINT2
@@ -335,7 +335,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER
-     .        I,J,K,N,L,NL,NJ,NI,J1,M,NSN,N1,N2,NK,ID,
+     .        I,J,K,N,NI,M,NSN,ID,
      .        JI,K10,K11,K12,K13,K14,KFI,NI2,NRB,NR3,NR2
 c----------------------
       NI2=0
@@ -456,7 +456,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,N,L,IERR1,IERR2,IERR3,ITAG(NUMNOD)
+      INTEGER I,J,N,IERR1,IERR2,IERR3,ITAG(NUMNOD)
 C-----------------------------------------------
       DO N=1,NUMNOD
         ITAG(N) = 0
@@ -583,7 +583,6 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J
 C-----------------------------------------------
        CALL MONV_FVL(IBFV      ,LJ    ,ISKEW   ,ICODT  )
        CALL MONV_M3(MONVOL ,VOLMON  ,X      ,IGRSURF  ,
@@ -645,7 +644,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,IDDLM(NUMNOD),NKC,N,ND,ID,NKIN,IAD
+      INTEGER I,J,N,ND,ID,NKIN,IAD
       INTEGER M,NSN,JI,K10,K11,K12,K13,K14,L,NNOD,NJ,NL,NI
 C----------------
       CALL ID_MVINI(IPARI  ,INTBUF_TAB,NDOF   ,IDDL    ,IKC    ,
@@ -807,7 +806,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,IDDLM(NUMNOD),NKC,N,ND,ID,NND,IROT,NMT,IAD,IADS
+      INTEGER I,J,IDDLM(NUMNOD),NKC,N,ND,ID,IROT,NMT,IAD,IADS
       INTEGER M,NSN,JI,K10,K11,K12,K13,K14,L,NNOD,NJ,NL,NI
 C-----initialise iddl_mv-----------
       NKC = 0
@@ -981,12 +980,12 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, NTYP,NN,K1,IAD,IS,J,N,NMV,
-     .        N1,N2,N3,N4,KK1,J1,ID,ID1,M1,M2,M3,M4
+      INTEGER I, NN,K1,IS,J,NMV,
+     .        N1,N2,N3,N4,KK1,J1,M1,M2,M3,M4
       my_real
      .   VOL(NMONV),NOR(3,NNMAX_MV),DVD1(3),DVD2(3),GAMAV(NMONV)
       my_real
-     .   XX,YY,ZZ,X12,Y12,Z12,X13,Y13,Z13,X24,Y24,Z24,V,
+     .   XX,YY,ZZ,X13,Y13,Z13,X24,Y24,Z24,
      .   GAMAV2
 C----- Idddl (3,*) is after UPD_K-, if depending-: as a remote interface --------------------
 C-----------reprend vol,gama------
@@ -1089,12 +1088,12 @@ C-----------------------------------------------
       INTEGER N1,N2,N3,N4
 C     REAL
       my_real
-     .   XX,YY,ZZ,X12,Y12,Z12,X13,Y13,Z13,X24,Y24,Z24,VOL,
+     .   XX,YY,ZZ,X13,Y13,Z13,X24,Y24,Z24,VOL,
      .   DVD1(*),DVD2(*),N(3),GAMAV2,K_DIAG(3,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J,NNOD,ND,ID
+      INTEGER I, J,NNOD,ND
       my_real
      .   DNDX1(3),DNDY1(3),DNDZ1(3),DNDX2(3),DNDY2(3),DNDZ2(3),
      .   KEV1(3),KEV2(3),KEVS(3),FAC,FACV(3)
@@ -1190,7 +1189,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J,NNOD,NNOD1,ND,NM(4)
       my_real
-     .   KEV1(3),KEV2(3),KEVS(3),FAC,FACV(3)
+     .   KEV1(3),KEV2(3),KEVS(3),FACV(3)
 C---------DNDX:NX,x,NY,x,NZ,x,------------------------------------
       ND = 3
        NM(1) = M1
@@ -1297,7 +1296,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,ID,N,J,NDD,IS,NS,ILEV,J10,J11,J12,J21
+      INTEGER I,N,J,NS,ILEV,J10,J11,J12,J21
       INTEGER M,NSN,JI,L,NNOD,NJ,NL,NI,
      .        I1,J1,ISK,IFM,K1,K2,K3,ICT,NN,IROT,IAD,IADS,
      .        JT(3),JR(3),IR,IRAD,K,IC
@@ -1601,7 +1600,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,NKC,N,ND,ID,IAD
+      INTEGER I,J,N,ID,IAD
       INTEGER M,NSN,JI,K10,K11,K12,K13,K14,L,NNOD,NJ,NL,NI
 C---------IFLAG=0: add; IFLAG=1:remove-------
       IF (IFLAG==0) THEN
@@ -1801,10 +1800,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J,N,K,K1,KK1,N1,N2,N3,N4,ID,IAD,IS,NN,NTY
+      INTEGER I, J,K,K1,KK1,N1,N2,N3,N4,IS,NN,NTY
       my_real
      .   TEMP,VOL ,NOR(3,NNMAX_MV),
-     .   XX,YY,ZZ,X12,Y12,Z12,X13,Y13,Z13,X24,Y24,Z24,
+     .   XX,YY,ZZ,X13,Y13,Z13,X24,Y24,Z24,
      .   FNI(3),DPI,DPRES
 C----------------actualise X---------------------
       CALL IMP3_U2X(X     ,IPARI  ,INTBUF_TAB,NDOF  ,
@@ -2250,7 +2249,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER IDEF,IV
+      INTEGER IDEF
 C     REAL
       my_real
      .   VOL,VINC,GAMA,PRES,PMAX,VEPS,POLD,VOLD,PEXT,
@@ -2359,7 +2358,7 @@ C-----------------------------------------------
 C----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,ID,ND,M,N,NS,NI,NSN,ILEV,JT(3),JR(3),
+      INTEGER I,J,ND,M,N,NS,NI,NSN,ILEV,JT(3),JR(3),
      .        JI,K10,K11,K12,K13,K14,J10,J11,J12,J21,
      .        L,NNOD,NJ,NL,IAD,IADS,IROT,ISK,IRAD,NN,IC
       my_real

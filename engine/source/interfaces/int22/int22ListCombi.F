@@ -95,15 +95,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-        INTEGER :: I,II,J,K,L,COUNT,CountVAR,CountFIX,ITYP,pCODE,lIDBLE
+        INTEGER :: I,II,J,K,L,COUNT,CountVAR,CountFIX,ITYP,pCODE
         INTEGER :: LIST(32+8),SizeL
         INTEGER :: IBIN
         INTEGER :: LLVAR(arg_SizeVAR,arg_SizeVAR-1), SizeLLVAR
         INTEGER :: LLFIX(arg_SizeVAR,arg_SizeFIX+1), SizeLLFIX        
-        INTEGER :: SizeLLVAR_bak
         INTEGER :: IKEEP
-        INTEGER :: TAG(12),TAG_nod(8),TAG_edg(12), Lnbit, Lcode, Ldble, NNOD, NEDG
-        INTEGER :: IDOUBLE(12),lvl
+        INTEGER :: TAG_nod(8),TAG_edg(12), Lnbit, Lcode, Ldble, NNOD, NEDG
+        INTEGER :: lvl
         INTEGER :: TAG_nod_fix(8),TAG_edg_fix(12),TAG_nod_bak(8),TAG_nod_tmp(8)
         LOGICAL :: bool,bCOMPL
 C-----------------------------------------------

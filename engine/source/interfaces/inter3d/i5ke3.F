@@ -77,8 +77,7 @@ C-----------------------------------------------
       INTEGER, DIMENSION(MVSIZ) :: IX1,IX2,IX3,IX4
 C     REAL
       my_real
-     .   STARTT, FRIC, GAP, STOPT,
-     .   GAP_IMP
+     .   STARTT, FRIC, GAP, STOPT
 C-----------------------------------------------
 C     REAL
       my_real
