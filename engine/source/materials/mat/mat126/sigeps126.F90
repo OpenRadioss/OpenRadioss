@@ -417,7 +417,7 @@
               if (off(i) <  one) off(i) = off(i)*four_over_5
               if ((noff(i) == 1).and.(off(i) == one)) off(i) = four_over_5
             end do
-            !< Set to zero the deviatoric stress tensor
+          !< Set to zero the deviatoric stress tensor
           else if (ifail == 2) then
             do i = 1,nel
               if (noff(i) == 1) then
@@ -429,8 +429,8 @@
                 signzx(i) = zero
               end if
             end do
-            !< Set to zero the deviatoric stress tensor
-            !< Keep pressure only in compression
+          !< Set to zero the deviatoric stress tensor
+          !< Keep pressure only in compression
           else if (ifail == 3) then
             do i = 1,nel
               if (noff(i) == 1) then
@@ -442,10 +442,22 @@
                 signzx(i) = zero
               end if
             end do
-            !< Set to zero the whole stress tensor
+          !< Set to zero the whole stress tensor
           else if (ifail == 4) then
             do i = 1,nel
               if (noff(i) == 1) then
+                signxx(i) = zero
+                signyy(i) = zero
+                signzz(i) = zero
+                signxy(i) = zero
+                signyz(i) = zero
+                signzx(i) = zero
+              end if
+            end do
+          !< Set stress tensor to zero only in tension (negative pressure)
+          elseif (ifail == 5) then 
+            do i = 1,nel
+              if ((noff(i) == 1).and.(pnew(i) < zero)) then
                 signxx(i) = zero
                 signyy(i) = zero
                 signzz(i) = zero
