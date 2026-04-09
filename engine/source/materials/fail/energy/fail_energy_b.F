@@ -21,11 +21,14 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    fail_energy_b   ../engine/source/materials/fail/energy/fail_energy_b.F
+!||    fail_energy_b           ../engine/source/materials/fail/energy/fail_energy_b.F
 !||--- called by ------------------------------------------------------
-!||    fail_beam3      ../engine/source/elements/beam/fail_beam3.F
+!||    fail_beam3              ../engine/source/elements/beam/fail_beam3.F
 !||--- calls      -----------------------------------------------------
-!||    finter          ../engine/source/tools/curve/finter.F
+!||    table_mat_vinterp       ../engine/source/materials/tools/table_mat_vinterp.F
+!||--- uses       -----------------------------------------------------
+!||    fail_param_mod          ../common_source/modules/mat_elem/fail_param_mod.F90
+!||    table_mat_vinterp_mod   ../engine/source/materials/tools/table_mat_vinterp.F
 !||====================================================================
       SUBROUTINE FAIL_ENERGY_B(FAIL ,NEL      ,NGL      ,
      .           TIME     ,EPSD     ,OFF      ,DFMAX    ,       

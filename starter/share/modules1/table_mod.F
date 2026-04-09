@@ -41,6 +41,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_read_eos                  ../starter/source/materials/eos/hm_read_eos.F
 !||    hm_read_eos_compaction_tab   ../starter/source/materials/eos/hm_read_eos_compaction_tab.F90
 !||    hm_read_fail                 ../starter/source/materials/fail/hm_read_fail.F
+!||    hm_read_fail_energy          ../starter/source/materials/fail/energy/hm_read_fail_energy.F
 !||    hm_read_fail_tab1            ../starter/source/materials/fail/tabulated/hm_read_fail_tab1.F
 !||    hm_read_funct                ../starter/source/tools/curve/hm_read_funct.F
 !||    hm_read_funct_python         ../starter/source/tools/curve/hm_read_funct_python.F90

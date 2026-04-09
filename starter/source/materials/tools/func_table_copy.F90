@@ -25,6 +25,7 @@
 !||====================================================================
 !||    func_table_copy_mod   ../starter/source/materials/tools/func_table_copy.F90
 !||--- called by ------------------------------------------------------
+!||    hm_read_fail_energy   ../starter/source/materials/fail/energy/hm_read_fail_energy.F
 !||    hm_read_mat123        ../starter/source/materials/mat/mat123/hm_read_mat123.F90
 !||    hm_read_mat125        ../starter/source/materials/mat/mat125/hm_read_mat125.F90
 !||    hm_read_mat129        ../starter/source/materials/mat/mat129/hm_read_mat129.F90
@@ -44,6 +45,7 @@
 !||====================================================================
 !||    func_table_copy        ../starter/source/materials/tools/func_table_copy.F90
 !||--- called by ------------------------------------------------------
+!||    hm_read_fail_energy    ../starter/source/materials/fail/energy/hm_read_fail_energy.F
 !||    hm_read_mat123         ../starter/source/materials/mat/mat123/hm_read_mat123.F90
 !||    hm_read_mat125         ../starter/source/materials/mat/mat125/hm_read_mat125.F90
 !||    hm_read_mat129         ../starter/source/materials/mat/mat129/hm_read_mat129.F90

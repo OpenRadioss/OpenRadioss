@@ -29,19 +29,21 @@
         implicit none
       contains
 !||====================================================================
-!||    hm_read_elasticity                   ../starter/source/materials/mat/mat131/elasticity/hm_read_elasticity.F90
+!||    hm_read_elasticity                         ../starter/source/materials/mat/mat131/elasticity/hm_read_elasticity.F90
 !||--- called by ------------------------------------------------------
-!||    hm_read_elasto_plastic               ../starter/source/materials/mat/mat131/hm_read_elasto_plastic.F90
+!||    hm_read_elasto_plastic                     ../starter/source/materials/mat/mat131/hm_read_elasto_plastic.F90
 !||--- calls      -----------------------------------------------------
-!||    hm_read_elasticity_anisotropic       ../starter/source/materials/mat/mat131/elasticity/hm_read_elasticity_anisotropic.F90
-!||    hm_read_elasticity_isotropic         ../starter/source/materials/mat/mat131/elasticity/hm_read_elasticity_isotropic.F90
-!||    hm_read_elasticity_orthotropic       ../starter/source/materials/mat/mat131/elasticity/hm_read_elasticity_orthotropic.F90
+!||    hm_read_elasticity_anisotropic             ../starter/source/materials/mat/mat131/elasticity/hm_read_elasticity_anisotropic.F90
+!||    hm_read_elasticity_isotropic               ../starter/source/materials/mat/mat131/elasticity/hm_read_elasticity_isotropic.F90
+!||    hm_read_elasticity_orthotropic             ../starter/source/materials/mat/mat131/elasticity/hm_read_elasticity_orthotropic.F90
+!||    hm_read_elasticity_viscous_isotropic       ../starter/source/materials/mat/mat131/elasticity/hm_read_elasticity_viscous_isotropic.F90
 !||--- uses       -----------------------------------------------------
-!||    hm_option_read_mod                   ../starter/share/modules1/hm_option_read_mod.F
-!||    hm_read_elasticity_anisotropic_mod   ../starter/source/materials/mat/mat131/elasticity/hm_read_elasticity_anisotropic.F90
-!||    hm_read_elasticity_isotropic_mod     ../starter/source/materials/mat/mat131/elasticity/hm_read_elasticity_isotropic.F90
-!||    hm_read_elasticity_orthotropic_mod   ../starter/source/materials/mat/mat131/elasticity/hm_read_elasticity_orthotropic.F90
-!||    submodel_mod                         ../starter/share/modules1/submodel_mod.F
+!||    hm_option_read_mod                         ../starter/share/modules1/hm_option_read_mod.F
+!||    hm_read_elasticity_anisotropic_mod         ../starter/source/materials/mat/mat131/elasticity/hm_read_elasticity_anisotropic.F90
+!||    hm_read_elasticity_isotropic_mod           ../starter/source/materials/mat/mat131/elasticity/hm_read_elasticity_isotropic.F90
+!||    hm_read_elasticity_orthotropic_mod         ../starter/source/materials/mat/mat131/elasticity/hm_read_elasticity_orthotropic.F90
+!||    hm_read_elasticity_viscous_isotropic_mod   ../starter/source/materials/mat/mat131/elasticity/hm_read_elasticity_viscous_isotropic.F90
+!||    submodel_mod                               ../starter/share/modules1/submodel_mod.F
 !||====================================================================
         subroutine hm_read_elasticity(                                         &
           ikey     ,type     ,ielas    ,nupar_elas,upar_elas,is_available,     &

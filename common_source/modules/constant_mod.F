@@ -106,6 +106,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    eikonal_remove_first                     ../starter/source/initial_conditions/detonation/eikonal_remove_first.F90
 !||    eikonal_solver                           ../starter/source/initial_conditions/detonation/eikonal_solver.F90
 !||    elasto_plastic_eq_stress                 ../engine/source/materials/mat/mat131/elasto_plastic_eq_stress.F90
+!||    elasto_plastic_second_order_numerical    ../engine/source/materials/mat/mat131/elasto_plastic_second_order_numerical.F90
 !||    elasto_plastic_trial_stress              ../engine/source/materials/mat/mat131/elasto_plastic_trial_stress.F90
 !||    eos_table_copy                           ../starter/source/materials/tools/eos_table_copy.F90
 !||    eosexponential                           ../common_source/eos/eosexponential.F90
@@ -169,6 +170,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_read_elasticity_anisotropic           ../starter/source/materials/mat/mat131/elasticity/hm_read_elasticity_anisotropic.F90
 !||    hm_read_elasticity_isotropic             ../starter/source/materials/mat/mat131/elasticity/hm_read_elasticity_isotropic.F90
 !||    hm_read_elasticity_orthotropic           ../starter/source/materials/mat/mat131/elasticity/hm_read_elasticity_orthotropic.F90
+!||    hm_read_elasticity_viscous_isotropic     ../starter/source/materials/mat/mat131/elasticity/hm_read_elasticity_viscous_isotropic.F90
 !||    hm_read_elasto_plastic                   ../starter/source/materials/mat/mat131/hm_read_elasto_plastic.F90
 !||    hm_read_eos_compaction                   ../starter/source/materials/eos/hm_read_eos_compaction.F90
 !||    hm_read_eos_compaction2                  ../starter/source/materials/eos/hm_read_eos_compaction2.F90

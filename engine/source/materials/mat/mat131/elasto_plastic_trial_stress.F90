@@ -41,10 +41,13 @@
 !||    cutting_plane_solids          ../engine/source/materials/mat/mat131/return_mapping/cutting_plane_solids.F90
 !||    nice_shells                   ../engine/source/materials/mat/mat131/return_mapping/nice_shells.F90
 !||    nice_solids                   ../engine/source/materials/mat/mat131/return_mapping/nice_solids.F90
+!||--- calls      -----------------------------------------------------
+!||    table_mat_vinterp             ../engine/source/materials/tools/table_mat_vinterp.F
 !||--- uses       -----------------------------------------------------
 !||    constant_mod                  ../common_source/modules/constant_mod.F
 !||    matparam_def_mod              ../common_source/modules/mat_elem/matparam_def_mod.F90
 !||    precision_mod                 ../common_source/modules/precision_mod.F90
+!||    table_mat_vinterp_mod         ../engine/source/materials/tools/table_mat_vinterp.F
 !||====================================================================
       subroutine elasto_plastic_trial_stress(                                  &
         matparam ,nel      ,soundsp  ,cstf     ,young    ,rho      ,           &

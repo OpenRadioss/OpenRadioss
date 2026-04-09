@@ -39,10 +39,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    fail_biquad_ib               ../engine/source/materials/fail/biquad/fail_biquad_ib.F
 !||    fail_biquad_s                ../engine/source/materials/fail/biquad/fail_biquad_s.F
 !||    fail_connect                 ../engine/source/materials/fail/connect/fail_connect.F
-!||    fail_energy_b                ../engine/source/materials/fail/energy/fail_energy_b.F
-!||    fail_energy_c                ../engine/source/materials/fail/energy/fail_energy_c.F
-!||    fail_energy_ib               ../engine/source/materials/fail/energy/fail_energy_ib.F
-!||    fail_energy_s                ../engine/source/materials/fail/energy/fail_energy_s.F
 !||    fail_fabric_c                ../engine/source/materials/fail/fabric/fail_fabric_c.F
 !||    fail_fld_c                   ../engine/source/materials/fail/fld/fail_fld_c.F
 !||    fail_fld_tsh                 ../engine/source/materials/fail/fld/fail_fld_tsh.F
