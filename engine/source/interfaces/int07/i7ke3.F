@@ -638,7 +638,7 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   STARTT, FRIC, GAP, STOPT,STIGLO,GAPMIN,
-     .   KMIN, KMAX, GAPMAX,GAP_IMP
+     .   KMIN, KMAX, GAPMAX
 C-----------------------------------------------
 C     REAL
       my_real

@@ -184,7 +184,7 @@ C----------------------------------------------------------
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
-      INTEGER I,J,IR,IPG,IEL,ISRATE,
+      INTEGER I,IR,IPG,IEL,ISRATE,
      .  NPAR,NPARF,NVARF,NFUNC,NFUNCR,NFAILS,ISMSTR,ILAW_USER,IPTR,IPTS,IPTT,
      .  IADBUF,IFAIL,NUVAR,MTN,NDAMF,ISOLID,ISOLIDF,NUMTABL,NVARTMP,LF_DAMMX
       INTEGER IFUNC(MAXFUNC),IFUNCR(MAXFUNC)

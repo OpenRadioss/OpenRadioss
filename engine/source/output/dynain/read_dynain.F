@@ -63,7 +63,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,IDPRT,K_STAT,J,IP
+      INTEGER I,IDPRT,J,IP
       INTEGER N ,NELC , NELTG , NELCG , NELTGG , 
      .   FLG_CHK , IS_CHECK , JWARN, NELMIN , NELMAX,
      .   MY_SIZEC ,MY_SIZETG ,IERR ,
@@ -74,8 +74,6 @@ C
       INTEGER ,  DIMENSION(:),ALLOCATABLE :: NELIDC ,NELIDTG,
      .        CLEFC ,CLEFTG ,INDXC ,INDXTG ,IDWARN ,NELIDCG ,
      .        NELIDTGG 
-      my_real
-     .   T0,DT0
 C-----------------------------------------------
       ALLOCATE( DYNAIN_DATA%IPART_DYNAIN(NPART))
       DYNAIN_DATA%IPART_DYNAIN(1:NPART) = 0 

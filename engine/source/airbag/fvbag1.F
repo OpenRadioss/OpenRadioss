@@ -144,12 +144,12 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, II, IINJ, IEL, N1, N2, N3, JEL, 
-     .        NN1, NN2, NN3, J, JJ, K, KK, IMASS, IFLU, ISENS, IVEL,
-     .        ITEMP, NV, ILVOUT, NPOLYG,NTRIA, IPRI,
-     .        IVENT, IDEF, IPORT, IPORP, IPORA, IPORT1, IPORP1, IPORA1,
-     .        ITVENT, PHDT, I1, I2, NNSA, IVDP,ITTF, IDPDEF,
-     .        IDTPDEF,PMAIN,N21,N22,ITYPL,
-     .        PREPARE_ANIM,IVENTYP,IMETHOD_LC, IEL1, IEL2, IDT_FVMBAG
+     .        J, JJ, K, KK, ISENS, IVEL,
+     .        NV, ILVOUT, NPOLYG,NTRIA, IPRI,
+     .        IVENT, IDEF,
+     .        ITVENT, PHDT, I1, I2, IVDP,ITTF, IDPDEF,
+     .        IDTPDEF,ITYPL,
+     .        PREPARE_ANIM,IVENTYP, IEL1, IEL2, IDT_FVMBAG
       INTEGER TITREVENT(20)
  
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: TAGSURF
@@ -200,30 +200,29 @@ C-----------------------------------------------
      .         AREA,Denom,Denom_max, NX, NY,
      .        NZ, GAMAI, CPAI, CPBI, CPCI, RMWI, TI,
      .        CPDI, CPEI, CPFI,
-     .        RHOI, DATAINJ(6,NJET), SCALT, FMASS, GMASS_OLD,
-     .        GMTOT_OLD, FVEL, TSTART, TSG, GMASS, DGMASS, INJVEL,
-     .         GMTOT, RMWG, CPA, CPB, CPC, FTEMP, EFAC, CPG,
-     .        CVG, WSURF(3), GAMA, FEL(NELT),
+     .        RHOI, DATAINJ(6,NJET), SCALT,
+     .        FVEL, TSTART, TSG, INJVEL,
+     .         CPA, CPB, CPC, EFAC,
+     .        WSURF(3), GAMA, FEL(NELT),
      .        DQ(3,NPOLH), DE(NPOLH), DMI, DQI(3), DEI, RHO1, RE1, UX1,
      .        UY1, UZ1, RHO2, RE2, UX2, UY2, UZ2, VFX, VFY, VFZ, SS,
      .        ALPHA, RHOM, REM, RUXM, RUYM, RUZM, P1, P2,
      .        UEL(3,NELT), AREA1, AREA3, FF, TEMP, TEMP2, PEXT, VOLG, VOLPH,
-     .        AREAP, AREAEL, XX, YY, ZZ, QA, QB, DTX, AL, DD, AD, SSP,
+     .        AREAP, AREAEL, QA, QB, DTX, AL, DD, AD, SSP,
      .        QX, VV,  MSINI, RMW, CV, GAMA1, GAMA2,
      .        QVISC(NPOLH), AMTOT, PMEAN, PMEAN2,
-     .        AREA_VENT(NVENT), PM_VENT(NVENT), SCALP, SCALS, EXTEN,
-     .        AVENT, BVENT, AINI, FPORT, FPORP, FPORA, FPORT1, FPORP1,
-     .        FPORA1, AOUT, AOUT1, DERI, PDEF, PVOLTMP,
+     .        AREA_VENT(NVENT), PM_VENT(NVENT), SCALP, SCALS,
+     .        AOUT, DERI, PDEF, PVOLTMP,
      .        DTPDEFI, DTPDEFC, TVENT,AOUTOT, SVENTOT,
-     .        X23, Y23, Z23, X31, Y31, Z31,  L12, L23, L31, H1, H2, H3,
+     .        X23, Y23, Z23, X31, Y31, Z31,  L12, L23, L31, H1,
      .        FAC1, FAC2, FAC3, HM1, AREA_OLD, PP,  VMAX, UU,
-     .        PCRIT, RHOINJ, PINJ, VX1, VY1, VZ1, VX2, VY2, VZ2,
+     .        PCRIT, VX1, VY1, VZ1, VX2, VY2, VZ2,
      .        VX3, VY3, VZ3, VVX, VVY, VVZ,  FAC, 
      .         FVDP, RBID, TTF,
-     .        CPD, CPE, CPF, TEMP0, TT1,PSTAG, VOLNO,TSTOPE,
+     .        CPD, CPE, CPF, TEMP0, PSTAG, VOLNO,TSTOPE,
      .        ENINT, MASSFLOW, WFEXT0,  DMOUT, DHOUT,
      .        CPAM, CPBM, CPCM, CPDM, CPEM, CPFM, RMWM, TMP_VEC(3), VMAT(3),SSP1,SSP2,SSPt,NTRIA_TOT,
-     .        PRES_AV, RHO_AV, TEMP_AV, CP_AV, CV_AV, RGAS_AV, CENTROID(3)
+     .        PRES_AV, RHO_AV, CP_AV, CV_AV, RGAS_AV, CENTROID(3)
       DOUBLE PRECISION :: CP
 
       LOGICAL :: boolTAGEL,EXIT_NEG_VOL,INJECTION_STARTED

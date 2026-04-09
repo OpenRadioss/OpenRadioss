@@ -72,7 +72,7 @@
           integer, intent(in) :: nel !< number of elements in the group
           integer, intent(in) :: nuvar !< number of user variables
           integer, intent(in) :: nvartmp !< number of user variables temporairy
-          integer, dimension(nel,nvartmp), intent(inout) :: vartmp !< user variables temporairy 
+          integer, dimension(nel,nvartmp), intent(inout) :: vartmp !< user variables temporairy
           !!
           real(kind=WP), dimension(nel,nuvar), intent(inout) :: uvar !< user variables
           type(matparam_struct_), intent(in) :: mat_param !< material parameters data
@@ -112,7 +112,7 @@
           integer , dimension(nel) :: iad,ipos,ilen,indx
 
           real(kind=WP)                                                       &
-            :: e1,e2,nu12,nu21,slimt1,slimc1,em22t0,yt0,slimt2,slimc2,     &
+            :: e1,e2,nu12,nu21,slimt1,slimc1,yt0,slimt2,slimc2,     &
             slims,gammaf,gammar, tsdm, erods,tsize,e1d,e2d,g12d,d,         &
             w11,w22,w12,e12d,invd, limit_sig ,limit_strain, e21d,g12,      &
             eint, deint,a11,tauxy,g13,g23,scale,w13,w23,eps_eq
@@ -121,8 +121,8 @@
           real(kind=WP) , dimension(nel) ::  em22t,yt,em22c,yc,gamma,tau,ems,sc
           real(kind=WP) , dimension(nel) ::  ef11t,m1t,al1t,ef11c,m1c,al1c
           real(kind=WP) , dimension(nel) ::  ef22t,m2t,al2t,ef22c,m2c,al2c
-          real(kind=WP) , dimension(nel) ::  efs,ms,als,epsf
-          real(kind=WP) , dimension(nel) ::  yy, dydx,epsfailure
+          real(kind=WP) , dimension(nel) ::  efs,ms,als
+          real(kind=WP) , dimension(nel) ::  yy,epsfailure
 !!======================================================================
 !
           ! FS ! type of failure yield surface loading
@@ -159,7 +159,7 @@
           ems(1:nel)     = mat_param%uparam(25)
           sc(1:nel)      = mat_param%uparam(26)
           slims          = mat_param%uparam(27)
-         !! stop
+          !! stop
           ! shear parameters for directions 13 and 23
           !
           gammaf = mat_param%uparam(44)
@@ -188,46 +188,46 @@
           als(1:nel)  = mat_param%uparam(69)
           !
           fs = nint(mat_param%uparam(76))
-           ! strain rate dependency of strength
+          ! strain rate dependency of strength
           !!  call damage_parameter (ifunc)
           ! fiber - tension dir 1 -
-            nfunc = mat_param%ntable 
+          nfunc = mat_param%ntable
           if(nfunc > 0) call strainrate_dependency_125c(nel, mat_param , epsp, vartmp, nvartmp ,  &
-                                                        em11t,    xt,     em11c,    xc,      &
-                                                        em22t,    yt,     em22c,    yc,      &
-                                                        gamma,    tau,    ems,      sc,      &
-                                                        al1t,     m1t,    al1c,     m1c,     &
-                                                        al2t,     m2t,    al2c,     m2c,     &
-                                                        als,      ms,     ef11t,   ef11c,    &
-                                                        ef22t,    ef22c,  efs  ,   epsfailure    ) 
-          ! failure 
+            em11t,    xt,     em11c,    xc,      &
+            em22t,    yt,     em22c,    yc,      &
+            gamma,    tau,    ems,      sc,      &
+            al1t,     m1t,    al1c,     m1c,     &
+            al2t,     m2t,    al2c,     m2c,     &
+            als,      ms,     ef11t,   ef11c,    &
+            ef22t,    ef22c,  efs  ,   epsfailure    )
+          ! failure
           ndx = 0
           indx(:)=0
           do i=1,nel
-              eps_eq =  two_third* (epsxx(i)**2 + epsyy(i)**2 + epsxy(i)**2  ) 
-              eps_eq = sqrt(eps_eq)
-              if(off(i) >= one .and. eps_eq >= epsfailure(i))  then
-                  dmg_g(i) = dmg_g(i) + one
-                  off(i) = zero
-                  offl(i) = zero
-              endif  
+            eps_eq =  two_third* (epsxx(i)**2 + epsyy(i)**2 + epsxy(i)**2  )
+            eps_eq = sqrt(eps_eq)
+            if(off(i) >= one .and. eps_eq >= epsfailure(i))  then
+              dmg_g(i) = dmg_g(i) + one
+              off(i) = zero
+              offl(i) = zero
+            endif
           enddo
           do i=1,nel
-              if(off(i) == zero  ) then
-                   signxx(i) = zero
-                   signyy(i) = zero
-                   signxy(i) = zero
-                   signyz(i) = zero
-                   signzx(i) = zero
-              else 
-                 ndx = ndx + 1
-                 indx(ndx) = i
-              endif
-           end do
-          if(ndx == 0 ) return 
+            if(off(i) == zero  ) then
+              signxx(i) = zero
+              signyy(i) = zero
+              signxy(i) = zero
+              signyz(i) = zero
+              signzx(i) = zero
+            else
+              ndx = ndx + 1
+              indx(ndx) = i
+            endif
+          end do
+          if(ndx == 0 ) return
           ! check loading/unloading
           do idx=1,ndx
-             i = indx(idx)
+            i = indx(idx)
             ! dir
             check(i) = one
             ! check unloading
@@ -264,9 +264,9 @@
               i = indx(idx)
               limit_strain = epsxx(i)**2 + epsyy(i)**2 + epsxy(i)**2
               if(check(i) >= zero .and. limit_strain > uvar(i,2) .and. dmg(i,1) /= two .and. dmg(i,1) >= zero) then
-                w11 = one 
+                w11 = one
                 w22 = one
-                w12 = one 
+                w12 = one
                 if(epsxx(i) > zero )then
                   w11 = epsxx(i)/ef11t(i)
                   w11 = exp(m1t(i)*log(w11))/al1t(i)  ! (esp/epsf)^m/alpha
@@ -322,7 +322,7 @@
               w11 = dmg(i,2)
               w22 = dmg(i,3)
               w13 = one
-              w23 = one 
+              w23 = one
               limit_strain = epsxx(i)**2 + epsyy(i)**2 + epsxy(i)**2
               if(check(i) >= zero .and. limit_strain > uvar(i,2) .and. dmg(i,1) /= two .and. dmg(i,1) >= zero) then
                 if(tau(i) >  zero .and. epsxy(i) /= zero) then
@@ -330,16 +330,16 @@
                   w12 = exp(ms(i)*log(w12))/als(i)  ! (esp/epsf)^m/alpha
                   w12 = exp(-w12)
                 end if
-               ! out of plane damage calculation
+                ! out of plane damage calculation
                 if(abs(epszx(i)) > gammaf ) then
-                   w13 = one - tsdm
+                  w13 = one - tsdm
                 elseif(abs(epszx(i)) >= gammar ) then
-                   w13 = one  -  (abs(epszx(i)) - gammar) /(gammaf - gammar )
+                  w13 = one  -  (abs(epszx(i)) - gammar) /(gammaf - gammar )
                 end if
                 if(abs(epsyz(i)) > gammaf ) then
-                   w23 = one - tsdm
+                  w23 = one - tsdm
                 elseif(abs(epsyz(i)) >= gammar ) then
-                   w23 = one  -  (abs(epsyz(i)) - gammar) /(gammaf - gammar )
+                  w23 = one  -  (abs(epsyz(i)) - gammar) /(gammaf - gammar )
                 end if
               else
                 w12 = dmg(i,4)
@@ -409,31 +409,31 @@
                   if(epsxx(i) /= zero ) w11 = Min(one, abs(signxx(i)/epsxx(i))/e1)
                   if(epsyy(i) /= zero ) w22 = Min(one, abs(signyy(i)/epsyy(i))/e2)
                   if(epsxy(i) /= zero ) w12 = Min(one, abs(signxy(i)/epsxy(i))/g12)
-                 elseif(dmg(i,1) == -two) then  ! to follow zero stress when slim = zero  in loading and unloading
-                    if( dmg(i,7) >= zep99) then
-                      if(signxx(i) >= zero .and. slimt1 == zero) then !  slimt1*xt(i) ) then
-                        signxx(i) = zero
-                        signyy(i) = zero
-                        signxy(i) = zero
-                      elseif(signxx(i) < zero .and. slimc1 == zero) then
-                        signxx(i) = zero
-                        signyy(i) = zero
-                        signxy(i) = zero
-                      end if
-                    elseif( dmg(i,8) >= zep99)then
-                      if(signyy(i) >= zero .and. slimt2 == zero ) then !  slimt2*yt(i) ) 
-                        signyy(i) = zero
-                        signxx(i) = zero
-                        signxy(i) = zero
-                      elseif(signyy(i) < zero .and. slimc2 == zero ) then
-                        signyy(i) = zero
-                        signxx(i) = zero
-                        signxy(i) = zero
-                       end if
-                    elseif( dmg(i,9) >= zep99 .and. slims == zero) then
-                      signxy(i) = zero
+                elseif(dmg(i,1) == -two) then  ! to follow zero stress when slim = zero  in loading and unloading
+                  if( dmg(i,7) >= zep99) then
+                    if(signxx(i) >= zero .and. slimt1 == zero) then !  slimt1*xt(i) ) then
                       signxx(i) = zero
                       signyy(i) = zero
+                      signxy(i) = zero
+                    elseif(signxx(i) < zero .and. slimc1 == zero) then
+                      signxx(i) = zero
+                      signyy(i) = zero
+                      signxy(i) = zero
+                    end if
+                  elseif( dmg(i,8) >= zep99)then
+                    if(signyy(i) >= zero .and. slimt2 == zero ) then !  slimt2*yt(i) )
+                      signyy(i) = zero
+                      signxx(i) = zero
+                      signxy(i) = zero
+                    elseif(signyy(i) < zero .and. slimc2 == zero ) then
+                      signyy(i) = zero
+                      signxx(i) = zero
+                      signxy(i) = zero
+                    end if
+                  elseif( dmg(i,9) >= zep99 .and. slims == zero) then
+                    signxy(i) = zero
+                    signxx(i) = zero
+                    signyy(i) = zero
                   end if ! dmg
                 end if ! dmg(i,1)
                 uvar(i,2) = max(uvar(i,2), limit_strain)

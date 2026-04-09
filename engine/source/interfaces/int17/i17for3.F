@@ -90,8 +90,8 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,IK,IE,IS,IC,NK,III(MVSIZ,17),LLT,NFT,LE,FIRST,LAST,
-     .        I16,LES,IES,IIIS(MVSIZ,16),LEL(MVSIZ),LESL(MVSIZ),
+      INTEGER I,K,IE,IC,III(MVSIZ,17),LLT,NFT,LE,FIRST,LAST,
+     .        LES,IES,IIIS(MVSIZ,16),LEL(MVSIZ),LESL(MVSIZ),
      .        IE_MIN,IES_MIN, IERR1, IERR2
       my_real
      .   XX(MVSIZ,17),YY(MVSIZ,17),ZZ(MVSIZ,17),
@@ -320,10 +320,8 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,IK,NK,I1,I2,I3,I4,IAD,ICON,
+      INTEGER I,J,
      +        ICONT(MVSIZ,4)
-      my_real
-     .   VX,VY,VZ,VN,AA,VV,PENE
       my_real
      .   R_CM(MVSIZ),T_CM(MVSIZ),S_CM(MVSIZ),SI_S(MVSIZ,8),
      .   RI_S(MVSIZ,8),TI_S(MVSIZ,8),
@@ -333,7 +331,7 @@ C-----------------------------------------------
      .   R_1M(MVSIZ) ,R_2M(MVSIZ) ,T_1M(MVSIZ) ,T_2M(MVSIZ),
      .   R_3M(MVSIZ) ,R_4M(MVSIZ) ,T_3M(MVSIZ) ,T_4M(MVSIZ),
      .   R_CS(MVSIZ) ,S_CS(MVSIZ) ,T_CS(MVSIZ) ,VIT(MVSIZ),
-     .   R_S(MVSIZ) ,T_S(MVSIZ)   ,AREA(MVSIZ) ,AREA_TOT(MVSIZ),
+     .   AREA(MVSIZ) ,AREA_TOT(MVSIZ),
      .   AREA_EL(MVSIZ)        
 C-----------------------------------------------
 C      calculation de r,s,t
@@ -542,8 +540,8 @@ C-----------------------------------------------
      +        C1(MVSIZ),C2(MVSIZ),C3(MVSIZ),AZERO(MVSIZ),
      +        F1,F2,F3,F4,F5,F6,F7,F8,
      +        BB1,BB2,BB3,
-     +        CC1,CC2,CC3,DD1,DD2,DD3,DD,D,
-     +        A0,AB,BA,A4R,B4T,A5T,B5R,EPS,
+     +        CC1,CC2,CC3,DD1,DD2,DD3,D,
+     +        A0,AB,BA,A4R,B4T,A5T,B5R,
      +        XA,YA,ZA,XB,YB,ZB,XC,YC,ZC,AAA,UNPEPS,
      +        P,RM,TM,SM,PP,RR,TT,AA,RT(9),AS(9)
       DATA RT/-1.,-0.75,-0.5,-0.25,0.0,0.25,0.5,0.75,1./
@@ -991,7 +989,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       my_real
-     +        A1,A2,A3,A4,A5,A6,A7,A8,R2,T2,FF5,FF6,FF7,FF8
+     +        A1,A2,A3,A4,A5,A6,A7,A8,FF5,FF6,FF7,FF8
 C
         FF5 = F(I,5) + F(I,5)
         FF6 = F(I,6) + F(I,6)
@@ -1184,12 +1182,9 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,K
       my_real
-     .  U_M_R,U_P_R,U_M_S,U_P_S,U_M_T,U_P_T,
-     .  UMS_UMT,UMS_UPT,UPS_UMT,UPS_UPT,
-     .  UMR_UMS,UMR_UPS,UPR_UMS,UPR_UPS,
-     .  UMT_UMR,UMT_UPR,UPT_UMR,UPT_UPR,
-     .  A,B,R05,S05,T05,R,T,NI(8),
-     .  X1,X2,X3,Y1,Y2,Y3,Z1,Z2,Z3,PIS4
+     .  U_M_R,U_P_R,U_M_T,U_P_T,
+     .  A,B,R05,T05,R,T,NI(8),
+     .  X1,X2,X3,Y1,Y2,Y3,Z1,Z2,Z3
 C-----------------------------------------------------------------------
 C     calculation of the surface
 C-----------------------------------------------------------------------
@@ -1436,9 +1431,9 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,IK,NK,I1,I2,I3,I4,IES,IIS
+      INTEGER I,IK,IES,IIS
       my_real
-     .   VX,VY,VZ,VN,AA
+     .   VX,VY,VZ,VN
 C-----------------------------------------------------------------------
 C     calculation of Ni on face 1 2 3 4 or 5 6 7 8 of the main (s=+-1)
 C-----------------------------------------------------------------------
@@ -1560,10 +1555,10 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,IK,NK,I1,I2,I3,I4,IAD,NN,LEM,J1,J2,NISKYL,IES,IIS,
+      INTEGER I,IK,LEM,J1,J2,NISKYL,IES,IIS,
      .        NISKYFIL
       my_real
-     .   VX,VY,VZ,VN,AA,SURF,EP2,XE,YE,ZE,XA,YA,ZA,XB,YB,ZB,XC,YC,ZC,
+     .   VX,VY,VZ,VN,AA,XE,YE,ZE,
      .   F,STIF,PENE,SIGTMX,SIGTMY,SIGTMZ,SIGTSX,SIGTSY,SIGTSZ,BB,
      .   FX,FY,FZ,FFX,FFY,FFZ,FF,FF2,MUF2,HTSQRTPI,MAS4,EP,VIS,
      .   RHOM,RHOS,STIFV,DT1INV,FFVX,FFVY,FFVZ,FFTX,FFTY,FFTZ,MUF,

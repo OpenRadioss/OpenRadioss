@@ -74,7 +74,7 @@ C-----------------------------------------------
       my_real
      .   WA(SIZLOC),WAP0(SIZ_WR),WAP0_LOC(SIZP0)
       my_real
-     .   FUNC(6),S1 ,S2 ,S3,P,VONM2
+     .   S1 ,S2 ,S3,P,VONM2
       TYPE(G_BUFEL_) ,POINTER :: GBUF     
       TYPE(BUF_MAT_) ,POINTER :: MBUF     
 C=======================================================================
@@ -270,8 +270,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NGF,NGL,NN,ITY,NEL,NG,JJ,
-     .        P0ARSZ2,WASZ2
+      INTEGER NGF,NGL,NN,ITY,NEL,NG,JJ
 C-----------------------------------------------
       WASZ = 0
 

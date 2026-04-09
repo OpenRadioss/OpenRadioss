@@ -650,12 +650,12 @@ C      SECS = SECS/CLOCKRATE
       WRITE(IOUT,6100)IH,IM,IS
       IF(NPROC>1.AND.SECS>ZERO)WRITE(IOUT,8000)CUMUL(1)/SECS
 
- 1000 FORMAT(' ** PROCESSOR NUMBER **',16(I8,5x,"%",2x))
- 2000 FORMAT(' #PROC  ','CONT.SORT  ','CONT. F   ','ELEMENT  ',
-     .       'KIN.COND.  ','INTEGR.','    I/O     ','TASK0     ',
-     .       'ASSEMB.   ','RESOL  ')
- 3000 FORMAT(' #PROC  ','FORCES    ','RBY.FOR.  ','RBY.VEL.  ',
-     .       'VELOCITIES','   TOTAL   ','% CPU')
+! 1000 FORMAT(' ** PROCESSOR NUMBER **',16(I8,5x,"%",2x))
+! 2000 FORMAT(' #PROC  ','CONT.SORT  ','CONT. F   ','ELEMENT  ',
+!     .       'KIN.COND.  ','INTEGR.','    I/O     ','TASK0     ',
+!     .       'ASSEMB.   ','RESOL  ')
+! 3000 FORMAT(' #PROC  ','FORCES    ','RBY.FOR.  ','RBY.VEL.  ',
+!     .       'VELOCITIES','   TOTAL   ','% CPU')
  5550 FORMAT(I4,3x,E9.4,1x,E9.4,1x,E9.4,1x,E9.4,1x,E9.4,1x,E9.4,1x,E9.4,
      +       1x,E9.4,1x,E9.4,1x,E9.4,1x,E9.4,1x,E9.4,1x,E9.4,1x,E9.4,
      +       1x,E9.4,1x,E9.4)

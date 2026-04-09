@@ -355,8 +355,6 @@ C-----
      .  DIMENSION(:), POINTER :: DNL
       my_real 
      .  H(8),PR(8),PS(8),PT(8)
-      my_real
-     . d(mvsiz) !!!! BIDON !!!!!
       integer :: fake_size = 0
       my_real, dimension(1) :: fake_array         
       TYPE(G_BUFEL_) ,POINTER :: GBUF

@@ -87,8 +87,6 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER N, NN
-      my_real
-     .   VDT
 C
 #include   "vectorize.inc"
             DO NN=NODFT,NODLT

@@ -49,8 +49,6 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, N, NINDX, 
      . INDX(1024)
-      my_real
-     .   VDT
 C-----------------------------------------------
       DO  I = NODFT,NODLT,1024
         NINDX = 0

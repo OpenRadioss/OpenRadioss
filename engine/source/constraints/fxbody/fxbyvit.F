@@ -72,8 +72,6 @@ C-----------------------------------------------
       INTEGER NFX,ANOD,AMOD,ACP,AGLM,ALM,AVAR,ARPM,NME,NMOD,AMCD,
      . ASE,NSN,IDMAST,ISH,DMT,LMOD,ITN,NCYCLP1,N2,NN2,
      .        NSNT,IBLO,IFILE,NSNI,IRCM,PMAIN
-      my_real
-     .   VDT
 C
       N2=NINTER+NRWALL+NRBODY+NSECT+NJOINT+NRBAG+NVOLU
       ITN=0

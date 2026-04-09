@@ -277,7 +277,6 @@ C-----------------------------------------------
         ELSE
         ENDIF
  490   CONTINUE
- 500  CONTINUE
 C-----------------------------------------------
       IF (NSPMD == 1)THEN
         DO N=1,NBF
@@ -307,8 +306,6 @@ C-----------------------------------------------
         CALL SPMD_R4GET_PARTN(6,6*NBF,NBPART,IADG,WA,BUF)
       ENDIF
 C
-C-------------
- 600  CONTINUE
 C-------------
       DEALLOCATE(WA)
       RETURN

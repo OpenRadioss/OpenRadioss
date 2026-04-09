@@ -196,7 +196,7 @@ C-----------------------------------------------
      .   KS(MVSIZ),K1(MVSIZ),K2(MVSIZ),K3(MVSIZ),K4(MVSIZ),
      .   CS(MVSIZ),C1(MVSIZ),C2(MVSIZ),C3(MVSIZ),C4(MVSIZ),
      . CX,CY,CFI,AUX,
-     . DTMINI,STIF0_IMP(MVSIZ),TINY,XMU2(MVSIZ)
+     . DTMINI,TINY,XMU2(MVSIZ)
       INTEGER JSUB,KSUB,JJ,KK,IN,NSUB
  
       my_real

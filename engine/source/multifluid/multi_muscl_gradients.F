@@ -85,7 +85,7 @@ C-----------------------------------------------
       my_real :: MAXVAL_RHO, MINVAL_RHO, 
      .     MAXVAL_U, MINVAL_U, 
      .     MAXVAL_V, MINVAL_V, 
-     .     MAXVAL_W, MINVAL_W, LIM_VELX, LIM_VELY, LIM_VELZ, LIM_VEL
+     .     MAXVAL_W, MINVAL_W, LIM_VELX, LIM_VELY, LIM_VELZ
       my_real :: MAXVAL_PRES, MINVAL_PRES, LIM_PRES
       my_real :: PHASE_MAXVAL_RHO(NBMAT), PHASE_MINVAL_RHO(NBMAT), 
      .     PHASE_MAXVAL_ALPHA(NBMAT), PHASE_MINVAL_ALPHA(NBMAT), 
@@ -93,15 +93,14 @@ C-----------------------------------------------
      .     PHASE_LIM_ALPHA(NBMAT), PHASE_LIM_RHO(NBMAT), PHASE_LIM_PRES(NBMAT)
       my_real :: PEPS, MEPS, LIMFACE(6)
       TYPE(G_BUFEL_), POINTER :: GBUF
-      TYPE(L_BUFEL_), POINTER :: LBUF 
       INTEGER :: VOIS(6), FACE_LIST(6), NEL, ITY, ISOLNOD, NFT, MATLAW, 
      .     NODE1, NODE2, NODE3, NODE4
-      my_real :: SUMX, SUMY, SUMZ, VOL, ONE_OVER_VOL, LIM_ALPHA
+      my_real :: SUMX, SUMY, SUMZ, VOL, ONE_OVER_VOL
       my_real :: EPS_INT
       my_real, DIMENSION(:), POINTER :: VOLUME
       my_real :: X1(3), X2(3), X3(3), X4(3)
-      my_real :: MAT(3, 3), RHS(3), SOL(3), MATM1(3, 3), DET, MATTEST(3, 3)
-      INTEGER :: IAD, LGTH
+      my_real :: MAT(3, 3), RHS(3), SOL(3), MATM1(3, 3), DET
+      INTEGER :: IAD
 
 
 

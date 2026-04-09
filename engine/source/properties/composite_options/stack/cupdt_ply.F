@@ -72,18 +72,14 @@ C     REAL
      .   FLY12(MVSIZ, NPT), FLY22(MVSIZ, NPT), FLY32(MVSIZ, NPT),
      .   FLY13(MVSIZ, NPT), FLY23(MVSIZ, NPT), FLY33(MVSIZ, NPT),
      .   FLY14(MVSIZ, NPT), FLY24(MVSIZ, NPT), FLY34(MVSIZ, NPT),
-     .   PTH(MVSIZ,NPT),FAC(MVSIZ,2),STI(MVSIZ,*),MSZ2(*)
+     .   FAC(MVSIZ,2),STI(MVSIZ,*),MSZ2(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NVC1, NVC2, NVC3, NVC4, I, J, IP, I1, I2, I3, I4, N, 
      .        IN1,IN2,IN3,IN4
       my_real
-     .   OFF_L,  
-     .   FPLY11,FPLY21,FPLY31,FPLY12,FPLY22,FPLY32,FPLY13,FPLY23,
-     .   FPLY33,FPLY14,FPLY24,FPLY34,FPLY,MPLY,
-     .   MPLY11,MPLY21,MPLY31,MPLY12,MPLY22,MPLY32,MPLY13,MPLY23,
-     .   MPLY33,MPLY14,MPLY24,MPLY34
+     .   OFF_L
 C-----------------------------------------------
 C
 C accumulation of the energy of deleted elements at the time of deletion

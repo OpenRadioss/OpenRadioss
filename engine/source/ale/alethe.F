@@ -139,7 +139,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER ITRIMAT,NVAR,I, LENCOMN,LENCOM
+      INTEGER ITRIMAT,I, LENCOMN,LENCOM
       integer :: n_entity,n_neighbor,s_alpha_mat
       integer :: s_lesdvois,s_lercvois,s_bhole
       integer :: phi_data_s

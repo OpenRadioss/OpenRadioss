@@ -116,19 +116,18 @@ C-----------------------------------------------
      .   SIGNXX(MVSIZ),SIGNYY(MVSIZ),SIGNXY(MVSIZ),SIGNYZ(MVSIZ),
      .   SIGNZX(MVSIZ),SIGVXX(MVSIZ),SIGVYY(MVSIZ),SIGVXY(MVSIZ),
      .   SIGVYZ(MVSIZ),SIGVZX(MVSIZ),TENS(5,MVSIZ), 
-     .   YOUNG, VISC, VOL2, DTINV,ASRATE,SH_OFFSET
+     .   VISC, VOL2, DTINV,ASRATE
       my_real
      .   DEPBXX(MVSIZ),DEPBYY(MVSIZ),DEPBXY(MVSIZ),
      .   MOMOXX(MVSIZ),MOMOYY(MVSIZ),MOMOXY(MVSIZ),
      .   MOMNXX(MVSIZ),MOMNYY(MVSIZ),MOMNXY(MVSIZ),
-     .   ETSE(MVSIZ)  ,EPSPL(MVSIZ),EPSP_LOC(MVSIZ)
+     .   ETSE(MVSIZ)  ,EPSPL(MVSIZ)
       my_real, DIMENSION(:) ,POINTER :: UVAR
       my_real, DIMENSION(:) ,POINTER :: UVARV
       my_real, DIMENSION(NEL) :: OFF_OLD
 C-------------------------------------
       INTEGER, DIMENSION(:), POINTER :: VARTMP
       TYPE(L_BUFEL_) ,POINTER :: LBUF
-      type(matparam_struct_) , pointer :: matparam
 C-----------------------------------------------
 C   S o u r c e   L i n es
 C-----------------------------------------------

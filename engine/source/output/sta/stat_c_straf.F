@@ -73,12 +73,12 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,K,N,II,JJ,LEN, IOFF, NG, NEL, NFT, ITY, LFT, NPT,
-     .    LLT, MLW, ISTRAIN,ID, IPRT0, IPRT,NPG,IPG,IE,NPTR,NPTS,G_STRA,
+     .    LLT, MLW, ID, IPRT0, IPRT,NPG,IPG,IE,NPTR,NPTS,G_STRA,
      .    ITHK,KK(8)
       INTEGER,DIMENSION(:),ALLOCATABLE :: PTWA
       INTEGER,DIMENSION(:),ALLOCATABLE :: PTWA_P0
       double precision   
-     .   THK, EM, EB, H1, H2, H3
+     .   THK
       CHARACTER*100 DELIMIT,LINE
       TYPE(G_BUFEL_)  ,POINTER :: GBUF     
  

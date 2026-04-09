@@ -119,8 +119,8 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   L o c a l   V a r i a b l e s
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer :: i,ipos1(1,1),ipos(nel,1),ndx,n,int_ratio,nfunc,ndel_ply
-          integer :: indx(nel),ndx_print,indx_print(nel)
+          integer :: i,ipos(nel,1),ndx,n,nfunc
+          integer :: indx(nel)
           !
           real(kind=wp) :: e1, e2, nu12, nu21, xt, xc,ratio,xc0,xt0
           real(kind=wp) :: d11, d22, d12,d66, inv_det,det,nu12_dam
@@ -128,16 +128,16 @@
           real(kind=wp) :: gxt, gxc, gyt, gyc, gsl,gxt0,gxc0
           real(kind=wp) :: dam(7),r(5),phi(4),d_active(6)
           real(kind=wp) :: sigma_a, sigma_b, tau_ab, tau_ca, tau_bc
-          real(kind=wp) ::  mul, mut, theta, cos_theta, sin_theta
+          real(kind=wp) ::  theta, cos_theta, sin_theta
           real(kind=wp) :: sl, st, tau_t, tau_l,sigma_bm, sigma_ab_m
-          real(kind=wp) :: lamda, nu13, nu23,cf23,cf31,cf12
-          real(kind=wp) :: deint,eint,thetac,eps0,alpha,cos_alpha,sin_alpha
-          real(kind=wp) :: epsf,eps0_p,eps_p,eps_f,d_po,beta
+          real(kind=wp) :: nu13, nu23,cf23,cf31,cf12
+          real(kind=wp) :: deint,eint,eps0,alpha,cos_alpha,sin_alpha
+          real(kind=wp) :: epsf,eps_p,eps_f,beta
           real(kind=wp) :: g1p_vol, g1n_vol, g2p_vol, g2n_vol, g6_vol
           real(kind=wp) :: g1p0_vol, g1n0_vol,ratio_ndelply
           real(kind=wp) :: l_char,etan,phi_c, g_ratio,eta_l,eta_t
           real(kind=wp) :: fac, gama_inel,cos2_phi,sin2_phi,sin2phi,cos_phi,sin_phi
-          real(kind=wp) :: e1_dam,e2_dam,g12_dam,eps_eq
+          real(kind=wp) :: e1_dam,e2_dam,g12_dam
           real(kind=wp) :: ef11c, ef11t, ef22c, ef22t, ef12, ef31, ef23
           real(kind=wp) :: tsmd23, tsmd31, epsf23, epsr23, epsf31, epsr31
           real(kind=wp) :: epsa,epsb,epsc,gamab,gamca,gambc,phi0,tmp1,tmp2
@@ -146,10 +146,10 @@
 
 
           real(kind=wp), dimension(nel) ::  dezz,check,yld
-          real(kind=wp), dimension(nel) ::  yy,dydx
+          real(kind=wp), dimension(nel) ::  dydx
           real(kind=wp), dimension(nel) ::  xt_1, xc_1, yt_1, yc_1, sl_1,  &
             xt0_1,xc0_1,eta_l_1
-          real(kind=wp), dimension(nel) ::  mul_1,st_1,phic_1,g_ratio_1
+          real(kind=wp), dimension(nel) ::  st_1,phic_1,g_ratio_1
           real(kind=wp), dimension(nel) ::  gxt_1, gxc_1, gyt_1, gyc_1, gsl_1 ,&
             gxt0_1,gxc0_1
           real(kind=wp), dimension(nel,1) :: xvec

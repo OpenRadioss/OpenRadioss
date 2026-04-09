@@ -56,14 +56,10 @@ C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
       INTEGER J, K, EP, NPLAT0
       my_real 
-     .     MM(3,4),FL(3,4),ML(2,4),C1,Z1,
-     .     AR(3),AD(4),ALR(3),ALD(4),DBAD(3),
-     .     F1, F2,F3,FAC,FAC1,FAC2,FAC3,FL1,FL2,
-     .     FL3,E33,G,NU  
-      my_real
-     .   ML11(MVSIZ),ML12(MVSIZ),ML13(MVSIZ) ,ML14(MVSIZ),ML21(MVSIZ),         
-     .   ML22(MVSIZ),ML23(MVSIZ),ML24(MVSIZ) ,ML31(MVSIZ),ML32(MVSIZ),         
-     .   ML33(MVSIZ),ML34(MVSIZ)
+     .     FL(3,4),C1,Z1,
+     .     AR(3),ALR(3),
+     .     F1, F2,F3,FL1,FL2,
+     .     FL3
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
 !!        NPLAT0  = JLT
         NPLAT0 = NPLAT

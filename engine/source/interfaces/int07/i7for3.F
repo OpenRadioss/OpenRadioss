@@ -114,13 +114,13 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT
       INTEGER NELTST,ITYPTST,JLT,IBCC,IBCM,IBCS,IVIS2,INACTI,IBAG,NIN,
-     .        IFRIC,IFORM,INTFRIC,ITIED,JLT_TIED,IORTHFRIC,NFORTH ,NFISOT ,
+     .        IFRIC,IFORM,ITIED,JLT_TIED,IORTHFRIC,NFORTH ,NFISOT ,
      .        ICODT(*), ITAB(*), ISKY(*), KINET(*),
      .        MFROT, IFQ, NOINT,NEWFRONT,ISECIN, NSTRF(*),
      .        IRECT(4,*),IFPEN(*) ,ICONTACT(*), CAND_N(*),
      .        KINI(*),NPC(*),JTASK,TAGNCONT(NLOADP_HYD_INTER,NUMNOD),
      .        TYPSUB(*),
-     .        ISET, IADM,INTTH,NFT
+     .        IADM,INTTH,NFT
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ),
      .        CN_LOC(MVSIZ),CE_LOC(MVSIZ),INDEX(MVSIZ),NSVG(MVSIZ),
      .        NISUB, LISUB(*), ADDSUBS(*), ADDSUBM(*), LISUBS(*),
@@ -146,8 +146,7 @@ C-----------------------------------------------
      .     LC1(MVSIZ), LC2(MVSIZ), LC3(MVSIZ), LC4(MVSIZ),
      .     P1(MVSIZ), P2(MVSIZ), P3(MVSIZ), P4(MVSIZ), STIF(MVSIZ),
      .     GAPV(MVSIZ),
-     .     TMP(MVSIZ),
-     .     STIFSAV(MVSIZ), VISCN(*),TF(*),
+     .     VISCN(*),TF(*),
      .     VXI(MVSIZ),VYI(MVSIZ),VZI(MVSIZ),MSI(MVSIZ),
      .     X1(MVSIZ),Y1(MVSIZ),Z1(MVSIZ),
      .     X2(MVSIZ),Y2(MVSIZ),Z2(MVSIZ),
@@ -175,12 +174,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J1, IG, J, JG , K0,NBINTER,K1S,K,IL,IE, NN, NI, II,
+      INTEGER I, J1, IG, J, JG,K,IE, NN, NI, II,
      .        NA1,NA2,IPROJ,IDTM,PP,PPL,ITYPSUB
       LOGICAL :: ISS1,ISS2,IMS1,IMS2
       INTEGER JSUB,KSUB,JJ,KK,IN,NSUB
-      my_real
-     .   FXR(MVSIZ), FYR(MVSIZ), FZR(MVSIZ)
       my_real
      .   FXT(MVSIZ),FYT(MVSIZ),FZT(MVSIZ),
      .   N1(MVSIZ), N2(MVSIZ), N3(MVSIZ), PENE(MVSIZ),
@@ -188,28 +185,24 @@ C-----------------------------------------------
      .   H1(MVSIZ), H2(MVSIZ), H3(MVSIZ), H4(MVSIZ),
      .   VX(MVSIZ), VY(MVSIZ), VZ(MVSIZ), VN(MVSIZ),
      .   XP(MVSIZ), YP(MVSIZ), ZP(MVSIZ),EFRIC_L(MVSIZ),
-     .   VNX, VNY, VNZ, AA, CRIT,S2,DIST,RDIST,
+     .   VNX, VNY, VNZ, AA,S2,DIST,RDIST,
      .   V2, FM2, DT1INV, VISCA, FAC,FF,ALPHI,ALPHA,BETA,
-     .   FX, FY, FZ, F2, MAS2, M2SK, DTMI0,DTI,FT,FN,FMAX,FTN,
+     .   FX, FY, FZ, F2, MAS2, DTMI0,DTI,FT,FN,FTN,
      .   FACM1, ECONTT, ECONVT, H0, LA1, LA2, LA3, LA4,
      .   D1,D2,D3,D4,A1,A2,A3,A4,ECONTDT,ECONTTIED,
-     .   FSAV1, FSAV2, FSAV3, FSAV4, FSAV5, FSAV6, FSAV7, FSAV8,
+     .   FSAV1, FSAV2, FSAV3, FSAV4, FSAV5, FSAV6, FSAV8,
      .   FSAV9, FSAV10, FSAV11, FSAV12, FSAV13, FSAV14, FSAV15,
      .   FSAV22, FSAV23, FSAV24, FFO,
-     .   E10, H0D, S2D, SUM,
-     .   LA1D,LA2D,LA3D,LA4D,T1,T1D,T2,T2D,FFD,VISD,FACD,D1D,
-     .   P1S(MVSIZ),P2S(MVSIZ),P3S(MVSIZ),P4S(MVSIZ),
-     .   D2D,D3D,D4D,VNXD,VNYD,VNZD,V2D,FM2D,F2D,AAD,FXD,FYD,FZD,
-     .   A1D,A2D,A3D,A4D,VV,AX1,AX2,AY1,AY2,AZ1,AZ2,AX,AY,AZ,
-     .   AREA,P,VV1,VV2,V21,DMU, DTI2,H00 ,A0X,A0Y,A0Z,RX,RY,RZ,
-     .   ANX,ANY,ANZ,AAN,AAX,AAY,AAZ ,RR,RS,AAA,STFR,VISR ,TM,TS
+     .   VV,AX1,AX2,AY1,AY2,AZ1,AZ2,AX,AY,AZ,
+     .   AREA,P,VV1,VV2,DMU, DTI2,H00 ,A0X,A0Y,A0Z,RX,RY,RZ,
+     .   ANX,ANY,ANZ,AAN,AAX,AAY,AAZ ,RR,RS,AAA
       my_real
      .   PREC,NN1,NN2,NN3,NN4,XN1,YN1,ZN1,XN2,YN2,ZN2,XN3,YN3,ZN3,
      .   XN4,YN4,ZN4,EFRIC_LS,EFRIC_LM
       my_real
      .   ST1(MVSIZ),ST2(MVSIZ),ST3(MVSIZ),ST4(MVSIZ),STV(MVSIZ),
-     .   CX,CY,CFI,AUX, FX6(6,MVSIZ), FY6(6,MVSIZ), FZ6(6,MVSIZ),
-     .   DTM, PHIM,QFRICT,DYDX,TH,THI(MVSIZ),FRICT(MVSIZ),FORC_SIGN,
+     .   CX,CY,CFI,AUX,
+     .   DTM,QFRICT,FORC_SIGN,
      .   VT1(MVSIZ), VT2(MVSIZ),
      .   FT1(MVSIZ),FT2(MVSIZ),
      .   NX(MVSIZ), NY(MVSIZ), NZ(MVSIZ),
@@ -219,8 +212,6 @@ C-----------------------------------------------
      .   AN(NFORTH) ,BN(NFORTH) ,NEP1 ,NEP2 ,NEP ,C11 ,C22 ,ANS , EP ,SIGNC
       my_real
      .   FSAVSUB1(24,NISUB),IMPX,IMPY,IMPZ,BB,GAPR,DGAP,GAPP
-      my_real
-     .   TOTAL
       my_real  DISTP(MVSIZ)
 C-----------------------------------------------
 C      1 .. JLT : all impacts
