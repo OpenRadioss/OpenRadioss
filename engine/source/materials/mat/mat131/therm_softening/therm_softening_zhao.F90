@@ -37,7 +37,7 @@
 !||    precision_mod                 ../common_source/modules/precision_mod.F90
 !||====================================================================
       subroutine therm_softening_zhao(                                         &
-        matparam ,nel      ,sigy     ,temp     ,dsigy_dpla,dtemp_dpla)
+        matparam ,nel      ,sigy     ,temp     ,dsigy_dpla,dtemp_dpla,offset   )
 !----------------------------------------------------------------
 !   M o d u l e s
 !----------------------------------------------------------------
@@ -57,10 +57,11 @@
         real(kind=WP), dimension(nel), intent(inout) :: temp       !< Temperature
         real(kind=WP), dimension(nel), intent(inout) :: dsigy_dpla !< Derivative of yield stress w.r.t. cumulated plastic strain
         real(kind=WP), dimension(nel), intent(inout) :: dtemp_dpla !< Derivative of temperature w.r.t. cumulated plastic strain
+        integer,                       intent(in)    :: offset     !< Offset in the material parameters array for thermal softening parameters
 !----------------------------------------------------------------
 !  L o c a l  V a r i a b l e s
 !----------------------------------------------------------------
-        integer :: offset,i
+        integer :: i
         real(kind=WP) :: tref,mu
         real(kind=WP), dimension(nel) :: thermfac
 !===============================================================================
@@ -68,7 +69,6 @@
         !=======================================================================
         !< - Zhao thermal softening model
         !=======================================================================
-        offset = matparam%iparam(14)
         !< Recover thermal softening parameters
         mu    = matparam%uparam(offset + 1) !< Thermal softening slope
         tref  = matparam%therm%tref         !< Reference temperature

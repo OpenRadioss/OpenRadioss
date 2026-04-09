@@ -45,7 +45,7 @@
         matparam ,nel      ,eltype   ,icrit    ,                               &
         signxx   , signyy  ,signzz   ,signxy   ,signyz   ,signzx   ,           &
         normxx   ,normyy   ,normzz   ,normxy   ,normyz   ,normzx   ,           &
-        N        )
+        N        ,offset   )
 !----------------------------------------------------------------
 !   M o d u l e s
 !----------------------------------------------------------------
@@ -78,6 +78,7 @@
         real(kind=WP), dimension(nel),     intent(in)  :: normyz   !< Yield criterion gradient component yz
         real(kind=WP), dimension(nel),     intent(in)  :: normzx   !< Yield criterion gradient component zx
         real(kind=WP), dimension(nel,6,6), intent(out) :: N        !< Second-order derivative of the yield criterion (6x6 matrix)
+        integer,                           intent(in)  :: offset   !< Offset for the yield criterion parameters in the material parameters data structure
 !----------------------------------------------------------------
 !  L o c a l  V a r i a b l e s
 !----------------------------------------------------------------
@@ -154,14 +155,16 @@
             case(4)
               call yield_criterion_barlat1989(                                 &          
                 matparam ,nel      ,seq_p    ,sxx_p    ,syy_p    ,sxy_p    ,   &
-                nxx_p    ,nyy_p    ,nzz_p    ,nxy_p    ,nyz_p    ,nzx_p    ) 
+                nxx_p    ,nyy_p    ,nzz_p    ,nxy_p    ,nyz_p    ,nzx_p    ,   &
+                offset   ) 
             !-------------------------------------------------------------------
             !< Barlat 2000 yield criterion
             !-------------------------------------------------------------------
             case(5)
               call yield_criterion_barlat2000(                                 &          
                 matparam ,nel      ,seq_p    ,sxx_p    ,syy_p    ,sxy_p    ,   &
-                nxx_p    ,nyy_p    ,nzz_p    ,nxy_p    ,nyz_p    ,nzx_p    ) 
+                nxx_p    ,nyy_p    ,nzz_p    ,nxy_p    ,nyz_p    ,nzx_p    ,   &
+                offset   ) 
           end select
 !
           !< Inverse of h*norm for finite differences

@@ -52,7 +52,7 @@
         soundsp  ,off      ,pla      ,dpla     ,seq      ,et       ,           &
         sigy     ,timestep ,epsd     ,temp     ,israte   ,asrate   ,           &
         nuvar    ,uvar     ,l_sigb   ,sigb     ,ieos     ,dpdm     ,           &
-        jthe     ,fheat    ,voln     )
+        jthe     ,fheat    ,voln     ,inloc    ,dplanl   )
 !----------------------------------------------------------------
 !   M o d u l e s
 !----------------------------------------------------------------
@@ -120,14 +120,23 @@
         integer,                       intent(in)    :: jthe       !< /HEAT/MAT flag 
         real(kind=WP), dimension(nel), intent(inout) :: fheat      !< Heat energy accumulated for /HEAT/MAT
         real(kind=WP), dimension(nel), intent(in)    :: voln       !< Current element volume
+        integer,                       intent(in)    :: inloc      !< Non-local regularization flag
+        real(kind=WP), dimension(nel), intent(in)    :: dplanl     !< Non-local plastic strain increment
 !----------------------------------------------------------------
 !  L o c a l  V a r i a b l e s
 !----------------------------------------------------------------
-        integer :: ires
+        integer :: ires,vpflag,ikine
+        real(kind=WP) :: chard
 !===============================================================================
 !
-        !< Retturn mapping algorithm flag
-        ires = matparam%iparam(26)
+        !< Return mapping algorithm flag
+        ires = matparam%iparam(33)
+        !< Viscoplastic formulation flag
+        vpflag = matparam%iparam(15)
+        !< Kinematic hardening flag
+        ikine = matparam%iparam(30)
+        !< Mixed kinematic/isotropic hardening parameter
+        chard = matparam%uparam(matparam%iparam(27) + 1)
 !
         !=======================================================================
         !< - Select return mapping algorithm
@@ -146,7 +155,8 @@
               soundsp  ,off      ,pla      ,dpla     ,seq      ,et       ,     &
               sigy     ,timestep ,epsd     ,temp     ,israte   ,asrate   ,     &
               l_sigb   ,sigb     ,nuvar    ,uvar     ,ieos     ,dpdm     ,     &
-              jthe     ,fheat    ,voln     )
+              jthe     ,fheat    ,voln     ,vpflag   ,ikine    ,chard    ,     &
+              inloc    ,dplanl   )
           !---------------------------------------------------------------------
           !< - Cutting Plane algorithm
           !---------------------------------------------------------------------
@@ -159,8 +169,9 @@
               signxx   ,signyy   ,signzz   ,signxy   ,signyz   ,signzx   ,     &
               soundsp  ,off      ,pla      ,dpla     ,seq      ,et       ,     &
               sigy     ,timestep ,epsd     ,temp     ,israte   ,asrate   ,     &
-              l_sigb   ,sigb     ,ieos     ,dpdm     ,jthe     ,fheat    ,     &
-              voln     )
+              l_sigb   ,sigb     ,nuvar    ,uvar     ,ieos     ,dpdm     ,     &
+              jthe     ,fheat    ,voln     ,vpflag   ,ikine    ,chard    ,     &
+              inloc    ,dplanl   )
           !---------------------------------------------------------------------
           !< - Closest Point Projection algorithm
           !---------------------------------------------------------------------     
@@ -173,8 +184,9 @@
               signxx   ,signyy   ,signzz   ,signxy   ,signyz   ,signzx   ,     &
               soundsp  ,off      ,pla      ,dpla     ,seq      ,et       ,     &
               sigy     ,timestep ,epsd     ,temp     ,israte   ,asrate   ,     &
-              l_sigb   ,sigb     ,ieos     ,dpdm     ,jthe     ,fheat    ,     &
-              voln     )
+              l_sigb   ,sigb     ,nuvar    ,uvar     ,ieos     ,dpdm     ,     &
+              jthe     ,fheat    ,voln     ,vpflag   ,ikine    ,chard    ,     &
+              inloc    ,dplanl   )
         end select
 !
        end subroutine sigeps131

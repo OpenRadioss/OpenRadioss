@@ -37,7 +37,7 @@
 !||    precision_mod                 ../common_source/modules/precision_mod.F90
 !||====================================================================
       subroutine work_hardening_powerlaw(                                      &
-        matparam ,nel      ,sigy     ,pla      ,dsigy_dpla)
+        matparam ,nel      ,sigy     ,pla      ,dsigy_dpla,offset   )
 !----------------------------------------------------------------
 !   M o d u l e s
 !----------------------------------------------------------------
@@ -56,10 +56,11 @@
         real(kind=WP), dimension(nel), intent(inout) :: sigy       !< Equivalent stress
         real(kind=WP), dimension(nel), intent(inout) :: pla        !< Cumulated plastic strain
         real(kind=WP), dimension(nel), intent(inout) :: dsigy_dpla !< Derivative of eq. stress w.r.t. cumulated plastic strain
+        integer,                       intent(in)    :: offset     !< Offset in the material parameters array for work hardening parameters
 !----------------------------------------------------------------
 !  L o c a l  V a r i a b l e s
 !----------------------------------------------------------------
-        integer :: offset,i
+        integer :: i
         real(kind=WP) :: ca,cb,cn,eps0
         real(kind=WP), dimension(nel) :: pla_plus_eps0_pow_cn_minus_1
 !===============================================================================
@@ -67,14 +68,14 @@
         !=======================================================================
         !< - Power law work hardening model
         !=======================================================================
-        offset = matparam%iparam(6)
         !< Recover work hardening parameters
         ca   = matparam%uparam(offset + 1) !< Initial yield stress
         cb   = matparam%uparam(offset + 2) !< Hardening modulus
         cn   = matparam%uparam(offset + 3) !< Hardening exponent
         eps0 = matparam%uparam(offset + 4) !< Initial plastic strain
-        sigy(1:nel) = ca + cb*(pla(1:nel) + eps0)**cn
         pla_plus_eps0_pow_cn_minus_1(1:nel) = (pla(1:nel) + eps0)**(cn - one)
+        sigy(1:nel) = ca + cb*(pla(1:nel) + eps0)*                             &
+                              pla_plus_eps0_pow_cn_minus_1(1:nel)
         dsigy_dpla(1:nel) = cn*cb*pla_plus_eps0_pow_cn_minus_1(1:nel)
 !
       end subroutine work_hardening_powerlaw

@@ -39,7 +39,7 @@
       subroutine kinematic_hardening_chaboche(                                 &
         matparam ,nel      ,l_sigb   ,dsigb_dlam,sigb      ,chard    ,         &
         normxx   ,normyy   ,normzz   ,normxy    ,normyz    ,normzx   ,         &
-        dpla_dlam)
+        dpla_dlam,offset   )
 !----------------------------------------------------------------
 !   M o d u l e s
 !----------------------------------------------------------------
@@ -66,17 +66,17 @@
         real(kind=WP), dimension(nel), intent(in)    :: normyz       !< 1st derivative of equivalent stress wrt stress yz
         real(kind=WP), dimension(nel), intent(in)    :: normzx       !< 1st derivative of equivalent stress wrt stress zx
         real(kind=WP), dimension(nel), intent(in)    :: dpla_dlam    !< Derivative of equivalent plastic strain w.r.t plastic multiplier
+        integer,                       intent(in)    :: offset       !< Offset in the material parameters array for kinematic hardening parameters
 !----------------------------------------------------------------
 !  L o c a l  V a r i a b l e s
 !----------------------------------------------------------------
-        integer :: k,offset
+        integer :: k
         real(kind=WP) :: akh(4),ckh(4),factor1,factor2
 !===============================================================================
 !
         !=======================================================================
         !< - Chaboche-Rousselier kinematic hardening model
         !=======================================================================
-        offset = matparam%iparam(22) + 1
         !< Recover kinematic hardening parameters
         ckh(1) = matparam%uparam(offset + 1) !< Chaboche kinematic hardening parameter for the 1st backstress component
         akh(1) = matparam%uparam(offset + 2) !< Chaboche kinematic hardening parameter for the 1st backstress component

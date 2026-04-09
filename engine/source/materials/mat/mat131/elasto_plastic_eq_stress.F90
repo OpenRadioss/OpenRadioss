@@ -105,13 +105,14 @@
 !----------------------------------------------------------------
 !  L o c a l  V a r i a b l e s
 !----------------------------------------------------------------
-        integer :: icrit
+        integer :: icrit,offset
 !===============================================================================
 !
         !=======================================================================
         !< - Select yield criterion model
         !=======================================================================
-        icrit = matparam%iparam(5)
+        icrit  = matparam%iparam(6)
+        offset = matparam%iparam(3)
         select case(icrit)
           !---------------------------------------------------------------------
           !< Von Mises yield criterion
@@ -130,7 +131,7 @@
               matparam ,nel      ,seq      ,iresp    ,eltype   ,               &
               signxx   ,signyy   ,signzz   ,signxy   ,signyz   ,signzx   ,     &
               normxx   ,normyy   ,normzz   ,normxy   ,normyz   ,normzx   ,     &
-              N        ,second_order)  
+              N        ,second_order,offset)  
           !---------------------------------------------------------------------
           !< Hill yield criterion
           !---------------------------------------------------------------------
@@ -139,20 +140,21 @@
               matparam ,nel      ,seq      ,eltype   ,                         &
               signxx   ,signyy   ,signzz   ,signxy   ,signyz   ,signzx   ,     &
               normxx   ,normyy   ,normzz   ,normxy   ,normyz   ,normzx   ,     &
-              N        ,second_order)
+              N        ,second_order,offset)
           !---------------------------------------------------------------------
           !< Barlat 89 yield criterion
           !---------------------------------------------------------------------
           case(4)
             call yield_criterion_barlat1989(                                   &          
               matparam ,nel      ,seq      ,signxx   ,signyy   ,signxy   ,     &
-              normxx   ,normyy   ,normzz   ,normxy   ,normyz   ,normzx   )
+              normxx   ,normyy   ,normzz   ,normxy   ,normyz   ,normzx   ,     &
+              offset   )
             if (second_order) then
               call elasto_plastic_second_order_numerical(                      &
                 matparam ,nel      ,eltype   ,icrit    ,                       &
                 signxx   , signyy  ,signzz   ,signxy   ,signyz   ,signzx   ,   &
                 normxx   ,normyy   ,normzz   ,normxy   ,normyz   ,normzx   ,   &
-                N        )
+                N        ,offset   )
             else
               N(1:nel,1:6,1:6) = zero
             endif
@@ -162,13 +164,14 @@
           case(5)
             call yield_criterion_barlat2000(                                   &          
               matparam ,nel      ,seq      ,signxx   ,signyy   ,signxy   ,     &
-              normxx   ,normyy   ,normzz   ,normxy   ,normyz   ,normzx   )
+              normxx   ,normyy   ,normzz   ,normxy   ,normyz   ,normzx   ,     &
+              offset   )
             if (second_order) then
               call elasto_plastic_second_order_numerical(                      &
                 matparam ,nel      ,eltype   ,icrit    ,                       &
                 signxx   , signyy  ,signzz   ,signxy   ,signyz   ,signzx   ,   &
                 normxx   ,normyy   ,normzz   ,normxy   ,normyz   ,normzx   ,   &
-                N        )
+                N        ,offset   )
             else
               N(1:nel,1:6,1:6) = zero
             endif

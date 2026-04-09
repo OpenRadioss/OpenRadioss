@@ -37,7 +37,7 @@
 !||    precision_mod                 ../common_source/modules/precision_mod.F90
 !||====================================================================
       subroutine work_hardening_voce(                                          &
-        matparam ,nel      ,sigy     ,pla      ,dsigy_dpla)
+        matparam ,nel      ,sigy     ,pla      ,dsigy_dpla,offset   )
 !----------------------------------------------------------------
 !   M o d u l e s
 !----------------------------------------------------------------
@@ -56,10 +56,11 @@
         real(kind=WP), dimension(nel), intent(inout) :: sigy       !< Equivalent stress
         real(kind=WP), dimension(nel), intent(inout) :: pla        !< Cumulated plastic strain
         real(kind=WP), dimension(nel), intent(inout) :: dsigy_dpla !< Derivative of eq. stress w.r.t. cumulated plastic strain
+        integer,                       intent(in)    :: offset     !< Offset in the material parameters array for work hardening parameters
 !----------------------------------------------------------------
 !  L o c a l  V a r i a b l e s
 !----------------------------------------------------------------
-        integer :: offset,i
+        integer :: i
         real(kind=WP) :: r0,q1,b1,q2,b2,q3,b3
         real(kind=WP), dimension(nel) :: exp_b1_pla, exp_b2_pla, exp_b3_pla             
 !===============================================================================
@@ -67,7 +68,6 @@
         !=======================================================================
         !< - Voce work hardening model
         !=======================================================================
-        offset = matparam%iparam(6)
         !< Recover work hardening parameters
         r0 = matparam%uparam(offset + 1) !< Initial yield stress
         q1 = matparam%uparam(offset + 2) !< Voce 1 saturation stress

@@ -42,7 +42,7 @@
           matparam ,nel      ,seq      ,eltype   ,                             &
           signxx   ,signyy   ,signzz   ,signxy   ,signyz   ,signzx   ,         &
           normxx   ,normyy   ,normzz   ,normxy   ,normyz   ,normzx   ,         &
-          N2       ,second_order)
+          N2       ,second_order,offset)
 !----------------------------------------------------------------
 !   M o d u l e s
 !----------------------------------------------------------------
@@ -76,10 +76,10 @@
         real(kind=WP), dimension(nel), intent(inout) :: normzx   !< 1st derivative of equivalent stress wrt stress zx
         real(kind=WP), dimension(nel,6,6), intent(inout) :: N2   !< 2nd derivative of equivalent stress
         logical,                       intent(in)    :: second_order !< Flag for computing second order derivatives
+        integer,                       intent(in)    :: offset   !< Offset in the material parameters array for yield criterion parameters
 !----------------------------------------------------------------
 !  L o c a l  V a r i a b l e s
 !----------------------------------------------------------------
-        integer :: offset
         real(kind=WP) :: F,G,H,L,M,N
         real(kind=WP), dimension(nel) :: s_yy_minus_s_zz, s_zz_minus_s_xx,     &
           s_xx_minus_s_yy,inv_seq
@@ -88,7 +88,6 @@
         !=======================================================================
         !< - Hill (1948) yield criterion and its derivatives
         !=======================================================================
-        offset = matparam%iparam(3)
         !< Hill coefficients
         F = matparam%uparam(offset + 1)
         G = matparam%uparam(offset + 2)

@@ -67,7 +67,7 @@
 !----------------------------------------------------------------
 !  L o c a l  V a r i a b l e s
 !----------------------------------------------------------------
-        integer :: i,offset,offset_var
+        integer :: i,offset_tab,offset_var
         real(kind=WP) :: xvec(nel,2),yldth(nel),dyldth(nel),yldth0(nel),       &
           dyldth0(nel),tref
 !===============================================================================
@@ -78,18 +78,18 @@
         !< Reference temperature
         tref = matparam%therm%tref
         !< Table offset
-        offset = matparam%iparam(13)
-        offset_var = matparam%iparam(15)
+        offset_tab = matparam%iparam(16)
+        offset_var = matparam%iparam(18)
         !< Prepare input vectors for interpolation
         xvec(1:nel,1) = pla(1:nel)
         xvec(1:nel,2) = tref
         !< Interpolate to get thermfac and dthermfac
-        call table_mat_vinterp(matparam%table(offset+1),nel,nel,               &
+        call table_mat_vinterp(matparam%table(offset_tab+1),nel,nel,           &
           vartmp(1:nel,offset_var+1),xvec,yldth0,dyldth0)
         !< Prepare input vectors for interpolation
         xvec(1:nel,2) = temp(1:nel)
         !< Interpolate to get thermfac and dthermfac
-        call table_mat_vinterp(matparam%table(offset+1),nel,nel,               &
+        call table_mat_vinterp(matparam%table(offset_tab+1),nel,nel,           &
           vartmp(1:nel,offset_var+3),xvec,yldth,dyldth)
         !< Update temporary variables
         dsigy_dpla(1:nel) = dsigy_dpla(1:nel)*(yldth(1:nel)/yldth0(1:nel))

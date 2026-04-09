@@ -41,7 +41,7 @@
 !||====================================================================
       subroutine self_heating_tabulated(                                       &
         matparam ,nel      ,sigy     ,dtemp_dpla,epsd     ,nvartmp  ,vartmp   ,&
-        temp     ,pla      )
+        temp     ,pla      ,offset   )
 !----------------------------------------------------------------
 !   M o d u l e s
 !----------------------------------------------------------------
@@ -65,10 +65,11 @@
         integer,dimension(nel,nvartmp),intent(inout) :: vartmp     !< Temporary variables array
         real(kind=WP), dimension(nel), intent(in)    :: temp       !< Temperature
         real(kind=WP), dimension(nel), intent(in)    :: pla        !< Plastic strain
+        integer,                       intent(in)    :: offset     !< Offset in the material parameters array for self heating parameters
 !----------------------------------------------------------------
 !  L o c a l  V a r i a b l e s
 !----------------------------------------------------------------
-        integer :: offset_tab,offset,offset_var,i
+        integer :: offset_tab,offset_var,i
         real(kind=WP) :: eta,rhocp
         real(kind=WP), dimension(nel) :: weight,dweight,xvec(nel,3)
 !===============================================================================
@@ -76,9 +77,8 @@
         !=======================================================================
         !< - Tabulated self-heating model
         !=======================================================================
-        offset_tab = matparam%iparam(17)
-        offset = matparam%iparam(18)
-        offset_var = matparam%iparam(19)
+        offset_tab = matparam%iparam(21)
+        offset_var = matparam%iparam(23)
         !< Recover self heating parameters
         eta   = matparam%uparam(offset + 1) !< Taylor-Quinney coefficient
         rhocp = matparam%therm%rhocp        !< Material thermal inertia

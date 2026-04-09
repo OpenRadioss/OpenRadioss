@@ -84,6 +84,10 @@
           iheat = 1
           !< Number of parameters
           nupar_heat = 3
+          !< Check parameters
+          if (deis == zero) deis = -two*infinity
+          if (dead == zero) dead = -infinity
+          eta = min(one, max(zero, eta))
           !< Save self-heating parameters
           matparam%therm%tini  = t0
           matparam%therm%rhocp = matparam%rho*cp
