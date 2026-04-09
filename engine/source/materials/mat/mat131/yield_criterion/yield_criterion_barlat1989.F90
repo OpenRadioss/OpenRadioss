@@ -41,7 +41,8 @@
 !||====================================================================
       subroutine yield_criterion_barlat1989(                                   &
           matparam ,nel      ,seq      ,signxx   ,signyy   ,signxy   ,         &
-          normxx   ,normyy   ,normzz   ,normxy   ,normyz   ,normzx   )
+          normxx   ,normyy   ,normzz   ,normxy   ,normyz   ,normzx   ,         &
+          offset   )
 !----------------------------------------------------------------
 !   M o d u l e s
 !----------------------------------------------------------------
@@ -68,10 +69,11 @@
         real(kind=WP), dimension(nel), intent(inout) :: normxy   !< 1st derivative of equivalent stress wrt stress xy
         real(kind=WP), dimension(nel), intent(inout) :: normyz   !< 1st derivative of equivalent stress wrt stress yz
         real(kind=WP), dimension(nel), intent(inout) :: normzx   !< 1st derivative of equivalent stress wrt stress zx
+        integer,                       intent(in)    :: offset   !< Offset in the material parameters array for yield criterion parameters
 !----------------------------------------------------------------
 !  L o c a l  V a r i a b l e s
 !----------------------------------------------------------------
-        integer :: offset,i
+        integer :: i
         real(kind=WP) :: a,c,h,m,p
         real(kind=WP),dimension(nel) :: normsig,k1,k2
         real(kind=WP) :: dseq_dk1,dseq_dk2,dk1_dsigxx,dk1_dsigyy,dk2_dsigxx,   &
@@ -81,7 +83,6 @@
         !=======================================================================
         !< - Barlat (1989) yield criterion and its derivatives
         !=======================================================================
-        offset = matparam%iparam(3)
         !< Barlat 1989 coefficients
         c = matparam%uparam(offset + 1)
         a = matparam%uparam(offset + 2)

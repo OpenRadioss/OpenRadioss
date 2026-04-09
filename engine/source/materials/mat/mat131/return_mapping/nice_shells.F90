@@ -52,9 +52,10 @@
         signxx   ,signyy   ,signxy   ,signyz   ,signzx   ,                     &
         soundsp  ,off      ,pla      ,dpla     ,seq      ,et       ,           &
         sigy     ,timestep ,epsd     ,temp     ,shf      ,thk      ,           &
-        thkly    ,asrate   ,l_sigb   ,sigb     ,epsd_pg  ,                     &
+        thkly    ,asrate   ,l_sigb   ,sigb     ,                               &
         nuvar    ,uvar     ,inloc    ,dplanl   ,jthe     ,fheat    ,           &
-        voln     )
+        voln     ,vpflag   ,ikine    ,chard    ,epspxx   ,epspyy   ,           &
+        epspxy   )
 !----------------------------------------------------------------
 !   M o d u l e s
 !----------------------------------------------------------------
@@ -108,7 +109,6 @@
         real(kind=WP),                 intent(in)    :: asrate    !< Strain rate filtering weighting factor
         integer,                       intent(in)    :: l_sigb    !< Size of backstress array
         real(kind=WP),dimension(nel,l_sigb),intent(inout) :: sigb !< Backstress components for kinematic hardening
-        real(kind=WP),dimension(nel),  intent(in)    :: epsd_pg   !< Global equivalent strain rate
         integer,                       intent(in)    :: nuvar     !< Number of user variables
         real(kind=WP),dimension(nel,nuvar), intent(inout) :: uvar  !< User variables
         integer,                       intent(in)    :: inloc     !< Non-local reguarization flag
@@ -116,12 +116,18 @@
         integer,                       intent(in)    :: jthe      !< /HEAT/MAT flag
         real(kind=WP), dimension(nel), intent(inout) :: fheat     !< Heat energy accumulated for /HEAT/MAT
         real(kind=WP), dimension(nel), intent(in)    :: voln      !< Current element volume
+        integer,                       intent(in)    :: vpflag    !< Viscoplasticity flag
+        integer,                       intent(in)    :: ikine     !< Kinematic hardening type
+        real(kind=WP),                 intent(in)    :: chard     !< Isotropic/kinematic mixed hardening factor
+        real(kind=WP), dimension(nel), intent(in)    :: epspxx    !< Total strain rate component xx
+        real(kind=WP), dimension(nel), intent(in)    :: epspyy    !< Total strain rate component yy
+        real(kind=WP), dimension(nel), intent(in)    :: epspxy    !< Total strain rate component xy
 !----------------------------------------------------------------
 !  L o c a l  V a r i a b l e s
 !----------------------------------------------------------------
-        integer :: i,j,ii,nindx,indx(nel),vpflag,ikine
+        integer :: i,j,ii,nindx,indx(nel)
         real(kind=WP), dimension(nel,6,6) :: cstf,N
-        real(kind=WP) :: chard,dlam_nl
+        real(kind=WP) :: dlam_nl
         real(kind=WP), dimension(nel) :: pla0,normxx,normyy,normzz,normxy,     &
           normyz,normzx,phi,young,dsigy_dpla,dtemp_dpla,s13,s23,s43,depzz,     &
           sigbxx,sigbyy,sigbzz,sigbxy,sigy0,dsigy0_dpla,dtemp0_dpla,zeros,     &
@@ -131,7 +137,8 @@
           dsigxx_dlam,dsigyy_dlam,dsigxy_dlam,signxx_i,signyy_i,signzz_i,      &
           signxy_i,signyz_i,signzx_i,epsd_i,sigy_i,pla_i,seq0_i,dsigy_dpla_i,  &
           temp_i,seq_i,normxx_i,normyy_i,normzz_i,normxy_i,normyz_i,normzx_i,  &
-          dphi_dseq,dphi_dsigy,dphi_dlam,sig_dseqdsig,dphi,dtemp_dpla_i
+          dphi_dseq,dphi_dsigy,dphi_dlam,sig_dseqdsig,dphi,dtemp_dpla_i,       &
+          epsdot,dav,deve1,deve2,deve3,deve4
         real(kind=WP), dimension(nel,l_sigb) :: dsigb_dlam,sigb_i
         real(kind=WP), dimension(nel) :: signzz,sigozz,depszz,dezz
         integer, dimension(nel,nvartmp) :: ipos0,vartmp_i
@@ -148,19 +155,33 @@
         !=======================================================================
         !< - Initialisation of computation on time step
         !=======================================================================
-        !< Viscoplastic formulation flag
-        vpflag = matparam%iparam(12)
-        !< Total strain-rate computation
+        !< Strain-rate computation
         if (vpflag > 1) then
-          epsd(1:nel) = asrate*epsd_pg(1:nel) + (one-asrate)*epsd(1:nel)
+          !< Total strain rate
+          if (vpflag == 2) then
+            epsdot(1:nel) = epspxx(1:nel)*epspxx(1:nel) +                      &
+                            epspyy(1:nel)*epspyy(1:nel) +                      &
+                       half*epspxy(1:nel)*epspxy(1:nel)
+            epsdot(1:nel) = sqrt(epsdot(1:nel))
+          !< Deviatoric strain rate
+          elseif (vpflag == 3) then
+            dav(1:nel)    = (epspxx(1:nel) + epspyy(1:nel))*third
+            deve1(1:nel)  = epspxx(1:nel) - dav(1:nel)
+            deve2(1:nel)  = epspyy(1:nel) - dav(1:nel)
+            deve3(1:nel)  = -dav(1:nel)
+            deve4(1:nel)  = half*epspxy(1:nel)
+            epsdot(1:nel) = half*(deve1(1:nel)*deve1(1:nel)  +                 &
+                                  deve2(1:nel)*deve2(1:nel)  +                 &
+                                  deve3(1:nel)*deve3(1:nel)) +                 &
+                                  deve4(1:nel)*deve4(1:nel)
+            epsdot(1:nel) = sqrt(three*epsdot(1:nel))/three_half
+          endif
+          epsd(1:nel) = asrate*epsdot(1:nel) + (one - asrate)*uvar(1:nel,1)
+          uvar(1:nel,1) = epsd(1:nel)
         !< Plastic strain rate recovering
         else
           epsd(1:nel) = uvar(1:nel,1)
         endif
-        !< Kinematic hardening flag
-        ikine = matparam%iparam(24)
-        !< Mixed kinematic/isotropic hardening parameter
-        chard = matparam%uparam(matparam%iparam(22) + 1)
         !< Initialisation of the hourglass control variable
         et(1:nel) = one
         !< Increment of cumulated plastic strain
@@ -199,7 +220,8 @@
           sigoxx   ,sigoyy   ,sigozz   ,sigoxy   ,sigoyz   ,sigozx   ,         &
           signxx   ,signyy   ,signzz   ,signxy   ,signyz   ,signzx   ,         &
           eltype   ,shf      ,s13      ,s23      ,s43      ,ieos     ,         &
-          dpdm     ,nvartmp  ,vartmp   ,epsd     )
+          dpdm     ,nvartmp  ,vartmp   ,epsd     ,nuvar    ,uvar     ,         &
+          temp     )
 !
         !=======================================================================
         !< - Computation of the initial yield stress
@@ -207,6 +229,21 @@
         call elasto_plastic_yield_stress(                                      &
           matparam ,nel      ,sigy     ,pla      ,epsd     ,dsigy_dpla,        &
           nvartmp  ,vartmp   ,temp     ,dtemp_dpla,jthe    )
+!
+        !=======================================================================
+        !< - Update non-local temperature if needed
+        !=======================================================================        
+        if (inloc > 0) then
+          if (jthe /= 0) then
+            where (off(1:nel) == one)
+              fheat(1:nel) = fheat(1:nel) + sigy(1:nel)*dplanl(1:nel)*voln(1:nel)
+            end where
+          else
+            where (off(1:nel) == one)
+              temp(1:nel)  = temp(1:nel) + dtemp_dpla(1:nel)*dplanl(1:nel)
+            end where
+          endif
+        endif
 !
         !=======================================================================
         !< - Backstress tensor computation for kinematic hardening models
@@ -360,7 +397,7 @@
               matparam ,nindx    ,l_sigb   ,dsigb_dlam(1:nindx,1:l_sigb),      &
               dsigy_dpla_i,chard ,                                             &
               norm0xx  ,norm0yy  ,norm0zz  ,norm0xy   ,norm0yz   ,norm0zx  ,   &
-              dpla_dlam,sigb_i(1:nindx,1:l_sigb)) 
+              dpla_dlam,sigb_i(1:nindx,1:l_sigb),ikine    ) 
             !< b - Assembling the backstress contribution to the derivative  
             !  of eq. stress w.r.t lambda
             !<  ----------------------------------------------------------------
@@ -439,18 +476,26 @@
           enddo
 !
           !< Temperature or heating generation update for /HEAT/MAT
-          if (jthe /= 0) then
+          if (inloc == 0) then 
+            if (jthe /= 0) then
 #include "vectorize.inc"
-            do ii = 1,nindx
-              i = indx(ii) 
-              fheat(i) = fheat(i) + sigy(i)*dpla_dlam(ii)*dlam(ii)*voln(i)
-              temp_i(ii) = temp(i)
-            enddo
+              do ii = 1,nindx
+                i = indx(ii) 
+                fheat(i) = fheat(i) + sigy(i)*dpla_dlam(ii)*dlam(ii)*voln(i)
+                temp_i(ii) = temp(i)
+              enddo
+            else
+#include "vectorize.inc"
+              do ii = 1,nindx
+                i = indx(ii) 
+                temp_i(ii) = temp(i) + dtemp_dpla_i(ii)*dpla_dlam(ii)*dlam(ii)
+              enddo
+            endif
           else
 #include "vectorize.inc"
             do ii = 1,nindx
-              i = indx(ii) 
-              temp_i(ii) = temp(i) + dtemp_dpla_i(ii)*dpla_dlam(ii)*dlam(ii)
+              i = indx(ii)
+              temp_i(ii) = temp(i)
             enddo
           endif
 !

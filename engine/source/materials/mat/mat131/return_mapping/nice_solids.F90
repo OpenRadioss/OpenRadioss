@@ -55,7 +55,8 @@
         soundsp  ,off      ,pla      ,dpla     ,seq      ,et       ,           &
         sigy     ,timestep ,epsd     ,temp     ,israte   ,asrate   ,           &
         l_sigb   ,sigb     ,nuvar    ,uvar     ,ieos     ,dpdm     ,           &
-        jthe     ,fheat    ,voln     )
+        jthe     ,fheat    ,voln     ,vpflag   ,ikine    ,chard    ,           &
+        inloc    ,dplanl   )
 !----------------------------------------------------------------
 !   M o d u l e s
 !----------------------------------------------------------------
@@ -124,12 +125,16 @@
         integer,                       intent(in)    :: jthe      !< /HEAT/MAT flag
         real(kind=WP), dimension(nel), intent(inout) :: fheat     !< Heat energy accumulated for /HEAT/MAT
         real(kind=WP), dimension(nel), intent(in)    :: voln      !< Current element volume
+        integer,                       intent(in)    :: vpflag    !< Viscoplasticity flag
+        integer,                       intent(in)    :: ikine     !< Kinematic hardening type
+        real(kind=WP),                 intent(in)    :: chard     !< Isotropic/kinematic mixed hardening factor
+        integer,                       intent(in)    :: inloc     !< Non-local regularization flag
+        real(kind=WP), dimension(nel), intent(in)    :: dplanl    !< Non-local plastic strain increment
 !----------------------------------------------------------------
 !  L o c a l  V a r i a b l e s
 !----------------------------------------------------------------
-        integer :: i,j,ii,nindx,indx(nel),vpflag,idev,ikine
+        integer :: i,j,ii,nindx,indx(nel),idev
         real(kind=WP), dimension(nel,6,6) :: cstf,N
-        real(kind=WP) :: chard
         real(kind=WP), dimension(nel) :: pla0,normxx,normyy,normzz,            &
           normxy,normyz,normzx,phi,young,dsigy_dpla,dtemp_dpla,s13,s23,s43,    &
           shf,sigbxx,sigbyy,sigbzz,sigbxy,sigbyz,sigbzx,sigy0,dsigy0_dpla,     &
@@ -154,19 +159,13 @@
         !=======================================================================
         !< - Initialisation of computation on time step
         !=======================================================================
-        !< Viscoplastic formulation flag
-        vpflag = matparam%iparam(12)
         !< Total or deviatoric strain rate for scaled yield stress formulation
-        if (vpflag > 1 .and. vpflag < 3) then
+        if (vpflag > 1 .and. vpflag <= 3) then
           idev = vpflag - 2
           call mstrain_rate(                                                   &
             nel      ,israte   ,asrate   ,epsd     ,idev     ,                 &
             epspxx   ,epspyy   ,epspzz   ,epspxy   ,epspyz   ,epspzx   )
         endif
-        !< Kinematic hardening flag
-        ikine = matparam%iparam(24)
-        !< Mixed kinematic/isotropic hardening parameter
-        chard = matparam%uparam(matparam%iparam(22) + 1)
         !< Initialisation of the hourglass control variable
         et(1:nel) = one
         !< Increment of cumulated plastic strain
@@ -202,7 +201,8 @@
           sigoxx   ,sigoyy   ,sigozz   ,sigoxy   ,sigoyz   ,sigozx   ,         &
           signxx   ,signyy   ,signzz   ,signxy   ,signyz   ,signzx   ,         &
           eltype   ,shf      ,s13      ,s23      ,s43      ,ieos     ,         &
-          dpdm     ,nvartmp  ,vartmp   ,epsd     )
+          dpdm     ,nvartmp  ,vartmp   ,epsd     ,nuvar    ,uvar     ,         &
+          temp     )
 !
         !=======================================================================
         !< - Computation of the initial yield stress
@@ -210,6 +210,21 @@
         call elasto_plastic_yield_stress(                                      &
           matparam ,nel      ,sigy     ,pla      ,epsd     ,dsigy_dpla,        &
           nvartmp  ,vartmp   ,temp     ,dtemp_dpla,jthe    )
+!
+        !=======================================================================
+        !< - Update non-local temperature if needed
+        !=======================================================================        
+        if (inloc > 0) then
+          if (jthe /= 0) then
+            where (off(1:nel) == one)
+              fheat(1:nel) = fheat(1:nel) + sigy(1:nel)*dplanl(1:nel)*voln(1:nel)
+            end where
+          else
+            where (off(1:nel) == one)
+              temp(1:nel)  = temp(1:nel) + dtemp_dpla(1:nel)*dplanl(1:nel)
+            end where
+          endif
+        endif
 !
         !=======================================================================
         !< - Backstress tensor computation for kinematic hardening models
@@ -392,7 +407,7 @@
               matparam ,nindx    ,l_sigb   ,dsigb_dlam(1:nindx,1:l_sigb),      &
               dsigy_dpla_i,chard ,                                             &
               norm0xx  ,norm0yy  ,norm0zz  ,norm0xy   ,norm0yz   ,norm0zx  ,   &
-              dpla_dlam,sigb_i(1:nindx,1:l_sigb))
+              dpla_dlam,sigb_i(1:nindx,1:l_sigb),ikine   )
             !< b - Assembling the backstress contribution to the derivative  
             !  of eq. stress w.r.t lambda
             !<  ----------------------------------------------------------------
@@ -484,18 +499,26 @@
           enddo
 !
           !< Temperature or heating generation update for /HEAT/MAT
-          if (jthe /= 0) then
+          if (inloc == 0) then 
+            if (jthe /= 0) then
 #include "vectorize.inc"
-            do ii = 1,nindx
-              i = indx(ii) 
-              fheat(i) = fheat(i) + sigy(i)*dpla_dlam(ii)*dlam(ii)*voln(i)
-              temp_i(ii) = temp(i)
-            enddo
+              do ii = 1,nindx
+                i = indx(ii) 
+                fheat(i) = fheat(i) + sigy(i)*dpla_dlam(ii)*dlam(ii)*voln(i)
+                temp_i(ii) = temp(i)
+              enddo
+            else
+#include "vectorize.inc"
+              do ii = 1,nindx
+                i = indx(ii) 
+                temp_i(ii) = temp(i) + dtemp_dpla_i(ii)*dpla_dlam(ii)*dlam(ii)
+              enddo
+            endif
           else
 #include "vectorize.inc"
             do ii = 1,nindx
-              i = indx(ii) 
-              temp_i(ii) = temp(i) + dtemp_dpla_i(ii)*dpla_dlam(ii)*dlam(ii)
+              i = indx(ii)
+              temp_i(ii) = temp(i)
             enddo
           endif
 !

@@ -117,6 +117,8 @@
             nupar_therm,nupar_heat,nupar_kine
           integer :: ntab_elas,nvartmp_elas,ntab_hard,nvartmp_hard,ntab_srate, &
             nvartmp_srate,ntab_therm,nvartmp_therm,ntab_heat,nvartmp_heat
+          integer :: nuvar_elas,nuvar_crit,nuvar_hard,nuvar_ratedep,           &
+            nuvar_therm,nuvar_heat,nuvar_kine
           integer :: vpflag,ires
           integer, dimension(100) :: itab_elas,itab_hard,itab_srate,itab_therm,&
             itab_heat
@@ -209,6 +211,16 @@
           upar_therm    = zero
           upar_heat     = zero
           upar_kine     = zero
+          ! -> Number of user variables
+          nuvar_elas    = 0
+          nuvar_crit    = 0
+          nuvar_hard    = 0
+          nuvar_ratedep = 0
+          nuvar_therm   = 0
+          nuvar_heat    = 0
+          nuvar_kine    = 0
+          ! -> Viscoplastic strain rate flag
+          vpflag        = 0
 !
           !< Check encryption option
           call hm_option_is_encrypted(is_encrypted)
@@ -267,7 +279,7 @@
                   unitab,lsubmodel,matparam ,parmat    ,iout     ,is_encrypted,&
                   mat_id   ,titr  ,iresp    ,ntab_elas,itab_elas ,x2vect_elas ,&
                   x3vect_elas,x4vect_elas,fscale_elas,nvartmp_elas,israte     ,&
-                  vpflag   )
+                  vpflag   ,mtag  ,nuvar_elas)
               !< Yield criterion
               case ('CRIT')
                 if (icrit /= 0) then 
@@ -419,12 +431,12 @@
           !< Filling buffer tables
           ! --------------------------------------------------------------------
           !< Number of integer material parameters
-          matparam%niparam = 26
+          matparam%niparam = 33
           !< Number of real material parameters
           matparam%nuparam = nupar_elas + nupar_crit +                         &
                              nupar_hard + nupar_ratedep +                      &
                              nupar_therm + nupar_heat + (nupar_kine + 1)
-          !< Number of user variables
+          !< Initial number of user variables
           if (ires == 1) then 
             nuvar = 7
           else
@@ -447,35 +459,46 @@
           matparam%iparam(2)  = ntab_elas                           !< Number of the last elasticity table
           matparam%iparam(3)  = nupar_elas                          !< Address of elastic last real parameter
           matparam%iparam(4)  = nvartmp_elas                        !< Address of elastic last temporary variable
+          matparam%iparam(5)  = nuvar                               !< Number of elastic user variables
           ! -> Yield criterion parameters
-          matparam%iparam(5)  = icrit                               !< Yield criterion type
-          matparam%iparam(6)  = matparam%iparam(3) + nupar_crit     !< Address of yield criterion last real parameter
+          matparam%iparam(6)  = icrit                               !< Yield criterion type
+          matparam%iparam(7)  = matparam%iparam(3) + nupar_crit     !< Address of yield criterion last real parameter
+          matparam%iparam(8)  = matparam%iparam(5) + nuvar_elas     !< Number of yield criterion user variables
           ! -> Work hardening parameters
-          matparam%iparam(7)  = ihard                               !< Work hardening model type
-          matparam%iparam(8)  = matparam%iparam(2) + ntab_hard      !< Number of the last work hardening table
-          matparam%iparam(9)  = matparam%iparam(6) + nupar_hard     !< Address of work hardening last real parameter
-          matparam%iparam(10) = matparam%iparam(4) + nvartmp_hard   !< Address of work hardening last temporary variable
+          matparam%iparam(9)  = ihard                               !< Work hardening model type
+          matparam%iparam(10) = matparam%iparam(2) + ntab_hard      !< Number of the last work hardening table
+          matparam%iparam(11) = matparam%iparam(7) + nupar_hard     !< Address of work hardening last real parameter
+          matparam%iparam(12) = matparam%iparam(4) + nvartmp_hard   !< Address of work hardening last temporary variable
+          matparam%iparam(13) = matparam%iparam(8) + nuvar_crit     !< Number of work hardening user variables
           ! -> Strain rate dependency parameters
-          matparam%iparam(11) = iratedep                            !< Strain rate dependency model type
-          matparam%iparam(12) = vpflag                              !< Viscoplastic flag
-          matparam%iparam(13) = matparam%iparam(8)  + ntab_srate    !< Number of the last strain rate dependency table
-          matparam%iparam(14) = matparam%iparam(9)  + nupar_ratedep !< Address of strain rate dependency last real parameter
-          matparam%iparam(15) = matparam%iparam(10) + nvartmp_srate !< Address of strain rate dependency last temporary variable
+          matparam%iparam(14) = iratedep                            !< Strain rate dependency model type
+          matparam%iparam(15) = vpflag                              !< Viscoplastic flag
+          matparam%iparam(16) = matparam%iparam(10) + ntab_srate    !< Number of the last strain rate dependency table
+          matparam%iparam(17) = matparam%iparam(11) + nupar_ratedep !< Address of strain rate dependency last real parameter
+          matparam%iparam(18) = matparam%iparam(12) + nvartmp_srate !< Address of strain rate dependency last temporary variable
+          matparam%iparam(19) = matparam%iparam(13) + nuvar_hard    !< Number of strain rate dependency user variables
           ! -> Thermal softening parameters
-          matparam%iparam(16) = itherm                              !< Thermal softening model type
-          matparam%iparam(17) = matparam%iparam(13) + ntab_therm    !< Number of the last thermal softening table
-          matparam%iparam(18) = matparam%iparam(14) + nupar_therm   !< Address of thermal softening last real parameter
-          matparam%iparam(19) = matparam%iparam(15) + nvartmp_therm !< Address of thermal softening last temporary variable
+          matparam%iparam(20) = itherm                              !< Thermal softening model type
+          matparam%iparam(21) = matparam%iparam(16) + ntab_therm    !< Number of the last thermal softening table
+          matparam%iparam(22) = matparam%iparam(17) + nupar_therm   !< Address of thermal softening last real parameter
+          matparam%iparam(23) = matparam%iparam(18) + nvartmp_therm !< Address of thermal softening last temporary variable
+          matparam%iparam(24) = matparam%iparam(19) + nuvar_ratedep !< Number of thermal softening user variables
           ! -> Self-heating parameters
-          matparam%iparam(20) = iheat                               !< Self-heating model type
-          matparam%iparam(21) = matparam%iparam(17) + ntab_heat     !< Number of the last self-heating table
-          matparam%iparam(22) = matparam%iparam(18) + nupar_heat    !< Address of self-heating last real parameter
-          matparam%iparam(23) = matparam%iparam(19) + nvartmp_heat  !< Address of self-heating last temporary variable
+          matparam%iparam(25) = iheat                               !< Self-heating model type
+          matparam%iparam(26) = matparam%iparam(21) + ntab_heat     !< Number of the last self-heating table
+          matparam%iparam(27) = matparam%iparam(22) + nupar_heat    !< Address of self-heating last real parameter
+          matparam%iparam(28) = matparam%iparam(23) + nvartmp_heat  !< Address of self-heating last temporary variable
+          matparam%iparam(29) = matparam%iparam(24) + nuvar_therm   !< Number of self-heating user variables
           ! -> Kinematic hardening parameters
-          matparam%iparam(24) = ikine                               !< Kinematic hardening model type
-          matparam%iparam(25) = matparam%iparam(22) + nupar_kine + 1!< Address of kinematic hardening last real parameter
+          matparam%iparam(30) = ikine                               !< Kinematic hardening model type
+          matparam%iparam(31) = matparam%iparam(27) + nupar_kine + 1!< Address of kinematic hardening last real parameter
+          matparam%iparam(32) = matparam%iparam(29) + nuvar_heat    !< Number of kinematic hardening user variables
           ! -> Flag for return mapping algorithm
-          matparam%iparam(26) = ires                                !< Return mapping flag
+          matparam%iparam(33) = ires                                !< Return mapping flag
+! 
+          !< Update number of user variables
+          nuvar = nuvar + nuvar_elas + nuvar_crit + nuvar_hard +               &
+                  nuvar_ratedep + nuvar_therm + nuvar_heat + nuvar_kine
 !
           !< Real material parameters
           ! -> Elastic parameters
@@ -488,27 +511,27 @@
             matparam%uparam(offset+i) = upar_crit(i)
           enddo
           ! -> Work hardening parameters
-          offset = matparam%iparam(6)
+          offset = matparam%iparam(7)
           do i = 1,nupar_hard
             matparam%uparam(offset+i) = upar_hard(i)
           enddo
           ! -> Strain rate dependency parameters
-          offset = matparam%iparam(9)
+          offset = matparam%iparam(11)
           do i = 1,nupar_ratedep
             matparam%uparam(offset+i) = upar_ratedep(i)
           enddo
           ! -> Thermal softening parameters
-          offset = matparam%iparam(14)
+          offset = matparam%iparam(17)
           do i = 1,nupar_therm
             matparam%uparam(offset+i) = upar_therm(i)
           enddo
           ! -> Self-heating parameters
-          offset = matparam%iparam(18)
+          offset = matparam%iparam(22)
           do i = 1,nupar_heat
             matparam%uparam(offset+i) = upar_heat(i)
           enddo
           ! -> Kinematic hardening parameters
-          offset = matparam%iparam(22)
+          offset = matparam%iparam(27)
           matparam%uparam(offset+1) = chard
           do i = 1,nupar_kine
             matparam%uparam(offset+1+i) = upar_kine(i)
@@ -547,7 +570,7 @@
             endif
             ! -> Tabulated strain rate dependency
             if (ntab_srate > 0) then
-              offset = matparam%iparam(8)
+              offset = matparam%iparam(10)
               do i = 1, ntab_srate
                 matparam%table(offset+i)%notable = itab_srate(i)
                 x1scale = one
@@ -562,7 +585,7 @@
             endif
             ! -> Tabulated thermal softening
             if (ntab_therm > 0) then
-              offset = matparam%iparam(13)
+              offset = matparam%iparam(16)
               do i = 1, ntab_therm
                 matparam%table(offset+i)%notable = itab_therm(i)
                 x1scale = one
@@ -577,7 +600,7 @@
             endif
             ! -> Tabulated self-heating
             if (ntab_heat > 0) then
-              offset = matparam%iparam(17)
+              offset = matparam%iparam(21)
               do i = 1, ntab_heat
                 matparam%table(offset+i)%notable = itab_heat(i)
                 x1scale = one

@@ -114,58 +114,60 @@
 !----------------------------------------------------------------
 !  L o c a l  V a r i a b l e s
 !----------------------------------------------------------------
-        integer :: ihard,iratedep,itherm,iheat
+        integer :: ihard,iratedep,itherm,iheat,offset
 !===============================================================================
 !
         !=======================================================================
         !< - Select isotropic work hardening model
         !=======================================================================
-        ihard = matparam%iparam(7)
+        ihard  = matparam%iparam(9)
+        offset = matparam%iparam(7)
         select case(ihard)
           !---------------------------------------------------------------------
           !< Power Law work hardening
           !---------------------------------------------------------------------
           case(1)
             call work_hardening_powerlaw(                                      &
-              matparam ,nel      ,sigy     ,pla      ,dsigy_dpla)
+              matparam ,nel      ,sigy     ,pla      ,dsigy_dpla,offset   )
           !---------------------------------------------------------------------
           !< Voce work hardening
           !---------------------------------------------------------------------
           case(2)
             call work_hardening_voce(                                          &
-              matparam ,nel      ,sigy     ,pla      ,dsigy_dpla)
+              matparam ,nel      ,sigy     ,pla      ,dsigy_dpla,offset   )
           !---------------------------------------------------------------------
           !< Tabulated work hardening
           !---------------------------------------------------------------------
           case(3)
             call work_hardening_tabulated(                                     &
               matparam ,nel      ,sigy     ,pla      ,epsd     ,dsigy_dpla,    &
-              nvartmp  ,vartmp   )
+              nvartmp  ,vartmp   ,offset   )
           !---------------------------------------------------------------------
           !< Linear-Voce work hardening
           !---------------------------------------------------------------------
           case(4)
             call work_hardening_linearvoce(                                    &
-              matparam ,nel      ,sigy     ,pla      ,dsigy_dpla)
+              matparam ,nel      ,sigy     ,pla      ,dsigy_dpla,offset   )
         end select
 !
         !=======================================================================
         !< - Select strain rate dependency model
         !=======================================================================
-        iratedep = matparam%iparam(11)   
+        iratedep = matparam%iparam(14) 
+        offset   = matparam%iparam(11)
         select case (iratedep)
           !---------------------------------------------------------------------
           !< Johnson-Cook strain rate dependency
           !---------------------------------------------------------------------
           case(1)
             call srate_dependency_johnsoncook(                                 &
-              matparam ,nel      ,sigy     ,epsd     ,dsigy_dpla)
+              matparam ,nel      ,sigy     ,epsd     ,dsigy_dpla,offset   )
           !---------------------------------------------------------------------
           !< Cowper-Symonds strain rate dependency
           !---------------------------------------------------------------------
           case(2)
             call srate_dependency_cowpersymonds(                               &
-              matparam ,nel      ,sigy     ,epsd     ,dsigy_dpla)
+              matparam ,nel      ,sigy     ,epsd     ,dsigy_dpla,offset   )
           !---------------------------------------------------------------------
           !< Tabulated strain rate dependency
           !---------------------------------------------------------------------
@@ -178,26 +180,29 @@
           !---------------------------------------------------------------------
           case(4)
             call srate_dependency_nonlinear(                                   &
-              matparam ,nel      ,sigy     ,epsd     ,dsigy_dpla)
+              matparam ,nel      ,sigy     ,epsd     ,dsigy_dpla,offset   )
         end select 
 !
         !=======================================================================
         !< - Select thermal softening model
         !=======================================================================
-        itherm = matparam%iparam(16)
+        itherm = matparam%iparam(20)
+        offset = matparam%iparam(17)
         select case (itherm)
           !---------------------------------------------------------------------
           !< Johnson-Cook thermal softening
           !---------------------------------------------------------------------
           case(1)
             call therm_softening_johnsoncook(                                  &
-              matparam ,nel      ,sigy     ,temp     ,dsigy_dpla,dtemp_dpla   )
+              matparam ,nel      ,sigy     ,temp     ,dsigy_dpla,dtemp_dpla   ,&
+              offset   )
           !---------------------------------------------------------------------
           !< Zhao thermal softening
           !---------------------------------------------------------------------
           case(2)
             call therm_softening_zhao(                                         &
-              matparam ,nel      ,sigy     ,temp     ,dsigy_dpla,dtemp_dpla   )
+              matparam ,nel      ,sigy     ,temp     ,dsigy_dpla,dtemp_dpla   ,&
+              offset   )
           !---------------------------------------------------------------------
           !< Tabulated thermal softening
           !---------------------------------------------------------------------
@@ -210,7 +215,8 @@
         !=======================================================================
         !< - Self-heating model
         !=======================================================================
-        iheat = matparam%iparam(20)
+        iheat  = matparam%iparam(25)
+        offset = matparam%iparam(22)
         if (jthe == 0) then 
           select case (iheat)
             !-------------------------------------------------------------------
@@ -218,14 +224,14 @@
             !-------------------------------------------------------------------
             case (1)
               call self_heating_taylor(                                        &
-                matparam ,nel     ,sigy    ,dtemp_dpla,epsd   )
+                matparam ,nel     ,sigy    ,dtemp_dpla,epsd   ,offset   )
             !-------------------------------------------------------------------
             !< Tabulated self heating
             !-------------------------------------------------------------------
             case (2)
               call self_heating_tabulated(                                     &
                 matparam ,nel     ,sigy    ,dtemp_dpla,epsd   ,nvartmp ,vartmp,&
-                temp     ,pla     )
+                temp     ,pla     ,offset  )
           end select
         endif
 !

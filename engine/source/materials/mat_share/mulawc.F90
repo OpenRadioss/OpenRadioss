@@ -1923,9 +1923,9 @@
                   ssp      ,lbuf%off ,lbuf%pla ,dpla     ,lbuf%seq ,       &
                   etse     ,sigy     ,dt1      ,lbuf%epsd,el_temp  ,       &
                   shf      ,thkn     ,thklyl   ,asrate   ,l_sigb   ,       &
-                  lbuf%sigb,epsd_pg  ,nuvar    ,uvar     ,inloc    ,       &
-                  varnl(1,it),ioff_duct,jthe   ,fheat    ,vol_ipt  ,       &
-                  off      )
+                  lbuf%sigb,nuvar    ,uvar     ,inloc    ,varnl(1,it),     &
+                  ioff_duct,jthe     ,fheat    ,vol_ipt  ,off      ,       &
+                  epspxx   ,epspyy   ,epspxy   )
 !       
               elseif (ilaw == 132) then 
                 call sigeps132c( &                     

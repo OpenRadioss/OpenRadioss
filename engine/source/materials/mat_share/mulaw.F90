@@ -1913,20 +1913,16 @@
             &gbuf%qvis ,dvol   ,qold     ,psh)
 !
           else if (mtn == 106) then
-            idev = matparam%iparam(2) - 2
-            call mstrain_rate(                                                 &
-            &nel      ,israte   ,asrate   ,epsd     ,idev     ,                &
-            &ep1      ,ep2      ,ep3      ,ep4      ,ep5      ,ep6      )
-!
             call sigeps106(                                                    &
             &nel      ,matparam ,nuvar    ,tt       ,rho      ,voln     ,      &
             &de1      ,de2      ,de3      ,de4      ,de5      ,de6      ,      &
+            &ep1      ,ep2      ,ep3      ,ep4      ,ep5      ,ep6      ,      &
             &so1      ,so2      ,so3      ,so4      ,so5      ,so6      ,      &
             &s1       ,s2       ,s3       ,s4       ,s5       ,s6       ,      &
             &ssp      ,uvar     ,off      ,lbuf%pla ,dpla     ,lbuf%seq ,      &
             &el_temp  ,jthe     ,jlag     ,fheat    ,et       ,sigy     ,      &
             &nvartmp  ,vartmp   ,dt1      ,lbuf%epsd,inloc    ,varnl    ,      &
-            &ngl      )
+            &ngl      ,israte   ,asrate   )
 !
           else if (mtn == 107) then
 !
@@ -2129,7 +2125,7 @@
               ssp      ,off      ,defp     ,dpla     ,lbuf%seq ,et       ,     &
               sigy     ,dt1      ,epsd     ,el_temp  ,israte   ,asrate   ,     &
               nuvar    ,uvar     ,l_sigb   ,lbuf%sigb,matparam%ieos,dpdm ,     &
-              jthe     ,fheat    ,voln     )
+              jthe     ,fheat    ,voln     ,inloc    ,varnl    )
 !
           else if (mtn == 133) then
             call sigeps133( &

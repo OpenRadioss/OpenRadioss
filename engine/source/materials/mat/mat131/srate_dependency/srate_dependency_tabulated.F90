@@ -65,7 +65,7 @@
 !----------------------------------------------------------------
 !  L o c a l  V a r i a b l e s
 !----------------------------------------------------------------
-        integer :: i,offset,offset_var
+        integer :: i,offset_tab,offset_var
         real(kind=WP) :: xvec(nel,1),dfact_depsd(nel),srate_fac(nel)
 !===============================================================================
 !
@@ -73,18 +73,16 @@
         !< - Tabulated strain rate dependency model
         !=======================================================================
         !< Table offset
-        offset = matparam%iparam(8)
-        offset_var = matparam%iparam(10)
+        offset_tab = matparam%iparam(10)
+        offset_var = matparam%iparam(12)
         !< Prepare input vectors for interpolation
         xvec(1:nel,1) = epsd(1:nel)
         !< Interpolate to get srate_fac and dfact_depsd
-        call table_mat_vinterp(matparam%table(offset+1),nel,nel,               &
+        call table_mat_vinterp(matparam%table(offset_tab+1),nel,nel,           &
           vartmp(1:nel,offset_var+1),xvec,srate_fac,dfact_depsd)
         !< Update temporary variables
-        do i = 1,nel
-          sigy(i) = sigy(i)*srate_fac(i)
-          dsigy_dpla(i) = dsigy_dpla(i)*srate_fac(i)
-        enddo
+        sigy(1:nel) = sigy(1:nel)*srate_fac(1:nel)
+        dsigy_dpla(1:nel) = dsigy_dpla(1:nel)*srate_fac(1:nel)
 !
       end subroutine srate_dependency_tabulated
       end module srate_dependency_tabulated_mod

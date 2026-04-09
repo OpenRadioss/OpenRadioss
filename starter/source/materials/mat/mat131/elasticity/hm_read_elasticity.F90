@@ -49,7 +49,8 @@
           ikey     ,type     ,ielas    ,nupar_elas,upar_elas,is_available,     &
           unitab   ,lsubmodel,matparam ,parmat    ,iout     ,is_encrypted,     &
           mat_id   ,titr     ,iresp    ,ntab_elas ,itab_elas,x2vect      ,     &
-          x3vect   ,x4vect   ,fscale   ,nvartmp   ,israte   ,vpflag      )
+          x3vect   ,x4vect   ,fscale   ,nvartmp   ,israte   ,vpflag      ,     &
+          mtag     ,nuvar_elas)
 !----------------------------------------------------------------
 !   M o d u l e s
 !----------------------------------------------------------------
@@ -59,10 +60,12 @@
           use constant_mod
           use matparam_def_mod
           use precision_mod, only : WP
+          use elbuftag_mod
           use hm_read_elasticity_isotropic_mod
           use hm_read_elasticity_orthotropic_mod
           use hm_read_elasticity_anisotropic_mod
           use hm_read_elasticity_viscous_isotropic_mod
+          use hm_read_elasticity_temp_isotropic_mod
 !----------------------------------------------------------------
 !   I m p l i c i t   T y p e s
 !----------------------------------------------------------------
@@ -94,6 +97,8 @@
           integer,                 intent(inout) :: nvartmp               !< Number of variables used in tabulated elasticity dependency
           integer,                 intent(inout) :: israte                !< Strain rate filtering flag
           integer,                 intent(inout) :: vpflag                !< Viscous formulation flag
+          type(mlaw_tag_),         intent(inout) :: mtag                  !< Material tag for internal variables in element buffer
+          integer,                 intent(inout) :: nuvar_elas            !< Number of user variables for elasticity
 !===============================================================================
 ! 
           !< Select elasticity type
@@ -132,6 +137,16 @@
                 is_encrypted,mat_id,titr      ,ntab_elas,itab_elas   ,         &
                 x2vect   ,x3vect   ,x4vect    ,fscale   ,nvartmp     ,         &
                 israte   ,vpflag   )
+            !===================================================================
+            !< Temperature-dependent isotropic elasticity parameters
+            !===================================================================
+            case('TEMP')
+              call hm_read_elasticity_temp_isotropic(                          &
+                ikey     ,ielas    ,nupar_elas,is_available,                   &
+                unitab   ,lsubmodel,matparam  ,parmat   ,iout        ,         &
+                is_encrypted,mat_id,titr      ,ntab_elas,itab_elas   ,         &
+                x2vect   ,x3vect   ,x4vect    ,fscale   ,nvartmp     ,         &
+                mtag     ,nuvar_elas)
           end select
 ! -------------------------------------------------------------------------------
         end subroutine hm_read_elasticity

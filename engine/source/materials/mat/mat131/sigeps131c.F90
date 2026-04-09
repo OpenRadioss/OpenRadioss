@@ -50,9 +50,9 @@
         signxx   ,signyy   ,signxy   ,signyz   ,signzx   ,                     &
         soundsp  ,loff     ,pla      ,dpla     ,seq      ,et       ,           &
         sigy     ,timestep ,epsd     ,temp     ,shf      ,thk      ,thkly    , &
-        asrate   ,l_sigb   ,sigb     ,epsd_pg  ,nuvar    ,uvar     ,           &
-        inloc    ,dplanl   ,ioff_duct,jthe     ,fheat    ,voln     ,           &
-        off      )
+        asrate   ,l_sigb   ,sigb     ,nuvar    ,uvar     ,inloc    ,dplanl   , &
+        ioff_duct,jthe     ,fheat    ,voln     ,off      ,                     &
+        epspxx   ,epspyy   ,epspxy   )
 !----------------------------------------------------------------
 !   M o d u l e s
 !----------------------------------------------------------------
@@ -105,7 +105,6 @@
         real(kind=WP),                 intent(in)    :: asrate   !< Asrate parameter for rate-dependent plasticity
         integer,                       intent(in)    :: l_sigb   !< Number of backstress components for kinematic hardening
         real(kind=WP), dimension(nel,l_sigb),intent(inout) :: sigb  !< Backstress components for kinematic hardening
-        real(kind=WP), dimension(nel), intent(in)    :: epsd_pg  !< Global equivalent strain rate
         integer,                       intent(in)    :: nuvar    !< Number of user variables
         real(kind=WP), dimension(nel,nuvar), intent(inout) :: uvar !< User variables array
         integer,                       intent(in)    :: inloc     !< Non-local reguarization flag
@@ -115,14 +114,24 @@
         real(kind=WP), dimension(nel), intent(inout) :: fheat     !< Heat energy accumulated for /HEAT/MAT
         real(kind=WP), dimension(nel), intent(in)    :: voln      !< Current element volume
         real(kind=WP), dimension(nel), intent(inout) :: off       !< Element failure flag
+        real(kind=WP), dimension(nel), intent(inout) :: epspxx    !< Total strain rate component xx
+        real(kind=WP), dimension(nel), intent(inout) :: epspyy    !< Total strain rate component yy
+        real(kind=WP), dimension(nel), intent(inout) :: epspxy    !< Total strain rate component xy
 !----------------------------------------------------------------
 !  L o c a l  V a r i a b l e s
 !----------------------------------------------------------------
-        integer :: ires
+        integer :: ires,vpflag,ikine
+        real(kind=WP) :: chard
 !===============================================================================
 !
-        !< Retturn mapping algorithm flag
-        ires = matparam%iparam(26)
+        !< Return mapping algorithm flag
+        ires = matparam%iparam(33)
+        !< Viscoplastic formulation flag
+        vpflag = matparam%iparam(15)
+        !< Kinematic hardening flag
+        ikine = matparam%iparam(30)
+        !< Mixed kinematic/isotropic hardening parameter
+        chard = matparam%uparam(matparam%iparam(27) + 1)
 !
         !< Check element failure flag and apply relaxation if necessary
         where (off(1:nel) < em01)
@@ -147,9 +156,9 @@
               signxx   ,signyy   ,signxy   ,signyz   ,signzx   ,               &
               soundsp  ,loff     ,pla      ,dpla     ,seq      ,et       ,     &
               sigy     ,timestep ,epsd     ,temp     ,shf      ,thk      ,     &
-              thkly    ,asrate   ,l_sigb   ,sigb     ,epsd_pg  ,               &
-              nuvar    ,uvar     ,inloc    ,dplanl   ,jthe     ,fheat    ,     &
-              voln     )
+              thkly    ,asrate   ,l_sigb   ,sigb     ,nuvar    ,uvar     ,     &
+              inloc    ,dplanl   ,jthe     ,fheat    ,voln     ,vpflag   ,     &
+              ikine    ,chard    ,epspxx   ,epspyy   ,epspxy   )
           !---------------------------------------------------------------------
           !< - Cutting Plane algorithm
           !---------------------------------------------------------------------
@@ -161,9 +170,9 @@
               signxx   ,signyy   ,signxy   ,signyz   ,signzx   ,               &
               soundsp  ,loff     ,pla      ,dpla     ,seq      ,et       ,     &
               sigy     ,timestep ,epsd     ,temp     ,shf      ,thk      ,     &
-              thkly    ,asrate   ,l_sigb   ,sigb     ,epsd_pg  ,               &
-              nuvar    ,uvar     ,inloc    ,dplanl   ,jthe     ,fheat    ,     &
-              voln     )
+              thkly    ,asrate   ,l_sigb   ,sigb     ,nuvar    ,uvar     ,     &
+              inloc    ,dplanl   ,jthe     ,fheat    ,voln     ,vpflag   ,     &
+              ikine    ,chard    ,epspxx   ,epspyy   ,epspxy   )
           !---------------------------------------------------------------------
           !< - Closest Point Projection algorithm
           !---------------------------------------------------------------------     
@@ -175,9 +184,9 @@
               signxx   ,signyy   ,signxy   ,signyz   ,signzx   ,               &
               soundsp  ,loff     ,pla      ,dpla     ,seq      ,et       ,     &
               sigy     ,timestep ,epsd     ,temp     ,shf      ,thk      ,     &
-              thkly    ,asrate   ,l_sigb   ,sigb     ,epsd_pg  ,               &
-              nuvar    ,uvar     ,inloc    ,dplanl   ,jthe     ,fheat    ,     &
-              voln     )
+              thkly    ,asrate   ,l_sigb   ,sigb     ,nuvar    ,uvar     ,     &
+              inloc    ,dplanl   ,jthe     ,fheat    ,voln     ,vpflag   ,     &
+              ikine    ,chard    ,epspxx   ,epspyy   ,epspxy   )
         end select
 !
         !< Ductile failure activation
