@@ -46,8 +46,8 @@
 !||    precision_mod         ../common_source/modules/precision_mod.F90
 !||    table_mod             ../engine/share/modules/table_mod.F
 !||====================================================================
-        subroutine fail_inievo_ib (                                               &
-          nel     ,nuparam  ,nuvar    ,                                  &
+        subroutine fail_inievo_ib (                                      &
+          nel     ,nuparam  ,nuvar    ,nvartmp ,vartmp     ,             &
           table   ,ntablf   ,itablf   ,time    ,uparam     ,             &
           ngl     ,aldt     ,dpla     ,epsp    ,uvar       ,             &
           signxx  ,signxy   ,signzx   ,                                  &
@@ -75,6 +75,8 @@
           integer                     ,intent(in)     :: nel      ! size of element group
           integer                     ,intent(in)     :: nuparam  ! size of parameter array
           integer                     ,intent(in)     :: nuvar    ! size of user variable array
+          integer                     ,intent(in)     :: nvartmp  ! 
+          integer, dimension(nel,nvartmp), intent(inout)   :: vartmp
           type(ttable), dimension(ntable), intent(inout)   :: table      ! table data
           integer                     ,intent(in)     :: ntablf   ! number of table functions
           integer, dimension(ntablf)  ,intent(in)     :: itablf   ! table function identifiers
@@ -104,9 +106,8 @@
 !c-----------------------------------------------
 !                                                  local variables
 !c-----------------------------------------------
-          integer :: i, j, nindx, failip, ninievo, ilen
+          integer :: i, j, k, l, nindx, failip, ninievo, ilen
           integer, dimension(nel) :: indx, nrot
-          integer, dimension(nel, 2) :: ipos
 
           integer, dimension(:), allocatable :: initype, evotype, evoshap, comptyp, tab_id, &
             tab_el, fcrit
@@ -296,8 +297,8 @@
               end do
             end select
             xvec(1:nel,2)   = epsp(1:nel)/sr_ref(j)
-            ipos(1:nel,1:2) = 1
-            call table_vinterp(table(tab_id(j)),nel,nel,ipos,xvec,epsf,depsf)
+            k = j*2 - 1
+            call table_vinterp(table(tab_id(j)),nel,nel,vartmp(1:nel,k:k+1),xvec,epsf,depsf)
 
             epsf(1:nel) = epsf(1:nel)*fscale(j)
 !c
@@ -318,8 +319,8 @@
                   xvec(i,2) = (svm(i) + ini_p1(j)*p(i))/max(sigpmaj(i),em08)
                 end do
               end select
-              ipos(1:nel,1:2) = 1
-              call table_vinterp(table(tab_el(j)),nel,nel,ipos,xvec,sizefac,dsize)
+              l = k + ninievo*2
+              call table_vinterp(table(tab_el(j)),nel,nel,vartmp(1:nel,l:l+1),xvec,sizefac,dsize)
               sizefac(1:nel) = sizefac(1:nel)*elscal(j)
               epsf(1:nel) = epsf(1:nel)*sizefac(1:nel)
             end if

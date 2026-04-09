@@ -2516,7 +2516,7 @@
                    case (42)     !    inievo
 !
                     call fail_inievo_c(&
-                    &jlt      ,nupar    ,nvarf    ,&
+                    &jlt      ,nupar    ,nvarf    ,nvartmp  ,vartmp   ,&
                     &table    ,ntabl_fail,itabl_fail   ,tt       ,uparamf  ,&
                     &ngl      ,el_len   ,dpla     ,epsd     ,uvarf    ,&
                     &signxx   ,signyy   ,signxy   ,signyz   ,signzx   ,&
