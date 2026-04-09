@@ -278,14 +278,13 @@ c-------------
         CASE (42)     ! Inievo failure model  
 
           CALL FAIL_INIEVO_IB(                         
-     .                       NEL  ,FAIL%NUPARAM ,FBUF%FLOC(IFL)%NVAR ,
-     .                     TABLE  ,FAIL%NTABLE  ,FAIL%TABLE ,TIME    ,FAIL%UPARAM       ,
-     .                       NGL  ,AL           ,DPLA_IPT       ,EPSD , FBUF%FLOC(IFL)%VAR,
-     .                    SIGNXX  ,SIGNXY       ,SIGNXZ     ,
-     .                    PLA_IPT ,SIGY_IPT     ,FOFF ,FBUF%FLOC(IFL)%DAMMX  ,
-     .                    TDEL    ,LBUF%DMGSCL  ,ELBUF_STR%GBUF%UELR ,IPT  ,NPT,
-     .                    FBUF%FLOC(IFL)%DAMINI ,
-     .                    NTABLE  ,OFF)  
+     .         NEL     ,FAIL%NUPARAM ,NUVAR      ,NVARTMP ,FBUF%FLOC(IFL)%VARTMP,
+     .         TABLE   ,FAIL%NTABLE  ,FAIL%TABLE ,TIME    ,FAIL%UPARAM       ,
+     .         NGL     ,AL           ,DPLA_IPT       ,EPSD , FBUF%FLOC(IFL)%VAR,
+     .         SIGNXX  ,SIGNXY       ,SIGNXZ     ,
+     .         PLA_IPT ,SIGY_IPT     ,FOFF ,FBUF%FLOC(IFL)%DAMMX  ,
+     .         TDEL    ,LBUF%DMGSCL  ,ELBUF_STR%GBUF%UELR ,IPT  ,NPT,
+     .         FBUF%FLOC(IFL)%DAMINI ,NTABLE  ,OFF)  
 
 c-------------
         CASE (41)     ! TAB2 failure model         

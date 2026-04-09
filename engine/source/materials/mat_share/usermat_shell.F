@@ -1558,7 +1558,7 @@ c
               CASE (42)     !    INIEVO
 c
                 CALL FAIL_INIEVO_C(
-     1            JLT      ,NUPAR    ,NVARF    ,
+     1            JLT      ,NUPAR    ,NVARF    ,NVARTMP  ,VARTMP   ,
      2            TABLE    ,NTABL_FAIL,ITABL_FAIL   ,TT       ,UPARAMF  , 
      3            NGL      ,EL_LEN   ,DPLA     ,EPSPL    ,UVARF    ,     
      4            SIGNXX   ,SIGNYY   ,SIGNXY   ,SIGNYZ   ,SIGNZX   ,              

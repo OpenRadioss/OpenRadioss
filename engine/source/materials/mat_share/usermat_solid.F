@@ -1474,8 +1474,8 @@ c
           ELSEIF (IRUPT == 42) THEN                                      
 C---- Inievo failure model
               CALL FAIL_INIEVO_S(
-     1          NEL      ,NPAR     ,NVARF    ,
-     2          TABLE    ,NTABL_FAIL,ITABL_FAIL,TT       ,UPARAMF  , 
+     1          NEL      ,NPAR     ,NVARF    ,NVARTMP  ,VARTMP   ,
+     2          TABLE    ,NTABL_FAIL,ITABL_FAIL,TT     ,UPARAMF  , 
      3          NGL      ,EL_LEN   ,DPLA     ,EPSP1    ,UVARF    ,     
      5          S1       ,S2       ,S3       ,S4       ,S5       ,S6       ,               
      6          EL_PLA   ,EL_TEMP  ,SIGY     ,OFF      ,DFMAX    ,

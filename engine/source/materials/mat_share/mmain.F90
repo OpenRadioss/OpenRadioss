@@ -2671,8 +2671,8 @@
               else if (irupt == 42) then
 !---- inievo failure model
                 call fail_inievo_s(&
-                &llt      ,nparam   ,nvarf    ,&
-                &table    ,ntabl_fail,itabl_fail,tt       ,uparamf,&
+                &llt      ,nparam   ,nvarf    ,nvartmp  ,vartmp   ,&
+                &table    ,ntabl_fail,itabl_fail,tt     ,uparamf  ,&
                 &ngl      ,el_len   ,dpla     ,epsp     ,uvarf    ,&
                 &ss1      ,ss2      ,ss3      ,ss4      ,ss5      ,ss6      ,&
                 &el_pla   ,el_temp  ,sigy     ,off      ,dfmax    ,&
