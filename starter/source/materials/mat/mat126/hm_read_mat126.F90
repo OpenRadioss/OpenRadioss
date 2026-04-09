@@ -154,7 +154,7 @@
           idel = min(idel,4)
           idel = max(0,idel)
           !< Check flag for post-failure behavior
-          ifailso = min(ifailso,4)
+          ifailso = min(ifailso,5)
           ifailso = max(1,ifailso)
           !< Default values
           if (efmin   == zero) efmin   = em20
@@ -352,7 +352,8 @@
             5X,"  IFAILSO = 2: DEVIATORIC STRESS TENSOR IS VANISHED ",/,  &
             5X,"  IFAILSO = 3: DEVIATORIC STRESS TENSOR IS VANISHED IN COMPR.",/,&
             5X,"               STRESS TENSOR IS VANISHED IN TENSION ",/,  &
-            5X,"  IFAILSO = 4: STRESS TENSOR IS VANISHED",/)
+            5X,"  IFAILSO = 4: STRESS TENSOR IS VANISHED",/,              &
+            5X,"  IFAILSO = 5: STRESS TENSOR IS VANISHED IN TENSION ONLY",/)
 !
         end subroutine hm_read_mat126
 ! ----------------------------------------------------------------------------------------------------------------------
