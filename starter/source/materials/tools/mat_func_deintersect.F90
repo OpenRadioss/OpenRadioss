@@ -118,10 +118,9 @@
             nptx  = npt1 + npt2
             allocate (xf(nptx))
             allocate (xtmp(nptx))
-            allocate (perm(nptx))
             xtmp(1:npt1)      = x1(1:npt1)
             xtmp(npt1+1:nptx) = x2(1:npt2)
-            call stlsort(nptx,xtmp,perm) 
+            call stlsort(nptx,xtmp) 
             npt = 1
             xf(1) = xtmp(1)
             do i = 1,nptx
@@ -130,7 +129,6 @@
                 xf(npt) = xtmp(i)
               end if
             end do
-            deallocate(perm)
             deallocate(xtmp)
 !---------------------------------------------------------          
             ! reallocate both functions and interpolate all values using common abscissa

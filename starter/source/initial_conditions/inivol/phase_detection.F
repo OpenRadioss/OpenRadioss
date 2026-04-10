@@ -59,6 +59,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !                   * if at least one node is near a surface --> need to compute the real distance
 !$ENDCOMMENT
         use element_mod , only :nixs,nixq,nixtg
+        use cppsort_mod, only : stlsort
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -144,7 +145,7 @@ C-----------------------------------------------
         ENDDO
 
         ! Sort according to chosen direction
-        CALL MYQSORT(SURF_NODE_NUMBER,X_TMP,KEY2,info)
+        CALL stlsort(SURF_NODE_NUMBER,X_TMP,KEY2)
         DEALLOCATE( X_TMP )
         ! ----------------------
 

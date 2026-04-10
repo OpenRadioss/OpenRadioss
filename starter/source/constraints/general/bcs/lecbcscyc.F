@@ -300,6 +300,9 @@ c--------check  (r,cos(theta),z), cos(theta) not too diff
          CALL ANCMSG(MSGID=1761,ANMODE=ANINFO,MSGTYPE=MSGERROR,I1=ID)
       END IF      
 C------sorting by dis      
+      DO I=1,NBCY_N
+        INDEX(I) = I
+      ENDDO
       call stlsort(NBCY_N, DIS1, INDEX)
       CY_TMP(1:3,1:NBCY_N) = CY_X1(1:3,1:NBCY_N)
       DO I=1,NBCY_N
@@ -320,7 +323,9 @@ c--------check  (r,cos(theta),z), cos(theta) not too diff
          CALL ANCMSG(MSGID=1762,ANMODE=ANINFO,MSGTYPE=MSGERROR,I1=ID)
       END IF      
 C------sorting by dis      
-!     CALL MYQSORT(NBCY_N, DIS2, INDEX, IER1)
+      DO I=1,NBCY_N
+        INDEX(I) = I
+      ENDDO
       call stlsort(NBCY_N, DIS2, INDEX)
       CY_TMP(1:3,1:NBCY_N) = CY_X2(1:3,1:NBCY_N)
       DO I=1,NBCY_N

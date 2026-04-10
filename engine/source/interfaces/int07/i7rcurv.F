@@ -104,6 +104,7 @@ C
       SUBROUTINE I7NORMNP(NRTM  ,IRECT   ,NUMNOD ,X    ,NOD_NORMAL,
      .                   NMN   ,MSR     ,LENT   ,MAXCC,ISDSIZ    ,
      .                   IRCSIZ,IAD_ELEM,FR_ELEM,ITAG )
+       use cppsort_mod, only : stlsort
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -205,7 +206,7 @@ C
               FSKYT2(CC-N2+1) = FSKYT(J,CC)
             END DO
 C            IF(N4>MAXCC)print*,'error cc:',n4,maxcc
-            CALL MYQSORT(N4,FSKYT2,PERM,ERROR)
+            call stlsort(N4,FSKYT2,PERM)
             DO CC = N2, N3
               NOD_NORMAL(J,N1) = NOD_NORMAL(J,N1) + FSKYT2(CC-N2+1)
             END DO

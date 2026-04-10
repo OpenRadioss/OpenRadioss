@@ -36,6 +36,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      use cppsort_mod, only : stlsort
       USE TRI7BOX
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -142,6 +143,7 @@ C
 !||====================================================================
       SUBROUTINE SPPRO31(IL    ,KXSP ,IXSP ,NOD2SP,JVOIS,
      .                  JSTOR,JPERM ,DVOIS,IREDUCE,KREDUCE)
+      use cppsort_mod, only : stlsort
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -182,7 +184,10 @@ C-----------------
 
         IREDUCE    =1 
         KREDUCE(IL)=1 
-        CALL MYQSORT(NVOIS,DVOIS,JPERM,IERROR)
+        do k =1,NVOIS
+          JPERM(k)=k
+        end do
+        CALL stlsort(NVOIS,DVOIS,JPERM)
         DO K=1,NVOIS
          JSTOR(K)=JVOIS(K)
         ENDDO

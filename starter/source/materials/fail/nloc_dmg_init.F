@@ -475,6 +475,9 @@ c
                     NODE_ID(J) = IXS(1+J,I+NFT)
                   ENDDO
                   ! Sort and find only effective nodes IDs (to detect degenerated bricks)
+                  DO J=1,8
+                    IDXND(J) = J
+                  ENDDO
                   CALL stlsort(8,NODE_ID,IDXND)
                   BOOL(1:8) = .FALSE.
                   BOOL(IDXND(1)) = .TRUE.
@@ -879,7 +882,10 @@ c
           ! Copy element nodal volume contribution of each attached elements
           VOLSORT(1:NELEN(N)) = VOLNOD(IDELEM(IADDN(N):IADDN(N)+NELEN(N)-1))
           ! Sort by increasing volume value
-          call stlsort(NELEN(N),ITRIN(1:NELEN(N)),ITRIN(1:NELEN(N)))
+          DO K = 1, NELEN(N)
+            ITRIN(K) = K
+          ENDDO
+          call stlsort(NELEN(N), VOLSORT(1:NELEN(N)), ITRIN(1:NELEN(N)))
           ! Loop over attached elements
           DO K = 1, NELEN(N)
             ! Add the sorted element nodal volume contribution

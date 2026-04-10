@@ -47,6 +47,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
         USE INTBUFDEF_MOD  
         USE SHOOTING_NODE_MOD
         use element_mod , only : nixs,nixc,nixtg
+        use cppsort_mod, only : stlsort
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -313,7 +314,7 @@ C-----------------------------------------------
                         N = POINTER_FACE(J,K)
                         LIST_NODE_ID(J) = IX(N+1,ELEM_ID-SHIFT_ELM)
                     ENDDO
-                    CALL MYQSORT_INT(4,LIST_NODE_ID,PERM_LIST_NODE_ID,ERROR)
+                    call stlsort(4,LIST_NODE_ID,PERM_LIST_NODE_ID)
                     ! ----------------
 
                     ! ----------------

@@ -49,9 +49,12 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    unify_abscissa_2d                 ../starter/source/materials/tools/unify_abscissas_2d.F
 !||====================================================================
       SUBROUTINE MYQSORT(N, A, PERM, ERROR)
+C
+C     DO NOT USE THIS SUBROUTINE, IT IS DEPRECATED. USE stlsort(N, A, PERM) INSTEAD.
+C
+
 C-----------------------------------------------
 c     q u i c k s o r t
-C Sedgewick algorithm from "Implementing Quicksort Programs"
 C     A: data
 C     N: len
 C     PERM: permutations

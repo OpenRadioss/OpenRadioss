@@ -152,6 +152,9 @@ C
 C
            SORTING_CONDITION = (.NOT.(BOOL_SPH_SORT(N)).OR.ISORTSP==0.OR.NVOIS/=NCAND)
            IF(SORTING_CONDITION) THEN
+               DO K=1,NCAND
+                 JPERM(K) = K
+               ENDDO
                CALL stlsort(NCAND,DVOIS,JPERM)
            ELSE
                 DO K=1,KXSP(4,N)
@@ -337,6 +340,9 @@ C PARITH/ON
               DVOIS(K) = NINT(XSPHR(6,-JK))
             END IF
           END DO
+          DO K=1,NVOIS1
+            JPERM(K) = K
+          END DO
           CALL stlsort(NVOIS1,DVOIS,JPERM)
           DO K=1,NVOIS1
             JSTOR(K) = IXSP(K,N)
@@ -421,6 +427,9 @@ cc              DVOIS(K) = KXSP(8,nod2sp(M))          ! ID particule stoke ds DV
               DVOIS(K) = XSPHR(6,M)
               MWA(K) = NC
             END IF
+          END DO
+          DO K=1,NVOISS1
+            JPERM(K) = K
           END DO
           CALL stlsort(NVOISS1,DVOIS,JPERM)
           DO K=1,NVOISS1

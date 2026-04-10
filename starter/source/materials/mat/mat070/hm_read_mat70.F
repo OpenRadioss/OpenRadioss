@@ -167,6 +167,9 @@ c---------------------------------------------------------------------------
       if (nratep > 1) then
         allocate (perml(nratep))
         allocate (hash (nratep))
+        do i=1,nratep
+          perml(i) = i
+        end do
         ! create a checksum value for each function input line
         sizeh = 3
         do i=1,nratep
@@ -216,7 +219,9 @@ c---------------------------------------------------------------------------
           RTMP(I) = RATE(I)
           YTMP(I) = YFAC(I)
         ENDDO  
-        PERML(:) = 0
+        DO I=1,NRATEP
+          PERML(I) = I
+        ENDDO
         CALL stlsort(NRATEP, RTMP, PERML)
 
         DO I=1,NRATEP
@@ -279,6 +284,9 @@ c---------------------------------------------------------------------------
         END IF
 c
         IF (ISORT == 1) THEN  ! sort functions in correct order
+          DO I=1,NRATEN
+            PERM(I) = I
+          ENDDO
           CALL stlsort(NRATEN, EPSP, PERM)
 
           DO I=1,NRATEN

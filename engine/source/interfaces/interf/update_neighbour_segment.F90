@@ -153,7 +153,9 @@
           allocate( new_segment_id(nb_new_segment) )
           allocate( permutation(nb_new_segment) )
           new_segment_id(1:nb_new_segment) = 0
-          permutation(1:nb_new_segment) = 0
+          do i = 1,nb_new_segment
+            permutation(i) = i
+          end do
           updated_interface_bool = .false. ! global flag to know if the neighbourhood is changing
           allocate( updated_interface(ninter) ) ! flag per interfaces
           updated_interface(1:ninter) = .false.

@@ -438,7 +438,6 @@ C
         PERM(I)=I
       ENDDO
 
-!     CALL MYQSORT(NUMNOD,DT,PERM,IERROR)
       call stlsort(NUMNOD, DT, PERM)
 C
       DTNODA = MIN(DTNODA,DT(1))

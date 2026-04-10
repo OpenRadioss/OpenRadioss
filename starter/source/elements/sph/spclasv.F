@@ -85,6 +85,9 @@ C       force sorting for domain decomposition
            DVOIS(K)=DVOIS(K)/DMS2
          END DO
 C
+         DO K=1,NVOIS
+           JPERM(K) = K
+         END DO
          CALL stlsort(NVOIS,DVOIS,JPERM)
          DO K=1,NVOIS
            JSTOR(K) = IXSP(K,N)
@@ -140,6 +143,9 @@ C
              DVOIS(K)=DVOIS(K)/DMS2
            END DO
 C
+           DO K=1,NVOIS
+             JPERM(K) = K
+           END DO
            CALL stlsort(NVOIS,DVOIS,JPERM)
            DO K=1,NVOIS
              JSTOR(K) = IXSP(K,N)

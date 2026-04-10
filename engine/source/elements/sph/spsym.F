@@ -40,6 +40,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      use cppsort_mod, only : stlsort
       USE SPHBOX
       USE MESSAGE_MOD
 C-----------------------------------------------
@@ -315,7 +316,7 @@ C        preparing all real neighbours for sort.
           END IF
          ENDDO
 C-------
-         CALL MYQSORT(NVOIS2+NVOISS,DVOIS,JPERM,IERROR)
+         CALL stlsort(NVOIS2+NVOISS,DVOIS,JPERM)
          DO K=1,NVOIS2+NVOISS
           JSTOR(K)=JVOIS(K)
          ENDDO
@@ -539,7 +540,7 @@ C         preparing all real neighbours for sort.
            END IF
           ENDDO
 C-------
-          CALL MYQSORT(NVOIS2+NVOISS,DVOIS,JPERM,IERROR)
+          CALL stlsort(NVOIS2+NVOISS,DVOIS,JPERM)
           DO K=1,NVOIS2+NVOISS
            JSTOR(K)=JVOIS(K)
           ENDDO

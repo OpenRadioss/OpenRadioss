@@ -62,6 +62,7 @@ C-----------------------------------------------
         USE MOD_SPBUC3
         USE MESSAGE_MOD
         USE SPH_STRUCT_MOD
+        use cppsort_mod, only : stlsort
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -389,7 +390,7 @@ C To do: Perfect symet <=> x (hmin) -x (hmax)
         IF(KREDUCE(N)/=0 .AND. NVOIS > KVOISPH) THEN
           BOOL_SPH_SORT(N) = .TRUE.
 
-          CALL MYQSORT(NVOIS,DVOIS,JPERM,IERROR)
+          CALL stlsort(NVOIS,DVOIS,JPERM)
            DO K=1,NVOIS
             JSTOR(K)=JVOIS(K)
            ENDDO

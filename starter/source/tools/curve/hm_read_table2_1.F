@@ -137,6 +137,9 @@ C-----------------------------------------------
         allocate (hash(nfun))
         allocate (lenx(nfun))
         allocate (jperm2(nfun))
+        do ifun = 1,nfun
+          jperm2(ifun) = ifun
+        end do
         allocate (nv1(nfun))
         allocate (nv2(nfun))
         allocate (nv3(nfun))
@@ -219,6 +222,9 @@ C-----------------------------------------------
         end do  
         ! hash of all abscissa combinations
 !
+        do ifun = 1,nfun
+          jperm2(ifun) = ifun
+        end do
         call stlsort(nfun,hash,jperm2) ! sort the hash values
         h1 = hash(1)
         do ifun = 2,nfun

@@ -487,7 +487,9 @@ C
 C--------   Check of alignment of anchorage nodes
             CALL MY_ALLOC(DIST,NFRAM)
             CALL MY_ALLOC(JPERM,NFRAM)
-            JPERM(1:NFRAM) = 0
+            DO J=1,NFRAM
+              JPERM(J) = J
+            ENDDO
             N_FIRST = IGRNOD(GRN_LOC)%ENTITY(1)
             N_LAST = IGRNOD(GRN_LOC)%ENTITY(IGRNOD(GRN_LOC)%NENTITY)
             DIST(1) = ZERO

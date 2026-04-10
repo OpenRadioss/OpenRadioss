@@ -27,6 +27,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
       SUBROUTINE I20NORMN(NRTM,IRECT,NUMNOD,X,NOD_NORMAL,
      .                   NMN ,MSR  ,NLN,NLG)
+      use cppsort_mod, only : stlsort
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -113,6 +114,7 @@ C
       SUBROUTINE I20NORMNP(NRTM  ,IRECT   ,NUMNOD ,X    ,NOD_NORMAL,
      .                   NMN   ,MSR     ,LENT   ,MAXCC,ISDSIZ    ,
      .                   IRCSIZ,IAD_ELEM,FR_ELEM,ITAG ,NLN,NLG)
+      use cppsort_mod, only : stlsort
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -138,7 +140,7 @@ C-----------------------------------------------
      .        ADSKYT(0:NUMNOD+1)
       my_real
      .        SURFX,SURFY,SURFZ,X13,Y13,Z13,X24,Y24,Z24,AAA,
-     .        FSKYT(3,LENT), FSKYT2(MAXCC), PERM(MAXCC)
+     .        FSKYT(3,LENT), FSKYT2(MAXCC)
 C-----------------------------------------------
       ADSKYT(0) = 1
       ADSKYT(1) = 1
@@ -220,7 +222,7 @@ C
               FSKYT2(CC-N2+1) = FSKYT(J,CC)
             END DO
 C            IF(N4>MAXCC)print*,'error cc:',n4,maxcc
-            CALL MYQSORT(N4,FSKYT2,PERM,ERROR)
+            CALL stlsort(N4,FSKYT2)
             DO CC = N2, N3
               NOD_NORMAL(J,N1) = NOD_NORMAL(J,N1) + FSKYT2(CC-N2+1)
             END DO

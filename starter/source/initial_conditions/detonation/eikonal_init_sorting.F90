@@ -73,7 +73,7 @@
           allocate(indx(neldet))
 
           indx(1:neldet) = [(kk, kk=1,neldet)]
-          call stlsort(neldet, indx, uelem_list)
+          call stlsort(neldet, uelem_list, indx)
 
           !sort other arrays with same order usin indx array
           int_tmp_array(:)  = elem_list(:)     ; elem_list(:)    = int_tmp_array(indx(:))

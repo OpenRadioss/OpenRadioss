@@ -35,6 +35,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      use cppsort_mod, only : stlsort
       USE SPHBOX
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -82,7 +83,7 @@ C-----------------
                 IREDUCE    =1 
                 KREDUCE(IL)=1 
 
-                CALL MYQSORT(NVOIS,DVOIS,JPERM,IERROR)
+                CALL stlsort(NVOIS,DVOIS,JPERM)
                 DO K=1,NVOIS
                     JSTOR(K)=JVOIS(K)
                 ENDDO
@@ -132,7 +133,7 @@ C-----------------
 C-----------------
 C Choice of cells to keep such that distance < DK to avoid parallelization problems
                     NVOIS=KXSPR(IL-NUMSPH)
-                    CALL MYQSORT(NVOIS,DVOIS,JPERM,IERROR)
+                    CALL stlsort(NVOIS,DVOIS,JPERM)
                     DO K=1,NVOIS
                         JSTOR(K)=JVOIS(K)
                     ENDDO
@@ -185,7 +186,7 @@ C-----------------
             NVOIS=KXSP(5,IL)
             IF(NVOIS>KVOISPH)THEN
 
-                CALL MYQSORT(NVOIS,DVOIS,JPERM,IERROR)
+                CALL stlsort(NVOIS,DVOIS,JPERM)
                 DO K=1,NVOIS
                     JSTOR(K)=JVOIS(K)
                 ENDDO
