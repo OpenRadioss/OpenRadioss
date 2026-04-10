@@ -120,7 +120,6 @@
 !||    rdresb                 ../engine/source/output/restart/rdresb.F
 !||--- calls      -----------------------------------------------------
 !||    reserve_capacity       ../common_source/tools/container/umap_mod.F90
-!||    stlsort_int_int        ../common_source/tools/sort/cppsort.cpp
 !||--- uses       -----------------------------------------------------
 !||    umap_mod               ../common_source/tools/container/umap_mod.F90
 !||====================================================================
@@ -128,6 +127,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
+          use cppsort_mod, only: stlsort
           use umap_mod
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
@@ -153,7 +153,7 @@
             call add_entry_umap(shell%loc2glob, shell%user_id(i), i)
             shell%permutation(i) = i
           end do
-          CALL STLSORT_INT_INT(numelc,shell%user_id,shell%permutation)
+          CALL STLSORT(numelc,shell%user_id,shell%permutation)
         end subroutine init_global_shell_id
 
 

@@ -38,6 +38,7 @@ c-------------------------------------------------------------
       ! XF : OUTPUT  - common abscissa coordinates
       ! NPT : Input  => Sum of all function point numbers
       !       Output => Final length of common abscissa vector
+      use cppsort_mod, only : stlsort
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -71,7 +72,7 @@ c=======================================================================
         IDX = IDX + LL
       END DO
 c     
-      CALL MYQSORT(LTOT,XTMP,PERM,IERROR)
+      CALL stlsort(LTOT,XTMP,PERM)
 c
 c     create common abscissa vector XF
 c

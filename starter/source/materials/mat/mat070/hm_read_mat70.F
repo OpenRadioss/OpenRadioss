@@ -49,7 +49,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       use simple_checksum_mod
-      use myqsort_d_mod
+      use cppsort_mod
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -179,7 +179,7 @@ c---------------------------------------------------------------------------
 !
         ! check duplicated input lines
 !
-        call myqsort_d(nratep,hash,perml,ierror)
+        call stlsort(nratep,hash,perml) ! sort the hash values
         h1 = hash(1)
         ifun = 1
         i1 = perml(1)
@@ -217,7 +217,7 @@ c---------------------------------------------------------------------------
           YTMP(I) = YFAC(I)
         ENDDO  
         PERML(:) = 0
-        CALL MYQSORT(NRATEP, RTMP, PERML, IERR)
+        CALL stlsort(NRATEP, RTMP, PERML)
 
         DO I=1,NRATEP
           J = PERML(I)
@@ -279,7 +279,7 @@ c---------------------------------------------------------------------------
         END IF
 c
         IF (ISORT == 1) THEN  ! sort functions in correct order
-          CALL MYQSORT(NRATEN, EPSP, PERM, IERR)
+          CALL stlsort(NRATEN, EPSP, PERM)
 
           DO I=1,NRATEN
             J = PERM(I)

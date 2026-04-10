@@ -35,6 +35,7 @@ C-----------------------------------------------
       USE MY_ALLOC_MOD
       USE PLOT_CURVE_MOD
       USE MESSAGE_MOD
+      use cppsort_mod, only: stlsort
 C-----------------------------------------------
 C     TRIANGLE OF NODE DATA AND PRINTINGS
 C-----------------------------------------------
@@ -101,7 +102,7 @@ C
         ENDIF
       ENDDO
 C
-      CALL MYQSORT(NUMNOD,DT,PERM,IERROR)
+      CALL stlsort(NUMNOD,DT,PERM)
       TMP(1:NUMNOD) = PERM(1:NUMNOD)
 
       DEALLOCATE( PERM )

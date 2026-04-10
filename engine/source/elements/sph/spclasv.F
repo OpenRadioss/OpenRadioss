@@ -41,6 +41,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE SPHBOX
       USE SPH_STRUCT_MOD
+      use cppsort_mod, only : stlsort
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -151,7 +152,7 @@ C
 C
            SORTING_CONDITION = (.NOT.(BOOL_SPH_SORT(N)).OR.ISORTSP==0.OR.NVOIS/=NCAND)
            IF(SORTING_CONDITION) THEN
-               CALL MYQSORT(NCAND,DVOIS,JPERM,IERROR)
+               CALL stlsort(NCAND,DVOIS,JPERM)
            ELSE
                 DO K=1,KXSP(4,N)
                     JPERM(K) = K
@@ -336,7 +337,7 @@ C PARITH/ON
               DVOIS(K) = NINT(XSPHR(6,-JK))
             END IF
           END DO
-          CALL MYQSORT(NVOIS1,DVOIS,JPERM,IERROR)
+          CALL stlsort(NVOIS1,DVOIS,JPERM)
           DO K=1,NVOIS1
             JSTOR(K) = IXSP(K,N)
           END DO
@@ -421,7 +422,7 @@ cc              DVOIS(K) = KXSP(8,nod2sp(M))          ! ID particule stoke ds DV
               MWA(K) = NC
             END IF
           END DO
-          CALL MYQSORT(NVOISS1,DVOIS,JPERM,IERROR)
+          CALL stlsort(NVOISS1,DVOIS,JPERM)
           DO K=1,NVOISS1
            JSTOR(K) = IXSP(NVOIS2+K,N)
           END DO

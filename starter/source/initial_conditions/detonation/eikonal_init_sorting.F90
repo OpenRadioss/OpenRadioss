@@ -41,6 +41,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           use constant_mod, only : zero, ep21
           use precision_mod, only : WP
+          use cppsort_mod, only: stlsort
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -72,7 +73,7 @@
           allocate(indx(neldet))
 
           indx(1:neldet) = [(kk, kk=1,neldet)]
-          call stlsort_int_int(neldet, indx, uelem_list)
+          call stlsort(neldet, indx, uelem_list)
 
           !sort other arrays with same order usin indx array
           int_tmp_array(:)  = elem_list(:)     ; elem_list(:)    = int_tmp_array(indx(:))

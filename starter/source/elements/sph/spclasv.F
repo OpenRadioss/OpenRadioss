@@ -32,6 +32,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+       use cppsort_mod, only : stlsort
 C----6---------------------------------------------------------------7---------8
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -84,7 +85,7 @@ C       force sorting for domain decomposition
            DVOIS(K)=DVOIS(K)/DMS2
          END DO
 C
-         CALL MYQSORT(NVOIS,DVOIS,JPERM,IERROR)
+         CALL stlsort(NVOIS,DVOIS,JPERM)
          DO K=1,NVOIS
            JSTOR(K) = IXSP(K,N)
          END DO
@@ -139,7 +140,7 @@ C
              DVOIS(K)=DVOIS(K)/DMS2
            END DO
 C
-           CALL MYQSORT(NVOIS,DVOIS,JPERM,IERROR)
+           CALL stlsort(NVOIS,DVOIS,JPERM)
            DO K=1,NVOIS
              JSTOR(K) = IXSP(K,N)
            END DO

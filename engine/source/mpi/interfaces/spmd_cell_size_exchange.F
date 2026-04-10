@@ -60,6 +60,7 @@ C-----------------------------------------------
         USE MESSAGE_MOD
         USE INTER_SORTING_MOD
         USE TRI7BOX
+        use cppsort_mod, only : stlsort
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -253,7 +254,7 @@ C-----------------------------------------------
                     DEALLOCATE( INDEX_2 )
                 ELSEIF(NB_SAVE>0) THEN
                     ALLOCATE( INDEX_2(NB_SAVE) )
-                    CALL MYQSORT_INT(NB_SAVE, INDEX, INDEX_2, ERROR_SORT)
+                    call stlsort(NB_SAVE, INDEX, INDEX_2)
                     INDEX_2(1:NB_SAVE) = INDEX(1:NB_SAVE)
                     NB = 1
                     DO I=2,NB_SAVE

@@ -70,6 +70,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
         use init_hashtable_for_neighbour_segment_mod , only : init_hashtable_for_neighbour_segment
         use get_hashtable_for_neighbour_segment_mod , only : get_hashtable_for_neighbour_segment
         use element_mod , only : nixs,nixc,nixq,nixt,nixp,nixr,nixtg
+        use cppsort_mod, only : stlsort
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -309,7 +310,7 @@ C-----------------------------------------------
           IF(NB_PROC>2) THEN
             ALLOCATE( SORT_ARRAY(NB_PROC),PERM(NB_PROC) )
             SORT_ARRAY(1:NB_PROC) = SHOOT_STRUCT%M_NODE_PROC( SHIFT+1:SHIFT+NB_PROC )
-            CALL MYQSORT_INT(NB_PROC, SORT_ARRAY, PERM, MY_ERROR)
+            CALL stlsort(NB_PROC, SORT_ARRAY, PERM)
             SHOOT_STRUCT%M_NODE_PROC( SHIFT+1:SHIFT+NB_PROC ) = SORT_ARRAY(1:NB_PROC)
             DEALLOCATE( SORT_ARRAY,PERM )
           ELSEIF(NB_PROC==2) THEN

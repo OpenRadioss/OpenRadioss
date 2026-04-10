@@ -49,6 +49,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      use cppsort_mod, only: stlsort
       USE GROUPDEF_MOD
       USE MESSAGE_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
@@ -342,7 +343,7 @@ C
                CONTRIB_KEY(NB_CONTRIB) = IXC(NIXC,IE) ! UID
                CONTRIB_VALUE(NB_CONTRIB) = IE 
              ENDDO
-             CALL STLSORT_INT_INT(NB_CONTRIB,CONTRIB_KEY,CONTRIB_VALUE)
+             CALL STLSORT(NB_CONTRIB,CONTRIB_KEY,CONTRIB_VALUE)
 
              DO J = 1,NB_CONTRIB
                IE = CONTRIB_VALUE(J)
@@ -372,7 +373,7 @@ C overwrite
                CONTRIB_KEY(NB_CONTRIB) = IXTG(NIXTG,IE) ! UID
                CONTRIB_VALUE(NB_CONTRIB) = IE 
              ENDDO
-             CALL STLSORT_INT_INT(NB_CONTRIB,CONTRIB_KEY,CONTRIB_VALUE)
+             CALL STLSORT(NB_CONTRIB,CONTRIB_KEY,CONTRIB_VALUE)
 
 C
              DO J = 1,NB_CONTRIB
@@ -409,7 +410,7 @@ C overwrite
                CONTRIB_KEY(NB_CONTRIB) = IXC(NIXC,IE) ! UID
                CONTRIB_VALUE(NB_CONTRIB) = IE 
              ENDDO
-             CALL STLSORT_INT_INT(NB_CONTRIB,CONTRIB_KEY,CONTRIB_VALUE)
+             CALL STLSORT(NB_CONTRIB,CONTRIB_KEY,CONTRIB_VALUE)
 
              DO J = 1,NB_CONTRIB
                IE = CONTRIB_VALUE(J)
@@ -447,7 +448,7 @@ C
                CONTRIB_KEY(NB_CONTRIB) = IXTG(NIXTG,IE) ! UID
                CONTRIB_VALUE(NB_CONTRIB) = IE 
              ENDDO
-             CALL STLSORT_INT_INT(NB_CONTRIB,CONTRIB_KEY,CONTRIB_VALUE)
+             CALL STLSORT(NB_CONTRIB,CONTRIB_KEY,CONTRIB_VALUE)
              DO J = 1,NB_CONTRIB
                IE = CONTRIB_VALUE(J)
                IP = IPARTTG(IE)
@@ -492,7 +493,7 @@ C
                CONTRIB_KEY(NB_CONTRIB) = IXS(NIXS,IE) ! UID
                CONTRIB_VALUE(NB_CONTRIB) = IE 
              ENDDO
-             CALL STLSORT_INT_INT(NB_CONTRIB,CONTRIB_KEY,CONTRIB_VALUE)
+             CALL STLSORT(NB_CONTRIB,CONTRIB_KEY,CONTRIB_VALUE)
              DO J = 1,NB_CONTRIB
                IE = CONTRIB_VALUE(J)
                INRT = INRTIE(IE)

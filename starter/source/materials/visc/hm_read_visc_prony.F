@@ -50,6 +50,7 @@ C-----------------------------------------------
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD 
       USE TABLE_MOD
+      use cppsort_mod, only : stlsort
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -649,7 +650,6 @@ C
 !||    hm_read_visc_prony        ../starter/source/materials/visc/hm_read_visc_prony.F
 !||--- calls      -----------------------------------------------------
 !||    ancmsg                    ../starter/source/output/message/message.F
-!||    qsort                     ../starter/source/materials/visc/hm_read_visc_prony.F
 !||--- uses       -----------------------------------------------------
 !||    message_mod               ../starter/share/message_module/message_mod.F
 !||    table_mod                 ../starter/share/modules1/table_mod.F
@@ -662,6 +662,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE TABLE_MOD
       USE MESSAGE_MOD
+      use cppsort_mod, only: stlsort
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -782,7 +783,8 @@ C
         DO II = 1,SIZE_FREQ
           IDX(II) = II
         ENDDO
-        CALL QSORT(FREQ,IDX,1,SIZE_FREQ)
+        call stlsort(SIZE_FREQ,FREQ,IDX)
+
         MXFREQ = MAXVAL(FREQ)
         FREQ   = FREQ*(HUNDRED/MXFREQ)
         FREQS  = FREQS*(HUNDRED/MXFREQ)
@@ -1030,59 +1032,3 @@ C
      .           JACST,JACLT,FXIS_TR,FXIL_TR,VECT,MU,FREQS,YIS_TEMP,FREQL,YIL_TEMP)    
       IF (ALLOCATED(IDX)) DEALLOCATE(IDX)
       END
-
-
-C---------------------------------------------------------------------------------------      
-!||====================================================================
-!||    qsort                     ../starter/source/materials/visc/hm_read_visc_prony.F
-!||--- called by ------------------------------------------------------
-!||    lm_least_square_prony_2   ../starter/source/materials/visc/hm_read_visc_prony.F
-!||--- calls      -----------------------------------------------------
-!||====================================================================
-      RECURSIVE SUBROUTINE QSORT(A, IDX, FIRST, LAST)
-C-----------------------------------------------
-C   I m p l i c i t   T y p e s
-C-----------------------------------------------
-#include      "implicit_f.inc"
-C-----------------------------------------------
-C   D u m m y   A r g u m e n t s
-C-----------------------------------------------
-      DOUBLE PRECISION, INTENT(INOUT) :: A(*)
-      INTEGER, INTENT(IN)    :: FIRST, LAST
-      INTEGER, INTENT(INOUT) :: IDX(*)
-C-----------------------------------------------
-C   L o c a l   V a r i a b l e s
-C-----------------------------------------------
-      DOUBLE PRECISION ::
-     .           X, T
-      INTEGER :: I, J, I1
-C-----------------------------------------------
-C   P r e - C o n d i t i o n
-C-----------------------------------------------
-      IF(FIRST>LAST)RETURN
-C-----------------------------------------------
-C   S o u r c e   L i n e s
-C-----------------------------------------------
-      X = A( (FIRST + LAST) / 2 )
-      I = FIRST
-      J = LAST
-      DO
-         DO WHILE (A(I) < X)
-            I = I + 1
-         ENDDO
-         DO WHILE(X < A(J))
-            J = J - 1
-         ENDDO
-         IF (I >= J) EXIT
-         T = A(I)
-         A(I) = A(J)
-         A(J) = T
-         I1 = IDX(i) 
-         IDX(I) = IDX(J) 
-         IDX(J) = I1
-         I = I + 1
-         J = J - 1
-      ENDDO
-      IF (FIRST < I - 1) CALL QSORT(A, IDX, FIRST, I - 1)
-      IF (J + 1 < LAST)  CALL QSORT(A, IDX, J + 1, LAST)
-      END SUBROUTINE 

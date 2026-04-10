@@ -20,92 +20,136 @@
 //Copyright>    As an alternative to this open-source version, Altair also offers Altair Radioss
 //Copyright>    software under a commercial license.  Contact Altair to discuss further if the
 //Copyright>    commercial version may interest you: https://www.altair.com/radioss/.
+
+// C++ wrappers around STL sort, callable from Fortran via iso_c_binding.
+// Both float and double variants are provided explicitly so callers are
+// not limited to a single precision configured at compile time.
+
 #include <algorithm>
-#include <vector>
 #include <utility>
+#include <vector>
 
-#define _FCALL
-
-#ifdef MYREAL8
-#define my_real double
-#else
-#define my_real float
-#endif
-
+// ---------------------------------------------------------------------------
+// Internal generic key-value helpers
+// ---------------------------------------------------------------------------
 
 template<typename K, typename V>
-void stlsort_generic_generic(int *len,  K *keys, V *values){
-    int n = *len;
+static void stlsort_kv_impl(int n, K *keys, V *values)
+{
     std::vector<std::pair<K, V>> pairs(n);
+    for (int i = 0; i < n; ++i)
+        pairs[i] = {keys[i], values[i]};
+
+    std::sort(pairs.begin(), pairs.end(),
+              [](const std::pair<K,V> &a, const std::pair<K,V> &b){
+                  return a.first < b.first;
+              });
 
     for (int i = 0; i < n; ++i) {
-        pairs[i] = std::make_pair(keys[i], values[i]);
-    }
-
-    std::sort(pairs.begin(), pairs.end(), [](const std::pair<K, V> &a, const std::pair<K, V> &b) {
-        return a.first < b.first;
-    });
-
-    for (int i = 0; i < n; ++i) {
-        keys[i] = pairs[i].first;
+        keys[i]   = pairs[i].first;
         values[i] = pairs[i].second;
     }
 }
 
-extern "C" {
-// sort array
-    void stlsort(int * len, my_real * array)
-    {
-            std::sort(array,array+ *len);
-    }
-    void stlsort__(int * len, my_real * array)
-    {
-            std::sort(array,array+ *len);
-    }
-    void _FCALL stlsort_(int * len, my_real * array)
-    {
-            std::sort(array,array+ *len);
-    }
-    void _FCALL STLSORT(int * len, my_real * array)
-    {
-            std::sort(array,array+ *len);
-    }
-    void STLSORT_(int * len, my_real * array)
-    {
-            std::sort(array,array+ *len);
-    }
-// sort array with int and key
-    void stlsort_int_int(int *len, int* keys,  int *values) {
-         stlsort_generic_generic<int,int>(len, keys, values); 
-    }
-    void stlsort_int_int__(int *len, int* keys,  int *values) {
-         stlsort_generic_generic<int,int>(len, keys, values); 
-    }
-    void _FCALL stlsort_int_int_(int *len, int* keys,  int *values) {
-         stlsort_generic_generic<int,int>(len, keys, values); 
-    }
-    void _FCALL STLSORT_INT_INT(int *len, int* keys,  int *values) {
-         stlsort_generic_generic<int,int>(len, keys, values); 
-    }
-    void STLSORT_INT_INT_(int *len, int* keys,  int *values) {
-         stlsort_generic_generic<int,int>(len, keys, values); 
-    }
+template<typename K, typename V>
+static void stlstable_sort_kv_impl(int n, K *keys, V *values)
+{
+    std::vector<std::pair<K, V>> pairs(n);
+    for (int i = 0; i < n; ++i)
+        pairs[i] = {keys[i], values[i]};
 
- // sort array with real and key
-    void stlsort_real_int(int *len, my_real* keys,  int *values) {
-         stlsort_generic_generic<my_real,int>(len, keys, values); 
+    std::stable_sort(pairs.begin(), pairs.end(),
+                     [](const std::pair<K,V> &a, const std::pair<K,V> &b){
+                         return a.first < b.first;
+                     });
+
+    for (int i = 0; i < n; ++i) {
+        keys[i]   = pairs[i].first;
+        values[i] = pairs[i].second;
     }
-    void stlsort_real_int__(int *len, my_real* keys,  int *values) {
-         stlsort_generic_generic<my_real,int>(len, keys, values); 
-    }
-    void _FCALL stlsort_real_int_(int *len, my_real* keys,  int *values) {
-         stlsort_generic_generic<my_real,int>(len, keys, values); 
-    }
-    void _FCALL STLSORT_REAL_INT(int *len, my_real* keys,  int *values) {
-         stlsort_generic_generic<my_real,int>(len, keys, values); 
-    }
-    void STLSORT_REAL_INT_(int *len, my_real* keys,  int *values) {
-         stlsort_generic_generic<my_real,int>(len, keys, values); 
-    } 
 }
 
+// ---------------------------------------------------------------------------
+// Public C interface  (consumed by cppsort_mod via iso_c_binding)
+// ---------------------------------------------------------------------------
+
+extern "C" {
+
+// --- sort a plain array ------------------------------------------------------
+
+void stlsort_float (int *len, float  *array) { std::sort(array, array + *len); }
+void stlsort_double(int *len, double *array) { std::sort(array, array + *len); }
+void stlsort_int   (int *len, int    *array) { std::sort(array, array + *len); }
+
+// --- sort integer keys, carrying integer values ------------------------------
+
+void stlsort_int_int(int *len, int *keys, int *values)
+{
+    stlsort_kv_impl<int, int>(*len, keys, values);
+}
+
+// --- sort float/double keys, carrying integer values ------------------------
+
+void stlsort_float_int(int *len, float *keys, int *values)
+{
+    stlsort_kv_impl<float, int>(*len, keys, values);
+}
+
+void stlsort_double_int(int *len, double *keys, int *values)
+{
+    stlsort_kv_impl<double, int>(*len, keys, values);
+}
+
+// --- sort float/double keys, carrying float/double values -------------------
+
+void stlsort_float_float(int *len, float *keys, float *values)
+{
+    stlsort_kv_impl<float, float>(*len, keys, values);
+}
+
+void stlsort_double_double(int *len, double *keys, double *values)
+{
+    stlsort_kv_impl<double, double>(*len, keys, values);
+}
+
+// ---------------------------------------------------------------------------
+// stable_sort – same signatures, preserves relative order of equal keys
+// ---------------------------------------------------------------------------
+
+// --- sort a plain array ------------------------------------------------------
+void stlstable_sort_int   (int *len, int    *array) { std::stable_sort(array, array + *len); }
+void stlstable_sort_float (int *len, float  *array) { std::stable_sort(array, array + *len); }
+void stlstable_sort_double(int *len, double *array) { std::stable_sort(array, array + *len); }
+
+// --- sort integer keys, carrying integer values ------------------------------
+
+void stlstable_sort_int_int(int *len, int *keys, int *values)
+{
+    stlstable_sort_kv_impl<int, int>(*len, keys, values);
+}
+
+// --- sort float/double keys, carrying integer values ------------------------
+
+void stlstable_sort_float_int(int *len, float *keys, int *values)
+{
+    stlstable_sort_kv_impl<float, int>(*len, keys, values);
+}
+
+void stlstable_sort_double_int(int *len, double *keys, int *values)
+{
+    stlstable_sort_kv_impl<double, int>(*len, keys, values);
+}
+
+// --- sort float/double keys, carrying float/double values -------------------
+
+void stlstable_sort_float_float(int *len, float *keys, float *values)
+{
+    stlstable_sort_kv_impl<float, float>(*len, keys, values);
+}
+
+void stlstable_sort_double_double(int *len, double *keys, double *values)
+{
+    stlstable_sort_kv_impl<double, double>(*len, keys, values);
+}
+
+} // extern "C"

@@ -40,6 +40,7 @@ C-----------------------------------------------
       USE MY_ALLOC_MOD
       USE MESSAGE_MOD
       use element_mod , only : nixs,nixq,nixc,nixt,nixp,nixr,nixtg
+      use cppsort_mod, only : stlsort
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -135,44 +136,44 @@ C     SORTING OF ELEMENTS ACCORDING TO THE TIME STEP
 C
       IF (NUMELS>1) THEN
         NUM2 = 1
-        CALL MYQSORT(NUMELS,DTELEM(NUM2),PERM(NUM2),IERROR)
+        CALL stlsort(NUMELS,DTELEM(NUM2:),PERM(NUM2:))
       ENDIF
       IF (NUMELQ>1) THEN
         NUM2 = 1
-        CALL MYQSORT(NUMELQ,DTELEM(NUM2),PERM(NUM2),IERROR)
+        CALL stlsort(NUMELQ,DTELEM(NUM2:),PERM(NUM2:))
       ENDIF
       IF (NUMELC>1) THEN
         NUM2 = NUMELS+1
-        CALL MYQSORT(NUMELC,DTELEM(NUM2),PERM(NUM2),IERROR)
+        CALL stlsort(NUMELC,DTELEM(NUM2:),PERM(NUM2:))
       ENDIF
       IF (NUMELT>1) THEN
         NUM2 = NUMELS+NUMELC+1
-        CALL MYQSORT(NUMELT,DTELEM(NUM2),PERM(NUM2),IERROR)
+        CALL stlsort(NUMELT,DTELEM(NUM2:),PERM(NUM2:))
       ENDIF
       IF (NUMELP>1) THEN
         NUM2 = NUMELS+NUMELC+NUMELT+1
-        CALL MYQSORT(NUMELP,DTELEM(NUM2),PERM(NUM2),IERROR)
+        CALL stlsort(NUMELP,DTELEM(NUM2:),PERM(NUM2:))
       ENDIF
       IF (NUMELR>1) THEN
         NUM2 = NUMELS+NUMELC+NUMELT+NUMELP+1
-        CALL MYQSORT(NUMELR,DTELEM(NUM2),PERM(NUM2),IERROR)
+        CALL stlsort(NUMELR,DTELEM(NUM2:),PERM(NUM2:))
       ENDIF
       IF (NUMELTG>1) THEN
           NUM2=NUMELS+NUMELC+NUMELT+NUMELP+NUMELR+1
-          CALL MYQSORT(NUMELTG,DTELEM(NUM2),PERM(NUM2),IERROR)
+          CALL stlsort(NUMELTG,DTELEM(NUM2:),PERM(NUM2:))
       ENDIF
       IF (NUMELX>1) THEN
           NUM2=NUMELS+NUMELC+NUMELT+NUMELP+NUMELR+NUMELTG+1
-          CALL MYQSORT(NUMELX,DTELEM(NUM2),PERM(NUM2),IERROR)
+          CALL stlsort(NUMELX,DTELEM(NUM2:),PERM(NUM2:))
       ENDIF
       IF (NUMSPH>1) THEN
         NUM2=NUMELS+NUMELC+NUMELT+NUMELP+NUMELR+NUMELTG+NUMELX+1
-        CALL MYQSORT(NUMSPH,DTELEM(NUM2),PERM(NUM2),IERROR)
+        CALL stlsort(NUMSPH,DTELEM(NUM2:),PERM(NUM2:))
       ENDIF
       IF (NUMELIG3D>1) THEN
         NUM2=NUMELS+NUMELC+NUMELT+NUMELP+NUMELR+NUMELTG+NUMELX+
      .       NUMSPH+1
-        CALL MYQSORT(NUMELIG3D,DTELEM(NUM2),PERM(NUM2),IERROR)
+        CALL stlsort(NUMELIG3D,DTELEM(NUM2:),PERM(NUM2:))
       ENDIF
       
       DTELEM(NUMEL+1:2*NUMEL) = PERM(1:NUMEL)
@@ -372,6 +373,7 @@ C-----------------------------------------------
       USE R2R_MOD
       USE PLOT_CURVE_MOD
       USE MESSAGE_MOD
+      use cppsort_mod, only: stlsort
 C-----------------------------------------------
 C     SORTING OF NODAL DT AND PRINTING
 C-----------------------------------------------
@@ -436,7 +438,8 @@ C
         PERM(I)=I
       ENDDO
 
-      CALL MYQSORT(NUMNOD,DT,PERM,IERROR)
+!     CALL MYQSORT(NUMNOD,DT,PERM,IERROR)
+      call stlsort(NUMNOD, DT, PERM)
 C
       DTNODA = MIN(DTNODA,DT(1))
 C

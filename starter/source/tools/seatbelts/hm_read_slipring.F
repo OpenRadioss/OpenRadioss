@@ -57,6 +57,7 @@ C-----------------------------------------------
       USE HM_OPTION_READ_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARKEY
       use element_mod , only : nixc,nixr
+      use cppsort_mod, only : stlsort
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -512,7 +513,7 @@ C--------   Check of alignment of anchorage nodes
             ENDDO
 
 C--------   Check of distance between anchorage nodes (sorting by distance to first node)
-            CALL MYQSORT(NFRAM,DIST,JPERM,IERROR)
+            call stlsort(NFRAM,DIST,JPERM)
             DO J=1,NFRAM-1
               IF (DIST(J)==DIST(J+1)) THEN
                 NJ = IGRNOD(GRN_LOC)%ENTITY(JPERM(J))

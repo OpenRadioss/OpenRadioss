@@ -679,7 +679,6 @@
 !||--- calls      -----------------------------------------------------
 !||    detach_node                  ../engine/source/engine/node_spliting/detach_node.F90
 !||    spmd_exchange_ghost_shells   ../engine/source/engine/node_spliting/ghost_shells.F90
-!||    stlsort_int_int              ../common_source/tools/sort/cppsort.cpp
 !||--- uses       -----------------------------------------------------
 !||    connectivity_mod             ../common_source/modules/connectivity.F90
 !||    constant_mod                 ../common_source/modules/constant_mod.F
@@ -698,6 +697,7 @@
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
           use spmd_mod
+          use cppsort_mod
           use ghost_shells_mod
           use precision_mod, only : wp
           USE constant_mod, only : TWO, ONE, four_over_5
@@ -989,7 +989,7 @@
             permutation(i) = i
           end do
           ! sort the detached nodes in ascending order of the user id of the parent node
-          CALL STLSORT_INT_INT(k,detached_nodes,permutation)
+          CALL STLSORT(k,detached_nodes,permutation)
 
           !Loop over the detached nodes of all domains
           !the new nodes are created in the same order what the number of mpi domains is

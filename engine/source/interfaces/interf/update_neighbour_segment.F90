@@ -49,7 +49,6 @@
 !||    c_new_hash                                ../common_source/tools/container/c_hash_table.cpp
 !||    get_hashtable_for_neighbour_segment       ../engine/source/interfaces/interf/get_hashtable_for_neighbour_segment.F90
 !||    get_segment_criteria                      ../engine/source/interfaces/interf/get_segment_criteria.F90
-!||    myqsort_int                               ../common_source/tools/sort/myqsort_int.F
 !||--- uses       -----------------------------------------------------
 !||    array_mod                                 ../common_source/modules/array_mod.F
 !||    constant_mod                              ../common_source/modules/constant_mod.F
@@ -71,6 +70,7 @@
           use shooting_node_mod , only : shooting_node_type
           use get_hashtable_for_neighbour_segment_mod , only : get_hashtable_for_neighbour_segment
           use precision_mod, only : WP
+          use cppsort_mod, only: stlsort
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -205,7 +205,7 @@
 
           new_segment_id(1:nb_new_segment) = shoot_struct%shift_interface2(list_new_segment(1:nb_new_segment,5 )) &
             + list_new_segment(1:nb_new_segment,3)
-          call myqsort_int(nb_new_segment,new_segment_id,permutation,ierror)
+          call stlsort(nb_new_segment,new_segment_id,permutation) ! sort the new segment id (ascending order) --- IGNORE ---
           ! ------------
 
           ! ------------

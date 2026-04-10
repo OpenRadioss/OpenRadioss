@@ -44,6 +44,7 @@ C-----------------------------------------------
       USE INOUTFILE_MOD
       USE MATPARAM_DEF_MOD
       use element_mod , only : nixs,nixc,nixtg
+      use cppsort_mod, only : stlsort
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -474,7 +475,7 @@ c
                     NODE_ID(J) = IXS(1+J,I+NFT)
                   ENDDO
                   ! Sort and find only effective nodes IDs (to detect degenerated bricks)
-                  CALL MYQSORT_INT(8,NODE_ID,IDXND,ERROR)
+                  CALL stlsort(8,NODE_ID,IDXND)
                   BOOL(1:8) = .FALSE.
                   BOOL(IDXND(1)) = .TRUE.
                   DO J=2,8
@@ -878,7 +879,7 @@ c
           ! Copy element nodal volume contribution of each attached elements
           VOLSORT(1:NELEN(N)) = VOLNOD(IDELEM(IADDN(N):IADDN(N)+NELEN(N)-1))
           ! Sort by increasing volume value
-          CALL MYQSORT(NELEN(N),VOLSORT(1:NELEN(N)),ITRIN(1:NELEN(N)),ERROR)
+          call stlsort(NELEN(N),ITRIN(1:NELEN(N)),ITRIN(1:NELEN(N)))
           ! Loop over attached elements
           DO K = 1, NELEN(N)
             ! Add the sorted element nodal volume contribution

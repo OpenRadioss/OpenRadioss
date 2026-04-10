@@ -38,7 +38,6 @@
 !||    get_neighbour_surface     ../engine/source/interfaces/interf/get_neighbour_surface.F90
 !||--- calls      -----------------------------------------------------
 !||    get_segment_normal        ../engine/source/interfaces/interf/get_segment_normal.F90
-!||    myqsort_int               ../common_source/tools/sort/myqsort_int.F
 !||--- uses       -----------------------------------------------------
 !||    constant_mod              ../common_source/modules/constant_mod.F
 !||    get_segment_normal_mod    ../engine/source/interfaces/interf/get_segment_normal.F90
@@ -53,6 +52,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   modules
 ! ----------------------------------------------------------------------------------------------------------------------
+          use cppsort_mod, only: stlsort
           use constant_mod , only : zero,one
           use intbufdef_mod , only : intbuf_struct_
           use get_segment_normal_mod , only : get_segment_normal
@@ -132,7 +132,7 @@
             do j=1,node_number
               list(j) = ixs(j+1,elem_id) ! get the node id of the solid element : a node can appeared several time in ixs... (tetra or degenerated element)
             end do
-            call myqsort_int(node_number,list,perm_list,error) ! sort the list
+            call stlsort(node_number,list,perm_list) ! sort the list
             need_orientation = .true.
             ! ----------------
             ! -----------------

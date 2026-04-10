@@ -54,6 +54,7 @@
           use table4d_mod
           use polyline_intersection_mod
           use precision_mod, only : WP
+          use cppsort_mod, only: stlsort
           use constant_mod , only : zero,one,em9
 ! -------------------------------------------------------------------------------------------
           implicit none
@@ -120,7 +121,7 @@
             allocate (perm(nptx))
             xtmp(1:npt1)      = x1(1:npt1)
             xtmp(npt1+1:nptx) = x2(1:npt2)
-            call myqsort(nptx,xtmp,perm,ierror)
+            call stlsort(nptx,xtmp,perm) 
             npt = 1
             xf(1) = xtmp(1)
             do i = 1,nptx

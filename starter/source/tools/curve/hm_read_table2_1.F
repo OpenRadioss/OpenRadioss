@@ -50,8 +50,8 @@ C-----------------------------------------------
       USE HM_OPTION_READ_MOD
       USE UNITAB_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARFIELD
+      use cppsort_mod, only : stlsort
       use simple_checksum_mod
-      use myqsort_d_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -194,7 +194,7 @@ C-----------------------------------------------
 !-----------------------------------------------------------------------------------------
         ! check duplicated input lines
 !
-        call myqsort_d(nfun,hash,jperm2,ierror)
+        call stlsort(nfun,hash,jperm2) ! sort the hash valuesn
         h1 = hash(1)
         do ifun = 2,nfun
           h2 = hash(ifun)
@@ -219,7 +219,7 @@ C-----------------------------------------------
         end do  
         ! hash of all abscissa combinations
 !
-        call myqsort_d(nfun,hash,jperm2,ierror)
+        call stlsort(nfun,hash,jperm2) ! sort the hash values
         h1 = hash(1)
         do ifun = 2,nfun
           h2 = hash(ifun)
@@ -236,7 +236,7 @@ C-----------------------------------------------
         ! check if input grid of abscissa values in all dimensons is complete
 !-----------------------------------------------------------------------------------------
         if (ndim > 1) then
-          call myqsort(nfun,xx2,jperm2,ierror)           
+          call stlsort(nfun,xx2,jperm2)           
           nx2 = 1
           nv1(:) = 1
           do ifun = 2,nfun
@@ -258,7 +258,7 @@ C-----------------------------------------------
           end do                                     
         end if
         if (ndim > 2) then
-          call myqsort(nfun,xx3,jperm2,ierror)           
+          call stlsort(nfun,xx3,jperm2)           
           nx3 = 1
           nv2(:) = 1
           do ifun = 2,nfun
@@ -280,7 +280,7 @@ C-----------------------------------------------
           end do                                     
         end if
         if (ndim > 3) then
-          call myqsort(nfun,xx4,jperm2,ierror)           
+          call stlsort(nfun,xx4,jperm2)           
           nx4 = 1
           nv3(:) = 1
           do ifun = 2,nfun
@@ -320,7 +320,7 @@ C-----------------------------------------------
           END DO                                                                
         END DO  !ifun = 1, NFUN    
         !< sort global X abscissa vector  
-        call myqsort(nx1,xx1,jperm1,ierror)
+        call stlsort(nx1,xx1,jperm1)
 
         !< save ordered abscissa values, skipping doubles
         countx = 1                               

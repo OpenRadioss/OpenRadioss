@@ -46,6 +46,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
+          use cppsort_mod, only: stlsort
           use constant_mod, only : zero,half,third,fourth,ep20,em01
           use precision_mod, only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -70,7 +71,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer :: i,j,k,nj(4),ii,ifound,iwork(4),nj1(4),ier,jmin,i_old,n_buck,ihuge
+          integer :: i,j,k,nj(4),ii,ifound,nj1(4),ier,jmin,i_old,n_buck,ihuge
           integer :: n_dir(3),ix,iy,iz,nsu_1,nsu_2,jj,ndiv_min,nb_seg1(3),nb_seg2(3)
           real(kind=WP) :: area1,area2
           real(kind=WP) :: ds,dsn,dmin,xj(3,4),marge1(nsu1),marge2(nsu2),angle,angle_min
@@ -224,13 +225,13 @@
                     i = ind_2(j)
                     if (itag2(i)==0) cycle
                     nj(1:4) = nodes2(i,1:4)
-                    call MYQSORT_INT(4, nj, iwork, ier)
+                    call stlsort(4, nj)
                     do jj = 1,nsu_1
                       ii = ind_1(jj)
                       nj1(1:4) = nodes1(ii,1:4)
                       jmin=min(nj1(1),nj1(2),nj1(3),nj1(4))
                       if(jmin/=nj(1)) cycle
-                      call MYQSORT_INT(4, nj1, iwork, ier)
+                      call stlsort(4, nj1)
                       if(nj1(2)/=nj(2).or.nj1(3)/=nj(3).or.nj1(4)/=nj(4)) cycle
                       itag2(i) = 0
                     end do

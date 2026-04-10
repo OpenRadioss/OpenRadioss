@@ -261,6 +261,7 @@ C
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      use cppsort_mod, only : stlsort
       USE MESSAGE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -299,7 +300,7 @@ c--------check  (r,cos(theta),z), cos(theta) not too diff
          CALL ANCMSG(MSGID=1761,ANMODE=ANINFO,MSGTYPE=MSGERROR,I1=ID)
       END IF      
 C------sorting by dis      
-      CALL MYQSORT(NBCY_N, DIS1, INDEX, IER1)
+      call stlsort(NBCY_N, DIS1, INDEX)
       CY_TMP(1:3,1:NBCY_N) = CY_X1(1:3,1:NBCY_N)
       DO I=1,NBCY_N
         J = INDEX(I)
@@ -319,7 +320,8 @@ c--------check  (r,cos(theta),z), cos(theta) not too diff
          CALL ANCMSG(MSGID=1762,ANMODE=ANINFO,MSGTYPE=MSGERROR,I1=ID)
       END IF      
 C------sorting by dis      
-      CALL MYQSORT(NBCY_N, DIS2, INDEX, IER1)
+!     CALL MYQSORT(NBCY_N, DIS2, INDEX, IER1)
+      call stlsort(NBCY_N, DIS2, INDEX)
       CY_TMP(1:3,1:NBCY_N) = CY_X2(1:3,1:NBCY_N)
       DO I=1,NBCY_N
         J = INDEX(I)

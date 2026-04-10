@@ -34,6 +34,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      3         REMNODE,NREMNODE,I_START,I_MEM_REM,INOD2LIN,
      4         TAGSECND,NOD2LIN,DGAPLOAD,PERM,PERM_INV,
      5         GAP_MAXNEIGH)
+          use cppsort_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -93,7 +94,7 @@ C       edges are sorted by increasing gap
            PERM(I) =I
            GAP_E_SORT(I) = GAP_E(I)
         ENDDO  
-        CALL STLSORT_REAL_INT(NEDGE,GAP_E_SORT,PERM)
+        CALL STLSORT(NEDGE,GAP_E_SORT,PERM)
         IF(ALLOCATED(GAP_E_SORT)) DEALLOCATE(GAP_E_SORT) 
         DO II=1,NEDGE
           I=PERM(NEDGE - II + 1)

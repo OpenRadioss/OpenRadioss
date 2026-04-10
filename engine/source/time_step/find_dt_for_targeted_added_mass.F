@@ -43,6 +43,7 @@ C   A n a l y s e   M o d u l e
 C-----------------------------------------------
       USE GROUPDEF_MOD
       USE MESSAGE_MOD
+      use cppsort_mod, only: stlsort
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -160,7 +161,7 @@ C
           SUMK = SUMK + STF_L(I)
         ENDDO
 
-        CALL MYQSORT(SIZG,DT2_L,PERM,IERROR)
+        call stlsort(SIZG,DT2_L,PERM)
         TMP(1:SIZG) = PERM(1:SIZG)
 
         DEALLOCATE( PERM )
