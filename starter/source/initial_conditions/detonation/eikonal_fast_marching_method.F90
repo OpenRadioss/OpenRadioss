@@ -285,6 +285,7 @@
             if(allocated(start_elem_list))deallocate(start_elem_list)
             if(allocated(start_elem_tdet))deallocate(start_elem_tdet)
             if(allocated(uelem_list))deallocate(uelem_list)
+            if(allocated(elem_list))deallocate(elem_list)
             if(allocated(idx_ng))deallocate(idx_ng)
             if(allocated(idx_i))deallocate(idx_i)
             if(allocated(updown))deallocate(updown)

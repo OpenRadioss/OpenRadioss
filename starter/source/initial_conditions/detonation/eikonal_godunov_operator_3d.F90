@@ -75,12 +75,20 @@
           real(kind=WP) :: A1,A2,B1,B2,C1,C2,AA,BB,CC,DENOM
           real(kind=WP) :: max_abc
           real(kind=WP) :: D2
-          real(kind=WP) :: u(3), norm_u, v(3), norm_v, xel2d(3,3), k_proj, l_proj_u, l_proj_v
+          real(kind=WP) :: u(3), norm_u, v(3), norm_v, k_proj, l_proj_u, l_proj_v
 
           real(kind=WP) :: x10,x20,x30, y10,y20,y30, z10,z20,z30
           real(kind=WP) :: invA(3,3)
 
           real(kind=WP) :: T1,T2,T3
+          real(kind=WP) :: tt_1d(3)      ! 1D candidates for each direction
+          integer :: dir_idx(3)          ! face indices for each direction (k,l,m)
+          real(kind=WP) :: dir_tt(3)     ! upwind times for each direction (a,b,c)
+          logical :: dir_avail(3)        ! is direction available ?
+          integer :: p1                  ! loop index for 2D fallback pairs
+          logical :: causality_ok
+          integer :: pair(2,3)           ! 3 pairs of directions for 2D fallback
+          real(kind=WP) :: tt_2d         ! 2D candidate
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -89,132 +97,47 @@
           b = min(tt_adj(2),tt_adj(4))
           c = min(tt_adj(5),tt_adj(6))
           max_abc = max(max(a,b),c)
-          k = 0
-          l = 0
           if (a == ep21 .and. b == ep21 .and. c == ep21) return
-          if (a == ep21 .and. b == ep21)then
-            m=5
-            if(c == tt_adj(6))m=6  !supposing x axis for adj elems 2,4
-            dx = (xel(1)-xel_adj(1,m))
-            dy = (xel(2)-xel_adj(2,m))
-            dz = (xel(3)-xel_adj(3,m))
+
+          ! --- Identify best upwind neighbor index in each direction ---
+          k=1
+          if(a==tt_adj(3))k=3
+          l=2
+          if(b==tt_adj(4))l=4
+          m=5
+          if(c==tt_adj(6))m=6
+
+          ! --- Store directions info ---
+          dir_idx(1) = k ; dir_tt(1) = a ; dir_avail(1) = (a < ep21)
+          dir_idx(2) = l ; dir_tt(2) = b ; dir_avail(2) = (b < ep21)
+          dir_idx(3) = m ; dir_tt(3) = c ; dir_avail(3) = (c < ep21)
+
+          ! --- STEP 1: Compute 1D candidates for each available direction ---
+          tt_1d(1:3) = ep21
+          do p1=1,3
+            if(.not.dir_avail(p1))cycle
+            dx = xel(1)-xel_adj(1,dir_idx(p1))
+            dy = xel(2)-xel_adj(2,dir_idx(p1))
+            dz = xel(3)-xel_adj(3,dir_idx(p1))
             dist = sqrt(dx*dx+dy*dy+dz*dz)
-            s = max(Velocity, Velocity_adj(m))
+            s = max(Velocity, Velocity_adj(dir_idx(p1)))
             s = one / s
-            tt_candidate = c+s*dist
-            tt = min(tt, tt_candidate)
-          else if (a == ep21 .and. c ==ep21)then
-            l=2
-            if(b == tt_adj(4))l=4  !supposing x axis for adj elems 2,4
-            dx = (xel(1)-xel_adj(1,l))
-            dy = (xel(2)-xel_adj(2,l))
-            dz = (xel(3)-xel_adj(3,l))
-            dist = sqrt(dx*dx+dy*dy+dz*dz)
-            s = max(Velocity, Velocity_adj(l))
-            s = one / s
-            tt_candidate = b+s*dist
-            tt = min(tt, tt_candidate)
-          else if (b == ep21 .and. c == ep21) then
-            k=1
-            if(a==tt_adj(3))k=3  !supposing x axis for adj elems 1,3
-            dx = (xel(1)-xel_adj(1,k))
-            dy = (xel(2)-xel_adj(2,k))
-            dz = (xel(3)-xel_adj(3,k))
-            dist = sqrt(dx*dx+dy*dy+dz*dz)
-            s = max(Velocity, Velocity_adj(k))
-            s = one / s
-            tt_candidate = a+s*dist
-            tt = min(tt, tt_candidate)
-          else if (max_abc == ep21) then  !at least one 'direction' ignored (two directions)
-            if(a == ep21)then
-              k=5
-              if(c == tt_adj(6))k=6
-              l=2
-              if(b == tt_adj(4))l=4
-            else if(b==ep21)then
-              k=1
-              if(a == tt_adj(3))k=3
-              l=5
-              if(c == tt_adj(6))l=6
-            else if(c==ep21)then
-              k=1
-              if(a == tt_adj(3))k=3
-              l=2
-              if(b == tt_adj(4))l=4
-            end if
+            tt_1d(p1) = dir_tt(p1) + s*dist
+          end do
+
+          ! --- Count available directions ---
+          ! pairs for 2D fallback : (1,2), (1,3), (2,3)
+          pair(1:2,1) = (/1,2/)
+          pair(1:2,2) = (/1,3/)
+          pair(1:2,3) = (/2,3/)
+
+          ! --- STEP 2: Try 3D update if all 3 directions available ---
+          if(dir_avail(1) .and. dir_avail(2) .and. dir_avail(3))then
 
             s = max(Velocity, Velocity_adj(k))
             s = max(s, Velocity_adj(l))
+            s = max(s, Velocity_adj(m))
             s = one / s
-
-            !P : node to treat (xel2d(1:3,1))
-            !K,L : ajdacent points. xel2d(1:3,2) and xel2d(1:3,3)
-
-            ! u is PK vector
-            u = xel_adj(:,k) - xel
-            norm_u = sqrt(sum(u**2))  ! Norm of u
-            u = u / norm_u  ! Normalization of u
-
-            !v is orthogonal to u (one plane generated by PK, PL)
-            v = xel_adj(:,l) - xel
-            v = v - dot_product(u, v) * u  ! Remove the component in the direction of u
-            norm_v = sqrt(sum(v**2))  ! Norm of v
-            v = v / norm_v  ! Normalization of v
-
-            ! Projection of P on the 2D plane -> P becomes the origin (0, 0)
-            xel2d(1:3,1) = [zero, zero, zero]
-
-            ! K-Projection on 2D plane
-            k_proj = dot_product(u, xel_adj(:,k) - xel)  ! Projection of K on u
-            xel2d(1:3,2) = [k_proj, zero, zero]  ! Coordinates of K on u
-
-            ! L-Projection on 2D plane
-            l_proj_u = dot_product(u, xel_adj(:,l) - xel)  ! Projection of L on u
-            l_proj_v = dot_product(v, xel_adj(:,l) - xel)  ! Projection of L on v
-            xel2d(1:3,3) = [l_proj_u, l_proj_v, zero]  ! Coordinates of L in (u,v) plane
-
-            ! Calculate coefficients for quadratic equation
-            A1 = (xel2d(2,2) - xel2d(2,3))
-            A2 = (xel2d(1,3) - xel2d(1,2))
-            B1 = two * ( (xel2d(2,3) - zero)*tt_adj(k) - (xel2d(2,2) - zero)*tt_adj(l) ) * A1
-            B2 = two * ( (xel2d(1,2) - zero)*tt_adj(l) - (xel2d(1,3) - zero)*tt_adj(k) ) * A2
-            C1 = ( (xel2d(2,3) - zero)*tt_adj(k) - (xel2d(2,2) - zero)*tt_adj(l) )
-            C2 = ( (xel2d(1,2) - zero)*tt_adj(l) - (xel2d(1,3) - zero)*tt_adj(k) )
-
-            DENOM = (xel2d(1,2) - zero)*(xel2d(2,3) - zero) - (xel2d(1,3) - zero)*(xel2d(2,2) - zero)
-            DENOM = DENOM*DENOM
-
-            A1 = A1*A1
-            A2 = A2*A2
-            C1 = C1*C1
-            C2 = C2*C2
-
-            AA = (A1+A2)/DENOM
-            BB = (B1+B2)/DENOM
-            CC = (C1+C2)/DENOM - s*s
-
-            delta = BB*BB-FOUR*AA*CC
-
-            if(delta >= zero)then
-              tt_candidate = (-BB + sqrt(delta)) / two / AA
-            else
-              tt_candidate = (-BB + ZERO) / TWO / AA
-            end if
-            tt = min(tt, tt_candidate)
-
-
-
-
-          else if (max_abc < ep21) then  !three directions
-            s = maxval(Velocity_adj)
-            s = max(s, Velocity)
-            s = one / s
-            k=1
-            if(a == tt_adj(3))k=3
-            l=2
-            if(b == tt_adj(4))l=4
-            m=5
-            if(c == tt_adj(6))m=6
 
             x10 = xel_adj(1,K)-xel(1)
             x20 = xel_adj(1,L)-xel(1)
@@ -240,8 +163,8 @@
 
             D2 = DENOM*DENOM
 
-            AA = (-invA(2,1) - invA(2,2) - invA(2,3))**2 &
-              + (-invA(1,1) - invA(1,2) - invA(1,3))**2 &
+            AA = (-invA(1,1) - invA(1,2) - invA(1,3))**2 &
+              + (-invA(2,1) - invA(2,2) - invA(2,3))**2 &
               + (-invA(3,1) - invA(3,2) - invA(3,3))**2
 
             BB = two*(invA(1,1)*T1 + invA(1,2)*T2 + invA(1,3)*T3) * (-invA(1,1)- invA(1,2) - invA(1,3)) &
@@ -249,20 +172,101 @@
               + two*(invA(3,1)*T1 + invA(3,2)*T2 + invA(3,3)*T3) * (-invA(3,1)- invA(3,2) - invA(3,3))
 
             CC = (invA(1,1)*T1 + invA(1,2)*T2 + invA(1,3)*T3)**2 &
-              + (invA(3,1)*T1 + invA(3,2)*T2 + invA(3,3)*T3)**2 &
               + (invA(2,1)*T1 + invA(2,2)*T2 + invA(2,3)*T3)**2 &
+              + (invA(3,1)*T1 + invA(3,2)*T2 + invA(3,3)*T3)**2 &
               - s*s*D2
 
             delta = BB*BB-FOUR*AA*CC
 
+            causality_ok = .false.
             if(delta >= zero)then
               tt_candidate = (-BB + sqrt(delta)) / two / AA
-            else
-              tt_candidate = (-BB + ZERO) / TWO / AA
+              ! causality check : solution must be >= max of all upwind neighbors used
+              if(tt_candidate >= max_abc) causality_ok = .true.
             end if
-            tt = min(tt, tt_candidate)
+
+            if(causality_ok)then
+              tt = min(tt, tt_candidate)
+              return
+            end if
+            ! 3D update failed -> fallback to 2D pairs below
 
           end if
+
+          ! --- STEP 3: Try 2D updates (3 pairs, or fewer if only 2 directions available) ---
+          do p1=1,3
+            if(.not.dir_avail(pair(1,p1)))cycle
+            if(.not.dir_avail(pair(2,p1)))cycle
+
+            k = dir_idx(pair(1,p1))
+            l = dir_idx(pair(2,p1))
+
+            s = max(Velocity, Velocity_adj(k))
+            s = max(s, Velocity_adj(l))
+            s = one / s
+
+            ! Project 3D points onto 2D plane (PK, PL)
+            ! u is PK vector
+            u = xel_adj(:,k) - xel
+            norm_u = sqrt(sum(u**2))
+            if(norm_u < em06)cycle
+            u = u / norm_u
+
+            ! v is orthogonal to u in the plane (PK, PL)
+            v = xel_adj(:,l) - xel
+            v = v - dot_product(u, v) * u
+            norm_v = sqrt(sum(v**2))
+            if(norm_v < em06)cycle
+            v = v / norm_v
+
+            ! K-Projection on 2D plane
+            k_proj = dot_product(u, xel_adj(:,k) - xel)
+            ! L-Projection on 2D plane
+            l_proj_u = dot_product(u, xel_adj(:,l) - xel)
+            l_proj_v = dot_product(v, xel_adj(:,l) - xel)
+
+            ! Calculate coefficients for quadratic equation
+            A1 = (-l_proj_v)           ! (y_K - y_L) with y_K=0
+            A2 = (l_proj_u - k_proj)   ! (x_L - x_K)
+            B1 = two*( l_proj_v*tt_adj(k) - zero*tt_adj(l) )*A1    ! y_K=0
+            B2 = two*( k_proj*tt_adj(l) - l_proj_u*tt_adj(k) )*A2
+            C1 = ( l_proj_v*tt_adj(k) - zero*tt_adj(l) )
+            C2 = ( k_proj*tt_adj(l) - l_proj_u*tt_adj(k) )
+
+            DENOM = k_proj*l_proj_v - l_proj_u*zero  ! y_K=0 so second term vanishes
+            DENOM = DENOM*DENOM
+
+            if(DENOM < em06*em06)cycle
+
+            A1 = A1*A1
+            A2 = A2*A2
+            C1 = C1*C1
+            C2 = C2*C2
+
+            AA = (A1+A2)/DENOM
+            BB = (B1+B2)/DENOM
+            CC = (C1+C2)/DENOM - s*s
+
+            delta = BB*BB-FOUR*AA*CC
+
+            causality_ok = .false.
+            if(delta >= zero)then
+              tt_2d = (-BB + sqrt(delta)) / two / AA
+              ! causality check : solution must be >= max of upwind times used in this pair
+              if(tt_2d >= max(dir_tt(pair(1,p1)), dir_tt(pair(2,p1)))) causality_ok = .true.
+            end if
+
+            if(causality_ok)then
+              tt = min(tt, tt_2d)
+            end if
+          end do
+
+          ! --- STEP 4: 1D fallback (always valid, take best) ---
+          do p1=1,3
+            if(dir_avail(p1))then
+              tt = min(tt, tt_1d(p1))
+            end if
+          end do
 
         end subroutine eikonal_godunov_operator_3d
 ! ----------------------------------------------------------------------------------------------------------------------

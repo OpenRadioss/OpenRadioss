@@ -107,7 +107,7 @@
           !data ict2d/1,2,2,3,3,4,4,1/
           !data ict3d/1,2,3,4,3,4,7,8,5,6,7,8,1,2,6,5,1,3,6,7,1,4,5,8/
           data ict2d/1,2,3,4,2,3,4,1/
-          data ict3d/1,3,5,1,2,1,2,4,6,2,3,4,3,7,8,5,7,8,4,8,7,6,6,5/
+          data ict3d/1,4,8,5,2,4, 2,3,7,6,6,8, 3,7,6,2,7,5, 4,8,5,1,3,1/
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -136,7 +136,7 @@
             tdet_adj(1:nvois) = ep21
             xel_adj(1:3,1:nvois) = zero
             do kk=1,lgth2
-              vel_adj(kk) = vel(iel)  !iev is global id (1:numel)  Not used if no adjacent elem.
+              vel_adj(kk) = vel(iel)
               iev_v = ale_connectivity%ee_connect%connected(iad2 + kk - 1)
               is_boundary = (itag_boundFaces(iel,kk)==1)
                if (iev_v == 0 .and. is_boundary)then
@@ -159,7 +159,7 @@
                   xel_adj(2,kk) = xel(2,iel) + DL*NN(2)
                   xel_adj(3,kk) = xel(3,iel) + DL*NN(3)
                 else
-                  !3d : (oints are coplanar , is_boundary => all nodes on boundary plane
+                  !3d : (points are coplanar , is_boundary => all nodes on boundary plane
                   inod(1:4) = 1 + ict3d(kk,1:4)
                   PP(1:3,1) = x(1:3, ix(inod(1), iev) )
                   PP(1:3,2) = x(1:3, ix(inod(2), iev) )
