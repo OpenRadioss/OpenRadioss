@@ -50,8 +50,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    fail_nxt_c                   ../engine/source/materials/fail/nxt/fail_nxt_c.F
 !||    fail_orthbiquad_c            ../engine/source/materials/fail/orthbiquad/fail_orthbiquad_c.F
 !||    fail_orthbiquad_s            ../engine/source/materials/fail/orthbiquad/fail_orthbiquad_s.F
-!||    fail_orthstrain              ../engine/source/materials/fail/orthstrain/fail_orthstrain_s.F
-!||    fail_orthstrain_c            ../engine/source/materials/fail/orthstrain/fail_orthstrain_c.F
 !||    fail_sahraei_s               ../engine/source/materials/fail/sahraei/fail_sahraei_s.F
 !||    fail_snconnect               ../engine/source/materials/fail/snconnect/fail_snconnect.F
 !||    fail_syazwan_c               ../engine/source/materials/fail/syazwan/fail_syazwan_c.F

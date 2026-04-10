@@ -23,17 +23,18 @@
 ! --------------------------------------------------------------------------------------------------------------
 !
 !||====================================================================
-!||    func_table_copy_mod   ../starter/source/materials/tools/func_table_copy.F90
+!||    func_table_copy_mod       ../starter/source/materials/tools/func_table_copy.F90
 !||--- called by ------------------------------------------------------
-!||    hm_read_fail_energy   ../starter/source/materials/fail/energy/hm_read_fail_energy.F
-!||    hm_read_mat123        ../starter/source/materials/mat/mat123/hm_read_mat123.F90
-!||    hm_read_mat125        ../starter/source/materials/mat/mat125/hm_read_mat125.F90
-!||    hm_read_mat129        ../starter/source/materials/mat/mat129/hm_read_mat129.F90
-!||    hm_read_mat132        ../starter/source/materials/mat/mat132/hm_read_mat132.F90
-!||    hm_read_mat50         ../starter/source/materials/mat/mat050/hm_read_mat50.F90
-!||    hm_read_mat57         ../starter/source/materials/mat/mat057/hm_read_mat57.F90
-!||    hm_read_mat87         ../starter/source/materials/mat/mat087/hm_read_mat87.F90
-!||    hm_read_mat88         ../starter/source/materials/mat/mat088/hm_read_mat88.F90
+!||    hm_read_fail_energy       ../starter/source/materials/fail/energy/hm_read_fail_energy.F
+!||    hm_read_fail_orthstrain   ../starter/source/materials/fail/orthstrain/hm_read_fail_orthstrain.F
+!||    hm_read_mat123            ../starter/source/materials/mat/mat123/hm_read_mat123.F90
+!||    hm_read_mat125            ../starter/source/materials/mat/mat125/hm_read_mat125.F90
+!||    hm_read_mat129            ../starter/source/materials/mat/mat129/hm_read_mat129.F90
+!||    hm_read_mat132            ../starter/source/materials/mat/mat132/hm_read_mat132.F90
+!||    hm_read_mat50             ../starter/source/materials/mat/mat050/hm_read_mat50.F90
+!||    hm_read_mat57             ../starter/source/materials/mat/mat057/hm_read_mat57.F90
+!||    hm_read_mat87             ../starter/source/materials/mat/mat087/hm_read_mat87.F90
+!||    hm_read_mat88             ../starter/source/materials/mat/mat088/hm_read_mat88.F90
 !||====================================================================
       module func_table_copy_mod
       implicit none
@@ -43,21 +44,22 @@
 !! \detail mat_param table array : mat_param%ntable > 0 should be already allocated
 
 !||====================================================================
-!||    func_table_copy        ../starter/source/materials/tools/func_table_copy.F90
+!||    func_table_copy           ../starter/source/materials/tools/func_table_copy.F90
 !||--- called by ------------------------------------------------------
-!||    hm_read_fail_energy    ../starter/source/materials/fail/energy/hm_read_fail_energy.F
-!||    hm_read_mat123         ../starter/source/materials/mat/mat123/hm_read_mat123.F90
-!||    hm_read_mat125         ../starter/source/materials/mat/mat125/hm_read_mat125.F90
-!||    hm_read_mat129         ../starter/source/materials/mat/mat129/hm_read_mat129.F90
-!||    hm_read_mat132         ../starter/source/materials/mat/mat132/hm_read_mat132.F90
-!||    hm_read_mat50          ../starter/source/materials/mat/mat050/hm_read_mat50.F90
-!||    hm_read_mat57          ../starter/source/materials/mat/mat057/hm_read_mat57.F90
-!||    hm_read_mat87          ../starter/source/materials/mat/mat087/hm_read_mat87.F90
-!||    hm_read_mat88          ../starter/source/materials/mat/mat088/hm_read_mat88.F90
+!||    hm_read_fail_energy       ../starter/source/materials/fail/energy/hm_read_fail_energy.F
+!||    hm_read_fail_orthstrain   ../starter/source/materials/fail/orthstrain/hm_read_fail_orthstrain.F
+!||    hm_read_mat123            ../starter/source/materials/mat/mat123/hm_read_mat123.F90
+!||    hm_read_mat125            ../starter/source/materials/mat/mat125/hm_read_mat125.F90
+!||    hm_read_mat129            ../starter/source/materials/mat/mat129/hm_read_mat129.F90
+!||    hm_read_mat132            ../starter/source/materials/mat/mat132/hm_read_mat132.F90
+!||    hm_read_mat50             ../starter/source/materials/mat/mat050/hm_read_mat50.F90
+!||    hm_read_mat57             ../starter/source/materials/mat/mat057/hm_read_mat57.F90
+!||    hm_read_mat87             ../starter/source/materials/mat/mat087/hm_read_mat87.F90
+!||    hm_read_mat88             ../starter/source/materials/mat/mat088/hm_read_mat88.F90
 !||--- calls      -----------------------------------------------------
-!||    mattab_usr2sys         ../starter/source/materials/tools/mattab_usr2sys.F
-!||    table_values_2d        ../starter/source/materials/tools/table_values_2d.F
-!||    unify_abscissa_2d      ../starter/source/materials/tools/unify_abscissas_2d.F
+!||    mattab_usr2sys            ../starter/source/materials/tools/mattab_usr2sys.F
+!||    table_values_2d           ../starter/source/materials/tools/table_values_2d.F
+!||    unify_abscissa_2d         ../starter/source/materials/tools/unify_abscissas_2d.F
 !||--- uses       -----------------------------------------------------
 !||====================================================================
         subroutine func_table_copy(mat_table,mat_title,mat_id   ,     &

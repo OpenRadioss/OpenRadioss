@@ -320,6 +320,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_read_fail_gurson               ../starter/source/materials/fail/gurson/hm_read_fail_gurson.F
 !||    hm_read_fail_johnson              ../starter/source/materials/fail/johnson_cook/hm_read_fail_johnson.F
 !||    hm_read_fail_orthbiquad           ../starter/source/materials/fail/orthbiquad/hm_read_fail_orthbiquad.F
+!||    hm_read_fail_orthstrain           ../starter/source/materials/fail/orthstrain/hm_read_fail_orthstrain.F
 !||    hm_read_fail_tab2                 ../starter/source/materials/fail/tabulated/hm_read_fail_tab2.F
 !||    hm_read_fail_user                 ../starter/source/materials/fail/failuser/hm_read_fail_user.F
 !||    hm_read_friction                  ../starter/source/interfaces/friction/reader/hm_read_friction.F

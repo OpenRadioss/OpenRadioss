@@ -38,6 +38,8 @@
 !||    fail_energy_ib            ../engine/source/materials/fail/energy/fail_energy_ib.F
 !||    fail_energy_s             ../engine/source/materials/fail/energy/fail_energy_s.F
 !||    fail_fun2sys              ../starter/source/materials/tools/fail_fun2sys.F
+!||    fail_orthstrain           ../engine/source/materials/fail/orthstrain/fail_orthstrain_s.F
+!||    fail_orthstrain_c         ../engine/source/materials/fail/orthstrain/fail_orthstrain_c.F
 !||    fail_tab2sys              ../starter/source/materials/tools/fail_tab2sys.F
 !||    h3d_fld_tsh               ../engine/source/output/h3d/h3d_results/h3d_fld_tsh.F
 !||    hm_read_fail_alter        ../starter/source/materials/fail/windshield_alter/hm_read_fail_alter.F

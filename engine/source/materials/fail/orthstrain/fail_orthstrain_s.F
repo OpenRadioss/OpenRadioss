@@ -21,15 +21,17 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    fail_orthstrain   ../engine/source/materials/fail/orthstrain/fail_orthstrain_s.F
+!||    fail_orthstrain         ../engine/source/materials/fail/orthstrain/fail_orthstrain_s.F
 !||--- called by ------------------------------------------------------
-!||    mmain             ../engine/source/materials/mat_share/mmain.F90
-!||    mulaw             ../engine/source/materials/mat_share/mulaw.F90
-!||    usermat_solid     ../engine/source/materials/mat_share/usermat_solid.F
+!||    mmain                   ../engine/source/materials/mat_share/mmain.F90
+!||    mulaw                   ../engine/source/materials/mat_share/mulaw.F90
+!||    usermat_solid           ../engine/source/materials/mat_share/usermat_solid.F
 !||--- calls      -----------------------------------------------------
-!||    finter            ../engine/source/tools/curve/finter.F
-!||    jacobiew          ../engine/source/materials/mat/mat033/sigeps33.F
-!||    vinter2           ../engine/source/tools/curve/vinter.F
+!||    jacobiew                ../engine/source/materials/mat/mat033/sigeps33.F
+!||    table_mat_vinterp       ../engine/source/materials/tools/table_mat_vinterp.F
+!||--- uses       -----------------------------------------------------
+!||    fail_param_mod          ../common_source/modules/mat_elem/fail_param_mod.F90
+!||    table_mat_vinterp_mod   ../engine/source/materials/tools/table_mat_vinterp.F
 !||====================================================================
               SUBROUTINE FAIL_ORTHSTRAIN (FAIL ,
      1        NEL      ,NUVAR  ,TIME   ,TIMESTEP,ISMSTR ,

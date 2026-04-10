@@ -390,6 +390,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_read_fail_maxstrain                 ../starter/source/materials/fail/max_strain/hm_read_fail_maxstrain.F
 !||    hm_read_fail_orthbiquad                ../starter/source/materials/fail/orthbiquad/hm_read_fail_orthbiquad.F
 !||    hm_read_fail_orthenerg                 ../starter/source/materials/fail/orthenerg/hm_read_fail_orthenerg.F
+!||    hm_read_fail_orthstrain                ../starter/source/materials/fail/orthstrain/hm_read_fail_orthstrain.F
 !||    hm_read_fail_sahraei                   ../starter/source/materials/fail/sahraei/hm_read_fail_sahraei.F
 !||    hm_read_fail_spalling                  ../starter/source/materials/fail/spalling/hm_read_fail_spalling.F90
 !||    hm_read_fail_syazwan                   ../starter/source/materials/fail/syazwan/hm_read_fail_syazwan.F
