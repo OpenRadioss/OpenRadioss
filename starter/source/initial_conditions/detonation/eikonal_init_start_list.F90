@@ -93,7 +93,6 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           integer :: idet, ndet_pts
           integer :: ii,jj,ielem
-          integer :: I_shadow_flag
           integer :: inod, nnod, nod_id
           integer :: num_adj, num_adj2
           integer, allocatable,dimension(:) :: adjacent_elem
@@ -102,6 +101,7 @@
           integer :: iad1,lgth !< variable for ale_connectivity elem-elem buffer
           integer :: iev, iel, ie
           integer:: I_frame1, I_frame2
+          integer :: I_shadow_flag
           real(kind=WP) :: dx,dy,dz,dl,tdet,dcj
           real(kind=WP) :: xdet, ydet, zdet !< detonator location
           real(kind=WP) :: r0  !optionnal initialization radius
@@ -113,6 +113,8 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
+          nstart = 0
+          if(neldet == 0)return
           allocate(itag_elem(numel)) !tag to check if elem was already found
           allocate(tmp_tdet(neldet))
           allocate(adjacent_elem(numel))
@@ -122,6 +124,7 @@
           ndet_pts = detonators%n_det_point
           do idet = 1, ndet_pts
             I_shadow_flag = detonators%point(idet)%shadow
+            if(I_shadow_flag == 0)cycle
             I_frame1 = detonators%point(idet)%iframe1
             I_frame2 = detonators%point(idet)%iframe2
             nnod = detonators%point(idet)%nnod
@@ -162,13 +165,13 @@
                     if(mat_det /=0 .and. ix(1,ielem) /= mat_det)cycle
                     itag_elem(ielem) = 1000
                     num_adj = num_adj + 1
-                    adjacent_elem(num_adj) = ielem
+                    adjacent_elem(num_adj) = elem_list_bij(ielem)
                   end if
                 end do
                 ! --- SECOND STAGE
                 ! Adjacent elems (face to face)
                 do ii=1,num_adj
-                  ie = adjacent_elem(ii)
+                  ie = elem_list(adjacent_elem(ii))  ! local to global
                   if(itag_elem(ie) /= 1000)cycle
                   iad1 = ale_connectivity%ee_connect%iad_connect(ie)
                   lgth = ale_connectivity%ee_connect%iad_connect(ie+1) - iad1
@@ -180,14 +183,14 @@
                       if(mat_det /=0 .and. ix(1,iev) /= mat_det)cycle
                       itag_elem(iev) = 100
                       num_adj = num_adj + 1
-                      adjacent_elem(num_adj) = iev
+                      adjacent_elem(num_adj) = elem_list_bij(iev)
                     end if
                   end do
                 end do
                 ! --- THIRD STAGE
                 ! Adjacent elems (face to face)
                 do ii=1,num_adj
-                  ie = adjacent_elem(ii)
+                  ie = elem_list(adjacent_elem(ii))  ! local to global
                   if(itag_elem(ie) /= 100)cycle
                   iad1 = ale_connectivity%ee_connect%iad_connect(ie)
                   lgth = ale_connectivity%ee_connect%iad_connect(ie+1) - iad1
@@ -199,7 +202,7 @@
                       if(mat_det /=0 .and. ix(1,iev) /= mat_det)cycle
                       itag_elem(iev) = 10
                       num_adj = num_adj + 1
-                      adjacent_elem(num_adj) = iev
+                      adjacent_elem(num_adj) = elem_list_bij(iev)
                     end if
                   end do
                 end do
@@ -207,7 +210,7 @@
                 ! Adjacent elems (face to face)
                 num_adj2 = 0
                 do ii=1,num_adj
-                  ie = adjacent_elem(ii)
+                  ie = elem_list(adjacent_elem(ii))  ! local to global
                   if(itag_elem(ie) /= 10)cycle
                   iad1 = ale_connectivity%ee_connect%iad_connect(ie)
                   lgth = ale_connectivity%ee_connect%iad_connect(ie+1) - iad1
@@ -220,7 +223,7 @@
                       itag_elem(iev) = itag_elem(iev) + 1
                       if(itag_elem(iev) == 2)then
                         num_adj2 = num_adj2 + 1
-                        adjacent_elem2(num_adj2) = iev
+                        adjacent_elem2(num_adj2) = elem_list_bij(iev)
                       end if
                     end if
                   end do
@@ -228,7 +231,7 @@
                 ! --- FIFTH STAGE
                 ! Adjacent elems (face to face)
                 do ii=1,num_adj2
-                  ie = adjacent_elem2(ii)
+                  ie = elem_list(adjacent_elem2(ii))  ! local to global
                   if(itag_elem(ie) >= 10 .or. itag_elem(ie) == 1)cycle
                   iad1 = ale_connectivity%ee_connect%iad_connect(ie)
                   lgth = ale_connectivity%ee_connect%iad_connect(ie+1) - iad1
@@ -247,7 +250,7 @@
                 do ii=1,numel
                   if(itag_elem(ii) > 1 .and. itag_elem(ii) < 10)then
                     num_adj = num_adj + 1
-                    adjacent_elem(num_adj) = ii
+                    adjacent_elem(num_adj) = elem_list_bij(ii)
                   end if
                 end do
 
@@ -263,15 +266,13 @@
                  ydet = x(2,nod_id)
                  zdet = x(3,nod_id)
                  do ii=1,neldet
-                     iel = elem_list(ii) ! local to global
-                     dx = xdet - xel(1,iel)
-                     dy = ydet - xel(2,iel)
-                     dz = zdet - xel(3,iel)
+                     dx = xdet - xel(1,ii)
+                     dy = ydet - xel(2,ii)
+                     dz = zdet - xel(3,ii)
                      dl = sqrt(dx*dx + dy*dy + dz*dz)
                      if(dl <= r0)then
                         itag_elem(ii) = 1
                         num_adj = num_adj + 1
-                        ! iel = elem_list_bij(iev)  !global to local
                         adjacent_elem(num_adj) = ii
                      end if
                  end do
@@ -282,7 +283,7 @@
               dcj = zero
               do ii=1,num_adj
                 iel = adjacent_elem(ii)
-                dcj = max(dcj,vel(elem_list_bij(iel))) ! chapman jouget velocity
+                dcj = max(dcj,vel(iel)) ! chapman jouget velocity
               end do
               xdet = x(1,nod_id)
               ydet = x(2,nod_id)
@@ -290,29 +291,27 @@
               if(nvois <6)then
                 do ii=1,num_adj
                   iel = adjacent_elem(ii)
-                  iel = elem_list_bij(iel)
                   dy = ydet - xel(2,iel)  !xel-storage is 1:y 2:z
                   dz = zdet - xel(3,iel)
                   dl = sqrt(dy*dy + dz*dz)
-                  tdet = dl / dcj
+                  tdet = detonators%point(idet)%tdet + dl / dcj
                   tmp_tdet(iel) = min (tmp_tdet(iel), tdet)
                 end do
               else
                 do ii=1,num_adj
                   iel = adjacent_elem(ii)
-                  iel = elem_list_bij(iel)
                   dx = xdet - xel(1,iel)  !xel-storage is 0:x 1:y 2:z
                   dy = ydet - xel(2,iel)  !xel-storage is 1:y 2:z
                   dz = zdet - xel(3,iel)
                   dl = sqrt(dx*dx + dy*dy + dz*dz)
-                  tdet = dl / dcj
+                  tdet = detonators%point(idet)%tdet + dl / dcj
                   tmp_tdet(iel) = min (tmp_tdet(iel), tdet)
                 end do
               end if
 
             end do ! next inod
 
-            ! symmetry condition
+             ! symmetry condition (one per detonator, not per det point comosing the detonator)
             If(I_frame1 > 0 .or. I_frame2 > 0)then
               ! we do have a plane of symmetry => defining tags for mirror elements
               call eikonal_bcs_sym_tag(neldet, elem_list, uelem_list, numnod, x, nix, numel, ix, &
