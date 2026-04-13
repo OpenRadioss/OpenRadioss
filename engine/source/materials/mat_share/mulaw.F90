@@ -2544,15 +2544,14 @@
 !
               else if (irupt == 39) then
 !  --- gene1 failure model
-                call fail_gene1_s(&
-                &nel      ,nparf    ,nvarf    ,nfunc    ,ifunc    ,lbuf%off ,&
-                &npf      ,tf       ,tt       ,dt1      ,uparf    ,ipg      ,&
-                &ngl      ,gbuf%dt  ,epsp1    ,uvarf    ,off      ,npg      ,&
-                &es1      ,es2      ,es3      ,es4      ,es5      ,es6      ,&
-                &s1       ,s2       ,s3       ,s4       ,s5       ,s6       ,&
-                &el_temp  ,voln     ,dfmax    ,tdel     ,deltax   ,table    ,&
-                &ir       ,elbuf_tab(ng),ilay ,ntabl_fail,itabl_fail,lf_dammx,&
-                &niparf   ,iparf    )
+                call fail_gene1_s(mat_elem%mat_param(imat)%fail(ir),&
+                 nel      ,nvarf    ,uvarf    ,nvarftmp ,varftmp  ,lbuf%off ,&
+                 tt       ,dt1      ,ipg      ,&
+                 ngl      ,gbuf%dt  ,epsp1    ,off      ,npg      ,&
+                 es1      ,es2      ,es3      ,es4      ,es5      ,es6      ,&
+                 s1       ,s2       ,s3       ,s4       ,s5       ,s6       ,&
+                 el_temp  ,voln     ,dfmax    ,tdel     ,deltax   ,table    ,&
+                 ir       ,elbuf_tab(ng),ilay ,ntabl_fail,itabl_fail,lf_dammx)
 !
               else if (irupt == 40) then
 !  --- rtcl failure model

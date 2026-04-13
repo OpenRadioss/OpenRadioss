@@ -167,6 +167,8 @@
               end do
 !
             end if   ! ndim
+          else
+            mat_table%notable = 0
           end if     ! ifunc > 0
 !------------------------------
           return

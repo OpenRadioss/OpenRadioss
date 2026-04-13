@@ -525,9 +525,8 @@ c
             ELSEIF (KEY(1:5) == 'GENE1') THEN
               IRUPT = 39
               CALL HM_READ_FAIL_GENE1(MAT_PARAM(IMAT)%FAIL(IFL),
-     .             MAT_ID   ,FAIL_ID  ,IRUPT    ,
-     .             MAT_PARAM(IMAT)%TITLE ,LSUBMODEL,UNITAB,    
-     .             FAIL_TAG(IRUPT))
+     .             MAT_ID   ,FAIL_ID  ,IRUPT    ,TITLE ,
+     .             LSUBMODEL,UNITAB,FAIL_TAG(IRUPT),NTABLE,TABLE)
 c     
             ELSEIF (KEY(1:4) == 'RTCL') THEN
               IRUPT = 40

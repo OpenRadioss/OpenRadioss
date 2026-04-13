@@ -1443,15 +1443,14 @@ c  --- Orthotropic biquadratic failure model
 c
           ELSEIF (IRUPT == 39) THEN                                      
 c  --- GENE1 failure model                                  
-              CALL FAIL_GENE1_S(
-     1          LLT      ,NPAR     ,NVARF    ,NFUNC    ,IFUNC    ,LBUF%OFF ,
-     2          NPF      ,TF       ,TT       ,DT1      ,UPARAMF  ,IPG      ,
-     3          NGL      ,GBUF%DT  ,EPSP1    ,UVARF    ,OFF      ,NPG      ,     
-     4          ES1      ,ES2      ,ES3      ,ES4      ,ES5      ,ES6      ,           
-     5          S1       ,S2       ,S3       ,S4       ,S5       ,S6       ,
-     6          EL_TEMP  ,VOLN     ,DFMAX    ,TDEL     ,DELTAX   ,TABLE    ,
-     7          IR       ,ELBUF_TAB(NG),ILAY ,NTABL_FAIL,ITABL_FAIL,LF_DAMMX,
-     8          NIPAR    ,IPARAMF  )
+            CALL FAIL_GENE1_S(mat_elem%mat_param(imat)%fail(ir)   ,   
+     1           LLT      ,NVARF    ,UVARF    ,NVARTMP  ,VARTMP   ,LBUF%OFF ,
+     2           TT       ,DT1      ,IPG      ,
+     3           NGL      ,GBUF%DT  ,EPSP1    ,OFF      ,NPG      ,     
+     4           ES1      ,ES2      ,ES3      ,ES4      ,ES5      ,ES6      ,        
+     5           S1       ,S2       ,S3       ,S4       ,S5       ,S6       ,
+     6           EL_TEMP  ,VOLN     ,DFMAX    ,TDEL     ,DELTAX   ,TABLE    ,
+     7           IR       ,ELBUF_TAB(NG),ILAY ,NTABL_FAIL,ITABL_FAIL,LF_DAMMX)
 c
           ELSEIF (IRUPT == 40) THEN                                      
 c  --- RTCL failure model                                  

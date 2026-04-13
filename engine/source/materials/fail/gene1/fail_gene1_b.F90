@@ -47,19 +47,13 @@
 !||    precision_mod         ../common_source/modules/precision_mod.F90
 !||    table_mod             ../engine/share/modules/table_mod.F
 !||====================================================================
-        subroutine fail_gene1_b(                          &
-          nel      ,nuparam  ,nuvar    ,nfunc    ,   &
-          ifunc    ,npf      ,tf       ,             &
-          time     ,timestep ,uparam   ,             &
-          ngl      ,dt       ,epsp     ,uvar     ,   &
-          off      ,                                 &
-          area     ,f1       ,                       &
-          epsxx    ,epsxy    ,epszx    ,             &
-          temp     ,                                 &
-          dfmax    ,aldt     ,table    ,             &
-          ntablf   ,                                 &
-          itablf   ,lf_dammx ,niparam  ,iparam   ,   &
-          snpc     ,stf      ,ntable  )
+        subroutine fail_gene1_b(fail   ,                       &
+          nel      ,nuvar    ,uvar     ,nvartmp  ,vartmp  ,    &
+          time     ,timestep ,ngl      ,dt       ,epsp    ,    &
+          off      ,area     ,f1       ,                       &
+          epsxx    ,epsxy    ,epszx    ,temp     ,             &
+          dfmax    ,aldt     ,table    ,ntablf   ,             &
+          itablf   ,lf_dammx ,ntable  )
 !c-----------------------------------------------
 !                                                    modules
 !c-----------------------------------------------
@@ -68,6 +62,8 @@
           use elbufdef_mod
           use constant_mod
           use precision_mod, only : WP
+          use fail_param_mod
+          use table_mat_vinterp_mod
 !c-----------------------------------------------
 !                                               c i m p l i c i t t y p e
 !c-----------------------------------------------
@@ -80,19 +76,15 @@
 !                                                  arguments s
 !c-----------------------------------------------
           integer                     ,intent(in)     :: nel      ! size of element group
-          integer                     ,intent(in)     :: nuparam  ! size of parameter array
           integer                     ,intent(in)     :: nuvar    ! size of user variable array
-          integer                     ,intent(in)     :: nfunc    ! number of functions
+          integer                     ,intent(in)     :: nvartmp
           integer                     ,intent(in)     :: ntablf   ! number of table functions
-          integer                     ,intent(in)     :: niparam  ! number of integer parameters
           integer                     ,intent(in)     :: lf_dammx ! maximum damage flag
-          integer, dimension(nfunc)   ,intent(in)     :: ifunc    ! function identifiers
           integer, dimension(ntablf)  ,intent(in)     :: itablf   ! table function identifiers
           integer, dimension(nel)     ,intent(in)     :: ngl      ! element identifiers
-          integer, dimension(niparam) ,intent(in)     :: iparam   ! integer parameters
+          integer, dimension(nel, nvartmp)  , intent(inout) :: vartmp
           real(kind=WP)                     ,intent(in)     :: time     ! current time
           real(kind=WP)                     ,intent(in)     :: timestep ! current timestep
-          real(kind=WP), dimension(nuparam) ,intent(in)     :: uparam   ! user parameters
           real(kind=WP), dimension(nel)     ,intent(in)     :: dt       ! time increment
           real(kind=WP), dimension(nel)     ,intent(in)     :: epsp     ! strain rate (confirmed by the tensstrain_criterion in solid element and beam3 element)
           real(kind=WP), dimension(nel)     ,intent(in)     :: aldt     ! element size
@@ -106,35 +98,27 @@
           real(kind=WP), dimension(nel, lf_dammx), intent(inout) :: dfmax      ! maximum damage
           real(kind=WP), dimension(nel, nuvar), intent(inout)    :: uvar       ! user variables
           type(ttable), dimension(ntable), intent(inout)   :: table      ! table data
-          integer ,intent(in) :: snpc
-          integer ,intent(in) :: stf
+          type (fail_param_) ,intent(in) :: fail    !< failure model data structure
           integer ,intent(in) :: ntable
-!c!-----------------------------------------------
-!c!   variables for function interpolation
-!c!-----------------------------------------------
-          integer, dimension(snpc), intent(in) :: npf
-          real(kind=WP), dimension(stf), intent(in) :: tf
-          real(kind=WP), external :: finter
 !c-----------------------------------------------
 !                                                  local variables
 !c-----------------------------------------------
-          integer :: i, j, nindx, nindx2,nstep, crit, nmod, &
+          integer :: i,ii,j, nindx,nindx_on,nindx2,nstep, crit, nmod, &
             fct_ism, fct_ips, fct_idg12, fct_idg13, fct_ide1c, fct_idel, &
             ismooth, istrain, tab_idfld, itab, ncs, nindx3
-          integer, dimension(nel) :: indx, indx2, indx3, ncrit, ipmax, ipmin, &
+          integer, dimension(nel) :: indx, indx2, indx3, indx_on, ncrit, ipmax, ipmin, &
             is1max, itmax, imindt, isigmax, isigth, iepsmax, ieffeps, ivoleps, &
             imineps, ishear, imix12, imix13, imxe1c, ifld, imaxtemp
-          integer, dimension(nel, 2) :: ipos
           real(kind=WP) :: &
             minpres, maxpres, sigp1, tmax, dtmin, epsdot_sm, sigvm, sigth, &
             kf, epsdot_ps, maxeps, effeps, voleps, mineps, epssh, epsdot_fld, &
-            volfrac, maxtemp, fscale_el, el_ref, lambda, fac, df, thin
+            volfrac, maxtemp, fscale_el, el_ref, fac, df, thin
           real(kind=WP) :: &
             e1, e4, e6, e42, e62, i1, i2, q, r, r_inter, phi, dav, e1d, e2d, e3d, e4d, e6d, denom,sxx,syy,szz
           real(kind=WP), dimension(nel) :: p, svm, e11, e22, e33, vol_strain, s11, s22, s33, eff_strain, &
             epsmax, sigmax, facl, sh12, sh13, e1c, e1fld, dfld, triax, signxx, signxy, signzx,hardr
           real(kind=WP), dimension(nel, 2) :: xvec
-!c=======================================================================
+          real(kind=WP) ,dimension(nel) :: xvec1,dydx
 !c=======================================================================
           !c user variables
           !c! user variable # 1,      regularization factors for length
@@ -153,42 +137,42 @@
           !=======================================================================
           ! recovering failure criterion parameters
           ! -> integer parameter, activated criteria
-          crit       = iparam(1)
-          itab       = iparam(2)    !> table dependency type (used only if tab_idfld is a table).
-          nstep      = iparam(3)    !> number of cycles for the stress reduction, default = 10 (integer)
-          ncs        = iparam(4)    !> number of conditions to reach before the element is deleted, default = 1 (integer)
-          ismooth    = iparam(5)    !> interpolation type (in case of tabulated yield function)
-          istrain    = iparam(6)    !> engineering / true input strain flag
+          crit       = fail%iparam(1)
+          itab       = fail%iparam(2)    !> table dependency type (used only if tab_idfld is a table).
+          nstep      = fail%iparam(3)    !> number of cycles for the stress reduction, default = 10 (integer)
+          ncs        = fail%iparam(4)    !> number of conditions to reach before the element is deleted, default = 1 (integer)
+          ismooth    = fail%iparam(5)    !> interpolation type (in case of tabulated yield function)
+          istrain    = fail%iparam(6)    !> engineering / true input strain flag
           ! -> real parameter, activated criteria
-          minpres    = uparam(1)    !> minimum pressure (positive in compression)
-          maxpres    = uparam(2)    !> maximum pressure (positive in compression)
-          sigp1      = uparam(3)    !> maximum principal stress
-          tmax       = uparam(4)    !> failure time, default = 1e+20 (real)
-          dtmin      = uparam(5)    !> minimum time step
-          epsdot_sm  = uparam(6)    !> reference strain rate value for fct_idsm, default = 1 (real)
-          sigvm      = uparam(7)
-          sigth      = uparam(8)
-          kf         = uparam(9)    !>  -> tuler-butcher
-          epsdot_ps  = uparam(10)   !> reference strain rate value for fct_idps, default = 1 (real)
-          maxeps     = uparam(11)   !> ordinate scale factor for fct_idps or maximum principal strain if fct_idps is not defined, default = 1
-          effeps     = uparam(12)   !> maximum effective strain
-          voleps     = uparam(13)   !> maximum volumetric strain
-          mineps     = uparam(14)   !> minimum principal strain
-          epssh      = uparam(15)   !> tensorial shear strain
-          epsdot_fld = uparam(16)   !> reference strain rate value for tab_idfld.
-          thin       = uparam(17)   !> thinning failure value (real)
-          volfrac    = uparam(18)   !> damaged volume fraction to reach before the element is deleted (fully-integrated and higher order solid elements only), default = 0.5 (real)
-          maxtemp    = uparam(20)   !> maximum temperature.
-          fscale_el  = uparam(21)   !> element size function scale factor for fct_idel, tab_idfld (itab=2), fct_idg12, fct_idg23, fct_idg13 and fct_ide1c, default = 1.0 (real)
-          el_ref     = uparam(22)   !> reference element size for fct_idel, tab_idfld (itab=2), fct_idg12, fct_idg23, fct_idg13 and fct_ide1c, default = 1.0 (real)
+          minpres    = fail%uparam(1)    !> minimum pressure (positive in compression)
+          maxpres    = fail%uparam(2)    !> maximum pressure (positive in compression)
+          sigp1      = fail%uparam(3)    !> maximum principal stress
+          tmax       = fail%uparam(4)    !> failure time, default = 1e+20 (real)
+          dtmin      = fail%uparam(5)    !> minimum time step
+          epsdot_sm  = fail%uparam(6)    !> reference strain rate value for fct_idsm, default = 1 (real)
+          sigvm      = fail%uparam(7)
+          sigth      = fail%uparam(8)
+          kf         = fail%uparam(9)    !>  -> tuler-butcher
+          epsdot_ps  = fail%uparam(10)   !> reference strain rate value for fct_idps, default = 1 (real)
+          maxeps     = fail%uparam(11)   !> ordinate scale factor for fct_idps or maximum principal strain if fct_idps is not defined, default = 1
+          effeps     = fail%uparam(12)   !> maximum effective strain
+          voleps     = fail%uparam(13)   !> maximum volumetric strain
+          mineps     = fail%uparam(14)   !> minimum principal strain
+          epssh      = fail%uparam(15)   !> tensorial shear strain
+          epsdot_fld = fail%uparam(16)   !> reference strain rate value for tab_idfld.
+          thin       = fail%uparam(17)   !> thinning failure value (real)
+          volfrac    = fail%uparam(18)   !> damaged volume fraction to reach before the element is deleted (fully-integrated and higher order solid elements only), default = 0.5 (real)
+          maxtemp    = fail%uparam(20)   !> maximum temperature.
+          fscale_el  = fail%uparam(21)   !> element size function scale factor for fct_idel, tab_idfld (itab=2), fct_idg12, fct_idg23, fct_idg13 and fct_ide1c, default = 1.0 (real)
+          el_ref     = fail%uparam(22)   !> reference element size for fct_idel, tab_idfld (itab=2), fct_idg12, fct_idg23, fct_idg13 and fct_ide1c, default = 1.0 (real)
 
           !-> function & tables
-          fct_ism    = ifunc(1)     !> function identifier of the maximum equivalent stress versus strain rate
-          fct_ips    = ifunc(2)     !> maximum principal strain vs strain-rate
-          fct_idg12  = ifunc(3)     !> in-plane shear strain vs element size
-          fct_idg13  = ifunc(4)     !> in-plane shear strain vs element size
-          fct_ide1c  = ifunc(5)     !> major in plane-strain vs element size
-          fct_idel   = ifunc(6)     !> element size regularization
+          fct_ism    = 1     !> function identifier of the maximum equivalent stress versus strain rate
+          fct_ips    = 2     !> maximum principal strain vs strain-rate
+          fct_idg12  = 3     !> in-plane shear strain vs element size
+          fct_idg13  = 4     !> in-plane shear strain vs element size
+          fct_ide1c  = 5     !> major in plane-strain vs element size
+          fct_idel   = 6     !> element size regularization
 
           if (ntablf > 0) then
             tab_idfld  = itablf(1)
@@ -226,13 +210,10 @@
 !c
           ! at initial time, compute the element size regularization factor
           ! initiation of the calculation
-          if (uvar(1,1)==zero) then !for the first step
-            if (fct_idel > 0) then  !element size function scale, if needed
-              do i=1,nel
-                lambda      = aldt(i)/el_ref
-                fac         = finter(fct_idel,lambda,npf,tf,df)
-                uvar(i,1)   = fac*fscale_el
-              end do
+          if (uvar(1,1)==zero) then   !for the first step
+            if (fail%table4d(fct_idel)%notable > 0) then
+              xvec1(:)  = aldt(1:nel)/el_ref
+              call table_mat_vinterp(fail%table4d(fct_idel),nel,nel,vartmp(1:nel,1:1),xvec1,uvar(1:nel,1),dydx)
             else
               uvar(1:nel,1) = one
             end if
@@ -368,16 +349,14 @@
                 xvec(1:nel,1) = e22(1:nel)
                 xvec(1:nel,2) = epsp(1:nel)/epsdot_fld
                 !   -> tensile yield stress in direction 1 (md)
-                ipos(1:nel,1:2) = 1
-                call table2d_vinterp_log(table(tab_idfld),ismooth,nel,nel,ipos,xvec,e1fld,dfld,hardr)
+                call table2d_vinterp_log(table(tab_idfld),ismooth,nel,nel,vartmp(1:nel,7:8),xvec,e1fld,dfld,hardr)
                 ! diagram using engineering strain
               else
                 ! in-plane tabulation with strain-rate
                 xvec(1:nel,1) = exp(e22(1:nel))-one
                 xvec(1:nel,2) = epsp(1:nel)/epsdot_fld
                 !   -> tensile yield stress in direction 1 (md)
-                ipos(1:nel,1:2) = 1
-                call table2d_vinterp_log(table(tab_idfld),ismooth,nel,nel,ipos,xvec,e1fld,dfld,hardr)
+                call table2d_vinterp_log(table(tab_idfld),ismooth,nel,nel,vartmp(1:nel,7:8),xvec,e1fld,dfld,hardr)
                 e1fld = log(one + e1fld)
               end if
             else
@@ -387,279 +366,342 @@
                 xvec(1:nel,1) = e22(1:nel)
                 xvec(1:nel,2) = aldt(1:nel)/el_ref
                 !   -> tensile yield stress in direction 1 (md)
-                ipos(1:nel,1:2) = 1
-                call table_vinterp(table(tab_idfld),nel,nel,ipos,xvec,e1fld,dfld)
+                call table_vinterp(table(tab_idfld),nel,nel,vartmp(1:nel,7:8),xvec,e1fld,dfld)
                 ! diagram using engineering strains
               else
                 ! in-plane tabulation with strain-rate
                 xvec(1:nel,1) = exp(e22(1:nel))-one
                 xvec(1:nel,2) = aldt(1:nel)/el_ref
                 !   -> tensile yield stress in direction 1 (md)
-                ipos(1:nel,1:2) = 1
-                call table_vinterp(table(tab_idfld),nel,nel,ipos,xvec,e1fld,dfld)
+                call table_vinterp(table(tab_idfld),nel,nel,vartmp(1:nel,7:8),xvec,e1fld,dfld)
                 e1fld = log(one + e1fld)
               end if
             end if
           end if
 
 !c    ! step4: check the criterion of failure
+!-------------------------------------------------------------------------------
+          ! Tag active elements
+          nindx_on = 0  
+          do i=1,nel
+            if (off(i) == one .and. uvar(i,5) == one) then
+              nindx_on = nindx_on + 1
+              indx_on(nindx_on) = i  
+            end if
+          end do
+          
           !====================================================================
           ! - loop over the element to check the erosion criteria
           !====================================================================
-          do i = 1,nel
-            nmod = 0
-            if ((uvar(i,5) == one).and.off(i)==one) then
-              !  -> minimum pressure
-              if (btest(crit,1)) then
-                nmod = nmod + 1
-                dfmax(i,1+nmod) = max(p(i)/(minpres*facl(i)),dfmax(i,1+nmod))
-                dfmax(i,1+nmod) = min(dfmax(i,1+nmod),one)
-                if (p(i) <= minpres*facl(i)) then
-                  ncrit(i) = ncrit(i) + 1
-                  ipmin(i) = 1
-                end if
+          nmod = 0
+!
+          !  -> minimum pressure
+          if (btest(crit,1)) then
+            nmod = nmod + 1
+            do ii = 1,nindx_on
+              i = indx_on(ii)
+              dfmax(i,1+nmod) = max(p(i)/(minpres*facl(i)),dfmax(i,1+nmod))
+              dfmax(i,1+nmod) = min(dfmax(i,1+nmod),one)
+              if (p(i) <= minpres*facl(i)) then
+                ncrit(i) = ncrit(i) + 1
+                ipmin(i) = 1
               end if
-              !  -> maximum pressure
-              if (btest(crit,2)) then
-                nmod = nmod + 1
-                dfmax(i,1+nmod) = max(p(i)/(maxpres*facl(i)),dfmax(i,1+nmod))
-                dfmax(i,1+nmod) = min(dfmax(i,1+nmod),one)
-                if (p(i) >= maxpres*facl(i)) then
-                  ncrit(i) = ncrit(i) + 1
-                  ipmax(i) = 1
-                end if
+            end do
+          end if
+          !  -> maximum pressure
+          if (btest(crit,2)) then
+            nmod = nmod + 1
+            do ii = 1,nindx_on
+              i = indx_on(ii)
+              dfmax(i,1+nmod) = max(p(i)/(maxpres*facl(i)),dfmax(i,1+nmod))
+              dfmax(i,1+nmod) = min(dfmax(i,1+nmod),one)
+              if (p(i) >= maxpres*facl(i)) then
+                ncrit(i) = ncrit(i) + 1
+                ipmax(i) = 1
               end if
-              !  -> maximal principal stress
-              if (btest(crit,3)) then
-                nmod = nmod + 1
-                ! (unrestricted)
-                if (sigp1 > zero) then
-                  dfmax(i,1+nmod) = max(s11(i)/(sigp1*facl(i)),dfmax(i,1+nmod))
+            end do
+          end if
+          !  -> maximal principal stress
+          if (btest(crit,3)) then
+            nmod = nmod + 1
+            ! (unrestricted)
+            do ii = 1,nindx_on
+              i = indx_on(ii)
+              if (sigp1 > zero) then
+                dfmax(i,1+nmod) = max(s11(i)/(sigp1*facl(i)),dfmax(i,1+nmod))
+                dfmax(i,1+nmod) = min(dfmax(i,1+nmod),one)
+                if (s11(i) >= sigp1*facl(i)) then
+                  ncrit(i)  = ncrit(i) + 1
+                  is1max(i) = 1
+                end if
+                !     (restricted to positive stress triaxialities)
+              else
+                i = indx_on(ii)
+                if (triax(i)>em10) then
+                  dfmax(i,1+nmod) = max(s11(i)/(abs(sigp1)*facl(i)),dfmax(i,1+nmod))
                   dfmax(i,1+nmod) = min(dfmax(i,1+nmod),one)
-                  if (s11(i) >= sigp1*facl(i)) then
+                  if (s11(i) >= abs(sigp1)*facl(i)) then
                     ncrit(i)  = ncrit(i) + 1
                     is1max(i) = 1
                   end if
-                  !     (restricted to positive stress triaxialities)
-                else
-                  if (triax(i)>em10) then
-                    dfmax(i,1+nmod) = max(s11(i)/(abs(sigp1)*facl(i)),dfmax(i,1+nmod))
-                    dfmax(i,1+nmod) = min(dfmax(i,1+nmod),one)
-                    if (s11(i) >= abs(sigp1)*facl(i)) then
-                      ncrit(i)  = ncrit(i) + 1
-                      is1max(i) = 1
-                    end if
-                  end if
                 end if
               end if
-              !  -> maximum time
-              if (btest(crit,4)) then
-                nmod = nmod + 1
-                dfmax(i,1+nmod) = max(time/tmax,dfmax(i,1+nmod))
+            end do
+          end if
+          !  -> maximum time
+          if (btest(crit,4)) then
+            nmod = nmod + 1
+            do ii = 1,nindx_on
+              i = indx_on(ii)
+              dfmax(i,1+nmod) = max(time/tmax,dfmax(i,1+nmod))
+              dfmax(i,1+nmod) = min(dfmax(i,1+nmod),one)
+              if (time >= tmax) then
+                ncrit(i) = ncrit(i) + 1
+                itmax(i) = 1
+              end if
+            end do
+          end if
+          !  -> minimum timestep
+          if (btest(crit,5)) then
+            nmod = nmod + 1
+            do ii = 1,nindx_on
+              i = indx_on(ii)
+              if (time > zero) then
+                dfmax(i,1+nmod) = max(dtmin/dt(i),dfmax(i,1+nmod))
                 dfmax(i,1+nmod) = min(dfmax(i,1+nmod),one)
-                if (time >= tmax) then
-                  ncrit(i) = ncrit(i) + 1
-                  itmax(i) = 1
-                end if
-              end if
-              !  -> minimum timestep
-              if (btest(crit,5)) then
-                nmod = nmod + 1
-                if (time > zero) then
-                  dfmax(i,1+nmod) = max(dtmin/dt(i),dfmax(i,1+nmod))
-                  dfmax(i,1+nmod) = min(dfmax(i,1+nmod),one)
-                  if ((dt(i) <= dtmin).and.(time > zero)) then
-                    ncrit(i)  = ncrit(i) + 1
-                    imindt(i) = 1
-                  end if
-                end if
-              end if
-              !  -> equivalent stress
-              if (btest(crit,6)) then
-                nmod = nmod + 1
-                if (epsdot_sm /= zero) then
-                  lambda    = epsp(i)/epsdot_sm
-                  sigmax(i) = finter(fct_ism,lambda,npf,tf,df)
-                  sigmax(i) = sigmax(i)*sigvm
-                else
-                  sigmax(i) = sigvm
-                end if
-                dfmax(i,1+nmod) = max(svm(i)/(sigmax(i)*facl(i)),dfmax(i,1+nmod))
-                dfmax(i,1+nmod) = min(dfmax(i,1+nmod),one)
-                if (svm(i) >= sigmax(i)*facl(i)) then
-                  ncrit(i)   = ncrit(i) + 1
-                  isigmax(i) = 1
-                end if
-              end if
-              !  -> tuler-butcher
-              if (btest(crit,7)) then
-                nmod = nmod + 1
-                dfmax(i,1+nmod) = max(uvar(i,2)/(kf*facl(i)),dfmax(i,1+nmod))
-                dfmax(i,1+nmod) = min(dfmax(i,1+nmod),one)
-                if (s11(i) > sigth) then
-                  uvar(i,2) = uvar(i,2) + timestep*(s11(i) - sigth)**2
-                  if (uvar(i,2) >= kf*facl(i)) then
-                    ncrit(i)  = ncrit(i) + 1
-                    isigth(i) = 1
-                  end if
-                end if
-              end if
-              !  -> maximal principal strain
-              if (btest(crit,8)) then
-                nmod = nmod + 1
-                if (epsdot_ps /= zero) then
-                  lambda    = epsp(i)/epsdot_ps
-                  epsmax(i) = finter(fct_ips,lambda,npf,tf,df)
-                  epsmax(i) = epsmax(i)*maxeps
-                else
-                  epsmax(i) = maxeps
-                end if
-                dfmax(i,1+nmod) = max(e11(i)/(epsmax(i)*facl(i)),dfmax(i,1+nmod))
-                dfmax(i,1+nmod) = min(dfmax(i,1+nmod),one)
-                if (e11(i) >= epsmax(i)*facl(i)) then
-                  ncrit(i)   = ncrit(i) + 1
-                  iepsmax(i) = 1
-                end if
-              end if
-
-              !  -> maximum effective strain
-              if (btest(crit,9)) then
-                nmod = nmod + 1
-                dfmax(i,1+nmod) = max(eff_strain(i)/(effeps*facl(i)),dfmax(i,1+nmod))
-                dfmax(i,1+nmod) = min(dfmax(i,1+nmod),one)
-                if (eff_strain(i) >= effeps*facl(i)) then
-                  ncrit(i)   = ncrit(i) + 1
-                  ieffeps(i) = 1
-                end if
-              end if
-              !  -> maximum volumetric strain
-              if (btest(crit,10)) then
-                nmod = nmod + 1
-                if (voleps > zero) then
-                  dfmax(i,1+nmod) = max(vol_strain(i)/(voleps*facl(i)),dfmax(i,1+nmod))
-                  dfmax(i,1+nmod) = min(dfmax(i,1+nmod),one)
-                  if (vol_strain(i) >= voleps*facl(i)) then
-                    ncrit(i)   = ncrit(i) + 1
-                    ivoleps(i) = 1
-                  end if
-                else
-                  dfmax(i,1+nmod) = max(vol_strain(i)/(voleps*facl(i)),dfmax(i,1+nmod))
-                  dfmax(i,1+nmod) = min(dfmax(i,1+nmod),one)
-                  if (vol_strain(i) <= voleps*facl(i)) then
-                    ncrit(i)   = ncrit(i) + 1
-                    ivoleps(i) = 1
-                  end if
-                end if
-              end if
-              !  -> minimum principal strain
-              if (btest(crit,11)) then
-                nmod = nmod + 1
-                if (e33(i) /= zero) then
-                  dfmax(i,1+nmod) = max(mineps*facl(i)/(e33(i)),dfmax(i,1+nmod))
-                end if
-                dfmax(i,1+nmod) = min(dfmax(i,1+nmod),one)
-                if (e33(i) <= mineps*facl(i)) then
-                  ncrit(i) = ncrit(i) + 1
-                  imineps(i) = 1
-                end if
-              end if
-              !  -> maximum tensorial shear strain
-              if (btest(crit,12)) then
-                nmod = nmod + 1
-                dfmax(i,1+nmod) = max(((e11(i) - e33(i))/two)/(epssh*facl(i)),dfmax(i,1+nmod))
-                dfmax(i,1+nmod) = min(dfmax(i,1+nmod),one)
-                if ((e11(i) - e33(i))/two >= epssh*facl(i)) then
+                if ((dt(i) <= dtmin).and.(time > zero)) then
                   ncrit(i)  = ncrit(i) + 1
-                  ishear(i) = 1
+                  imindt(i) = 1
                 end if
               end if
-              !  -> mixed mode
-              if (btest(crit,13)) then
-                lambda  = uvar(i,8)/el_ref
-                sh12(i) = finter(fct_idg12,lambda,npf,tf,df)
-                denom   = sign(max(abs(e11(i)),em20),e11(i))
-                nmod    = nmod + 1
-                if (((e22(i)/denom)<=-half).and.((e22(i)/denom)>=-two)) then
-                  dfmax(i,1+nmod) = max(((e11(i) - e22(i))/two)/(sh12(i)),dfmax(i,1+nmod))
-                  dfmax(i,1+nmod) = min(dfmax(i,1+nmod),one)
-                  if ((e11(i) - e22(i))/two >= sh12(i)) then
-                    ncrit(i)  = ncrit(i) + 1
-                    imix12(i) = 1
-                  end if
-                end if
-              end if
-              if (btest(crit,14)) then
-                lambda  = uvar(i,8)/el_ref
-                sh13(i) = finter(fct_idg13,lambda,npf,tf,df)
-                denom   = sign(max(abs(e11(i)),em20),e11(i))
-                nmod    = nmod + 1
-                if (((e22(i)/denom)<=one).and.((e22(i)/denom)>=-half)) then
-                  dfmax(i,1+nmod) = max(((e11(i) - e33(i))/two)/(sh13(i)),dfmax(i,1+nmod))
-                  dfmax(i,1+nmod) = min(dfmax(i,1+nmod),one)
-                  if ((e11(i) - e33(i))/two >= sh13(i)) then
-                    ncrit(i)  = ncrit(i) + 1
-                    imix13(i) = 1
-                  end if
-                end if
-              end if
-              if (btest(crit,15)) then
-                lambda = uvar(i,8)/el_ref
-                e1c(i) = finter(fct_ide1c,lambda,npf,tf,df)
-                denom  = sign(max(abs(e11(i)),em20),e11(i))
-                nmod   = nmod + 1
-                if (((e22(i)/denom)<=one).and.((e22(i)/denom)>=-half)) then
-                  dfmax(i,1+nmod) = max(e11(i)/e1c(i),dfmax(i,1+nmod))
-                  dfmax(i,1+nmod) = min(dfmax(i,1+nmod),one)
-                  if (e11(i) >= e1c(i)) then
-                    ncrit(i)  = ncrit(i) + 1
-                    imxe1c(i) = 1
-                  end if
-                end if
-              end if
-              !  -> forming limit diagram
-              if (btest(crit,16)) then
-                nmod = nmod + 1
-                if (itab == 1) then
-                  dfmax(i,1+nmod) = max(e11(i)/(e1fld(i)*facl(i)),dfmax(i,1+nmod))
-                  dfmax(i,1+nmod) = min(dfmax(i,1+nmod),one)
-                  if (e11(i) >= e1fld(i)*facl(i)) then
-                    ncrit(i) = ncrit(i) + 1
-                    ifld(i)  = 1
-                  end if
-                else
-                  dfmax(i,1+nmod) = max(e11(i)/(e1fld(i)),dfmax(i,1+nmod))
-                  dfmax(i,1+nmod) = min(dfmax(i,1+nmod),one)
-                  if (e11(i) >= e1fld(i)) then
-                    ncrit(i) = ncrit(i) + 1
-                    ifld(i)  = 1
-                  end if
-                end if
-              end if
-              !  -> maximum temperature
-              if (btest(crit,18)) then
-                nmod = nmod + 1
-                dfmax(i,1+nmod) = max(temp(i)/maxtemp,dfmax(i,1+nmod))
-                dfmax(i,1+nmod) = min(dfmax(i,1+nmod),one)
-                if (temp(i) >= maxtemp) then
-                  ncrit(i)    = ncrit(i) + 1
-                  imaxtemp(i) = 1
-                end if
-              end if
-!c
-              !  -> checking failure
-              do j = 1,nmod
-                dfmax(i,1) = max(dfmax(i,1),dfmax(i,1+j))
-              end do
-              dfmax(i,1) = min(dfmax(i,1),one)
-              if (ncrit(i) >= ncs) then
-                dfmax(i,1)  = one
-                nindx       = nindx + 1
-                indx(nindx) = i
-                uvar(i,5)   = one - one/nstep
-                f1(i) = uvar(i,5)*f1(i)
-              end if
+            end do
+          end if
+          !  -> equivalent stress
+          if (btest(crit,6)) then
+            nmod = nmod + 1
+            if (epsdot_sm /= zero) then
+              xvec1(1:nel) = epsp(1:nel)/epsdot_sm
+              call table_mat_vinterp(fail%table4d(fct_ism),nel,nel,vartmp(1:nel,2:2),xvec1,sigmax,dydx)
+            else
+              sigmax(1:nel) = sigvm
             end if
-!c
+            do ii = 1,nindx_on
+              i = indx_on(ii)
+              dfmax(i,1+nmod) = max(svm(i)/(sigmax(i)*facl(i)),dfmax(i,1+nmod))
+              dfmax(i,1+nmod) = min(dfmax(i,1+nmod),one)
+              if (svm(i) >= sigmax(i)*facl(i)) then
+                ncrit(i)   = ncrit(i) + 1
+                isigmax(i) = 1
+              end if
+            end do
+          end if
+          !  -> tuler-butcher
+          if (btest(crit,7)) then
+            nmod = nmod + 1
+            do ii = 1,nindx_on
+              i = indx_on(ii)
+              dfmax(i,1+nmod) = max(uvar(i,2)/(kf*facl(i)),dfmax(i,1+nmod))
+              dfmax(i,1+nmod) = min(dfmax(i,1+nmod),one)
+              if (s11(i) > sigth) then
+                uvar(i,2) = uvar(i,2) + timestep*(s11(i) - sigth)**2
+                if (uvar(i,2) >= kf*facl(i)) then
+                  ncrit(i)  = ncrit(i) + 1
+                  isigth(i) = 1
+                end if
+              end if
+            end do
+          end if
+          !  -> maximal principal strain
+          if (btest(crit,8)) then
+            nmod = nmod + 1
+            if (epsdot_ps /= zero) then
+              xvec1(1:nel) = epsp(1:nel)/epsdot_ps
+              call table_mat_vinterp(fail%table4d(fct_ips),nel,nel,vartmp(1:nel,3:3),xvec1,epsmax,dydx)
+            else
+              epsmax(1:nel) = maxeps
+            end if
+            do ii = 1,nindx_on
+              i = indx_on(ii)
+              dfmax(i,1+nmod) = max(e11(i)/(epsmax(i)*facl(i)),dfmax(i,1+nmod))
+              dfmax(i,1+nmod) = min(dfmax(i,1+nmod),one)
+              if (e11(i) >= epsmax(i)*facl(i)) then
+                ncrit(i)   = ncrit(i) + 1
+                iepsmax(i) = 1
+              end if
+            end do
+          end if
+
+          !  -> maximum effective strain
+          if (btest(crit,9)) then
+            nmod = nmod + 1
+            do ii = 1,nindx_on
+              i = indx_on(ii)
+              dfmax(i,1+nmod) = max(eff_strain(i)/(effeps*facl(i)),dfmax(i,1+nmod))
+              dfmax(i,1+nmod) = min(dfmax(i,1+nmod),one)
+              if (eff_strain(i) >= effeps*facl(i)) then
+                ncrit(i)   = ncrit(i) + 1
+                ieffeps(i) = 1
+              end if
+            end do
+          end if
+          !  -> maximum volumetric strain
+          if (btest(crit,10)) then
+            nmod = nmod + 1
+            if (voleps > zero) then
+              do ii = 1,nindx_on
+                i = indx_on(ii)
+                dfmax(i,1+nmod) = max(vol_strain(i)/(voleps*facl(i)),dfmax(i,1+nmod))
+                dfmax(i,1+nmod) = min(dfmax(i,1+nmod),one)
+                if (vol_strain(i) >= voleps*facl(i)) then
+                  ncrit(i)   = ncrit(i) + 1
+                  ivoleps(i) = 1
+                end if
+              end do
+            else
+              do ii = 1,nindx_on
+                i = indx_on(ii)
+                dfmax(i,1+nmod) = max(vol_strain(i)/(voleps*facl(i)),dfmax(i,1+nmod))
+                dfmax(i,1+nmod) = min(dfmax(i,1+nmod),one)
+                if (vol_strain(i) <= voleps*facl(i)) then
+                  ncrit(i)   = ncrit(i) + 1
+                  ivoleps(i) = 1
+                end if
+              end do
+            end if
+          end if
+          !  -> minimum principal strain
+          if (btest(crit,11)) then
+            nmod = nmod + 1
+            do ii = 1,nindx_on
+              i = indx_on(ii)
+              if (e33(i) /= zero) then
+                dfmax(i,1+nmod) = max(mineps*facl(i)/(e33(i)),dfmax(i,1+nmod))
+              end if
+              dfmax(i,1+nmod) = min(dfmax(i,1+nmod),one)
+              if (e33(i) <= mineps*facl(i)) then
+                ncrit(i) = ncrit(i) + 1
+                imineps(i) = 1
+              end if
+            end do
+          end if
+          !  -> maximum tensorial shear strain
+          if (btest(crit,12)) then
+            nmod = nmod + 1
+            do ii = 1,nindx_on
+              i = indx_on(ii)
+              dfmax(i,1+nmod) = max(((e11(i) - e33(i))/two)/(epssh*facl(i)),dfmax(i,1+nmod))
+              dfmax(i,1+nmod) = min(dfmax(i,1+nmod),one)
+              if ((e11(i) - e33(i))/two >= epssh*facl(i)) then
+                ncrit(i)  = ncrit(i) + 1
+                ishear(i) = 1
+              end if
+            end do
+          end if
+          !  -> mixed mode
+          if (btest(crit,13)) then
+            nmod    = nmod + 1
+            xvec1(1:nel)  = uvar(1:nel,8)/el_ref
+            call table_mat_vinterp(fail%table4d(fct_idg12),nel,nel,vartmp(1:nel,4:4),xvec1,sh12,dydx)
+            do ii = 1,nindx_on
+              i = indx_on(ii)
+              denom   = sign(max(abs(e11(i)),em20),e11(i))
+              if (((e22(i)/denom)<=-half).and.((e22(i)/denom)>=-two)) then
+                dfmax(i,1+nmod) = max(((e11(i) - e22(i))/two)/(sh12(i)),dfmax(i,1+nmod))
+                dfmax(i,1+nmod) = min(dfmax(i,1+nmod),one)
+                if ((e11(i) - e22(i))/two >= sh12(i)) then
+                  ncrit(i)  = ncrit(i) + 1
+                  imix12(i) = 1
+                end if
+              end if
+            end do
+          end if
+          if (btest(crit,14)) then
+            nmod    = nmod + 1
+            xvec1(1:nel)  = uvar(1:nel,8)/el_ref
+            call table_mat_vinterp(fail%table4d(fct_idg13),nel,nel,vartmp(1:nel,5:5),xvec1,sh13,dydx)
+            do ii = 1,nindx_on
+              i = indx_on(ii)
+              denom   = sign(max(abs(e11(i)),em20),e11(i))
+              if (((e22(i)/denom)<=one).and.((e22(i)/denom)>=-half)) then
+                dfmax(i,1+nmod) = max(((e11(i) - e33(i))/two)/(sh13(i)),dfmax(i,1+nmod))
+                dfmax(i,1+nmod) = min(dfmax(i,1+nmod),one)
+                if ((e11(i) - e33(i))/two >= sh13(i)) then
+                  ncrit(i)  = ncrit(i) + 1
+                  imix13(i) = 1
+                end if
+              end if
+            end do
+          end if
+          if (btest(crit,15)) then
+            nmod   = nmod + 1
+            xvec1(1:nel)  = uvar(1:nel,8)/el_ref
+            call table_mat_vinterp(fail%table4d(fct_ide1c),nel,nel,vartmp(1:nel,6:6),xvec1,e1c,dydx)
+            do ii = 1,nindx_on
+              i = indx_on(ii)
+              denom  = sign(max(abs(e11(i)),em20),e11(i))
+              if (((e22(i)/denom)<=one).and.((e22(i)/denom)>=-half)) then
+                dfmax(i,1+nmod) = max(e11(i)/e1c(i),dfmax(i,1+nmod))
+                dfmax(i,1+nmod) = min(dfmax(i,1+nmod),one)
+                if (e11(i) >= e1c(i)) then
+                  ncrit(i)  = ncrit(i) + 1
+                  imxe1c(i) = 1
+                end if
+              end if
+            end do
+          end if
+          !  -> forming limit diagram
+          if (btest(crit,16)) then
+            nmod = nmod + 1
+            if (itab == 1) then
+              do ii = 1,nindx_on
+                i = indx_on(ii)
+                dfmax(i,1+nmod) = max(e11(i)/(e1fld(i)*facl(i)),dfmax(i,1+nmod))
+                dfmax(i,1+nmod) = min(dfmax(i,1+nmod),one)
+                if (e11(i) >= e1fld(i)*facl(i)) then
+                  ncrit(i) = ncrit(i) + 1
+                  ifld(i)  = 1
+                end if
+              end do
+            else
+              do ii = 1,nindx_on
+                i = indx_on(ii)
+                dfmax(i,1+nmod) = max(e11(i)/(e1fld(i)),dfmax(i,1+nmod))
+                dfmax(i,1+nmod) = min(dfmax(i,1+nmod),one)
+                if (e11(i) >= e1fld(i)) then
+                  ncrit(i) = ncrit(i) + 1
+                  ifld(i)  = 1
+                end if
+              end do
+            end if
+          end if
+          !  -> maximum temperature
+          if (btest(crit,18)) then
+            nmod = nmod + 1
+            do ii = 1,nindx_on
+              i = indx_on(ii)
+              dfmax(i,1+nmod) = max(temp(i)/maxtemp,dfmax(i,1+nmod))
+              dfmax(i,1+nmod) = min(dfmax(i,1+nmod),one)
+              if (temp(i) >= maxtemp) then
+                ncrit(i)    = ncrit(i) + 1
+                imaxtemp(i) = 1
+              end if
+            end do
+          end if
+!---------------------------------------------------------------------
+          !  -> checking failure
+          do ii = 1,nindx_on
+            i = indx_on(ii)
+            do j = 1,nmod
+              dfmax(i,1) = max(dfmax(i,1),dfmax(i,1+j))
+            end do
+            dfmax(i,1) = min(dfmax(i,1),one)
+            if (ncrit(i) >= ncs) then
+              dfmax(i,1)  = one
+              nindx       = nindx + 1
+              indx(nindx) = i
+              uvar(i,5)   = one - one/nstep
+              f1(i) = uvar(i,5)*f1(i)
+            end if
           end do
 !c
 !c------------------------

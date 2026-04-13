@@ -38,7 +38,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
       SUBROUTINE HM_READ_FAIL_GENE1(
      .           FAIL    ,MAT_ID   ,FAIL_ID  ,IRUPT    ,
-     .           TITR    ,LSUBMODEL,UNITAB   ,FAIL_TAG )
+     .           TITLE   ,LSUBMODEL,UNITAB   ,FAIL_TAG ,
+     .           NTABLE  ,TABLE    )
 C-----------------------------------------------
 c    ROUTINE DESCRIPTION :
 c    Read generic tabulated failure model parameters
@@ -51,6 +52,8 @@ C-----------------------------------------------
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
       USE ELBUFTAG_MOD            
+      use table_mod
+      use func_table_copy_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -65,19 +68,25 @@ C-----------------------------------------------
       INTEGER             ,INTENT(IN) :: FAIL_ID        !< failure model ID
       INTEGER             ,INTENT(IN) :: MAT_ID         !< material law ID
       INTEGER             ,INTENT(IN) :: IRUPT          !< failure model number
-      CHARACTER           ,INTENT(IN) :: TITR*500       !< material model title
+      CHARACTER           ,INTENT(IN) :: TITLE*500       !< material model title
       TYPE (UNIT_TYPE_)   ,INTENT(IN) :: UNITAB         !< table of input units
       TYPE (SUBMODEL_DATA),INTENT(IN) :: LSUBMODEL(*)   !< submodel table 
       TYPE (FAIL_PARAM_)  ,INTENT(INOUT) :: FAIL        !< failure model data structure
       TYPE (FAIL_TAG_)    ,INTENT(INOUT) :: FAIL_TAG    !< failure model tag for buffer allocation
+      integer             ,intent(in)    :: ntable      !< number of function tables in Radioss input
+      type(ttable) ,dimension(ntable) ,intent(in) :: table  !< input table array
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,NSTEP,NCS,fct_IDsm,fct_IDps,fct_IDg12,fct_IDg13,
-     .        fct_IDe1c,fct_IDel,Itab,tab_IDfld,Istrain,CRIT,
-     .        Ismooth,NCRIT_MAX,NFUNC,NTABLE,NUPARAM,NUVAR,NMODE,FAILIP 
-      INTEGER ,PARAMETER :: NSIZE = 6
-      INTEGER ,DIMENSION(NSIZE) :: IFUNC
+     .        fct_IDe1c,fct_IDel,Itab,tab_IDfld,Istrain,CRIT,IERROR,
+     .        Ismooth,NCRIT_MAX,NTABF,NIPARAM,NUPARAM,NUVAR,NVARTMP,NMODE,FAILIP 
+      INTEGER ,PARAMETER :: NFUNC = 6
+      INTEGER ,DIMENSION(NFUNC) :: IFUNC
+      INTEGER :: NF
+      my_real :: x2scale,x3scale,x4scale
+      my_real ,DIMENSION(NFUNC) :: x1scale,YSCALE
+      my_real, dimension(1) :: x2vect
       my_real 
      .        MINPRES,MAXPRES,SIGP1,TMAX,DTMIN,EPSDOT_SM,SIGVM,SIGTH,KF,
      .        EPSDOT_PS,MAXEPS,EFFEPS,VOLEPS,MINEPS,EPSSH,EPSDOT_FLD,
@@ -336,12 +345,12 @@ C===============================================================================
         IF (NCRIT_MAX > 0) THEN 
           CALL ANCMSG(MSGID=2043,MSGTYPE=MSGWARNING,
      .                ANMODE=ANINFO_BLIND_1,I1=MAT_ID,
-     .                C1=TITR,I2=NCS,I3=NCRIT_MAX,I4=NCRIT_MAX)   
+     .                C1=title,I2=NCS,I3=NCRIT_MAX,I4=NCRIT_MAX)   
           NCS = NCRIT_MAX
         ELSE 
           CALL ANCMSG(MSGID=3040,MSGTYPE=MSGWARNING,
      .                ANMODE=ANINFO_BLIND_1,I1=MAT_ID,
-     .                C1=TITR)             
+     .                C1=title)             
         ENDIF
       ENDIF 
       NCS = MAX(1,NCS)
@@ -357,19 +366,22 @@ C===============================================================================
 c     Filling buffer tables
 c-----------------------------------------------------    
       NUVAR   = 8 
-      NUPARAM = 23
-      NFUNC   = 6
-      NTABLE  = 0
-      IF (tab_IDfld > 0) NTABLE = 1
+      NVARTMP = 8
+      NIPARAM = 7
+      NUPARAM = 22
+      NTABF   = 0
+      IF (tab_IDfld > 0) NTABF = 1
 c
       FAIL%KEYWORD = 'GENE1' 
       FAIL%IRUPT   = IRUPT 
       FAIL%FAIL_ID = FAIL_ID 
       FAIL%NUPARAM = NUPARAM
-      FAIL%NIPARAM = 6
+      FAIL%NIPARAM = NIPARAM
       FAIL%NUVAR   = NUVAR
-      FAIL%NFUNC   = NFUNC
-      FAIL%NTABLE  = NTABLE
+      FAIL%NVARTMP = NVARTMP
+      FAIL%NFUNC   = 0
+      FAIL%NTABLE  = NTABF
+      FAIL%NTABLE4D= NFUNC
       FAIL%NMOD    = NMODE
       FAIL%PTHK    = PTHK
 c            
@@ -377,6 +389,7 @@ c
       ALLOCATE (FAIL%IPARAM(FAIL%NIPARAM))
       ALLOCATE (FAIL%IFUNC (FAIL%NFUNC))
       ALLOCATE (FAIL%TABLE (FAIL%NTABLE))
+      ALLOCATE (FAIL%TABLE4D(FAIL%NTABLE4D))
 c
       ! Modes of failure
       FAIL_TAG%LF_DAMMX = FAIL_TAG%LF_DAMMX + FAIL%NMOD
@@ -384,14 +397,31 @@ c
       DO I = 1,FAIL%NMOD
         FAIL%MODE(I) = MODNAME(I)
       ENDDO 
-c
-      FAIL%IFUNC(1) = fct_IDsm
-      FAIL%IFUNC(2) = fct_IDps
-      FAIL%IFUNC(3) = fct_IDg12
-      FAIL%IFUNC(4) = fct_IDg13
-      FAIL%IFUNC(5) = fct_IDe1c
-      FAIL%IFUNC(6) = fct_IDel
-      IF (NTABLE == 1) FAIL%TABLE(1) = tab_IDfld
+      IF (tab_IDfld > 0) FAIL%TABLE(1) = tab_IDfld
+!---------------------------------------------------------------------
+      IFUNC(1) = fct_IDsm
+      IFUNC(2) = fct_IDps
+      IFUNC(3) = fct_IDg12
+      IFUNC(4) = fct_IDg13
+      IFUNC(5) = fct_IDe1c
+      IFUNC(6) = fct_IDel
+!           
+      nf = 1
+      x1scale(1)   = epsdot_sm
+      x1scale(2)   = epsdot_ps
+      x1scale(3:6) = one
+      x2scale      = one
+      x2vect(:)    = zero
+      yscale(1)    = sigvm
+      yscale(2)    = maxeps
+      yscale(3:5)  = one
+      yscale(6)    = fscale_el
+      do i = 1,nfunc
+        call func_table_copy(fail%table4d(i),title  ,mat_id   ,      
+     .           nf      ,ifunc(i),x2vect  ,x1scale(i) ,x2scale  ,yscale(i)  ,      
+     .           ntable  ,table   ,ierror  )
+      end do
+!---------------------------------------------------------------------
 c
       FAIL%IPARAM(1)  = CRIT
       FAIL%IPARAM(2)  = Itab
@@ -399,6 +429,7 @@ c
       FAIL%IPARAM(4)  = NCS
       FAIL%IPARAM(5)  = Ismooth
       FAIL%IPARAM(6)  = Istrain
+      FAIL%IPARAM(7)  = failip
 c
       FAIL%UPARAM(1)  = MINPRES
       FAIL%UPARAM(2)  = MAXPRES
@@ -422,7 +453,6 @@ c
       FAIL%UPARAM(20) = MAXTEMP
       FAIL%UPARAM(21) = Fscale_el
       FAIL%UPARAM(22) = El_ref
-      FAIL%UPARAM(23)= FAILIP
 c--------------------------
 c     Printout data
 c-------------------------- 

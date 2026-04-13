@@ -1525,15 +1525,15 @@ c
 c
               CASE (39)     !    GENE1
 c
-                CALL FAIL_GENE1_C(
-     1            JLT      ,NUPAR    ,NVARF    ,NFUNC_FAIL   ,IFUNC_FAIL   ,
-     2            NPF      ,TF       ,TT       ,DT1C     ,UPARAMF  ,IPG      ,
-     3            NGL      ,GBUF%DT  ,EPSPL    ,UVARF    ,OFF      ,    
+                CALL FAIL_GENE1_C(mat_elem%mat_param(imat)%fail(ifl),
+     1            JLT      ,NVARF    ,nvartmp  ,UVARF    ,vartmp   ,
+     2            TT       ,DT1C     ,IPG      ,
+     3            NGL      ,GBUF%DT  ,EPSPL    ,OFF      ,    
      4            EPSXX    ,EPSYY    ,EPSXY    ,AREA     ,THKN     ,            
      5            SIGNXX   ,SIGNYY   ,SIGNXY   ,SIGNYZ   ,SIGNZX   , 
      6            EL_TEMP  ,DFMAX    ,ALDT     ,TABLE    ,TDEL     ,
      7            THK0     ,IPT      ,FOFF     ,THKLYL   ,NTABL_FAIL,
-     8            ITABL_FAIL,LF_DAMMX,NIPAR    ,IPARAMF  ,DT)
+     8            ITABL_FAIL,LF_DAMMX,DT)
 c
               CASE (40)     !    RTCL
 c

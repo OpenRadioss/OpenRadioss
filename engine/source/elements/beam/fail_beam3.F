@@ -197,19 +197,13 @@ c---------------
      .                       ELBUF_STR%GBUF%FAIL(1)%VAR,ISMSTR, DTIME)
       
          CASE (39)     ! Gene1 failure model                                        
-          CALL FAIL_GENE1_B(                         
-     .                       NEL  ,FAIL%NUPARAM  ,NUVAR        ,FAIL%NFUNC,   
-     .                FAIL%IFUNC  ,NPF           ,TF           ,            
-     .                      TIME  ,DTIME         ,FAIL%UPARAM  ,    
-     .                       NGL  ,ELBUF_STR%GBUF%DT    ,EPSD  ,ELBUF_STR%GBUF%FAIL(1)%VAR ,
-     .                       OFF  ,
-     .                      AREA  ,F1       ,
-     .                     EPSXX  ,EPSXY    ,EPSXZ      ,
-     .                     TEMPEL ,   
-     .                     ELBUF_STR%GBUF%FAIL(1)%DAMMX ,AL    ,TABLE,     
-     .                     FAIL%NTABLE,    
-     .                     FAIL%TABLE ,ELBUF_STR%GBUF%FAIL(1)%LF_DAMMX  ,FAIL%NIPARAM  ,FAIL%IPARAM,    
-     .                     SNPC       ,STF  ,NTABLE)
+          CALL FAIL_GENE1_B(FAIL,                         
+     .         NEL    ,NUVAR  ,ELBUF_STR%GBUF%FAIL(1)%VAR ,NVARTMP,ELBUF_STR%GBUF%FAIL(1)%VARTMP,  
+     .         TIME   ,DTIME  ,NGL  ,ELBUF_STR%GBUF%DT    ,EPSD  ,
+     .         OFF    ,AREA   ,F1       ,
+     .         EPSXX  ,EPSXY    ,EPSXZ      ,TEMPEL ,   
+     .         ELBUF_STR%GBUF%FAIL(1)%DAMMX ,AL    ,TABLE,  FAIL%NTABLE,   
+     .         FAIL%TABLE ,ELBUF_STR%GBUF%FAIL(1)%LF_DAMMX  ,NTABLE)
 
           CASE (42)     ! INIEVO failure model  
             CALL FAIL_INIEVO_B(                         
