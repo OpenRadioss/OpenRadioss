@@ -2483,15 +2483,15 @@
 !
                    case (39)     !    gene1
 !
-                    call fail_gene1_c(&
-                    &jlt      ,nupar    ,nvarf    ,nfunc_fail,ifunc_fail,&
-                    &npf      ,tf       ,tt       ,dt1c     ,uparamf  ,ipg      ,&
-                    &ngl      ,gbuf%dt  ,epsd     ,uvarf    ,off      ,&
-                    &epsxx    ,epsyy    ,epsxy    ,area     ,thkn     ,&
-                    &signxx   ,signyy   ,signxy   ,signyz   ,signzx   ,&
-                    &el_temp  ,dfmax    ,aldt     ,table    ,tdel     ,&
-                    &thk0     ,ipt      ,foff     ,thklyl   ,ntabl_fail,itabl_fail,&
-                    &lf_dammx ,nipar    ,iparamf  ,dt)
+                    call fail_gene1_c(mat_elem%mat_param(imat)%fail(ifl),          &
+                     jlt      ,nvarf    ,nvartmp  ,uvarf    ,vartmp   ,            &
+                     tt       ,dt1c     ,ipg      ,                                &
+                     ngl      ,gbuf%dt  ,epsd     ,off      ,                      &
+                     epsxx    ,epsyy    ,epsxy    ,area     ,thkn     ,            &
+                     signxx   ,signyy   ,signxy   ,signyz   ,signzx   ,            &
+                     el_temp  ,dfmax    ,aldt     ,table    ,tdel     ,            &
+                     thk0     ,ipt      ,foff     ,thklyl   ,ntabl_fail,itabl_fail,&
+                     lf_dammx ,dt)
 !
                    case (40)     !    rtcl
 !
