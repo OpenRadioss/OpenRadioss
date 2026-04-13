@@ -289,7 +289,7 @@ c----
           IPOS   = IGEO(99,PID(1))
           THICKT  = STACK%GEO(1,ISUBSTACK)
           ZSHIFT = GEO(199, PID(1))
-          IF (IPOS == 2 ) ZSHIFT = ZSHIFT /MAX(THICKT,EM20)     
+          IF (IPOS == 2 ) ZSHIFT = -ZSHIFT /MAX(THICKT,EM20)     
           IF(IDRAPE == 0) THEN
              DO N=1,NPT                                
                IADR = (N-1)*JLT                        
@@ -358,7 +358,7 @@ c
           IINT = IGEO(47,PID(1))
           THICKT   = STACK%GEO(1,ISUBSTACK)
           ZSHIFT = GEO(199, PID(1))
-          IF (IPOS == 2 ) ZSHIFT =  ZSHIFT /MAX(THICKT,EM20)     
+          IF (IPOS == 2 ) ZSHIFT = -ZSHIFT /MAX(THICKT,EM20)     
           IF(IDRAPE == 0) THEN
               IPT_ALL = 0
               IF(IPOS == 1) THEN
@@ -507,8 +507,7 @@ cc                  IPID_LY = STACK%IGEO(IPPID + ILAY,ISUBSTACK)  ! layer PID (i
                                  IPT = IPT_ALL + IT                                                                  
                                  J = (IPT-1)*JLT + I 
                                  THINNING = DRAPE_PLY%RDRAPE(IT,1) 
-                                 THK_IT0 = THK_LY(I)/NPTT
-                                 THK_IT(IPT,I) = THINNING*THK_IT0
+                                 THK_IT(IPT,I) = THINNING*THK_LY(I)
                                  THK_IT(IPT,I) =  THK_IT(IPT,I)/THICKT_DRAPE ! uniform distribution of NPTT through layer
                                  THKPLY_DRAPE = THKPLY_DRAPE + THK_IT(IPT,I)
                                  IF (IPT  == 1)  THEN                                                                
