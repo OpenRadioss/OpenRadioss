@@ -559,7 +559,7 @@ C
         IPOS = IGEO(99,IPROP)                   
         THICKT = STACK%GEO(1,ISUBSTACK)
         ZSHIFT = GEO(199,IPROP)
-        IF(IPOS == 2 ) ZSHIFT =  -  ZSHIFT /MAX(THICKT,EM20)       
+        IF(IPOS == 2 ) ZSHIFT =-ZSHIFT /MAX(THICKT,EM20)       
         IF(IDRAPE == 0 ) THEN                                  
           DO I=LFT,LLT
             EMS(I)=ZERO
@@ -610,7 +610,6 @@ C
                        POS_IT(IT) = POSLY(IPT)*THK(I) 
                     ENDDO 
              ENDIF  ! iint
-            !!SCALE = THK(I)/THICKT
              DO IT=1,NPTT
                   THK_IT(IT) = THK_IT(IT)*SCALE
                   EMS_NPTT = PM(89,MATLY)*THK_IT(IT)*AREA(I)*FOURTH
@@ -727,7 +726,7 @@ C------
                      DO IT=1,NPTT
                        IPT = IPT_ALL + IT
                        THINNING = DRAPE_PLY%RDRAPE(IT,1)
-                       THK_IT(IT)   = THKLY*THINNING/NPTT
+                       THK_IT(IT)   = THKLY*THINNING
                        RATIO_THKLY(IPT) = THK_IT(IT)/THICK_DRAPE
                        IF (IPT  == 1) THEN
                          POSLY(IPT) = ZSHIFT + HALF*RATIO_THKLY(IPT)
@@ -737,7 +736,7 @@ C------
                        ENDIF ! IF (IPT ==  1)
                        POS_IT(IT)   = POSLY(IPT)*THK(I)
                      ENDDO  ! nptt
-                ELSEIF(IINT == 2) THEN
+                ELSEIF(IINT == 2) THEN !  to be removed wait to discuss with erwan
                      THKLY   = STACK%GEO(I3 ,ISUBSTACK)*THICKT ! initial
                      IPID_LY = STACK%IGEO(I1,ISUBSTACK)
                      MATLY   = STACK%IGEO(I2,ISUBSTACK) 
@@ -952,7 +951,7 @@ C----------------------------------------------
         IPOS = IGEO(99,IPROP)                   
         THICKT  = STACK%GEO(1,ISUBSTACK)
         ZSHIFT = GEO(199,IPROP)
-        IF(IPOS == 2 ) ZSHIFT =  -  ZSHIFT /MAX(THICKT,EM20)       
+        IF(IPOS == 2 ) ZSHIFT =-ZSHIFT /MAX(THICKT,EM20)       
 C         
         IF(IDRAPE == 0) THEN
            DO I=LFT,LLT
@@ -1050,10 +1049,10 @@ C
         IPPOS  =  IPTHK + NLAY   !  NPT
         NTHK   =  IPPOS + NLAY   !  NPT 
         IPOS = IGEO(99,IPROP) 
-       IINT = IGEO(47,IPROP)                   
+        IINT = IGEO(47,IPROP)                   
         THICKT  = STACK%GEO(1,ISUBSTACK)
         ZSHIFT = GEO(199,IPROP)
-        IF(IPOS == 2 ) ZSHIFT =  -  ZSHIFT /MAX(THICKT,EM20)       
+        IF(IPOS == 2 ) ZSHIFT =-ZSHIFT /MAX(THICKT,EM20)       
 C       
         IF(IDRAPE == 0) THEN   
           IF(IPOS == 1) THEN
@@ -1080,7 +1079,7 @@ C
                           IPT = IPT_ALL + IT                                                                            
                           THK_IT(IT) =  RATIO_SLICE*THICKT ! uniform distribution of NPTT through layer    
                           RATIO_THKLY(IPT) = RATIO_SLICE   
-                          IF(IT == 1) THEN
+                          IF(IPT == 1) THEN
                               POSLY(IPT) = ZSHIFT + HALF*RATIO_SLICE ! integr. point "IT" position ratio
                            ELSE
                               POSLY(IPT) = POSLY(IPT-1) + RATIO_SLICE ! integr. point "IT" position ratio
@@ -1282,7 +1281,7 @@ C
                        DO IT=1,NPTT                                                                               
                          IPT = IPT_ALL + IT                                                                       
                          THINNING = DRAPE_PLY%RDRAPE(IT,1)                                       
-                         THK_IT(IT)   = THKLY*THINNING/NPTT                                                            
+                         THK_IT(IT)   = THKLY*THINNING                                                           
                          RATIO_THKLY(IPT) = THK_IT(IT)/THICK_DRAPE                                                 
                          IF (IPT == 1) THEN                                                                      
                            POSLY(IPT) = ZSHIFT + HALF*RATIO_THKLY(IPT)                                          
@@ -1292,7 +1291,7 @@ C
                          ENDIF ! IF (IPT == 1)                                                                   
                          POS_IT(IT)   = POSLY(IPT)*THK(I)
                        ENDDO  ! nptt                                                                             
-                    ELSEIF(IINT == 2) THEN
+                    ELSEIF(IINT == 2) THEN ! to be removed wai to discuss with erwan
                        THICKT = STACK%GEO(1,ISUBSTACK)                              
                        THKLY  = STACK%GEO(I3 ,ISUBSTACK)*THICKT ! initial           
                        DO IT=1,NPTT                                                                                  
