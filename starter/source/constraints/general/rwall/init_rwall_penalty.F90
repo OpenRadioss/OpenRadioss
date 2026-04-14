@@ -46,15 +46,18 @@
                  numels16,numels20,    ixc,   ixtg,      ixs,                    &
                     ixs10,   ixs16,  ixs20,   ixt ,      ixp,                    &
                       ixr,  numelt, numelp, numelr,    stifn,                    &
-                mat_param, sln_pen,stif_pen)
+                mat_param, sln_pen,stif_pen,nrbykin,  nnpby ,                    &
+                   npby  ,  slpby , lpby  ,  nrbe2,    irbe2,                    &
+                   nrbe2l,  slrbe2,lrbe2)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
           use elbufdef_mod
-          use constant_mod,           only: zero,half,one,two,fourth,hundred,three_half,three,ten
+          use constant_mod,           only: zero,half,one,two,fourth,hundred,three_half,three,ten,em12,zep025
           use element_mod,            only: nixc, nixtg, nixs,nixp,nixr,nixt
           use matparam_def_mod,       only: matparam_struct_
           use precision_mod,          only: WP
+          use my_alloc_mod
 ! ----------------------------------------------------------------------------------------------------------------------
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -94,6 +97,16 @@
           integer, intent (in   ) ,dimension(nixt,numelt)  :: ixt              !< truss connectivity
           integer, intent (in   ) ,dimension(nixp,numelp)  :: ixp              !< beam connectivity
           integer, intent (in   ) ,dimension(nixr,numelr)  :: ixr              !< spring connectivity
+          integer, intent(in)                              :: nrbykin          !< number of rbody
+          integer, intent(in)                              :: nnpby            !< first dimension of npby
+          integer, intent(in)                              :: slpby            !< dimension of lpby
+          integer, dimension(nnpby,nrbykin),intent(in   )  :: npby             !< rbody data
+          integer, dimension(slpby),        intent(in   )  :: lpby             !< rbody secondary node data
+          integer, intent(in)                              :: nrbe2            !< number of rbe2
+          integer, intent(in)                              :: nrbe2l           !< first dimension of irbe2
+          integer, intent(in)                              :: slrbe2           !< dimension of lrbe2
+          integer, dimension(nrbe2l,nrbe2),intent(in   )   :: irbe2            !< rbe2 data
+          integer, dimension(slrbe2),     intent(in   )    :: lrbe2            !< rbe2 secondary node data
           real(kind=WP), intent (in   ) ,dimension(numnod) :: stifn            !< nodal stiffness for interface
           type (elbuf_struct_),  target,dimension(ngroup)  :: elbuf_tab        !< el_buf struct_
           real(kind=WP), intent (inout) ,dimension(sln_pen):: stif_pen         !< penalty Rwall stiffness +leng_m
@@ -101,17 +114,22 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer :: i,j,n,ii,mid,mtn,pid,icontr,ity,nn1,nsl,ns,isolnod,ipen,nel,k,n_p,ng,nft,lspen,iconst
+          integer :: i,j,n,ii,mid,mtn,pid,iad,ity,nn1,nsl,ns,isolnod,ipen,nel,k,n_p,ng,nft,lspen,iconst,r_id,nsn,ns1,m
           integer, dimension(20,mvsiz)  :: nc
-          integer, dimension(:)  ,        allocatable :: imnt
+          integer, dimension(:)  ,        allocatable :: imnt,itag
           real(kind=WP), dimension(:)  ,  allocatable :: noda_l
           real(kind=WP) :: sfac,v,l_e
+          logical :: is_found
 !
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
-          allocate(imnt(numnod))
+          call my_alloc(imnt,numnod)
+          call my_alloc(itag,numnod)
+          call my_alloc(noda_l,numnod)
+          noda_l = zero
           imnt = 0
+          itag = 0
           do ng=1,ngroup
             mtn     = iparg(1,ng)
             nel     = iparg(2,ng)
@@ -198,6 +216,7 @@
                   sfac = one
               end select
               if (imnt(ns)<0) sfac = half !shell
+              if (imnt(ns)<0.and.mat_param(mid)%compressibility ==3) sfac = zep025 
               n_p = n_p + 1
               stif_pen(n_p) = sfac*stifn(ns)
             end do
@@ -206,8 +225,6 @@
         end do 
         lspen = n_p
 ! compute leng_m : thickness for shell
-          allocate(noda_l(numnod))
-          noda_l = one
           imnt = 0 ! used to tag number of connection nodes
           do ng=1,ngroup
             mtn     = iparg(1,ng)
@@ -365,7 +382,7 @@
               l_e = l_e + noda_l(ns)
               mid     = iabs(imnt(ns))
               mtn     = mat_param(mid)%ilaw
-              if (mtn==130) iconst =1
+              if (mtn==130.or.mat_param(mid)%compressibility ==3) iconst =1
             end do
             n_p = n_p + 1
             stif_pen(lspen+n_p) = l_e / nsl
@@ -373,7 +390,76 @@
           end if
           k = k + nsl
         end do 
+! look at if main node of RBODY or RBE2 are secondary node of RWALL
+        is_found = .false.
+        do i=1,nrbykin
+            m = npby(1,i)
+            if (itag(m)==0.and.stifn(m)<em12) then 
+              itag(m) = i
+              is_found = .true.
+            end if
+        end do 
+      if (is_found) then 
+        k = 1
+        n_p = 0
+        do n = 1, nrwall
+          nsl = nprw(n)
+          ipen = nprw(n+8*nrwall)
+          if (ipen > 0) then 
+            do j=1,nsl
+              ns = lprw(k+j-1)
+              n_p = n_p + 1
+              if (itag(ns)>0) then 
+                r_id = itag(ns)
+                iad = npby(11,r_id)
+                nsn = npby(2,r_id)
+                do ii = 1,nsn
+                  ns1 = lpby(iad+ii)
+                  stif_pen(n_p) = stif_pen(n_p) + stifn(ns1) 
+                end do 
+              end if
+            end do
+          end if
+          k = k + nsl
+        end do 
+      end if !(is_found) then 
+! rbe2        
+        itag =0  
+        is_found = .false.
+        do i=1,nrbe2
+            m = irbe2(3,i)
+            if (itag(m)==0.and.stifn(m)<em12) then
+              itag(m) = i
+              is_found = .true.
+            end if
+        end do 
+      if (is_found) then 
+        k = 1
+        n_p = 0
+        do n = 1, nrwall
+          nsl = nprw(n)
+          ipen = nprw(n+8*nrwall)
+          if (ipen > 0) then 
+            do j=1,nsl
+              ns = lprw(k+j-1)
+              n_p = n_p + 1
+              if (itag(ns)>0) then 
+                r_id = itag(ns)
+                iad = irbe2(1,r_id)
+                nsn = irbe2(5,r_id)
+                do ii = 1,nsn
+                  ns1 = lrbe2(iad+ii)
+                  stif_pen(n_p) = stif_pen(n_p) + stifn(ns1) 
+                end do 
+              end if
+            end do
+          end if
+          k = k + nsl
+        end do 
+      end if !(is_found) then 
+!          
           deallocate(imnt)
+          deallocate(itag)
           deallocate(noda_l)
 !
         end subroutine init_rwall_penalty

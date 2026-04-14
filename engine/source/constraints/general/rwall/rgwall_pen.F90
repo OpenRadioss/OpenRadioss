@@ -466,7 +466,7 @@
               n=nsw(i)
               stif(j) = pen_stif(i)
               stif_kt(j) = stif(j)
-              if (pene(i) <= p_min .or. pen_old(i)==zero) cycle
+              if (leng_m<=zero.or. pene(i) <= p_min .or. pen_old(i)==zero) cycle
               pendr = (pene(i)/penref)**2
               fac  = min(fmax,(one+fnon*pendr))
               fact = one+three*fnon*pendr
