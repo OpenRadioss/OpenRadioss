@@ -1779,14 +1779,16 @@ C---------------------------------------------------------------
 ! RWALL penalty stiffness initialization
 !--------------------------------------------
         IF (SLN_PEN>0) THEN
-           CALL INIT_RWALL_PENALTY(ELBUF_TAB,                                              
-     1             numnod,  nparg,  ngroup,  iparg,   nummat,                    
-     2             nrwall,  nnprw,    nprw,   lprw,    slprw,                    
-     3             numelc,numeltg,  numels,numels8, numels10,                    
-     4           numels16,numels20,    ixc,   ixtg,      ixs,                    
-     5              ixs10,   ixs16,  ixs20,    ixt,      ixp,                    
+           CALL INIT_RWALL_PENALTY(ELBUF_TAB,                          
+     1             numnod,  nparg,  ngroup,  iparg,   nummat,          
+     2             nrwall,  nnprw,    nprw,   lprw,    slprw,          
+     3             numelc,numeltg,  numels,numels8, numels10,          
+     4           numels16,numels20,    ixc,   ixtg,      ixs,          
+     5              ixs10,   ixs16,  ixs20,    ixt,      ixp,          
      6                ixr,  numelt, numelp, numelr,    stifn,
-     7                mat_param,SLN_PEN,RWSTIF_PEN)
+     7         mat_param,SLN_PEN,RWSTIF_PEN,nrbykin,  nnpby ,         
+     8            npby  , slpby ,   lpby  ,  nrbe2,    irbe2,         
+     9            nrbe2l, slrbe2,lrbe2 )
         END IF
 C--------------------------------------------
 C Laser impact

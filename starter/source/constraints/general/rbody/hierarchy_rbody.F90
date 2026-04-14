@@ -74,7 +74,7 @@
           integer :: i,j,k,m,iad,nhier,ih,parent_idx,nsn,ns,iter,nh_max,iad_n,child
           logical :: changed,is_hier,cycle_found
           integer, dimension(nrbykin) :: index,nlev
-          integer, dimension(:,:), allocatable :: npby_copy
+          integer, dimension(:,:), allocatable :: npby_copy,titre_copy
           integer, dimension(:), allocatable :: itag,lpby_copy
           integer, dimension(nrbykin) :: parent_of    !< parent index for each rbody (0 = no parent)
           real(kind=WP),dimension(:,:),allocatable   :: rby_copy
@@ -177,9 +177,11 @@
             call my_alloc(npby_copy,nnpby,nrbykin)
             call my_alloc(lpby_copy,slpby)
             call my_alloc(rby_copy,nrby,nrbykin)
+            call my_alloc(titre_copy,lnopt1,nrbykin)
             npby_copy = npby
             lpby_copy = lpby
             rby_copy = rby
+            titre_copy(1:lnopt1,1:nrbykin) = nom_opt(1:lnopt1,1:nrbykin)
             iad_n = 0
             do j=1,nrbykin
               i = index(j)
@@ -191,12 +193,13 @@
               npby(11,j) = iad_n
               npby(20,j) =nlev(i)  ! store level in npby(20,:)
               iad_n = iad_n + nsn
-              nom_opt(1,j) = npby(6,j)
+              nom_opt(1:lnopt1,j) = titre_copy(1:lnopt1,i)
             end do
             write(iout,1000) nhier
             deallocate(npby_copy)
             deallocate(lpby_copy)
             deallocate(rby_copy)
+            deallocate(titre_copy)
           end if !(is_hier) then
 
           deallocate(itag)
