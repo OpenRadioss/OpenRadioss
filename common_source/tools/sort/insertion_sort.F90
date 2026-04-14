@@ -27,7 +27,6 @@
 !||--- called by ------------------------------------------------------
 !||    clipping_weiler_atherton   ../common_source/tools/clipping/polygon_clipping_mod.F90
 !||    eikonal_init_start_list    ../starter/source/initial_conditions/detonation/eikonal_init_start_list.F90
-!||    eikonal_sort_narrow_band   ../starter/source/initial_conditions/detonation/eikonal_sort_narrow_band.F90
 !||====================================================================
       module insertion_sort_mod
 
@@ -49,7 +48,6 @@
 !||    real_insertion_sort_with_index   ../common_source/tools/sort/insertion_sort.F90
 !||--- called by ------------------------------------------------------
 !||    clipping_weiler_atherton         ../common_source/tools/clipping/polygon_clipping_mod.F90
-!||    eikonal_sort_narrow_band         ../starter/source/initial_conditions/detonation/eikonal_sort_narrow_band.F90
 !||--- uses       -----------------------------------------------------
 !||    precision_mod                    ../common_source/modules/precision_mod.F90
 !||====================================================================

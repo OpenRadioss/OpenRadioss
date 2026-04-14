@@ -32,10 +32,9 @@
 !                                                   procedures
 ! ======================================================================================================================
 !||====================================================================
-!||    eikonal_sort_narrow_band         ../starter/source/initial_conditions/detonation/eikonal_sort_narrow_band.F90
+!||    eikonal_sort_narrow_band       ../starter/source/initial_conditions/detonation/eikonal_sort_narrow_band.F90
 !||--- called by ------------------------------------------------------
-!||    eikonal_fast_marching_method     ../starter/source/initial_conditions/detonation/eikonal_fast_marching_method.F90
-!||--- calls      -----------------------------------------------------
+!||    eikonal_fast_marching_method   ../starter/source/initial_conditions/detonation/eikonal_fast_marching_method.F90
 !||--- uses       -----------------------------------------------------
 !||====================================================================
         subroutine eikonal_sort_narrow_band(priority_queue_id,priority_queue_tt,n_queue)
