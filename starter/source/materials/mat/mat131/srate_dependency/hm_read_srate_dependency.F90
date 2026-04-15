@@ -27,6 +27,9 @@
 !||====================================================================
       module hm_read_srate_dependency_mod
         implicit none
+! \brief Read strain rate dependency input data for /MAT/LAW131
+! \details Read and dispatch the strain rate dependency model input data
+!          for /MAT/LAW131 (elasto-plastic material law).
       contains
 !||====================================================================
 !||    hm_read_srate_dependency                     ../starter/source/materials/mat/mat131/srate_dependency/hm_read_srate_dependency.F90

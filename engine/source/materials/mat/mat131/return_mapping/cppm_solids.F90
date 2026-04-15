@@ -26,6 +26,9 @@
 !||    sigeps131         ../engine/source/materials/mat/mat131/sigeps131.F90
 !||====================================================================
       module cppm_solids_mod
+! \brief Closest Point Projection Method return mapping for solids in /MAT/LAW131
+! \details Perform the CPPM (Closest Point Projection Method) implicit return
+!          mapping algorithm for solid elements in /MAT/LAW131.
       contains
 !||====================================================================
 !||    cppm_solids                              ../engine/source/materials/mat/mat131/return_mapping/cppm_solids.F90

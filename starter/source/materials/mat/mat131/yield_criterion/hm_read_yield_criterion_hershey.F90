@@ -27,6 +27,9 @@
 !||====================================================================
       module hm_read_yield_criterion_hershey_mod
         implicit none
+! \brief Read Hershey yield criterion input data for /MAT/LAW131
+! \details Read the Hershey isotropic yield criterion parameters
+!          for /MAT/LAW131.
       contains
 !||====================================================================
 !||    hm_read_yield_criterion_hershey   ../starter/source/materials/mat/mat131/yield_criterion/hm_read_yield_criterion_hershey.F90

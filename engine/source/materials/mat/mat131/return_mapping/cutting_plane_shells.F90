@@ -26,6 +26,9 @@
 !||    sigeps131c                 ../engine/source/materials/mat/mat131/sigeps131c.F90
 !||====================================================================
       module cutting_plane_shells_mod
+! \brief Cutting plane return mapping for shells in /MAT/LAW131
+! \details Perform the cutting plane semi-implicit return mapping algorithm
+!          for shell elements in /MAT/LAW131.
       contains
 !||====================================================================
 !||    cutting_plane_shells                     ../engine/source/materials/mat/mat131/return_mapping/cutting_plane_shells.F90

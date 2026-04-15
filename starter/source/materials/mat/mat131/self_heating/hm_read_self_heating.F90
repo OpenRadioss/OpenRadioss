@@ -27,6 +27,9 @@
 !||====================================================================
       module hm_read_self_heating_mod
         implicit none
+! \brief Read self-heating input data for /MAT/LAW131
+! \details Read and dispatch the self-heating model input data
+!          for /MAT/LAW131 (elasto-plastic material law).
       contains
 !||====================================================================
 !||    hm_read_self_heating                 ../starter/source/materials/mat/mat131/self_heating/hm_read_self_heating.F90

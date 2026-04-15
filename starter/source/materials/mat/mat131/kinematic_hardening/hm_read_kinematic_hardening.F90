@@ -27,6 +27,9 @@
 !||====================================================================
       module hm_read_kinematic_hardening_mod
         implicit none
+! \brief Read kinematic hardening input data for /MAT/LAW131
+! \details Read and dispatch the kinematic hardening model input data
+!          for /MAT/LAW131 (elasto-plastic material law).
       contains
 !||====================================================================
 !||    hm_read_kinematic_hardening                ../starter/source/materials/mat/mat131/kinematic_hardening/hm_read_kinematic_hardening.F90

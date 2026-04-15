@@ -27,6 +27,9 @@
 !||====================================================================
       module hm_read_elasticity_orthotropic_mod
         implicit none
+! \brief Read orthotropic elasticity input data for /MAT/LAW131
+! \details Read the orthotropic elasticity model parameters
+!          for /MAT/LAW131 (elasto-plastic material law).
       contains
 !||====================================================================
 !||    hm_read_elasticity_orthotropic   ../starter/source/materials/mat/mat131/elasticity/hm_read_elasticity_orthotropic.F90

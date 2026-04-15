@@ -26,6 +26,9 @@
 !||    hm_read_srate_dependency                   ../starter/source/materials/mat/mat131/srate_dependency/hm_read_srate_dependency.F90
 !||====================================================================
       module hm_read_srate_dependency_johnsoncook_mod
+! \brief Read Johnson-Cook strain rate dependency input data for /MAT/LAW131
+! \details Read the Johnson-Cook strain rate dependency model parameters
+!          for /MAT/LAW131.
       contains
 !||====================================================================
 !||    hm_read_srate_dependency_johnsoncook   ../starter/source/materials/mat/mat131/srate_dependency/hm_read_srate_dependency_johnsoncook.F90

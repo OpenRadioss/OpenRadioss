@@ -29,6 +29,10 @@
 !||    yield_criterion_hill           ../engine/source/materials/mat/mat131/yield_criterion/yield_criterion_hill.F90
 !||====================================================================
       module yield_criterion_vonmises_mod
+! \brief Compute von Mises yield criterion for /MAT/LAW131
+! \details Compute the equivalent stress and its first and second-order
+!          derivatives using the von Mises isotropic yield criterion
+!          for /MAT/LAW131.
       contains
 !||====================================================================
 !||    yield_criterion_vonmises   ../engine/source/materials/mat/mat131/yield_criterion/yield_criterion_vonmises.F90

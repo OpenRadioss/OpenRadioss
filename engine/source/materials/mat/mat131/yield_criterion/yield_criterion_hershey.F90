@@ -26,6 +26,10 @@
 !||    elasto_plastic_eq_stress      ../engine/source/materials/mat/mat131/elasto_plastic_eq_stress.F90
 !||====================================================================
       module yield_criterion_hershey_mod
+! \brief Compute Hershey yield criterion for /MAT/LAW131
+! \details Compute the equivalent stress and its first and second-order
+!          derivatives using the Hershey isotropic yield criterion
+!          for /MAT/LAW131.
       contains
 !||====================================================================
 !||    yield_criterion_hershey        ../engine/source/materials/mat/mat131/yield_criterion/yield_criterion_hershey.F90

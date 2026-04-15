@@ -26,6 +26,9 @@
 !||    mulawc           ../engine/source/materials/mat_share/mulawc.F90
 !||====================================================================
       module sigeps131c_mod
+! \brief Main stress computation for /MAT/LAW131 (shells)
+! \details Main routine for computing stresses and internal variables
+!          for shell elements using /MAT/LAW131 (elasto-plastic material law).
       contains
 !||====================================================================
 !||    sigeps131c                 ../engine/source/materials/mat/mat131/sigeps131c.F90

@@ -27,6 +27,9 @@
 !||====================================================================
       module hm_read_yield_criterion_barlat2000_mod
         implicit none
+! \brief Read Barlat 2000 yield criterion input data for /MAT/LAW131
+! \details Read the Barlat 2000 (Yld2000-2d) anisotropic yield criterion
+!          parameters for /MAT/LAW131.
       contains
 !||====================================================================
 !||    hm_read_yield_criterion_barlat2000   ../starter/source/materials/mat/mat131/yield_criterion/hm_read_yield_criterion_barlat2000.F90

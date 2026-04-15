@@ -26,6 +26,9 @@
 !||    elasto_plastic_yield_stress        ../engine/source/materials/mat/mat131/elasto_plastic_yield_stress.F90
 !||====================================================================
       module srate_dependency_johnsoncook_mod
+! \brief Compute Johnson-Cook strain rate dependency for /MAT/LAW131
+! \details Compute the strain rate scaling factor using the Johnson-Cook
+!          model for /MAT/LAW131.
       contains
 !||====================================================================
 !||    srate_dependency_johnsoncook   ../engine/source/materials/mat/mat131/srate_dependency/srate_dependency_johnsoncook.F90

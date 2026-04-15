@@ -27,6 +27,10 @@
 !||    elasto_plastic_second_order_numerical   ../engine/source/materials/mat/mat131/elasto_plastic_second_order_numerical.F90
 !||====================================================================
       module yield_criterion_barlat1989_mod
+! \brief Compute Barlat 1989 yield criterion for /MAT/LAW131
+! \details Compute the equivalent stress and its first-order
+!          derivatives using the Barlat 1989 anisotropic yield criterion
+!          for /MAT/LAW131.
       contains
 !||====================================================================
 !||    yield_criterion_barlat1989              ../engine/source/materials/mat/mat131/yield_criterion/yield_criterion_barlat1989.F90

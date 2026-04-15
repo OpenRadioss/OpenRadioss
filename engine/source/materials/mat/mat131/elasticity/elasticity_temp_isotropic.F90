@@ -26,6 +26,9 @@
 !||    elasto_plastic_trial_stress     ../engine/source/materials/mat/mat131/elasto_plastic_trial_stress.F90
 !||====================================================================
       module elasticity_temp_isotropic_mod
+! \brief Compute temperature-dependent isotropic elastic stress for /MAT/LAW131
+! \details Compute the elastic stress tensor using temperature-dependent
+!          isotropic elasticity for /MAT/LAW131 (elasto-plastic material law).
       contains
 !||====================================================================
 !||    elasticity_temp_isotropic     ../engine/source/materials/mat/mat131/elasticity/elasticity_temp_isotropic.F90

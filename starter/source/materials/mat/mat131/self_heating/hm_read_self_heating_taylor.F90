@@ -26,6 +26,9 @@
 !||    hm_read_self_heating              ../starter/source/materials/mat/mat131/self_heating/hm_read_self_heating.F90
 !||====================================================================
       module hm_read_self_heating_taylor_mod
+! \brief Read Taylor-Quinney self-heating input data for /MAT/LAW131
+! \details Read the constant Taylor-Quinney self-heating model parameters
+!          for /MAT/LAW131.
       contains
 !||====================================================================
 !||    hm_read_self_heating_taylor   ../starter/source/materials/mat/mat131/self_heating/hm_read_self_heating_taylor.F90

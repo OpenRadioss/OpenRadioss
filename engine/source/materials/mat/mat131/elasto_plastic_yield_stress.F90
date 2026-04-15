@@ -31,6 +31,9 @@
 !||    nice_solids                       ../engine/source/materials/mat/mat131/return_mapping/nice_solids.F90
 !||====================================================================
       module elasto_plastic_yield_stress_mod
+! \brief Compute elasto-plastic yield stress for /MAT/LAW131
+! \details Compute the yield stress including work hardening, strain rate
+!          dependency, and thermal softening for /MAT/LAW131.
       contains
 !||====================================================================
 !||    elasto_plastic_yield_stress          ../engine/source/materials/mat/mat131/elasto_plastic_yield_stress.F90

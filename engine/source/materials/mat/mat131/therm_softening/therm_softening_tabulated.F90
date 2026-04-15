@@ -26,6 +26,9 @@
 !||    elasto_plastic_yield_stress     ../engine/source/materials/mat/mat131/elasto_plastic_yield_stress.F90
 !||====================================================================
       module therm_softening_tabulated_mod
+! \brief Compute tabulated thermal softening for /MAT/LAW131
+! \details Compute the thermal softening factor using tabulated data
+!          for /MAT/LAW131.
       contains
 !||====================================================================
 !||    therm_softening_tabulated     ../engine/source/materials/mat/mat131/therm_softening/therm_softening_tabulated.F90

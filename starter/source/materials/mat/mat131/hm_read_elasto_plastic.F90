@@ -27,6 +27,9 @@
 !||====================================================================
       module hm_read_elasto_plastic_mod
         implicit none
+! \brief Read /MAT/LAW131 elasto-plastic material input data
+! \details Main reader routine for /MAT/LAW131 (elasto-plastic material law).
+!          Reads and dispatches all sub-model input data.
       contains
 !||====================================================================
 !||    hm_read_elasto_plastic            ../starter/source/materials/mat/mat131/hm_read_elasto_plastic.F90
@@ -310,7 +313,7 @@
                   itab_hard,x2vect_hard     ,x3vect_hard   ,x4vect_hard     ,  &
                   fscale_hard,nvartmp_hard  ,is_available  ,unitab,lsubmodel,  &
                   iout  ,is_encrypted       ,vpflag        ,israte          ,  &
-                  parmat   )   
+                  parmat   ,titr  ,mat_id   ,matparam      )   
               !< Strain rate dependency
               case ('SRAT')
                 if (iratedep /= 0) then 

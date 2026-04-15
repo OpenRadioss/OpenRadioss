@@ -20,30 +20,13 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-!||====================================================================
-!||    hm_read_elasticity_isotropic_mod   ../starter/source/materials/mat/mat131/elasticity/hm_read_elasticity_isotropic.F90
-!||--- called by ------------------------------------------------------
-!||    hm_read_elasticity                 ../starter/source/materials/mat/mat131/elasticity/hm_read_elasticity.F90
-!||====================================================================
-      module hm_read_elasticity_isotropic_mod
+      module hm_read_elasticity_bimod_isotropic_mod
         implicit none
-! \brief Read isotropic elasticity input data for /MAT/LAW131
-! \details Read the isotropic elasticity model parameters
-!          for /MAT/LAW131 (elasto-plastic material law).
+! \brief Read bimodular isotropic elasticity input data for /MAT/LAW131
+! \details Read the bimodular isotropic elasticity model parameters
+!          (different moduli in tension and compression) for /MAT/LAW131.
       contains
-!||====================================================================
-!||    hm_read_elasticity_isotropic   ../starter/source/materials/mat/mat131/elasticity/hm_read_elasticity_isotropic.F90
-!||--- called by ------------------------------------------------------
-!||    hm_read_elasticity             ../starter/source/materials/mat/mat131/elasticity/hm_read_elasticity.F90
-!||--- calls      -----------------------------------------------------
-!||    ancmsg                         ../starter/source/output/message/message.F
-!||    hm_get_float_array_index       ../starter/source/devtools/hm_reader/hm_get_float_array_index.F
-!||--- uses       -----------------------------------------------------
-!||    hm_option_read_mod             ../starter/share/modules1/hm_option_read_mod.F
-!||    message_mod                    ../starter/share/message_module/message_mod.F
-!||    submodel_mod                   ../starter/share/modules1/submodel_mod.F
-!||====================================================================
-        subroutine hm_read_elasticity_isotropic(                               &
+        subroutine hm_read_elasticity_bimod_isotropic(                         &
           ikey     ,ielas    ,nupar_elas,upar_elas,is_available,               &
           unitab   ,lsubmodel,matparam ,parmat    ,iout        ,is_encrypted,  &
           mat_id   ,titr     )
@@ -80,14 +63,17 @@
 !----------------------------------------------------------------
 !  L o c a l  V a r i a b l e s
 !----------------------------------------------------------------
-          real(kind=WP) :: young,nu,shear,lam,cii,cij,aii,aij
+          real(kind=WP) :: et,ec,nu,tt,tc
 !===============================================================================
 ! 
           !===================================================================
           !< Elastic isotropic parameters
           !===================================================================
-          call hm_get_float_array_index("ELAS_ISOT_E" ,young,ikey,is_available,lsubmodel,unitab)
-          call hm_get_float_array_index("ELAS_ISOT_NU",nu   ,ikey,is_available,lsubmodel,unitab)
+          call hm_get_float_array_index("ELAS_BIMOD_ET",et,ikey,is_available,lsubmodel,unitab)
+          call hm_get_float_array_index("ELAS_BIMOD_EC",ec,ikey,is_available,lsubmodel,unitab)
+          call hm_get_float_array_index("ELAS_BIMOD_NU",nu,ikey,is_available,lsubmodel,unitab)
+          call hm_get_float_array_index("ELAS_BIMOD_TT",tt,ikey,is_available,lsubmodel,unitab)
+          call hm_get_float_array_index("ELAS_BIMOD_TC",tc,ikey,is_available,lsubmodel,unitab)
           !< Check parameters values
           if (nu < zero .or. nu >= half) then
             call ancmsg(msgid=3131,                                            &
@@ -96,14 +82,27 @@
                         i1=mat_id,                                             &
                         c1="ERROR",                                            &
                         c2=titr,                                               &
-                        c3="ELAS_ISOTROPIC",                                   &
+                        c3="ELAS_BIMOD_ISOTROPIC",                             &
                         c4="POISSON'S RATIO MUST BE IN THE RANGE [0,0.5[.")
           endif
+          tt = min(max(tt,-one),one)
+          tc = min(max(tc,-one),one)
+          if (tt <= tc) then 
+            call ancmsg(msgid=3131,                                            &
+                        msgtype=msgerror,                                      &
+                        anmode=aninfo_blind_2,                                 &
+                        i1=mat_id,                                             &
+                        c1="ERROR",                                            &
+                        c2=titr,                                               &
+                        c3="ELAS_BIMOD_ISOTROPIC",                             &
+                        c4="LIMIT TRIAXIALITY IN TENSION MUST BE GREATER THAN  &
+                            OR EQUAL TO LIMIT TRIAXIALITY IN COMPRESSION.")
+          endif
           !< Fill MATPARAM values
-          matparam%young = young
+          matparam%young = max(et,ec)
           matparam%nu    = nu
-          matparam%shear = young/(two*(one + nu))
-          matparam%bulk  = young/(three*(one - two*nu))
+          matparam%shear = matparam%young/(two*(one + nu))
+          matparam%bulk  = matparam%young/(three*(one - two*nu))
           !< Fill PARMAT values
           parmat(1)  = matparam%bulk
           parmat(2)  = matparam%young
@@ -111,33 +110,30 @@
           parmat(16) = 2
           parmat(17) = (one - two*nu)/(one - nu)
           !< Elasticity type
-          ielas = 1
+          ielas = 6
           !< Number of parameters
           nupar_elas = 4
           !< Save elastic parameters
-          shear = young/(two*(one + nu))
-          lam = young*nu/(one + nu)/(one - two*nu)
-          cii = lam + shear*two
-          cij = lam
-          aii = young/(one - nu*nu)
-          aij = nu*aii
-          upar_elas(1) = cii
-          upar_elas(2) = cij
-          upar_elas(3) = aii
-          upar_elas(4) = aij
+          upar_elas(1) = et
+          upar_elas(2) = ec
+          upar_elas(3) = tt
+          upar_elas(4) = tc
           !< Printing elastic parameters
-          if (is_encrypted)then
+          if (is_encrypted) then
             write(iout,"(5X,A,//)") "CONFIDENTIAL DATA"
           else
-            write(iout,1000) young,nu
+            write(iout,1000) et,ec,nu,tt,tc
           endif
 ! ------------------------------------------------------------------------------
 1000 format(/                                                                  &
           5X,"-------------------------------------------------------",/       &
-          5X,"ISOTROPIC ELASTICITY                                   ",/,      &
+          5X,"ISOTROPIC BIMODULAR ELASTICITY                         ",/,      &
           5X,"-------------------------------------------------------",/,      &
-          5X,"YOUNG MODULUS (E). . . . . . . . . . . . . . . . . . .=",1PG20.13/&
-          5X,"POISSON RATIO (NU) . . . . . . . . . . . . . . . . . .=",1PG20.13/)
+          5X,"YOUNG MODULUS IN TENSION (ET). . . . . . . . . . . . .=",1PG20.13/&
+          5X,"YOUNG MODULUS IN COMPRESSION (EC). . . . . . . . . . .=",1PG20.13/&
+          5X,"POISSON RATIO (NU) . . . . . . . . . . . . . . . . . .=",1PG20.13/&
+          5X,"LIMIT TRIAXIALITY IN TENSION (TT). . . . . . . . . . .=",1PG20.13/&
+          5X,"LIMIT TRIAXIALITY IN COMPRESSION (TC). . . . . . . . .=",1PG20.13/)
 ! -------------------------------------------------------------------------------
-        end subroutine hm_read_elasticity_isotropic
-      end module hm_read_elasticity_isotropic_mod
+        end subroutine hm_read_elasticity_bimod_isotropic
+      end module hm_read_elasticity_bimod_isotropic_mod

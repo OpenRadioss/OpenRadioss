@@ -26,6 +26,9 @@
 !||    hm_read_therm_softening                 ../starter/source/materials/mat/mat131/therm_softening/hm_read_therm_softening.F90
 !||====================================================================
       module hm_read_therm_softening_tabulated_mod
+! \brief Read tabulated thermal softening input data for /MAT/LAW131
+! \details Read the tabulated thermal softening model parameters
+!          for /MAT/LAW131.
       contains
 !||====================================================================
 !||    hm_read_therm_softening_tabulated   ../starter/source/materials/mat/mat131/therm_softening/hm_read_therm_softening_tabulated.F90
