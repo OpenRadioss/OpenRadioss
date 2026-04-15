@@ -26,6 +26,9 @@
 !||    sigeps131                  ../engine/source/materials/mat/mat131/sigeps131.F90
 !||====================================================================
       module cutting_plane_solids_mod
+! \brief Cutting plane return mapping for solids in /MAT/LAW131
+! \details Perform the cutting plane semi-implicit return mapping algorithm
+!          for solid elements in /MAT/LAW131.
       contains
 !||====================================================================
 !||    cutting_plane_solids                     ../engine/source/materials/mat/mat131/return_mapping/cutting_plane_solids.F90

@@ -26,6 +26,9 @@
 !||    elasto_plastic_trial_stress   ../engine/source/materials/mat/mat131/elasto_plastic_trial_stress.F90
 !||====================================================================
       module elasticity_anisotropic_mod
+! \brief Compute anisotropic elastic stress for /MAT/LAW131
+! \details Compute the elastic stress tensor using anisotropic elasticity
+!          for /MAT/LAW131 (elasto-plastic material law).
       contains
 !||====================================================================
 !||    elasticity_anisotropic        ../engine/source/materials/mat/mat131/elasticity/elasticity_anisotropic.F90

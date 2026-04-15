@@ -26,6 +26,9 @@
 !||    sigeps131         ../engine/source/materials/mat/mat131/sigeps131.F90
 !||====================================================================
       module nice_solids_mod
+! \brief NICE return mapping for solids in /MAT/LAW131
+! \details Perform the NICE (Next Increment Corrects Error) explicit return
+!          mapping algorithm for solid elements in /MAT/LAW131.
       contains
 !||====================================================================
 !||    nice_solids                              ../engine/source/materials/mat/mat131/return_mapping/nice_solids.F90

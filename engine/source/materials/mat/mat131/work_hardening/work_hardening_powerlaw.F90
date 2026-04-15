@@ -26,6 +26,9 @@
 !||    elasto_plastic_yield_stress   ../engine/source/materials/mat/mat131/elasto_plastic_yield_stress.F90
 !||====================================================================
       module work_hardening_powerlaw_mod
+! \brief Compute power law work hardening for /MAT/LAW131
+! \details Compute the isotropic work hardening stress using the power law
+!          (Hollomon/Ludwik) model for /MAT/LAW131.
       contains
 !||====================================================================
 !||    work_hardening_powerlaw       ../engine/source/materials/mat/mat131/work_hardening/work_hardening_powerlaw.F90
@@ -61,7 +64,7 @@
 !  L o c a l  V a r i a b l e s
 !----------------------------------------------------------------
         integer :: i
-        real(kind=WP) :: ca,cb,cn,eps0
+        real(kind=WP) :: ca,cb,cn,eps0,sigmax
         real(kind=WP), dimension(nel) :: pla_plus_eps0_pow_cn_minus_1
 !===============================================================================
 !
@@ -69,14 +72,19 @@
         !< - Power law work hardening model
         !=======================================================================
         !< Recover work hardening parameters
-        ca   = matparam%uparam(offset + 1) !< Initial yield stress
-        cb   = matparam%uparam(offset + 2) !< Hardening modulus
-        cn   = matparam%uparam(offset + 3) !< Hardening exponent
-        eps0 = matparam%uparam(offset + 4) !< Initial plastic strain
+        ca     = matparam%uparam(offset + 1) !< Initial yield stress
+        cb     = matparam%uparam(offset + 2) !< Hardening modulus
+        cn     = matparam%uparam(offset + 3) !< Hardening exponent
+        eps0   = matparam%uparam(offset + 4) !< Initial plastic strain
+        sigmax = matparam%uparam(offset + 5) !< Maximum yield stress
         pla_plus_eps0_pow_cn_minus_1(1:nel) = (pla(1:nel) + eps0)**(cn - one)
         sigy(1:nel) = ca + cb*(pla(1:nel) + eps0)*                             &
                               pla_plus_eps0_pow_cn_minus_1(1:nel)
         dsigy_dpla(1:nel) = cn*cb*pla_plus_eps0_pow_cn_minus_1(1:nel)
+        where (sigy(1:nel) > sigmax) 
+          sigy(1:nel) = sigmax
+          dsigy_dpla(1:nel) = zero
+        end where
 !
         end subroutine work_hardening_powerlaw
       end module work_hardening_powerlaw_mod

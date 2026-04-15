@@ -27,6 +27,9 @@
 !||====================================================================
       module hm_read_yield_criterion_hill_mod
         implicit none
+! \brief Read Hill yield criterion input data for /MAT/LAW131
+! \details Read the Hill 1948 anisotropic yield criterion parameters
+!          for /MAT/LAW131.
       contains
 !||====================================================================
 !||    hm_read_yield_criterion_hill   ../starter/source/materials/mat/mat131/yield_criterion/hm_read_yield_criterion_hill.F90

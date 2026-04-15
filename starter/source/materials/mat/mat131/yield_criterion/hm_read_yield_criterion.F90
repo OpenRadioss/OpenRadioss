@@ -27,6 +27,9 @@
 !||====================================================================
       module hm_read_yield_criterion_mod
         implicit none
+! \brief Read yield criterion input data for /MAT/LAW131
+! \details Read and dispatch the yield criterion model input data
+!          for /MAT/LAW131 (elasto-plastic material law).
       contains
 !||====================================================================
 !||    hm_read_yield_criterion                  ../starter/source/materials/mat/mat131/yield_criterion/hm_read_yield_criterion.F90

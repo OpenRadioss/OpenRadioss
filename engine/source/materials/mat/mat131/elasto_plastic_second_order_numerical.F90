@@ -26,6 +26,9 @@
 !||    elasto_plastic_eq_stress                    ../engine/source/materials/mat/mat131/elasto_plastic_eq_stress.F90
 !||====================================================================
       module elasto_plastic_second_order_numerical_mod
+! \brief Compute second-order numerical approximation for /MAT/LAW131
+! \details Compute second-order numerical derivatives of the yield function
+!          for /MAT/LAW131 (elasto-plastic material law).
       contains
 !||====================================================================
 !||    elasto_plastic_second_order_numerical   ../engine/source/materials/mat/mat131/elasto_plastic_second_order_numerical.F90

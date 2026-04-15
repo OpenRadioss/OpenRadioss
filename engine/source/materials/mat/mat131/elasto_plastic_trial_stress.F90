@@ -31,6 +31,9 @@
 !||    nice_solids                       ../engine/source/materials/mat/mat131/return_mapping/nice_solids.F90
 !||====================================================================
       module elasto_plastic_trial_stress_mod
+! \brief Compute elasto-plastic trial stress for /MAT/LAW131
+! \details Compute the elastic trial stress tensor (predictor step)
+!          for /MAT/LAW131 (elasto-plastic material law).
       contains
 !||====================================================================
 !||    elasto_plastic_trial_stress        ../engine/source/materials/mat/mat131/elasto_plastic_trial_stress.F90
@@ -76,6 +79,7 @@
         use elasticity_anisotropic_mod
         use elasticity_viscous_isotropic_mod
         use elasticity_temp_isotropic_mod
+        use elasticity_bimod_isotropic_mod
 !----------------------------------------------------------------
 !   I m p l i c i t   T y p e s
 !----------------------------------------------------------------
@@ -189,6 +193,17 @@
               signxx   ,signyy   ,signzz   ,signxy   ,signyz   ,signzx   ,     &
               shf      ,cstf     ,soundsp  ,s13      ,s23      ,s43      ,     &
               temp     ,nvartmp  ,vartmp   ,young    ,nuvar    ,uvar     )
+          !---------------------------------------------------------------------
+          !< Bimodular isotropic elastic model
+          !---------------------------------------------------------------------
+          case(6)
+            call elasticity_bimod_isotropic(                                   &
+              matparam ,nel      ,eltype   ,ieos     ,rho      ,dpdm     ,     &
+              depsxx   ,depsyy   ,depszz   ,depsxy   ,depsyz   ,depszx   ,     &
+              sigoxx   ,sigoyy   ,sigozz   ,sigoxy   ,sigoyz   ,sigozx   ,     &
+              signxx   ,signyy   ,signzz   ,signxy   ,signyz   ,signzx   ,     &
+              shf      ,cstf     ,soundsp  ,s13      ,s23      ,s43      ,     &
+              young    )
         end select
 !
       end subroutine elasto_plastic_trial_stress

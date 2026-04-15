@@ -26,6 +26,9 @@
 !||    elasto_plastic_yield_stress   ../engine/source/materials/mat/mat131/elasto_plastic_yield_stress.F90
 !||====================================================================
       module self_heating_taylor_mod
+! \brief Compute Taylor-Quinney self-heating for /MAT/LAW131
+! \details Compute the temperature rise due to plastic work dissipation
+!          using a constant Taylor-Quinney coefficient for /MAT/LAW131.
       contains
 !||====================================================================
 !||    self_heating_taylor           ../engine/source/materials/mat/mat131/self_heating/self_heating_taylor.F90

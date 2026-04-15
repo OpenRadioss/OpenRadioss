@@ -27,6 +27,9 @@
 !||====================================================================
       module hm_read_yield_criterion_vonmises_mod
         implicit none
+! \brief Read von Mises yield criterion input data for /MAT/LAW131
+! \details Read the von Mises isotropic yield criterion parameters
+!          for /MAT/LAW131.
       contains
 !||====================================================================
 !||    hm_read_yield_criterion_vonmises   ../starter/source/materials/mat/mat131/yield_criterion/hm_read_yield_criterion_vonmises.F90

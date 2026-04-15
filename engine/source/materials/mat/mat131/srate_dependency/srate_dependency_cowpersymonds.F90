@@ -26,6 +26,9 @@
 !||    elasto_plastic_yield_stress          ../engine/source/materials/mat/mat131/elasto_plastic_yield_stress.F90
 !||====================================================================
       module srate_dependency_cowpersymonds_mod
+! \brief Compute Cowper-Symonds strain rate dependency for /MAT/LAW131
+! \details Compute the strain rate scaling factor using the Cowper-Symonds
+!          model for /MAT/LAW131.
       contains
 !||====================================================================
 !||    srate_dependency_cowpersymonds   ../engine/source/materials/mat/mat131/srate_dependency/srate_dependency_cowpersymonds.F90

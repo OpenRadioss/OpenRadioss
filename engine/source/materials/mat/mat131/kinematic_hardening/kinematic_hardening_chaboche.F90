@@ -26,6 +26,9 @@
 !||    elasto_plastic_kinematic_hardening   ../engine/source/materials/mat/mat131/elasto_plastic_kinematic_hardening.F90
 !||====================================================================
       module kinematic_hardening_chaboche_mod
+! \brief Compute Chaboche kinematic hardening for /MAT/LAW131
+! \details Compute the Chaboche nonlinear kinematic hardening model
+!          (backstress evolution) for /MAT/LAW131.
       contains
 !||====================================================================
 !||    kinematic_hardening_chaboche         ../engine/source/materials/mat/mat131/kinematic_hardening/kinematic_hardening_chaboche.F90

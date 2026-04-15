@@ -27,6 +27,9 @@
 !||====================================================================
       module hm_read_elasticity_anisotropic_mod
         implicit none
+! \brief Read anisotropic elasticity input data for /MAT/LAW131
+! \details Read the anisotropic elasticity model parameters
+!          for /MAT/LAW131 (elasto-plastic material law).
       contains
 !||====================================================================
 !||    hm_read_elasticity_anisotropic   ../starter/source/materials/mat/mat131/elasticity/hm_read_elasticity_anisotropic.F90

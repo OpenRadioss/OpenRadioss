@@ -26,6 +26,9 @@
 !||    hm_read_kinematic_hardening              ../starter/source/materials/mat/mat131/kinematic_hardening/hm_read_kinematic_hardening.F90
 !||====================================================================
       module hm_read_kinematic_hardening_prager_mod
+! \brief Read Prager kinematic hardening input data for /MAT/LAW131
+! \details Read the Prager linear kinematic hardening model parameters
+!          for /MAT/LAW131.
       contains
 !||====================================================================
 !||    hm_read_kinematic_hardening_prager   ../starter/source/materials/mat/mat131/kinematic_hardening/hm_read_kinematic_hardening_prager.F90

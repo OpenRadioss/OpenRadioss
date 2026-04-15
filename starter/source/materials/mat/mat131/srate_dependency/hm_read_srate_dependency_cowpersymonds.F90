@@ -26,6 +26,9 @@
 !||    hm_read_srate_dependency                     ../starter/source/materials/mat/mat131/srate_dependency/hm_read_srate_dependency.F90
 !||====================================================================
       module hm_read_srate_dependency_cowpersymonds_mod
+! \brief Read Cowper-Symonds strain rate dependency input data for /MAT/LAW131
+! \details Read the Cowper-Symonds strain rate dependency model parameters
+!          for /MAT/LAW131.
       contains
 !||====================================================================
 !||    hm_read_srate_dependency_cowpersymonds   ../starter/source/materials/mat/mat131/srate_dependency/hm_read_srate_dependency_cowpersymonds.F90

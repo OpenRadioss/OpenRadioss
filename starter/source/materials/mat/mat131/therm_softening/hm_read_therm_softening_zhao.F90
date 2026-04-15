@@ -26,6 +26,9 @@
 !||    hm_read_therm_softening            ../starter/source/materials/mat/mat131/therm_softening/hm_read_therm_softening.F90
 !||====================================================================
       module hm_read_therm_softening_zhao_mod
+! \brief Read Zhao thermal softening input data for /MAT/LAW131
+! \details Read the Zhao thermal softening model parameters
+!          for /MAT/LAW131.
       contains
 !||====================================================================
 !||    hm_read_therm_softening_zhao   ../starter/source/materials/mat/mat131/therm_softening/hm_read_therm_softening_zhao.F90

@@ -26,6 +26,9 @@
 !||    elasto_plastic_kinematic_hardening   ../engine/source/materials/mat/mat131/elasto_plastic_kinematic_hardening.F90
 !||====================================================================
       module kinematic_hardening_prager_mod
+! \brief Compute Prager kinematic hardening for /MAT/LAW131
+! \details Compute the Prager linear kinematic hardening model
+!          (backstress evolution) for /MAT/LAW131.
       contains
 !||====================================================================
 !||    kinematic_hardening_prager           ../engine/source/materials/mat/mat131/kinematic_hardening/kinematic_hardening_prager.F90

@@ -26,6 +26,9 @@
 !||    elasto_plastic_trial_stress   ../engine/source/materials/mat/mat131/elasto_plastic_trial_stress.F90
 !||====================================================================
       module elasticity_orthotropic_mod
+! \brief Compute orthotropic elastic stress for /MAT/LAW131
+! \details Compute the elastic stress tensor using orthotropic elasticity
+!          for /MAT/LAW131 (elasto-plastic material law).
       contains
 !||====================================================================
 !||    elasticity_orthotropic        ../engine/source/materials/mat/mat131/elasticity/elasticity_orthotropic.F90

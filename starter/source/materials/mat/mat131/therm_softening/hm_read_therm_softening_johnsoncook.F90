@@ -26,6 +26,9 @@
 !||    hm_read_therm_softening                   ../starter/source/materials/mat/mat131/therm_softening/hm_read_therm_softening.F90
 !||====================================================================
       module hm_read_therm_softening_johnsoncook_mod
+! \brief Read Johnson-Cook thermal softening input data for /MAT/LAW131
+! \details Read the Johnson-Cook thermal softening model parameters
+!          for /MAT/LAW131.
       contains
 !||====================================================================
 !||    hm_read_therm_softening_johnsoncook   ../starter/source/materials/mat/mat131/therm_softening/hm_read_therm_softening_johnsoncook.F90

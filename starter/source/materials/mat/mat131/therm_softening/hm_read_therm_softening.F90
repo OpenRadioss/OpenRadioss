@@ -27,6 +27,9 @@
 !||====================================================================
       module hm_read_therm_softening_mod
         implicit none
+! \brief Read thermal softening input data for /MAT/LAW131
+! \details Read and dispatch the thermal softening model input data
+!          for /MAT/LAW131 (elasto-plastic material law).
       contains
 !||====================================================================
 !||    hm_read_therm_softening                   ../starter/source/materials/mat/mat131/therm_softening/hm_read_therm_softening.F90

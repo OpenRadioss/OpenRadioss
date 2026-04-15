@@ -26,6 +26,9 @@
 !||    mulaw           ../engine/source/materials/mat_share/mulaw.F90
 !||====================================================================
       module sigeps131_mod
+! \brief Main stress computation for /MAT/LAW131 (solids)
+! \details Main routine for computing stresses and internal variables
+!          for solid elements using /MAT/LAW131 (elasto-plastic material law).
       contains
 !||====================================================================
 !||    sigeps131                  ../engine/source/materials/mat/mat131/sigeps131.F90

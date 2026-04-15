@@ -26,6 +26,9 @@
 !||    elasto_plastic_yield_stress   ../engine/source/materials/mat/mat131/elasto_plastic_yield_stress.F90
 !||====================================================================
       module work_hardening_voce_mod
+! \brief Compute Voce work hardening for /MAT/LAW131
+! \details Compute the isotropic work hardening stress using the Voce
+!          (exponential saturation) model for /MAT/LAW131.
       contains
 !||====================================================================
 !||    work_hardening_voce           ../engine/source/materials/mat/mat131/work_hardening/work_hardening_voce.F90

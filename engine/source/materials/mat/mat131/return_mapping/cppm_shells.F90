@@ -26,6 +26,9 @@
 !||    sigeps131c        ../engine/source/materials/mat/mat131/sigeps131c.F90
 !||====================================================================
       module cppm_shells_mod
+! \brief Closest Point Projection Method return mapping for shells in /MAT/LAW131
+! \details Perform the CPPM (Closest Point Projection Method) implicit return
+!          mapping algorithm for shell elements in /MAT/LAW131.
       contains
 !||====================================================================
 !||    cppm_shells                              ../engine/source/materials/mat/mat131/return_mapping/cppm_shells.F90

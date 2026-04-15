@@ -31,6 +31,9 @@
 !||    nice_solids                              ../engine/source/materials/mat/mat131/return_mapping/nice_solids.F90
 !||====================================================================
       module elasto_plastic_kinematic_hardening_mod
+! \brief Compute elasto-plastic kinematic hardening for /MAT/LAW131
+! \details Compute the kinematic hardening contribution (backstress update)
+!          for /MAT/LAW131 (elasto-plastic material law).
       contains
 !||====================================================================
 !||    elasto_plastic_kinematic_hardening   ../engine/source/materials/mat/mat131/elasto_plastic_kinematic_hardening.F90

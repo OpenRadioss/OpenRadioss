@@ -26,6 +26,9 @@
 !||    hm_read_srate_dependency                 ../starter/source/materials/mat/mat131/srate_dependency/hm_read_srate_dependency.F90
 !||====================================================================
       module hm_read_srate_dependency_nonlinear_mod
+! \brief Read nonlinear strain rate dependency input data for /MAT/LAW131
+! \details Read the nonlinear strain rate dependency model parameters
+!          for /MAT/LAW131.
       contains
 !||====================================================================
 !||    hm_read_srate_dependency_nonlinear   ../starter/source/materials/mat/mat131/srate_dependency/hm_read_srate_dependency_nonlinear.F90

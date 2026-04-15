@@ -26,6 +26,9 @@
 !||    hm_read_work_hardening            ../starter/source/materials/mat/mat131/work_hardening/hm_read_work_hardening.F90
 !||====================================================================
       module hm_read_work_hardening_voce_mod
+! \brief Read Voce work hardening input data for /MAT/LAW131
+! \details Read the Voce work hardening model parameters
+!          for /MAT/LAW131.
       contains
 !||====================================================================
 !||    hm_read_work_hardening_voce   ../starter/source/materials/mat/mat131/work_hardening/hm_read_work_hardening_voce.F90

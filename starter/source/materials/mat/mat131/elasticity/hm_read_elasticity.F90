@@ -27,6 +27,9 @@
 !||====================================================================
       module hm_read_elasticity_mod
         implicit none
+! \brief Read elasticity input data for /MAT/LAW131
+! \details Read and dispatch the elasticity model input data
+!          for /MAT/LAW131 (elasto-plastic material law).
       contains
 !||====================================================================
 !||    hm_read_elasticity                         ../starter/source/materials/mat/mat131/elasticity/hm_read_elasticity.F90
@@ -69,6 +72,7 @@
           use hm_read_elasticity_anisotropic_mod
           use hm_read_elasticity_viscous_isotropic_mod
           use hm_read_elasticity_temp_isotropic_mod
+          use hm_read_elasticity_bimod_isotropic_mod
 !----------------------------------------------------------------
 !   I m p l i c i t   T y p e s
 !----------------------------------------------------------------
@@ -150,6 +154,14 @@
                 is_encrypted,mat_id,titr      ,ntab_elas,itab_elas   ,         &
                 x2vect   ,x3vect   ,x4vect    ,fscale   ,nvartmp     ,         &
                 mtag     ,nuvar_elas)
+            !===================================================================
+            !< Bimodular isotropic elasticity parameters
+            !===================================================================
+            case('BIMO')
+              call hm_read_elasticity_bimod_isotropic(                         &
+                ikey     ,ielas    ,nupar_elas,upar_elas,is_available,         &
+                unitab   ,lsubmodel,matparam  ,parmat   ,iout        ,         &
+                is_encrypted,mat_id,titr      )
           end select
 ! -------------------------------------------------------------------------------
         end subroutine hm_read_elasticity

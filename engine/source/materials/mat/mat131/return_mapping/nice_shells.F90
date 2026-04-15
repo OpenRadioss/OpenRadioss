@@ -26,6 +26,9 @@
 !||    sigeps131c        ../engine/source/materials/mat/mat131/sigeps131c.F90
 !||====================================================================
       module nice_shells_mod
+! \brief NICE return mapping for shells in /MAT/LAW131
+! \details Perform the NICE (Next Increment Corrects Error) explicit return
+!          mapping algorithm for shell elements in /MAT/LAW131.
       contains
 !||====================================================================
 !||    nice_shells                              ../engine/source/materials/mat/mat131/return_mapping/nice_shells.F90

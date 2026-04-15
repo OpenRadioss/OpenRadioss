@@ -31,6 +31,9 @@
 !||    nice_solids                    ../engine/source/materials/mat/mat131/return_mapping/nice_solids.F90
 !||====================================================================
       module elasto_plastic_eq_stress_mod
+! \brief Compute elasto-plastic equivalent stress for /MAT/LAW131
+! \details Compute the equivalent stress from the deviatoric stress tensor
+!          for /MAT/LAW131 (elasto-plastic material law).
       contains
 !||====================================================================
 !||    elasto_plastic_eq_stress                    ../engine/source/materials/mat/mat131/elasto_plastic_eq_stress.F90

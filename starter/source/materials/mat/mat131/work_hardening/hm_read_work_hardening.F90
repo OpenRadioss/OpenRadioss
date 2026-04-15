@@ -27,6 +27,9 @@
 !||====================================================================
       module hm_read_work_hardening_mod
         implicit none
+! \brief Read work hardening input data for /MAT/LAW131
+! \details Read and dispatch the work hardening model input data
+!          for /MAT/LAW131 (elasto-plastic material law).
       contains
 !||====================================================================
 !||    hm_read_work_hardening                  ../starter/source/materials/mat/mat131/work_hardening/hm_read_work_hardening.F90
@@ -49,7 +52,7 @@
           ikey     ,type     ,ihard    ,nupar_hard,upar_hard,ntab_hard,        &
           itab_hard,x2vect   ,x3vect   ,x4vect    ,fscale   ,nvartmp  ,        &
           is_available,unitab,lsubmodel,iout      ,is_encrypted,vpflag,        &
-          israte   ,parmat   )
+          israte   ,parmat   ,titr     ,mat_id    ,matparam    )
 !----------------------------------------------------------------
 !   M o d u l e s
 !----------------------------------------------------------------
@@ -90,42 +93,49 @@
           integer,                 intent(inout) :: vpflag                !< Strain rate flag
           integer,                 intent(inout) :: israte                !< Strain rate filtering flag
           real(kind=WP),dimension(100),intent(inout) :: parmat            !< Material parameters
+          character(len=nchartitle),intent(in)   :: titr                  !< Material law user title
+          integer,                 intent(in)    :: mat_id                !< Material law user ID
+          type(matparam_struct_),  intent(inout) :: matparam              !< Matparam data structure
 !===============================================================================
 !     
-          !< Select work hardening type
-          select case (type(1:4))
-            !===================================================================
-            !< Power law hardening parameters
-            !===================================================================
-            case ('POWE')
-              call hm_read_work_hardening_powerlaw(                            &
-                ikey     ,ihard    ,nupar_hard,upar_hard,is_available,         &
-                unitab   ,lsubmodel,iout     ,is_encrypted)
-            !===================================================================
-            !< Power law hardening parameters
-            !===================================================================
-            case ('VOCE')
-              call hm_read_work_hardening_voce(                                &
-                ikey     ,ihard    ,nupar_hard,upar_hard,is_available,         &
-                unitab   ,lsubmodel,iout     ,is_encrypted)
-            !===================================================================
-            !< Tabulated hardening parameters
-            !===================================================================
-            case ('TAB ')
-              call hm_read_work_hardening_tabulated(                           &
-                ikey     ,ihard    ,ntab_hard ,itab_hard   ,x2vect ,x3vect   , &
-                x4vect   ,fscale   ,nvartmp   ,is_available,unitab ,lsubmodel, &
-                iout     ,is_encrypted,vpflag ,israte      ,parmat ,nupar_hard,&
-                upar_hard)
-            !===================================================================
-            !< Linear-Voce hardening parameters
-            !===================================================================
-            case ('LINV')
-              call hm_read_work_hardening_linearvoce(                          &
-                ikey     ,ihard    ,nupar_hard,upar_hard,is_available,         &
-                unitab   ,lsubmodel,iout     ,is_encrypted)
-            !===================================================================
-          end select
-! -------------------------------------------------------------------------------
+          !=====================================================================
+          !< Power law hardening parameters
+          !=====================================================================
+          if (type(1:12) == 'POWERLAW_ENG') then
+            call hm_read_work_hardening_powerlaw(                              &
+              ikey     ,ihard    ,nupar_hard,upar_hard,is_available,           &
+              unitab   ,lsubmodel,iout     ,is_encrypted,         1,           &
+              titr     ,mat_id   ,matparam )          
+          elseif (type(1:8) == 'POWERLAW') then
+            call hm_read_work_hardening_powerlaw(                              &
+              ikey     ,ihard    ,nupar_hard,upar_hard,is_available,           &
+              unitab   ,lsubmodel,iout     ,is_encrypted,         2,           &
+              titr     ,mat_id   ,matparam )
+          !=====================================================================
+          !< Voce hardening parameters
+          !=====================================================================
+          elseif (type(1:4) == 'VOCE') then
+            call hm_read_work_hardening_voce(                                  &
+              ikey     ,ihard    ,nupar_hard,upar_hard,is_available,           &
+              unitab   ,lsubmodel,iout     ,is_encrypted)
+          !=====================================================================
+          !< Tabulated hardening parameters
+          !=====================================================================
+          elseif (type(1:3) == 'TAB') then
+            call hm_read_work_hardening_tabulated(                             &
+              ikey     ,ihard    ,ntab_hard ,itab_hard   ,x2vect ,x3vect   ,   &
+              x4vect   ,fscale   ,nvartmp   ,is_available,unitab ,lsubmodel,   &
+              iout     ,is_encrypted,vpflag ,israte      ,parmat ,nupar_hard,  &
+              upar_hard)
+          !=====================================================================
+          !< Linear-Voce hardening parameters
+          !=====================================================================
+          elseif (type(1:7) == 'LINVOCE') then
+            call hm_read_work_hardening_linearvoce(                            &
+              ikey     ,ihard    ,nupar_hard,upar_hard,is_available,           &
+              unitab   ,lsubmodel,iout     ,is_encrypted)
+          endif
+          !=====================================================================
+!-------------------------------------------------------------------------------
         end subroutine hm_read_work_hardening
       end module hm_read_work_hardening_mod
