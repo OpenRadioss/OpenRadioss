@@ -33,21 +33,29 @@
       module elasto_plastic_trial_stress_mod
       contains
 !||====================================================================
-!||    elasto_plastic_trial_stress   ../engine/source/materials/mat/mat131/elasto_plastic_trial_stress.F90
+!||    elasto_plastic_trial_stress        ../engine/source/materials/mat/mat131/elasto_plastic_trial_stress.F90
 !||--- called by ------------------------------------------------------
-!||    cppm_shells                   ../engine/source/materials/mat/mat131/return_mapping/cppm_shells.F90
-!||    cppm_solids                   ../engine/source/materials/mat/mat131/return_mapping/cppm_solids.F90
-!||    cutting_plane_shells          ../engine/source/materials/mat/mat131/return_mapping/cutting_plane_shells.F90
-!||    cutting_plane_solids          ../engine/source/materials/mat/mat131/return_mapping/cutting_plane_solids.F90
-!||    nice_shells                   ../engine/source/materials/mat/mat131/return_mapping/nice_shells.F90
-!||    nice_solids                   ../engine/source/materials/mat/mat131/return_mapping/nice_solids.F90
+!||    cppm_shells                        ../engine/source/materials/mat/mat131/return_mapping/cppm_shells.F90
+!||    cppm_solids                        ../engine/source/materials/mat/mat131/return_mapping/cppm_solids.F90
+!||    cutting_plane_shells               ../engine/source/materials/mat/mat131/return_mapping/cutting_plane_shells.F90
+!||    cutting_plane_solids               ../engine/source/materials/mat/mat131/return_mapping/cutting_plane_solids.F90
+!||    nice_shells                        ../engine/source/materials/mat/mat131/return_mapping/nice_shells.F90
+!||    nice_solids                        ../engine/source/materials/mat/mat131/return_mapping/nice_solids.F90
 !||--- calls      -----------------------------------------------------
-!||    table_mat_vinterp             ../engine/source/materials/tools/table_mat_vinterp.F
+!||    elasticity_anisotropic             ../engine/source/materials/mat/mat131/elasticity/elasticity_anisotropic.F90
+!||    elasticity_isotropic               ../engine/source/materials/mat/mat131/elasticity/elasticity_isotropic.F90
+!||    elasticity_orthotropic             ../engine/source/materials/mat/mat131/elasticity/elasticity_orthotropic.F90
+!||    elasticity_temp_isotropic          ../engine/source/materials/mat/mat131/elasticity/elasticity_temp_isotropic.F90
+!||    elasticity_viscous_isotropic       ../engine/source/materials/mat/mat131/elasticity/elasticity_viscous_isotropic.F90
 !||--- uses       -----------------------------------------------------
-!||    constant_mod                  ../common_source/modules/constant_mod.F
-!||    matparam_def_mod              ../common_source/modules/mat_elem/matparam_def_mod.F90
-!||    precision_mod                 ../common_source/modules/precision_mod.F90
-!||    table_mat_vinterp_mod         ../engine/source/materials/tools/table_mat_vinterp.F
+!||    constant_mod                       ../common_source/modules/constant_mod.F
+!||    elasticity_anisotropic_mod         ../engine/source/materials/mat/mat131/elasticity/elasticity_anisotropic.F90
+!||    elasticity_isotropic_mod           ../engine/source/materials/mat/mat131/elasticity/elasticity_isotropic.F90
+!||    elasticity_orthotropic_mod         ../engine/source/materials/mat/mat131/elasticity/elasticity_orthotropic.F90
+!||    elasticity_temp_isotropic_mod      ../engine/source/materials/mat/mat131/elasticity/elasticity_temp_isotropic.F90
+!||    elasticity_viscous_isotropic_mod   ../engine/source/materials/mat/mat131/elasticity/elasticity_viscous_isotropic.F90
+!||    matparam_def_mod                   ../common_source/modules/mat_elem/matparam_def_mod.F90
+!||    precision_mod                      ../common_source/modules/precision_mod.F90
 !||====================================================================
       subroutine elasto_plastic_trial_stress(                                  &
         matparam ,nel      ,soundsp  ,cstf     ,young    ,rho      ,           &

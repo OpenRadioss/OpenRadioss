@@ -32,6 +32,7 @@
 !||--- called by ------------------------------------------------------
 !||    mulaw                   ../engine/source/materials/mat_share/mulaw.F90
 !||--- calls      -----------------------------------------------------
+!||    mstrain_rate            ../engine/source/materials/mat_share/mstrain_rate.F
 !||    table_mat_vinterp       ../engine/source/materials/tools/table_mat_vinterp.F
 !||--- uses       -----------------------------------------------------
 !||    constant_mod            ../common_source/modules/constant_mod.F

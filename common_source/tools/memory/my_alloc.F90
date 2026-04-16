@@ -133,6 +133,7 @@
 !||    init_bcs_wall                      ../starter/source/boundary_conditions/init_bcs_wall.F90
 !||    init_h3d_engine                    ../engine/source/output/h3d/h3d_build_fortran/init_h3d_engine.F90
 !||    init_monvol                        ../starter/source/airbag/init_monvol.F
+!||    init_rwall_penalty                 ../starter/source/constraints/general/rwall/init_rwall_penalty.F90
 !||    insert_clause_in_set               ../starter/source/model/sets/insert_clause_in_set.F
 !||    intbuf_fric_ini_starter            ../starter/source/interfaces/intbuf/intbufFric_ini_starter.F
 !||    intbuf_ini_starter                 ../starter/source/interfaces/intbuf/intbuf_ini_starter.F

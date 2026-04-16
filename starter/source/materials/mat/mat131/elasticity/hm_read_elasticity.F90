@@ -36,12 +36,15 @@
 !||    hm_read_elasticity_anisotropic             ../starter/source/materials/mat/mat131/elasticity/hm_read_elasticity_anisotropic.F90
 !||    hm_read_elasticity_isotropic               ../starter/source/materials/mat/mat131/elasticity/hm_read_elasticity_isotropic.F90
 !||    hm_read_elasticity_orthotropic             ../starter/source/materials/mat/mat131/elasticity/hm_read_elasticity_orthotropic.F90
+!||    hm_read_elasticity_temp_isotropic          ../starter/source/materials/mat/mat131/elasticity/hm_read_elasticity_temp_isotropic.F90
 !||    hm_read_elasticity_viscous_isotropic       ../starter/source/materials/mat/mat131/elasticity/hm_read_elasticity_viscous_isotropic.F90
 !||--- uses       -----------------------------------------------------
+!||    elbuftag_mod                               ../starter/share/modules1/elbuftag_mod.F
 !||    hm_option_read_mod                         ../starter/share/modules1/hm_option_read_mod.F
 !||    hm_read_elasticity_anisotropic_mod         ../starter/source/materials/mat/mat131/elasticity/hm_read_elasticity_anisotropic.F90
 !||    hm_read_elasticity_isotropic_mod           ../starter/source/materials/mat/mat131/elasticity/hm_read_elasticity_isotropic.F90
 !||    hm_read_elasticity_orthotropic_mod         ../starter/source/materials/mat/mat131/elasticity/hm_read_elasticity_orthotropic.F90
+!||    hm_read_elasticity_temp_isotropic_mod      ../starter/source/materials/mat/mat131/elasticity/hm_read_elasticity_temp_isotropic.F90
 !||    hm_read_elasticity_viscous_isotropic_mod   ../starter/source/materials/mat/mat131/elasticity/hm_read_elasticity_viscous_isotropic.F90
 !||    submodel_mod                               ../starter/share/modules1/submodel_mod.F
 !||====================================================================

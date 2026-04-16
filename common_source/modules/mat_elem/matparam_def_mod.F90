@@ -56,6 +56,11 @@
 !||    eig                                      ../engine/stub/eig.F
 !||    eig1                                     ../engine/stub/eig1.F
 !||    eigp                                     ../engine/stub/eigp.F
+!||    elasticity_anisotropic                   ../engine/source/materials/mat/mat131/elasticity/elasticity_anisotropic.F90
+!||    elasticity_isotropic                     ../engine/source/materials/mat/mat131/elasticity/elasticity_isotropic.F90
+!||    elasticity_orthotropic                   ../engine/source/materials/mat/mat131/elasticity/elasticity_orthotropic.F90
+!||    elasticity_temp_isotropic                ../engine/source/materials/mat/mat131/elasticity/elasticity_temp_isotropic.F90
+!||    elasticity_viscous_isotropic             ../engine/source/materials/mat/mat131/elasticity/elasticity_viscous_isotropic.F90
 !||    elasto_plastic_eq_stress                 ../engine/source/materials/mat/mat131/elasto_plastic_eq_stress.F90
 !||    elasto_plastic_kinematic_hardening       ../engine/source/materials/mat/mat131/elasto_plastic_kinematic_hardening.F90
 !||    elasto_plastic_second_order_numerical    ../engine/source/materials/mat/mat131/elasto_plastic_second_order_numerical.F90
@@ -92,6 +97,7 @@
 !||    hm_read_elasticity_anisotropic           ../starter/source/materials/mat/mat131/elasticity/hm_read_elasticity_anisotropic.F90
 !||    hm_read_elasticity_isotropic             ../starter/source/materials/mat/mat131/elasticity/hm_read_elasticity_isotropic.F90
 !||    hm_read_elasticity_orthotropic           ../starter/source/materials/mat/mat131/elasticity/hm_read_elasticity_orthotropic.F90
+!||    hm_read_elasticity_temp_isotropic        ../starter/source/materials/mat/mat131/elasticity/hm_read_elasticity_temp_isotropic.F90
 !||    hm_read_elasticity_viscous_isotropic     ../starter/source/materials/mat/mat131/elasticity/hm_read_elasticity_viscous_isotropic.F90
 !||    hm_read_elasto_plastic                   ../starter/source/materials/mat/mat131/hm_read_elasto_plastic.F90
 !||    hm_read_eos                              ../starter/source/materials/eos/hm_read_eos.F

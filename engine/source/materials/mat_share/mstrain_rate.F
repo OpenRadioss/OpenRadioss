@@ -28,6 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    m2law                  ../engine/source/materials/mat/mat002/m2law.F
 !||    mulaw                  ../engine/source/materials/mat_share/mulaw.F90
 !||    nice_solids            ../engine/source/materials/mat/mat131/return_mapping/nice_solids.F90
+!||    sigeps106              ../engine/source/materials/mat/mat106/sigeps106.F90
 !||    sigeps44               ../engine/source/materials/mat/mat044/sigeps44.F
 !||    sigeps93               ../engine/source/materials/mat/mat093/sigeps93.F
 !||====================================================================

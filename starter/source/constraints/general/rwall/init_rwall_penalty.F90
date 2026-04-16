@@ -37,6 +37,7 @@
 !||    init_rwall_penalty   ../starter/source/constraints/general/rwall/init_rwall_penalty.F90
 !||--- called by ------------------------------------------------------
 !||    initia               ../starter/source/elements/initia/initia.F
+!||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
 !||====================================================================
         subroutine init_rwall_penalty(elbuf_tab,                                 &

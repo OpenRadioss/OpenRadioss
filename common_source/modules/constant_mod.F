@@ -105,6 +105,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    eikonal_lmax                             ../starter/source/initial_conditions/detonation/eikonal_Lmax.F90
 !||    eikonal_remove_first                     ../starter/source/initial_conditions/detonation/eikonal_remove_first.F90
 !||    eikonal_solver                           ../starter/source/initial_conditions/detonation/eikonal_solver.F90
+!||    elasticity_anisotropic                   ../engine/source/materials/mat/mat131/elasticity/elasticity_anisotropic.F90
+!||    elasticity_isotropic                     ../engine/source/materials/mat/mat131/elasticity/elasticity_isotropic.F90
+!||    elasticity_orthotropic                   ../engine/source/materials/mat/mat131/elasticity/elasticity_orthotropic.F90
+!||    elasticity_temp_isotropic                ../engine/source/materials/mat/mat131/elasticity/elasticity_temp_isotropic.F90
+!||    elasticity_viscous_isotropic             ../engine/source/materials/mat/mat131/elasticity/elasticity_viscous_isotropic.F90
 !||    elasto_plastic_eq_stress                 ../engine/source/materials/mat/mat131/elasto_plastic_eq_stress.F90
 !||    elasto_plastic_second_order_numerical    ../engine/source/materials/mat/mat131/elasto_plastic_second_order_numerical.F90
 !||    elasto_plastic_trial_stress              ../engine/source/materials/mat/mat131/elasto_plastic_trial_stress.F90
@@ -170,6 +175,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_read_elasticity_anisotropic           ../starter/source/materials/mat/mat131/elasticity/hm_read_elasticity_anisotropic.F90
 !||    hm_read_elasticity_isotropic             ../starter/source/materials/mat/mat131/elasticity/hm_read_elasticity_isotropic.F90
 !||    hm_read_elasticity_orthotropic           ../starter/source/materials/mat/mat131/elasticity/hm_read_elasticity_orthotropic.F90
+!||    hm_read_elasticity_temp_isotropic        ../starter/source/materials/mat/mat131/elasticity/hm_read_elasticity_temp_isotropic.F90
 !||    hm_read_elasticity_viscous_isotropic     ../starter/source/materials/mat/mat131/elasticity/hm_read_elasticity_viscous_isotropic.F90
 !||    hm_read_elasto_plastic                   ../starter/source/materials/mat/mat131/hm_read_elasto_plastic.F90
 !||    hm_read_eos_compaction                   ../starter/source/materials/eos/hm_read_eos_compaction.F90
