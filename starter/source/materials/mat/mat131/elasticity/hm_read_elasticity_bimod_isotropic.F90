@@ -20,12 +20,29 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+!||====================================================================
+!||    hm_read_elasticity_bimod_isotropic_mod   ../starter/source/materials/mat/mat131/elasticity/hm_read_elasticity_bimod_isotropic.F90
+!||--- called by ------------------------------------------------------
+!||    hm_read_elasticity                       ../starter/source/materials/mat/mat131/elasticity/hm_read_elasticity.F90
+!||====================================================================
       module hm_read_elasticity_bimod_isotropic_mod
         implicit none
 ! \brief Read bimodular isotropic elasticity input data for /MAT/LAW131
 ! \details Read the bimodular isotropic elasticity model parameters
 !          (different moduli in tension and compression) for /MAT/LAW131.
       contains
+!||====================================================================
+!||    hm_read_elasticity_bimod_isotropic   ../starter/source/materials/mat/mat131/elasticity/hm_read_elasticity_bimod_isotropic.F90
+!||--- called by ------------------------------------------------------
+!||    hm_read_elasticity                   ../starter/source/materials/mat/mat131/elasticity/hm_read_elasticity.F90
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                               ../starter/source/output/message/message.F
+!||    hm_get_float_array_index             ../starter/source/devtools/hm_reader/hm_get_float_array_index.F
+!||--- uses       -----------------------------------------------------
+!||    hm_option_read_mod                   ../starter/share/modules1/hm_option_read_mod.F
+!||    message_mod                          ../starter/share/message_module/message_mod.F
+!||    submodel_mod                         ../starter/share/modules1/submodel_mod.F
+!||====================================================================
         subroutine hm_read_elasticity_bimod_isotropic(                         &
           ikey     ,ielas    ,nupar_elas,upar_elas,is_available,               &
           unitab   ,lsubmodel,matparam ,parmat    ,iout        ,is_encrypted,  &

@@ -124,6 +124,7 @@
 !||    eikonal_solver                           ../starter/source/initial_conditions/detonation/eikonal_solver.F90
 !||    eikonal_sort_narrow_band                 ../starter/source/initial_conditions/detonation/eikonal_sort_narrow_band.F90
 !||    elasticity_anisotropic                   ../engine/source/materials/mat/mat131/elasticity/elasticity_anisotropic.F90
+!||    elasticity_bimod_isotropic               ../engine/source/materials/mat/mat131/elasticity/elasticity_bimod_isotropic.F90
 !||    elasticity_isotropic                     ../engine/source/materials/mat/mat131/elasticity/elasticity_isotropic.F90
 !||    elasticity_orthotropic                   ../engine/source/materials/mat/mat131/elasticity/elasticity_orthotropic.F90
 !||    elasticity_temp_isotropic                ../engine/source/materials/mat/mat131/elasticity/elasticity_temp_isotropic.F90
@@ -207,6 +208,7 @@
 !||    hm_read_ebcs_propellant                  ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_propellant.F90
 !||    hm_read_elasticity                       ../starter/source/materials/mat/mat131/elasticity/hm_read_elasticity.F90
 !||    hm_read_elasticity_anisotropic           ../starter/source/materials/mat/mat131/elasticity/hm_read_elasticity_anisotropic.F90
+!||    hm_read_elasticity_bimod_isotropic       ../starter/source/materials/mat/mat131/elasticity/hm_read_elasticity_bimod_isotropic.F90
 !||    hm_read_elasticity_isotropic             ../starter/source/materials/mat/mat131/elasticity/hm_read_elasticity_isotropic.F90
 !||    hm_read_elasticity_orthotropic           ../starter/source/materials/mat/mat131/elasticity/hm_read_elasticity_orthotropic.F90
 !||    hm_read_elasticity_temp_isotropic        ../starter/source/materials/mat/mat131/elasticity/hm_read_elasticity_temp_isotropic.F90

@@ -46,6 +46,7 @@
 !||    nice_solids                        ../engine/source/materials/mat/mat131/return_mapping/nice_solids.F90
 !||--- calls      -----------------------------------------------------
 !||    elasticity_anisotropic             ../engine/source/materials/mat/mat131/elasticity/elasticity_anisotropic.F90
+!||    elasticity_bimod_isotropic         ../engine/source/materials/mat/mat131/elasticity/elasticity_bimod_isotropic.F90
 !||    elasticity_isotropic               ../engine/source/materials/mat/mat131/elasticity/elasticity_isotropic.F90
 !||    elasticity_orthotropic             ../engine/source/materials/mat/mat131/elasticity/elasticity_orthotropic.F90
 !||    elasticity_temp_isotropic          ../engine/source/materials/mat/mat131/elasticity/elasticity_temp_isotropic.F90
@@ -53,6 +54,7 @@
 !||--- uses       -----------------------------------------------------
 !||    constant_mod                       ../common_source/modules/constant_mod.F
 !||    elasticity_anisotropic_mod         ../engine/source/materials/mat/mat131/elasticity/elasticity_anisotropic.F90
+!||    elasticity_bimod_isotropic_mod     ../engine/source/materials/mat/mat131/elasticity/elasticity_bimod_isotropic.F90
 !||    elasticity_isotropic_mod           ../engine/source/materials/mat/mat131/elasticity/elasticity_isotropic.F90
 !||    elasticity_orthotropic_mod         ../engine/source/materials/mat/mat131/elasticity/elasticity_orthotropic.F90
 !||    elasticity_temp_isotropic_mod      ../engine/source/materials/mat/mat131/elasticity/elasticity_temp_isotropic.F90

@@ -200,6 +200,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_read_ebcs_vel                       ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_vel.F
 !||    hm_read_eig                            ../starter/source/general_controls/computation/hm_read_eig.F
 !||    hm_read_elasticity_anisotropic         ../starter/source/materials/mat/mat131/elasticity/hm_read_elasticity_anisotropic.F90
+!||    hm_read_elasticity_bimod_isotropic     ../starter/source/materials/mat/mat131/elasticity/hm_read_elasticity_bimod_isotropic.F90
 !||    hm_read_elasticity_isotropic           ../starter/source/materials/mat/mat131/elasticity/hm_read_elasticity_isotropic.F90
 !||    hm_read_elasticity_orthotropic         ../starter/source/materials/mat/mat131/elasticity/hm_read_elasticity_orthotropic.F90
 !||    hm_read_elasticity_temp_isotropic      ../starter/source/materials/mat/mat131/elasticity/hm_read_elasticity_temp_isotropic.F90
@@ -513,6 +514,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_read_visc_lprony                    ../starter/source/materials/visc/hm_read_visc_lprony.F
 !||    hm_read_visc_prony                     ../starter/source/materials/visc/hm_read_visc_prony.F
 !||    hm_read_window_user                    ../starter/source/tools/userwi/hm_read_window_user.F
+!||    hm_read_work_hardening_powerlaw        ../starter/source/materials/mat/mat131/work_hardening/hm_read_work_hardening_powerlaw.F90
 !||    hm_read_xelem                          ../starter/source/elements/reader/hm_read_xelem.F
 !||    hm_read_xref                           ../starter/source/loads/reference_state/xref/hm_read_xref.F
 !||    hm_read_yield_criterion_barlat2000     ../starter/source/materials/mat/mat131/yield_criterion/hm_read_yield_criterion_barlat2000.F90
